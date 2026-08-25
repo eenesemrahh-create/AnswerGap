@@ -221,8 +221,19 @@ defensible asset over time.
 
 # Current state — resume here
 
-Last worked: 2026-08-25. **Nothing is committed yet** — the repo has no commits
-and ~115 files are untracked. First commit is still pending.
+Last worked: 2026-08-25. Working tree clean.
+
+**First commit: `cdd581a`** — "Initial commit: validated prototype, US-first,
+five languages". 113 files. No remote configured yet; nothing has been pushed.
+
+Two things stayed out of it on purpose:
+
+- `.env` — real DataForSEO credentials, gitignored. `.env.example` carries
+  placeholders only. **Never put a real value in `.env.example`; it is tracked.**
+- `data/raw/locations-*.json` — the US dump alone is ~15 MB. They come from a
+  free endpoint and are reproducible, so they live on disk as cache but stay out
+  of the repository. Everything else in `data/raw/` **is** committed: SERP
+  responses are the archival evidence every number in the reports traces back to.
 
 ## What exists and works
 
