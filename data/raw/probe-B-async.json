@@ -1,0 +1,777 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "7.2325 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251208-2374-0139-0000-9b05f8c0d3cc",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "7.1219 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "diş beyazlatma",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10,
+        "load_async_ai_overview": true
+      },
+      "result": [
+        {
+          "keyword": "diş beyazlatma",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=di%C5%9F%20beyazlatma&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-25 12:08:11 +00:00",
+          "spell": null,
+          "refinement_chips": {
+            "type": "refinement_chips",
+            "xpath": "/html[1]/body[1]/div[3]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+            "items": [
+              {
+                "type": "refinement_chips_element",
+                "title": "Evde doğal yöntem",
+                "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=Di%C5%9F+beyazlatma+evde+do%C4%9Fal+y%C3%B6ntem&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rQNLEEW1KxmGrQQDV-EUN2E97ZsnIGQRF09d5DgBbYZCqtt69kNOGCZ7pdqXZ6Hn9U7N7UZEN0Y2uxSHH63mNqJZrXHzNMntgWF6ljmsBwMvBvKnqGP53FNiGTkDwaM6GGXFDBxReSTao7-U_FhH7HC7Gqvk09X2vrSdLNj5wTJOzQwK2-164bAelxtk-uDUwQuXaJEwnQ5JwoQKhkk1LPXJXoufBRaceHRC6pn1UJUg6R21s&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQxKsJKAB6BAgoEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Şu anda açık olanlar",
+                "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=di%C5%9F+beyazlatma+%C5%9Fu+anda+a%C3%A7%C4%B1k+olanlar&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rmZHQ3OB2EmySAXKkDac_51fHxmVAVSRpS_nrawd_D4Fqm5iqvbIUf0vkMoJ0Jefa6ypX2dznJqw7dNPNMwPLUyvzXFzEBG7ecnIG2RhTI5R6JwMeeTgP3M4wCHJ1DjTemH72qp9EA52im7r2qyU9TF5hkCtoMgwrQcwGcTEhfDrLPL_Lotpt3k_7C39mqgDV263HZw&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQxKsJKAF6BAgsEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Bandı",
+                "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=Di%C5%9F+BEYAZLATMA+Band%C4%B1&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rhfBuKaMHEeNvRRWpsls-K5cfloYKuNUtER5hrTruMEF275O2MDPJqu9x08ndEcJXeNAIIl326xHKxSM6uMBqdVhRN0Ku9HYohv0U1z8vJXC93jp_WmlKxx-KgLWie9TDe1ecAh-CMepGgUaefKbJMNKKtf6neOAQI5s_WvnHCFi77w_8q2YkW4m5qBr-9evnIbjpTYBs12VvwaZgNWzK0mk1VDO6z_ywasDxnpT1EOij2OiO&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQxKsJKAJ6BAgnEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Jeli",
+                "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=Di%C5%9F+BEYAZLATMA+Jeli&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4ra7uLrhk_a13Bs2gjAHgdqtK_bbTQYZTrmAP36RDbTcnZ_g60rJnPacIkyanC3pCzOvq9XfUc9Twp7f2GmurtDNwwq9O2kIrZd5PhTNiB1x9swYzAa1u3sVngDNA4haQmx8bPYp9cP5kVXDL3zigVLXni9pgpprhNsO5rrAMteWNweZKuL6Zac_9Aa-7H2Qh49MuM1HYIRqGk_J3eHrHpXEJPAVg&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQxKsJKAN6BAgpEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Ürünleri",
+                "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=Di%C5%9F+beyazlatma+%C3%9Cr%C3%BCnleri&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rBk9f5qZWjC41a-r_UL7CRGo67SrPPcRujG8DwHfxg_CtpzJEeJjip08nwoqME197qLVmkANpQ20GiSHmCZ7Kdm3fCKtR4Bvg-rHfI5LyohxJt3lCyHpUVTfH7Zoj37jL4P7LQnUrOERQoJb3F4mvF7YX9jw3LIACPvmb5cPC--kGYZsruH6WplfrXK6iKOktt7Cf89wVO13B8aNKkREqEq5-qRM&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQxKsJKAR6BAgqEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Zararlı mı",
+                "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=Di%C5%9F+BEYAZLATMA+zararl%C4%B1+mi&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4r_dtACvUgfDyR0RXl-7SkCCF68CgdXCYgRKrgooDpkMEK6ndO9uuC2pGSeA8y7YH-zxEIdFd3bTJLZ4wul94ep6wCjbWfrTYesyw374MIcX5biNACvCbf1NUB3lWml3FqtqzXgj0JUjyMcRukrxbq0ieBhm44FVPdMSUmBLI8EybtIuxeFhGcwSyGNA43iZP6GAZUJBjMFlY1k2aId2wRvivdhVGRcjIqK1McZ77bkFA3XxPL&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQxKsJKAV6BAhdEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Nasıl Yapılır",
+                "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=Di%C5%9F+BEYAZLATMA+Nas%C4%B1l+Yap%C4%B1l%C4%B1r&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rvwqBrk1j1nie1LbrRWB3xb_MENkrKgXU-riRaJnwj6d_i0GYZL1zYw_rIX1qnU6R45PV0QrVm_HsKN8tpDxzpn6g95m3j_RDJ3QqAAr9wDftGZYt2XjKYbBUYbW0qMBs3pp-YtwBvr1j1mq9LrQCY76Ed_qpsA3whfHb5G4jmCyYTubbJN8YVCCXYW-2ALG2oWNfZ8fCAJUgj-di0BQu7tI4f_WI2ytXMlmAVp31qq_EWHqk&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQxKsJKAZ6BAheEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Kalemi",
+                "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=Di%C5%9F+BEYAZLATMA+Kalemi&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rhfBuKaMHEeNvRRWpsls-K5cfloYKuNUtER5hrTruMEEkH8e9PSZQmgVAEsa30UOpbUaf2CNSGN32_q_0bVSSSDoyDjr4a0sRlT9J8AgyJygnRJqACWZ82UOPIvkPtfrfQuozBzfkEI2uldi4GUtfkDFiDuoC37R3iylpy9F2HREvBsU4l01O4OyTAVMYrU2Wjh6wlPu2KJYRWtfESGe4nXIpoLo-SQEe25srgom7vrQ5v5a8&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQxKsJKAd6BAhiEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Kalıcı",
+                "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=Kal%C4%B1c%C4%B1+di%C5%9F+BEYAZLATMA&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rf9eLBp-hvT-pdHiNGVukR1cWntN_W47G_iPisLM9mMcHT-45en4NYubRZwsR3S0qg_RhjTUFQKMY_uHScRQk32k_P_Ow_cnibNgNOVnhojFY0oa6EPuPCQoWJn59KJYKEKLOJ5YRGxRXu0p0NE6uHdZHgRbHsbizZBUVMjX9rd3JU-OSPJNpMd3hnIYZxu_PT536bM0XdJLHzC9AaMMzkI07B0Wu_OqnIbI6coDax4e3j55Q&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQxKsJKAh6BAhcEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              }
+            ]
+          },
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "video",
+            "images",
+            "related_searches"
+          ],
+          "se_results_count": 125,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Diş beyazlatma, `diş minesinde oluşan sararma ve lekeleri gidermek için hekim kontrolünde uygulanan estetik bir ağartma işlemidir`.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://www.dentopia.com.tr/dis-beyazlatma)\n\nBaşlıca Yöntemler\n\n- **Ofis tipi (Lazer/Işık):** Klinik ortamında diş hekimi tarafından yapılır. Yaklaşık 45-60 dakika süren tek veya iki seanslık hızlı bir yöntemdir.\n- **Ev tipi:** Hekimin ölçü alarak hazırladığı kişiye özel plakların içine jel sürülerek uygulanır. Genellikle 10 ila 14 gün sürer.\n- **Kombine yöntem:** Hem klinik hem ev tipi uygulamanın birlikte kullanıldığı, yoğun renklenmelerde tercih edilen yöntemdir.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://atlasuniversitesihastanesi.com/dis-beyazlatma-tedavisi/)[[3]](https://omerkutay.com/dis-beyazlatma/)[[4]](https://www.medicana.com.tr/dis-beyazlatma-nedir-evde-dis-beyazlatma-teknikleri-neler/blog/23418)\n\nBilinmesi Gerekenler\n\n- **Zararı var mı?:** Diş hekimi kontrolünde yapılan profesyonel beyazlatma diş minesine zarar vermez.\n- **Hassasiyet:** İşlemden sonra 24-48 saat boyunca sıcak veya soğuk yiyeceklere karşı hafif bir hassasiyet görülmesi normaldir.\n- **Dikkat edilecekler:** İşlem süresince ve sonrasındaki ilk birkaç gün çay, kahve, sigara ve asitli içeceklerden uzak durulmalıdır.\n- **Doğal/Bitkisel uygulamalar:** Karbonat, limon veya tuz gibi bilinçsiz ev uygulamaları diş minesini çizebilir ve kalıcı zararlar verebilir.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://atlasuniversitesihastanesi.com/dis-beyazlatma-tedavisi/)[[3]](https://medipol.com.tr/saglik-rehberi/dogal-yollarla-dis-beyazlatma-yontemleri-nelerdir)\n\nDişlerinizdeki lekelenmenin **ne kaynaklı olduğunu** (çay/kahve, sigara veya yapısal) ya da daha önce **profesyonel bir muayene** yaptırıp yaptırmadığınızı belirtirseniz, size en uygun yöntemi seçmenizde yardımcı olabilirim.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Diş beyazlatma, diş minesinde oluşan sararma ve lekeleri gidermek için hekim kontrolünde uygulanan estetik bir ağartma işlemidir.",
+                  "markdown": "Diş beyazlatma, `diş minesinde oluşan sararma ve lekeleri gidermek için hekim kontrolünde uygulanan estetik bir ağartma işlemidir`.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://www.dentopia.com.tr/dis-beyazlatma)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Memorial Sağlık Grubu",
+                      "domain": "www.memorial.com.tr",
+                      "url": "https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir",
+                      "title": "Diş Beyazlatma Yöntemleri Nelerdir? Diş ... - Memorial",
+                      "text": "Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yapılır? ... Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yap..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.dentopia.com.tr",
+                      "domain": "www.dentopia.com.tr",
+                      "url": "https://www.dentopia.com.tr/dis-beyazlatma",
+                      "title": "Bleaching (Diş Beyazlatma, Ağartma) - Dentopia",
+                      "text": "Diş beyazlatma, renk değiştiren veya sararan dişlerin doğal beyazlığını geri kazandırmak için uygulanan estetik bir diş hekimliği ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Başlıca Yöntemler",
+                  "text": "Ofis tipi (Lazer/Işık): Klinik ortamında diş hekimi tarafından yapılır. Yaklaşık 45-60 dakika süren tek veya iki seanslık hızlı bir yöntemdir. Ev tipi: Hekimin ölçü alarak hazırladığı kişiye özel plakların içine jel sürülerek uygulanır. Genellikle 10 ila 14 gün sürer. Kombine yöntem: Hem klinik hem ev tipi uygulamanın birlikte kullanıldığı, yoğun renklenmelerde tercih edilen yöntemdir.",
+                  "markdown": "- **Ofis tipi (Lazer/Işık):** Klinik ortamında diş hekimi tarafından yapılır. Yaklaşık 45-60 dakika süren tek veya iki seanslık hızlı bir yöntemdir.\n- **Ev tipi:** Hekimin ölçü alarak hazırladığı kişiye özel plakların içine jel sürülerek uygulanır. Genellikle 10 ila 14 gün sürer.\n- **Kombine yöntem:** Hem klinik hem ev tipi uygulamanın birlikte kullanıldığı, yoğun renklenmelerde tercih edilen yöntemdir.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://atlasuniversitesihastanesi.com/dis-beyazlatma-tedavisi/)[[3]](https://omerkutay.com/dis-beyazlatma/)[[4]](https://www.medicana.com.tr/dis-beyazlatma-nedir-evde-dis-beyazlatma-teknikleri-neler/blog/23418)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Memorial Sağlık Grubu",
+                      "domain": "www.memorial.com.tr",
+                      "url": "https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir",
+                      "title": "Diş Beyazlatma Yöntemleri Nelerdir? Diş ... - Memorial",
+                      "text": "Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yapılır? ... Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yap..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Atlas Üniversitesi Hastanesi",
+                      "domain": "atlasuniversitesihastanesi.com",
+                      "url": "https://atlasuniversitesihastanesi.com/dis-beyazlatma-tedavisi/",
+                      "title": "Diş Beyazlatma Tedavisi | Atlas Üniversitesi Hastanesi",
+                      "text": "* Diş Sağlığı * Diş Beyazlatma Tedavisi. Diş Beyazlatma Tedavisi * Renklenme Nasıl Oluşur? Neden Beyazlatma Tedavisine İhtiyaç Duy..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Ömer Kutay",
+                      "domain": "omerkutay.com",
+                      "url": "https://omerkutay.com/dis-beyazlatma/",
+                      "title": "Kalıcı Diş Beyazlatma - Prof. Dr. Ömer Kutay",
+                      "text": "Diş Beyazlatma. Beyaz dişlerle gülmek hepimizin istediği ve lazerle yapıldığında bir seans süren kolay bir işlemdir. Temiz bir ağı..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Medicana",
+                      "domain": "www.medicana.com.tr",
+                      "url": "https://www.medicana.com.tr/dis-beyazlatma-nedir-evde-dis-beyazlatma-teknikleri-neler/blog/23418",
+                      "title": "Diş beyazlatma nedir? Evde diş beyazlatma teknikleri neler?",
+                      "text": "Diş beyazlatma işlemi nasıl uygulanır? Diş beyazlatma işlemi için tercih edilen en yaygın yöntem diş hekimi tarafından diş üzerine..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Bilinmesi Gerekenler",
+                  "text": "Zararı var mı?: Diş hekimi kontrolünde yapılan profesyonel beyazlatma diş minesine zarar vermez. Hassasiyet: İşlemden sonra 24-48 saat boyunca sıcak veya soğuk yiyeceklere karşı hafif bir hassasiyet görülmesi normaldir. Dikkat edilecekler: İşlem süresince ve sonrasındaki ilk birkaç gün çay, kahve, sigara ve asitli içeceklerden uzak durulmalıdır. Doğal/Bitkisel uygulamalar: Karbonat, limon veya tuz gibi bilinçsiz ev uygulamaları diş minesini çizebilir ve kalıcı zararlar verebilir.",
+                  "markdown": "- **Zararı var mı?:** Diş hekimi kontrolünde yapılan profesyonel beyazlatma diş minesine zarar vermez.\n- **Hassasiyet:** İşlemden sonra 24-48 saat boyunca sıcak veya soğuk yiyeceklere karşı hafif bir hassasiyet görülmesi normaldir.\n- **Dikkat edilecekler:** İşlem süresince ve sonrasındaki ilk birkaç gün çay, kahve, sigara ve asitli içeceklerden uzak durulmalıdır.\n- **Doğal/Bitkisel uygulamalar:** Karbonat, limon veya tuz gibi bilinçsiz ev uygulamaları diş minesini çizebilir ve kalıcı zararlar verebilir.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://atlasuniversitesihastanesi.com/dis-beyazlatma-tedavisi/)[[3]](https://medipol.com.tr/saglik-rehberi/dogal-yollarla-dis-beyazlatma-yontemleri-nelerdir)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Memorial Sağlık Grubu",
+                      "domain": "www.memorial.com.tr",
+                      "url": "https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir",
+                      "title": "Diş Beyazlatma Yöntemleri Nelerdir? Diş ... - Memorial",
+                      "text": "Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yapılır? ... Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yap..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Atlas Üniversitesi Hastanesi",
+                      "domain": "atlasuniversitesihastanesi.com",
+                      "url": "https://atlasuniversitesihastanesi.com/dis-beyazlatma-tedavisi/",
+                      "title": "Diş Beyazlatma Tedavisi | Atlas Üniversitesi Hastanesi",
+                      "text": "* Diş Sağlığı * Diş Beyazlatma Tedavisi. Diş Beyazlatma Tedavisi * Renklenme Nasıl Oluşur? Neden Beyazlatma Tedavisine İhtiyaç Duy..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Medipol Sağlık Grubu",
+                      "domain": "medipol.com.tr",
+                      "url": "https://medipol.com.tr/saglik-rehberi/dogal-yollarla-dis-beyazlatma-yontemleri-nelerdir",
+                      "title": "Doğal Yollarla Diş Beyazlatma Yöntemleri Nelerdir?",
+                      "text": "Doğal Yollarla Diş Beyazlatma Yöntemleri Nelerdir? Medipol Sağlık Grubu. ... İçindekiler * Dişleri Beyazlatan Besinler Nelerdir? *"
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Dişlerinizdeki lekelenmenin ne kaynaklı olduğunu (çay/kahve, sigara veya yapısal) ya da daha önce profesyonel bir muayene yaptırıp yaptırmadığınızı belirtirseniz, size en uygun yöntemi seçmenizde yardımcı olabilirim.",
+                  "markdown": "Dişlerinizdeki lekelenmenin **ne kaynaklı olduğunu** (çay/kahve, sigara veya yapısal) ya da daha önce **profesyonel bir muayene** yaptırıp yaptırmadığınızı belirtirseniz, size en uygun yöntemi seçmenizde yardımcı olabilirim.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Memorial Sağlık Grubu",
+                  "domain": "www.memorial.com.tr",
+                  "url": "https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir",
+                  "title": "Diş Beyazlatma Yöntemleri Nelerdir? Diş ... - Memorial",
+                  "text": "Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yapılır? ... Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yap..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Medicana",
+                  "domain": "www.medicana.com.tr",
+                  "url": "https://www.medicana.com.tr/dis-beyazlatma-nedir-evde-dis-beyazlatma-teknikleri-neler/blog/23418",
+                  "title": "Diş beyazlatma nedir? Evde diş beyazlatma teknikleri neler?",
+                  "text": "Diş beyazlatma işlemi nasıl uygulanır? Diş beyazlatma işlemi için tercih edilen en yaygın yöntem diş hekimi tarafından diş üzerine..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Medipol Sağlık Grubu",
+                  "domain": "medipol.com.tr",
+                  "url": "https://medipol.com.tr/saglik-rehberi/dogal-yollarla-dis-beyazlatma-yontemleri-nelerdir",
+                  "title": "Doğal Yollarla Diş Beyazlatma Yöntemleri Nelerdir?",
+                  "text": "Doğal Yollarla Diş Beyazlatma Yöntemleri Nelerdir? Medipol Sağlık Grubu. ... İçindekiler * Dişleri Beyazlatan Besinler Nelerdir? *"
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Atlas Üniversitesi Hastanesi",
+                  "domain": "atlasuniversitesihastanesi.com",
+                  "url": "https://atlasuniversitesihastanesi.com/dis-beyazlatma-tedavisi/",
+                  "title": "Diş Beyazlatma Tedavisi | Atlas Üniversitesi Hastanesi",
+                  "text": "* Diş Sağlığı * Diş Beyazlatma Tedavisi. Diş Beyazlatma Tedavisi * Renklenme Nasıl Oluşur? Neden Beyazlatma Tedavisine İhtiyaç Duy..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Ömer Kutay",
+                  "domain": "omerkutay.com",
+                  "url": "https://omerkutay.com/dis-beyazlatma/",
+                  "title": "Kalıcı Diş Beyazlatma - Prof. Dr. Ömer Kutay",
+                  "text": "Diş Beyazlatma. Beyaz dişlerle gülmek hepimizin istediği ve lazerle yapıldığında bir seans süren kolay bir işlemdir. Temiz bir ağı..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.dentopia.com.tr",
+                  "domain": "www.dentopia.com.tr",
+                  "url": "https://www.dentopia.com.tr/dis-beyazlatma",
+                  "title": "Bleaching (Diş Beyazlatma, Ağartma) - Dentopia",
+                  "text": "Diş beyazlatma, renk değiştiren veya sararan dişlerin doğal beyazlığını geri kazandırmak için uygulanan estetik bir diş hekimliği ..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Dişleri en çabuk ne beyazlatır?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Diş beyazlatma işlemi kaç TL?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Sararmış diş evde nasıl beyazlatılır?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Sararan diş tekrar beyazlar mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]",
+              "domain": "www.trendyol.com",
+              "title": "Diş Beyazlatıcı Ürünleri, Diş Parlatıcı Fiyatları 2026",
+              "url": "https://www.trendyol.com/dis-beyazlatma-urunleri-x-c104022",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.trendyol.com › ... › Ağız Bakım",
+              "website_name": "Trendyol",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "5 gün önce — Diş beyazlatma, dişlerin sarı lekelerini gidermek amacıyla kullanılan bir yöntemdir. Diş beyazlatma jeli, lekelerin giderilmesinde etkili bir ...",
+              "pre_snippet": "5 gün önce",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "dişlerin sarı lekelerini gidermek amacıyla kullanılan bir yöntemdir"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-08-20 12:08:11 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]/div[1]",
+              "domain": "www.memorial.com.tr",
+              "title": "Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl ...",
+              "url": "https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.memorial.com.tr › ... › Tedavi Yöntemleri",
+              "website_name": "Memorial Sağlık Grubu",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Eğer diş renginin beyaza yakın ve birkaç ton açılması isteniyorsa sadece lazer tipi veya ev tipi beyazlatma yeterli olabilir. Ancak dişlerde sigara, kahve veya ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "lazer tipi veya ev tipi beyazlatma"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · DENT AKGÜL Diş Polikliniği",
+                  "title": "Diş Beyazlatma Uygulaması - Öncesi ve Sonrası",
+                  "timestamp": "2023-10-27 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=vIXABqISQlQ"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Diş Hekimliği ANSİKLOPEDİSİ Dt. Onur YEDİKARA",
+                  "title": "Devital Diş Beyazlatma Nasıl Yapılır? Diş Beyazlatma ...",
+                  "timestamp": "2023-11-01 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=Wzw2mxC1vOk"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · ProjeMED",
+                  "title": "Diş Beyazlatma Nedir? | Diş Beyazlatma Dişlere Zarar Verir Mi?",
+                  "timestamp": "2025-04-17 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=FW5B_jU6oTw"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]",
+              "domain": "www.colgate.com",
+              "title": "Evde Doğal Yöntemlerle Diş Beyazlatma",
+              "url": "https://www.colgate.com/tr-tr/oral-health/teeth-whitening/teeth-whitening-at-home-with-natural-methods",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.colgate.com › ... › Ağız Sağlığı",
+              "website_name": "Colgate",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Bir bardak ılık suyun içine 1 çay kaşığı elma sirkesi, yarım çay kaşığı tuz ve 1 çay kaşığı karbonat alıp karışım macun kıvamına gelinceye kadar karıştırın.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[12]/div[1]/div[1]",
+              "domain": "www.medicana.com.tr",
+              "title": "Diş beyazlatma nedir? Evde diş beyazlatma teknikleri neler?",
+              "url": "https://www.medicana.com.tr/dis-beyazlatma-nedir-evde-dis-beyazlatma-teknikleri-neler/blog/23418",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.medicana.com.tr › Sağlıklı Bilgiler",
+              "website_name": "Medicana",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "15 Haz 2025 — İlk olarak diş fırçasını ıslatın ve biraz karbonat serperek dişlerinizi fırçalayın ya da diş macununuzla karbonatı karıştırarak dişlerinizi ...",
+              "pre_snippet": "06/15/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-06-15 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]",
+              "domain": "medipol.com.tr",
+              "title": "Doğal Yollarla Diş Beyazlatma Yöntemleri Nelerdir?",
+              "url": "https://medipol.com.tr/saglik-rehberi/dogal-yollarla-dis-beyazlatma-yontemleri-nelerdir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://medipol.com.tr › Sağlık Rehberi",
+              "website_name": "Medipol Sağlık Grubu",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "29 Ara 2025 — Evde Diş Beyazlatma Yöntemleri Nelerdir? · Hindistan Cevizi Yağı ile Yağ Çekme(Oil Pulling) · Muz Kabuğu ile Diş Cilalama · Karbonatla Diş ...",
+              "pre_snippet": "12/29/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Hindistan Cevizi Yağı ile Yağ Çekme"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-12-29 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "images",
+              "rank_group": 1,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[16]/div[1]",
+              "title": "Görseller",
+              "url": "https://www.google.com/search?sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&q=di%C5%9F+beyazlatma&udm=2&source=univ&fir=i9cHvrH5bHxQ7M%252Cs9nxA0YSRdZAHM%252C_%253B32htKzbtKaKsDM%252COfJxVgnMgfLBmM%252C_%253BCPppf6eK93IwfM%252CGNHYa1Qu8u5neM%252C_%253B65l1uTeASXTh1M%252Cc_H05qHCRAtj3M%252C_%253By2f6QYbudOfCLM%252CE3cTnXHe8naCQM%252C_%253BYZpRUOqjhAxfZM%252C1TvQ_z0nTIN1YM%252C_%253B5VDzy7MJQZrlCM%252CoWA1OJUbim6KLM%252C_%253BHNvJjQKct5JhWM%252CUTuW84Bvpq_gCM%252C_%253BPKglk0Hx1a6MZM%252CK4NZIfKdjhMPLM%252C_&usg=AI4_-kQNiYuVFeG4wZigiraLPAPiCYRknA&sa=X&ved=2ahUKEwj3v9Sm37uWAxV4VqQEHbMpLAsQ7Al6BAhQEAU",
+              "items": [
+                {
+                  "type": "images_element",
+                  "alt": "Diş Beyazlatma (Bleaching & Teeth Whitening) İstanbul | Beyazlat",
+                  "url": "https://www.beyazlat.net/dis-beyazlatma/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSel2pe7iSOowUK2EnsSp2XPiFyZ4odiNlksPNlqbiyy-Ew8fD0jrFbAOA&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Diş Beyazlatma İşlemi Nedir? Nasıl Yapılır? - Confident",
+                  "url": "https://www.confident.net/blog/dis-beyazlatma-islemi/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBBy8iSqrP5t-i_GiyHB9KPalvOTQPkQOD6T1Hb1bBDWLpXI5eGWYXOzw&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Lazer diş beyazlatma nasıl yapılır? Öncesi sonrası",
+                  "url": "https://www.youtube.com/watch?v=pInqaocVnTE",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW0Niob6yUMepWGr6hQGTCqcK6utPu8DotkF9KWGAB&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Diş Beyazlatma Yöntemleri & Diş Beyazlatma Nasıl Yapılır?",
+                  "url": "https://www.incidis.com.tr/blog/dis-beyazlatma-yontemleri/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_W_Vr9186Xl-ksL4GCAq09sQXbEQaUuN75lEZV1AlXhGNpYTNeeNuHTE&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Diş Beyazlatma - Klinik19 Çorum - Ağız ve Diş Sağlığı Kliniği",
+                  "url": "https://klinik19.com/dis-beyazlatma/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4AZ0x2HkAaKDIgt_wGJeglB3lEM_2578gofQQl1UzbJh4Cs7c9y0hq4&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Diş Beyazlatma Nedir? Diş Beyazlatma Fiyatları 2024 ...",
+                  "url": "https://megadentist.com.tr/dis-beyazlatma-nedir/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjupwvOJ3aC0M-kR9iQAQD76wMk7YzQ2Fa8897wvm6FTBaNI69Ide1TPs&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Diş Beyazlatma Tedavisi - Beyaz Işık Ağız ve Diş Sağlığı ...",
+                  "url": "https://beyazisik.com/dis-beyazlatma/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxqgXRZ3BgqEfDAW8ygkzSlE02rJJSfSFZYbcnZGTrNZUqf8Pt5RQ08N0&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "DİŞ BEYAZLATMA (BLEACHING) | Dentriva Diş - Dentriva Diş",
+                  "url": "https://dentrivadis.com/dis-beyazlatma-bleaching/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIBV7qx82coXJH1pBinIMjUeIqokjimXM1kyjGnBDrWW0w74ErC7iuzNk&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Diş Beyazlatma (Bleaching) - Diş Beyazlatma Fiyatları Ne Kadar?",
+                  "url": "https://www.ercebelecoglu.com.tr/dis-beyazlatma-bleaching/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA1GqryiJo_xRe7mUecbCDjTlcb3_lsCnnQ8K-2u8sPhYMaIUKcv9w6Z4&s"
+                }
+              ],
+              "related_image_searches": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[18]/div[1]/div[1]",
+              "domain": "dentgroup.com.tr",
+              "title": "Diş Beyazlatma Tedavisi - 5 Farklı Beyazlatma Yöntemi",
+              "url": "https://dentgroup.com.tr/dis-beyazlatma",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://dentgroup.com.tr › Tedaviler",
+              "website_name": "Dentgroup",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Tek Diş Beyazlatma (İçten Beyazlatma) Nedir? Kanal tedavisi sonrası renk değiştiren dişlere uygulanır. Dişteki dolgu sökülür, açılan boşluğa beyazlatma jeli ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kanal tedavisi sonrası renk değiştiren dişlere uygulanır"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[1]/div[2]/div[1]/div[1]/div[20]/div[1]/div[1]",
+              "domain": "omerkutay.com",
+              "title": "Kalıcı Diş Beyazlatma",
+              "url": "https://omerkutay.com/dis-beyazlatma/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://omerkutay.com › dis-beyazlatma",
+              "website_name": "Ömer Kutay",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Beyazlatma İşlemi Nasıl Yapılır? · Hekimin ağızdan ölçü alıp, dişlerinizin üzerine takabileceğiniz ince lastik kalıpları hazırlatması · Hastanın kendisi için ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Beyazlatma"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Anında diş BEYAZLATMA evde",
+                "Diş beyazlatma evde doğal yöntem",
+                "Diş BEYAZLATMA Bandı",
+                "1 günde diş BEYAZLATMA evde",
+                "Diş BEYAZLATMA Jeli",
+                "Diş beyazlatma Ürünleri",
+                "Diş BEYAZLATMA zararlı mi",
+                "Diş BEYAZLATMA Nasıl Yapılır"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

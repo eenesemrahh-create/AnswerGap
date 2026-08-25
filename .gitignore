@@ -1,0 +1,21 @@
+# Credentials — never committed
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# data/raw/ is deliberately NOT ignored: raw SERP responses are archival
+# evidence, and CLAUDE.md's position is that historical PAA data is the asset
+# nobody else has.
+#
+# Location dumps are the exception. They come from a FREE endpoint, are
+# reproducible at any time, and locations-US.json alone is ~15 MB. They stay on
+# disk as a local cache but do not belong in the repository.
+data/raw/locations-*.json

@@ -1,0 +1,751 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "24.6625 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251615-2374-0139-0000-e56b9155f18f",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "24.6091 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Can yellow teeth become white again?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Can yellow teeth become white again?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=Can%20yellow%20teeth%20become%20white%20again%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:15:46 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "discussions_and_forums",
+            "related_searches"
+          ],
+          "se_results_count": 132,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "`Yes, yellow teeth can often become white or significantly brighter, depending on what caused the yellowing` . Surface stains respond very well to whitening, while deep internal discoloration is harder to change.[](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/) [[1]](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/)\n\nWhy Teeth Turn Yellow\n\n- **Surface Stains (Extrinsic):** Caused by dark foods, coffee, tea, red wine, or smoking that stick to the outer enamel.\n- **Aging and Genetics (Intrinsic):** As you get older, the outer enamel wears thin. This reveals the naturally yellow core of the tooth, called dentin. Some people also inherit thinner or more yellow enamel from their families.[](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/) [[1]](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/)[[2]](https://my.clevelandclinic.org/health/symptoms/10958-tooth-discoloration)[[3]](https://www.reddit.com/r/AskMen/comments/drq725/my_teeth_are_stained_yellow_from_not_brushing_as/)[[4]](https://www.youtube.com/watch?v=2-htSHbh3ek&t=11)[[5]](https://thomasdentalphx.com/can-yellow-teeth-become-white-again/)\n\nWays to Whiten Yellow Teeth\n\n- **At-Home Products:** Over-the-counter whitening strips, gels, and whitening toothpastes use mild bleaching agents or gentle abrasives to lift surface stains.[](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/) [[1]](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/)[[2]](https://meadowsfamilydentistry.com/blog/can-yellow-teeth-become-white-again)\n- **Professional Dental Care:** Dentists use stronger peroxide bleaching gels and specialized lights or custom trays to make teeth several shades brighter in a shorter time.[](https://thomasdentalphx.com/can-yellow-teeth-become-white-again/) [[1]](https://thomasdentalphx.com/can-yellow-teeth-become-white-again/)[[2]](https://www.medicalnewstoday.com/articles/322421)\n- **Alternative Options:** If yellowing is deep or caused by medications, whitening gels may not work. Dentists can use cosmetic fixes like dental bonding or porcelain veneers instead.[](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/) [[1]](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/)[[2]](https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening)[[3]](https://thomasdentalphx.com/can-yellow-teeth-become-white-again/)\n\nIf you'd like, tell me:\n\n- What do you think is **causing the yellowing** (coffee, smoking, aging, or natural color)?\n- Have you tried any **whitening products** yet?\n\nI can help you find the best and safest way to brighten your smile.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Yes, yellow teeth can often become white or significantly brighter, depending on what caused the yellowing. Surface stains respond very well to whitening, while deep internal discoloration is harder to change.",
+                  "markdown": "`Yes, yellow teeth can often become white or significantly brighter, depending on what caused the yellowing` . Surface stains respond very well to whitening, while deep internal discoloration is harder to change.[](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/) [[1]](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Estrella Mountain Dentistry",
+                      "domain": "www.estrellamountaindentistry.com",
+                      "url": "https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/",
+                      "title": "Can Yellow Teeth Go White Again? Dentists Reveal the Truth",
+                      "text": "Can Yellow Teeth Become White Again? Proven Ways That Work * Yes, yellow teeth can typically become white again, but the degree of..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Why Teeth Turn Yellow",
+                  "text": "Surface Stains (Extrinsic): Caused by dark foods, coffee, tea, red wine, or smoking that stick to the outer enamel. Aging and Genetics (Intrinsic): As you get older, the outer enamel wears thin. This reveals the naturally yellow core of the tooth, called dentin. Some people also inherit thinner or more yellow enamel from their families.",
+                  "markdown": "- **Surface Stains (Extrinsic):** Caused by dark foods, coffee, tea, red wine, or smoking that stick to the outer enamel.\n- **Aging and Genetics (Intrinsic):** As you get older, the outer enamel wears thin. This reveals the naturally yellow core of the tooth, called dentin. Some people also inherit thinner or more yellow enamel from their families.[](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/) [[1]](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/)[[2]](https://my.clevelandclinic.org/health/symptoms/10958-tooth-discoloration)[[3]](https://www.reddit.com/r/AskMen/comments/drq725/my_teeth_are_stained_yellow_from_not_brushing_as/)[[4]](https://www.youtube.com/watch?v=2-htSHbh3ek&t=11)[[5]](https://thomasdentalphx.com/can-yellow-teeth-become-white-again/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Estrella Mountain Dentistry",
+                      "domain": "www.estrellamountaindentistry.com",
+                      "url": "https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/",
+                      "title": "Can Yellow Teeth Go White Again? Dentists Reveal the Truth",
+                      "text": "Can Yellow Teeth Become White Again? Proven Ways That Work * Yes, yellow teeth can typically become white again, but the degree of..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Cleveland Clinic",
+                      "domain": "my.clevelandclinic.org",
+                      "url": "https://my.clevelandclinic.org/health/symptoms/10958-tooth-discoloration",
+                      "title": "Tooth Discoloration: Causes & Treatment",
+                      "text": "Tooth discoloration can be caused by a number of factors, including: * **Avoidable causes** * Dark-colored foods and beverages, su..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Reddit",
+                      "domain": "www.reddit.com",
+                      "url": "https://www.reddit.com/r/AskMen/comments/drq725/my_teeth_are_stained_yellow_from_not_brushing_as/",
+                      "title": "My teeth are stained yellow from not brushing as a child. What is the best ...",
+                      "text": "Natural Tooth Color: Teeth are naturally off-yellow or cream colored, not pure white. Dentin, a mix of hydroxyapatite and protein,"
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "YouTube",
+                      "domain": "www.youtube.com",
+                      "url": "https://www.youtube.com/watch?v=2-htSHbh3ek&t=11",
+                      "title": "How to Whiten Your Teeth for a Brighter Smile | Deep Dives | Health",
+                      "text": "aren't quite as white and bright as they used to be what is up with that dingy or even yellowish tint you've begun to notice on yo..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "thomasdentalphx.com",
+                      "domain": "thomasdentalphx.com",
+                      "url": "https://thomasdentalphx.com/can-yellow-teeth-become-white-again/",
+                      "title": "Can Yellow Teeth Become White Again? - Thomas Dental",
+                      "text": "What Causes Teeth to Turn Yellow? * Poor Oral Hygiene. Skipping proper brushing or flossing allows plaque and tartar to build up, ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Ways to Whiten Yellow Teeth",
+                  "text": "At-Home Products: Over-the-counter whitening strips, gels, and whitening toothpastes use mild bleaching agents or gentle abrasives to lift surface stains. Professional Dental Care: Dentists use stronger peroxide bleaching gels and specialized lights or custom trays to make teeth several shades brighter in a shorter time. Alternative Options: If yellowing is deep or caused by medications, whitening gels may not work. Dentists can use cosmetic fixes like dental bonding or porcelain veneers instead.",
+                  "markdown": "- **At-Home Products:** Over-the-counter whitening strips, gels, and whitening toothpastes use mild bleaching agents or gentle abrasives to lift surface stains.[](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/) [[1]](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/)[[2]](https://meadowsfamilydentistry.com/blog/can-yellow-teeth-become-white-again)\n- **Professional Dental Care:** Dentists use stronger peroxide bleaching gels and specialized lights or custom trays to make teeth several shades brighter in a shorter time.[](https://thomasdentalphx.com/can-yellow-teeth-become-white-again/) [[1]](https://thomasdentalphx.com/can-yellow-teeth-become-white-again/)[[2]](https://www.medicalnewstoday.com/articles/322421)\n- **Alternative Options:** If yellowing is deep or caused by medications, whitening gels may not work. Dentists can use cosmetic fixes like dental bonding or porcelain veneers instead.[](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/) [[1]](https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/)[[2]](https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening)[[3]](https://thomasdentalphx.com/can-yellow-teeth-become-white-again/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Estrella Mountain Dentistry",
+                      "domain": "www.estrellamountaindentistry.com",
+                      "url": "https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/",
+                      "title": "Can Yellow Teeth Go White Again? Dentists Reveal the Truth",
+                      "text": "Can Yellow Teeth Become White Again? Proven Ways That Work * Yes, yellow teeth can typically become white again, but the degree of..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "meadowsfamilydentistry.com",
+                      "domain": "meadowsfamilydentistry.com",
+                      "url": "https://meadowsfamilydentistry.com/blog/can-yellow-teeth-become-white-again",
+                      "title": "Can Yellow Teeth Become White Again?",
+                      "text": "This information does not constitute medical advice or diagnosis. Yes, yellow teeth can become white again. There are two ways to ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "thomasdentalphx.com",
+                      "domain": "thomasdentalphx.com",
+                      "url": "https://thomasdentalphx.com/can-yellow-teeth-become-white-again/",
+                      "title": "Can Yellow Teeth Become White Again? - Thomas Dental",
+                      "text": "What Causes Teeth to Turn Yellow? * Poor Oral Hygiene. Skipping proper brushing or flossing allows plaque and tartar to build up, ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Medical News Today",
+                      "domain": "www.medicalnewstoday.com",
+                      "url": "https://www.medicalnewstoday.com/articles/322421",
+                      "title": "How to whiten teeth naturally: 5 home remedies - Medical News Today",
+                      "text": "Hydrogen peroxide is a mild bleach that may help to whiten stained teeth at lower concentrations . In-office treatments also use h..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "MouthHealthy",
+                      "domain": "www.mouthhealthy.org",
+                      "url": "https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening",
+                      "title": "Teeth Whitening - MouthHealthy",
+                      "text": "Does Whitening Work on All Teeth? No, which is why it's important to talk to your dentist before deciding to whiten your teeth, as..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you'd like, tell me:What do you think is causing the yellowing (coffee, smoking, aging, or natural color)?\nHave you tried any whitening products yet?\nI can help you find the best and safest way to brighten your smile.",
+                  "markdown": "If you'd like, tell me:\n\n- What do you think is **causing the yellowing** (coffee, smoking, aging, or natural color)?\n- Have you tried any **whitening products** yet?\n\nI can help you find the best and safest way to brighten your smile.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Estrella Mountain Dentistry",
+                  "domain": "www.estrellamountaindentistry.com",
+                  "url": "https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/",
+                  "title": "Can Yellow Teeth Go White Again? Dentists Reveal the Truth",
+                  "text": "Can Yellow Teeth Become White Again? Proven Ways That Work * Yes, yellow teeth can typically become white again, but the degree of..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Reddit",
+                  "domain": "www.reddit.com",
+                  "url": "https://www.reddit.com/r/AskMen/comments/drq725/my_teeth_are_stained_yellow_from_not_brushing_as/",
+                  "title": "My teeth are stained yellow from not brushing as a child. What is the best ...",
+                  "text": "Natural Tooth Color: Teeth are naturally off-yellow or cream colored, not pure white. Dentin, a mix of hydroxyapatite and protein,"
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "meadowsfamilydentistry.com",
+                  "domain": "meadowsfamilydentistry.com",
+                  "url": "https://meadowsfamilydentistry.com/blog/can-yellow-teeth-become-white-again",
+                  "title": "Can Yellow Teeth Become White Again?",
+                  "text": "This information does not constitute medical advice or diagnosis. Yes, yellow teeth can become white again. There are two ways to ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Cleveland Clinic",
+                  "domain": "my.clevelandclinic.org",
+                  "url": "https://my.clevelandclinic.org/health/symptoms/10958-tooth-discoloration",
+                  "title": "Tooth Discoloration: Causes & Treatment",
+                  "text": "Tooth discoloration can be caused by a number of factors, including: * **Avoidable causes** * Dark-colored foods and beverages, su..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "thomasdentalphx.com",
+                  "domain": "thomasdentalphx.com",
+                  "url": "https://thomasdentalphx.com/can-yellow-teeth-become-white-again/",
+                  "title": "Can Yellow Teeth Become White Again? - Thomas Dental",
+                  "text": "What Causes Teeth to Turn Yellow? * Poor Oral Hygiene. Skipping proper brushing or flossing allows plaque and tartar to build up, ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Medical News Today",
+                  "domain": "www.medicalnewstoday.com",
+                  "url": "https://www.medicalnewstoday.com/articles/322421",
+                  "title": "How to whiten teeth naturally: 5 home remedies - Medical News Today",
+                  "text": "Hydrogen peroxide is a mild bleach that may help to whiten stained teeth at lower concentrations . In-office treatments also use h..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "YouTube",
+                  "domain": "www.youtube.com",
+                  "url": "https://www.youtube.com/watch?v=2-htSHbh3ek&t=11",
+                  "title": "How to Whiten Your Teeth for a Brighter Smile | Deep Dives | Health",
+                  "text": "aren't quite as white and bright as they used to be what is up with that dingy or even yellowish tint you've begun to notice on yo..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "MouthHealthy",
+                  "domain": "www.mouthhealthy.org",
+                  "url": "https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening",
+                  "title": "Teeth Whitening - MouthHealthy",
+                  "text": "Does Whitening Work on All Teeth? No, which is why it's important to talk to your dentist before deciding to whiten your teeth, as..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "How do I make my yellow teeth white again?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What color cancels yellow teeth?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can teeth come back from being yellow?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can yellow teeth be whitened permanently?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]",
+              "domain": "www.estrellamountaindentistry.com",
+              "title": "Can Yellow Teeth Go White Again? Dentists Reveal the Truth",
+              "url": "https://www.estrellamountaindentistry.com/blogs/can-yellow-teeth-go-white-again/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.estrellamountaindentistry.com › blogs › ca...",
+              "website_name": "Estrella Mountain Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Yes, yellow teeth can typically become white again, but the degree of whitening depends on the type and cause of discoloration.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Yes, yellow teeth can typically become white again"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "Can teeth become white again by brushing?",
+              "url": "https://www.reddit.com/r/NoStupidQuestions/comments/17gja69/can_teeth_become_white_again_by_brushing/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "6 comments  ·  2 years ago",
+              "website_name": "Reddit · r/NoStupidQuestions",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Yes. Regular brushing will make your teeth as white as you would ever want them. Twice a day, give it a year, and you will have those teeth ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Yes"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "My teeth are stained yellow from not brushing as a ...",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/AskMen/comments/drq725/my_teeth_are_stained_yellow_from_not_brushing_as/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "I've neglected my teeth, how can I make them white again?",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/beauty/comments/1cl377i/ive_neglected_my_teeth_how_can_i_make_them_white/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "More results from www.reddit.com",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=Can+yellow+teeth+become+white+again?+site:www.reddit.com&sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&sa=X&ved=2ahUKEwjx6O3RlryWAxXZRjABHaFZGb8QrQIoAnoECCkQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "discussions_and_forums",
+              "rank_group": 1,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]",
+              "title": "Discussions and forums",
+              "items": [
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "My teeth are stained yellow from not brushing as a child. What is the best ...",
+                  "url": "https://www.reddit.com/r/AskMen/comments/drq725/my_teeth_are_stained_yellow_from_not_brushing_as/",
+                  "domain": "www.reddit.com",
+                  "source": "Reddit",
+                  "description": null,
+                  "timestamp": "2020-08-25 16:15:46 +00:00",
+                  "posts_count": 240
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "If someone has yellow teeth, how long does it take to turn white again with ...",
+                  "url": "https://www.quora.com/If-someone-has-yellow-teeth-how-long-does-it-take-to-turn-white-again-with-brushing-twice-a-day",
+                  "domain": "www.quora.com",
+                  "source": "Quora",
+                  "description": null,
+                  "timestamp": "2014-08-25 16:15:46 +00:00",
+                  "posts_count": 80
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "Can yellow teeth be transformed into white teeth?",
+                  "url": "https://www.quora.com/Can-yellow-teeth-be-transformed-into-white-teeth",
+                  "domain": "www.quora.com",
+                  "source": "Quora",
+                  "description": null,
+                  "timestamp": "2020-08-25 16:15:46 +00:00",
+                  "posts_count": 60
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "meadowsfamilydentistry.com",
+              "title": "Can Yellow Teeth Become White Again?",
+              "url": "https://meadowsfamilydentistry.com/blog/can-yellow-teeth-become-white-again",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://meadowsfamilydentistry.com › blog › can-yello...",
+              "website_name": "meadowsfamilydentistry.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Jun 10, 2024 — Absolutely, yellow teeth can become white again! These factors include: Poor dental hygiene Smoking Diet Diseases Certain medications",
+              "pre_snippet": "06/10/2024 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "yellow teeth can become white again"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2024-06-10 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.healthline.com",
+              "title": "How to Get Rid of Yellow Teeth: 7 Home Remedies",
+              "url": "https://www.healthline.com/health/dental-and-oral-health/how-to-get-rid-of-yellow-teeth",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.healthline.com › dental-and-oral-health › h...",
+              "website_name": "Healthline",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Baking soda and hydrogen peroxide. Oil pulling could have a whitening effect on teeth, as plaque buildup can cause teeth to turn yellow. Lemon, orange, or ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Baking soda and hydrogen peroxide"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.belladentaloxnard.com",
+              "title": "Can My Yellow Teeth Be White Again?",
+              "url": "https://www.belladentaloxnard.com/education/can-my-yellow-teeth-be-white-again/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.belladentaloxnard.com › education",
+              "website_name": "Bella Dental Oxnard",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "In many cases, yes. Age-related yellowing can be improved with whitening, but may require both in-office treatment and ongoing maintenance. several months to a ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "can"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[14]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "Yellow Teeth? Here's What a Prosthodontist Recommends",
+              "url": "https://www.youtube.com/watch?v=LPNMkhJXmqc&vl=en",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "7.1K+ views  ·  9 months ago",
+              "website_name": "YouTube · Dr. Brett Langston | Dental Implants & Teeth",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": "If you have yellow teeth and want a whiter, brighter smile, this video breaks down the safest and most effective ways to whiten your teeth, ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "yellow teeth",
+                "brighter",
+                "teeth"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-11-16 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[16]/div[1]/div[1]",
+              "domain": "www.tysons-dental.com",
+              "title": "Can yellow teeth become white again?",
+              "url": "https://www.tysons-dental.com/ask/can-yellow-teeth-become-white-again",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.tysons-dental.com › ask › can-yellow-teeth...",
+              "website_name": "Tysons Dental Associates",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Can yellow teeth become white again? Yes, in most cases professional teeth whitening can dramatically improve the color of yellow or stained teeth. Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "cases professional teeth whitening can dramatically improve the color of yellow"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[18]/div[1]/div[1]",
+              "domain": "www.navasotadental.com",
+              "title": "Can Yellow Teeth Turn White Again? Whitening Options",
+              "url": "https://www.navasotadental.com/blog/can-yellow-teeth-turn-white-again",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.navasotadental.com › blog › can-yellow-teet...",
+              "website_name": "Navasota Dental",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Dec 24, 2025 — The good news is that, in most cases, yellow teeth can regain a whiter appearance with proper care, treatment, and lifestyle changes.",
+              "pre_snippet": "12/24/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "yellow teeth can regain a whiter appearance"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-12-24 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "If your teeth are yellow can they become white by brushing",
+                "Can your teeth become white again by brushing",
+                "How to whiten yellow teeth naturally at home",
+                "Can yellow teeth become white again at home",
+                "Why are my teeth yellow when I brush them everyday",
+                "Can yellow teeth become white again reddit",
+                "How long does it take for yellow teeth to turn white from brushing",
+                "How to get rid of yellow teeth overnight"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

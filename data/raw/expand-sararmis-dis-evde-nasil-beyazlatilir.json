@@ -1,0 +1,684 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "3.2173 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251204-2374-0139-0000-27da43a75581",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "3.1630 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Sararmış diş evde nasıl beyazlatılır?",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Sararmış diş evde nasıl beyazlatılır?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=Sararm%C4%B1%C5%9F%20di%C5%9F%20evde%20nas%C4%B1l%20beyazlat%C4%B1l%C4%B1r%3F&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-25 12:05:01 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "related_searches"
+          ],
+          "se_results_count": 104,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Evde diş sararmasını azaltmak için `karbonatla nazik fırçalama veya hindistan cevizi yağıyla gargara` gibi doğal yöntemler yüzey lekelerini geçici olarak hafifletebilir. Ancak bu uygulamalar diş minesini aşındırabileceği için dikkatli ve seyrek yapılmalıdır. Daha kalıcı ve güvenli sonuçlar için eczanelerde satılan onaylı ürünler veya profesyonel bakım gerekebilir.[](https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921) [[1]](https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921)[[2]](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/)[[3]](https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir)\n\nEvde Uygulanan Doğal Yöntemler\n\n- **Karbonat:** Az miktarda karbonatı suyla karıştırıp macun yapın. Diş minesini çizm一颗memek için haftada sadece bir kez nazikçe fırçalayın.\n- **Yağ Çekme (Oil Pulling):** Bir kaşık hindistan cevizi yağını ağzınızda 10-15 dakika çalkalayıp tükürün. Plak oluşumunu azaltmaya yardımcı olur.\n- **Düzenli Fırçalama:** Dişleri günde iki kez florürlü macunla fırçalayın. Diş ipi kullanarak ara yüz temizliği yapın.[](https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921) [[1]](https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921)[[2]](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/)[[3]](https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir)\n\nDikkat Edilmesi Gereken Riskler\n\n- **Limon ve Sirke:** Limon suyu veya sirke gibi asidik gıdaları karbonatla karıştırmak veya doğrudan uygulamak diş minesini eritir. Dişlerde kalıcı sarılığa ve aşırı hassasiyete yol açar.\n- **Aşırı Aşındırma:** Sert ve bilinçsiz uygulamalar diş etlerine zarar verir.[](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/) [[1]](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/)[[2]](https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir)[[3]](https://www.ercebelecoglu.com.tr/dogal-dis-beyazlatma/)[[4]](https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer)\n\nEğer dişlerinizdeki sararma **yaşlanmaya bağlı minenin incelmesinden** mi yoksa **çay, kahve ve sigara lekelerinden** mi kaynaklanıyor? Bilmek isterseniz size en uygun güvenli bakım önerisini verebilirim.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Evde diş sararmasını azaltmak için karbonatla nazik fırçalama veya hindistan cevizi yağıyla gargara gibi doğal yöntemler yüzey lekelerini geçici olarak hafifletebilir. Ancak bu uygulamalar diş minesini aşındırabileceği için dikkatli ve seyrek yapılmalıdır. Daha kalıcı ve güvenli sonuçlar için eczanelerde satılan onaylı ürünler veya profesyonel bakım gerekebilir.",
+                  "markdown": "Evde diş sararmasını azaltmak için `karbonatla nazik fırçalama veya hindistan cevizi yağıyla gargara` gibi doğal yöntemler yüzey lekelerini geçici olarak hafifletebilir. Ancak bu uygulamalar diş minesini aşındırabileceği için dikkatli ve seyrek yapılmalıdır. Daha kalıcı ve güvenli sonuçlar için eczanelerde satılan onaylı ürünler veya profesyonel bakım gerekebilir.[](https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921) [[1]](https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921)[[2]](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/)[[3]](https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Medicana",
+                      "domain": "www.medicana.com.tr",
+                      "url": "https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921",
+                      "title": "Dişler doğal yöntemlerle nasıl beyazlar? Diş araları nasıl beyazlar?",
+                      "text": "Dişler doğal yöntemlerle nasıl beyazlar? Diş araları nasıl beyazlar? ... Dişlerde sararma, lekelenme veya renk kaybı, evde çeşitli..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.myradental.com",
+                      "domain": "www.myradental.com",
+                      "url": "https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/",
+                      "title": "Sararmış Dişlere Güvenli Çözümler: Evde Yöntemler ve Tedaviler",
+                      "text": "Dişlerimiz Neden Sararır? Sararan Dişler Nasıl Beyazlatılır? * Diş Sararması Nasıl Geçer? Evde Güvenli Yöntemler ve Profesyonel Te..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "MandarinDent",
+                      "domain": "www.mandarindent.com.tr",
+                      "url": "https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir",
+                      "title": "Sararan Dişler Nasıl Beyazlatılır | Doğal ve Profesyonel Diş ...",
+                      "text": "Sararan Dişler Nasıl Beyazlar? * Diş Hekimi Nihat TANER. * 5 Kas 2025. * 4 dakikada okunur. ... Table_title: Diş Beyazlatma Yöntem..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Evde Uygulanan Doğal Yöntemler",
+                  "text": "Karbonat: Az miktarda karbonatı suyla karıştırıp macun yapın. Diş minesini çizm一颗memek için haftada sadece bir kez nazikçe fırçalayın. Yağ Çekme (Oil Pulling): Bir kaşık hindistan cevizi yağını ağzınızda 10-15 dakika çalkalayıp tükürün. Plak oluşumunu azaltmaya yardımcı olur. Düzenli Fırçalama: Dişleri günde iki kez florürlü macunla fırçalayın. Diş ipi kullanarak ara yüz temizliği yapın.",
+                  "markdown": "- **Karbonat:** Az miktarda karbonatı suyla karıştırıp macun yapın. Diş minesini çizm一颗memek için haftada sadece bir kez nazikçe fırçalayın.\n- **Yağ Çekme (Oil Pulling):** Bir kaşık hindistan cevizi yağını ağzınızda 10-15 dakika çalkalayıp tükürün. Plak oluşumunu azaltmaya yardımcı olur.\n- **Düzenli Fırçalama:** Dişleri günde iki kez florürlü macunla fırçalayın. Diş ipi kullanarak ara yüz temizliği yapın.[](https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921) [[1]](https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921)[[2]](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/)[[3]](https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Medicana",
+                      "domain": "www.medicana.com.tr",
+                      "url": "https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921",
+                      "title": "Dişler doğal yöntemlerle nasıl beyazlar? Diş araları nasıl beyazlar?",
+                      "text": "Dişler doğal yöntemlerle nasıl beyazlar? Diş araları nasıl beyazlar? ... Dişlerde sararma, lekelenme veya renk kaybı, evde çeşitli..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.myradental.com",
+                      "domain": "www.myradental.com",
+                      "url": "https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/",
+                      "title": "Sararmış Dişlere Güvenli Çözümler: Evde Yöntemler ve Tedaviler",
+                      "text": "Dişlerimiz Neden Sararır? Sararan Dişler Nasıl Beyazlatılır? * Diş Sararması Nasıl Geçer? Evde Güvenli Yöntemler ve Profesyonel Te..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "MandarinDent",
+                      "domain": "www.mandarindent.com.tr",
+                      "url": "https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir",
+                      "title": "Sararan Dişler Nasıl Beyazlatılır | Doğal ve Profesyonel Diş ...",
+                      "text": "Sararan Dişler Nasıl Beyazlar? * Diş Hekimi Nihat TANER. * 5 Kas 2025. * 4 dakikada okunur. ... Table_title: Diş Beyazlatma Yöntem..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Dikkat Edilmesi Gereken Riskler",
+                  "text": "Limon ve Sirke: Limon suyu veya sirke gibi asidik gıdaları karbonatla karıştırmak veya doğrudan uygulamak diş minesini eritir. Dişlerde kalıcı sarılığa ve aşırı hassasiyete yol açar. Aşırı Aşındırma: Sert ve bilinçsiz uygulamalar diş etlerine zarar verir.",
+                  "markdown": "- **Limon ve Sirke:** Limon suyu veya sirke gibi asidik gıdaları karbonatla karıştırmak veya doğrudan uygulamak diş minesini eritir. Dişlerde kalıcı sarılığa ve aşırı hassasiyete yol açar.\n- **Aşırı Aşındırma:** Sert ve bilinçsiz uygulamalar diş etlerine zarar verir.[](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/) [[1]](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/)[[2]](https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir)[[3]](https://www.ercebelecoglu.com.tr/dogal-dis-beyazlatma/)[[4]](https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.myradental.com",
+                      "domain": "www.myradental.com",
+                      "url": "https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/",
+                      "title": "Sararmış Dişlere Güvenli Çözümler: Evde Yöntemler ve Tedaviler",
+                      "text": "Dişlerimiz Neden Sararır? Sararan Dişler Nasıl Beyazlatılır? * Diş Sararması Nasıl Geçer? Evde Güvenli Yöntemler ve Profesyonel Te..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "MandarinDent",
+                      "domain": "www.mandarindent.com.tr",
+                      "url": "https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir",
+                      "title": "Sararan Dişler Nasıl Beyazlatılır | Doğal ve Profesyonel Diş ...",
+                      "text": "Sararan Dişler Nasıl Beyazlar? * Diş Hekimi Nihat TANER. * 5 Kas 2025. * 4 dakikada okunur. ... Table_title: Diş Beyazlatma Yöntem..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Ankara Gülüş Tasarımı",
+                      "domain": "www.ercebelecoglu.com.tr",
+                      "url": "https://www.ercebelecoglu.com.tr/dogal-dis-beyazlatma/",
+                      "title": "Doğal Diş Beyazlatma",
+                      "text": "En çok bilinen beyazlatma yöntemi, limon ve karbonat karışımını dişlere uygulamaktır. Karbonata limonu sıkıp karıştırdıktan sonra ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Dentakay",
+                      "domain": "dentakay.com",
+                      "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer",
+                      "title": "Sarı dişler : evde uygulayabileceğiniz 4 tedavi - Dentakay",
+                      "text": "1- Dişlerinizi fırçalayın. Dişlerinizin sararmasının sebebi plak oluşumu olabilir. Uzun bir süre boyunca dişlerinizi fırçalamayı i..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Eğer dişlerinizdeki sararma yaşlanmaya bağlı minenin incelmesinden mi yoksa çay, kahve ve sigara lekelerinden mi kaynaklanıyor? Bilmek isterseniz size en uygun güvenli bakım önerisini verebilirim.",
+                  "markdown": "Eğer dişlerinizdeki sararma **yaşlanmaya bağlı minenin incelmesinden** mi yoksa **çay, kahve ve sigara lekelerinden** mi kaynaklanıyor? Bilmek isterseniz size en uygun güvenli bakım önerisini verebilirim.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Medicana",
+                  "domain": "www.medicana.com.tr",
+                  "url": "https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921",
+                  "title": "Dişler doğal yöntemlerle nasıl beyazlar? Diş araları nasıl beyazlar?",
+                  "text": "Dişler doğal yöntemlerle nasıl beyazlar? Diş araları nasıl beyazlar? ... Dişlerde sararma, lekelenme veya renk kaybı, evde çeşitli..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.myradental.com",
+                  "domain": "www.myradental.com",
+                  "url": "https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/",
+                  "title": "Sararmış Dişlere Güvenli Çözümler: Evde Yöntemler ve Tedaviler",
+                  "text": "Dişlerimiz Neden Sararır? Sararan Dişler Nasıl Beyazlatılır? * Diş Sararması Nasıl Geçer? Evde Güvenli Yöntemler ve Profesyonel Te..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "MandarinDent",
+                  "domain": "www.mandarindent.com.tr",
+                  "url": "https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir",
+                  "title": "Sararan Dişler Nasıl Beyazlatılır | Doğal ve Profesyonel Diş ...",
+                  "text": "Sararan Dişler Nasıl Beyazlar? * Diş Hekimi Nihat TANER. * 5 Kas 2025. * 4 dakikada okunur. ... Table_title: Diş Beyazlatma Yöntem..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Dentakay",
+                  "domain": "dentakay.com",
+                  "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer",
+                  "title": "Sarı dişler : evde uygulayabileceğiniz 4 tedavi - Dentakay",
+                  "text": "1- Dişlerinizi fırçalayın. Dişlerinizin sararmasının sebebi plak oluşumu olabilir. Uzun bir süre boyunca dişlerinizi fırçalamayı i..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Ankara Gülüş Tasarımı",
+                  "domain": "www.ercebelecoglu.com.tr",
+                  "url": "https://www.ercebelecoglu.com.tr/dogal-dis-beyazlatma/",
+                  "title": "Doğal Diş Beyazlatma",
+                  "text": "En çok bilinen beyazlatma yöntemi, limon ve karbonat karışımını dişlere uygulamaktır. Karbonata limonu sıkıp karıştırdıktan sonra ..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Dişte oluşan sarı tabaka nasıl geçer?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Sararan diş tekrar beyazlar mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Dişi en çabuk ne beyazlatır?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Limon ve karbonat diş beyazlatır mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]",
+              "domain": "www.myradental.com",
+              "title": "Sararmış Dişlere Güvenli Çözümler: Evde Yöntemler ve ...",
+              "url": "https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.myradental.com › disler-neden-sararir-nasil-...",
+              "website_name": "myradental.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "25 Eki 2025 — Sararmış dişleri evde güvenle nasıl beyazlatırsınız? Hekim onaylı doğal diş beyazlatma yöntemlerini ve kalıcı beyazlık için profesyonel ...",
+              "pre_snippet": "10/25/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Hekim onaylı doğal diş beyazlatma yöntemlerini"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-10-25 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]/div[1]",
+              "domain": "www.medicana.com.tr",
+              "title": "Dişler doğal yöntemlerle nasıl beyazlar? Diş araları nasıl ...",
+              "url": "https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.medicana.com.tr › Sağlıklı Bilgiler",
+              "website_name": "Medicana",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "18 Ara 2025 — Sararmış dişler evde nasıl beyazlar? · Kabartma tozu ve hidrojen peroksit · Beyazlatıcı diş macunu · Hindistan cevizi yağı ile yağ çekme · Elma ...",
+              "pre_snippet": "12/18/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kabartma tozu ve hidrojen peroksit"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-12-18 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]/div[1]",
+              "domain": "www.mandarindent.com.tr",
+              "title": "Sararan Dişler Nasıl Beyazlatılır | Doğal ve Profesyonel ...",
+              "url": "https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.mandarindent.com.tr › post › sararan-disler...",
+              "website_name": "MandarinDent",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "5 Kas 2025 — Karbonat, sirke ve tuz karışımı ile diş beyazlatma kısa süreli parlaklık hissi verse de asidik ve aşındırıcı etkisi diş minesine zarar vererek ...",
+              "pre_snippet": "11/05/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Karbonat, sirke ve tuz karışımı"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-11-05 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "YouTube",
+              "url": "https://www.youtube.com/watch?v=5oancfxfcSk",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "1,1 Mn+ görüntüleme  ·  3 yıl önce",
+              "website_name": "YouTube · Deniz Ertüz",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": null,
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2023-04-30 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[11]/div[1]/div[1]",
+              "domain": "medipol.com.tr",
+              "title": "Doğal Yollarla Diş Beyazlatma Yöntemleri Nelerdir?",
+              "url": "https://medipol.com.tr/saglik-rehberi/dogal-yollarla-dis-beyazlatma-yontemleri-nelerdir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://medipol.com.tr › Sağlık Rehberi",
+              "website_name": "Medipol Sağlık Grubu",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "29 Ara 2025 — Hindistan cevizi yağı ile yağ çekme, muz kabuğu ile diş cilalama gibi doğal yollarla diş beyazlatma yöntemleri uzun vadede etki eden basit ...",
+              "pre_snippet": "12/29/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Hindistan cevizi yağı ile yağ çekme, muz kabuğu ile diş cilalama"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-12-29 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[13]/div[1]/div[1]",
+              "domain": "dentakay.com",
+              "title": "Sarı dişler : evde uygulayabileceğiniz 4 tedavi",
+              "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://dentakay.com › sari-disler-sararmasi-nasil-gecer",
+              "website_name": "Dentakay",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "1- Dişlerinizi fırçalayın. Dişlerinizin sararmasının sebebi plak oluşumu olabilir. · 2- Karbonat kullanın. Plak oluşumu ve bakteriler karbonatla pek iyi ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1- Dişlerinizi fırçalayın"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[15]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "Sarı Dişlerinizi Parlak İnci Beyazına Dönüştürün, Evde Diş ...",
+              "url": "https://www.youtube.com/watch?v=RBfHdvcrRLQ",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "1,1 Mn+ görüntüleme  ·  8 yıl önce",
+              "website_name": "YouTube · Bunlar KAÇMAZ!",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Sadece 2 Dakika içinde - Sarı Dişlerinizi Parlak İnci Beyazına Dönüştürün, Evde Diş Beyazlatma.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Evde Diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[17]/div[1]/div[1]",
+              "domain": "www.ercebelecoglu.com.tr",
+              "title": "Doğal Diş Beyazlatma",
+              "url": "https://www.ercebelecoglu.com.tr/dogal-dis-beyazlatma/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.ercebelecoglu.com.tr › dogal-dis-beyazlatma",
+              "website_name": "Ankara Gülüş Tasarımı",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "En çok bilinen beyazlatma yöntemi, limon ve karbonat karışımını dişlere uygulamaktır. Karbonata limonu sıkıp karıştırdıktan sonra diş fırçasına sürerek ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "limon ve karbonat karışımını dişlere uygulamaktır"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[19]/div[1]/div[1]",
+              "domain": "www.colgate.com",
+              "title": "Sarı Dişleri Beyazlatma İpuçları",
+              "url": "https://www.colgate.com/tr-tr/oral-health/teeth-whitening/top-tips-on-how-to-whiten-yellow-teeth",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.colgate.com › ... › Ağız Sağlığı",
+              "website_name": "Colgate",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "(1)(2) Başarılı bir diş beyazlatma için öncelikle dişlerinizin neden sarardığını anlamak, atılacak adımların temelini oluşturur. Siz de dişlerinizdeki sararma ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "1 günde diş BEYAZLATMA evde",
+                "Anında diş BEYAZLATMA evde",
+                "1 günde diş BEYAZLATMA evde karbonatsız",
+                "Sararmış diş nasıl beyazlatılır",
+                "Tuz ile diş BEYAZLATMA",
+                "Evde diş nasıl beyazlatılır",
+                "Kahve ile diş beyazlatma",
+                "Sigara İçenler için evde diş beyazlatm"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

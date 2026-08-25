@@ -1,0 +1,744 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "7.0494 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251616-2374-0139-0000-e6f7fbc482b3",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "6.8624 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Do dentists judge you for yellow teeth?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Do dentists judge you for yellow teeth?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=Do%20dentists%20judge%20you%20for%20yellow%20teeth%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:16:40 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "related_searches"
+          ],
+          "se_results_count": 133,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "`Dentists do not judge you for having yellow teeth` . They view tooth color as a clinical observation rather than a personal flaw. Natural teeth are often slightly yellow because the inner layer of the tooth (dentin) shows through thin or aging outer enamel.[](https://chisholmtrailsmilecenter.com/do-yellow-teeth-mean-unhealthy-teeth-the-truth-about-tooth-color/) [[1]](https://chisholmtrailsmilecenter.com/do-yellow-teeth-mean-unhealthy-teeth-the-truth-about-tooth-color/)[[2]](https://www.quora.com/Do-dentists-judge-people-with-lots-of-cavities-or-yellow-teeth)[[3]](https://www.reddit.com/r/Dentistry/comments/i1vw9b/do_dentists_judge_people_with_lots_of_cavities_or/)[[4]](https://bacchusmarshdentalhouse.com.au/do-dentists-judge-you-emotional-psychological-experiences-of-dentistry/)[[5]](https://www.facebook.com/BupadentalcareUK/posts/are-yellow-teeth-unhealthy-to-kick-off-our-nothing-but-the-tooth-series-dentist-/1529031461914449/)\n\nWhy Dentists Don't Judge Tooth Color\n\n- **Clinical focus:** Professionals look at overall health, function, and disease prevention rather than aesthetic perfection.\n- **Natural variation:** Teeth come in many natural shades and commonly yellow with age, genetics, or staining foods and drinks.\n- **High exposure:** Dentists see discolored, worn, or unbleached teeth all day, every day; it is a routine part of their work.[](https://austinlaserdentist.com/do-dentists-judge-you-for-having-bad-teeth-and-other-dental-faqs/) [[1]](https://austinlaserdentist.com/do-dentists-judge-you-for-having-bad-teeth-and-other-dental-faqs/)[[2]](https://www.reddit.com/r/Dentistry/comments/i1vw9b/do_dentists_judge_people_with_lots_of_cavities_or/)[[3]](https://www.alpinedentalnj.com/blog/do-dentists-judge-you/)[[4]](https://www.facebook.com/BupadentalcareUK/posts/are-yellow-teeth-unhealthy-to-kick-off-our-nothing-but-the-tooth-series-dentist-/1529031461914449/)[[5]](https://chisholmtrailsmilecenter.com/do-yellow-teeth-mean-unhealthy-teeth-the-truth-about-tooth-color/)[[6]](https://bacchusmarshdentalhouse.com.au/do-dentists-judge-you-emotional-psychological-experiences-of-dentistry/)\n\nIf you are thinking about changing the shade of your smile, I can share information on:\n\n- **Professional whitening** options\n- **At-home care** methods\n- **Causes** of specific types of stains\n\nLet me know how you would like to proceed.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Dentists do not judge you for having yellow teeth. They view tooth color as a clinical observation rather than a personal flaw. Natural teeth are often slightly yellow because the inner layer of the tooth (dentin) shows through thin or aging outer enamel.",
+                  "markdown": "`Dentists do not judge you for having yellow teeth` . They view tooth color as a clinical observation rather than a personal flaw. Natural teeth are often slightly yellow because the inner layer of the tooth (dentin) shows through thin or aging outer enamel.[](https://chisholmtrailsmilecenter.com/do-yellow-teeth-mean-unhealthy-teeth-the-truth-about-tooth-color/) [[1]](https://chisholmtrailsmilecenter.com/do-yellow-teeth-mean-unhealthy-teeth-the-truth-about-tooth-color/)[[2]](https://www.quora.com/Do-dentists-judge-people-with-lots-of-cavities-or-yellow-teeth)[[3]](https://www.reddit.com/r/Dentistry/comments/i1vw9b/do_dentists_judge_people_with_lots_of_cavities_or/)[[4]](https://bacchusmarshdentalhouse.com.au/do-dentists-judge-you-emotional-psychological-experiences-of-dentistry/)[[5]](https://www.facebook.com/BupadentalcareUK/posts/are-yellow-teeth-unhealthy-to-kick-off-our-nothing-but-the-tooth-series-dentist-/1529031461914449/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Chisholm Trail Smile Center",
+                      "domain": "chisholmtrailsmilecenter.com",
+                      "url": "https://chisholmtrailsmilecenter.com/do-yellow-teeth-mean-unhealthy-teeth-the-truth-about-tooth-color/",
+                      "title": "Do Yellow Teeth Mean Unhealthy Teeth? The Truth About Tooth Color",
+                      "text": "Here are a few common causes: * Food and Drinks. Frequent consumption of highly pigmented treats (like sodas, coffee, tea, and red..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Quora",
+                      "domain": "www.quora.com",
+                      "url": "https://www.quora.com/Do-dentists-judge-people-with-lots-of-cavities-or-yellow-teeth",
+                      "title": "Do dentists judge people with lots of cavities or yellow teeth?",
+                      "text": "Dentists don't usually judge people for having lots of cavities or yellow teeth. However, they may judge how people react to being..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Reddit",
+                      "domain": "www.reddit.com",
+                      "url": "https://www.reddit.com/r/Dentistry/comments/i1vw9b/do_dentists_judge_people_with_lots_of_cavities_or/",
+                      "title": "Do dentists judge people with lots of cavities or yellow teeth? - Reddit",
+                      "text": "Dentist's Judgment of Patients: While most dentists claim they do not judge patients based on the condition of their teeth, focusi..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Bacchus Marsh Dental House",
+                      "domain": "bacchusmarshdentalhouse.com.au",
+                      "url": "https://bacchusmarshdentalhouse.com.au/do-dentists-judge-you-emotional-psychological-experiences-of-dentistry/",
+                      "title": "Do Dentists Judge You? Emotional & Psychological Experiences of ...",
+                      "text": "Do Dentists Judge You? In a word, no. Dentists deal with bad teeth multiple times, every day. It might be a big deal to you, but t..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Facebook",
+                      "domain": "www.facebook.com",
+                      "url": "https://www.facebook.com/BupadentalcareUK/posts/are-yellow-teeth-unhealthy-to-kick-off-our-nothing-but-the-tooth-series-dentist-/1529031461914449/",
+                      "title": "Are yellow teeth unhealthy? 🤔 To kick off our \"Nothing but the 'tooth'\" series ...",
+                      "text": "do you think yellow teeth are unhealthy. natural teeth are rarely purely. white we have different layers to the teeth we have enam..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Why Dentists Don't Judge Tooth Color",
+                  "text": "Clinical focus: Professionals look at overall health, function, and disease prevention rather than aesthetic perfection. Natural variation: Teeth come in many natural shades and commonly yellow with age, genetics, or staining foods and drinks. High exposure: Dentists see discolored, worn, or unbleached teeth all day, every day; it is a routine part of their work.",
+                  "markdown": "- **Clinical focus:** Professionals look at overall health, function, and disease prevention rather than aesthetic perfection.\n- **Natural variation:** Teeth come in many natural shades and commonly yellow with age, genetics, or staining foods and drinks.\n- **High exposure:** Dentists see discolored, worn, or unbleached teeth all day, every day; it is a routine part of their work.[](https://austinlaserdentist.com/do-dentists-judge-you-for-having-bad-teeth-and-other-dental-faqs/) [[1]](https://austinlaserdentist.com/do-dentists-judge-you-for-having-bad-teeth-and-other-dental-faqs/)[[2]](https://www.reddit.com/r/Dentistry/comments/i1vw9b/do_dentists_judge_people_with_lots_of_cavities_or/)[[3]](https://www.alpinedentalnj.com/blog/do-dentists-judge-you/)[[4]](https://www.facebook.com/BupadentalcareUK/posts/are-yellow-teeth-unhealthy-to-kick-off-our-nothing-but-the-tooth-series-dentist-/1529031461914449/)[[5]](https://chisholmtrailsmilecenter.com/do-yellow-teeth-mean-unhealthy-teeth-the-truth-about-tooth-color/)[[6]](https://bacchusmarshdentalhouse.com.au/do-dentists-judge-you-emotional-psychological-experiences-of-dentistry/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Austin Laser Dentist",
+                      "domain": "austinlaserdentist.com",
+                      "url": "https://austinlaserdentist.com/do-dentists-judge-you-for-having-bad-teeth-and-other-dental-faqs/",
+                      "title": "“Do dentists judge you for having bad teeth?” and Other Dental FAQs",
+                      "text": "Do dentists judge you for having bad teeth? The short answer is no, dentists do not judge their patients for having bad teeth. Den..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Reddit",
+                      "domain": "www.reddit.com",
+                      "url": "https://www.reddit.com/r/Dentistry/comments/i1vw9b/do_dentists_judge_people_with_lots_of_cavities_or/",
+                      "title": "Do dentists judge people with lots of cavities or yellow teeth? - Reddit",
+                      "text": "Dentist's Judgment of Patients: While most dentists claim they do not judge patients based on the condition of their teeth, focusi..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.alpinedentalnj.com",
+                      "domain": "www.alpinedentalnj.com",
+                      "url": "https://www.alpinedentalnj.com/blog/do-dentists-judge-you/",
+                      "title": "Do Dentists Judge You? The Real Story Behind Dental Visits",
+                      "text": "Will a dentist judge your teeth? No, dentists do not judge your teeth. They are trained to treat all types of dental issues and fo..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Facebook",
+                      "domain": "www.facebook.com",
+                      "url": "https://www.facebook.com/BupadentalcareUK/posts/are-yellow-teeth-unhealthy-to-kick-off-our-nothing-but-the-tooth-series-dentist-/1529031461914449/",
+                      "title": "Are yellow teeth unhealthy? 🤔 To kick off our \"Nothing but the 'tooth'\" series ...",
+                      "text": "do you think yellow teeth are unhealthy. natural teeth are rarely purely. white we have different layers to the teeth we have enam..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Chisholm Trail Smile Center",
+                      "domain": "chisholmtrailsmilecenter.com",
+                      "url": "https://chisholmtrailsmilecenter.com/do-yellow-teeth-mean-unhealthy-teeth-the-truth-about-tooth-color/",
+                      "title": "Do Yellow Teeth Mean Unhealthy Teeth? The Truth About Tooth Color",
+                      "text": "Here are a few common causes: * Food and Drinks. Frequent consumption of highly pigmented treats (like sodas, coffee, tea, and red..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Bacchus Marsh Dental House",
+                      "domain": "bacchusmarshdentalhouse.com.au",
+                      "url": "https://bacchusmarshdentalhouse.com.au/do-dentists-judge-you-emotional-psychological-experiences-of-dentistry/",
+                      "title": "Do Dentists Judge You? Emotional & Psychological Experiences of ...",
+                      "text": "Do Dentists Judge You? In a word, no. Dentists deal with bad teeth multiple times, every day. It might be a big deal to you, but t..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you are thinking about changing the shade of your smile, I can share information on:Professional whitening options\nAt-home care methods\nCauses of specific types of stains\nLet me know how you would like to proceed.",
+                  "markdown": "If you are thinking about changing the shade of your smile, I can share information on:\n\n- **Professional whitening** options\n- **At-home care** methods\n- **Causes** of specific types of stains\n\nLet me know how you would like to proceed.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Reddit",
+                  "domain": "www.reddit.com",
+                  "url": "https://www.reddit.com/r/Dentistry/comments/i1vw9b/do_dentists_judge_people_with_lots_of_cavities_or/",
+                  "title": "Do dentists judge people with lots of cavities or yellow teeth? - Reddit",
+                  "text": "Dentist's Judgment of Patients: While most dentists claim they do not judge patients based on the condition of their teeth, focusi..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Quora",
+                  "domain": "www.quora.com",
+                  "url": "https://www.quora.com/Do-dentists-judge-people-with-lots-of-cavities-or-yellow-teeth",
+                  "title": "Do dentists judge people with lots of cavities or yellow teeth?",
+                  "text": "Dentists don't usually judge people for having lots of cavities or yellow teeth. However, they may judge how people react to being..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Austin Laser Dentist",
+                  "domain": "austinlaserdentist.com",
+                  "url": "https://austinlaserdentist.com/do-dentists-judge-you-for-having-bad-teeth-and-other-dental-faqs/",
+                  "title": "“Do dentists judge you for having bad teeth?” and Other Dental FAQs",
+                  "text": "Do dentists judge you for having bad teeth? The short answer is no, dentists do not judge their patients for having bad teeth. Den..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Chisholm Trail Smile Center",
+                  "domain": "chisholmtrailsmilecenter.com",
+                  "url": "https://chisholmtrailsmilecenter.com/do-yellow-teeth-mean-unhealthy-teeth-the-truth-about-tooth-color/",
+                  "title": "Do Yellow Teeth Mean Unhealthy Teeth? The Truth About Tooth Color",
+                  "text": "Here are a few common causes: * Food and Drinks. Frequent consumption of highly pigmented treats (like sodas, coffee, tea, and red..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Bacchus Marsh Dental House",
+                  "domain": "bacchusmarshdentalhouse.com.au",
+                  "url": "https://bacchusmarshdentalhouse.com.au/do-dentists-judge-you-emotional-psychological-experiences-of-dentistry/",
+                  "title": "Do Dentists Judge You? Emotional & Psychological Experiences of ...",
+                  "text": "Do Dentists Judge You? In a word, no. Dentists deal with bad teeth multiple times, every day. It might be a big deal to you, but t..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Facebook",
+                  "domain": "www.facebook.com",
+                  "url": "https://www.facebook.com/BupadentalcareUK/posts/are-yellow-teeth-unhealthy-to-kick-off-our-nothing-but-the-tooth-series-dentist-/1529031461914449/",
+                  "title": "Are yellow teeth unhealthy? 🤔 To kick off our \"Nothing but the 'tooth'\" series ...",
+                  "text": "do you think yellow teeth are unhealthy. natural teeth are rarely purely. white we have different layers to the teeth we have enam..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.alpinedentalnj.com",
+                  "domain": "www.alpinedentalnj.com",
+                  "url": "https://www.alpinedentalnj.com/blog/do-dentists-judge-you/",
+                  "title": "Do Dentists Judge You? The Real Story Behind Dental Visits",
+                  "text": "Will a dentist judge your teeth? No, dentists do not judge your teeth. They are trained to treat all types of dental issues and fo..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "Do dentists judge people with lots of cavities or yellow teeth?",
+              "url": "https://www.reddit.com/r/Dentistry/comments/i1vw9b/do_dentists_judge_people_with_lots_of_cavities_or/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "70+ comments  ·  6 years ago",
+              "website_name": "Reddit · r/Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Short answer: NO! Long answer: YES!, We do take note of how your General Oral/Non-Oral condition is, that helps us for prognosis and treatment ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "NO"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Do you judge your Patients by the condition of their teeth?",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/Dentistry/comments/hlz94f/dentists_do_you_judge_your_patients_by_the/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Do dentists judge people who haven't gone in years ...",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/askdentists/comments/178dial/do_dentists_judge_people_who_havent_gone_in_years/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "More results from www.reddit.com",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=Do+dentists+judge+you+for+yellow+teeth?+site:www.reddit.com&sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&sa=X&ved=2ahUKEwiwoPnrlryWAxWPdUEAHU7FKpEQrQIoAnoECCgQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Do people find yellow teeth unattractive?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is slightly yellow teeth ok?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can yellow teeth go white again?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can teeth permanently stay yellow?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "austinlaserdentist.com",
+              "title": "“Do dentists judge you for having bad teeth?” and Other ...",
+              "url": "https://austinlaserdentist.com/do-dentists-judge-you-for-having-bad-teeth-and-other-dental-faqs/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://austinlaserdentist.com › do-dentists-judge-you-for...",
+              "website_name": "Austin Laser Dentist",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Sep 6, 2023 — The short answer is no, dentists do not judge their patients for having bad teeth. Dentists are healthcare professionals who are dedicated to ... Read more",
+              "pre_snippet": "09/06/2023 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "no, dentists do not judge their patients for having bad teeth"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2023-09-06 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "www.quora.com",
+              "title": "Do dentists judge people with lots of cavities or yellow teeth?",
+              "url": "https://www.quora.com/Do-dentists-judge-people-with-lots-of-cavities-or-yellow-teeth",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "30+ answers  ·  6 years ago",
+              "website_name": "Quora",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Absolutely not. On the contrary, worse the situation of your teeth, the more challenging it is and we take more pride in restoring it to normal. Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Absolutely not"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "As a dentist, do you judge people with bad oral hygiene?",
+                  "description": null,
+                  "url": "https://www.quora.com/As-a-dentist-do-you-judge-people-with-bad-oral-hygiene",
+                  "domain": "www.quora.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Are dentists judging your teeth? - Quora",
+                  "description": null,
+                  "url": "https://www.quora.com/Are-dentists-judging-your-teeth",
+                  "domain": "www.quora.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "More results from www.quora.com",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=Do+dentists+judge+you+for+yellow+teeth?+site:www.quora.com&sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&sa=X&ved=2ahUKEwiwoPnrlryWAxWPdUEAHU7FKpEQrQIoAnoECDUQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "www.facebook.com",
+              "title": "Do dentist judge us for having bad teeth? Like gum ...",
+              "url": "https://www.facebook.com/groups/1306418723079290/posts/2896995180688295/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "80+ comments  ·  11 months ago",
+              "website_name": "Facebook · Ask a Dental Expert!",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "So to answer your question, yes they do judge people for having bad teeth even if it isn't their fault.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "yes they do judge people for having bad teeth"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "bacchusmarshdentalhouse.com.au",
+              "title": "Do Dentists Judge You? Emotional & Psychological ...",
+              "url": "https://bacchusmarshdentalhouse.com.au/do-dentists-judge-you-emotional-psychological-experiences-of-dentistry/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://bacchusmarshdentalhouse.com.au › do-dentists-j...",
+              "website_name": "Bacchus Marsh Dental House",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "In a word, no. Dentists deal with bad teeth multiple times, every day. Oral health professionals and hygienists don't judge because they're happy that you're ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "no"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.alpinedentalnj.com",
+              "title": "Do Dentists Judge You? The Real Story Behind Dental Visits",
+              "url": "https://www.alpinedentalnj.com/blog/do-dentists-judge-you/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.alpinedentalnj.com › Blog",
+              "website_name": "alpinedentalnj.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "May 28, 2025 — Dentists do not judge you for having bad teeth; they are trained to help, not criticize. Their focus is on improving your oral health, not on ... Read more",
+              "pre_snippet": "05/28/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Dentists do not judge you for having bad teeth"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-05-28 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "eyeanddentalclinic.com",
+              "title": "Do dentists judge you for having bad teeth?",
+              "url": "https://eyeanddentalclinic.com/do-dentists-judge-you-for-having-bad-teeth/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://eyeanddentalclinic.com › Latest News",
+              "website_name": "Eye & Dental Clinic",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Oct 1, 2024 — Dentists don't judge you for having bad teeth. Their job is to help, not criticise, and they understand that many factors can affect your dental ... Read more",
+              "pre_snippet": "10/01/2024 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Dentists don't judge you for having bad teeth"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2024-10-01 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "www.novifamilydentistry.com",
+              "title": "Are Yellow Teeth a Sign of Poor Oral Health?",
+              "url": "https://www.novifamilydentistry.com/blog/are-yellow-teeth-a-sign-of-poor-oral-health",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.novifamilydentistry.com › blog › are-yellow...",
+              "website_name": "Novi Family Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Yellow teeth may not be most people's ideal, but a yellow tinge doesn't necessarily mean your teeth are unhealthy. Read on to learn what could be making you.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "ideal"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "www.smilecliniq.com",
+              "title": "Do Dentists Judge You? Busting The Myth",
+              "url": "https://www.smilecliniq.com/blog/do-dentists-judge-you/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.smilecliniq.com › Dental Health",
+              "website_name": "Smile Cliniq",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Sep 19, 2023 — Uncover the truth about dental judgments. Debunking myths and clarifying misconceptions about dentist-patient relationships.",
+              "pre_snippet": "09/19/2023 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "dentist"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2023-09-19 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Do dentists judge you for having cavities",
+                "Do dentist judge you for having bad teeth",
+                "My teeth are so bad I'm embarrassed to go to the dentist",
+                "My teeth are the worst the dentist has seen",
+                "Why do dentists shame you",
+                "Do dentists judge you for bad teeth reddit",
+                "My dentist has bad teeth",
+                "Going to the dentist with bad teeth reddit"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

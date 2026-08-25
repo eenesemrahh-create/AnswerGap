@@ -1,0 +1,785 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "10.8577 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251614-2374-0139-0000-ff0edb214a5c",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "8.1106 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Do teeth turn yellow again after whitening?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Do teeth turn yellow again after whitening?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=Do%20teeth%20turn%20yellow%20again%20after%20whitening%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:15:07 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "discussions_and_forums",
+            "related_searches"
+          ],
+          "se_results_count": 125,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Yes, teeth whitening is not permanent , and your teeth will gradually lose their peak brightness over time. However, `they usually do not return completely to their original dark yellow shade unless you have heavy exposure to staining habits` . A minor color shift in the first 24 to 48 hours is normal as the enamel rehydrates, and a slow fading happens over several months.[](https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/) [[1]](https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/)[[2]](https://lanedds.com/blog/do-your-teeth-continue-to-whiten-after-treatment/)[[3]](https://www.designerforsmiles.com/uncategorized/how-long-does-teeth-whitening-last/)[[4]](https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days)[[5]](https://holburndentalclinic.co.uk/will-my-teeth-go-back-to-yellow-after-whitening/)\n\nWhy Teeth Lose Brightness\n\n- **Dehydration bounce-back:** Teeth look extra white right after treatment because they are dried out. Rehydration brings back a slightly warmer natural tone.\n- **New stains:** Food, drinks (like coffee, tea, and red wine), and smoking deposit new pigments into the pores of your enamel.\n- **Natural aging:** Enamel wears thin as you get older, letting the naturally yellow inner layer (dentin) show through more.[](https://www.dualarcdental.com/blogs/why-your-teeth-go-yellow-again-after-whitening) [[1]](https://www.dualarcdental.com/blogs/why-your-teeth-go-yellow-again-after-whitening)[[2]](https://holburndentalclinic.co.uk/will-my-teeth-go-back-to-yellow-after-whitening/)[[3]](https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days)[[4]](https://eastmeadowdentists.com/blog/do-teeth-turn-yellow-again-after-whitening/)[[5]](https://www.teethwhitening.london/blog/why-teeth-still-yellow-after-whitening)\n\nHow to Keep Them White Longer\n\n- Avoid dark foods and drinks for the first 48 hours after whitening.\n- Drink staining beverages through a straw.\n- Brush, floss, and rinse your mouth right after meals.\n- Do safe touch-up treatments every 6 to 12 months.[](https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/) [[1]](https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/)[[2]](https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days)[[3]](https://www.whitesdental.co.uk/will-my-teeth-go-back-to-yellow-after-teeth-whitening/)[[4]](https://lanedds.com/blog/do-your-teeth-continue-to-whiten-after-treatment/)[[5]](https://www.langleysdental.co.uk/blog/cosmetic-dentistry/how-to-maintain-your-teeth-after-teeth-whitening/)\n\nIf you want, tell me:\n\n- **How long ago** you did your whitening treatment\n- What kinds of **staining foods or drinks** you consume daily\n\nI can give you a better idea of how fast your results might fade.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Yes, teeth whitening is not permanent, and your teeth will gradually lose their peak brightness over time. However, they usually do not return completely to their original dark yellow shade unless you have heavy exposure to staining habits. A minor color shift in the first 24 to 48 hours is normal as the enamel rehydrates, and a slow fading happens over several months.",
+                  "markdown": "Yes, teeth whitening is not permanent , and your teeth will gradually lose their peak brightness over time. However, `they usually do not return completely to their original dark yellow shade unless you have heavy exposure to staining habits` . A minor color shift in the first 24 to 48 hours is normal as the enamel rehydrates, and a slow fading happens over several months.[](https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/) [[1]](https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/)[[2]](https://lanedds.com/blog/do-your-teeth-continue-to-whiten-after-treatment/)[[3]](https://www.designerforsmiles.com/uncategorized/how-long-does-teeth-whitening-last/)[[4]](https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days)[[5]](https://holburndentalclinic.co.uk/will-my-teeth-go-back-to-yellow-after-whitening/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Gold Coast Dental",
+                      "domain": "goldcoastdental.com",
+                      "url": "https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/",
+                      "title": "Why Are My Teeth Yellow After Whitening? - Gold Coast Dental",
+                      "text": "In a Hurry? Key Takeaways: * Teeth yellow after whitening is usually caused by temporary enamel dehydration and rehydration. * Mil..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Lane DDS",
+                      "domain": "lanedds.com",
+                      "url": "https://lanedds.com/blog/do-your-teeth-continue-to-whiten-after-treatment/",
+                      "title": "Do Your Teeth Continue to Whiten After Treatment? - Lane & Associates",
+                      "text": "Will My Teeth Turn Yellow Again After Whitening? Teeth whitening isn't permanent. Over time, your teeth can become discolored agai..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.designerforsmiles.com",
+                      "domain": "www.designerforsmiles.com",
+                      "url": "https://www.designerforsmiles.com/uncategorized/how-long-does-teeth-whitening-last/",
+                      "title": "How Long Does Teeth Whitening Last? - Designer Smiles",
+                      "text": "There is an assumption behind this question that is important to address before we actually answer the question itself. Just in ca..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.teethwhitening.london",
+                      "domain": "www.teethwhitening.london",
+                      "url": "https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days",
+                      "title": "Why Do My Teeth Look Yellow Again After Just 3 Days?",
+                      "text": "Why Do Teeth Look Yellow Again After Just 3 Days? Teeth can look yellow again after just 3 days following whitening for several re..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Holburn Dental",
+                      "domain": "holburndentalclinic.co.uk",
+                      "url": "https://holburndentalclinic.co.uk/will-my-teeth-go-back-to-yellow-after-whitening/",
+                      "title": "Will My Teeth Go Back to Yellow After Whitening? - Holburn Dental",
+                      "text": "Common Reasons Teeth Look Yellow Again * Enamel rehydration: Teeth temporarily look whiter right after treatment due to dehydratio..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Why Teeth Lose Brightness",
+                  "text": "Dehydration bounce-back: Teeth look extra white right after treatment because they are dried out. Rehydration brings back a slightly warmer natural tone. New stains: Food, drinks (like coffee, tea, and red wine), and smoking deposit new pigments into the pores of your enamel. Natural aging: Enamel wears thin as you get older, letting the naturally yellow inner layer (dentin) show through more.",
+                  "markdown": "- **Dehydration bounce-back:** Teeth look extra white right after treatment because they are dried out. Rehydration brings back a slightly warmer natural tone.\n- **New stains:** Food, drinks (like coffee, tea, and red wine), and smoking deposit new pigments into the pores of your enamel.\n- **Natural aging:** Enamel wears thin as you get older, letting the naturally yellow inner layer (dentin) show through more.[](https://www.dualarcdental.com/blogs/why-your-teeth-go-yellow-again-after-whitening) [[1]](https://www.dualarcdental.com/blogs/why-your-teeth-go-yellow-again-after-whitening)[[2]](https://holburndentalclinic.co.uk/will-my-teeth-go-back-to-yellow-after-whitening/)[[3]](https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days)[[4]](https://eastmeadowdentists.com/blog/do-teeth-turn-yellow-again-after-whitening/)[[5]](https://www.teethwhitening.london/blog/why-teeth-still-yellow-after-whitening)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Dual Arc Dental",
+                      "domain": "www.dualarcdental.com",
+                      "url": "https://www.dualarcdental.com/blogs/why-your-teeth-go-yellow-again-after-whitening",
+                      "title": "Why Teeth Turn Yellow After Whitening & How to Slow It Down",
+                      "text": "What Actually Speeds Up The Yellowing * Dark beverages, coffee, black tea, red wine, are the fastest stainers, especially right af..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Holburn Dental",
+                      "domain": "holburndentalclinic.co.uk",
+                      "url": "https://holburndentalclinic.co.uk/will-my-teeth-go-back-to-yellow-after-whitening/",
+                      "title": "Will My Teeth Go Back to Yellow After Whitening? - Holburn Dental",
+                      "text": "Common Reasons Teeth Look Yellow Again * Enamel rehydration: Teeth temporarily look whiter right after treatment due to dehydratio..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.teethwhitening.london",
+                      "domain": "www.teethwhitening.london",
+                      "url": "https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days",
+                      "title": "Why Do My Teeth Look Yellow Again After Just 3 Days?",
+                      "text": "Why Do Teeth Look Yellow Again After Just 3 Days? Teeth can look yellow again after just 3 days following whitening for several re..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "All Smiles Dental Spa",
+                      "domain": "eastmeadowdentists.com",
+                      "url": "https://eastmeadowdentists.com/blog/do-teeth-turn-yellow-again-after-whitening/",
+                      "title": "Do Teeth Turn Yellow Again After Whitening?",
+                      "text": "After teeth whitening, your teeth can turn yellow again due to several factors. Diet: Certain foods and drinks, like coffee, tea, ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.teethwhitening.london",
+                      "domain": "www.teethwhitening.london",
+                      "url": "https://www.teethwhitening.london/blog/why-teeth-still-yellow-after-whitening",
+                      "title": "Why Are My Teeth Still Yellow After Whitening? Common Reasons Explained",
+                      "text": "Teeth may appear slightly lighter or slightly different in tone immediately after whitening due to temporary dehydration of the en..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "How to Keep Them White Longer",
+                  "text": "Avoid dark foods and drinks for the first 48 hours after whitening. Drink staining beverages through a straw. Brush, floss, and rinse your mouth right after meals. Do safe touch-up treatments every 6 to 12 months.",
+                  "markdown": "- Avoid dark foods and drinks for the first 48 hours after whitening.\n- Drink staining beverages through a straw.\n- Brush, floss, and rinse your mouth right after meals.\n- Do safe touch-up treatments every 6 to 12 months.[](https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/) [[1]](https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/)[[2]](https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days)[[3]](https://www.whitesdental.co.uk/will-my-teeth-go-back-to-yellow-after-teeth-whitening/)[[4]](https://lanedds.com/blog/do-your-teeth-continue-to-whiten-after-treatment/)[[5]](https://www.langleysdental.co.uk/blog/cosmetic-dentistry/how-to-maintain-your-teeth-after-teeth-whitening/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Gold Coast Dental",
+                      "domain": "goldcoastdental.com",
+                      "url": "https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/",
+                      "title": "Why Are My Teeth Yellow After Whitening? - Gold Coast Dental",
+                      "text": "In a Hurry? Key Takeaways: * Teeth yellow after whitening is usually caused by temporary enamel dehydration and rehydration. * Mil..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.teethwhitening.london",
+                      "domain": "www.teethwhitening.london",
+                      "url": "https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days",
+                      "title": "Why Do My Teeth Look Yellow Again After Just 3 Days?",
+                      "text": "Why Do Teeth Look Yellow Again After Just 3 Days? Teeth can look yellow again after just 3 days following whitening for several re..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Whites Dental",
+                      "domain": "www.whitesdental.co.uk",
+                      "url": "https://www.whitesdental.co.uk/will-my-teeth-go-back-to-yellow-after-teeth-whitening/",
+                      "title": "Will My Teeth Go Back To Yellow After Teeth Whitening? A Complete Guide",
+                      "text": "Factors that can cause teeth to become yellow again include: * **Lifestyle** * Smoking * Poor oral hygiene * Frequent consumption ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Lane DDS",
+                      "domain": "lanedds.com",
+                      "url": "https://lanedds.com/blog/do-your-teeth-continue-to-whiten-after-treatment/",
+                      "title": "Do Your Teeth Continue to Whiten After Treatment? - Lane & Associates",
+                      "text": "Will My Teeth Turn Yellow Again After Whitening? Teeth whitening isn't permanent. Over time, your teeth can become discolored agai..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Langley's Dental Centre",
+                      "domain": "www.langleysdental.co.uk",
+                      "url": "https://www.langleysdental.co.uk/blog/cosmetic-dentistry/how-to-maintain-your-teeth-after-teeth-whitening/",
+                      "title": "How To Maintain Your Teeth After Teeth Whitening - Langley's Dental",
+                      "text": "Constantly brushing your teeth is perhaps the most effective trick you can use to keep your teeth whiter for longer periods of tim..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you want, tell me:How long ago you did your whitening treatment\nWhat kinds of staining foods or drinks you consume daily\nI can give you a better idea of how fast your results might fade.",
+                  "markdown": "If you want, tell me:\n\n- **How long ago** you did your whitening treatment\n- What kinds of **staining foods or drinks** you consume daily\n\nI can give you a better idea of how fast your results might fade.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Gold Coast Dental",
+                  "domain": "goldcoastdental.com",
+                  "url": "https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/",
+                  "title": "Why Are My Teeth Yellow After Whitening? - Gold Coast Dental",
+                  "text": "In a Hurry? Key Takeaways: * Teeth yellow after whitening is usually caused by temporary enamel dehydration and rehydration. * Mil..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Dual Arc Dental",
+                  "domain": "www.dualarcdental.com",
+                  "url": "https://www.dualarcdental.com/blogs/why-your-teeth-go-yellow-again-after-whitening",
+                  "title": "Why Teeth Turn Yellow After Whitening & How to Slow It Down",
+                  "text": "What Actually Speeds Up The Yellowing * Dark beverages, coffee, black tea, red wine, are the fastest stainers, especially right af..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Whites Dental",
+                  "domain": "www.whitesdental.co.uk",
+                  "url": "https://www.whitesdental.co.uk/will-my-teeth-go-back-to-yellow-after-teeth-whitening/",
+                  "title": "Will My Teeth Go Back To Yellow After Teeth Whitening? A Complete Guide",
+                  "text": "Factors that can cause teeth to become yellow again include: * **Lifestyle** * Smoking * Poor oral hygiene * Frequent consumption ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.teethwhitening.london",
+                  "domain": "www.teethwhitening.london",
+                  "url": "https://www.teethwhitening.london/blog/why-do-my-teeth-look-yellow-again-after-3-days",
+                  "title": "Why Do My Teeth Look Yellow Again After Just 3 Days?",
+                  "text": "Why Do Teeth Look Yellow Again After Just 3 Days? Teeth can look yellow again after just 3 days following whitening for several re..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Holburn Dental",
+                  "domain": "holburndentalclinic.co.uk",
+                  "url": "https://holburndentalclinic.co.uk/will-my-teeth-go-back-to-yellow-after-whitening/",
+                  "title": "Will My Teeth Go Back to Yellow After Whitening? - Holburn Dental",
+                  "text": "Common Reasons Teeth Look Yellow Again * Enamel rehydration: Teeth temporarily look whiter right after treatment due to dehydratio..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Lane DDS",
+                  "domain": "lanedds.com",
+                  "url": "https://lanedds.com/blog/do-your-teeth-continue-to-whiten-after-treatment/",
+                  "title": "Do Your Teeth Continue to Whiten After Treatment? - Lane & Associates",
+                  "text": "Will My Teeth Turn Yellow Again After Whitening? Teeth whitening isn't permanent. Over time, your teeth can become discolored agai..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.designerforsmiles.com",
+                  "domain": "www.designerforsmiles.com",
+                  "url": "https://www.designerforsmiles.com/uncategorized/how-long-does-teeth-whitening-last/",
+                  "title": "How Long Does Teeth Whitening Last? - Designer Smiles",
+                  "text": "There is an assumption behind this question that is important to address before we actually answer the question itself. Just in ca..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "All Smiles Dental Spa",
+                  "domain": "eastmeadowdentists.com",
+                  "url": "https://eastmeadowdentists.com/blog/do-teeth-turn-yellow-again-after-whitening/",
+                  "title": "Do Teeth Turn Yellow Again After Whitening?",
+                  "text": "After teeth whitening, your teeth can turn yellow again due to several factors. Diet: Certain foods and drinks, like coffee, tea, ..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "domain": "www.nyccd.com",
+              "title": "Why Your Teeth Look Yellow Even After Whitening",
+              "url": "https://www.nyccd.com/blog/why-your-teeth-look-yellow-even-after-whitening-and-how-to-fix-it/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nyccd.com › Blog",
+              "website_name": "New York Center for Cosmetic Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "While many patients achieve noticeable results, some may find that their teeth still appear yellow even after whitening.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "teeth",
+                "yellow",
+                "after whitening"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Why are my teeth yellow again after teeth whitening?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is there a downside to teeth whitening?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Will yellow teeth ever go back to white?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Why don't my teeth stay white after whitening?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "goldcoastdental.com",
+              "title": "Why Are My Teeth Yellow After Whitening?",
+              "url": "https://goldcoastdental.com/blog/teeth-yellow-after-whitening-causes/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://goldcoastdental.com › Cosmetic Dentistry",
+              "website_name": "Gold Coast Dental",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Feb 18, 2026 — Teeth yellow after whitening is usually caused by temporary enamel dehydration and rehydration. Mild shade relapse within 1–2 weeks is normal.",
+              "pre_snippet": "02/18/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "is usually caused by temporary enamel dehydration and rehydration"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-02-18 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "Teeth go back to yellow very fast after whitening",
+              "url": "https://www.reddit.com/r/askdentists/comments/17gatpv/teeth_go_back_to_yellow_very_fast_after_whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "4 comments  ·  2 years ago",
+              "website_name": "Reddit · r/askdentists",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "When you get a whitening done, your teeth become dry which make them look more white. it's not that they became yellow again, they still where ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "it's not that they became yellow again"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "I had my teeth whitened and they already seem to be ...",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/DentalHygiene/comments/1pe7ji9/i_had_my_teeth_whitened_and_they_already_seem_to/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Eli5 why do teeth yellow after whitening - Reddit",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/explainlikeimfive/comments/13ko56q/eli5_why_do_teeth_yellow_after_whitening/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "More results from www.reddit.com",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=Do+teeth+turn+yellow+again+after+whitening?+site:www.reddit.com&sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&sa=X&ved=2ahUKEwionq-_lryWAxW3TaQEHZKGKMQQrQIoAnoECEEQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "discussions_and_forums",
+              "rank_group": 1,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]",
+              "title": "Discussions and forums",
+              "items": [
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "I had my teeth whitened and they already seem to be yellowing",
+                  "url": "https://www.reddit.com/r/DentalHygiene/comments/1pe7ji9/i_had_my_teeth_whitened_and_they_already_seem_to/",
+                  "domain": "www.reddit.com",
+                  "source": "Reddit",
+                  "description": null,
+                  "timestamp": "2025-12-25 16:15:06 +00:00",
+                  "posts_count": 10
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "After whitening, will teeth turn yellow more easily?",
+                  "url": "https://www.quora.com/After-whitening-will-teeth-turn-yellow-more-easily",
+                  "domain": "www.quora.com",
+                  "source": "Quora",
+                  "description": null,
+                  "timestamp": "2017-08-25 16:15:06 +00:00",
+                  "posts_count": 30
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "I got my teeth whitened by laser which took a 3 day process. Now they are ...",
+                  "url": "https://www.realself.com/question/london-gb-i-teeth-whitened-laser-3-day-process-back-colour-yellow",
+                  "domain": "www.realself.com",
+                  "source": "Realself",
+                  "description": null,
+                  "timestamp": "2016-08-25 16:15:06 +00:00",
+                  "posts_count": 10
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.drbobsdentalcare.com",
+              "title": "Can Yellow Teeth Become White Again?",
+              "url": "https://www.drbobsdentalcare.com/can-yellow-teeth-become-white-again/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.drbobsdentalcare.com › can-yellow-teeth-be...",
+              "website_name": "Dr. Bob's Dental Care",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Yes—yellowish teeth can absolutely be whitened in most cases. Teeth Whitening effects can last months to years. Avoid staining foods temporarily and follow ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Yes—yellowish teeth can absolutely be whitened in most cases"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.portlandcitydental.com",
+              "title": "Can Yellow Teeth Become White Again? - City Dental - Portland",
+              "url": "https://www.portlandcitydental.com/can-yellow-teeth-become-white-again/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.portlandcitydental.com › can-yellow-teeth-...",
+              "website_name": "portlandcitydental.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "In many cases, yes. The success of whitening depends on the type of discoloration. Surface stains caused by food and drinks are easier to remove. Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "In many cases, yes"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "eastmeadowdentists.com",
+              "title": "Do Teeth Turn Yellow Again After Whitening?",
+              "url": "https://eastmeadowdentists.com/blog/do-teeth-turn-yellow-again-after-whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://eastmeadowdentists.com › Blog",
+              "website_name": "All Smiles Dental Spa",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "After teeth whitening, your teeth can turn yellow again due to several factors. Diet: Certain foods and drinks, like coffee, tea, red wine, This process can  ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "your teeth can turn yellow again"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "lanedds.com",
+              "title": "Do Your Teeth Continue to Whiten After Treatment?",
+              "url": "https://lanedds.com/blog/do-your-teeth-continue-to-whiten-after-treatment/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://lanedds.com › blog › do-your-teeth-continue-to-...",
+              "website_name": "Lane DDS",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "After a whitening treatment, your teeth may continue to lighten a bit over the next couple of days. This is due to the ongoing action of the whitening agents ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "your teeth may continue to lighten a bit over the next couple of days"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "www.keep28.com",
+              "title": "Why Do Your Teeth Look More Yellow After Whitening ...",
+              "url": "https://www.keep28.com/why-do-your-teeth-look-more-yellow-after-the-whitening-strips/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.keep28.com › why-do-your-teeth-look-mo...",
+              "website_name": "Keep 28 Dental",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Teeth can become temporarily dehydrated after using whitening strips. Your teeth may appear more yellow as a result of this dehydration because the enamel may ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Your teeth may appear more yellow"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Why do my teeth look more yellow after whitening strips",
+                "Teeth more yellow after whitening reddit",
+                "How to rehydrate teeth after whitening",
+                "Why are my teeth yellow when I brush them everyday",
+                "Teeth look worse after whitening",
+                "If your teeth are yellow can they become white by brushing",
+                "Teeth not white after whitening",
+                "Teeth whitening"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

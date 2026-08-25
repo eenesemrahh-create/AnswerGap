@@ -1,0 +1,683 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "4.0093 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251613-2374-0139-0000-04731fcb8cad",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "3.8997 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Is there a downside to teeth whitening?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Is there a downside to teeth whitening?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=Is%20there%20a%20downside%20to%20teeth%20whitening%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:13:47 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "discussions_and_forums",
+            "video",
+            "related_searches"
+          ],
+          "se_results_count": 131,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "The main disadvantages of teeth whitening include `increased tooth sensitivity, gum irritation, and potential enamel damage from overuse`.[](https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons) [[1]](https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons)\n\nCommon Disadvantages and Risks\n\n- **Tooth Sensitivity:** Bleaching agents can pass through the outer enamel layer and irritate the inner dentin. This causes temporary discomfort or sharp pain when eating hot, cold, or sweet foods and drinks.[](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/) [[1]](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/)\n- **Gum Irritation:** Whitening gels or strips can burn or irritate the soft tissues of your gums if they leak or touch them improperly.[](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/) [[1]](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/)[[2]](https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/)\n- **Enamel Damage:** Frequent or aggressive use of whitening products can erode and weaken tooth enamel, making teeth more likely to get cavities and feel weak.[](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/) [[1]](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/)[[2]](https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/)\n- **Uneven Results:** Whitening agents only work on natural teeth. They do not change the color of dental crowns, veneers, bridges, or fillings, which can leave your smile looking uneven.[](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/) [[1]](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/)\n- **Short-Term Effects:** The bright results fade over time, especially if you smoke or drink coffee, tea, or red wine. This requires repeat treatments to maintain.[[1]](https://www.keydentalgrp.com/blog/are-there-disadvantages-to-getting-professional-teeth-whitening-procedures/)\n- **Cost:** Professional in-office treatments or custom trays from a dentist can be expensive.[](https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons) [[1]](https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons)[[2]](https://www.keydentalgrp.com/blog/are-there-disadvantages-to-getting-professional-teeth-whitening-procedures/)\n\nYou can read more detailed insights on safety from the [Cleveland Clinic](https://health.clevelandclinic.org/is-teeth-whitening-safe).[[1]](https://health.clevelandclinic.org/is-teeth-whitening-safe)If you're planning to whiten your teeth, tell me:\n\n- Are you considering **at-home products** or **professional treatment**?\n- Do you currently have **sensitive teeth** or **dental work** (like crowns or fillings)?\n\nI can help you figure out the safest option for your smile.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "The main disadvantages of teeth whitening include increased tooth sensitivity, gum irritation, and potential enamel damage from overuse.",
+                  "markdown": "The main disadvantages of teeth whitening include `increased tooth sensitivity, gum irritation, and potential enamel damage from overuse`.[](https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons) [[1]](https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Gentle Dental",
+                      "domain": "gentledental.interdent.com",
+                      "url": "https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons",
+                      "title": "Pros & Cons of Teeth Whitening Methods | Gentle Dental Tips 🦷",
+                      "text": "Teeth whitening treatments can have pros and cons. Some pros include: * **Reduced appearance of stains** * **Whiter, brighter smil..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Common Disadvantages and Risks",
+                  "text": "Tooth Sensitivity: Bleaching agents can pass through the outer enamel layer and irritate the inner dentin. This causes temporary discomfort or sharp pain when eating hot, cold, or sweet foods and drinks. Gum Irritation: Whitening gels or strips can burn or irritate the soft tissues of your gums if they leak or touch them improperly. Enamel Damage: Frequent or aggressive use of whitening products can erode and weaken tooth enamel, making teeth more likely to get cavities and feel weak. Uneven Results: Whitening agents only work on natural teeth. They do not change the color of dental crowns, veneers, bridges, or fillings, which can leave your smile looking uneven. Short-Term Effects: The bright results fade over time, especially if you smoke or drink coffee, tea, or red wine. This requires repeat treatments to maintain. Cost: Professional in-office treatments or custom trays from a dentist can be expensive.",
+                  "markdown": "- **Tooth Sensitivity:** Bleaching agents can pass through the outer enamel layer and irritate the inner dentin. This causes temporary discomfort or sharp pain when eating hot, cold, or sweet foods and drinks.[](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/) [[1]](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/)\n- **Gum Irritation:** Whitening gels or strips can burn or irritate the soft tissues of your gums if they leak or touch them improperly.[](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/) [[1]](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/)[[2]](https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/)\n- **Enamel Damage:** Frequent or aggressive use of whitening products can erode and weaken tooth enamel, making teeth more likely to get cavities and feel weak.[](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/) [[1]](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/)[[2]](https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/)\n- **Uneven Results:** Whitening agents only work on natural teeth. They do not change the color of dental crowns, veneers, bridges, or fillings, which can leave your smile looking uneven.[](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/) [[1]](https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/)\n- **Short-Term Effects:** The bright results fade over time, especially if you smoke or drink coffee, tea, or red wine. This requires repeat treatments to maintain.[[1]](https://www.keydentalgrp.com/blog/are-there-disadvantages-to-getting-professional-teeth-whitening-procedures/)\n- **Cost:** Professional in-office treatments or custom trays from a dentist can be expensive.[](https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons) [[1]](https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons)[[2]](https://www.keydentalgrp.com/blog/are-there-disadvantages-to-getting-professional-teeth-whitening-procedures/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Alexandria Smile Center",
+                      "domain": "thealexandriadentist.com",
+                      "url": "https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/",
+                      "title": "The Pros & Cons of Teeth Whitening - Alexandria Smile Center",
+                      "text": "The Cons of Teeth Whitening * Tooth Sensitivity. One of the most common side effects of teeth whitening is increased tooth sensiti..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Dentist in Van, TX",
+                      "domain": "www.cornerstonedentistryvan.com",
+                      "url": "https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/",
+                      "title": "The Hidden Dangers of Teeth Whitening Treatments",
+                      "text": "Teeth whitening treatments can have potential risks, including: * **Tooth sensitivity** Whitening products contain ingredients lik..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Key Dental Group",
+                      "domain": "www.keydentalgrp.com",
+                      "url": "https://www.keydentalgrp.com/blog/are-there-disadvantages-to-getting-professional-teeth-whitening-procedures/",
+                      "title": "Are There Disadvantages To Getting Professional Teeth Whitening ...",
+                      "text": "Tooth Sensitivity One of the primary disadvantages of teeth whitening procedures is tooth and gum sensitivity. The whitening solut..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Gentle Dental",
+                      "domain": "gentledental.interdent.com",
+                      "url": "https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons",
+                      "title": "Pros & Cons of Teeth Whitening Methods | Gentle Dental Tips 🦷",
+                      "text": "Teeth whitening treatments can have pros and cons. Some pros include: * **Reduced appearance of stains** * **Whiter, brighter smil..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "You can read more detailed insights on safety from the Cleveland Clinic.",
+                  "markdown": "You can read more detailed insights on safety from the [Cleveland Clinic](https://health.clevelandclinic.org/is-teeth-whitening-safe).[[1]](https://health.clevelandclinic.org/is-teeth-whitening-safe)",
+                  "links": [
+                    {
+                      "type": "link_element",
+                      "title": "Cleveland Clinic",
+                      "description": null,
+                      "url": "https://health.clevelandclinic.org/is-teeth-whitening-safe",
+                      "domain": "health.clevelandclinic.org"
+                    }
+                  ],
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Cleveland Clinic Health Essentials",
+                      "domain": "health.clevelandclinic.org",
+                      "url": "https://health.clevelandclinic.org/is-teeth-whitening-safe",
+                      "title": "Is Teeth Whitening Safe (and Does It Work)?",
+                      "text": "Whitening strips and gels typically lighten teeth within two weeks. Whitening toothpastes and rinses work more slowly. Professiona..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you're planning to whiten your teeth, tell me:Are you considering at-home products or professional treatment ?\nDo you currently have sensitive teeth or dental work (like crowns or fillings)?\nI can help you figure out the safest option for your smile.",
+                  "markdown": "If you're planning to whiten your teeth, tell me:\n\n- Are you considering **at-home products** or **professional treatment**?\n- Do you currently have **sensitive teeth** or **dental work** (like crowns or fillings)?\n\nI can help you figure out the safest option for your smile.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Alexandria Smile Center",
+                  "domain": "thealexandriadentist.com",
+                  "url": "https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/",
+                  "title": "The Pros & Cons of Teeth Whitening - Alexandria Smile Center",
+                  "text": "The Cons of Teeth Whitening * Tooth Sensitivity. One of the most common side effects of teeth whitening is increased tooth sensiti..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Gentle Dental",
+                  "domain": "gentledental.interdent.com",
+                  "url": "https://gentledental.interdent.com/resources/teeth-whitening-methods-pros-cons",
+                  "title": "Pros & Cons of Teeth Whitening Methods | Gentle Dental Tips 🦷",
+                  "text": "Teeth whitening treatments can have pros and cons. Some pros include: * **Reduced appearance of stains** * **Whiter, brighter smil..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Dentist in Van, TX",
+                  "domain": "www.cornerstonedentistryvan.com",
+                  "url": "https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/",
+                  "title": "The Hidden Dangers of Teeth Whitening Treatments",
+                  "text": "Teeth whitening treatments can have potential risks, including: * **Tooth sensitivity** Whitening products contain ingredients lik..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Cleveland Clinic Health Essentials",
+                  "domain": "health.clevelandclinic.org",
+                  "url": "https://health.clevelandclinic.org/is-teeth-whitening-safe",
+                  "title": "Is Teeth Whitening Safe (and Does It Work)?",
+                  "text": "Whitening strips and gels typically lighten teeth within two weeks. Whitening toothpastes and rinses work more slowly. Professiona..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Key Dental Group",
+                  "domain": "www.keydentalgrp.com",
+                  "url": "https://www.keydentalgrp.com/blog/are-there-disadvantages-to-getting-professional-teeth-whitening-procedures/",
+                  "title": "Are There Disadvantages To Getting Professional Teeth Whitening ...",
+                  "text": "Tooth Sensitivity One of the primary disadvantages of teeth whitening procedures is tooth and gum sensitivity. The whitening solut..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Do teeth turn yellow again after whitening?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Do dentists recommend teeth whitening?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the healthiest way to whiten teeth?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is it worth getting your teeth whitened?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]",
+              "domain": "www.unitedconcordia.com",
+              "title": "The Pros and Cons of Teeth Whitening: Is It a Good Idea?",
+              "url": "https://www.unitedconcordia.com/business-services/employers/blog/pros-cons-teeth-whitening-good-idea",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.unitedconcordia.com › employers › blog",
+              "website_name": "United Concordia Dental",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Whitening your teeth too often increases the risk of negative side effects, such as tooth sensitivity and damage to tooth enamel and gums.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Whitening",
+                "teeth",
+                "the"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]/div[1]",
+              "domain": "pmc.ncbi.nlm.nih.gov",
+              "title": "Tooth Whitening: What We Now Know - PMC",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://pmc.ncbi.nlm.nih.gov › articles › PMC4058574",
+              "website_name": "PubMed Central (PMC) (.gov)",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "by CM Carey · 2014 · Cited by 874 — Risks commonly reported with tooth whitening include increased tooth sensitivity and mild gingival irritation. The degree of these side effects is directly ... Read more",
+              "pre_snippet": "by CM Carey · 2014 · Cited by 874",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "increased tooth sensitivity and mild gingival irritation"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "discussions_and_forums",
+              "rank_group": 1,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]",
+              "title": "Discussions and forums",
+              "items": [
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "Teeth whitening is always harmful to your teeth and will cause damage.",
+                  "url": "https://www.reddit.com/r/IsItBullshit/comments/15s3e6g/isitbullshit_teeth_whitening_is_always_harmful_to/",
+                  "domain": "www.reddit.com",
+                  "source": "Reddit",
+                  "description": null,
+                  "timestamp": "2023-08-25 16:13:47 +00:00",
+                  "posts_count": 40
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "Do whitening products actually hurt your teeth? If so, is there a right way to ...",
+                  "url": "https://www.reddit.com/r/NoStupidQuestions/comments/3aloth/do_whitening_products_actually_hurt_your_teeth_if/",
+                  "domain": "www.reddit.com",
+                  "source": "Reddit",
+                  "description": null,
+                  "timestamp": "2015-08-25 16:13:47 +00:00",
+                  "posts_count": 100
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "Does whitening teeth have any side effects?",
+                  "url": "https://www.quora.com/Does-whitening-teeth-have-any-side-effects",
+                  "domain": "www.quora.com",
+                  "source": "Quora",
+                  "description": null,
+                  "timestamp": "2018-08-25 16:13:47 +00:00",
+                  "posts_count": 30
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]",
+              "domain": "thealexandriadentist.com",
+              "title": "The Pros & Cons of Teeth Whitening",
+              "url": "https://thealexandriadentist.com/blog/teeth-whitening-pros-cons/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://thealexandriadentist.com › Cosmetic Dentistry",
+              "website_name": "Alexandria Smile Center",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "The Cons of Teeth Whitening · 1. Tooth Sensitivity · 2. Gum Irritation · 3. Enamel Damage · 4. Uneven Results. Teeth whitening treatments may not produce ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1. Tooth Sensitivity"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[12]/div[1]/div[1]",
+              "domain": "health.clevelandclinic.org",
+              "title": "Is Teeth Whitening Safe (and Does It Work)?",
+              "url": "https://health.clevelandclinic.org/is-teeth-whitening-safe",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://health.clevelandclinic.org › is-teeth-whitening-safe",
+              "website_name": "Cleveland Clinic Health Essentials",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Jul 15, 2024 — “It's very common to experience temporary sensitivity in your teeth or irritation to the gums after you start using a whitening product,” ... Read more",
+              "pre_snippet": "07/15/2024 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "It's",
+                "teeth",
+                "the",
+                "whitening"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2024-07-15 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]",
+              "domain": "adanews.ada.org",
+              "title": "Risks of frequent teeth whitening | American Dental Association",
+              "url": "https://adanews.ada.org/huddles/risks-of-frequent-teeth-whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://adanews.ada.org › huddles › risks-of-frequent-te...",
+              "website_name": "American Dental Association",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Overuse has been shown to damage the enamel and gums, cause tooth sensitivity and lead to translucent teeth, possibly revealing the inner layer of the tooth — ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Overuse has been shown to damage the enamel and gums"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[16]/div[1]/div[1]",
+              "domain": "www.keydentalgrp.com",
+              "title": "Are There Disadvantages To Getting Professional Teeth ...",
+              "url": "https://www.keydentalgrp.com/blog/are-there-disadvantages-to-getting-professional-teeth-whitening-procedures/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.keydentalgrp.com › blog › are-there-disad...",
+              "website_name": "Key Dental Group",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "The results of teeth whitening procedures can be uneven, resulting in spots on the tooth that are lighter or darker than others.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "The results of teeth whitening procedures can be uneven"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[18]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Teeth Talk Girl",
+                  "title": "Teeth Whitening SIDE EFFECTS",
+                  "timestamp": "2023-05-02 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=Wb-SEujgqeU"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Katranji & Nemeth DDS",
+                  "title": "The Risks of Teeth Whitening",
+                  "timestamp": "2018-10-17 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=PGzJyKx3uls"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Teeth Talk Girl",
+                  "title": "The Truth About Whitening Your Teeth",
+                  "timestamp": "2026-08-04 16:13:47 +00:00",
+                  "url": "https://www.youtube.com/watch?v=759va29TiZU"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[20]/div[1]/div[1]",
+              "domain": "www.cornerstonedentistryvan.com",
+              "title": "The Hidden Dangers of Teeth Whitening Treatments",
+              "url": "https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.cornerstonedentistryvan.com › the-hidden-...",
+              "website_name": "Dentist in Van, TX",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "One of the most common side effects of teeth whitening is increased tooth sensitivity. can also strip away essential minerals, weakening the enamel and making  ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "increased tooth sensitivity"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "By Cornerstone Dentistry |...",
+                  "description": null,
+                  "url": "https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/",
+                  "domain": "www.cornerstonedentistryvan.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "1. Tooth Sensitivity And...",
+                  "description": null,
+                  "url": "https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/",
+                  "domain": "www.cornerstonedentistryvan.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "3. Uneven Whitening And...",
+                  "description": null,
+                  "url": "https://www.cornerstonedentistryvan.com/the-hidden-dangers-of-teeth-whitening-treatments/",
+                  "domain": "www.cornerstonedentistryvan.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Is teeth whitening permanent",
+                "Long-term side effects of teeth whitening",
+                "Is teeth whitening painful",
+                "Is teeth whitening safe at dentist",
+                "Is teeth whitening strips safe",
+                "Is teeth whitening good for your teeth",
+                "Is teeth whitening healthy",
+                "Is teeth whitening strips permanent"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

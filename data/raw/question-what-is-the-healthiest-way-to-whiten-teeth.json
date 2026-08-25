@@ -1,0 +1,670 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "1.6478 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251616-2374-0139-0000-23be7215f6a7",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "1.5247 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "What is the healthiest way to whiten teeth?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "What is the healthiest way to whiten teeth?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=What%20is%20the%20healthiest%20way%20to%20whiten%20teeth%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:16:44 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "video",
+            "related_searches"
+          ],
+          "se_results_count": 129,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "The healthiest way to whiten your teeth is `professional, dentist-supervised treatment or using gentle, enamel-safe, low-peroxide or peroxide-free products`.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)[[2]](https://aestheticdentistrytx.com/which-teeth-whitening-method-is-healthiest/)\n\nSafest & Healthiest Methods\n\n- **In-Office or Custom Dentist-Supervised Trays:** Considered the gold standard by experts. Your dentist protects your gums and controls the peroxide level to prevent enamel damage and severe sensitivity.[](https://aestheticdentistrytx.com/which-teeth-whitening-method-is-healthiest/) [[1]](https://aestheticdentistrytx.com/which-teeth-whitening-method-is-healthiest/)\n- **Peroxide-Free Strips:** Products like Lumineux Teeth Whitening Strips use natural plant oils and Dead Sea salts to lift stains without causing the enamel erosion or sensitivity linked to harsh peroxides.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)[[2]](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/)\n- **Low-Peroxide At-Home Kits:** Products like Opalescence Go use lower, dentist-approved peroxide levels combined with ingredients like potassium nitrate and xylitol to protect teeth and calm nerves.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)\n- **Gentle Whitening Toothpaste:** Choose low-abrasion options containing silica or baking soda with fluoride to gradually remove surface stains without scrubbing away your enamel.[](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe) [[1]](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe)[[2]](https://www.gentledental.com/resources/articles/teeth-whitening-products)\n\nMethods to Avoid\n\n- **Activated Charcoal / DIY Pastes:** Highly abrasive home remedies act like sandpaper on your teeth, wearing down protective enamel and causing permanent sensitivity.[](https://www.youtube.com/watch?v=XDJ-stHtksU) [[1]](https://www.youtube.com/watch?v=XDJ-stHtksU)\n\nIf you'd like, tell me:\n\n- Do you have **tooth sensitivity** or gum issues?\n- Are you looking for an **at-home product** or a **professional dentist visit**?\n\nI can recommend a specific product or approach for your smile.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "The healthiest way to whiten your teeth is professional, dentist-supervised treatment or using gentle, enamel-safe, low-peroxide or peroxide-free products.",
+                  "markdown": "The healthiest way to whiten your teeth is `professional, dentist-supervised treatment or using gentle, enamel-safe, low-peroxide or peroxide-free products`.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)[[2]](https://aestheticdentistrytx.com/which-teeth-whitening-method-is-healthiest/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Forbes",
+                      "domain": "www.forbes.com",
+                      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/",
+                      "title": "Best Teeth Whitening Kits 2026: 9 Dentist-Approved Picks - Forbes",
+                      "text": "WHAT WE UPDATED. ... If you're looking to brighten your smile, getting an at-home teeth whitening kit is convenient, effective and..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Aesthetic Dentistry & Implants of Weatherford",
+                      "domain": "aestheticdentistrytx.com",
+                      "url": "https://aestheticdentistrytx.com/which-teeth-whitening-method-is-healthiest/",
+                      "title": "Find Out The Healthiest Teeth Whitening Method",
+                      "text": "What is the safest way to whiten your teeth? The healthiest way to whiten your teeth is professional whitening supervised by a den..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Safest & Healthiest Methods",
+                  "text": "In-Office or Custom Dentist-Supervised Trays: Considered the gold standard by experts. Your dentist protects your gums and controls the peroxide level to prevent enamel damage and severe sensitivity. Peroxide-Free Strips: Products like Lumineux Teeth Whitening Strips use natural plant oils and Dead Sea salts to lift stains without causing the enamel erosion or sensitivity linked to harsh peroxides. Low-Peroxide At-Home Kits: Products like Opalescence Go use lower, dentist-approved peroxide levels combined with ingredients like potassium nitrate and xylitol to protect teeth and calm nerves. Gentle Whitening Toothpaste: Choose low-abrasion options containing silica or baking soda with fluoride to gradually remove surface stains without scrubbing away your enamel.",
+                  "markdown": "- **In-Office or Custom Dentist-Supervised Trays:** Considered the gold standard by experts. Your dentist protects your gums and controls the peroxide level to prevent enamel damage and severe sensitivity.[](https://aestheticdentistrytx.com/which-teeth-whitening-method-is-healthiest/) [[1]](https://aestheticdentistrytx.com/which-teeth-whitening-method-is-healthiest/)\n- **Peroxide-Free Strips:** Products like Lumineux Teeth Whitening Strips use natural plant oils and Dead Sea salts to lift stains without causing the enamel erosion or sensitivity linked to harsh peroxides.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)[[2]](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/)\n- **Low-Peroxide At-Home Kits:** Products like Opalescence Go use lower, dentist-approved peroxide levels combined with ingredients like potassium nitrate and xylitol to protect teeth and calm nerves.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)\n- **Gentle Whitening Toothpaste:** Choose low-abrasion options containing silica or baking soda with fluoride to gradually remove surface stains without scrubbing away your enamel.[](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe) [[1]](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe)[[2]](https://www.gentledental.com/resources/articles/teeth-whitening-products)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Aesthetic Dentistry & Implants of Weatherford",
+                      "domain": "aestheticdentistrytx.com",
+                      "url": "https://aestheticdentistrytx.com/which-teeth-whitening-method-is-healthiest/",
+                      "title": "Find Out The Healthiest Teeth Whitening Method",
+                      "text": "What is the safest way to whiten your teeth? The healthiest way to whiten your teeth is professional whitening supervised by a den..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Forbes",
+                      "domain": "www.forbes.com",
+                      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/",
+                      "title": "Best Teeth Whitening Kits 2026: 9 Dentist-Approved Picks - Forbes",
+                      "text": "WHAT WE UPDATED. ... If you're looking to brighten your smile, getting an at-home teeth whitening kit is convenient, effective and..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "PubMed Central (PMC) (.gov)",
+                      "domain": "pmc.ncbi.nlm.nih.gov",
+                      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/",
+                      "title": "Tooth Whitening: What We Now Know - PMC",
+                      "text": "Risks associated with tooth whitening include: * Increased tooth sensitivity * Mild gingival irritation * Tooth erosion * Tooth mi..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "GoodRx",
+                      "domain": "www.goodrx.com",
+                      "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe",
+                      "title": "4 Dentist-Approved Ways to Safely Whiten Your Teeth - GoodRx",
+                      "text": "Best whitening toothpaste When picking a whitening toothpaste, it's important to focus on ingredients that will help you achieve a..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Gentle Dental of New England",
+                      "domain": "www.gentledental.com",
+                      "url": "https://www.gentledental.com/resources/articles/teeth-whitening-products",
+                      "title": "How To Choose Teeth Whitening Products [Expert Tips] - Gentle Dental",
+                      "text": "Sensodyne Extra Whitening Toothpaste ($7): This brand formulates toothpaste specifically for individuals with sensitive teeth and ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Methods to Avoid",
+                  "text": "Activated Charcoal / DIY Pastes: Highly abrasive home remedies act like sandpaper on your teeth, wearing down protective enamel and causing permanent sensitivity.",
+                  "markdown": "- **Activated Charcoal / DIY Pastes:** Highly abrasive home remedies act like sandpaper on your teeth, wearing down protective enamel and causing permanent sensitivity.[](https://www.youtube.com/watch?v=XDJ-stHtksU) [[1]](https://www.youtube.com/watch?v=XDJ-stHtksU)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "YouTube",
+                      "domain": "www.youtube.com",
+                      "url": "https://www.youtube.com/watch?v=XDJ-stHtksU",
+                      "title": "Is This Tooth Trend Safe? | Tooth Whitening Hacks",
+                      "text": "it has become popular to brush your teeth with activated charcoal in order to whiten teeth and remove stains activated charcoal is..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you'd like, tell me:Do you have tooth sensitivity or gum issues?\nAre you looking for an at-home product or a professional dentist visit ?\nI can recommend a specific product or approach for your smile.",
+                  "markdown": "If you'd like, tell me:\n\n- Do you have **tooth sensitivity** or gum issues?\n- Are you looking for an **at-home product** or a **professional dentist visit**?\n\nI can recommend a specific product or approach for your smile.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Forbes",
+                  "domain": "www.forbes.com",
+                  "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/",
+                  "title": "Best Teeth Whitening Kits 2026: 9 Dentist-Approved Picks - Forbes",
+                  "text": "WHAT WE UPDATED. ... If you're looking to brighten your smile, getting an at-home teeth whitening kit is convenient, effective and..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "GoodRx",
+                  "domain": "www.goodrx.com",
+                  "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe",
+                  "title": "4 Dentist-Approved Ways to Safely Whiten Your Teeth - GoodRx",
+                  "text": "Best whitening toothpaste When picking a whitening toothpaste, it's important to focus on ingredients that will help you achieve a..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "PubMed Central (PMC) (.gov)",
+                  "domain": "pmc.ncbi.nlm.nih.gov",
+                  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/",
+                  "title": "Tooth Whitening: What We Now Know - PMC",
+                  "text": "Risks associated with tooth whitening include: * Increased tooth sensitivity * Mild gingival irritation * Tooth erosion * Tooth mi..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Aesthetic Dentistry & Implants of Weatherford",
+                  "domain": "aestheticdentistrytx.com",
+                  "url": "https://aestheticdentistrytx.com/which-teeth-whitening-method-is-healthiest/",
+                  "title": "Find Out The Healthiest Teeth Whitening Method",
+                  "text": "What is the safest way to whiten your teeth? The healthiest way to whiten your teeth is professional whitening supervised by a den..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Gentle Dental of New England",
+                  "domain": "www.gentledental.com",
+                  "url": "https://www.gentledental.com/resources/articles/teeth-whitening-products",
+                  "title": "How To Choose Teeth Whitening Products [Expert Tips] - Gentle Dental",
+                  "text": "Sensodyne Extra Whitening Toothpaste ($7): This brand formulates toothpaste specifically for individuals with sensitive teeth and ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "YouTube",
+                  "domain": "www.youtube.com",
+                  "url": "https://www.youtube.com/watch?v=XDJ-stHtksU",
+                  "title": "Is This Tooth Trend Safe? | Tooth Whitening Hacks",
+                  "text": "it has become popular to brush your teeth with activated charcoal in order to whiten teeth and remove stains activated charcoal is..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can yellow teeth become white again naturally?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the most natural way to whiten my teeth?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "How do Indians keep their teeth so white?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is there any teeth whitening that doesn't damage your teeth?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]",
+              "domain": "newsnetwork.mayoclinic.org",
+              "title": "Many safe choices available to help whiten teeth",
+              "url": "https://newsnetwork.mayoclinic.org/discussion/mayo-clinic-q-and-a-many-safe-choices-available-to-help-whiten-teeth/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://newsnetwork.mayoclinic.org › discussion › may...",
+              "website_name": "Mayo Clinic News Network",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Jul 28, 2015 — One of the simplest options is whitening toothpaste. It whitens teeth by removing surface stains, such as those caused by drinking coffee or ... Read more",
+              "pre_snippet": "07/28/2015 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "whitening toothpaste"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2015-07-28 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.northeastdentalarts.com",
+              "title": "Safest Ways to Whiten Your Teeth Without Damage",
+              "url": "https://www.northeastdentalarts.com/blog/what-is-the-least-damaging-way-to-whiten-your-teeth/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.northeastdentalarts.com › blog › what-is-the...",
+              "website_name": "North East Dental Arts",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "One of the safest ways to whiten your teeth at home, while also keeping your teeth free of plaque and buildup, is to brush and floss regularly. results and no ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "brush and floss regularly"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "news.llu.edu",
+              "title": "7 dentist-approved tips to safely whiten your teeth - News",
+              "url": "https://news.llu.edu/patient-care/7-dentist-approved-tips-safely-whiten-your-teeth",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://news.llu.edu › Patient Care",
+              "website_name": "Loma Linda University",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Jun 27, 2018 — Some of those options avoid chemicals; however, current studies show that natural ingredients — such as strawberries, coconut oil and charcoal — ... Read more",
+              "pre_snippet": "06/27/2018 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "strawberries, coconut oil and charcoal"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2018-06-27 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "mypenndentist.org",
+              "title": "How to Whiten Teeth Naturally and Safely",
+              "url": "https://mypenndentist.org/dental-tips/2024/02/29/safe-ways-to-whiten-teeth-naturally/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://mypenndentist.org › dental-tips › 2024/02/29 › sa...",
+              "website_name": "Penn Dental Family Practice",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Feb 29, 2024 — Practicing good oral hygiene is the best natural teeth whitening technique. Regular brushing and flossing help remove surface stains and plaque",
+              "pre_snippet": "02/29/2024 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Practicing good oral hygiene is the best natural teeth whitening technique"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2024-02-29 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.goodrx.com",
+              "title": "4 Dentist-Approved Ways to Safely Whiten Your Teeth",
+              "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe?srsltid=AfmBOorHawlAMVqFteCuS51RcpOhama5Ri6qjvHgkmjq4Np3gTa92ces",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.goodrx.com › ... › What Is Dental Care?",
+              "website_name": "GoodRx",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "4 Dentist-Approved Ways to Safely Whiten Your Teeth · 1. Over-the-counter whitening toothpastes and gels · 2. Whitening strips · 3. Custom-fitted whitening ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1. Over-the-counter whitening toothpastes and gels"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Teeth Talk Girl",
+                  "title": "4 Best Ways To Whiten Your Teeth",
+                  "timestamp": "2025-10-28 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=FI1dQf73k6U"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Teeth Talk Girl",
+                  "title": "I'm a Dental Hygienist — This Is Exactly How I Keep My Teeth ...",
+                  "timestamp": "2026-01-27 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=pxBK4NDS0-k"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Teeth Talk Girl",
+                  "title": "How to Whiten Your Teeth at Home (FAST + SAFE)",
+                  "timestamp": "2026-02-19 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=qGkzrHzJUBU"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "www.healthline.com",
+              "title": "How to Naturally Whiten Your Teeth at Home",
+              "url": "https://www.healthline.com/nutrition/whiten-teeth-naturally",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.healthline.com › nutrition › whiten-teeth-n...",
+              "website_name": "Healthline",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Brushing with a mixture of baking soda and water a few times a week may help remove surface stains and prevent bacterial growth due to baking soda's natural ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Brushing with a mixture of baking soda and water a few times a week"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "www.dentistinlucas.com",
+              "title": "What's the Safest Way to Whiten Your Teeth? Here's What ...",
+              "url": "https://www.dentistinlucas.com/blog/whats-the-safest-way-to-whiten-your-teeth",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.dentistinlucas.com › blog › whats-the-safes...",
+              "website_name": "Dental Care of Lucas",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Sep 4, 2025 — Cut back on dark drinks like coffee, tea, and red wine; Rinse with water after meals; Stick to regular cleanings and checkups; Use whitening ... Read more",
+              "pre_snippet": "09/04/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Cut back on dark drinks like coffee, tea, and red wine"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-09-04 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "www.nhs.uk",
+              "title": "Teeth whitening",
+              "url": "https://www.nhs.uk/tests-and-treatments/teeth-whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nhs.uk › tests-and-treatments › teeth-white...",
+              "website_name": "nhs.uk",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Using a kit from a dentist, or having it done at a dental surgery, is the safest way to have teeth whitening.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Using a kit from a dentist, or having it done at a dental surgery"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "How to whiten teeth naturally at home",
+                "Best way to whiten teeth professionally",
+                "Safest way to whiten teeth at home",
+                "Best way to whiten teeth at home without damaging enamel",
+                "Fastest way to whiten teeth at home",
+                "Baking soda to whiten teeth",
+                "Teeth whitening at home in 2 minutes",
+                "How to whiten teeth at home"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

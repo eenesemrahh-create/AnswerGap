@@ -1,0 +1,538 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "13.0912 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251602-2374-0139-0000-f979e582849e",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "12.4851 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Diş sarılığı için ne yapılmalı?",
+        "location_code": 2840,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Diş sarılığı için ne yapılmalı?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=Di%C5%9F%20sar%C4%B1l%C4%B1%C4%9F%C4%B1%20i%C3%A7in%20ne%20yap%C4%B1lmal%C4%B1%3F&hl=tr&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:02:25 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "video",
+            "related_searches"
+          ],
+          "se_results_count": 112,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": true,
+              "markdown": null,
+              "items": null,
+              "references": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]",
+              "domain": "www.antlaradental.com",
+              "title": "Dişteki Sarı Lekeler Nasıl Geçer, Diş Sararması Nasıl ...",
+              "url": "https://www.antlaradental.com/blog-disteki-sari-lekeler-nasil-gecer",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.antlaradental.com › blog-disteki-sari-lekele...",
+              "website_name": "Antlara Dental Clinic",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Diş sararmasına dişlerini düzenli olarak fırçalamak, karbonat kullanmak, Hindistancevizi yağı kullanmak, çay ve kahveden uzak durmak iyi gelir. Bembeyaz dişler ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Evde sararmış dişler nasıl beyazlatılır?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Sararan diş geri beyazlar mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Dişi en çok ne sarartır?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Fırçalamaya rağmen dişlerim neden sararır?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · İnci Diş Kliniği",
+                  "title": "Diş Sararması Neden Olur? | Dt. Esra Taşçı | İNCİ DİŞ KLİNİĞİ",
+                  "timestamp": "2025-02-21 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=5o9j_BF_3Bk"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Ego Tivi",
+                  "title": "İŞİN UZMANI// DİŞ BEYAZLATMA NASIL YAPILIR? //DR ...",
+                  "timestamp": "2022-06-06 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=V-Pn5zaPu5E"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Deniz Ertüz",
+                  "title": "HOME TEETH WHITENING | \"Healthy and Scientific\" - Dr. Dt ...",
+                  "timestamp": "2023-04-30 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=5oancfxfcSk"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]/div[1]",
+              "domain": "www.medicalpark.com.tr",
+              "title": "Diş Sararması Neden Olur? Diş Sararması Nasıl Geçer?",
+              "url": "https://www.medicalpark.com.tr/saglik-rehberi/dis-sararmasi",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.medicalpark.com.tr › Sağlık Rehberi",
+              "website_name": "Medical Park",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "1 Tem 2025 — Diş sararması düzenli fırçalama, ağız hijyenine dikkat etme, diş ipi kullanımı ve profesyonel diş temizliği gibi yöntemlerle giderilebilir.",
+              "pre_snippet": "07/01/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Diş",
+                "diş"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Diş Sararması Neden Olur?",
+                  "description": null,
+                  "url": "https://www.medicalpark.com.tr/saglik-rehberi/dis-sararmasi#1",
+                  "domain": "www.medicalpark.com.tr"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Diş Sararması Nasıl Geçer?",
+                  "description": null,
+                  "url": "https://www.medicalpark.com.tr/saglik-rehberi/dis-sararmasi#2",
+                  "domain": "www.medicalpark.com.tr"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-07-01 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]",
+              "domain": "www.memorial.com.tr",
+              "title": "Diş Sararması Neden Olur? Diş Sararması Nasıl Geçer?",
+              "url": "https://www.memorial.com.tr/saglik-rehberi/dis-sararmasi",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.memorial.com.tr › ... › Sağlık Rehberi",
+              "website_name": "Memorial Sağlık Grubu",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "28 Şub 2025 — Sigara tüketimi dışında diş sararmasına neden olabilecek faktörler arasında diş travması, kötü ağız hijyeni ve koyu renkli besin veya ...",
+              "pre_snippet": "02/28/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-02-28 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[12]/div[1]/div[1]",
+              "domain": "dentakay.com",
+              "title": "Sarı dişler : evde uygulayabileceğiniz 4 tedavi",
+              "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://dentakay.com › sari-disler-sararmasi-nasil-gecer",
+              "website_name": "Dentakay",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "1- Dişlerinizi fırçalayın · 2- Karbonat kullanın · 3- Hindistan cevizi yağı kullanın · 4- Sarı dişler için limon ve sirke kullanımı.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1- Dişlerinizi fırçalayın"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Sarı dişler için evde...",
+                  "description": null,
+                  "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer#section-0",
+                  "domain": "dentakay.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Dişler neden sararır?",
+                  "description": null,
+                  "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer#section-1",
+                  "domain": "dentakay.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Sararmış dişler için...",
+                  "description": null,
+                  "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer#section-2",
+                  "domain": "dentakay.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]",
+              "domain": "www.acibadem.com.tr",
+              "title": "⚕️ Diş Sararması Neden Olur? Diş Sararması Nasıl Geçer?",
+              "url": "https://www.acibadem.com.tr/hayat/dis-sararmasi-neden-olur/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.acibadem.com.tr › dis-sararmasi-neden-olur",
+              "website_name": "Acıbadem Sağlık Grubu",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "8 Tem 2025 — Karbonat ve limon suyu karışımı, birçok kişi tarafından etkili bir beyazlatma aracı olarak kullanılır. Karbonat, doğal bir abrasiv olarak ...",
+              "pre_snippet": "07/08/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Karbonat ve limon suyu karışımı"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-07-08 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[16]/div[1]/div[1]",
+              "domain": "www.medicana.com.tr",
+              "title": "Diş Sararması Nedenleri, Nasıl Geçer?",
+              "url": "https://www.medicana.com.tr/saglik-rehberi-detay/18483/dis-sararmasi-nedenleri-nasil-gecer",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.medicana.com.tr › Sağlık Ansiklopedisi",
+              "website_name": "Medicana",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "7 Nis 2023 — Diş Sararması Nasıl Önlenir? · Dişlerin günde en az 2 kere, 2 dakika boyunca fırçalanması ve diş aralarının diş ipi ile temizlenmesi gerekir.",
+              "pre_snippet": "04/07/2023 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Diş",
+                "diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2023-04-07 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[18]/div[1]/div[1]",
+              "domain": "www.colgate.com",
+              "title": "Diş Sararması Nasıl Geçer? Neden Olur ve Ne İyi Gelir?",
+              "url": "https://www.colgate.com/tr-tr/oral-health/teeth-whitening/how-to-whiten-teeth-causes-remedies",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.colgate.com › ... › Ağız Sağlığı",
+              "website_name": "Colgate",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Günde en az iki kez diş macunu ile etkili bir şekilde diş fırçalamak dış lekeleri önlemek konusunda fayda sağlar. Sararma problemi yaşayan bireylerin florür ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Günde en az iki kez diş macunu ile etkili bir şekilde diş fırçalamak"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[20]/div[1]/div[1]",
+              "domain": "megadentist.com.tr",
+              "title": "Diş Sararması Nasıl Geçer? | Megadentist Ağız ve Diş Sağlığı ...",
+              "url": "https://megadentist.com.tr/dis-sararmasi-nasil-gecer/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://megadentist.com.tr › dis-sararmasi-nasil-gecer",
+              "website_name": "megadentist.com.tr",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "14 Mar 2025 — Diş Sararması Nasıl Geçer? · 1. Karbonat ve Limon Suyu · 2. Hindistancevizi Yağı Çekme (Oil Pulling) · 3. Çilek ve Karbonat · 4. Elma Sirkesi.",
+              "pre_snippet": "03/14/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1. Karbonat ve Limon Suyu"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-03-14 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Diş Sararması Nasıl Geçer doğal yöntemler",
+                "Diş sarılığı Nasıl Geçer",
+                "Diş Sararması Nasıl Geçer evde",
+                "Diş Sararması hangi vitamin eksikliği",
+                "Sigara diş Sararması Nasıl Geçer",
+                "Diş arkası Sararması Nasıl Geçer",
+                "Diş Sararması hangi hastalık",
+                "Diş Sararması Neden olur"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

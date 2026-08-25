@@ -1,0 +1,687 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "2.5315 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251217-2374-0139-0000-70b461d60d2b",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.4511 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Sigara içen biri dişlerini nasıl beyazlatır?",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Sigara içen biri dişlerini nasıl beyazlatır?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=Sigara%20i%C3%A7en%20biri%20di%C5%9Flerini%20nas%C4%B1l%20beyazlat%C4%B1r%3F&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-25 12:17:23 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "video",
+            "related_searches"
+          ],
+          "se_results_count": 120,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Sigara içenlerde nikotin ve katran diş minesine yapışarak sarı ve kahverengi kalıcı lekeler yapar . En etkili ve kalıcı sonuçlar klinik ortamda, `diş hekimi kontrolünde alınan profesyonel yöntemlerle elde edilir`.[](https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri) [[1]](https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri)[[2]](https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir)[[3]](https://www.albadental.com.tr/dis-beyazlatma-nedir/)\n\nKlinik Yöntemler (Ofis Tipi)\n\n- **Lazer / Ofis Tipi Beyazlatma (Bleaching):** Hekim tarafından uygulanan güçlü jellerle dişlerin rengi kısa sürede birkaç ton açılır.\n- **Airflow (Basınçlı Hava ve Su Temizliği):** Sigara ve yemek lekelerini çıkaran özel toz püskürtme yöntemidir.\n- **Diş Taşı Temizliği:** Beyazlatma öncesi yüzeydeki tartar ve plaklar mutlaka temizlenmelidir.[](https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir) [[1]](https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir)[[2]](https://www.aliadent.com/sigara-icenler-agiz-ve-dis-sagligina-nasil-bakmalidir/)\n\nEvde Uygulanan ve Destekleyici Yöntemler\n\n- **Ev Tipi Beyazlatma:** Hekimin ölçü alarak hazırladığı kişiye özel plaklar ve reçeteli jellerle uygulanır.\n- **Düşük Aşındırıcılı Macunlar:** Mineye zarar vermeyen, leke karşıtı özel diş macunları tercih edilmelidir.\n- **Günlük Hijyen:** Günde iki kez fırçalama, diş ipi ve antiseptik gargara kullanımı leke oluşumunu yavaşlatır.[](https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri) [[1]](https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri)[[2]](https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir)[[3]](https://merttopbasi.com/dis-beyazlatma-yontemleri/)\n\nEğer dişlerinizde **aşırı hassasiyet** veya **diş eti probleminiz** var mı? Size en uygun profesyonel yöntemi planlamak için hekim muayenesi öneririm.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Sigara içenlerde nikotin ve katran diş minesine yapışarak sarı ve kahverengi kalıcı lekeler yapar. En etkili ve kalıcı sonuçlar klinik ortamda, diş hekimi kontrolünde alınan profesyonel yöntemlerle elde edilir.",
+                  "markdown": "Sigara içenlerde nikotin ve katran diş minesine yapışarak sarı ve kahverengi kalıcı lekeler yapar . En etkili ve kalıcı sonuçlar klinik ortamda, `diş hekimi kontrolünde alınan profesyonel yöntemlerle elde edilir`.[](https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri) [[1]](https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri)[[2]](https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir)[[3]](https://www.albadental.com.tr/dis-beyazlatma-nedir/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "GLİMO",
+                      "domain": "glimo.com.tr",
+                      "url": "https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri",
+                      "title": "Sigara İçenler İçin Diş Beyazlatma Yöntemleri - GLİMO",
+                      "text": "Sigara İçenler İçin Diş Beyazlatma Yöntemleri * Anasayfa. * Sigara İçenler İçin Diş Beyazlatma Yöntemleri. ... Sigara içenler için..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "İstanbul Gelişim Üniversitesi Diş Hastanesi",
+                      "domain": "gelisimdishastanesi.com",
+                      "url": "https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir",
+                      "title": "Sigara İçenlerde Diş Beyazlatma Ne Kadar Etkilidir?",
+                      "text": "Sigara İçenlerde Diş Beyazlatma Ne Kadar Etkilidir? Sigara kullanımı, dişlerde renklenmeye neden olan en önemli faktörlerden birid..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.albadental.com.tr",
+                      "domain": "www.albadental.com.tr",
+                      "url": "https://www.albadental.com.tr/dis-beyazlatma-nedir/",
+                      "title": "Diş Beyazlatma (Bleaching) Nedir? Yöntemleri Nelerdir? - Alba Dent",
+                      "text": "Diş beyazlatma işleminden sonra dişler zamanla eski rengine dönebilir. Ancak düzenli bakım ve dişlerin korunmasıyla, beyazlık daha..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Klinik Yöntemler (Ofis Tipi)",
+                  "text": "Lazer / Ofis Tipi Beyazlatma (Bleaching): Hekim tarafından uygulanan güçlü jellerle dişlerin rengi kısa sürede birkaç ton açılır. Airflow (Basınçlı Hava ve Su Temizliği): Sigara ve yemek lekelerini çıkaran özel toz püskürtme yöntemidir. Diş Taşı Temizliği: Beyazlatma öncesi yüzeydeki tartar ve plaklar mutlaka temizlenmelidir.",
+                  "markdown": "- **Lazer / Ofis Tipi Beyazlatma (Bleaching):** Hekim tarafından uygulanan güçlü jellerle dişlerin rengi kısa sürede birkaç ton açılır.\n- **Airflow (Basınçlı Hava ve Su Temizliği):** Sigara ve yemek lekelerini çıkaran özel toz püskürtme yöntemidir.\n- **Diş Taşı Temizliği:** Beyazlatma öncesi yüzeydeki tartar ve plaklar mutlaka temizlenmelidir.[](https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir) [[1]](https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir)[[2]](https://www.aliadent.com/sigara-icenler-agiz-ve-dis-sagligina-nasil-bakmalidir/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "İstanbul Gelişim Üniversitesi Diş Hastanesi",
+                      "domain": "gelisimdishastanesi.com",
+                      "url": "https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir",
+                      "title": "Sigara İçenlerde Diş Beyazlatma Ne Kadar Etkilidir?",
+                      "text": "Sigara İçenlerde Diş Beyazlatma Ne Kadar Etkilidir? Sigara kullanımı, dişlerde renklenmeye neden olan en önemli faktörlerden birid..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Aliadent",
+                      "domain": "www.aliadent.com",
+                      "url": "https://www.aliadent.com/sigara-icenler-agiz-ve-dis-sagligina-nasil-bakmalidir/",
+                      "title": "Sigara İçenler Ağız ve Diş Sağlığına Nasıl Bakmalıdır? - Aliadent",
+                      "text": "Sigara İçenler Ağız ve Diş Sağlığına Nasıl Bakmalıdır? Güne koyu bir kahve ve yanına yakılan bir sigara ile başlamak, pek çok kişi..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Evde Uygulanan ve Destekleyici Yöntemler",
+                  "text": "Ev Tipi Beyazlatma: Hekimin ölçü alarak hazırladığı kişiye özel plaklar ve reçeteli jellerle uygulanır. Düşük Aşındırıcılı Macunlar: Mineye zarar vermeyen, leke karşıtı özel diş macunları tercih edilmelidir. Günlük Hijyen: Günde iki kez fırçalama, diş ipi ve antiseptik gargara kullanımı leke oluşumunu yavaşlatır.",
+                  "markdown": "- **Ev Tipi Beyazlatma:** Hekimin ölçü alarak hazırladığı kişiye özel plaklar ve reçeteli jellerle uygulanır.\n- **Düşük Aşındırıcılı Macunlar:** Mineye zarar vermeyen, leke karşıtı özel diş macunları tercih edilmelidir.\n- **Günlük Hijyen:** Günde iki kez fırçalama, diş ipi ve antiseptik gargara kullanımı leke oluşumunu yavaşlatır.[](https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri) [[1]](https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri)[[2]](https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir)[[3]](https://merttopbasi.com/dis-beyazlatma-yontemleri/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "GLİMO",
+                      "domain": "glimo.com.tr",
+                      "url": "https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri",
+                      "title": "Sigara İçenler İçin Diş Beyazlatma Yöntemleri - GLİMO",
+                      "text": "Sigara İçenler İçin Diş Beyazlatma Yöntemleri * Anasayfa. * Sigara İçenler İçin Diş Beyazlatma Yöntemleri. ... Sigara içenler için..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "İstanbul Gelişim Üniversitesi Diş Hastanesi",
+                      "domain": "gelisimdishastanesi.com",
+                      "url": "https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir",
+                      "title": "Sigara İçenlerde Diş Beyazlatma Ne Kadar Etkilidir?",
+                      "text": "Sigara İçenlerde Diş Beyazlatma Ne Kadar Etkilidir? Sigara kullanımı, dişlerde renklenmeye neden olan en önemli faktörlerden birid..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "merttopbasi.com",
+                      "domain": "merttopbasi.com",
+                      "url": "https://merttopbasi.com/dis-beyazlatma-yontemleri/",
+                      "title": "Diş Beyazlatma Yöntemleri - Doğal ve Sağlıklı Diş Beyazlatma",
+                      "text": "Sigara İçenler İçin Diş Beyazlatma Yöntemleri. Sigara içmek, dişlerin sararmasına ve lekelenmesine neden olabilir. Sigara içenler ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Eğer dişlerinizde aşırı hassasiyet veya diş eti probleminiz var mı? Size en uygun profesyonel yöntemi planlamak için hekim muayenesi öneririm.",
+                  "markdown": "Eğer dişlerinizde **aşırı hassasiyet** veya **diş eti probleminiz** var mı? Size en uygun profesyonel yöntemi planlamak için hekim muayenesi öneririm.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "GLİMO",
+                  "domain": "glimo.com.tr",
+                  "url": "https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri",
+                  "title": "Sigara İçenler İçin Diş Beyazlatma Yöntemleri - GLİMO",
+                  "text": "Sigara İçenler İçin Diş Beyazlatma Yöntemleri * Anasayfa. * Sigara İçenler İçin Diş Beyazlatma Yöntemleri. ... Sigara içenler için..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "İstanbul Gelişim Üniversitesi Diş Hastanesi",
+                  "domain": "gelisimdishastanesi.com",
+                  "url": "https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir",
+                  "title": "Sigara İçenlerde Diş Beyazlatma Ne Kadar Etkilidir?",
+                  "text": "Sigara İçenlerde Diş Beyazlatma Ne Kadar Etkilidir? Sigara kullanımı, dişlerde renklenmeye neden olan en önemli faktörlerden birid..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Aliadent",
+                  "domain": "www.aliadent.com",
+                  "url": "https://www.aliadent.com/sigara-icenler-agiz-ve-dis-sagligina-nasil-bakmalidir/",
+                  "title": "Sigara İçenler Ağız ve Diş Sağlığına Nasıl Bakmalıdır? - Aliadent",
+                  "text": "Sigara İçenler Ağız ve Diş Sağlığına Nasıl Bakmalıdır? Güne koyu bir kahve ve yanına yakılan bir sigara ile başlamak, pek çok kişi..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.albadental.com.tr",
+                  "domain": "www.albadental.com.tr",
+                  "url": "https://www.albadental.com.tr/dis-beyazlatma-nedir/",
+                  "title": "Diş Beyazlatma (Bleaching) Nedir? Yöntemleri Nelerdir? - Alba Dent",
+                  "text": "Diş beyazlatma işleminden sonra dişler zamanla eski rengine dönebilir. Ancak düzenli bakım ve dişlerin korunmasıyla, beyazlık daha..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "merttopbasi.com",
+                  "domain": "merttopbasi.com",
+                  "url": "https://merttopbasi.com/dis-beyazlatma-yontemleri/",
+                  "title": "Diş Beyazlatma Yöntemleri - Doğal ve Sağlıklı Diş Beyazlatma",
+                  "text": "Sigara İçenler İçin Diş Beyazlatma Yöntemleri. Sigara içmek, dişlerin sararmasına ve lekelenmesine neden olabilir. Sigara içenler ..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Sigaradan sararmış dişler nasıl beyazlar?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Dişte oluşan sigara lekesi nasıl çıkarılır?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Sigaradan diş kararması nasıl geçer?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Sigarayı bırakınca dişler düzelir mi?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]",
+              "domain": "gelisimdishastanesi.com",
+              "title": "Sigara İçenlerde Diş Beyazlatma Ne Kadar Etkilidir?",
+              "url": "https://gelisimdishastanesi.com/tr/blog/sigara-icenlerde-dis-beyazlatma-ne-kadar-etkilidir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://gelisimdishastanesi.com › blog › sigara-icenlerde-...",
+              "website_name": "İstanbul Gelişim Üniversitesi Diş Hastanesi",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "10 Şub 2026 — Evet, sigara içen bireylerde diş beyazlatma mümkündür. Ancak işlem öncesinde dişlerin ve diş etlerinin sağlıklı olması gerekir. Diş taşı ve ...",
+              "pre_snippet": "02/10/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "sigara içen",
+                "diş beyazlatma",
+                "diş",
+                "Diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-02-10 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Özel Dentakademi Ağız ve Diş Sağlığı Grubu",
+                  "title": "Sigara içen kişilere diş beyazlatma yapılır mı? Dt. Emrah İpek",
+                  "timestamp": "2017-02-17 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=faDkwmc0B7s"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Pertev Kökdemir",
+                  "title": "Sigara İçenlerde Diş Beyazlatma İşlemi Yapılır mı? - Dt.Pertev ...",
+                  "timestamp": "2021-04-01 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=aciHz3msYL4"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Dr. Mustafa Sabri Şencan - Novusklinik",
+                  "title": "Sigara içenler diş beyazlatma yaptırılabilir mi?",
+                  "timestamp": "2021-01-19 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=-b61_poa52k"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "glimo.com.tr",
+              "title": "Sigara İçenler İçin Diş Beyazlatma Yöntemleri",
+              "url": "https://glimo.com.tr/blog/sigara-icenler-icin-dis-beyazlatma-yontemleri",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://glimo.com.tr › Blog › Ağız Bakım Blog",
+              "website_name": "GLİMO",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "30 Kas 2025 — Doğal Temizleyicilerden YararlanınHindistan cevizi yağıyla yapılan “oil pulling” (yağ çekme) yöntemi, diş yüzeyindeki toksinleri azaltabilir.",
+              "pre_snippet": "11/30/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-11-30 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "dentrivadis.com",
+              "title": "Diş Beyazlatma ile Sigara İçenler İçin Kalıcı Çözüm",
+              "url": "https://dentrivadis.com/dis-beyazlatma-ile-sigara-icenler-icin-kalici-cozum/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://dentrivadis.com › dis-beyazlatma-ile-sigara-icenle...",
+              "website_name": "Dentriva Diş",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "18 Kas 2024 — Hindistan cevizi yağı ile yapılan yağ çekme yöntemi, hem ağız sağlığınızı korur hem de dişlerinizi beyazlatır. Günlük olarak birkaç dakika ...",
+              "pre_snippet": "11/18/2024 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "beyazlatır"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2024-11-18 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.cafedis.com",
+              "title": "Diş temizleme: Evde ve Profesyonel Yöntemler",
+              "url": "https://www.cafedis.com/blog/genel-bilgiler/dis-temizleme-9447/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.cafedis.com › Blog › Genel Bilgiler",
+              "website_name": "Cafediş Ağız ve Diş Sağlığı Polikliniği",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Sigara İçenler İçin Evde Diş Beyazlatma · Hindistancevizi yağı ile gargara yapmak, sigaranın neden olduğu sararmayı azaltır. · Karbonat ile dişleri fırçalamak, ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Sigara",
+                "Diş Beyazlatma",
+                "dişleri"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.medicana.com.tr",
+              "title": "Dişler doğal yöntemlerle nasıl beyazlar? Diş araları nasıl ...",
+              "url": "https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.medicana.com.tr › Sağlıklı Bilgiler",
+              "website_name": "Medicana",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "18 Ara 2025 — Dişler doğal yöntemlerle nasıl beyazlar? · Kabartma tozu · Hidrojen peroksit · Hindistan cevizi yağıyla ağız çalkalama · Elma sirkesi · Çilekler · Muz ...",
+              "pre_snippet": "12/18/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Dişler",
+                "nasıl beyazlar"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-12-18 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "www.aliadent.com",
+              "title": "Sigara İçenler Ağız ve Diş Sağlığına Nasıl Bakmalıdır?",
+              "url": "https://www.aliadent.com/sigara-icenler-agiz-ve-dis-sagligina-nasil-bakmalidir/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.aliadent.com › sigara-icenler-agiz-ve-dis-sag...",
+              "website_name": "Aliadent",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "İlk 48 saat içinde, hatta mümkünse ilk hafta diş beyazlatma sonrası sigara içmek, dişlerin eskisinden bile daha hızlı sararmasına neden olacaktır. Bu ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "diş beyazlatma",
+                "sigara"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Dumanın Bıraktığı İzler...",
+                  "description": null,
+                  "url": "https://www.aliadent.com/sigara-icenler-agiz-ve-dis-sagligina-nasil-bakmalidir/#Dumanin_Biraktigi_Izler_Sararan_Disler_ve_Lekeler",
+                  "domain": "www.aliadent.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Doğru Ekipman Seçimi: Fırça...",
+                  "description": null,
+                  "url": "https://www.aliadent.com/sigara-icenler-agiz-ve-dis-sagligina-nasil-bakmalidir/#Dogru_Ekipman_Secimi_Firca_ve_Macun_Savasi",
+                  "domain": "www.aliadent.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "www.mandarindent.com.tr",
+              "title": "Sararan Dişler Nasıl Beyazlatılır | Doğal ve Profesyonel ...",
+              "url": "https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.mandarindent.com.tr › post › sararan-disler...",
+              "website_name": "MandarinDent",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "5 Kas 2025 — Sararan dişler için etkili beyazlatma yöntemleri. Limon-karbonat, tuz, muz kabuğu gibi doğal tariflerin riskleri ve diş hekimi kontrolünde ...",
+              "pre_snippet": "11/05/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "dişler",
+                "beyazlatma",
+                "diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-11-05 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "www.merttopbasi.com",
+              "title": "Diş Beyazlatma Yöntemleri - Doğal ve Sağlıklı Diş Beyazlatma",
+              "url": "https://www.merttopbasi.com/dis-beyazlatma-yontemleri/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.merttopbasi.com › Blog",
+              "website_name": "merttopbasi.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "3 Haz 2023 — Diş fırçalama ve diş ipi kullanımı: Sigara içmek dişlerde birikintilere ve plak oluşumuna yol açabilir. · Ağız çalkalama solüsyonları: Ağız ...",
+              "pre_snippet": "06/03/2023 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Diş",
+                "diş",
+                "Sigara"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2023-06-03 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Kemik rengi sarı olan diş nasıl beyazlar",
+                "1 günde diş BEYAZLATMA evde",
+                "Evde diş Nasıl Beyazlar",
+                "Anında diş BEYAZLATMA evde",
+                "Evde sararan dişler nasıl beyazlatılır",
+                "Diş beyazlatma sonrası sigara ekşi",
+                "Sararmış dişler nasıl beyazlatılır",
+                "Muz kabuğu ile diş nasıl beyazlatılır"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

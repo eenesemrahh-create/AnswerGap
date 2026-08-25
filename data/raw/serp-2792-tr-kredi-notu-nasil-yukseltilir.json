@@ -1,0 +1,647 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "3.0266 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251204-2374-0139-0000-55410423b37e",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.9231 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "kredi notu nasıl yükseltilir",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "kredi notu nasıl yükseltilir",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=kredi%20notu%20nas%C4%B1l%20y%C3%BCkseltilir&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-25 12:04:48 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "video",
+            "related_searches"
+          ],
+          "se_results_count": 115,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Kredi notunuzu yükseltmek için kredi ve kredi kartı ödemelerinizi son ödeme tarihini geciktirmeden düzenli olarak yapmalısınız.[](https://www.nkolay.com/blog/finansal-okuryazarlik/kredi-notu-nedir-kredi-notu-yukseltme-rehberi) [[1]](https://www.nkolay.com/blog/finansal-okuryazarlik/kredi-notu-nedir-kredi-notu-yukseltme-rehberi)\n\nKredi puanınızı artırmak ve finansal güvenilirliğinizi güçlendirmek için şu adımları izleyebilirsiniz:\n\nKredi Notunu Yükseltme Yöntemleri\n\n- **Ödemeleri aksatmayın:** Kredi kartı ve kredi taksitlerinizi her ay gününde veya son ödeme tarihinden önce tam olarak ödeyin.\n- **Asgari tutarı aşın:** Kredi kartı borcunuzun yalnızca asgari ödemesini yapmak yerine borcun tamamını kapatmaya özen gösterin.\n- **Limit kullanım oranına dikkat edin:** Kredi kartı limitinizin tamamını değil, makul bir kısmını (genellikle %30'un altındaki seviyeleri) kullanın.\n- **Sık başvuru yapmayın:** Kısa süre içinde üst üste çok sayıda bankaya kredi veya kredi kartı başvurusunda bulunmaktan kaçının.\n- **Geçmişi koruyun:** Kullanmadığınız eski kredi kartlarınızı kapatarak kredi geçmişinizin süresini kısaltmayın.[](https://www.akbank.com/blog/kredi-notu-nedir) [[1]](https://www.akbank.com/blog/kredi-notu-nedir)[[2]](https://www.nkolay.com/blog/finansal-okuryazarlik/kredi-notu-nedir-kredi-notu-yukseltme-rehberi)[[3]](https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir)\n\nKredi notu anlık bir puan olmayıp davranışsal bir göstergedir; düzenli ödemelerle belirgin bir yükseliş genellikle **3 ila 6 ay** içinde görülür. Notunuzu Findeks platformu veya bankanızın mobil uygulaması üzerinden öğrenebilirsiniz.[](https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir) [[1]](https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir)[[2]](https://www.instagram.com/reel/DO8lRSViOin/?hl=tr)Kredi notunuzu öğrenmek veya mevcut durumunuzu değerlendirmek için **yakın zamanda gecikmiş bir ödemeniz** ya da **aktif bir yasal takibiniz** var mı?",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Kredi notunuzu yükseltmek için kredi ve kredi kartı ödemelerinizi son ödeme tarihini geciktirmeden düzenli olarak yapmalısınız.",
+                  "markdown": "Kredi notunuzu yükseltmek için kredi ve kredi kartı ödemelerinizi son ödeme tarihini geciktirmeden düzenli olarak yapmalısınız.[](https://www.nkolay.com/blog/finansal-okuryazarlik/kredi-notu-nedir-kredi-notu-yukseltme-rehberi) [[1]](https://www.nkolay.com/blog/finansal-okuryazarlik/kredi-notu-nedir-kredi-notu-yukseltme-rehberi)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "N Kolay",
+                      "domain": "www.nkolay.com",
+                      "url": "https://www.nkolay.com/blog/finansal-okuryazarlik/kredi-notu-nedir-kredi-notu-yukseltme-rehberi",
+                      "title": "Kredi Notu Nedir? Kredi Notu Yükseltme Rehberi - N Kolay",
+                      "text": "Kredili ürünlerin ödemelerini son ödeme tarihi geçmeden ödemen hâlinde puanın yükselir. Düzenli ve zamanında yapılan ödemeler, kre..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Kredi puanınızı artırmak ve finansal güvenilirliğinizi güçlendirmek için şu adımları izleyebilirsiniz:",
+                  "markdown": "Kredi puanınızı artırmak ve finansal güvenilirliğinizi güçlendirmek için şu adımları izleyebilirsiniz:",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Kredi Notunu Yükseltme Yöntemleri",
+                  "text": "Ödemeleri aksatmayın: Kredi kartı ve kredi taksitlerinizi her ay gününde veya son ödeme tarihinden önce tam olarak ödeyin. Asgari tutarı aşın: Kredi kartı borcunuzun yalnızca asgari ödemesini yapmak yerine borcun tamamını kapatmaya özen gösterin. Limit kullanım oranına dikkat edin: Kredi kartı limitinizin tamamını değil, makul bir kısmını (genellikle %30'un altındaki seviyeleri) kullanın. Sık başvuru yapmayın: Kısa süre içinde üst üste çok sayıda bankaya kredi veya kredi kartı başvurusunda bulunmaktan kaçının. Geçmişi koruyun: Kullanmadığınız eski kredi kartlarınızı kapatarak kredi geçmişinizin süresini kısaltmayın.",
+                  "markdown": "- **Ödemeleri aksatmayın:** Kredi kartı ve kredi taksitlerinizi her ay gününde veya son ödeme tarihinden önce tam olarak ödeyin.\n- **Asgari tutarı aşın:** Kredi kartı borcunuzun yalnızca asgari ödemesini yapmak yerine borcun tamamını kapatmaya özen gösterin.\n- **Limit kullanım oranına dikkat edin:** Kredi kartı limitinizin tamamını değil, makul bir kısmını (genellikle %30'un altındaki seviyeleri) kullanın.\n- **Sık başvuru yapmayın:** Kısa süre içinde üst üste çok sayıda bankaya kredi veya kredi kartı başvurusunda bulunmaktan kaçının.\n- **Geçmişi koruyun:** Kullanmadığınız eski kredi kartlarınızı kapatarak kredi geçmişinizin süresini kısaltmayın.[](https://www.akbank.com/blog/kredi-notu-nedir) [[1]](https://www.akbank.com/blog/kredi-notu-nedir)[[2]](https://www.nkolay.com/blog/finansal-okuryazarlik/kredi-notu-nedir-kredi-notu-yukseltme-rehberi)[[3]](https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Akbank",
+                      "domain": "www.akbank.com",
+                      "url": "https://www.akbank.com/blog/kredi-notu-nedir",
+                      "title": "Kredi Notu Nedir, Nasıl Yükseltilir? - Akbank",
+                      "text": "Kredi notu nasıl yükselir? · 1. Ödemeleri zamanında yapmak · 2. Kredi kartı limitinizi makul seviyede tutmak · 3. Asgari tutar yer..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "N Kolay",
+                      "domain": "www.nkolay.com",
+                      "url": "https://www.nkolay.com/blog/finansal-okuryazarlik/kredi-notu-nedir-kredi-notu-yukseltme-rehberi",
+                      "title": "Kredi Notu Nedir? Kredi Notu Yükseltme Rehberi - N Kolay",
+                      "text": "Kredili ürünlerin ödemelerini son ödeme tarihi geçmeden ödemen hâlinde puanın yükselir. Düzenli ve zamanında yapılan ödemeler, kre..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Ziraat Katılım",
+                      "domain": "www.ziraatkatilim.com.tr",
+                      "url": "https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir",
+                      "title": "Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir?",
+                      "text": "Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir? ... Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir? Kredi başvurusu yaparken, ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Kredi notu anlık bir puan olmayıp davranışsal bir göstergedir; düzenli ödemelerle belirgin bir yükseliş genellikle 3 ila 6 ay içinde görülür. Notunuzu Findeks platformu veya bankanızın mobil uygulaması üzerinden öğrenebilirsiniz.",
+                  "markdown": "Kredi notu anlık bir puan olmayıp davranışsal bir göstergedir; düzenli ödemelerle belirgin bir yükseliş genellikle **3 ila 6 ay** içinde görülür. Notunuzu Findeks platformu veya bankanızın mobil uygulaması üzerinden öğrenebilirsiniz.[](https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir) [[1]](https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir)[[2]](https://www.instagram.com/reel/DO8lRSViOin/?hl=tr)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Ziraat Katılım",
+                      "domain": "www.ziraatkatilim.com.tr",
+                      "url": "https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir",
+                      "title": "Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir?",
+                      "text": "Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir? ... Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir? Kredi başvurusu yaparken, ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Instagram",
+                      "domain": "www.instagram.com",
+                      "url": "https://www.instagram.com/reel/DO8lRSViOin/?hl=tr",
+                      "title": "Findeks Kredi Notu'nuzu yükseltmenin ilk adımı, yanlış ...",
+                      "text": "Findeks Kredi Notu'nuzu yükseltmenin ilk adımı, yanlış bilgileri geride bırakmak. “Doğru bilinen yanlışlar” serimizle finansal far..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Kredi notunuzu öğrenmek veya mevcut durumunuzu değerlendirmek için yakın zamanda gecikmiş bir ödemeniz ya da aktif bir yasal takibiniz var mı?",
+                  "markdown": "Kredi notunuzu öğrenmek veya mevcut durumunuzu değerlendirmek için **yakın zamanda gecikmiş bir ödemeniz** ya da **aktif bir yasal takibiniz** var mı?",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Akbank",
+                  "domain": "www.akbank.com",
+                  "url": "https://www.akbank.com/blog/kredi-notu-nedir",
+                  "title": "Kredi Notu Nedir, Nasıl Yükseltilir? - Akbank",
+                  "text": "Kredi notu nasıl yükselir? · 1. Ödemeleri zamanında yapmak · 2. Kredi kartı limitinizi makul seviyede tutmak · 3. Asgari tutar yer..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Ziraat Katılım",
+                  "domain": "www.ziraatkatilim.com.tr",
+                  "url": "https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir",
+                  "title": "Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir?",
+                  "text": "Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir? ... Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir? Kredi başvurusu yaparken, ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Instagram",
+                  "domain": "www.instagram.com",
+                  "url": "https://www.instagram.com/reel/DO8lRSViOin/?hl=tr",
+                  "title": "Findeks Kredi Notu'nuzu yükseltmenin ilk adımı, yanlış ...",
+                  "text": "Findeks Kredi Notu'nuzu yükseltmenin ilk adımı, yanlış bilgileri geride bırakmak. “Doğru bilinen yanlışlar” serimizle finansal far..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "N Kolay",
+                  "domain": "www.nkolay.com",
+                  "url": "https://www.nkolay.com/blog/finansal-okuryazarlik/kredi-notu-nedir-kredi-notu-yukseltme-rehberi",
+                  "title": "Kredi Notu Nedir? Kredi Notu Yükseltme Rehberi - N Kolay",
+                  "text": "Kredili ürünlerin ödemelerini son ödeme tarihi geçmeden ödemen hâlinde puanın yükselir. Düzenli ve zamanında yapılan ödemeler, kre..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "1 Ayda kredi Puanı Ne Kadar Yükselir?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "1300 puan kredi çıkar mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Hesaba para girişi kredi notunu yükseltir mi?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Kredi notu 1500 olan kredi çekebilir mi?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]",
+              "domain": "www.akbank.com",
+              "title": "Kredi Notu Nedir, Nasıl Yükseltilir?",
+              "url": "https://www.akbank.com/blog/kredi-notu-nedir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.akbank.com › Blog",
+              "website_name": "Akbank",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Kredi notu nasıl yükselir? · 1. Ödemeleri zamanında yapmak · 2. Kredi kartı limitinizi makul seviyede tutmak · 3. Asgari tutar yerine borcun tamamını ödemek · 4 ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1. Ödemeleri zamanında yapmak"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.vakifbank.com.tr",
+              "title": "kredi-notu-nasil-yukseltilir-5-etkili-yontemle ...",
+              "url": "https://www.vakifbank.com.tr/tr/blog/kredi-notu-nasil-yukseltilir-5-etkili-yontemle-kredi-notunuzu-artirin",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.vakifbank.com.tr › Ana Sayfa › Blog",
+              "website_name": "VakıfBank",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "8 Eki 2025 — Kredi notunuzu olumlu etkilemek için dikkat etmeniz gereken şey \"kredi kullanım oranı\"dır. Önerilen, toplam kart limitlerinizin %30-40'ını ...",
+              "pre_snippet": "10/08/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi",
+                "kredi"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-10-08 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Garanti BBVA",
+                  "title": "Kredi Notu Nedir, Nasıl Yükseltilir? | Aradığınız Sorulara ...",
+                  "timestamp": "2024-04-05 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=dyk-dSQubzc"
+                },
+                {
+                  "type": "video_element",
+                  "source": "Instagram · Findeks",
+                  "title": "Findeks on Instagram: \"Findeks Kredi Notu'nuzu yükseltmenin ...",
+                  "timestamp": "2025-09-23 00:00:00 +00:00",
+                  "url": "https://www.instagram.com/reel/DO8lRSViOin/?hl=tr"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Garanti BBVA",
+                  "title": "YouTube",
+                  "timestamp": "2024-04-08 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/shorts/Y-KxtK7QnGo"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "www.garantibbva.com.tr",
+              "title": "Kredi Notu Nedir, Nasıl Hesaplanır ve Nasıl Yükseltilir?",
+              "url": "https://www.garantibbva.com.tr/blog/kredi-notu-nedir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.garantibbva.com.tr › blog › kredi-notu-nedir",
+              "website_name": "Garanti BBVA",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "26 May 2025 — Program kapsamında ödemeleriniz her 6 ayda bir değerlendirmeye alınır. Ödemelerinizi düzenli yapmanız halinde kredi notunuz yükselir. Uygun ...",
+              "pre_snippet": "05/26/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "kredi",
+                "yükselir"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-05-26 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.kuveytturk.com.tr",
+              "title": "Kredi Notu Nedir ve Nasıl Yükseltilir?",
+              "url": "https://www.kuveytturk.com.tr/blog/finans/kredi-notu-nedir-ve-nasil-yukseltilir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.kuveytturk.com.tr › blog › finans › kredi-...",
+              "website_name": "Kuveyt Türk",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Kredi notunuzun yüksek olması düzenli ödeme yapabilmenizden geçer. Özellikle kredi kartı ödemelerinizde asgari ödeme yerine tüm borcu ödemeye özen gösterin.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi notunuzun yüksek olması düzenli ödeme yapabilmenizden geçer"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.ziraatkatilim.com.tr",
+              "title": "Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir?",
+              "url": "https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.ziraatkatilim.com.tr › blog › kredi-notu-ne...",
+              "website_name": "Ziraat Katılım",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "6 May 2026 — Kredi notu ne kadar sürede yükselir? Kredi notu anlık değil, davranışsal bir göstergedir. Düzenli ödeme yapıldığında belirgin bir iyileşme ...",
+              "pre_snippet": "05/06/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi notu",
+                "yükselir"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-05-06 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "www.halkbank.com.tr",
+              "title": "Kredi Notu Nedir, Nasıl Hesaplanır?",
+              "url": "https://www.halkbank.com.tr/tr/blog/kredi-notu-nedir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.halkbank.com.tr › Blog",
+              "website_name": "Halkbank",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "11 Eyl 2025 — Kredi Notu Nasıl Yükseltilir? · 1. Ödemeleri Tam ve Zamanında Yapın · 2. Mevcut Borç Yükünüzü Azaltın · 3. Yeni Kredi Başvurularını Sınırlandırın.",
+              "pre_snippet": "09/11/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1. Ödemeleri Tam ve Zamanında Yapın"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-09-11 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "hesap.com",
+              "title": "Kredi Notu Nasıl Yükseltilir? | Hesap Defteri",
+              "url": "https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://hesap.com › Hesap defteri › Kredi",
+              "website_name": "hesap.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "16 Eki 2025 — Kredi notu yükseltme önerileri · Borçlarını düzenli ve zamanında öde. · Asgari tutar yerine mümkünse tüm borcu kapat. · Kredi kartı limitinin ...",
+              "pre_snippet": "10/16/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Borçlarını düzenli ve zamanında öde"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-10-16 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "odeal.com",
+              "title": "Kredi Notu Nasıl Yükseltilir? Ticari Kredi Almak İçin Nelere ...",
+              "url": "https://odeal.com/blog/kredi-notu-nasil-yukseltilir/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://odeal.com › Finansal Okuryazarlık",
+              "website_name": "Ödeal",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Kredi Notu Nasıl Yükseltilir? Ticari Kredi Almak İçin Nelere Dikkat Edilmeli? · 1. Eksik veya Hatalı Başvuru Belgeleri · 2. Bilgi Uyuşmazlığı (İletişim ve ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Belg"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Kredi notu 1 ayda ne kadar artar",
+                "Kredi notu yükseltme Hilesi",
+                "3 ayda kredi notu yükseltme yolları",
+                "Kredi notu Kaç Ayda düzelir",
+                "Kredi Notu nasıl öğrenilir",
+                "Kredi notu Kaç Olmalı",
+                "Kredi notu yükseltme ekşi",
+                "Parayla kredi notu yükseltme"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,700 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "0.8643 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251215-2374-0139-0000-0ac5bfa17d5b",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "0.7840 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Kredi notu 1500 olan kredi çekebilir mi?",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Kredi notu 1500 olan kredi çekebilir mi?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=Kredi%20notu%201500%20olan%20kredi%20%C3%A7ekebilir%20mi%3F&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-25 12:15:45 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "related_searches"
+          ],
+          "se_results_count": 98,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "1500 kredi puanıyla, bankaların \"İyi\" olarak kabul ettiği risk grubunda yer aldığınız için yüksek ihtimalle kredi onaylanır.[](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali) [[1]](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali)\n\nKredi Notu Aralıkları ve 1500 Puanın Durumu\n\nFindeks sisteminde puanlar 0 ile 1900 arasında değişir. 1500 puanlık seviyenin genel bankacılık değerlendirmesindeki yeri şöyledir:[](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali) [[1]](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali)\n\n- **1500 – 1699 Puan (İyi):** Bankaların çoğunluğu bu puana sahip kişilerin kredi başvurularını olumlu değerlendirir. İhtiyaç kredisi ve taşıt kredisi gibi taleplerde onay alma şansınız oldukça yüksektir.\n- Diğer kriterler uygunsa konut kredisi gibi uzun vadeli finansmanlarda da 1500 puan genellikle yeterli görülür.[](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali) [[1]](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali)[[2]](https://www.hesapkurdu.com/ihtiyac-kredisi/rehber/ihtiyac-kredisi-kullanmak-icin-kredi-notum-kac-olmali)\n\nBankaların Dikkat Ettiği Diğer Kriterler\n\nBankalar kredi onay sürecinde sadece puana bakmaz . Kredinin çıkıp çıkmayacağını belirleyen diğer önemli unsurlar şunlardır:[](https://www.turkiyesigorta.com.tr/blog/yasam-diger/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir) [[1]](https://www.turkiyesigorta.com.tr/blog/yasam-diger/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir)\n\n- **Düzenli Gelir:** Aylık belgelenebilir gelirinizin talep ettiğiniz kredi taksitini karşılayabilmesi gerekir (genellikle taksit tutarı gelirin %40-50'sini geçmemelidir).\n- **Mevcut Borç Yükü:** Halihazırdaki kredi ve kredi kartı borçlarınızın toplamı.\n- **Yasal Takip Durumu:** Adınıza devam eden idari veya yasal bir takip olmaması şarttır.[](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali) [[1]](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali)\n\nKredinizin onaylanma ihtimalini daha net görebilmemiz için:\n\n- **Ne kadar kredi** çekmek istiyorsunuz?\n- **Aylık düzenli geliriniz** ne kadar?\n\nDetayları paylaşırsanız size daha fazla bilgi verebilirim.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "1500 kredi puanıyla, bankaların \"İyi\" olarak kabul ettiği risk grubunda yer aldığınız için yüksek ihtimalle kredi onaylanır.",
+                  "markdown": "1500 kredi puanıyla, bankaların \"İyi\" olarak kabul ettiği risk grubunda yer aldığınız için yüksek ihtimalle kredi onaylanır.[](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali) [[1]](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "ON Dijital",
+                      "domain": "on.com.tr",
+                      "url": "https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali",
+                      "title": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? - ON Dijital",
+                      "text": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ... Kredi Çekmek İçin Kredi Notu Kaç Olmalı? Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Kredi Notu Aralıkları ve 1500 Puanın Durumu",
+                  "text": "Findeks sisteminde puanlar 0 ile 1900 arasında değişir. 1500 puanlık seviyenin genel bankacılık değerlendirmesindeki yeri şöyledir:",
+                  "markdown": "Findeks sisteminde puanlar 0 ile 1900 arasında değişir. 1500 puanlık seviyenin genel bankacılık değerlendirmesindeki yeri şöyledir:[](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali) [[1]](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "ON Dijital",
+                      "domain": "on.com.tr",
+                      "url": "https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali",
+                      "title": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? - ON Dijital",
+                      "text": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ... Kredi Çekmek İçin Kredi Notu Kaç Olmalı? Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "1500 – 1699 Puan (İyi): Bankaların çoğunluğu bu puana sahip kişilerin kredi başvurularını olumlu değerlendirir. İhtiyaç kredisi ve taşıt kredisi gibi taleplerde onay alma şansınız oldukça yüksektir. Diğer kriterler uygunsa konut kredisi gibi uzun vadeli finansmanlarda da 1500 puan genellikle yeterli görülür.",
+                  "markdown": "- **1500 – 1699 Puan (İyi):** Bankaların çoğunluğu bu puana sahip kişilerin kredi başvurularını olumlu değerlendirir. İhtiyaç kredisi ve taşıt kredisi gibi taleplerde onay alma şansınız oldukça yüksektir.\n- Diğer kriterler uygunsa konut kredisi gibi uzun vadeli finansmanlarda da 1500 puan genellikle yeterli görülür.[](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali) [[1]](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali)[[2]](https://www.hesapkurdu.com/ihtiyac-kredisi/rehber/ihtiyac-kredisi-kullanmak-icin-kredi-notum-kac-olmali)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "ON Dijital",
+                      "domain": "on.com.tr",
+                      "url": "https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali",
+                      "title": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? - ON Dijital",
+                      "text": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ... Kredi Çekmek İçin Kredi Notu Kaç Olmalı? Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Hesapkurdu.com",
+                      "domain": "www.hesapkurdu.com",
+                      "url": "https://www.hesapkurdu.com/ihtiyac-kredisi/rehber/ihtiyac-kredisi-kullanmak-icin-kredi-notum-kac-olmali",
+                      "title": "İhtiyaç Kredisi İçin Kredi Notu Kaç Olmalı? - Hesapkurdu.com",
+                      "text": "İhtiyaç Kredisi İçin Kredi Notu Kaç Olmalı? * İhtiyaç Kredisi Çekebilmek İçin Kredi Notu Kaç Olmalı? * Kredi Notu ve Kredi Kayıt B..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Bankaların Dikkat Ettiği Diğer Kriterler",
+                  "text": "Bankalar kredi onay sürecinde sadece puana bakmaz. Kredinin çıkıp çıkmayacağını belirleyen diğer önemli unsurlar şunlardır:",
+                  "markdown": "Bankalar kredi onay sürecinde sadece puana bakmaz . Kredinin çıkıp çıkmayacağını belirleyen diğer önemli unsurlar şunlardır:[](https://www.turkiyesigorta.com.tr/blog/yasam-diger/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir) [[1]](https://www.turkiyesigorta.com.tr/blog/yasam-diger/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Türkiye Sigorta",
+                      "domain": "www.turkiyesigorta.com.tr",
+                      "url": "https://www.turkiyesigorta.com.tr/blog/yasam-diger/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir",
+                      "title": "Kredi Notu Nasıl Yükselir? Kaç Olmalı? - Türkiye Sigorta",
+                      "text": "Kredi Notu Kaç Olmalı? İdeal seviye bankaların değerlendirme kriterlerine göre değişebilir. Ancak genel olarak yüksek not daha ava..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Düzenli Gelir: Aylık belgelenebilir gelirinizin talep ettiğiniz kredi taksitini karşılayabilmesi gerekir (genellikle taksit tutarı gelirin %40-50'sini geçmemelidir). Mevcut Borç Yükü: Halihazırdaki kredi ve kredi kartı borçlarınızın toplamı. Yasal Takip Durumu: Adınıza devam eden idari veya yasal bir takip olmaması şarttır.",
+                  "markdown": "- **Düzenli Gelir:** Aylık belgelenebilir gelirinizin talep ettiğiniz kredi taksitini karşılayabilmesi gerekir (genellikle taksit tutarı gelirin %40-50'sini geçmemelidir).\n- **Mevcut Borç Yükü:** Halihazırdaki kredi ve kredi kartı borçlarınızın toplamı.\n- **Yasal Takip Durumu:** Adınıza devam eden idari veya yasal bir takip olmaması şarttır.[](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali) [[1]](https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "ON Dijital",
+                      "domain": "on.com.tr",
+                      "url": "https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali",
+                      "title": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? - ON Dijital",
+                      "text": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ... Kredi Çekmek İçin Kredi Notu Kaç Olmalı? Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Kredinizin onaylanma ihtimalini daha net görebilmemiz için:Ne kadar kredi çekmek istiyorsunuz?\nAylık düzenli geliriniz ne kadar?\nDetayları paylaşırsanız size daha fazla bilgi verebilirim.",
+                  "markdown": "Kredinizin onaylanma ihtimalini daha net görebilmemiz için:\n\n- **Ne kadar kredi** çekmek istiyorsunuz?\n- **Aylık düzenli geliriniz** ne kadar?\n\nDetayları paylaşırsanız size daha fazla bilgi verebilirim.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "ON Dijital",
+                  "domain": "on.com.tr",
+                  "url": "https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali",
+                  "title": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? - ON Dijital",
+                  "text": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ... Kredi Çekmek İçin Kredi Notu Kaç Olmalı? Kredi Çekmek İçin Kredi Notu Kaç Olmalı? ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Hesapkurdu.com",
+                  "domain": "www.hesapkurdu.com",
+                  "url": "https://www.hesapkurdu.com/ihtiyac-kredisi/rehber/ihtiyac-kredisi-kullanmak-icin-kredi-notum-kac-olmali",
+                  "title": "İhtiyaç Kredisi İçin Kredi Notu Kaç Olmalı? - Hesapkurdu.com",
+                  "text": "İhtiyaç Kredisi İçin Kredi Notu Kaç Olmalı? * İhtiyaç Kredisi Çekebilmek İçin Kredi Notu Kaç Olmalı? * Kredi Notu ve Kredi Kayıt B..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Türkiye Sigorta",
+                  "domain": "www.turkiyesigorta.com.tr",
+                  "url": "https://www.turkiyesigorta.com.tr/blog/yasam-diger/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir",
+                  "title": "Kredi Notu Nasıl Yükselir? Kaç Olmalı? - Türkiye Sigorta",
+                  "text": "Kredi Notu Kaç Olmalı? İdeal seviye bankaların değerlendirme kriterlerine göre değişebilir. Ancak genel olarak yüksek not daha ava..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Kredi notum 1500 ne kadar kredi alabilirim?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Kredi notu kaç olursa kredi çekilebilir?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Kredi notu 1 ayda ne kadar yükselir?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "1.200 puana kredi çıkar mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]",
+              "domain": "on.com.tr",
+              "title": "Kredi Çekmek İçin Kredi Notu Kaç Olmalı?",
+              "url": "https://on.com.tr/sozluk/kredi-cekmek-icin-kredi-notu-kac-olmali",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://on.com.tr › sozluk › kredi-cekmek-icin-kredi-no...",
+              "website_name": "ON Dijital",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Konut Kredisi: Uzun vadeli ve yüksek tutarlı olduğu için bankalar daha temkinlidir; genellikle 1500 ve üzeri not tercih edilir. ON Dijital ile en avantajlı faiz ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredisi",
+                "1500"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.garantibbva.com.tr",
+              "title": "Kredi Notu Nedir, Nasıl Hesaplanır ve Nasıl Yükseltilir?",
+              "url": "https://www.garantibbva.com.tr/blog/kredi-notu-nedir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.garantibbva.com.tr › blog › kredi-notu-nedir",
+              "website_name": "Garanti BBVA",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "26 May 2025 — Kredi Notu Nedir, Nasıl Hesaplanır ve Nasıl Yükseltilir? · Çok İyi: 1700 – 1900 · İyi: 1500 – 1699 · Normal: 1100 – 1499 · Orta Riskli: 700 – 1099 ...",
+              "pre_snippet": "05/26/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi Notu",
+                "1500"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-05-26 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "www.halkbank.com.tr",
+              "title": "Kredi Notu Nedir, Nasıl Hesaplanır?",
+              "url": "https://www.halkbank.com.tr/tr/blog/kredi-notu-nedir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.halkbank.com.tr › Blog",
+              "website_name": "Halkbank",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "11 Eyl 2025 — Kredi notunuz düşükken yeni bir başvuruda bulunmak, ret alma olasılığını artırır ve bu da notunuzu daha da aşağıya çeker. Notunuz toparlanana ...",
+              "pre_snippet": "09/11/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Kredi Notu Nedir? Neden...",
+                  "description": null,
+                  "url": "https://www.halkbank.com.tr/tr/blog/kredi-notu-nedir#s1",
+                  "domain": "www.halkbank.com.tr"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Kredi Notu Nasıl Öğrenilir?",
+                  "description": null,
+                  "url": "https://www.halkbank.com.tr/tr/blog/kredi-notu-nedir#s2",
+                  "domain": "www.halkbank.com.tr"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Kredi Notunu Etkileyen...",
+                  "description": null,
+                  "url": "https://www.halkbank.com.tr/tr/blog/kredi-notu-nedir#s3",
+                  "domain": "www.halkbank.com.tr"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-09-11 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "www.vakifkatilim.com.tr",
+              "title": "Kredi Notu Nedir? Nasıl Yükseltilir?",
+              "url": "https://www.vakifkatilim.com.tr/tr/hakkimizda/medya-merkezi/blog/detay/kredi-notu-nedir-nasil-yukseltilir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.vakifkatilim.com.tr › ... › Blog › Blog Detay",
+              "website_name": "Vakıf Katılım",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "21 Şub 2025 — Kredi puanları çoğunlukla 0-1900 aralığındadır ve bu puan aralıkları, finansal güvenilirlik seviyesini ifade eder. Kredi notunuz, yalnızca ...",
+              "pre_snippet": "02/21/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi puanları çoğunlukla 0-1900 aralığındadır"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-02-21 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.findeks.com",
+              "title": "Findeks Kredi Notu",
+              "url": "https://www.findeks.com/urunler/findeks-kredi-notu",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.findeks.com › ... › Findeks Kredi Notu",
+              "website_name": "Findeks",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Kredi Notu 'nuzu öğrenmeniz ve/veya herhangi bir zaman aralığında birden fazla kez almanız notunuzu düşürmez. Bu durumun not üzerinde herhangi bir etkisi yoktur.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi Notu"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.vakifbank.com.tr",
+              "title": "kredi-notu-nasil-yukseltilir-5-etkili-yontemle ...",
+              "url": "https://www.vakifbank.com.tr/tr/blog/kredi-notu-nasil-yukseltilir-5-etkili-yontemle-kredi-notunuzu-artirin",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.vakifbank.com.tr › Ana Sayfa › Blog",
+              "website_name": "VakıfBank",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "8 Eki 2025 — Bu nota sahip kişilerin başvurularının onaylanma ihtimali daha yüksektir. • 1500 – 1699 (İyi): Bankaların \"güvenilir\" olarak gördüğü bir ...",
+              "pre_snippet": "10/08/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1500"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-10-08 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "www.hesapkurdu.com",
+              "title": "İhtiyaç Kredisi İçin Kredi Notu Kaç Olmalı?",
+              "url": "https://www.hesapkurdu.com/ihtiyac-kredisi/rehber/ihtiyac-kredisi-kullanmak-icin-kredi-notum-kac-olmali",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.hesapkurdu.com › Kredi › İhtiyaç Kredisi",
+              "website_name": "Hesapkurdu.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "7 Nis 2026 — Ancak bir genelleme yapmak gerekirse, kredi notu 1500 ve üzeri olan kişilerin ihtiyaç kredisi kullanması mümkündür denilebilir. İhtiyaç ...",
+              "pre_snippet": "04/07/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "kredi notu 1500",
+                "olan",
+                "kredisi"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-04-07 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "www.remitly.com",
+              "title": "Kredi Notu Kaç Olmalı? Değerlendirme Kriterleri",
+              "url": "https://www.remitly.com/blog/tr/finance/kredi-notu-kac-olmali/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.remitly.com › Anasayfa › Kişisel finans",
+              "website_name": "Remitly",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "24 Mar 2025 — Türkiye'de kredi notları 0 ile 1900 arasında değişir. İdeal kredi notu, genellikle 1500 ve üzeri olarak kabul edilir. Bu not aralığındaki ...",
+              "pre_snippet": "03/24/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "kredi",
+                "kredi notu",
+                "1500"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Kredi Notu Temelleri",
+                  "description": null,
+                  "url": "https://www.remitly.com/blog/tr/finance/kredi-notu-kac-olmali/#toc-kredi-notu-temelleri",
+                  "domain": "www.remitly.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Kredi Notunu Etkileyen Faktörler",
+                  "description": null,
+                  "url": "https://www.remitly.com/blog/tr/finance/kredi-notu-kac-olmali/#toc-kredi-notunu-etkileyen-faktorler",
+                  "domain": "www.remitly.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "İdeal Kredi Notu Aralığı",
+                  "description": null,
+                  "url": "https://www.remitly.com/blog/tr/finance/kredi-notu-kac-olmali/#toc-ideal-kredi-notu-araligi",
+                  "domain": "www.remitly.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-03-24 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "eksisozluk.com",
+              "title": "kredi notu - sayfa 5",
+              "url": "https://eksisozluk.com/kredi-notu--176286?p=5",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://eksisozluk.com › kredi-notu--176286",
+              "website_name": "Ekşi Sözlük",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "minimum puan 0, maksimum puan 1900'dür. tüm bankalar bu ekrana ulaşma yetkisine sahiptir. x'te paylaş ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "1200 kredi notu ile ne kadar kredi Çekebilir",
+                "1350 kredi notu ile ne kadar kredi Çekebilir",
+                "1700 kredi notu ile ne kadar kredi Çekebilir",
+                "1250 kredi notu ile ne kadar kredi Çekebilir",
+                "1400 kredi notu ile kredi çekme",
+                "1900 kredi notu ile ne kadar kredi Çekebilir",
+                "1600 kredi notu ile ne kadar kredi Çekebilir",
+                "1500 kredi notu ile ne kadar kredi Çekebilir"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

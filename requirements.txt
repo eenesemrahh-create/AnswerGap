@@ -1,0 +1,8 @@
+# Faz 0 doğrulama scripti BİLEREK bağımlılıksızdır.
+#
+# Neden: sistemde Python 3.14.6 var ve `requests` kurulu değil. Tek seferlik bir
+# doğrulama scripti için venv + pip adımı eklemek gereksiz sürtünme yaratır ve
+# Python 3.14 yeni olduğu için paket uyumsuzluğu riski taşır.
+# stdlib `urllib.request` bu iş için fazlasıyla yeterli.
+#
+# Ürün kodu (FastAPI vb.) başladığında burası dolacak.

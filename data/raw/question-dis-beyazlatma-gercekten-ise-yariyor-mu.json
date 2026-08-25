@@ -1,0 +1,474 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "3.5704 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251601-2374-0139-0000-f24748ad2577",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "3.3312 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Diş beyazlatma gerçekten işe yarıyor mu?",
+        "location_code": 2840,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Diş beyazlatma gerçekten işe yarıyor mu?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=Di%C5%9F%20beyazlatma%20ger%C3%A7ekten%20i%C5%9Fe%20yar%C4%B1yor%20mu%3F&hl=tr&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:01:59 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "video",
+            "related_searches"
+          ],
+          "se_results_count": 110,
+          "pages_count": 1,
+          "items_count": 11,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": true,
+              "markdown": null,
+              "items": null,
+              "references": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]",
+              "domain": "www.klinik27.com",
+              "title": "Diş Beyazlatma Gerçekten İşe Yarıyor mu? Efsane mi, Gerçek ...",
+              "url": "https://www.klinik27.com/tr/blog/dis-beyazlatma-gercekten-ise-yariyor-mu-efsane-mi-gercek-mi",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.klinik27.com › blog › dis-beyazlatma-gerc...",
+              "website_name": "klinik27.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Gerçekten Etkili mi? Doğru uygulandığında diş beyazlatma işlemi oldukça etkilidir. Diş rengi birkaç ton açılabilir ve sonuçlar genellikle uzun süre kalıcı olur.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Doğru uygulandığında diş beyazlatma işlemi oldukça etkilidir"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Diş beyazlatma neden önerilmez?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Sarı olan dişler nasıl beyazlar?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Diş beyazlatma dişlere zarar verir mi?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Diş beyazlatma yaptıranların yorumları nelerdir?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · ProjeMED",
+                  "title": "Diş Beyazlatma Nedir? | Diş Beyazlatma Dişlere Zarar Verir Mi?",
+                  "timestamp": "2025-04-17 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=FW5B_jU6oTw"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · DENT AKGÜL Diş Polikliniği",
+                  "title": "Diş Beyazlatma Uygulaması - Öncesi ve Sonrası",
+                  "timestamp": "2023-10-27 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=vIXABqISQlQ"
+                },
+                {
+                  "type": "video_element",
+                  "source": "Instagram · Diş Adası Polikliniği",
+                  "title": "Diş Beyazlatma Gerçekten İşe Yarıyor mu? “Diş beyazlatma ...",
+                  "timestamp": "2026-08-11 16:01:59 +00:00",
+                  "url": "https://www.instagram.com/reel/Db8X52YTCvw/"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]/div[1]",
+              "domain": "eksisozluk.com",
+              "title": "diş beyazlatma",
+              "url": "https://eksisozluk.com/dis-beyazlatma--197198",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://eksisozluk.com › dis-beyazlatma--197198",
+              "website_name": "Ekşi Sözlük",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "dis macunuyla oldugundan daha beyaz olmasa da parlak olabilen dislerimiz doktorlarin dis agartma dedikleri bir yontemle 2 ila 4 ton arasinda ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "dis"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]",
+              "domain": "www.colgate.com",
+              "title": "Diş Beyazlatma Sağlıklı Mı?",
+              "url": "https://www.colgate.com/tr-tr/oral-health/teeth-whitening/is-teeth-whitening-safe",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.colgate.com › ... › Ağız Sağlığı",
+              "website_name": "Colgate",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Diş beyazlatmak güvenli mi? Evet, olabilir. Beyazlatma işlemini tek kelimeyle herhangi bir tıbbi tedavi gibi ele alın — diş hekiminizi dinleyin, talimatlara ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Diş beyazlatmak güvenli mi? Evet, olabilir"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[12]/div[1]/div[1]",
+              "domain": "dentvital.com.tr",
+              "title": "Diş Beyazlatma Bantları Gerçekten İşe Yarıyor mu? - DentVital",
+              "url": "https://dentvital.com.tr/dis-beyazlatma-bantlari-gercekten-ise-yariyor-mu/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://dentvital.com.tr › Tavsiyeler",
+              "website_name": "dentvital.com.tr",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "31 Mar 2025 — Bu aktif bileşenler dişin mine tabakasına nüfuz eder ve lekeleri parçalayarak dişlerin daha açık bir tona ulaşmasını sağlar. Ancak her ...",
+              "pre_snippet": "03/31/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-03-31 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]",
+              "domain": "www.memorial.com.tr",
+              "title": "Dişlerinizi Beyazlatmak İsterken Diş Sağlığınız İle Oynamayın",
+              "url": "https://www.memorial.com.tr/saglik-rehberi/dislerinizi-beyazlatmak-isterken-dis-sagliginiz-ile-oynamayin",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.memorial.com.tr › ... › Sağlık Rehberi",
+              "website_name": "Memorial Sağlık Grubu",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "24 Haz 2009 — Beyazlatma işlemi sırasında bazen dişlerde soğuk sıcak hassasiyeti olabilir. Bu normaldir, kalıcı değildir, ertesi gün tamamen geçer. Beyazlatma ...",
+              "pre_snippet": "06/24/2009 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Beyazlatma"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2009-06-24 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[16]/div[1]/div[1]",
+              "domain": "okandis.com",
+              "title": "Diş Beyazlatma Hakkında Merak Edilen Her Şey!",
+              "url": "https://okandis.com/dis-beyazlatma-hakkinda-merak-edilen-her-sey",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://okandis.com › dis-beyazlatma-hakkinda-merak-ed...",
+              "website_name": "Okan Üniversitesi Diş Hastanesi",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Dişlerde meydana gelen renklenmeleri diş beyazlatma (bleaching) işlemi ile giderilebilir ve daha beyaz dişlere sahip olabilirsiniz. Diş beyazlatma işlemi diş ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Dişlerde meydana gelen renklenmeleri diş beyazlatma (bleaching) işlemi ile giderilebilir"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[18]/div[1]/div[1]",
+              "domain": "www.beyazlat.net",
+              "title": "Diş Beyazlatma Yaptıranlar? Avantajları ve Dezavantajları",
+              "url": "https://www.beyazlat.net/dis-beyazlatma-yaptiranlar-avantajlari-ve-dezavantajlari/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.beyazlat.net › dis-beyazlatma-yaptiranlar-av...",
+              "website_name": "Beyazlat",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "9 Eki 2022 — Dişlerin daha beyaz bir görünüme kavuşması için diş hekimlerinin onayı ya da kontrolü dışında herhangi bir diş beyazlatma ürünü ...",
+              "pre_snippet": "10/09/2022 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "diş beyazlatma"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Ev Tipi Diş Beyazlatma...",
+                  "description": null,
+                  "url": "https://www.beyazlat.net/dis-beyazlatma-yaptiranlar-avantajlari-ve-dezavantajlari/#Ev_Tipi_Dis_Beyazlatma_Avantajlari",
+                  "domain": "www.beyazlat.net"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Diş Beyazlatma Uygulamaları...",
+                  "description": null,
+                  "url": "https://www.beyazlat.net/dis-beyazlatma-yaptiranlar-avantajlari-ve-dezavantajlari/#Dis_Beyazlatma_Uygulamalari_Sirasinda_Dikkat_Edilmesi_Gerekenler",
+                  "domain": "www.beyazlat.net"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2022-10-09 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Moen diş beyazlatma Yorumları",
+                "Mavi LED diş beyazlatma Yorumları",
+                "Diş beyazlatma yaptıranlar Kadınlar Kulübü",
+                "Evde diş BEYAZLATMA",
+                "Diş beyazlatma işe yaramadı",
+                "Lazerle diş BEYAZLATMA Yorumları",
+                "Evde diş beyazlatma ekşi",
+                "Kanal tedavili diş beyazlatma"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

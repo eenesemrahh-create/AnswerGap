@@ -1,0 +1,767 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "16.0734 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251613-2374-0139-0000-e7878243b3ac",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "15.5145 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "What is the best treatment to whiten teeth?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "What is the best treatment to whiten teeth?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=What%20is%20the%20best%20treatment%20to%20whiten%20teeth%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:13:39 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "video",
+            "related_searches"
+          ],
+          "se_results_count": 127,
+          "pages_count": 1,
+          "items_count": 13,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "The best overall teeth whitening treatment depends on whether you want immediate results from a dentist or convenience at home.[](https://www.gentledental.com/resources/articles/teeth-whitening-products) [[1]](https://www.gentledental.com/resources/articles/teeth-whitening-products)[[2]](http://www.smileondentists.com/top-teeth-whitening-treatments-which-one-is-right-for-you.html)\n\nProfessional In-Office Treatments\n\n- **Best for speed and dramatic results:** In-office procedures like Philips Zoom use high-strength peroxide gels activated by specialized lights to brighten teeth up to 8 shades in a single 45-minute visit.\n- **Cost:** $300 to $1,000+.[](https://gorgeoussmilesdental.com/blog/best-teeth-whitening-treatments-recommended-by-dentists/) [[1]](https://gorgeoussmilesdental.com/blog/best-teeth-whitening-treatments-recommended-by-dentists/)[[2]](https://www.magnoliadentistry.com/best-teeth-whitening-treatments-recommended-by-dentists/)\n\nAt-Home Dentist-Approved Kits\n\n- **Best overall kit:** Opalescence Go uses pre-filled, professional-strength hydrogen peroxide trays that adapt to your smile without custom molding.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)\n- **Best budget strips:** [Crest 3D Whitestrips](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) are affordable, easy to use, and clinically proven to remove years of stains over a 10-to-20-day span.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)[[2]](https://www.amazon.com/Best-Sellers-Teeth-Whitening-Products/zgbs/hpc/3778441)\n- **Best for sensitive teeth:** Lumineux Teeth Whitening Strips use a peroxide-free, enamel-safe formula with essential oils to lift stains without causing nerve pain or gum irritation.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)[[2]](https://www.amazon.com/Best-Sellers-Teeth-Whitening-Products/zgbs/hpc/3778441)[[3]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-whitening-product-for-sensitive-teeth/)\n\nIf you'd like to narrow down your options, tell me:\n\n- Do you have **tooth sensitivity**?\n- Are you looking for an **in-office or at-home** treatment?\n- What is your **budget**?",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "The best overall teeth whitening treatment depends on whether you want immediate results from a dentist or convenience at home.",
+                  "markdown": "The best overall teeth whitening treatment depends on whether you want immediate results from a dentist or convenience at home.[](https://www.gentledental.com/resources/articles/teeth-whitening-products) [[1]](https://www.gentledental.com/resources/articles/teeth-whitening-products)[[2]](http://www.smileondentists.com/top-teeth-whitening-treatments-which-one-is-right-for-you.html)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Gentle Dental of New England",
+                      "domain": "www.gentledental.com",
+                      "url": "https://www.gentledental.com/resources/articles/teeth-whitening-products",
+                      "title": "How To Choose Teeth Whitening Products [Expert Tips] - Gentle Dental",
+                      "text": "How To Choose the Right Teeth Whitening Product. The best teeth whitening product depends on the type of stain, how sensitive your..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "SmileOn Dentistry",
+                      "domain": "www.smileondentists.com",
+                      "url": "http://www.smileondentists.com/top-teeth-whitening-treatments-which-one-is-right-for-you.html",
+                      "title": "Top Teeth Whitening Treatments: Which One Is Right for You?",
+                      "text": "Which Option is Right for You? The best whitening treatment depends on your individual needs, lifestyle, and level of discoloratio..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Professional In-Office Treatments",
+                  "text": "Best for speed and dramatic results: In-office procedures like Philips Zoom use high-strength peroxide gels activated by specialized lights to brighten teeth up to 8 shades in a single 45-minute visit. Cost: $300 to $1,000+.",
+                  "markdown": "- **Best for speed and dramatic results:** In-office procedures like Philips Zoom use high-strength peroxide gels activated by specialized lights to brighten teeth up to 8 shades in a single 45-minute visit.\n- **Cost:** $300 to $1,000+.[](https://gorgeoussmilesdental.com/blog/best-teeth-whitening-treatments-recommended-by-dentists/) [[1]](https://gorgeoussmilesdental.com/blog/best-teeth-whitening-treatments-recommended-by-dentists/)[[2]](https://www.magnoliadentistry.com/best-teeth-whitening-treatments-recommended-by-dentists/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Gorgeous Smiles Dental",
+                      "domain": "gorgeoussmilesdental.com",
+                      "url": "https://gorgeoussmilesdental.com/blog/best-teeth-whitening-treatments-recommended-by-dentists/",
+                      "title": "Best Teeth Whitening Treatments Recommended by Dentists",
+                      "text": "In-Office Professional Whitening Treatments * In-office teeth whitening treatments like laser whitening, Zoom, and Opalescence del..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.magnoliadentistry.com",
+                      "domain": "www.magnoliadentistry.com",
+                      "url": "https://www.magnoliadentistry.com/best-teeth-whitening-treatments-recommended-by-dentists/",
+                      "title": "Best Teeth Whitening Treatments Recommended by Dentists",
+                      "text": "Popular Professional Whitening Systems Used by Dentists: * Zoom! Whitening – A highly effective in-office system that uses light-a..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "At-Home Dentist-Approved Kits",
+                  "text": "Best overall kit: Opalescence Go uses pre-filled, professional-strength hydrogen peroxide trays that adapt to your smile without custom molding. Best budget strips: Crest 3D Whitestrips are affordable, easy to use, and clinically proven to remove years of stains over a 10-to-20-day span. Best for sensitive teeth: Lumineux Teeth Whitening Strips use a peroxide-free, enamel-safe formula with essential oils to lift stains without causing nerve pain or gum irritation.",
+                  "markdown": "- **Best overall kit:** Opalescence Go uses pre-filled, professional-strength hydrogen peroxide trays that adapt to your smile without custom molding.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)\n- **Best budget strips:** [Crest 3D Whitestrips](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) are affordable, easy to use, and clinically proven to remove years of stains over a 10-to-20-day span.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)[[2]](https://www.amazon.com/Best-Sellers-Teeth-Whitening-Products/zgbs/hpc/3778441)\n- **Best for sensitive teeth:** Lumineux Teeth Whitening Strips use a peroxide-free, enamel-safe formula with essential oils to lift stains without causing nerve pain or gum irritation.[](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/) [[1]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/)[[2]](https://www.amazon.com/Best-Sellers-Teeth-Whitening-Products/zgbs/hpc/3778441)[[3]](https://www.forbes.com/sites/forbes-personal-shopper/article/best-whitening-product-for-sensitive-teeth/)",
+                  "links": [
+                    {
+                      "type": "link_element",
+                      "title": "Crest 3D Whitestrips",
+                      "description": null,
+                      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/",
+                      "domain": "www.forbes.com"
+                    }
+                  ],
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Forbes",
+                      "domain": "www.forbes.com",
+                      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/",
+                      "title": "Best Teeth Whitening Kits 2026: 9 Dentist-Approved Picks - Forbes",
+                      "text": "WHAT WE UPDATED. ... If you're looking to brighten your smile, getting an at-home teeth whitening kit is convenient, effective and..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Amazon.com",
+                      "domain": "www.amazon.com",
+                      "url": "https://www.amazon.com/Best-Sellers-Teeth-Whitening-Products/zgbs/hpc/3778441",
+                      "title": "Amazon Best Sellers: Best Teeth Whitening Products",
+                      "text": "Teeth Whitening * Crest Teeth Whitening Strips, Crest 3D Whitestrips Professional Effects, Enamel Safe Teeth Whitening Kit, 22 Tre..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Forbes",
+                      "domain": "www.forbes.com",
+                      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-whitening-product-for-sensitive-teeth/",
+                      "title": "Best Whitening Products For Sensitive Teeth 2026 - Forbes Vetted",
+                      "text": "Our Top Recommendations * Best Teeth Whitening Product Overall For Sensitive Teeth: Crest 3D Whitestrips Sensitive. Check Price. *"
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you'd like to narrow down your options, tell me:Do you have tooth sensitivity ?\nAre you looking for an in-office or at-home treatment?\nWhat is your budget ?",
+                  "markdown": "If you'd like to narrow down your options, tell me:\n\n- Do you have **tooth sensitivity**?\n- Are you looking for an **in-office or at-home** treatment?\n- What is your **budget**?",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Forbes",
+                  "domain": "www.forbes.com",
+                  "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/",
+                  "title": "Best Teeth Whitening Kits 2026: 9 Dentist-Approved Picks - Forbes",
+                  "text": "WHAT WE UPDATED. ... If you're looking to brighten your smile, getting an at-home teeth whitening kit is convenient, effective and..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Amazon.com",
+                  "domain": "www.amazon.com",
+                  "url": "https://www.amazon.com/Best-Sellers-Teeth-Whitening-Products/zgbs/hpc/3778441",
+                  "title": "Amazon Best Sellers: Best Teeth Whitening Products",
+                  "text": "Teeth Whitening * Crest Teeth Whitening Strips, Crest 3D Whitestrips Professional Effects, Enamel Safe Teeth Whitening Kit, 22 Tre..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Forbes",
+                  "domain": "www.forbes.com",
+                  "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-whitening-product-for-sensitive-teeth/",
+                  "title": "Best Whitening Products For Sensitive Teeth 2026 - Forbes Vetted",
+                  "text": "Our Top Recommendations * Best Teeth Whitening Product Overall For Sensitive Teeth: Crest 3D Whitestrips Sensitive. Check Price. *"
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Gorgeous Smiles Dental",
+                  "domain": "gorgeoussmilesdental.com",
+                  "url": "https://gorgeoussmilesdental.com/blog/best-teeth-whitening-treatments-recommended-by-dentists/",
+                  "title": "Best Teeth Whitening Treatments Recommended by Dentists",
+                  "text": "In-Office Professional Whitening Treatments * In-office teeth whitening treatments like laser whitening, Zoom, and Opalescence del..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Gentle Dental of New England",
+                  "domain": "www.gentledental.com",
+                  "url": "https://www.gentledental.com/resources/articles/teeth-whitening-products",
+                  "title": "How To Choose Teeth Whitening Products [Expert Tips] - Gentle Dental",
+                  "text": "How To Choose the Right Teeth Whitening Product. The best teeth whitening product depends on the type of stain, how sensitive your..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "SmileOn Dentistry",
+                  "domain": "www.smileondentists.com",
+                  "url": "http://www.smileondentists.com/top-teeth-whitening-treatments-which-one-is-right-for-you.html",
+                  "title": "Top Teeth Whitening Treatments: Which One Is Right for You?",
+                  "text": "Which Option is Right for You? The best whitening treatment depends on your individual needs, lifestyle, and level of discoloratio..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.magnoliadentistry.com",
+                  "domain": "www.magnoliadentistry.com",
+                  "url": "https://www.magnoliadentistry.com/best-teeth-whitening-treatments-recommended-by-dentists/",
+                  "title": "Best Teeth Whitening Treatments Recommended by Dentists",
+                  "text": "Popular Professional Whitening Systems Used by Dentists: * Zoom! Whitening – A highly effective in-office system that uses light-a..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can yellow teeth become white again?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can 60 year old teeth be whitened?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "How to get insanely white teeth?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "How do I make my teeth whiter fast?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]",
+              "domain": "www.forbes.com",
+              "title": "Best Teeth Whitening Kits 2026: 9 Dentist-Approved Picks",
+              "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.forbes.com › ... › Personal Products",
+              "website_name": "Forbes",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Mar 3, 2026 — Our Top Recommendations · Best Teeth Whitening Kit Overall: Opalescence Go · Best For Beginners: SmilePro Advanced Teeth Whitening Kit · Best Teeth ... Read more",
+              "pre_snippet": "03/03/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Best Teeth Whitening Kit Overall: Opalescence Go"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-03-03 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.rejuv-health.com",
+              "title": "10 Teeth Whitening Methods and What They Cost",
+              "url": "https://www.rejuv-health.com/cosmetic-dentistry/teeth-whitening-cost/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.rejuv-health.com › cosmetic-dentistry › tee...",
+              "website_name": "Rejuvenation Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Over-the-Counter Whitening ; 1. Teeth Whitening Strips · $30-$70 for 10-20 strips · 5-30 minutes daily for 1-2 weeks depending on the strength of the whitening gel ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Over-the-Counter Whitening"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "www.northeastdentalarts.com",
+              "title": "Safest Ways to Whiten Your Teeth Without Damage",
+              "url": "https://www.northeastdentalarts.com/blog/what-is-the-least-damaging-way-to-whiten-your-teeth/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.northeastdentalarts.com › blog › what-is-the...",
+              "website_name": "North East Dental Arts",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Whitening Toothpaste. These contain small polishing compounds that will help remove surface stains. · Whitening Mouthwash · Custom Whitening Trays by Your Dentist. Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Whitening Toothpaste"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "www.healthline.com",
+              "title": "How to Naturally Whiten Your Teeth at Home",
+              "url": "https://www.healthline.com/nutrition/whiten-teeth-naturally",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.healthline.com › nutrition › whiten-teeth-n...",
+              "website_name": "Healthline",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Swishing coconut oil in your mouth daily, a practice known as oil pulling, may help reduce bacteria and plaque, contributing to whiter teeth. Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Swishing coconut oil in your mouth daily"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.nhs.uk",
+              "title": "Teeth whitening",
+              "url": "https://www.nhs.uk/tests-and-treatments/teeth-whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nhs.uk › tests-and-treatments › teeth-white...",
+              "website_name": "nhs.uk",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Teeth whitening can be done using a kit bought from a dentist that you use for a few weeks, or with a laser at a dental surgery, which is quicker and more ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "using a kit bought from a dentist that you use for a few weeks"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.sandiegoartofdentistry.com",
+              "title": "What is The Best Teeth Whitening Method",
+              "url": "https://www.sandiegoartofdentistry.com/blog/what-is-the-best-teeth-whitening-method/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.sandiegoartofdentistry.com › blog › what-is-...",
+              "website_name": "San Diego Cosmetic Dentist",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Most strips are coated with a hydrogen peroxide-based whitening gel, which is typically applied on the upper and lower teeth for 3o minutes, twice a day.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "hydrogen peroxide-based whitening gel"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Dr. Houlik",
+                  "title": "A Dentist Explains 3 Best Ways To Whiten Your Teeth",
+                  "timestamp": "2025-02-12 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=i8yqDgT0tCE"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Teeth Talk Girl",
+                  "title": "4 Best Ways To Whiten Your Teeth",
+                  "timestamp": "2025-10-28 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=FI1dQf73k6U"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Baseline Dental",
+                  "title": "Dentist REVEALS The Best Teeth Whitening For SENSITIVE ...",
+                  "timestamp": "2026-02-21 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=Gn6JHl-3wkI"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "www.goodrx.com",
+              "title": "4 Dentist-Approved Ways to Safely Whiten Your Teeth",
+              "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe?srsltid=AfmBOoqthqPrcSGItZ-R3bTekeCXTb7fBHeymrZ2XJUEgLkl7i49t5OD",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.goodrx.com › ... › What Is Dental Care?",
+              "website_name": "GoodRx",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Custom-fitted trays and in-office treatments are the safest and most effective ways to whiten teeth. American Dental Association (ADA)-approved over-the-counter",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Custom-fitted trays and in-office treatments"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "2. Whitening Strips",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe",
+                  "domain": "www.goodrx.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Best Whitening Toothpaste",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe",
+                  "domain": "www.goodrx.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Best Teeth Whitening...",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe",
+                  "domain": "www.goodrx.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "www.webmd.com",
+              "title": "Teeth Whitening and Bleaching Treatments",
+              "url": "https://www.webmd.com/oral-health/teeth-whitening-and-bleaching",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.webmd.com › Oral Care › Reference",
+              "website_name": "WebMD",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Nov 15, 2023 — Tooth whitening is most often done using peroxide-based bleaching agents. At-home systems contain from 3% to 20% peroxide (carbamide or hydrogen ... Read more",
+              "pre_snippet": "11/15/2023 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "peroxide-based bleaching agents"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2023-11-15 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[21]/div[1]/div[1]",
+              "domain": "www.medicalnewstoday.com",
+              "title": "How to whiten teeth naturally: 5 home remedies",
+              "url": "https://www.medicalnewstoday.com/articles/322421",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.medicalnewstoday.com › articles",
+              "website_name": "Medical News Today",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "For optimal whitening, a person can try brushing with a mix of baking soda and hydrogen peroxide for 1 to 2 minutes twice a day for a week. They should only do ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "whitening"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Hydrogen peroxide",
+                  "description": null,
+                  "url": "https://www.medicalnewstoday.com/articles/322421#hydrogen-peroxide",
+                  "domain": "www.medicalnewstoday.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Fruit enzymes",
+                  "description": null,
+                  "url": "https://www.medicalnewstoday.com/articles/322421#fruit-enzymes",
+                  "domain": "www.medicalnewstoday.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Oil pulling",
+                  "description": null,
+                  "url": "https://www.medicalnewstoday.com/articles/322421#oil-pulling",
+                  "domain": "www.medicalnewstoday.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Why teeth turn yellow",
+                  "description": null,
+                  "url": "https://www.medicalnewstoday.com/articles/322421#why-teeth-turn-yellow",
+                  "domain": "www.medicalnewstoday.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 13,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "What is the best treatment to whiten teeth naturally",
+                "What is the best treatment to whiten teeth at home",
+                "Best way to whiten teeth professionally",
+                "How to whiten teeth naturally at home",
+                "Best teeth whitening at home",
+                "Teeth whitening products that actually work",
+                "How much is it to whiten your teeth at dentist",
+                "Types of teeth whitening at dentist"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

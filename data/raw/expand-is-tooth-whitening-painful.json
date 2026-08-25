@@ -1,0 +1,779 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "3.0365 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251613-2374-0139-0000-b21fdbbeade0",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.3684 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Is tooth whitening painful?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Is tooth whitening painful?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=Is%20tooth%20whitening%20painful%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:13:51 +00:00",
+          "spell": {
+            "keyword": "Is teeth whitening painful?",
+            "type": "did_you_mean"
+          },
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "discussions_and_forums",
+            "related_searches"
+          ],
+          "se_results_count": 123,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Teeth whitening `does not usually cause severe pain, but it often causes temporary tooth sensitivity or brief \"zings\" of discomfort` . The bleaching gel opens tiny pores in the enamel to clear out stains, which temporarily lets hot, cold, or air reach the inner nerves.[](https://www.manateekidsdentist.com/does-teeth-whitening-hurt/) [[1]](https://www.manateekidsdentist.com/does-teeth-whitening-hurt/)[[2]](https://www.grandviewdentistry.com/does-teeth-whitening-hurt-edina-mn/)[[3]](https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/)[[4]](https://lanedds.com/why-do-my-teeth-hurt-after-whitening/)\n\nWhy Discomfort Happens\n\n- **Peroxide action:** Hydrogen or carbamide peroxide breaks down deep stains and rouses nerve endings inside the tooth.\n- **Gum contact:** Gel that spills onto the soft gum line causes a stinging or burning feeling.\n- **High strength:** Stronger formulas used in fast treatments raise your odds of feeling a dull ache.[](https://www.manateekidsdentist.com/does-teeth-whitening-hurt/) [[1]](https://www.manateekidsdentist.com/does-teeth-whitening-hurt/)[[2]](https://superior-dentistry.com/does-teeth-whitening-hurt/)[[3]](https://www.thesuperdentists.com/sensitive-teeth-hurting-after-whitening/)[[4]](https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/)\n\nHow to Manage Sensitivity\n\n- **Use special paste:** Brush with a desensitizing toothpaste a couple of weeks before and after you whiten.\n- **Skip extremes:** Avoid very hot or ice-cold drinks for the first 24 to 48 hours.\n- **Take a break:** Space out your whitening sessions or shorten the time the gel stays on your teeth.\n- **See a pro:** Ask a dentist to check for cavities or cracks that make pain worse before you start.[](https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/) [[1]](https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/)[[2]](https://www.youtube.com/shorts/7xT2OA4-wlE)[[3]](https://sfsunsetdentistry.com/blog/does-teeth-whitening-hurt/)\n\nIf you're planning to whiten, tell me:\n\n- Are you considering **at-home strips/kits** or an **in-office dentist treatment**?\n- Do your teeth **already feel sensitive** to cold or hot foods?\n\nI can help you pick a safer, more comfortable approach.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Teeth whitening does not usually cause severe pain, but it often causes temporary tooth sensitivity or brief \"zings\" of discomfort. The bleaching gel opens tiny pores in the enamel to clear out stains, which temporarily lets hot, cold, or air reach the inner nerves.",
+                  "markdown": "Teeth whitening `does not usually cause severe pain, but it often causes temporary tooth sensitivity or brief \"zings\" of discomfort` . The bleaching gel opens tiny pores in the enamel to clear out stains, which temporarily lets hot, cold, or air reach the inner nerves.[](https://www.manateekidsdentist.com/does-teeth-whitening-hurt/) [[1]](https://www.manateekidsdentist.com/does-teeth-whitening-hurt/)[[2]](https://www.grandviewdentistry.com/does-teeth-whitening-hurt-edina-mn/)[[3]](https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/)[[4]](https://lanedds.com/why-do-my-teeth-hurt-after-whitening/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Children's Dentistry of Manatee",
+                      "domain": "www.manateekidsdentist.com",
+                      "url": "https://www.manateekidsdentist.com/does-teeth-whitening-hurt/",
+                      "title": "Why Does Teeth Whitening Hurt For Some People",
+                      "text": "Tooth Sensitivity During whitening, active agents like hydrogen peroxide and carbamide peroxide penetrate your tooth enamel to bre..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Grandview Center for Dentistry",
+                      "domain": "www.grandviewdentistry.com",
+                      "url": "https://www.grandviewdentistry.com/does-teeth-whitening-hurt-edina-mn/",
+                      "title": "Is Teeth Whitening Painful? - Expert Advice from Edina Dentist",
+                      "text": "Does teeth whitening cause pain? Most patients do not experience significant pain during teeth whitening. However, some individual..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "trinitydentalcares.com",
+                      "domain": "trinitydentalcares.com",
+                      "url": "https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/",
+                      "title": "Is Professional Teeth Whitening Supposed to Feel Like This? A Guide to Sensitivity",
+                      "text": "Is Professional Teeth Whitening Supposed to Feel Like This? A Guide to Sensitivity. ... So, you just had your teeth professionally..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Lane DDS",
+                      "domain": "lanedds.com",
+                      "url": "https://lanedds.com/why-do-my-teeth-hurt-after-whitening/",
+                      "title": "Why Do My Teeth Hurt After Whitening? | Tips from Lane & Associates",
+                      "text": "Why Do Teeth Feel Sensitive After Whitening? * Peroxide Exposure. Hydrogen peroxide in whitening products creates tiny openings in..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Why Discomfort Happens",
+                  "text": "Peroxide action: Hydrogen or carbamide peroxide breaks down deep stains and rouses nerve endings inside the tooth. Gum contact: Gel that spills onto the soft gum line causes a stinging or burning feeling. High strength: Stronger formulas used in fast treatments raise your odds of feeling a dull ache.",
+                  "markdown": "- **Peroxide action:** Hydrogen or carbamide peroxide breaks down deep stains and rouses nerve endings inside the tooth.\n- **Gum contact:** Gel that spills onto the soft gum line causes a stinging or burning feeling.\n- **High strength:** Stronger formulas used in fast treatments raise your odds of feeling a dull ache.[](https://www.manateekidsdentist.com/does-teeth-whitening-hurt/) [[1]](https://www.manateekidsdentist.com/does-teeth-whitening-hurt/)[[2]](https://superior-dentistry.com/does-teeth-whitening-hurt/)[[3]](https://www.thesuperdentists.com/sensitive-teeth-hurting-after-whitening/)[[4]](https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Children's Dentistry of Manatee",
+                      "domain": "www.manateekidsdentist.com",
+                      "url": "https://www.manateekidsdentist.com/does-teeth-whitening-hurt/",
+                      "title": "Why Does Teeth Whitening Hurt For Some People",
+                      "text": "Tooth Sensitivity During whitening, active agents like hydrogen peroxide and carbamide peroxide penetrate your tooth enamel to bre..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Superior Cosmetic & Family Dentistry",
+                      "domain": "superior-dentistry.com",
+                      "url": "https://superior-dentistry.com/does-teeth-whitening-hurt/",
+                      "title": "Does Teeth Whitening Hurt? Exploring the Sensitivity Factor",
+                      "text": "Why Does Teeth Whitening Hurt? (Plus Sensitivity Causes) Based on extensive clinical research, tooth sensitivity is a common side ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "The Super Dentists",
+                      "domain": "www.thesuperdentists.com",
+                      "url": "https://www.thesuperdentists.com/sensitive-teeth-hurting-after-whitening/",
+                      "title": "Sensitive Teeth After Whitening? Here's Why (And What to Do)",
+                      "text": "Why Does Teeth Whitening Hurt, and What Should You Do if Your Teeth Are Sensitive After Whitening? Aug 19, 2025. Young woman exper..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "trinitydentalcares.com",
+                      "domain": "trinitydentalcares.com",
+                      "url": "https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/",
+                      "title": "Is Professional Teeth Whitening Supposed to Feel Like This? A Guide to Sensitivity",
+                      "text": "Is Professional Teeth Whitening Supposed to Feel Like This? A Guide to Sensitivity. ... So, you just had your teeth professionally..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "How to Manage Sensitivity",
+                  "text": "Use special paste: Brush with a desensitizing toothpaste a couple of weeks before and after you whiten. Skip extremes: Avoid very hot or ice-cold drinks for the first 24 to 48 hours. Take a break: Space out your whitening sessions or shorten the time the gel stays on your teeth. See a pro: Ask a dentist to check for cavities or cracks that make pain worse before you start.",
+                  "markdown": "- **Use special paste:** Brush with a desensitizing toothpaste a couple of weeks before and after you whiten.\n- **Skip extremes:** Avoid very hot or ice-cold drinks for the first 24 to 48 hours.\n- **Take a break:** Space out your whitening sessions or shorten the time the gel stays on your teeth.\n- **See a pro:** Ask a dentist to check for cavities or cracks that make pain worse before you start.[](https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/) [[1]](https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/)[[2]](https://www.youtube.com/shorts/7xT2OA4-wlE)[[3]](https://sfsunsetdentistry.com/blog/does-teeth-whitening-hurt/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "trinitydentalcares.com",
+                      "domain": "trinitydentalcares.com",
+                      "url": "https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/",
+                      "title": "Is Professional Teeth Whitening Supposed to Feel Like This? A Guide to Sensitivity",
+                      "text": "Is Professional Teeth Whitening Supposed to Feel Like This? A Guide to Sensitivity. ... So, you just had your teeth professionally..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "YouTube",
+                      "domain": "www.youtube.com",
+                      "url": "https://www.youtube.com/shorts/7xT2OA4-wlE",
+                      "title": "sensitivity when whitening your teeth? #shorts",
+                      "text": "ah my teeth are so sensitive from whitening them last. week sensitive teeth from whitening. here's how to prevent it number one al..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "sfsunsetdentistry.com",
+                      "domain": "sfsunsetdentistry.com",
+                      "url": "https://sfsunsetdentistry.com/blog/does-teeth-whitening-hurt/",
+                      "title": "Does Teeth Whitening Hurt? - Sunset Dentistry",
+                      "text": "Why Does My Teeth Hurt After Whitening? * Enamel Exposure. Whitening agents penetrate the outer layer of the teeth, leading to ena..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you're planning to whiten, tell me:Are you considering at-home strips/kits or an in-office dentist treatment ?\nDo your teeth already feel sensitive to cold or hot foods?\nI can help you pick a safer, more comfortable approach.",
+                  "markdown": "If you're planning to whiten, tell me:\n\n- Are you considering **at-home strips/kits** or an **in-office dentist treatment**?\n- Do your teeth **already feel sensitive** to cold or hot foods?\n\nI can help you pick a safer, more comfortable approach.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Children's Dentistry of Manatee",
+                  "domain": "www.manateekidsdentist.com",
+                  "url": "https://www.manateekidsdentist.com/does-teeth-whitening-hurt/",
+                  "title": "Why Does Teeth Whitening Hurt For Some People",
+                  "text": "Tooth Sensitivity During whitening, active agents like hydrogen peroxide and carbamide peroxide penetrate your tooth enamel to bre..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Superior Cosmetic & Family Dentistry",
+                  "domain": "superior-dentistry.com",
+                  "url": "https://superior-dentistry.com/does-teeth-whitening-hurt/",
+                  "title": "Does Teeth Whitening Hurt? Exploring the Sensitivity Factor",
+                  "text": "Why Does Teeth Whitening Hurt? (Plus Sensitivity Causes) Based on extensive clinical research, tooth sensitivity is a common side ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "trinitydentalcares.com",
+                  "domain": "trinitydentalcares.com",
+                  "url": "https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/",
+                  "title": "Is Professional Teeth Whitening Supposed to Feel Like This? A Guide to Sensitivity",
+                  "text": "Is Professional Teeth Whitening Supposed to Feel Like This? A Guide to Sensitivity. ... So, you just had your teeth professionally..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Grandview Center for Dentistry",
+                  "domain": "www.grandviewdentistry.com",
+                  "url": "https://www.grandviewdentistry.com/does-teeth-whitening-hurt-edina-mn/",
+                  "title": "Is Teeth Whitening Painful? - Expert Advice from Edina Dentist",
+                  "text": "Does teeth whitening cause pain? Most patients do not experience significant pain during teeth whitening. However, some individual..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Lane DDS",
+                  "domain": "lanedds.com",
+                  "url": "https://lanedds.com/why-do-my-teeth-hurt-after-whitening/",
+                  "title": "Why Do My Teeth Hurt After Whitening? | Tips from Lane & Associates",
+                  "text": "Why Do Teeth Feel Sensitive After Whitening? * Peroxide Exposure. Hydrogen peroxide in whitening products creates tiny openings in..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "The Super Dentists",
+                  "domain": "www.thesuperdentists.com",
+                  "url": "https://www.thesuperdentists.com/sensitive-teeth-hurting-after-whitening/",
+                  "title": "Sensitive Teeth After Whitening? Here's Why (And What to Do)",
+                  "text": "Why Does Teeth Whitening Hurt, and What Should You Do if Your Teeth Are Sensitive After Whitening? Aug 19, 2025. Young woman exper..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "sfsunsetdentistry.com",
+                  "domain": "sfsunsetdentistry.com",
+                  "url": "https://sfsunsetdentistry.com/blog/does-teeth-whitening-hurt/",
+                  "title": "Does Teeth Whitening Hurt? - Sunset Dentistry",
+                  "text": "Why Does My Teeth Hurt After Whitening? * Enamel Exposure. Whitening agents penetrate the outer layer of the teeth, leading to ena..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "YouTube",
+                  "domain": "www.youtube.com",
+                  "url": "https://www.youtube.com/shorts/7xT2OA4-wlE",
+                  "title": "sensitivity when whitening your teeth? #shorts",
+                  "text": "ah my teeth are so sensitive from whitening them last. week sensitive teeth from whitening. here's how to prevent it number one al..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is it worth getting teeth whitened at the dentist?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "How bad does getting your teeth whitened hurt?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Do teeth turn yellow again after whitening?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is there a downside to teeth whitening?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "Teeth whitening pain is NOT talked about enough “mild ...",
+              "url": "https://www.reddit.com/r/Adulting/comments/1pt3ug5/teeth_whitening_pain_is_not_talked_about_enough/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "110+ comments  ·  8 months ago",
+              "website_name": "Reddit · r/Adulting",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "This time, the discomfort was worse in the morning, but weirdly not a sensitive pain. It didn't hurt to have hot or cold drinks - only 1 tooth ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "weirdly not a sensitive pain"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "I just had my teeth professionally whitened an hour ago ...",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/askdentists/comments/160btiy/i_just_had_my_teeth_professionally_whitened_an/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Extreme pain after tooth whitening : r/Dentistry - Reddit",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/Dentistry/comments/eeef0h/extreme_pain_after_tooth_whitening/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "More results from www.reddit.com",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=Is+tooth+whitening+painful?+site:www.reddit.com&sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&sa=X&ved=2ahUKEwjWmayblryWAxXidUEAHS1OLGIQrQIoAnoECCkQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "pubmed.ncbi.nlm.nih.gov",
+              "title": "Pretty painful: why does tooth bleaching hurt?",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/20045265/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://pubmed.ncbi.nlm.nih.gov › ...",
+              "website_name": "National Institutes of Health (NIH) | (.gov)",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "by K Markowitz · 2010 · Cited by 343 — In BS, pain can occur in healthy intact teeth without any provoking stimulus. Currently the mechanism of nociceptors activation in BS is unknown.",
+              "pre_snippet": "by K Markowitz · 2010 · Cited by 343",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "pain can occur in healthy intact teeth"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "discussions_and_forums",
+              "rank_group": 1,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]",
+              "title": "Discussions and forums",
+              "items": [
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "I just had my teeth professionally whitened an hour ago and almost couldn' ...",
+                  "url": "https://www.reddit.com/r/askdentists/comments/160btiy/i_just_had_my_teeth_professionally_whitened_an/",
+                  "domain": "www.reddit.com",
+                  "source": "Reddit",
+                  "description": null,
+                  "timestamp": "2023-08-25 16:13:51 +00:00",
+                  "posts_count": 7
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "How Long Will the Pain Last from Tooth Whitening?",
+                  "url": "https://www.realself.com/question/zoom-teeth-whitening-how-long-will-pain-last",
+                  "domain": "www.realself.com",
+                  "source": "Realself",
+                  "description": null,
+                  "timestamp": "2008-08-25 16:13:51 +00:00",
+                  "posts_count": 18
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "Is it normal to have extreme pain at start of teeth whitening treatment?",
+                  "url": "https://www.realself.com/question/sydney-au-extreme-pain-start-teeth-whitening-treatment",
+                  "domain": "www.realself.com",
+                  "source": "Realself",
+                  "description": null,
+                  "timestamp": "2015-08-25 16:13:51 +00:00",
+                  "posts_count": 11
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "trinitydentalcares.com",
+              "title": "Is Professional Teeth Whitening Supposed to Feel Like This ...",
+              "url": "https://trinitydentalcares.com/is-professional-teeth-whitening-supposed-to-feel-like-this/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://trinitydentalcares.com › is-professional-teeth-whi...",
+              "website_name": "trinitydentalcares.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Feb 16, 2026 — It's common to feel temporary “zings” or a mild, dull ache in your teeth during or after an in-office whitening session. This doesn't mean ... Read more",
+              "pre_snippet": "02/16/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "It's common to feel temporary “zings” or a mild, dull ache"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-02-16 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.grandviewdentistry.com",
+              "title": "Is Teeth Whitening Painful? - Expert Advice from Edina ...",
+              "url": "https://www.grandviewdentistry.com/does-teeth-whitening-hurt-edina-mn/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.grandviewdentistry.com › Community",
+              "website_name": "Grandview Center for Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Most patients do not experience significant pain during teeth whitening. However, some individuals may feel temporary sensitivity, especially if they have pre- ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Most patients do not experience significant pain during teeth whitening"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.suttonpda.com",
+              "title": "Sensitivity & gums irritation after teeth whitening",
+              "url": "https://www.suttonpda.com/sensitivity-safety-teeth-whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.suttonpda.com › sensitivity-safety-teeth-whit...",
+              "website_name": "Sutton Place Dental Associates",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "You will likely suffer from significant sensitivity because bleaching agents will penetrate the inner areas of the tooth.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "You will likely suffer from significant sensitivity"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "ericbattertondds.com",
+              "title": "Teeth Pain After Whitening? Causes & Quick Relief Tips",
+              "url": "https://ericbattertondds.com/my-teeth-are-killing-me-after-whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://ericbattertondds.com › my-teeth-are-killing-me-af...",
+              "website_name": "Eric Batterton DDS",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "This discomfort can range from mild sensitivity to more severe, throbbing pain, leaving many to wonder why their teeth are killing them after whitening.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "mild sensitivity to more severe, throbbing pain"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "www.modernagedentistry.com",
+              "title": "Does Professional Teeth Whitening Hurt?",
+              "url": "https://www.modernagedentistry.com/blog/does-professional-teeth-whitening-hurt",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.modernagedentistry.com › blog › does-pro...",
+              "website_name": "Modern Age Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "The good news about teeth whitening is that the treatment itself doesn't cause any pain whatsoever, so you can rest easy.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "treatment itself doesn't cause any pain"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "www.goodrx.com",
+              "title": "6 Ways to Manage Tooth Sensitivity After Whitening",
+              "url": "https://www.goodrx.com/conditions/dental-care/sensitive-teeth-after-whitening?srsltid=AfmBOop4DAlkIIRjO3NBP-eorhifhIC9C32a1QfOsZ0oufMPJUKqh-Ro",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.goodrx.com › ... › What Is Dental Care?",
+              "website_name": "GoodRx",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Aug 27, 2024 — Teeth whitening may cause mild tooth pain, sensitivity, and gingival irritation. Tooth sensitivity and gum pain after whitening should only ...",
+              "pre_snippet": "08/27/2024 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Teeth whitening may cause mild tooth pain"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Causes",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/sensitive-teeth-after-whitening#causes",
+                  "domain": "www.goodrx.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Decrease amount",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/sensitive-teeth-after-whitening#decrease-amount",
+                  "domain": "www.goodrx.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Take a pause",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/sensitive-teeth-after-whitening#take-a-pause",
+                  "domain": "www.goodrx.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "How long it lasts",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/sensitive-teeth-after-whitening#how-long-it-lasts",
+                  "domain": "www.goodrx.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2024-08-27 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Unbearable pain after teeth whitening",
+                "Does professional teeth whitening hurt",
+                "Unbearable pain after teeth whitening strips",
+                "Best painkiller for sensitive teeth after whitening",
+                "Unbearable pain after teeth whitening reddit",
+                "Teeth whitening pain reddit",
+                "Teeth whitening pain relief",
+                "Nerve pain after teeth whitening"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

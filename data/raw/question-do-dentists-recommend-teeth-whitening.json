@@ -1,0 +1,779 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "10.7736 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251616-2374-0139-0000-4ab4c0bcb4d2",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "9.4545 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Do dentists recommend teeth whitening?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Do dentists recommend teeth whitening?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=Do%20dentists%20recommend%20teeth%20whitening%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:16:10 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "discussions_and_forums",
+            "related_searches"
+          ],
+          "se_results_count": 132,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "`Dentists generally recommend teeth whitening when it is done safely and supervised by a professional` . They advise checking your oral health first because bleaching agents can harm your gums, damage weak enamel, or fail to work on fillings and crowns.[](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/) [[1]](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/)[[2]](https://www.unitedconcordia.com/business-services/employers/blog/pros-cons-teeth-whitening-good-idea)[[3]](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe)[[4]](https://www.ada.org/resources/ada-library/oral-health-topics/whitening)\n\nWhy Dentists Approve Whitening\n\n- **Safe ingredients:** They use controlled amounts of hydrogen peroxide or carbamide peroxide.\n- **Custom care:** Custom trays fit your teeth tightly so gel does not touch your gums.\n- **Better results:** Professional treatments lift deep stains faster than store kits.[](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe) [[1]](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe)[[2]](https://www.ada.org/resources/ada-library/oral-health-topics/whitening)[[3]](https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening)[[4]](https://www.mercierdental.com/post/can-a-dentist-whiten-teeth-in-one-visit/)[[5]](https://health.clevelandclinic.org/is-teeth-whitening-safe)\n\nRisks and Warnings\n\n- **Tooth sensitivity:** Teeth can feel hot or cold after bleaching.\n- **Gum irritation:** Strong chemicals can burn or sting your soft gum tissue.\n- **No effect on fake teeth:** Whitening only works on real teeth, not on bonding, veneers, or crowns.[](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/) [[1]](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/)[[2]](https://www.ada.org/resources/ada-library/oral-health-topics/whitening)[[3]](https://sexton-dental.com/blog/5-reasons-to-consider-teeth-bleaching-from-your-dentist/)[[4]](https://wiltonmanorsdental.com/teeth-whitening-at-home-vs-dentist/)[[5]](https://www.premierdentistrychicago.com/dental-services/cosmetic-dentistry/teeth-whitening/)\n\nIf you are thinking about whitening your teeth, tell me:\n\n- Do you currently have any **sensitive teeth** or **gum issues**?\n- Do you have any **fillings or crowns** on your front teeth?\n\nI can help you figure out which whitening method is safest for you.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Dentists generally recommend teeth whitening when it is done safely and supervised by a professional. They advise checking your oral health first because bleaching agents can harm your gums, damage weak enamel, or fail to work on fillings and crowns.",
+                  "markdown": "`Dentists generally recommend teeth whitening when it is done safely and supervised by a professional` . They advise checking your oral health first because bleaching agents can harm your gums, damage weak enamel, or fail to work on fillings and crowns.[](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/) [[1]](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/)[[2]](https://www.unitedconcordia.com/business-services/employers/blog/pros-cons-teeth-whitening-good-idea)[[3]](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe)[[4]](https://www.ada.org/resources/ada-library/oral-health-topics/whitening)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "PubMed Central (PMC) (.gov)",
+                      "domain": "pmc.ncbi.nlm.nih.gov",
+                      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/",
+                      "title": "Tooth Whitening: What We Now Know - PMC",
+                      "text": "Risks associated with tooth whitening include: * Increased tooth sensitivity * Mild gingival irritation * Tooth erosion * Tooth mi..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "United Concordia Dental",
+                      "domain": "www.unitedconcordia.com",
+                      "url": "https://www.unitedconcordia.com/business-services/employers/blog/pros-cons-teeth-whitening-good-idea",
+                      "title": "The Pros and Cons of Teeth Whitening: Is It a Good Idea?",
+                      "text": "Is It Safe? When manufacturer's instructions are followed properly, peroxide-based teeth whitening agents are safe, according to o..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "GoodRx",
+                      "domain": "www.goodrx.com",
+                      "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe",
+                      "title": "4 Dentist-Approved Ways to Safely Whiten Your Teeth - GoodRx",
+                      "text": "Key takeaways: * Teeth whitening products work by breaking down complex stains to make teeth appear brighter and whiter. * Overuse..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "American Dental Association",
+                      "domain": "www.ada.org",
+                      "url": "https://www.ada.org/resources/ada-library/oral-health-topics/whitening",
+                      "title": "Whitening | American Dental Association",
+                      "text": "Whitening treatments can be effective on both extrinsic and intrinsic staining. Only natural teeth can be whitened, not tooth-colo..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Why Dentists Approve Whitening",
+                  "text": "Safe ingredients: They use controlled amounts of hydrogen peroxide or carbamide peroxide. Custom care: Custom trays fit your teeth tightly so gel does not touch your gums. Better results: Professional treatments lift deep stains faster than store kits.",
+                  "markdown": "- **Safe ingredients:** They use controlled amounts of hydrogen peroxide or carbamide peroxide.\n- **Custom care:** Custom trays fit your teeth tightly so gel does not touch your gums.\n- **Better results:** Professional treatments lift deep stains faster than store kits.[](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe) [[1]](https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe)[[2]](https://www.ada.org/resources/ada-library/oral-health-topics/whitening)[[3]](https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening)[[4]](https://www.mercierdental.com/post/can-a-dentist-whiten-teeth-in-one-visit/)[[5]](https://health.clevelandclinic.org/is-teeth-whitening-safe)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "GoodRx",
+                      "domain": "www.goodrx.com",
+                      "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe",
+                      "title": "4 Dentist-Approved Ways to Safely Whiten Your Teeth - GoodRx",
+                      "text": "Key takeaways: * Teeth whitening products work by breaking down complex stains to make teeth appear brighter and whiter. * Overuse..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "American Dental Association",
+                      "domain": "www.ada.org",
+                      "url": "https://www.ada.org/resources/ada-library/oral-health-topics/whitening",
+                      "title": "Whitening | American Dental Association",
+                      "text": "Whitening treatments can be effective on both extrinsic and intrinsic staining. Only natural teeth can be whitened, not tooth-colo..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "MouthHealthy",
+                      "domain": "www.mouthhealthy.org",
+                      "url": "https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening",
+                      "title": "Teeth Whitening | MouthHealthy - Oral Health Information from the ADA",
+                      "text": "many people ask me how to get their teeth whiter over time teeth become stained due to a variety of reasons coffee tea red wine an..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Mercier Dental",
+                      "domain": "www.mercierdental.com",
+                      "url": "https://www.mercierdental.com/post/can-a-dentist-whiten-teeth-in-one-visit/",
+                      "title": "Can a Dentist Whiten Teeth in One Visit? - Mercier Dental",
+                      "text": "Can Teeth Really Be Whitened in One Dental Visit? In many cases, yes. Professional in-office whitening is designed to lift stains ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Cleveland Clinic Health Essentials",
+                      "domain": "health.clevelandclinic.org",
+                      "url": "https://health.clevelandclinic.org/is-teeth-whitening-safe",
+                      "title": "Is Teeth Whitening Safe (and Does It Work)?",
+                      "text": "Whitening strips and gels typically lighten teeth within two weeks. Whitening toothpastes and rinses work more slowly. Professiona..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Risks and Warnings",
+                  "text": "Tooth sensitivity: Teeth can feel hot or cold after bleaching. Gum irritation: Strong chemicals can burn or sting your soft gum tissue. No effect on fake teeth: Whitening only works on real teeth, not on bonding, veneers, or crowns.",
+                  "markdown": "- **Tooth sensitivity:** Teeth can feel hot or cold after bleaching.\n- **Gum irritation:** Strong chemicals can burn or sting your soft gum tissue.\n- **No effect on fake teeth:** Whitening only works on real teeth, not on bonding, veneers, or crowns.[](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/) [[1]](https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/)[[2]](https://www.ada.org/resources/ada-library/oral-health-topics/whitening)[[3]](https://sexton-dental.com/blog/5-reasons-to-consider-teeth-bleaching-from-your-dentist/)[[4]](https://wiltonmanorsdental.com/teeth-whitening-at-home-vs-dentist/)[[5]](https://www.premierdentistrychicago.com/dental-services/cosmetic-dentistry/teeth-whitening/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "PubMed Central (PMC) (.gov)",
+                      "domain": "pmc.ncbi.nlm.nih.gov",
+                      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/",
+                      "title": "Tooth Whitening: What We Now Know - PMC",
+                      "text": "Risks associated with tooth whitening include: * Increased tooth sensitivity * Mild gingival irritation * Tooth erosion * Tooth mi..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "American Dental Association",
+                      "domain": "www.ada.org",
+                      "url": "https://www.ada.org/resources/ada-library/oral-health-topics/whitening",
+                      "title": "Whitening | American Dental Association",
+                      "text": "Whitening treatments can be effective on both extrinsic and intrinsic staining. Only natural teeth can be whitened, not tooth-colo..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Sexton Dental Delaware Ohio",
+                      "domain": "sexton-dental.com",
+                      "url": "https://sexton-dental.com/blog/5-reasons-to-consider-teeth-bleaching-from-your-dentist/",
+                      "title": "5 Reasons to Consider Teeth Bleaching from Your Dentist",
+                      "text": "Some patients are hesitant when choosing teeth bleaching products due to the risk of undesirable side effects. One of the most com..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Sunny Dental of Wilton Manors",
+                      "domain": "wiltonmanorsdental.com",
+                      "url": "https://wiltonmanorsdental.com/teeth-whitening-at-home-vs-dentist/",
+                      "title": "Teeth Whitening at Home vs Dentist | Which Is Worth It?",
+                      "text": "FAQs * Does at-home teeth whitening from a dentist work? Yes. Dentist-prescribed at-home kits use higher-concentration whitening g..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Premier Dentistry at Millennium Park",
+                      "domain": "www.premierdentistrychicago.com",
+                      "url": "https://www.premierdentistrychicago.com/dental-services/cosmetic-dentistry/teeth-whitening/",
+                      "title": "Teeth Whitening in Chicago, IL at Premier Dentistry",
+                      "text": "Can I whiten my dental restorations? No. Even professional whitening products cannot whiten dental restorations like porcelain ven..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you are thinking about whitening your teeth, tell me:Do you currently have any sensitive teeth or gum issues ?\nDo you have any fillings or crowns on your front teeth?\nI can help you figure out which whitening method is safest for you.",
+                  "markdown": "If you are thinking about whitening your teeth, tell me:\n\n- Do you currently have any **sensitive teeth** or **gum issues**?\n- Do you have any **fillings or crowns** on your front teeth?\n\nI can help you figure out which whitening method is safest for you.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "PubMed Central (PMC) (.gov)",
+                  "domain": "pmc.ncbi.nlm.nih.gov",
+                  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/",
+                  "title": "Tooth Whitening: What We Now Know - PMC",
+                  "text": "Risks associated with tooth whitening include: * Increased tooth sensitivity * Mild gingival irritation * Tooth erosion * Tooth mi..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "GoodRx",
+                  "domain": "www.goodrx.com",
+                  "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe",
+                  "title": "4 Dentist-Approved Ways to Safely Whiten Your Teeth - GoodRx",
+                  "text": "Key takeaways: * Teeth whitening products work by breaking down complex stains to make teeth appear brighter and whiter. * Overuse..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Cleveland Clinic Health Essentials",
+                  "domain": "health.clevelandclinic.org",
+                  "url": "https://health.clevelandclinic.org/is-teeth-whitening-safe",
+                  "title": "Is Teeth Whitening Safe (and Does It Work)?",
+                  "text": "Whitening strips and gels typically lighten teeth within two weeks. Whitening toothpastes and rinses work more slowly. Professiona..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "United Concordia Dental",
+                  "domain": "www.unitedconcordia.com",
+                  "url": "https://www.unitedconcordia.com/business-services/employers/blog/pros-cons-teeth-whitening-good-idea",
+                  "title": "The Pros and Cons of Teeth Whitening: Is It a Good Idea?",
+                  "text": "Is It Safe? When manufacturer's instructions are followed properly, peroxide-based teeth whitening agents are safe, according to o..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "MouthHealthy",
+                  "domain": "www.mouthhealthy.org",
+                  "url": "https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening",
+                  "title": "Teeth Whitening | MouthHealthy - Oral Health Information from the ADA",
+                  "text": "many people ask me how to get their teeth whiter over time teeth become stained due to a variety of reasons coffee tea red wine an..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Mercier Dental",
+                  "domain": "www.mercierdental.com",
+                  "url": "https://www.mercierdental.com/post/can-a-dentist-whiten-teeth-in-one-visit/",
+                  "title": "Can a Dentist Whiten Teeth in One Visit? - Mercier Dental",
+                  "text": "Can Teeth Really Be Whitened in One Dental Visit? In many cases, yes. Professional in-office whitening is designed to lift stains ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "American Dental Association",
+                  "domain": "www.ada.org",
+                  "url": "https://www.ada.org/resources/ada-library/oral-health-topics/whitening",
+                  "title": "Whitening | American Dental Association",
+                  "text": "Whitening treatments can be effective on both extrinsic and intrinsic staining. Only natural teeth can be whitened, not tooth-colo..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "domain": "pmc.ncbi.nlm.nih.gov",
+              "title": "Tooth Whitening: What We Now Know - PMC",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://pmc.ncbi.nlm.nih.gov › articles › PMC4058574",
+              "website_name": "PubMed Central (PMC) (.gov)",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "by CM Carey · 2014 · Cited by 874 — Current research about tooth whitening shows that it is safe and effective when manufacturer's protocol is followed, yet there are risks of which the ...",
+              "pre_snippet": "by CM Carey · 2014 · Cited by 874",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "tooth whitening"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is getting teeth whitened at the dentist worth it?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is there a downside to teeth whitening?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can yellow teeth actually be whitened?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which teeth cannot be whitened?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.aspendental.com",
+              "title": "Teeth whitening: Your guide to a brighter smile",
+              "url": "https://www.aspendental.com/dental-services/cosmetic-dentistry/teeth-whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.aspendental.com › ... › Cosmetic Dentistry",
+              "website_name": "Aspen Dental",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Professional teeth whitening is typically considered the best option for a brighter smile. At Aspen Dental, they are not only among the safest and most ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Professional teeth whitening is typically considered the best option for a brighter smile"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "discussions_and_forums",
+              "rank_group": 1,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]",
+              "title": "Discussions and forums",
+              "items": [
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "Is getting your teeth professionally whitened worth the cost? Or should you ...",
+                  "url": "https://www.reddit.com/r/DentalHygiene/comments/1ksa9g7/is_getting_your_teeth_professionally_whitened/",
+                  "domain": "www.reddit.com",
+                  "source": "Reddit",
+                  "description": null,
+                  "timestamp": "2025-08-25 16:16:10 +00:00",
+                  "posts_count": 8
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "Do dentists recommend teeth whitening?",
+                  "url": "https://www.quora.com/Do-dentists-recommend-teeth-whitening",
+                  "domain": "www.quora.com",
+                  "source": "Quora",
+                  "description": null,
+                  "timestamp": "2022-08-25 16:16:10 +00:00",
+                  "posts_count": 30
+                },
+                {
+                  "type": "discussions_and_forums_element",
+                  "title": "Do you recommend teeth whitening from the dental clinic? I asked this ...",
+                  "url": "https://www.quora.com/Do-you-recommend-teeth-whitening-from-the-dental-clinic-I-asked-this-because-I-see-people-who-have-gone-through-this-have-the-look-of-fake-teeth",
+                  "domain": "www.quora.com",
+                  "source": "Quora",
+                  "description": null,
+                  "timestamp": "2024-08-25 16:16:10 +00:00",
+                  "posts_count": 30
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "www.ada.org",
+              "title": "Whitening",
+              "url": "https://www.ada.org/resources/ada-library/oral-health-topics/whitening",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.ada.org › ada-library › oral-health-topics",
+              "website_name": "American Dental Association",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Aug 16, 2022 — Whitening treatments can be effective on both extrinsic and intrinsic staining. Only natural teeth can be whitened, not tooth-colored ... Read more",
+              "pre_snippet": "08/16/2022 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Whitening",
+                "can",
+                "teeth can",
+                "tooth"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2022-08-16 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.goodrx.com",
+              "title": "4 Dentist-Approved Ways to Safely Whiten Your Teeth",
+              "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe?srsltid=AfmBOop_S_8J8S2gfdV_gAqzQo9jzMf6cLe916X74s_jdnFoaYi3YGe3",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.goodrx.com › ... › What Is Dental Care?",
+              "website_name": "GoodRx",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Is teeth whitening safe? Generally, yes, but not all products are safe and effective. Here are four dentist-approved safe teeth whitening methods to try.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Here are four dentist-approved safe teeth whitening methods"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "How it works",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe#how-it-works",
+                  "domain": "www.goodrx.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Side effects",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe#side-effects",
+                  "domain": "www.goodrx.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Best whitening toothpaste",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe#best-whitening-toothpaste",
+                  "domain": "www.goodrx.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Best whitening products",
+                  "description": null,
+                  "url": "https://www.goodrx.com/conditions/dental-care/is-teeth-whitening-safe#best-whitening-products",
+                  "domain": "www.goodrx.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "dentologie.com",
+              "title": "Can The Dentist Also Whiten Your Teeth?",
+              "url": "https://dentologie.com/blog/can-the-dentist-also-whiten-your-teeth",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://dentologie.com › Blog",
+              "website_name": "Dentologie",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "May 8, 2024 — A dentist can typically whiten your teeth in just one visit. During an in-office whitening treatment, your dentist will polish your teeth to ... Read more",
+              "pre_snippet": "05/08/2024 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "A dentist can typically whiten your teeth in just one visit"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2024-05-08 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "www.unitedconcordia.com",
+              "title": "The Pros and Cons of Teeth Whitening: Is It a Good Idea?",
+              "url": "https://www.unitedconcordia.com/business-services/employers/blog/pros-cons-teeth-whitening-good-idea",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.unitedconcordia.com › employers › blog",
+              "website_name": "United Concordia Dental",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "The American Dental Association (ADA) also recommends whitening your teeth only after consulting with a dentist to make sure it's a good fit for you. When to ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "only after consulting with a dentist"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "www.rejuv-health.com",
+              "title": "10 Teeth Whitening Methods and What They Cost",
+              "url": "https://www.rejuv-health.com/cosmetic-dentistry/teeth-whitening-cost/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.rejuv-health.com › cosmetic-dentistry › tee...",
+              "website_name": "Rejuvenation Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "DIY at-home products can cost as low as $5, while professional whitening treatments at the dentist's office can cost as much as $1,000 per visit.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "can",
+                "whitening",
+                "dentist's"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "www.nhs.uk",
+              "title": "Teeth whitening",
+              "url": "https://www.nhs.uk/tests-and-treatments/teeth-whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nhs.uk › tests-and-treatments › teeth-white...",
+              "website_name": "nhs.uk",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Teeth whitening is not permanent, but if you follow your dentist's advice the effect may last for around 3 years. the safest way to have teeth whitening.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Teeth whitening",
+                "dentist's",
+                "teeth whitening"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Teeth whitening at dentist cost",
+                "Teeth whitening side effects truth",
+                "Is teeth whitening at dentist covered by insurance",
+                "Types of teeth whitening at dentist",
+                "Teeth whitening at dentist before and after",
+                "Best way to whiten teeth professionally",
+                "Do dentists whiten teeth during cleaning",
+                "Teeth whitening at home"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

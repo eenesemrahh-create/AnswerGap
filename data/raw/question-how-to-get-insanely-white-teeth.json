@@ -1,0 +1,737 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "1.0424 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251616-2374-0139-0000-471195655fe4",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "0.9277 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "How to get insanely white teeth?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "How to get insanely white teeth?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=How%20to%20get%20insanely%20white%20teeth%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:16:46 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "video",
+            "organic",
+            "related_searches"
+          ],
+          "se_results_count": 105,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "People achieve exceptionally white teeth `through a combination of professional dental treatments, at-home whitening products, and good daily habits`.\n\nProfessional Treatments\n\n- **Bleaching:** Dentists use high-concentration hydrogen peroxide or carbamide peroxide gels, sometimes activated with specialized lights, to lift deep stains quickly.\n- **Veneers:** Many public figures and actors have dazzlingly white smiles because they wear porcelain or resin [Veneers as a Whitening Solution](https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white) over their natural teeth.[](https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white) [[1]](https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white)\n- **Crowns:** Dental caps completely cover stained or damaged teeth to restore a bright, uniform appearance.\n\nAt-Home Products\n\n- **Whitening Strips & Gels:** Over-the-counter peroxide strips or custom trays gently bleach surface and subsurface stains with consistent use.\n- **Whitening Toothpaste:** Daily use of specialized toothpastes helps polish away everyday surface stains from food and drinks.\n- **Purple Correctors:** Some people use temporary color-correcting purple toothpaste to neutralize yellow tones.[](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/) [[1]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)[[2]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)[[3]](https://elevatedentaltemecula.com/blog/how-do-people-get-their-teeth-so-white/)[[4]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)\n\nDaily Maintenance\n\n- **Routine Cleaning:** Brushing twice daily, flossing, and visiting a hygienist every six months removes plaque and tartar that dull tooth color.[](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/) [[1]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)[[2]](https://elevatedentaltemecula.com/blog/how-do-people-get-their-teeth-so-white/)\n- **Dietary Habits:** Limiting coffee, tea, and red wine—or drinking them through a straw—prevents new stains from settling on the enamel.[](https://www.youtube.com/watch?v=JwITgrGU96Y&t=121) [[1]](https://www.youtube.com/watch?v=JwITgrGU96Y&t=121)\n- **Genetics:** Natural tooth color varies by person because the underlying layer (dentin) has different baseline shades, meaning some people naturally have whiter teeth than others.[](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/) [[1]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)\n\nIf you're thinking about brightening your smile, let me know:\n\n- Are you looking for **at-home options** or **professional treatments**?\n- Do you have **sensitive teeth**?\n\nI can help you find a safe approach.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "People achieve exceptionally white teeth through a combination of professional dental treatments, at-home whitening products, and good daily habits.",
+                  "markdown": "People achieve exceptionally white teeth `through a combination of professional dental treatments, at-home whitening products, and good daily habits`.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Professional Treatments",
+                  "text": "Bleaching: Dentists use high-concentration hydrogen peroxide or carbamide peroxide gels, sometimes activated with specialized lights, to lift deep stains quickly. Veneers: Many public figures and actors have dazzlingly white smiles because they wear porcelain or resin Veneers as a Whitening Solution over their natural teeth. Crowns: Dental caps completely cover stained or damaged teeth to restore a bright, uniform appearance.",
+                  "markdown": "- **Bleaching:** Dentists use high-concentration hydrogen peroxide or carbamide peroxide gels, sometimes activated with specialized lights, to lift deep stains quickly.\n- **Veneers:** Many public figures and actors have dazzlingly white smiles because they wear porcelain or resin [Veneers as a Whitening Solution](https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white) over their natural teeth.[](https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white) [[1]](https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white)\n- **Crowns:** Dental caps completely cover stained or damaged teeth to restore a bright, uniform appearance.",
+                  "links": [
+                    {
+                      "type": "link_element",
+                      "title": "Veneers as a Whitening Solution",
+                      "description": null,
+                      "url": "https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white",
+                      "domain": "www.coscarelladentistry.com"
+                    }
+                  ],
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Coscarella Family Dentistry",
+                      "domain": "www.coscarelladentistry.com",
+                      "url": "https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white",
+                      "title": "What Do Celebrities Use to Get Their Teeth So White?",
+                      "text": "What Do Celebrities Use to Get Their Teeth So White? Have you ever wondered how every celebrity is able to get their teeth so dazz..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "At-Home Products",
+                  "text": "Whitening Strips & Gels: Over-the-counter peroxide strips or custom trays gently bleach surface and subsurface stains with consistent use. Whitening Toothpaste: Daily use of specialized toothpastes helps polish away everyday surface stains from food and drinks. Purple Correctors: Some people use temporary color-correcting purple toothpaste to neutralize yellow tones.",
+                  "markdown": "- **Whitening Strips & Gels:** Over-the-counter peroxide strips or custom trays gently bleach surface and subsurface stains with consistent use.\n- **Whitening Toothpaste:** Daily use of specialized toothpastes helps polish away everyday surface stains from food and drinks.\n- **Purple Correctors:** Some people use temporary color-correcting purple toothpaste to neutralize yellow tones.[](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/) [[1]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)[[2]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)[[3]](https://elevatedentaltemecula.com/blog/how-do-people-get-their-teeth-so-white/)[[4]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Reddit",
+                      "domain": "www.reddit.com",
+                      "url": "https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/",
+                      "title": "How do people keep their teeth so white? : r/Adulting - Reddit",
+                      "text": "Effective Whitening Products: Many users find that specific whitening mouthwashes and toothpastes, such as Colgate Optic White, ca..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "elevatedentaltemecula.com",
+                      "domain": "elevatedentaltemecula.com",
+                      "url": "https://elevatedentaltemecula.com/blog/how-do-people-get-their-teeth-so-white/",
+                      "title": "How Do People Get Their Teeth So White?",
+                      "text": "To maintain white teeth, you can: * Use whitening toothpaste to brush your teeth at least twice every day * Floss daily * Undergo ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Daily Maintenance",
+                  "text": "Routine Cleaning: Brushing twice daily, flossing, and visiting a hygienist every six months removes plaque and tartar that dull tooth color. Dietary Habits: Limiting coffee, tea, and red wine—or drinking them through a straw—prevents new stains from settling on the enamel. Genetics: Natural tooth color varies by person because the underlying layer (dentin) has different baseline shades, meaning some people naturally have whiter teeth than others.",
+                  "markdown": "- **Routine Cleaning:** Brushing twice daily, flossing, and visiting a hygienist every six months removes plaque and tartar that dull tooth color.[](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/) [[1]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)[[2]](https://elevatedentaltemecula.com/blog/how-do-people-get-their-teeth-so-white/)\n- **Dietary Habits:** Limiting coffee, tea, and red wine—or drinking them through a straw—prevents new stains from settling on the enamel.[](https://www.youtube.com/watch?v=JwITgrGU96Y&t=121) [[1]](https://www.youtube.com/watch?v=JwITgrGU96Y&t=121)\n- **Genetics:** Natural tooth color varies by person because the underlying layer (dentin) has different baseline shades, meaning some people naturally have whiter teeth than others.[](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/) [[1]](https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Reddit",
+                      "domain": "www.reddit.com",
+                      "url": "https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/",
+                      "title": "How do people keep their teeth so white? : r/Adulting - Reddit",
+                      "text": "Importance of General Dental Hygiene: Beyond specific whitening products, consistent and thorough general dental hygiene is crucia..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "elevatedentaltemecula.com",
+                      "domain": "elevatedentaltemecula.com",
+                      "url": "https://elevatedentaltemecula.com/blog/how-do-people-get-their-teeth-so-white/",
+                      "title": "How Do People Get Their Teeth So White?",
+                      "text": "To maintain white teeth, you can: * Use whitening toothpaste to brush your teeth at least twice every day * Floss daily * Undergo ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "YouTube",
+                      "domain": "www.youtube.com",
+                      "url": "https://www.youtube.com/watch?v=JwITgrGU96Y&t=121",
+                      "title": "10x Whiter Teeth With This Simple Trick (Dental Hygienist Explains)",
+                      "text": "box if you'd like to learn more about the teeth whitening options that I suggest but for the purpose of this video now that you kn..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you're thinking about brightening your smile, let me know:Are you looking for at-home options or professional treatments ?\nDo you have sensitive teeth ?\nI can help you find a safe approach.",
+                  "markdown": "If you're thinking about brightening your smile, let me know:\n\n- Are you looking for **at-home options** or **professional treatments**?\n- Do you have **sensitive teeth**?\n\nI can help you find a safe approach.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Reddit",
+                  "domain": "www.reddit.com",
+                  "url": "https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/",
+                  "title": "How do people keep their teeth so white? : r/Adulting - Reddit",
+                  "text": "Effective Whitening Products: Many users find that specific whitening mouthwashes and toothpastes, such as Colgate Optic White, ca..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Coscarella Family Dentistry",
+                  "domain": "www.coscarelladentistry.com",
+                  "url": "https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white",
+                  "title": "What Do Celebrities Use to Get Their Teeth So White?",
+                  "text": "What Do Celebrities Use to Get Their Teeth So White? Have you ever wondered how every celebrity is able to get their teeth so dazz..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "elevatedentaltemecula.com",
+                  "domain": "elevatedentaltemecula.com",
+                  "url": "https://elevatedentaltemecula.com/blog/how-do-people-get-their-teeth-so-white/",
+                  "title": "How Do People Get Their Teeth So White?",
+                  "text": "To maintain white teeth, you can: * Use whitening toothpaste to brush your teeth at least twice every day * Floss daily * Undergo ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "YouTube",
+                  "domain": "www.youtube.com",
+                  "url": "https://www.youtube.com/watch?v=JwITgrGU96Y&t=121",
+                  "title": "10x Whiter Teeth With This Simple Trick (Dental Hygienist Explains)",
+                  "text": "box if you'd like to learn more about the teeth whitening options that I suggest but for the purpose of this video now that you kn..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Oral Hygiene",
+                  "domain": "www.lovoirbeauty.com",
+                  "url": "https://www.lovoirbeauty.com/teeth-whitening-christchurch/",
+                  "title": "Oral Hygiene",
+                  "text": "How do people get their teeth so white? People achieve exceptionally white teeth through a combination of professional teeth white..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Veneer",
+                  "domain": "www.instagram.com",
+                  "url": "https://www.instagram.com/reel/DPgoLXwEbpF/",
+                  "title": "Veneer",
+                  "text": "This is called dental veneers. It involves minimally reducing the teeth and providing a lamination-like coating over them. When yo..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Tooth brushing",
+                  "domain": "pmc.ncbi.nlm.nih.gov",
+                  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7789283/",
+                  "title": "Tooth brushing",
+                  "text": "Brushing my teeth makes my teeth whiter."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Sodium bicarbonate",
+                  "domain": "ases.in",
+                  "url": "https://ases.in/products/sodium-bicarbonate",
+                  "title": "Sodium bicarbonate",
+                  "text": "It ( sodium bicarbonate ) 's used to whiten your teeth."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Oil pulling",
+                  "domain": "www.brightondentalstudio.com",
+                  "url": "https://www.brightondentalstudio.com/how-to-naturally-whiten-your-teeth/",
+                  "title": "Oil pulling",
+                  "text": "Oil pulling works to remove many types of bacteria from your mouth, also encouraging your teeth to appear white."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Hydrogen peroxide",
+                  "domain": "www.instagram.com",
+                  "url": "https://www.instagram.com/p/DUD6YCyFcRk/",
+                  "title": "Hydrogen peroxide",
+                  "text": "I was a dental hygienist for 13 years and I'm here to save you the big bucks. Look at my teeth. You see how bright white my teeth ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Crown",
+                  "domain": "www.smilemichigan.com",
+                  "url": "https://www.smilemichigan.com/the-smile-connection/no-a-crown-isnt-a-tiara-for-your-teeth-or-is-it/",
+                  "title": "Crown",
+                  "text": "Cosmetically, people opt to use crowns to make their pearly whites appear whiter. Others use them to reshape their teeth for that ..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "How do I make my teeth whiter fast?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What kills yellow teeth?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can yellow teeth turn white again?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "How to get white teeth in 7 days?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Teeth Talk Girl",
+                  "title": "4 Best Ways To Whiten Your Teeth",
+                  "timestamp": "2025-10-28 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=FI1dQf73k6U"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Teeth Talk Girl",
+                  "title": "I'm a Dental Hygienist — This Is Exactly How I Keep My Teeth ...",
+                  "timestamp": "2026-01-27 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=pxBK4NDS0-k"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Teeth Talk Girl",
+                  "title": "3 Easy Tips for Better Teeth Whitening Results",
+                  "timestamp": "2025-08-07 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=n4wCb2QLhPo"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "How do people get such white teeth? : r/DentalHygiene",
+              "url": "https://www.reddit.com/r/DentalHygiene/comments/1axizgh/how_do_people_get_such_white_teeth/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "20+ comments  ·  2 years ago",
+              "website_name": "Reddit · r/DentalHygiene",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Floss, Waterpik, 6 month cleanings. Tartar will stain. Keep your teeth clean and the stains will be easier to lighten. You have to do a lot of ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Floss, Waterpik, 6 month cleanings"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "best method to noticeably make teeth whiter? : r/beauty",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/beauty/comments/tgktmi/best_method_to_noticeably_make_teeth_whiter/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "How do people keep their teeth so white? : r/Adulting",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/Adulting/comments/17ohe5f/how_do_people_keep_their_teeth_so_white/",
+                  "domain": "www.reddit.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "More results from www.reddit.com",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=How+to+get+insanely+white+teeth?+site:www.reddit.com&sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&sa=X&ved=2ahUKEwjHt_nulryWAxWIXEEAHYciJsYQrQIoAnoECDUQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "www.mouthhealthy.org",
+              "title": "Natural Teeth Whitening",
+              "url": "https://www.mouthhealthy.org/all-topics-a-z/natural-teeth-whitening",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.mouthhealthy.org › all-topics-a-z › natural...",
+              "website_name": "MouthHealthy",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Swishing oils like coconut oil in your mouth (oil pulling ) or using spices like turmeric can help whiten your teeth. Brushing your teeth twice a day for two ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Swishing oils like coconut oil in your mouth (oil pulling"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "www.healthline.com",
+              "title": "How to Naturally Whiten Your Teeth at Home",
+              "url": "https://www.healthline.com/nutrition/whiten-teeth-naturally",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.healthline.com › nutrition › whiten-teeth-n...",
+              "website_name": "Healthline",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Brushing with a mixture of baking soda and water a few times a week may help remove surface stains and prevent bacterial growth due to baking soda's natural ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Brushing with a mixture of baking soda and water a few times a week"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "dentalteamfl.com",
+              "title": "How to Whiten Teeth at Home in One Day: Safe Methods & ...",
+              "url": "https://dentalteamfl.com/how-to-whiten-teeth-at-home-in-one-day/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://dentalteamfl.com › how-to-whiten-teeth-at-home...",
+              "website_name": "Dental Team FL",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "The safest results come from regulated whitening strips or dentist-approved kits, not aggressive DIY mixtures. Apply whitening strips according to instructions ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "regulated whitening strips or dentist-approved kits"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.healthpartners.com",
+              "title": "Want whiter teeth? Tips for effective and safe teeth whitening.",
+              "url": "https://www.healthpartners.com/blog/safe-teeth-whitening/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.healthpartners.com › blog › safe-teeth-whit...",
+              "website_name": "HealthPartners",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Foods that are believed to have teeth-whitening properties mainly include fruit like apples, strawberries, pineapple and watermelon, as well as crunchy veggies ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Foods that are believed to have teeth-whitening properties"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "www.coscarelladentistry.com",
+              "title": "What Do Celebrities Use to Get Their Teeth So White?",
+              "url": "https://www.coscarelladentistry.com/what-do-celebrities-use-to-get-their-teeth-so-white",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.coscarelladentistry.com › what-do-celebrities...",
+              "website_name": "Coscarella Family Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Sep 27, 2021 — 1. Professional Whitening Treatments · 2. Veneers · 3. Dental Crowns · Get a Brighter, Whiter Smile with Cosmetic Dentistry. That flawless ... Read more",
+              "pre_snippet": "09/27/2021 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1. Professional Whitening Treatments"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2021-09-27 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "www.absolutedental.com",
+              "title": "10 Natural Teeth Whitening Tricks That Work",
+              "url": "https://www.absolutedental.com/blog/natural-teeth-whitening-tricks/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.absolutedental.com › blog › natural-teeth-...",
+              "website_name": "Absolute Dental",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Apr 10, 2026 — Eat natural teeth whitening foods: Apples, celery, carrots, leafy greens, strawberries, and cheese are great foods to incorporate into your diet ... Read more",
+              "pre_snippet": "04/10/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Eat natural teeth whitening foods"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-04-10 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "www.pleasantfamilydentistry.com",
+              "title": "6 Natural Ways To Whiten Your Teeth",
+              "url": "https://www.pleasantfamilydentistry.com/blog/6-natural-ways-to-whiten-your-teeth",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.pleasantfamilydentistry.com › blog › 6-natu...",
+              "website_name": "Pleasant Family Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "First things first, brush your teeth regularly: · Oil pulling: · Brush with baking soda and hydrogen peroxide paste: · Rub banana, orange, or lemon peels: · Take a ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "teeth"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "How to whiten teeth naturally at home",
+                "How to get white teeth in 1 day",
+                "How to get super white teeth at home",
+                "Teeth whitening at home in 2 minutes",
+                "How to get white teeth in 1 day with toothpaste",
+                "How to whiten teeth at home",
+                "How to whiten teeth naturally in 2 minutes",
+                "How to whiten teeth in 5 minutes"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

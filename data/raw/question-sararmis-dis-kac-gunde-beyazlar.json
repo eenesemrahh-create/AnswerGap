@@ -1,0 +1,737 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "1.2462 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251217-2374-0139-0000-cf12b7f3d7c7",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "1.1968 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Sararmış diş kaç günde beyazlar?",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Sararmış diş kaç günde beyazlar?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=Sararm%C4%B1%C5%9F%20di%C5%9F%20ka%C3%A7%20g%C3%BCnde%20beyazlar%3F&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-25 12:17:11 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "related_searches"
+          ],
+          "se_results_count": 121,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Sarı dişlerin beyazlama süresi uygulanan yönteme göre değişir. Klinik ortamında yapılan ofis tipi beyazlatma **1 saatte** sonuç verirken, hekim kontrolündeki ev tipi plak uygulamaları **10 ila 15 gün** sürer. Diş minesinin yapısına ve lekenin derinliğine bağlı olarak doğal süreç **2-3 hafta** bulabilir.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://www.efelerdis.com/tedaviler/dis-beyazlatma/)\n\nBeyazlatma Yöntemleri ve Süreleri\n\n- **Ofis Tipi (Klinik):** Diş hekiminin kliniğinde özel jeller ve ışık yardımıyla **45 dakika ile 1 saat** içinde gerçekleşir. Tek seansla belirgin bir ton açılması sağlanır.[](https://www.efelerdis.com/tedaviler/dis-beyazlatma/) [[1]](https://www.efelerdis.com/tedaviler/dis-beyazlatma/)\n- **Ev Tipi (Hekim Kontrollü):** Hekimin ölçünüze göre hazırladığı kişiye özel plaklar ile yapılan uygulamalar genellikle **10-15 gün** sürer. Günde birkaç saat ya da gece boyu takılması gerekebilir.[](https://www.efelerdis.com/tedaviler/dis-beyazlatma/) [[1]](https://www.efelerdis.com/tedaviler/dis-beyazlatma/)\n- **Doğal / Rutin Bakım:** Yetersiz fırçalamadan kaynaklanan hafif yüzey lekeleri, düzenli ve doğru bir ağız hijyeniyle **2-3 hafta** içinde toparlanır. Karbonat veya limon gibi aşındırıcı ev yapımı maddeler mineye zarar verebileceği için önerilmez.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/)[[3]](https://hamzakeskin.com/sararmis-disler-bir-sure-sonra-kendi-kendine-beyazlar-mi-populer-dis-beyazlatma-macunlari-ise-yarar-mi)[[4]](https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir)\n\nSararmaya Etki Eden Faktörler\n\n- Çay, kahve ve sigara tüketimi\n- Yaşlanmaya bağlı minenin incelmesi ve alttaki dentin tabakasının belirginleşmesi\n- Genetik faktörler[](https://www.colgate.com/tr-tr/oral-health/teeth-whitening/top-tips-on-how-to-whiten-yellow-teeth) [[1]](https://www.colgate.com/tr-tr/oral-health/teeth-whitening/top-tips-on-how-to-whiten-yellow-teeth)[[2]](https://hamzakeskin.com/sararmis-disler-bir-sure-sonra-kendi-kendine-beyazlar-mi-populer-dis-beyazlatma-macunlari-ise-yarar-mi)[[3]](https://www.efelerdis.com/tedaviler/dis-beyazlatma/)[[4]](https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer)\n\nDişlerinizdeki sararma **çay/kahve gibi dış etkenlerden** mi kaynaklanıyor, yoksa **yapısal/genetik** bir sarılık mı? Eğer bir klinik veya ev tipi tedavi düşünüyorsanız bunu bilmek size en uygun yöntemi seçmemizi kolaylaştırır.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Sarı dişlerin beyazlama süresi uygulanan yönteme göre değişir. Klinik ortamında yapılan ofis tipi beyazlatma 1 saatte sonuç verirken, hekim kontrolündeki ev tipi plak uygulamaları 10 ila 15 gün sürer. Diş minesinin yapısına ve lekenin derinliğine bağlı olarak doğal süreç 2-3 hafta bulabilir.",
+                  "markdown": "Sarı dişlerin beyazlama süresi uygulanan yönteme göre değişir. Klinik ortamında yapılan ofis tipi beyazlatma **1 saatte** sonuç verirken, hekim kontrolündeki ev tipi plak uygulamaları **10 ila 15 gün** sürer. Diş minesinin yapısına ve lekenin derinliğine bağlı olarak doğal süreç **2-3 hafta** bulabilir.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://www.efelerdis.com/tedaviler/dis-beyazlatma/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Memorial Sağlık Grubu",
+                      "domain": "www.memorial.com.tr",
+                      "url": "https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir",
+                      "title": "Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yapılır?",
+                      "text": "Dişlerin beyazlaması kişiden kişiye göre değişiklik göstermektedir. Ortalama beyazlama süresi 2-3 haftadır. Antibiyotik kullanımın..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Efeler Diş",
+                      "domain": "www.efelerdis.com",
+                      "url": "https://www.efelerdis.com/tedaviler/dis-beyazlatma/",
+                      "title": "Diş Beyazlatma",
+                      "text": "Yaşın ilerlemesi. Yaşa bağlı olarak içsel ya da dışsal sebeplerle dişlerin rengi koyulaşır. Dişi beyaz gösteren mine tabakası yaşl..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Beyazlatma Yöntemleri ve Süreleri",
+                  "text": "Ofis Tipi (Klinik): Diş hekiminin kliniğinde özel jeller ve ışık yardımıyla 45 dakika ile 1 saat içinde gerçekleşir. Tek seansla belirgin bir ton açılması sağlanır. Ev Tipi (Hekim Kontrollü): Hekimin ölçünüze göre hazırladığı kişiye özel plaklar ile yapılan uygulamalar genellikle 10-15 gün sürer. Günde birkaç saat ya da gece boyu takılması gerekebilir. Doğal / Rutin Bakım: Yetersiz fırçalamadan kaynaklanan hafif yüzey lekeleri, düzenli ve doğru bir ağız hijyeniyle 2-3 hafta içinde toparlanır. Karbonat veya limon gibi aşındırıcı ev yapımı maddeler mineye zarar verebileceği için önerilmez.",
+                  "markdown": "- **Ofis Tipi (Klinik):** Diş hekiminin kliniğinde özel jeller ve ışık yardımıyla **45 dakika ile 1 saat** içinde gerçekleşir. Tek seansla belirgin bir ton açılması sağlanır.[](https://www.efelerdis.com/tedaviler/dis-beyazlatma/) [[1]](https://www.efelerdis.com/tedaviler/dis-beyazlatma/)\n- **Ev Tipi (Hekim Kontrollü):** Hekimin ölçünüze göre hazırladığı kişiye özel plaklar ile yapılan uygulamalar genellikle **10-15 gün** sürer. Günde birkaç saat ya da gece boyu takılması gerekebilir.[](https://www.efelerdis.com/tedaviler/dis-beyazlatma/) [[1]](https://www.efelerdis.com/tedaviler/dis-beyazlatma/)\n- **Doğal / Rutin Bakım:** Yetersiz fırçalamadan kaynaklanan hafif yüzey lekeleri, düzenli ve doğru bir ağız hijyeniyle **2-3 hafta** içinde toparlanır. Karbonat veya limon gibi aşındırıcı ev yapımı maddeler mineye zarar verebileceği için önerilmez.[](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir) [[1]](https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir)[[2]](https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/)[[3]](https://hamzakeskin.com/sararmis-disler-bir-sure-sonra-kendi-kendine-beyazlar-mi-populer-dis-beyazlatma-macunlari-ise-yarar-mi)[[4]](https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Efeler Diş",
+                      "domain": "www.efelerdis.com",
+                      "url": "https://www.efelerdis.com/tedaviler/dis-beyazlatma/",
+                      "title": "Diş Beyazlatma",
+                      "text": "Yaşın ilerlemesi. Yaşa bağlı olarak içsel ya da dışsal sebeplerle dişlerin rengi koyulaşır. Dişi beyaz gösteren mine tabakası yaşl..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Memorial Sağlık Grubu",
+                      "domain": "www.memorial.com.tr",
+                      "url": "https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir",
+                      "title": "Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yapılır?",
+                      "text": "Dişlerin beyazlaması kişiden kişiye göre değişiklik göstermektedir. Ortalama beyazlama süresi 2-3 haftadır. Antibiyotik kullanımın..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "www.myradental.com",
+                      "domain": "www.myradental.com",
+                      "url": "https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/",
+                      "title": "Sararmış Dişlere Güvenli Çözümler: Evde Yöntemler ve Tedaviler",
+                      "text": "5. Düzenli Ağız Hijyeni. En basit ve en etkili \"doğal\" yöntem budur. Diş sararması genellikle yetersiz hijyen kaynaklı plak biriki..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Keskin Diş Kliniği",
+                      "domain": "hamzakeskin.com",
+                      "url": "https://hamzakeskin.com/sararmis-disler-bir-sure-sonra-kendi-kendine-beyazlar-mi-populer-dis-beyazlatma-macunlari-ise-yarar-mi",
+                      "title": "Sararmış Dişler Bir Süre Sonra Kendi Kendine Beyazlar Mı? Popüler Diş ...",
+                      "text": "Maalesef ki sararan dişlerin bir süre sonra kendi kendine beyazlaması mümkün değil. Bunu örneklendirmek gerekirse beyaz bir örtüye..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "MandarinDent",
+                      "domain": "www.mandarindent.com.tr",
+                      "url": "https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir",
+                      "title": "Sararan Dişler Nasıl Beyazlatılır | Doğal ve Profesyonel Diş ...",
+                      "text": "Sararan dişler için etkili beyazlatma yöntemleri. Limon-karbonat, tuz, muz kabuğu gibi doğal tariflerin riskleri ve diş hekimi kon..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Sararmaya Etki Eden Faktörler",
+                  "text": "Çay, kahve ve sigara tüketimi Yaşlanmaya bağlı minenin incelmesi ve alttaki dentin tabakasının belirginleşmesi Genetik faktörler",
+                  "markdown": "- Çay, kahve ve sigara tüketimi\n- Yaşlanmaya bağlı minenin incelmesi ve alttaki dentin tabakasının belirginleşmesi\n- Genetik faktörler[](https://www.colgate.com/tr-tr/oral-health/teeth-whitening/top-tips-on-how-to-whiten-yellow-teeth) [[1]](https://www.colgate.com/tr-tr/oral-health/teeth-whitening/top-tips-on-how-to-whiten-yellow-teeth)[[2]](https://hamzakeskin.com/sararmis-disler-bir-sure-sonra-kendi-kendine-beyazlar-mi-populer-dis-beyazlatma-macunlari-ise-yarar-mi)[[3]](https://www.efelerdis.com/tedaviler/dis-beyazlatma/)[[4]](https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Colgate",
+                      "domain": "www.colgate.com",
+                      "url": "https://www.colgate.com/tr-tr/oral-health/teeth-whitening/top-tips-on-how-to-whiten-yellow-teeth",
+                      "title": "Sarı Dişleri Beyazlatma İpuçları - Colgate",
+                      "text": "* TR (TR) * KAYIT OL. * TR (TR) * KAYIT OL. ... * Colgate plax ağız bakım suyu 500 ml çay ve limon. Şimdi Satın Al. Daha Fazla Bil"
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Keskin Diş Kliniği",
+                      "domain": "hamzakeskin.com",
+                      "url": "https://hamzakeskin.com/sararmis-disler-bir-sure-sonra-kendi-kendine-beyazlar-mi-populer-dis-beyazlatma-macunlari-ise-yarar-mi",
+                      "title": "Sararmış Dişler Bir Süre Sonra Kendi Kendine Beyazlar Mı? Popüler Diş ...",
+                      "text": "Maalesef ki sararan dişlerin bir süre sonra kendi kendine beyazlaması mümkün değil. Bunu örneklendirmek gerekirse beyaz bir örtüye..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Efeler Diş",
+                      "domain": "www.efelerdis.com",
+                      "url": "https://www.efelerdis.com/tedaviler/dis-beyazlatma/",
+                      "title": "Diş Beyazlatma",
+                      "text": "Yaşın ilerlemesi. Yaşa bağlı olarak içsel ya da dışsal sebeplerle dişlerin rengi koyulaşır. Dişi beyaz gösteren mine tabakası yaşl..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Dentakay",
+                      "domain": "dentakay.com",
+                      "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer",
+                      "title": "Sarı dişler : evde uygulayabileceğiniz 4 tedavi - Dentakay",
+                      "text": "Hidrojen peroksit ağartıcı bir maddedir. Aktif hale gelebilmesi için uygulandıktan sonra diş hekiminiz tarafından yaklaşık 30 daki..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Dişlerinizdeki sararma çay/kahve gibi dış etkenlerden mi kaynaklanıyor, yoksa yapısal/genetik bir sarılık mı? Eğer bir klinik veya ev tipi tedavi düşünüyorsanız bunu bilmek size en uygun yöntemi seçmemizi kolaylaştırır.",
+                  "markdown": "Dişlerinizdeki sararma **çay/kahve gibi dış etkenlerden** mi kaynaklanıyor, yoksa **yapısal/genetik** bir sarılık mı? Eğer bir klinik veya ev tipi tedavi düşünüyorsanız bunu bilmek size en uygun yöntemi seçmemizi kolaylaştırır.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Colgate",
+                  "domain": "www.colgate.com",
+                  "url": "https://www.colgate.com/tr-tr/oral-health/teeth-whitening/top-tips-on-how-to-whiten-yellow-teeth",
+                  "title": "Sarı Dişleri Beyazlatma İpuçları - Colgate",
+                  "text": "* TR (TR) * KAYIT OL. * TR (TR) * KAYIT OL. ... * Colgate plax ağız bakım suyu 500 ml çay ve limon. Şimdi Satın Al. Daha Fazla Bil"
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Efeler Diş",
+                  "domain": "www.efelerdis.com",
+                  "url": "https://www.efelerdis.com/tedaviler/dis-beyazlatma/",
+                  "title": "Diş Beyazlatma",
+                  "text": "Yaşın ilerlemesi. Yaşa bağlı olarak içsel ya da dışsal sebeplerle dişlerin rengi koyulaşır. Dişi beyaz gösteren mine tabakası yaşl..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Memorial Sağlık Grubu",
+                  "domain": "www.memorial.com.tr",
+                  "url": "https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir",
+                  "title": "Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl Yapılır?",
+                  "text": "Dişlerin beyazlaması kişiden kişiye göre değişiklik göstermektedir. Ortalama beyazlama süresi 2-3 haftadır. Antibiyotik kullanımın..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Keskin Diş Kliniği",
+                  "domain": "hamzakeskin.com",
+                  "url": "https://hamzakeskin.com/sararmis-disler-bir-sure-sonra-kendi-kendine-beyazlar-mi-populer-dis-beyazlatma-macunlari-ise-yarar-mi",
+                  "title": "Sararmış Dişler Bir Süre Sonra Kendi Kendine Beyazlar Mı? Popüler Diş ...",
+                  "text": "Maalesef ki sararan dişlerin bir süre sonra kendi kendine beyazlaması mümkün değil. Bunu örneklendirmek gerekirse beyaz bir örtüye..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Dentakay",
+                  "domain": "dentakay.com",
+                  "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer",
+                  "title": "Sarı dişler : evde uygulayabileceğiniz 4 tedavi - Dentakay",
+                  "text": "Hidrojen peroksit ağartıcı bir maddedir. Aktif hale gelebilmesi için uygulandıktan sonra diş hekiminiz tarafından yaklaşık 30 daki..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.myradental.com",
+                  "domain": "www.myradental.com",
+                  "url": "https://www.myradental.com/disler-neden-sararir-nasil-beyazlatilir/",
+                  "title": "Sararmış Dişlere Güvenli Çözümler: Evde Yöntemler ve Tedaviler",
+                  "text": "5. Düzenli Ağız Hijyeni. En basit ve en etkili \"doğal\" yöntem budur. Diş sararması genellikle yetersiz hijyen kaynaklı plak biriki..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "MandarinDent",
+                  "domain": "www.mandarindent.com.tr",
+                  "url": "https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir",
+                  "title": "Sararan Dişler Nasıl Beyazlatılır | Doğal ve Profesyonel Diş ...",
+                  "text": "Sararan dişler için etkili beyazlatma yöntemleri. Limon-karbonat, tuz, muz kabuğu gibi doğal tariflerin riskleri ve diş hekimi kon..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Emzirirken diş beyazlatma yapılır mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Çok sararmış dişler nasıl beyazlatılır?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Dişler sarardıktan sonra beyazlar mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Diş beyazlatma kaç gün sürer?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]",
+              "domain": "www.colgate.com",
+              "title": "Sarı Dişleri Beyazlatma İpuçları",
+              "url": "https://www.colgate.com/tr-tr/oral-health/teeth-whitening/top-tips-on-how-to-whiten-yellow-teeth",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.colgate.com › ... › Ağız Sağlığı",
+              "website_name": "Colgate",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "(1)(2) Başarılı bir diş beyazlatma için öncelikle dişlerinizin neden sarardığını anlamak, atılacak adımların temelini oluşturur. Siz de dişlerinizdeki sararma ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]/div[1]",
+              "domain": "www.memorial.com.tr",
+              "title": "Diş Beyazlatma Yöntemleri Nelerdir? Diş Beyazlatma Nasıl ...",
+              "url": "https://www.memorial.com.tr/tedavi-yontemleri/dis-beyazlatma-dis-beyazlatma-yontemleri-nelerdir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.memorial.com.tr › ... › Tedavi Yöntemleri",
+              "website_name": "Memorial Sağlık Grubu",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Dişlerin beyazlaması kişiden kişiye göre değişiklik göstermektedir. Ortalama beyazlama süresi 2-3 haftadır. Antibiyotik kullanımına bağlı oluşan grileşmelerin ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Ortalama beyazlama süresi 2-3 haftadır"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]/div[1]",
+              "domain": "hamzakeskin.com",
+              "title": "Sararmış Dişler Bir Süre Sonra Kendi Kendine Beyazlar Mı ...",
+              "url": "https://hamzakeskin.com/sararmis-disler-bir-sure-sonra-kendi-kendine-beyazlar-mi-populer-dis-beyazlatma-macunlari-ise-yarar-mi",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://hamzakeskin.com › sararmis-disler-bir-sure-sonr...",
+              "website_name": "Keskin Diş Kliniği",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "22 Kas 2018 — Maalesef ki sararan dişlerin bir süre sonra kendi kendine beyazlaması mümkün değil. Bunu örneklendirmek gerekirse beyaz bir örtüye sürekli çay ...",
+              "pre_snippet": "11/22/2018 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "sararan dişlerin bir süre sonra kendi kendine beyazlaması mümkün değil"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2018-11-22 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]",
+              "domain": "www.medicana.com.tr",
+              "title": "Dişler doğal yöntemlerle nasıl beyazlar? Diş araları nasıl ...",
+              "url": "https://www.medicana.com.tr/disler-dogal-yontemlerle-nasil-beyazlar-dis-aralari-nasil-beyazlar/blog/24921",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.medicana.com.tr › Sağlıklı Bilgiler",
+              "website_name": "Medicana",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "18 Ara 2025 — Sararmış dişler evde nasıl beyazlar? ... Normal diş macununuzu beyazlatıcı bir diş macunuyla değiştirin ve günde iki kez dişlerinizi fırçalayın.",
+              "pre_snippet": "12/18/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Sararmış",
+                "beyazlar",
+                "diş",
+                "günde"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-12-18 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[12]/div[1]/div[1]",
+              "domain": "adent.com.tr",
+              "title": "Evde Diş Beyazlatma Yapılabilir mi? - Özel Adent Diş Kliniği",
+              "url": "https://adent.com.tr/evde-dis-beyazlatma-yapilabilir-mi/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://adent.com.tr › evde-dis-beyazlatma-yapilabilir-mi",
+              "website_name": "adent.com.tr",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "29 Mar 2022 — Haftada bir, üç günde bir veya daha geniş aralıklarla fırçalanan dişlerin beyaz olması, hatta sağlıklı kalabilmeleri dahi pek mümkün değildir.",
+              "pre_snippet": "03/29/2022 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "günde"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2022-03-29 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]",
+              "domain": "www.mandarindent.com.tr",
+              "title": "Sararan Dişler Nasıl Beyazlatılır | Doğal ve Profesyonel ...",
+              "url": "https://www.mandarindent.com.tr/post/sararan-disler-nasil-beyazlatilir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.mandarindent.com.tr › post › sararan-disler...",
+              "website_name": "MandarinDent",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "5 Kas 2025 — Doğal diş beyazlatma uygulamaları, gün içinde dişlerde biriken yüzey lekelerini azaltarak diş sararmasının önüne geçmeye yardımcı olabilir.",
+              "pre_snippet": "11/05/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "diş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-11-05 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[16]/div[1]/div[1]",
+              "domain": "www.beyazlat.net",
+              "title": "Diş Beyazlatma Ne Kadar Sürer?",
+              "url": "https://www.beyazlat.net/dis-beyazlatma-ne-kadar-surer/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.beyazlat.net › dis-beyazlatma-ne-kadar-surer",
+              "website_name": "Beyazlat",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "19 Kas 2025 — Diş beyazlatma seanslarının tamamlandığı ortalama süre kişiden kişiye farklılaşabilir. Hastanın ağız yapısı, dişlerin mevcut durumu ve sigara ...",
+              "pre_snippet": "11/19/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "rtalama süre"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-11-19 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[18]/div[1]/div[1]",
+              "domain": "dentakay.com",
+              "title": "Sarı dişler : evde uygulayabileceğiniz 4 tedavi",
+              "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://dentakay.com › sari-disler-sararmasi-nasil-gecer",
+              "website_name": "Dentakay",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Kalıtımsal etkenlere bağlı olmayan sarı dişlerin düzeltilmesi için diş beyazlatma en iyi yöntemdir. Durum kalıtımsal etkenlerden ileri geliyorsa, ikinci yöntemi ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "sarı",
+                "diş"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Sarı dişler için evde...",
+                  "description": null,
+                  "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer#section-0",
+                  "domain": "dentakay.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Dişler neden sararır?",
+                  "description": null,
+                  "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer#section-1",
+                  "domain": "dentakay.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Sararmış dişler için...",
+                  "description": null,
+                  "url": "https://dentakay.com/tr/sari-disler-sararmasi-nasil-gecer#section-2",
+                  "domain": "dentakay.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[20]/div[1]/div[1]",
+              "domain": "www.efelerdis.com",
+              "title": "Diş Beyazlatma",
+              "url": "http://www.efelerdis.com/tedaviler/dis-beyazlatma/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "http://www.efelerdis.com › tedaviler › dis-beyazlatma",
+              "website_name": "Efeler Diş",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Yapılan beyazlatma tipine göre bu süre değişmektedir. Ev tipi beyazlatmada 10-15 gün ; Ofis tipi beyazlatmada 45 dakika ile 1 saat ; Devital diş beyazlatmasında ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "10-15 gün"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "1 günde diş BEYAZLATMA evde",
+                "Anında diş BEYAZLATMA evde",
+                "Evde sarı diş nasıl beyazlar",
+                "Kemik rengi sarı olan diş nasıl beyazlar",
+                "Evde diş Nasıl Beyazlar",
+                "1 günde diş BEYAZLATMA evde karbonatsız",
+                "Sigaradan sararan dişler nasıl beyazlar",
+                "Karbonatla diş Nasıl beyazlar"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

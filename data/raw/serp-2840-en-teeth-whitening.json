@@ -1,0 +1,1132 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "3.6586 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251613-2374-0139-0000-d233028b0f9d",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.4549 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "teeth whitening",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "teeth whitening",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=teeth%20whitening&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-25 16:13:22 +00:00",
+          "spell": null,
+          "refinement_chips": {
+            "type": "refinement_chips",
+            "xpath": "/html[1]/body[1]/div[3]/div[1]/div[9]/div[1]/div[2]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]",
+            "items": [
+              {
+                "type": "refinement_chips_element",
+                "title": "Nearby",
+                "url": "https://www.google.com/search?q=teeth+whitening+nearby&hl=en&gl=US&shoprs=GAMqD3RlZXRoIHdoaXRlbmluZzIMCAMSBk5lYXJieRgCWO6qIGAB&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAF6BAgiEE0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Strips",
+                "url": "https://www.google.com/search?q=strips+teeth+whitening&hl=en&gl=US&shoprs=GAEqD3RlZXRoIHdoaXRlbmluZzIWCAESBlN0cmlwczoKCLePORC4jzkwAljuqiBgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAJ6BAgiEE4",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Toothpaste",
+                "url": "https://www.google.com/search?q=toothpaste+teeth+whitening&hl=en&gl=US&shoprs=GAkqD3RlZXRoIHdoaXRlbmluZzIOCAkSClRvb3RocGFzdGVgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAN6BAgiEE8",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Gel",
+                "url": "https://www.google.com/search?q=gel+teeth+whitening&hl=en&gl=US&shoprs=GAEqD3RlZXRoIHdoaXRlbmluZzITCAESA0dlbDoKCLePORC6jzkwAljuqiBgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAR6BAgiEFA",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Pen",
+                "url": "https://www.google.com/search?q=pen+teeth+whitening&hl=en&gl=US&shoprs=GAEqD3RlZXRoIHdoaXRlbmluZzITCAESA1BlbjoKCLePORC7jzkwAljuqiBgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAV6BAgiEFE",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Price",
+                "url": "https://www.google.com/search?q=price+teeth+whitening&hl=en&gl=US&shoprs=GBIqD3RlZXRoIHdoaXRlbmluZzIJCBISBVByaWNlYAE&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAZ6BAgiEFI",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Tray",
+                "url": "https://www.google.com/search?q=tray+teeth+whitening&hl=en&gl=US&shoprs=GAEqD3RlZXRoIHdoaXRlbmluZzIUCAESBFRyYXk6Cgi3jzkQuY85MAJY7qogYAE&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAd6BAgiEFM",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "On sale",
+                "url": "https://www.google.com/search?q=teeth+whitening+sale&hl=en&gl=US&shoprs=EgRKAhgBGAYqD3RlZXRoIHdoaXRlbmluZzITCAYSB09uIHNhbGUYAiIESgIYAVjuqiBgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAh6BAgiEFQ",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Get it by Thu",
+                "url": "https://www.google.com/search?q=teeth+whitening&hl=en&gl=US&shoprs=Eg2aAQoKCBACOAFABEgBGBQqD3RlZXRoIHdoaXRlbmluZzImCBQSDUdldCBpdCBieSBUaHUiDZoBCgoIEAI4AUAESAEqBBABGAFgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAl6BAgiEFU",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Reviews",
+                "url": "https://www.google.com/search?q=reviews+teeth+whitening&hl=en&gl=US&shoprs=GBIqD3RlZXRoIHdoaXRlbmluZzILCBISB1Jldmlld3NgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAp6BAgiEFY",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Zoom",
+                "url": "https://www.google.com/search?q=zoom+teeth+whitening&hl=en&gl=US&shoprs=GBIqD3RlZXRoIHdoaXRlbmluZzIICBISBFpvb21gAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAt6BAgiEFc",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "White",
+                "url": "https://www.google.com/search?q=white+teeth+whitening&hl=en&gl=US&shoprs=GAEqD3RlZXRoIHdoaXRlbmluZzIXCAESBVdoaXRlOgwI2Iz1ARChi_UBMAtY7qogYAE&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKAx6BAgiEFg",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Under $15",
+                "url": "https://www.google.com/search?q=teeth+whitening+under+$15&hl=en&gl=US&shoprs=Eg0SCxEAAAAAOJxsQRgBGAUqD3RlZXRoIHdoaXRlbmluZzIiCAUSCVVuZGVyICQxNRgCIg0SCxEAAAAAOJxsQRgBKgIYAVjuqiBgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKA16BAgiEFk",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Smile",
+                "url": "https://www.google.com/search?q=smile+teeth+whitening&hl=en&gl=US&shoprs=GBIqD3RlZXRoIHdoaXRlbmluZzIJCBISBVNtaWxlYAE&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKA56BAgiEFo",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Treatments",
+                "url": "https://www.google.com/search?q=treatments+teeth+whitening&hl=en&gl=US&shoprs=GBIqD3RlZXRoIHdoaXRlbmluZzIOCBISClRyZWF0bWVudHNgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKA96BAgiEFs",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Purple",
+                "url": "https://www.google.com/search?q=purple+teeth+whitening&hl=en&gl=US&shoprs=GAEqD3RlZXRoIHdoaXRlbmluZzIYCAESBlB1cnBsZToMCNiM9QEQ7Ir1ATALWO6qIGAB&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKBB6BAgiEFw",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Blue",
+                "url": "https://www.google.com/search?q=blue+teeth+whitening&hl=en&gl=US&shoprs=GAEqD3RlZXRoIHdoaXRlbmluZzIWCAESBEJsdWU6DAjYjPUBEOaK9QEwC1juqiBgAQ&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKBF6BAgiEF0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Mouthwash",
+                "url": "https://www.google.com/search?q=mouthwash+teeth+whitening&hl=en&gl=US&shoprs=GAkqD3RlZXRoIHdoaXRlbmluZzINCAkSCU1vdXRod2FzaGAB&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKBJ6BAgiEF4",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Green",
+                "url": "https://www.google.com/search?q=green+teeth+whitening&hl=en&gl=US&shoprs=GAEqD3RlZXRoIHdoaXRlbmluZzIXCAESBUdyZWVuOgwI2Iz1ARDoivUBMAtY7qogYAE&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKBN6BAgiEF8",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Moisturizers",
+                "url": "https://www.google.com/search?q=moisturizers+teeth+whitening&hl=en&gl=US&shoprs=GAkqD3RlZXRoIHdoaXRlbmluZzIQCAkSDE1vaXN0dXJpemVyc2AB&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKBR6BAgiEGA",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Brand",
+                "url": "https://www.google.com/search?q=brand+teeth+whitening&hl=en&gl=US&shoprs=GBIqD3RlZXRoIHdoaXRlbmluZzIJCBISBUJyYW5kYAE&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKBV6BAgiEGE",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Professional",
+                "url": "https://www.google.com/search?q=professional+teeth+whitening&hl=en&gl=US&shoprs=GBIqD3RlZXRoIHdoaXRlbmluZzIQCBISDFByb2Zlc3Npb25hbGAB&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKBZ6BAgiEGI",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Buy",
+                "url": "https://www.google.com/search?q=buy+teeth+whitening&hl=en&gl=US&shoprs=GBIqD3RlZXRoIHdoaXRlbmluZzIHCBISA0J1eWAB&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKBd6BAgiEGM",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Red",
+                "url": "https://www.google.com/search?q=red+teeth+whitening&hl=en&gl=US&shoprs=GAEqD3RlZXRoIHdoaXRlbmluZzIVCAESA1JlZDoMCNiM9QEQ54r1ATALWO6qIGAB&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Qip4GKBh6BAgiEGQ",
+                "domain": "www.google.com",
+                "options": null
+              }
+            ]
+          },
+          "item_types": [
+            "local_pack",
+            "people_also_ask",
+            "organic",
+            "popular_products",
+            "images",
+            "product_considerations",
+            "related_searches"
+          ],
+          "se_results_count": 151,
+          "pages_count": 1,
+          "items_count": 16,
+          "items": [
+            {
+              "type": "local_pack",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "title": "ABQ Teeth Whitening",
+              "description": "Albuquerque, NM \nOnsite services \n",
+              "domain": null,
+              "phone": null,
+              "booking_url": null,
+              "url": null,
+              "is_paid": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 4.9,
+                "votes_count": 53,
+                "rating_max": 5
+              },
+              "cid": "1611668596147002849",
+              "rectangle": null
+            },
+            {
+              "type": "local_pack",
+              "rank_group": 2,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]",
+              "title": "We Whiten Teeth Whitening",
+              "description": "Denver, CO \n",
+              "domain": null,
+              "phone": null,
+              "booking_url": null,
+              "url": null,
+              "is_paid": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 4.8,
+                "votes_count": 459,
+                "rating_max": 5
+              },
+              "cid": "7950109700657098644",
+              "rectangle": null
+            },
+            {
+              "type": "local_pack",
+              "rank_group": 3,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[5]/div[1]/div[1]",
+              "title": "Yevonne’s Elite Teeth Whitening LLC (DaVinci)",
+              "description": "Aurora, CO \n",
+              "domain": null,
+              "phone": null,
+              "booking_url": null,
+              "url": null,
+              "is_paid": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 5,
+                "votes_count": 192,
+                "rating_max": 5
+              },
+              "cid": "4370460097767251165",
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the best treatment to whiten teeth?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can yellow teeth actually be whitened?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is there a downside to teeth whitening?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is tooth whitening painful?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]",
+              "domain": "www.forbes.com",
+              "title": "Best Teeth Whitening Kits 2026: 9 Dentist-Approved Picks",
+              "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.forbes.com › ... › Personal Products",
+              "website_name": "Forbes",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Mar 3, 2026 — With the help of oral care experts and product testers, I rounded up the best teeth whitening kits that deliver fast, safe results at home.",
+              "pre_snippet": "03/03/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "best teeth whitening kits"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-03-03 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]/div[1]",
+              "domain": "www.hopkinsmedicine.org",
+              "title": "Teeth Whitening",
+              "url": "https://www.hopkinsmedicine.org/health/treatment-tests-and-therapies/teeth-whitening",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.hopkinsmedicine.org › health › teeth-whiten...",
+              "website_name": "Johns Hopkins Medicine",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "The ADA describes \"whitening\" as any process that will make teeth appear whiter, A product can bleach the tooth, changing the natural tooth color. Most teeth ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "any process that will make teeth appear whiter"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "popular_products",
+              "rank_group": 1,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]",
+              "title": "Popular products",
+              "items": [
+                {
+                  "type": "popular_products_element",
+                  "title": "PurelyWHITE Deluxe Teeth Whitening Kit",
+                  "url": "https://www.accessnewswire.com/newsroom/en/consumer-and-retail-products/purelywhite-deluxe-review-dentist-formulated-peroxide-free-teeth-white-1100539",
+                  "domain": "www.accessnewswire.com",
+                  "description": "PurelyWhite Deluxe & more\nFree delivery\nNatural and Safe Formula · Enamel feels stronger and smoother ACCESS Newswire",
+                  "more_sellers": true,
+                  "seller": "PurelyWhite Deluxe",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08251613-2374-0139-0000-d233028b0f9d:0",
+                  "price": {
+                    "current": 29.99,
+                    "regular": 59,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$29.99 $59"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.8,
+                    "votes_count": 7300,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "6026192227524690151",
+                    "data_docid": "17560282772768972038",
+                    "gid": "12239870856854224492"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Hismile V34 Teeth Whitening Strips",
+                  "url": "https://www.thesun.co.uk/shopping/product-reviews/30076324/hismile-review/",
+                  "domain": "www.thesun.co.uk",
+                  "description": "Walmart & more\nLightweight and non-sticky · Mess-free packaging The Sun",
+                  "more_sellers": true,
+                  "seller": "Walmart",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08251613-2374-0139-0000-d233028b0f9d:1",
+                  "price": {
+                    "current": 24.97,
+                    "regular": 30,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$24.97 $30"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 3.3,
+                    "votes_count": 2900,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "18149364468862594537",
+                    "data_docid": "14464792340312466236",
+                    "gid": "7300399244798045921"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Crest 3D Whitestrips Professional White Teeth Whitening Kit",
+                  "url": null,
+                  "domain": null,
+                  "description": "Target & more\nFree delivery\nWhitens effectively (488 user reviews)",
+                  "more_sellers": true,
+                  "seller": "Target",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08251613-2374-0139-0000-d233028b0f9d:2",
+                  "price": {
+                    "current": 44.99,
+                    "regular": 65,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$44.99 $65"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.1,
+                    "votes_count": 804,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "11306755786754447123",
+                    "data_docid": "7397711875371893547",
+                    "gid": "17904219885504433877"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "GuruNanda Professional Whitening Wireless Kit",
+                  "url": null,
+                  "domain": null,
+                  "description": "Ulta Beauty & more\nFree delivery on $35+",
+                  "more_sellers": true,
+                  "seller": "Ulta Beauty",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08251613-2374-0139-0000-d233028b0f9d:3",
+                  "price": {
+                    "current": 24.99,
+                    "regular": null,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$24.99"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.2,
+                    "votes_count": 36,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "1353369506231870109",
+                    "data_docid": "6049069265451932680",
+                    "gid": "8255370151053690828"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Custom Teeth Whitening Trays",
+                  "url": null,
+                  "domain": null,
+                  "description": "SportingSmiles\nFree delivery by Fri",
+                  "more_sellers": false,
+                  "seller": "SportingSmiles",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08251613-2374-0139-0000-d233028b0f9d:4",
+                  "price": {
+                    "current": 85,
+                    "regular": null,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$85.00"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.6,
+                    "votes_count": 199,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "12231552949810047289",
+                    "data_docid": "2145382108360978676",
+                    "gid": "5862772330411684854"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Hismile V34 Colour Corrector Serum",
+                  "url": null,
+                  "domain": null,
+                  "description": "Target & more\nFree delivery on $35+\nGentle (102 user reviews)",
+                  "more_sellers": true,
+                  "seller": "Target",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08251613-2374-0139-0000-d233028b0f9d:5",
+                  "price": {
+                    "current": 21.49,
+                    "regular": null,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$21.49"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 3.5,
+                    "votes_count": 11000,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "1360827365969791899",
+                    "data_docid": "14026290771736049102",
+                    "gid": "17781067617270981200"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Auraglow Complete LED Teeth Whitening Kit",
+                  "url": "https://www.accessnewswire.com/newsroom/en/consumer-and-retail-products/auraglow-teeth-whitening-kit-reviews-dont-buy-till-youve-read-this-1198781",
+                  "domain": "www.accessnewswire.com",
+                  "description": "Walmart - Auraglow & more\nFree delivery by Fri\nGentle enough for enamel, caps and crowns · Consistent brightening results ACCESS Newswire",
+                  "more_sellers": true,
+                  "seller": "Walmart - Auraglow",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08251613-2374-0139-0000-d233028b0f9d:6",
+                  "price": {
+                    "current": 48,
+                    "regular": null,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$48.00"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.9,
+                    "votes_count": 11000,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "12990787959462809436",
+                    "data_docid": "6357254886696907565",
+                    "gid": "5127185519195539815"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "PurelyWHITE DELUXE Teeth Whitening Kit",
+                  "url": null,
+                  "domain": null,
+                  "description": "Target & more\nFree delivery on $35+\nWhitens effectively (1,188 user reviews)",
+                  "more_sellers": true,
+                  "seller": "Target",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08251613-2374-0139-0000-d233028b0f9d:7",
+                  "price": {
+                    "current": 28.99,
+                    "regular": 35,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$28.99 $35"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.7,
+                    "votes_count": 2000,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "10992404129297140807",
+                    "data_docid": "6538100123545235966",
+                    "gid": "1605349280141062443"
+                  }
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]",
+              "domain": "www.mouthhealthy.org",
+              "title": "Teeth Whitening",
+              "url": "https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.mouthhealthy.org · Sep 12, 2015",
+              "website_name": "MouthHealthy · American Dental Association (ADA)",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": "Teeth whitening is a simple process. Whitening products contain one of two tooth bleaches (hydrogen peroxide or carbamide peroxide). These bleaches break stains ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Teeth whitening is a simple process"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2015-09-12 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[11]/div[1]/div[1]",
+              "domain": "pmc.ncbi.nlm.nih.gov",
+              "title": "Tooth Whitening: What We Now Know - PMC",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://pmc.ncbi.nlm.nih.gov › articles › PMC4058574",
+              "website_name": "PubMed Central (PMC) (.gov)",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "by CM Carey · 2014 · Cited by 874 — Tooth whitening is any process that lightens the color of a tooth. Whitening may be accomplished by physical removal of the stain or a chemical reaction",
+              "pre_snippet": "by CM Carey · 2014 · Cited by 874",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "any process that lightens the color of a tooth"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[13]/div[1]/div[1]",
+              "domain": "www.usa.philips.com",
+              "title": "Philips Zoom Teeth Whitening",
+              "url": "https://www.usa.philips.com/c-m-pe/teeth-whitening",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.usa.philips.com › c-m-pe › teeth-whitening",
+              "website_name": "Philips",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Our innovative gel has molecules that move beyond the surface of your teeth, working to remove stains from wine, coffee and tobacco built up over time. Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "remove stains from wine, coffee and tobacco"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "Teeth Whitening: Here's What You Need to Know",
+              "url": "https://www.youtube.com/watch?v=0hCocZ13l2Q",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "2K+ views  ·  9 months ago",
+              "website_name": "YouTube · Triangle Dental Reading",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": "professional whitening can help you achieve a naturally brighter smile — safely, comfortably, and with results that boost your confidence.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "professional whitening can help you achieve a naturally brighter smile"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-11-26 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[16]/div[1]/div[1]",
+              "domain": "www.rejuv-health.com",
+              "title": "10 Teeth Whitening Methods and What They Cost",
+              "url": "https://www.rejuv-health.com/cosmetic-dentistry/teeth-whitening-cost/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.rejuv-health.com › cosmetic-dentistry › tee...",
+              "website_name": "Rejuvenation Dentistry",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "DIY at-home products can cost as low as $5, while professional whitening treatments at the dentist's office can cost as much as $1,000 per visit. Not every ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "DIY at-home products can cost as low as $5"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 13,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[18]/div[1]/div[1]",
+              "domain": "www.suttonpda.com",
+              "title": "Teeth whitening results: the definitive guide",
+              "url": "https://www.suttonpda.com/teeth-whitening-results/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.suttonpda.com › teeth-whitening-results",
+              "website_name": "Sutton Place Dental Associates",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "After the 30-60 minutes treatment, your teeth whitening may vary: from 10 to 15 shades whiter, to 2 to 5 shades lighter.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "teeth whitening"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "images",
+              "rank_group": 1,
+              "rank_absolute": 14,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[20]/div[1]",
+              "title": "Images",
+              "url": "https://www.google.com/search?sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&q=teeth+whitening&udm=2&source=univ&fir=vRmHRwkEG2spMM%252C98zlkVvfSSgBqM%252C_%253BPB280emn5YCN6M%252C65LS0LA7MM-4tM%252C_%253BFjLYaNArukilOM%252CHtMiiO-J8K0ifM%252C_%253BNvxv_wOm132M2M%252CqOrhBIPgFKHfrM%252C_%253BqB6_2JfEJKKloM%252CjounLD3AUXdEEM%252C_%253BmXQmZFkQ2mY9ZM%252CY5XM8cLLWuk2RM%252C_%253BWmGmdcSDKBwRiM%252C5UX0c8iILi_2kM%252C_%253B0B5smcblSskxqM%252CK2uUFbU5gUKKBM%252C_%253BsPFu9Tep6_kDVM%252C2SfY2Gykq3bHLM%252C_&usg=AI4_-kTjDG2WPfV7-GE9TqPpcoIrsOotsg&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4Q7Al6BAhBEAU",
+              "items": [
+                {
+                  "type": "images_element",
+                  "alt": "The Pros and Cons of Teeth Whitening: Is It a Good Idea?",
+                  "url": "https://www.unitedconcordia.com/business-services/employers/blog/pros-cons-teeth-whitening-good-idea",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5gZ8O1Aes5x79iduplqPRLaZ4GD3bjZi3UAqfHIqmgqjtDHLqmDLkPMY&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "8 Clear Benefits of Teeth Whitening",
+                  "url": "https://adelaidecosmeticdentistry.com.au/8-clear-benefits-of-teeth-whitening/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9i3sGxGqQk2msE6LlqpAdxqlLayQx8_vl0-KO0g7J0Nx_WbV8lEokzVM&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Is Professional Teeth Whitening Safe? | Dentist Harrisburg NC",
+                  "url": "https://icardandstreinfamilydentistry.com/teeth-whitening-safe/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRX3OpfjTuSNB04Vi27LC96kDQF0wZ2VRRl_JgodiD-5ecp91MD6VMVB0&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Which Teeth Whitening Method Should You Choose?",
+                  "url": "https://www.goldenstatedentistry.com/blog/which-teeth-whitening-method-should-you-choose",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9sQQR2RUljfktW3sToOhR7Qjx71kCqbOSEEvI-n4KgOOKgRCp2ihQMTY&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Teeth Whitening - Tulsa Precision Dental",
+                  "url": "https://tulsaprecisiondental.com/teeth-whitening/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8Y6nn25ObPG1dusTeQ2V8eu_Y339dA1r2YqKs_52s2VEXe_8-5mIvAA&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Professional Teeth Whitening | Risks, Results, Options and Cost",
+                  "url": "https://hiltondental.com.ng/dental-care/professional-teeth-whitening-overview-risks-results-options-and-cost/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtih05oZp52WWYm8BC2SBJt5jSpj3T-I_aEGpvVyd9chCaCF1LNSVor3I&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Blue Light Teeth Whitening: Is It Safe, and Does It Work?",
+                  "url": "https://www.healthline.com/health/dental-and-oral-health/blue-light-teeth-whitening",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuDi5NpjuS6Sk6HCjoIj6nPjJmZ6d4cou6Lhsf00JyADPsGisFLYitlkQ&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Teeth Whitening Jensen Beach FL | Safe & Effective Results",
+                  "url": "https://www.jbsmiles.com/services/cosmetic-dentistry/teeth-whitening",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS30sxHeavlj7rXK3nb8_gbWweXjvmbJb4rEB7rnTjIazVP3L-ARdzofBs&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Teeth Whitening Services in Norman, OK | Norman Smile Center",
+                  "url": "https://normansmilecenter.com/teeth-whitening/",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEjvNFJmlVPv6GyJfwDxMv1MLJB-J0IyXKfukwNHvho4FMzzd4ehou91k&s"
+                }
+              ],
+              "related_image_searches": null,
+              "rectangle": null
+            },
+            {
+              "type": "product_considerations",
+              "rank_group": 1,
+              "rank_absolute": 15,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[22]/div[1]",
+              "title": "Things to know",
+              "items": [
+                {
+                  "type": "product_considerations_element",
+                  "title": "What is the average cost of teeth whitening?",
+                  "consideration_category": "Cost",
+                  "expanded_element": [
+                    {
+                      "type": "product_considerations_expanded_element",
+                      "title": "Teeth Whitening Cost: Professional vs. At-Home Options | Gentle Dental",
+                      "featured_title": "Effectiveness and Safety Concerns",
+                      "breadcrumb": "https://www.gentledental.com › resources › articles › teet...",
+                      "snippet": "Teeth Whitening Method Estimated Cost Longevity of Results\nIn-Office Teeth Whitening $300 to $1,000 6 months to 3 years\nAt-Home Whitening Kits $100 to $600 4 to 6 months\nOver-The-Counter Whitening Pens $5 to $400 3 weeks to 2 months",
+                      "domain": "www.google.com",
+                      "url": "https://www.google.com/search?sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&q=what+is+the+average+cost+of+teeth+whitening&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4QrooIegQIPhAO",
+                      "timestamp": null,
+                      "related_searches": [
+                        "What is the average cost of teeth whitening?"
+                      ],
+                      "about_this_result": null
+                    }
+                  ]
+                },
+                {
+                  "type": "product_considerations_element",
+                  "title": "What are the risks and side effects of teeth whitening?",
+                  "consideration_category": "Risks and Side Effects",
+                  "expanded_element": [
+                    {
+                      "type": "product_considerations_expanded_element",
+                      "title": "Top 6 Side Effects of Teeth Whitening and Solutions",
+                      "featured_title": "Here are some of the most common side effects of teeth whitening:",
+                      "breadcrumb": "https://www.inspireddoc.com › side-effects-of-teeth-whit...",
+                      "snippet": "Tooth Sensitivity. Tooth sensitivity is one of the most commonly reported side effects of teeth whitening. ...\nGum Irritation. ...\nUneven Results. ...\nTooth Enamel Damage. ...\nTemporary White Spots. ...\nIrritation of the Throat and Stomach.",
+                      "domain": "www.google.com",
+                      "url": "https://www.google.com/search?sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&q=what+are+the+risks+and+side+effects+of+teeth+whitening&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4QrooIegQIPhAc",
+                      "timestamp": "2025-08-14 00:00:00 +00:00",
+                      "related_searches": [
+                        "What are the risks and side effects of teeth whitening?"
+                      ],
+                      "about_this_result": null
+                    }
+                  ]
+                },
+                {
+                  "type": "product_considerations_element",
+                  "title": "How does teeth whitening work?",
+                  "consideration_category": "How It Works",
+                  "expanded_element": [
+                    {
+                      "type": "product_considerations_expanded_element",
+                      "title": "The Science Behind Teeth Whitening - Clinical Research Dental",
+                      "featured_title": null,
+                      "breadcrumb": "https://www.clinicalresearchdental.com › blogs › the-scie...",
+                      "snippet": "The active oxygen molecules in the whitening agent can penetrate the enamel of the teeth and react with the discolored molecules that cause tooth discoloration. This action spreads the active oxygen molecules and whitens the entire tooth while keeping the enamel safe.",
+                      "domain": "www.google.com",
+                      "url": "https://www.google.com/search?sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&q=how+does+teeth+whitening+work&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4QrooIegQIPhAq",
+                      "timestamp": null,
+                      "related_searches": [
+                        "The Science Behind Teeth Whitening - Clinical Research Dentalclinicalresearchdental.comhttps://www.clinicalresearchdental.com › blogs › the-scie...",
+                        "How does teeth whitening work?"
+                      ],
+                      "about_this_result": null
+                    }
+                  ]
+                },
+                {
+                  "type": "product_considerations_element",
+                  "title": "What are the different methods of teeth whitening?",
+                  "consideration_category": "Methods",
+                  "expanded_element": [
+                    {
+                      "type": "product_considerations_expanded_element",
+                      "title": "10 Teeth Whitening Methods and What They Cost",
+                      "featured_title": "Over-the-Counter Whitening",
+                      "breadcrumb": "https://www.rejuv-health.com › cosmetic-dentistry › teet...",
+                      "snippet": "Teeth Whitening Strips. Typically Costs: $30-$70 for 10-20 strips. ...\nPaint-on Varnishes. Typically Costs: $10-$20 per unit. ...\nLED Whitening Kits. Typically Costs: $50-$300. ...\nWhitening Toothpastes. Typically Costs: $5-$15 per tube. ...\nWhitening Rinses. Typically Costs: $7-20 per bottle. ...\nWhitening Chewing Gum.",
+                      "domain": "www.google.com",
+                      "url": "https://www.google.com/search?sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&q=what+are+the+different+methods+of+teeth+whitening&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4QrooIegQIPhA4",
+                      "timestamp": null,
+                      "related_searches": [
+                        "What are the different methods of teeth whitening?"
+                      ],
+                      "about_this_result": null
+                    }
+                  ]
+                },
+                {
+                  "type": "product_considerations_element",
+                  "title": "What are the benefits of teeth whitening?",
+                  "consideration_category": "Benefits",
+                  "expanded_element": [
+                    {
+                      "type": "product_considerations_expanded_element",
+                      "title": "Benefits of Teeth Whitening You Might Not Have Thought Of",
+                      "featured_title": null,
+                      "breadcrumb": "https://oakhillsdentistry.com › the-benefits-of-teeth-white...",
+                      "snippet": "In addition to brightening your smile, teeth whitening treatments also kill bacteria that can cause gum disease and tooth decay, making your mouth cleaner and healthier.",
+                      "domain": "www.google.com",
+                      "url": "https://www.google.com/search?sca_esv=2fc8ef6a77fc72fc&hl=en&gl=US&q=what+are+the+benefits+of+teeth+whitening&sa=X&ved=2ahUKEwiclaeNlryWAxV11gIHHb8mLF4QrooIegQIPhBG",
+                      "timestamp": null,
+                      "related_searches": [
+                        "What are the benefits of teeth whitening?"
+                      ],
+                      "about_this_result": null
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 16,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Teeth whitening near me",
+                "Teeth whitening strips",
+                "Teeth whitening at home",
+                "Teeth whitening Reddit",
+                "Teeth whitening Kit",
+                "Teeth whitening dentist",
+                "Teeth Whitening Amazon",
+                "Teeth whitening CVS"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,744 @@
+{
+  "version": "0.1.20260806",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "2.2381 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08251215-2374-0139-0000-38f06c50aafa",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.1371 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "1 Ayda kredi Puanı Ne Kadar Yükselir?",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "1 Ayda kredi Puanı Ne Kadar Yükselir?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=1%20Ayda%20kredi%20Puan%C4%B1%20Ne%20Kadar%20Y%C3%BCkselir%3F&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-25 12:15:31 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "related_searches"
+          ],
+          "se_results_count": 112,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Kredi notu 1 ayda sabit ve net bir miktar artmaz . Puan artışı kişisel finansal geçmişe bağlıdır. 1 ay gibi kısa bir sürede büyük bir sıçrama beklenmez; belirgin ve kalıcı bir yükseliş genellikle 3 ila 6 ay düzenli ödeme alışkanlığı gerektirir.[](https://www.vakifbank.com.tr/tr/blog/kredi-notu-nasil-yukseltilir-5-etkili-yontemle-kredi-notunuzu-artirin) [[1]](https://www.vakifbank.com.tr/tr/blog/kredi-notu-nasil-yukseltilir-5-etkili-yontemle-kredi-notunuzu-artirin)[[2]](https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri)[[3]](https://forum.donanimhaber.com/1015-olan-kredi-notumu-nasil-1300-e-bir-ayda-yukseltirim--141696376)[[4]](https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir)\n\nKredi Notunu 1 Ayda Etkileyen Durumlar\n\n- **Geciken Borçların Kapanması:** Gecikmedeki tüm borçlar ödense bile sistemin bunu güncelleyip puana yansıtması zaman alır.\n- **Gram Gram Artış:** Düzenli ödemeler puana anında devasa katkı sağl ترمez; artışlar genellikle yavaş ve kademelidir.\n- **Mevcut Borç Oranı:** Kredi kartı borcunun tamamının ya da limit oranının dengede tutulması etkilidir, ancak tek bir ayın etkisi sınırlıdır.[](https://www.sikayetvar.com/findeks/kredi-notu-ayda-yukselir) [[1]](https://www.sikayetvar.com/findeks/kredi-notu-ayda-yukselir)[[2]](https://forum.donanimhaber.com/1015-olan-kredi-notumu-nasil-1300-e-bir-ayda-yukseltirim--141696376)[[3]](https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri)[[4]](https://www.allianz.com.tr/tr_TR/seninle-guzel/kredi-notunu-etkileyen-faktorler-nelerdir.html)\n\nPuanı Hızla İyileştirme Adımları\n\n- Kredi kartı borçlarını asgari değil, her ay **tamamen** kapat.\n- Düzenli ödenen faturaları **otomatik ödeme talimatına** bağla.\n- Kısa süre içinde **yeni kredi veya kart başvurusu** yapmaktan kaçın.[](https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri) [[1]](https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri)[[2]](https://www.akbank.com/blog/kredi-notu-nedir)[[3]](https://www.allianz.com.tr/tr_TR/seninle-guzel/kredi-notunu-etkileyen-faktorler-nelerdir.html)\n\nKredi notunuzun **şu anki yaklaşık puan aralığını** ve **ne kadar bir artışa** ihtiyacınız olduğunu belirtirseniz, size özel bir süre ve strateji öngörebilirim.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Kredi notu 1 ayda sabit ve net bir miktar artmaz. Puan artışı kişisel finansal geçmişe bağlıdır. 1 ay gibi kısa bir sürede büyük bir sıçrama beklenmez; belirgin ve kalıcı bir yükseliş genellikle 3 ila 6 ay düzenli ödeme alışkanlığı gerektirir.",
+                  "markdown": "Kredi notu 1 ayda sabit ve net bir miktar artmaz . Puan artışı kişisel finansal geçmişe bağlıdır. 1 ay gibi kısa bir sürede büyük bir sıçrama beklenmez; belirgin ve kalıcı bir yükseliş genellikle 3 ila 6 ay düzenli ödeme alışkanlığı gerektirir.[](https://www.vakifbank.com.tr/tr/blog/kredi-notu-nasil-yukseltilir-5-etkili-yontemle-kredi-notunuzu-artirin) [[1]](https://www.vakifbank.com.tr/tr/blog/kredi-notu-nasil-yukseltilir-5-etkili-yontemle-kredi-notunuzu-artirin)[[2]](https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri)[[3]](https://forum.donanimhaber.com/1015-olan-kredi-notumu-nasil-1300-e-bir-ayda-yukseltirim--141696376)[[4]](https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "VakıfBank",
+                      "domain": "www.vakifbank.com.tr",
+                      "url": "https://www.vakifbank.com.tr/tr/blog/kredi-notu-nasil-yukseltilir-5-etkili-yontemle-kredi-notunuzu-artirin",
+                      "title": "Kredi Notu Nasıl Yükseltilir? 5 Etkili Yöntemle Kredi Notunuzu Artırın",
+                      "text": "* Kredi Notu Nasıl Yükseltilir? 5 Etkili Yöntemle Kredi Notunuzu Artırın. ... Bu yazımızda, kredi notunuzu olumsuz etkileyen faktö..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "hesap.com",
+                      "domain": "hesap.com",
+                      "url": "https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri",
+                      "title": "Kredi Notu Nasıl Yükseltilir? | Hesap Defteri",
+                      "text": "Bu üç adım, özellikle 900 - 1300 puan bandında olan kullanıcılar için en hızlı sonuç veren yöntemlerdir. 3 ayda kredi notu nasıl y..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "DonanımHaber Forum",
+                      "domain": "forum.donanimhaber.com",
+                      "url": "https://forum.donanimhaber.com/1015-olan-kredi-notumu-nasil-1300-e-bir-ayda-yukseltirim--141696376",
+                      "title": "1015 olan kredi notumu nasıl 1300'e bir ayda yükseltirim",
+                      "text": "1015 olan puan 1 ay'da 1.300'e yükselmez bu 1. Ayrıca yaptğın düzenli ödemeler findeks'te yükselsede bankacılık sistemine findeks'"
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Ziraat Katılım",
+                      "domain": "www.ziraatkatilim.com.tr",
+                      "url": "https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir",
+                      "title": "Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir?",
+                      "text": "Kredi Notu Hakkında Sıkça Sorulan Sorular Düzenli ödeme yapıldığında belirgin bir iyileşme genellikle 3–6 ay içinde, kalıcı bir yü..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Kredi Notunu 1 Ayda Etkileyen Durumlar",
+                  "text": "Geciken Borçların Kapanması: Gecikmedeki tüm borçlar ödense bile sistemin bunu güncelleyip puana yansıtması zaman alır. Gram Gram Artış: Düzenli ödemeler puana anında devasa katkı sağl ترمez; artışlar genellikle yavaş ve kademelidir. Mevcut Borç Oranı: Kredi kartı borcunun tamamının ya da limit oranının dengede tutulması etkilidir, ancak tek bir ayın etkisi sınırlıdır.",
+                  "markdown": "- **Geciken Borçların Kapanması:** Gecikmedeki tüm borçlar ödense bile sistemin bunu güncelleyip puana yansıtması zaman alır.\n- **Gram Gram Artış:** Düzenli ödemeler puana anında devasa katkı sağl ترمez; artışlar genellikle yavaş ve kademelidir.\n- **Mevcut Borç Oranı:** Kredi kartı borcunun tamamının ya da limit oranının dengede tutulması etkilidir, ancak tek bir ayın etkisi sınırlıdır.[](https://www.sikayetvar.com/findeks/kredi-notu-ayda-yukselir) [[1]](https://www.sikayetvar.com/findeks/kredi-notu-ayda-yukselir)[[2]](https://forum.donanimhaber.com/1015-olan-kredi-notumu-nasil-1300-e-bir-ayda-yukseltirim--141696376)[[3]](https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri)[[4]](https://www.allianz.com.tr/tr_TR/seninle-guzel/kredi-notunu-etkileyen-faktorler-nelerdir.html)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Şikayetvar",
+                      "domain": "www.sikayetvar.com",
+                      "url": "https://www.sikayetvar.com/findeks/kredi-notu-ayda-yukselir",
+                      "title": "Findeks Kredi Notu Ayda Yükselir Şikayetleri - Şikayetvar",
+                      "text": "Findeks Kredi Notumun Artmaması Ve Bilgilendirme Eksikliği · Sedat. 29 Temmuz 2025 18:31 4.393. \"Tarafıma dönüş yapıldı problem çö..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "DonanımHaber Forum",
+                      "domain": "forum.donanimhaber.com",
+                      "url": "https://forum.donanimhaber.com/1015-olan-kredi-notumu-nasil-1300-e-bir-ayda-yukseltirim--141696376",
+                      "title": "1015 olan kredi notumu nasıl 1300'e bir ayda yükseltirim",
+                      "text": "1015 olan puan 1 ay'da 1.300'e yükselmez bu 1. Ayrıca yaptğın düzenli ödemeler findeks'te yükselsede bankacılık sistemine findeks'"
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "hesap.com",
+                      "domain": "hesap.com",
+                      "url": "https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri",
+                      "title": "Kredi Notu Nasıl Yükseltilir? | Hesap Defteri",
+                      "text": "Bu üç adım, özellikle 900 - 1300 puan bandında olan kullanıcılar için en hızlı sonuç veren yöntemlerdir. 3 ayda kredi notu nasıl y..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Allianz Sigorta",
+                      "domain": "www.allianz.com.tr",
+                      "url": "https://www.allianz.com.tr/tr_TR/seninle-guzel/kredi-notunu-etkileyen-faktorler-nelerdir.html",
+                      "title": "Kredi Notunu Etkileyen Faktörler Nelerdir? - Allianz Sigorta",
+                      "text": "Kredi Notu Kaç Ayda Yükselir? Herhangi bir yatırımda veya girişimde bulunulacağı zaman ekonomik destek ihtiyacı doğduğunda kredi n..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Puanı Hızla İyileştirme Adımları",
+                  "text": "Kredi kartı borçlarını asgari değil, her ay tamamen kapat. Düzenli ödenen faturaları otomatik ödeme talimatına bağla. Kısa süre içinde yeni kredi veya kart başvurusu yapmaktan kaçın.",
+                  "markdown": "- Kredi kartı borçlarını asgari değil, her ay **tamamen** kapat.\n- Düzenli ödenen faturaları **otomatik ödeme talimatına** bağla.\n- Kısa süre içinde **yeni kredi veya kart başvurusu** yapmaktan kaçın.[](https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri) [[1]](https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri)[[2]](https://www.akbank.com/blog/kredi-notu-nedir)[[3]](https://www.allianz.com.tr/tr_TR/seninle-guzel/kredi-notunu-etkileyen-faktorler-nelerdir.html)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "hesap.com",
+                      "domain": "hesap.com",
+                      "url": "https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri",
+                      "title": "Kredi Notu Nasıl Yükseltilir? | Hesap Defteri",
+                      "text": "Bu üç adım, özellikle 900 - 1300 puan bandında olan kullanıcılar için en hızlı sonuç veren yöntemlerdir. 3 ayda kredi notu nasıl y..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Akbank",
+                      "domain": "www.akbank.com",
+                      "url": "https://www.akbank.com/blog/kredi-notu-nedir",
+                      "title": "Kredi Notu Nedir, Nasıl Yükseltilir? - Akbank",
+                      "text": "Kredi notu nasıl yükselir? Kredi notunun düşmesine yol açan pek çok etken olduğunu söylemek mümkün. Kredi notunuz düşükse ve banka..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Allianz Sigorta",
+                      "domain": "www.allianz.com.tr",
+                      "url": "https://www.allianz.com.tr/tr_TR/seninle-guzel/kredi-notunu-etkileyen-faktorler-nelerdir.html",
+                      "title": "Kredi Notunu Etkileyen Faktörler Nelerdir? - Allianz Sigorta",
+                      "text": "Kredi Notu Kaç Ayda Yükselir? Herhangi bir yatırımda veya girişimde bulunulacağı zaman ekonomik destek ihtiyacı doğduğunda kredi n..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Kredi notunuzun şu anki yaklaşık puan aralığını ve ne kadar bir artışa ihtiyacınız olduğunu belirtirseniz, size özel bir süre ve strateji öngörebilirim.",
+                  "markdown": "Kredi notunuzun **şu anki yaklaşık puan aralığını** ve **ne kadar bir artışa** ihtiyacınız olduğunu belirtirseniz, size özel bir süre ve strateji öngörebilirim.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "DonanımHaber Forum",
+                  "domain": "forum.donanimhaber.com",
+                  "url": "https://forum.donanimhaber.com/1015-olan-kredi-notumu-nasil-1300-e-bir-ayda-yukseltirim--141696376",
+                  "title": "1015 olan kredi notumu nasıl 1300'e bir ayda yükseltirim",
+                  "text": "1015 olan puan 1 ay'da 1.300'e yükselmez bu 1. Ayrıca yaptğın düzenli ödemeler findeks'te yükselsede bankacılık sistemine findeks'"
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Şikayetvar",
+                  "domain": "www.sikayetvar.com",
+                  "url": "https://www.sikayetvar.com/findeks/kredi-notu-ayda-yukselir",
+                  "title": "Findeks Kredi Notu Ayda Yükselir Şikayetleri - Şikayetvar",
+                  "text": "Findeks Kredi Notumun Artmaması Ve Bilgilendirme Eksikliği · Sedat. 29 Temmuz 2025 18:31 4.393. \"Tarafıma dönüş yapıldı problem çö..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "VakıfBank",
+                  "domain": "www.vakifbank.com.tr",
+                  "url": "https://www.vakifbank.com.tr/tr/blog/kredi-notu-nasil-yukseltilir-5-etkili-yontemle-kredi-notunuzu-artirin",
+                  "title": "Kredi Notu Nasıl Yükseltilir? 5 Etkili Yöntemle Kredi Notunuzu Artırın",
+                  "text": "* Kredi Notu Nasıl Yükseltilir? 5 Etkili Yöntemle Kredi Notunuzu Artırın. ... Bu yazımızda, kredi notunuzu olumsuz etkileyen faktö..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "hesap.com",
+                  "domain": "hesap.com",
+                  "url": "https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri",
+                  "title": "Kredi Notu Nasıl Yükseltilir? | Hesap Defteri",
+                  "text": "Bu üç adım, özellikle 900 - 1300 puan bandında olan kullanıcılar için en hızlı sonuç veren yöntemlerdir. 3 ayda kredi notu nasıl y..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Allianz Sigorta",
+                  "domain": "www.allianz.com.tr",
+                  "url": "https://www.allianz.com.tr/tr_TR/seninle-guzel/kredi-notunu-etkileyen-faktorler-nelerdir.html",
+                  "title": "Kredi Notunu Etkileyen Faktörler Nelerdir? - Allianz Sigorta",
+                  "text": "Kredi Notu Kaç Ayda Yükselir? Herhangi bir yatırımda veya girişimde bulunulacağı zaman ekonomik destek ihtiyacı doğduğunda kredi n..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Akbank",
+                  "domain": "www.akbank.com",
+                  "url": "https://www.akbank.com/blog/kredi-notu-nedir",
+                  "title": "Kredi Notu Nedir, Nasıl Yükseltilir? - Akbank",
+                  "text": "Kredi notu nasıl yükselir? Kredi notunun düşmesine yol açan pek çok etken olduğunu söylemek mümkün. Kredi notunuz düşükse ve banka..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Ziraat Katılım",
+                  "domain": "www.ziraatkatilim.com.tr",
+                  "url": "https://www.ziraatkatilim.com.tr/blog/kredi-notu-nedir-nasil-ogrenilir-ve-yukseltilir",
+                  "title": "Kredi Notu Nedir? Nasıl Öğrenilir ve Yükseltilir?",
+                  "text": "Kredi Notu Hakkında Sıkça Sorulan Sorular Düzenli ödeme yapıldığında belirgin bir iyileşme genellikle 3–6 ay içinde, kalıcı bir yü..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "domain": "forum.donanimhaber.com",
+              "title": "1015 olan kredi notumu nasıl 1300'e bir ayda yükseltirim",
+              "url": "https://forum.donanimhaber.com/1015-olan-kredi-notumu-nasil-1300-e-bir-ayda-yukseltirim--141696376",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://forum.donanimhaber.com › ... › Krediler",
+              "website_name": "DonanımHaber Forum",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "20 Oca 2020 — 1015 olan puan 1 ay'da 1.300'e yükselmez bu 1. Ayrıca yaptğın düzenli ödemeler findeks'te yükselsede bankacılık sistemine findeks'teki puanın ...",
+              "pre_snippet": "01/20/2020 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "puan 1 ay",
+                "1"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "Kredi puanı kaç ayda yükselir yöntemi var mıdır",
+                  "description": null,
+                  "url": "https://forum.donanimhaber.com/kredi-puani-kac-ayda-yukselir-yontemi-var-midir--154108041",
+                  "domain": "forum.donanimhaber.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "Findeks notum Çakıldı ! (1310'dan 1505 yükseldi)",
+                  "description": null,
+                  "url": "https://forum.donanimhaber.com/findeks-notum-surekli-dusuyor--153266224",
+                  "domain": "forum.donanimhaber.com"
+                },
+                {
+                  "type": "link_element",
+                  "title": "forum.donanimhaber.com alanından daha fazla sonuç",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=1+Ayda+kredi+Puan%C4%B1+Ne+Kadar+Y%C3%BCkselir?+site:forum.donanimhaber.com&sca_esv=2a198a1a37cb003b&hl=tr&gl=TR&sa=X&ved=2ahUKEwiBoMT44LuWAxWRUEEAHdUtMBkQrQIoAnoECCgQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2020-01-20 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Kredi notu 1 ayda nasıl yükselir?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Kredi notu 1 ayda kaç puan yükselir?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Findeks puanı kaç ayda yükselir?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "1000 puana kredi çıkar mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.hesapkurdu.com",
+              "title": "Kredi Notu Nasıl Yükseltilir?",
+              "url": "https://www.hesapkurdu.com/kredi-notu/rehber/kredi-notu-yukseltme",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.hesapkurdu.com › Kredi › Kredi Notu",
+              "website_name": "Hesapkurdu.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "1 Haz 2026 — Kredi Notu Yükseltme Yolları · Var Olan Borçlarınızı Kapatın. Mevcut borç durumunuz kredi notunuzu etkileyen en önemli unsurlardan biridir.",
+              "pre_snippet": "06/01/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi",
+                "kredi"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-06-01 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "www.vakifbank.com.tr",
+              "title": "kredi-notu-nasil-yukseltilir-5-etkili-yontemle ...",
+              "url": "https://www.vakifbank.com.tr/tr/blog/kredi-notu-nasil-yukseltilir-5-etkili-yontemle-kredi-notunuzu-artirin",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.vakifbank.com.tr › Ana Sayfa › Blog",
+              "website_name": "VakıfBank",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "8 Eki 2025 — Sabır ve Süreklilik: Kredi Notu Ne Kadar Sürede Yükselir? Unutmayın, kredi notu bir gecede yükselmez. Olumsuz bir kaydın etkisinin azalması ...",
+              "pre_snippet": "10/08/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "kredi notu bir gecede yükselmez"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-10-08 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "www.garantibbva.com.tr",
+              "title": "Kredi Notu Nedir, Nasıl Hesaplanır ve Nasıl Yükseltilir?",
+              "url": "https://www.garantibbva.com.tr/blog/kredi-notu-nedir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.garantibbva.com.tr › blog › kredi-notu-nedir",
+              "website_name": "Garanti BBVA",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "26 May 2025 — Program kapsamında ödemeleriniz her 6 ayda bir değerlendirmeye alınır. Ödemelerinizi düzenli yapmanız halinde kredi notunuz yükselir. Uygun ...",
+              "pre_snippet": "05/26/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "ayda",
+                "kredi",
+                "yükselir"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-05-26 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.sikayetvar.com",
+              "title": "Findeks Kredi Notu Ayda Yükselir Şikayetleri",
+              "url": "https://www.sikayetvar.com/findeks/kredi-notu-ayda-yukselir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.sikayetvar.com › Findeks",
+              "website_name": "Şikayetvar",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Merhaba, kredi notumu aylardır yükseltmeye çalışıyorum. Şu an puanım 1125 ve az riskli grupta olmam gerekirken, orta ris...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 3.5,
+                "votes_count": 966,
+                "rating_max": 5
+              },
+              "price": null,
+              "highlighted": [
+                "kredi"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[13]/div[1]/div[1]",
+              "domain": "www.allianz.com.tr",
+              "title": "Kredi Notunu Etkileyen Faktörler Nelerdir?",
+              "url": "https://www.allianz.com.tr/tr_TR/seninle-guzel/kredi-notunu-etkileyen-faktorler-nelerdir.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.allianz.com.tr › tr_TR › seninle-guzel › kre...",
+              "website_name": "Allianz Sigorta",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "14 May 2026 — Kredi notu en düşük 1, en yüksek ise 1900 olarak belirleniyor. ... Kredi Notu Kaç Ayda Yükselir? Herhangi bir yatırımda veya girişimde ...",
+              "pre_snippet": "05/14/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "1900"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-05-14 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[15]/div[1]/div[1]",
+              "domain": "hesap.com",
+              "title": "Kredi Notu Nasıl Yükseltilir? | Hesap Defteri",
+              "url": "https://hesap.com/hesap-defteri/kredi-notu-yukseltme-onerileri",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://hesap.com › Hesap defteri › Kredi",
+              "website_name": "hesap.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "16 Eki 2025 — Kredi notunu yükseltmek mi istiyorsun? Borç ödeme, limit kullanımı ve düzenli hesap hareketleriyle notunu hızla artırabilirsin.",
+              "pre_snippet": "10/16/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-10-16 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[17]/div[1]/div[1]",
+              "domain": "www.vakifkatilim.com.tr",
+              "title": "Kredi Notu Nedir? Nasıl Yükseltilir?",
+              "url": "https://www.vakifkatilim.com.tr/tr/hakkimizda/medya-merkezi/blog/detay/kredi-notu-nedir-nasil-yukseltilir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.vakifkatilim.com.tr › ... › Blog › Blog Detay",
+              "website_name": "Vakıf Katılım",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "21 Şub 2025 — Kredi Notu Ne Kadar Sürede Yükselir? Kredi notunun yükselmesi, finansal alışkanlıklara bağlı olarak genellikle 3 ila 6 ay arasında gerçekleşir.",
+              "pre_snippet": "02/21/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi",
+                "Yükselir",
+                "ay"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-02-21 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[19]/div[1]/div[1]",
+              "domain": "www.findeks.com",
+              "title": "Findeks Kredi Notu",
+              "url": "https://www.findeks.com/urunler/findeks-kredi-notu",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.findeks.com › ... › Findeks Kredi Notu",
+              "website_name": "Findeks",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Kredili ürün ödemelerinin zamanında yapılması Findeks Kredi Notu'nu yükseltir. Ödemelerin son ödeme tarihinden sonra yapılması, Findeks Kredi Notu'nu olumsuz ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Kredi"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "3 ayda kredi notu yükseltme yolları",
+                "1 ayda kredi puanı yükseltme",
+                "Kredi notu yükseltme Hilesi",
+                "Kredi notu Kaç Ayda düzelir",
+                "Kredi notu yükseltme ekşi",
+                "3 ayda kredi notu ne kadar Yükselir",
+                "Parayla kredi notu yükseltme",
+                "Kredi notu yükseltme taktikleri"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
