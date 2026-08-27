@@ -15,10 +15,10 @@ export const tr: Messages = {
       "hiçbir sayfanın gerçekten hedeflemediğini gösterir.",
     searchPlaceholder: "Bir kelime girin — örn. diş beyazlatma",
     searchButton: "Analiz et",
-    searchDisabledHint: "Canlı tarama henüz bağlı değil",
-    liveNotice:
-      "Canlı tarama <b>henüz bağlı değil</b> — aşağıdaki analizler gerçek " +
-      "Google verisinden kuruldu.",
+    searchDisabledHint: "DataForSEO kimlik bilgisi bulunamadı - .env.example dosyasını .env olarak kopyalayıp doldurun.",
+    searching: "Aranıyor…",
+    searchingHint: "Google’a bir kez soruluyor, “Bunlar da sorulmuş” bloğu açılmış hâlde. Bu 30-60 saniye sürer.",
+    liveNotice: "Bir arama <b>tek canlı istek</b> çalıştırır ve soru ağacını getirir. Boşluk skoru <b>soru başına</b> hesaplanır ve sorunun kendi ekranından başlatılır.",
     savedAnalyses: "Kayıtlı analizler",
     questionCount: "{count} soru",
     country: "Ülke",
@@ -81,10 +81,11 @@ export const tr: Messages = {
     checked: "Bakılan sonuç",
     volume: "Arama hacmi",
     resultsHeading: "Arama sonuçları · örtüşme ≥ {threshold} geçer sayılır",
-    noResults:
-      "Bu soru için arama sonuçları <b>hiç çekilmedi</b>, dolayısıyla boşluk " +
-      "olup olmadığını bilmiyoruz. Kesikli çerçeveyle çizilmesinin sebebi bu. " +
-      "Canlı tarama bağlandığında ölçülecek.",
+    noResults: "Bu soru için arama sonuçları <b>hiç çekilmedi</b>, dolayısıyla boşluk olup olmadığı bilinmiyor - kesikli çerçeveyle çizilmesinin sebebi bu. Bu arşivlenmiş bir analiz; skorlamak için aynı kelimeyle canlı bir arama çalıştırın.",
+    notScoredYet: "Bu soru <b>henüz skorlanmadı</b>. Kontrol etmek bir arama isteğine mal olduğu için hiçbir zaman kendiliğinden yapılmaz — yapılana kadar boşluk olup olmadığı bilinmiyor.",
+    scoreButton: "Bu soruyu kontrol et",
+    scoring: "Kontrol ediliyor…",
+    scoreCost: "Bir SERP isteği. Daha önce çekilmiş bir soru hiçbir şeye mal olmaz.",
     untitled: "(başlıksız)",
     aiHeading: "Google AI Overview kaynakları",
     aiNote:
@@ -99,6 +100,9 @@ export const tr: Messages = {
   notice: {
     archiveData: "Arşiv veri",
     archiveDataDetail: "canlı değil",
+    liveData: "Canlı tarama",
+    liveDataDetail: "anlık görüntü, canlı değil",
+    liveDataNote: "Gösterilen saatte bir kez çekildi. Google’ın sonuçları değişir; yenilemek için aramayı tekrarlayın.",
     provisionalThreshold: "Geçici eşik",
     thresholdNote:
       "Boşluk eşiği etiketli veriyle doğrulanmadı. Sonuçlar yön gösterir, " +
@@ -110,6 +114,10 @@ export const tr: Messages = {
   error: {
     unreachable: "API'ye ulaşılamadı ({url}). Backend çalışıyor mu?",
     http: "{status} {statusText} — {path}",
+    noCredentials: "DataForSEO kimlik bilgileri eksik. .env.example dosyasını .env olarak kopyalayıp doldurun, sonra arka ucu yeniden başlatın.",
+    budget: "İstek tavanına ulaşıldı; tarama daha fazla harcamak yerine durdu.",
+    upstream: "DataForSEO’ya ulaşılamadı ya da hata döndü. Başarısız istek ücretlendirilmez.",
+    badRequest: "Bu istek, istendiği şekliyle çalıştırılamaz.",
     backToAnalyses: "Analizlere dön",
     startBackend: "Backend'i başlatmak için proje kökünde:",
     loading: "Yükleniyor…",

@@ -3,7 +3,13 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ApiError, API_BASE, fetchTree } from "@/lib/api";
-import { STATUSES, STATUS_COLOR, type Status, type Tree } from "@/lib/types";
+import {
+  STATUSES,
+  STATUS_COLOR,
+  type ScoreResult,
+  type Status,
+  type Tree,
+} from "@/lib/types";
 import { useDateFormat, useI18n } from "@/i18n";
 import { QuestionTree } from "./QuestionTree";
 import { GapTable } from "./GapTable";
@@ -62,6 +68,22 @@ export function TreeScreen({ slug }: { slug: string }) {
     [tree, selectedId]
   );
 
+  /* A scored question changes both the node and the tree's status counts.
+   * Refetching the whole tree would work but would also throw away the pan/zoom
+   * position and the selection, so the one node is swapped in place. */
+  const applyScore = (result: ScoreResult) =>
+    setTree((current) =>
+      current
+        ? {
+            ...current,
+            status_counts: result.status_counts,
+            nodes: current.nodes.map((n) =>
+              n.id === result.node.id ? result.node : n
+            ),
+          }
+        : current
+    );
+
   if (error) {
     return (
       <div className="landing">
@@ -96,9 +118,18 @@ export function TreeScreen({ slug }: { slug: string }) {
             <span>{t("detail.updated", { date: formatDate(tree.updated_at) })}</span>
           </div>
         </div>
-        <Notice>
-          <b>{t("notice.archiveData")}</b> — {t("notice.archiveDataDetail")}
-        </Notice>
+        {/* CLAUDE.md accuracy rule: never claim "live data". A live crawl is
+            still a snapshot, so it is labelled by when it was fetched, and the
+            archive is labelled as the archive. */}
+        {tree.source === "live" ? (
+          <Notice title={t("notice.liveDataNote")}>
+            <b>{t("notice.liveData")}</b> — {t("notice.liveDataDetail")}
+          </Notice>
+        ) : (
+          <Notice>
+            <b>{t("notice.archiveData")}</b> — {t("notice.archiveDataDetail")}
+          </Notice>
+        )}
         {!tree.threshold_validated && (
           <Notice title={t("notice.thresholdNote")}>
             <b>{t("notice.provisionalThreshold")}</b> {tree.threshold.toFixed(2)}
@@ -171,7 +202,7 @@ export function TreeScreen({ slug }: { slug: string }) {
             )}
           </div>
         </main>
-        <QuestionDetail node={selected} tree={tree} />
+        <QuestionDetail node={selected} tree={tree} onScored={applyScore} />
       </div>
     </div>
   );

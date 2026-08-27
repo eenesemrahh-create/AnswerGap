@@ -24,23 +24,34 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 
+from answergap import live
+from answergap.dataforseo import BudgetExceeded, DataForSEOError
 from answergap.languages import DEFAULT_LOCATION_CODE, LANGUAGES
 from answergap.tree import STRATEGY, THRESHOLD, all_trees
 
 ROOT = Path(__file__).resolve().parent.parent
 COUNTRIES_PATH = ROOT / "data" / "locations" / "countries.json"
 
+# Archive and live trees are held apart. The archive is Phase 0 evidence and is
+# rebuilt from data/raw/ at startup; live trees are user crawls under data/live/
+# and change while the process runs. Live slugs are market-qualified
+# (`{seed}-{lang}-{location}`), so the two namespaces cannot collide.
 _TREES: list[dict] = []
 _BY_SLUG: dict[str, dict] = {}
+_LIVE: dict[str, dict] = {}
 _COUNTRIES: list[dict] = []
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    global _TREES, _BY_SLUG, _COUNTRIES
+    global _TREES, _BY_SLUG, _LIVE, _COUNTRIES
     _TREES = all_trees()
     _BY_SLUG = {t["slug"]: t for t in _TREES}
+    # Live trees are persisted, so a --reload does not lose a crawl the user
+    # already paid for.
+    _LIVE = {t["slug"]: t for t in live.load_trees()}
     if COUNTRIES_PATH.exists():
         _COUNTRIES = json.loads(COUNTRIES_PATH.read_text(encoding="utf-8"))
     yield
@@ -56,7 +67,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -80,8 +91,11 @@ def meta() -> dict:
         "strategy": STRATEGY,
         "threshold_validated": False,
         "search_volume_available": False,
-        "live_crawl_available": False,
-        "tree_count": len(_TREES),
+        # Drives the search box's disabled state. False means no credentials on
+        # disk, which is a setup problem the UI should say out loud rather than
+        # letting the user click into a 503.
+        "live_crawl_available": live.available(),
+        "tree_count": len(_TREES) + len(_LIVE),
         "default_location_code": DEFAULT_LOCATION_CODE,
         "default_language_code": "en",
     }
@@ -110,25 +124,122 @@ def countries() -> list[dict]:
     return _COUNTRIES
 
 
-@app.get("/api/trees")
-def trees() -> list[dict]:
-    return [_summary(t) for t in _TREES]
-
-
-@app.get("/api/tree/{slug}")
-def tree(slug: str) -> dict:
-    found = _BY_SLUG.get(slug)
+def _lookup(slug: str) -> dict:
+    found = _LIVE.get(slug) or _BY_SLUG.get(slug)
     if not found:
         raise HTTPException(404, f"No tree: {slug}")
     return found
 
 
+@app.get("/api/trees")
+def trees() -> list[dict]:
+    """Live crawls first, then the Phase 0 demos.
+
+    A user who just ran a search expects to find it at the top, not below three
+    fixtures they did not create.
+    """
+    live_trees = sorted(
+        _LIVE.values(), key=lambda t: t.get("updated_at") or "", reverse=True
+    )
+    return [_summary(t) for t in live_trees] + [_summary(t) for t in _TREES]
+
+
+@app.get("/api/tree/{slug}")
+def tree(slug: str) -> dict:
+    return _lookup(slug)
+
+
 @app.get("/api/tree/{slug}/question/{question_slug}")
 def question(slug: str, question_slug: str) -> dict:
-    found = _BY_SLUG.get(slug)
-    if not found:
-        raise HTTPException(404, f"No tree: {slug}")
+    found = _lookup(slug)
     for node in found["nodes"]:
         if node["slug"] == question_slug:
             return node
     raise HTTPException(404, f"No question: {question_slug}")
+
+
+# --------------------------------------------------------------- live crawl
+
+
+class SearchRequest(BaseModel):
+    seed: str = Field(min_length=1, max_length=200)
+    location_code: int = DEFAULT_LOCATION_CODE
+    language_code: str = "en"
+    # CLAUDE.md pricing: cached results are free, "refresh now" costs a credit.
+    refresh: bool = False
+    # CLAUDE.md operating rule: always be able to see the plan and the cost
+    # before spending anything.
+    dry_run: bool = False
+
+
+def _guard(language_code: str) -> None:
+    if language_code not in LANGUAGES:
+        raise HTTPException(
+            400,
+            f"No language pack for '{language_code}'. Scoring it would mean "
+            f"using English stop words on another language, which produces "
+            f"confident nonsense. Supported: {', '.join(sorted(LANGUAGES))}.",
+        )
+
+
+def _run(action):
+    """Translate crawler failures into honest HTTP codes.
+
+    Node-level fault tolerance is mandatory (CLAUDE.md), and the first half of
+    that is not pretending a transient upstream failure is our own 500.
+    """
+    try:
+        return action()
+    except live.CredentialsMissing as e:
+        raise HTTPException(503, str(e)) from e
+    except BudgetExceeded as e:
+        raise HTTPException(429, str(e)) from e
+    except DataForSEOError as e:
+        raise HTTPException(502, str(e)) from e
+
+
+@app.post("/api/search")
+def search(request: SearchRequest) -> dict:
+    """Discover a question tree for one seed. ONE billable request, or zero.
+
+    Gap scoring is NOT run here. Discovery is cheap and scoring is per-question,
+    so they are priced and triggered separately; every question comes back
+    `no_data` until the user asks for it to be scored.
+    """
+    _guard(request.language_code)
+    result = _run(
+        lambda: live.crawl(
+            request.seed,
+            request.location_code,
+            request.language_code,
+            refresh=request.refresh,
+            dry_run=request.dry_run,
+        )
+    )
+    if not result.get("dry_run"):
+        _LIVE[result["slug"]] = result
+    return result
+
+
+@app.post("/api/tree/{slug}/question/{question_slug}/score")
+def score_question_endpoint(
+    slug: str, question_slug: str, refresh: bool = False
+) -> dict:
+    """Gap-score one question. ONE billable request, or zero if cached.
+
+    This is the expensive half of the product: one SERP call per question. It
+    stays explicit so the cost is always something the user chose.
+    """
+    found = _lookup(slug)
+    if found.get("source") != "live":
+        raise HTTPException(
+            409,
+            "Archived Phase 0 trees are fixed evidence and are not re-scored. "
+            "Run a live search for this seed instead.",
+        )
+    try:
+        node = _run(lambda: live.score(found, question_slug, refresh=refresh))
+    except KeyError as e:
+        raise HTTPException(404, f"No question: {question_slug}") from e
+    _LIVE[found["slug"]] = found
+    return {"node": node, "status_counts": found["status_counts"]}

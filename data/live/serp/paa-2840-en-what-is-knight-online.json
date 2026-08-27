@@ -1,0 +1,481 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "3.1333 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08271215-2374-0139-0000-10e74feb5d59",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.9067 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "What is Knight Online?",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "What is Knight Online?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=What%20is%20Knight%20Online%3F&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-27 12:15:55 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "people_also_ask",
+            "organic",
+            "video",
+            "related_searches"
+          ],
+          "se_results_count": 109,
+          "pages_count": 1,
+          "items_count": 11,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": true,
+              "markdown": null,
+              "items": null,
+              "references": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Do people still play Knight online?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the story behind Knight Online?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What type of game is Knight Online?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the #1 MMORPG right now?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "Let's be real: Knight Online was the GOAT, but it deserves ...",
+              "url": "https://www.reddit.com/r/MMORPG/comments/1rmc5x9/lets_be_real_knight_online_was_the_goat_but_it/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "40+ comments  ·  5 months ago",
+              "website_name": "Reddit · r/MMORPG",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online was the best of the best mmorpg in terms of PvP, 1v1, party based PvP, party based exping, arenas, racial wars.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "More results from www.reddit.com",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=What+is+Knight+Online?+site:www.reddit.com&sca_esv=a4ac375be92b09b0&hl=en&gl=US&sa=X&ved=2ahUKEwjEtp_h5MCWAxV2WEEAHRXuNbwQrQIoAnoECCIQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]/div[1]",
+              "domain": "store.steampowered.com",
+              "title": "Knight Online on Steam",
+              "url": "https://store.steampowered.com/app/389430/Knight_Online/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://store.steampowered.com › app › Knight_Online",
+              "website_name": "Steam",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Jan 25, 2016 — Knight Online is a PvP-centric MMORPG that has been under continuous development for over a decade! Two nations, El Morad and Karus are locked ...",
+              "pre_snippet": "01/25/2016 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 2.5,
+                "votes_count": 1806,
+                "rating_max": 5
+              },
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2016-01-25 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]/div[1]",
+              "domain": "www.nttgame.com",
+              "title": "Knight Online",
+              "url": "https://www.nttgame.com/knight",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nttgame.com › knight",
+              "website_name": "NTTGame",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is a leading party based medieval MMORPG that is, and will alyways be, Free to Play! Register now and enjoy Knight Online.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[10]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Gaming Hardcore",
+                  "title": "Knight Online in 2024 - Is It Worth It? #mmo #mmorpg #usko",
+                  "timestamp": "2024-07-27 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=bY29vq5HWVI"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · MMOs.com",
+                  "title": "Knight Online Gameplay First Look HD - MMOs.com",
+                  "timestamp": "2015-06-25 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=KakhmsFF-d4"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Gaming Hardcore",
+                  "title": "Knight Online in 2021",
+                  "timestamp": "2021-04-25 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=b7MYWYJ9KGo"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Married to Gaming",
+                  "title": "Knight Online - The Weirdest MMORPG I Have Ever ...",
+                  "timestamp": "2017-06-17 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=pfkRYE6o66c"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[12]/div[1]/div[1]",
+              "domain": "en.wikipedia.org",
+              "title": "Knight Online",
+              "url": "https://en.wikipedia.org/wiki/Knight_Online",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://en.wikipedia.org › wiki › Knight_Online",
+              "website_name": "Wikipedia",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is an MMORPG developed by Mgame Corporation. Genre Fantasy MMORPG Mode MMO Knight Online is officially free-to-play",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]",
+              "domain": "www.nttgameonline.com",
+              "title": "Knight Online - Free to Play 3D MMORPG Game (Steam)",
+              "url": "https://www.nttgameonline.com/knight/en",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nttgameonline.com › knight",
+              "website_name": "nttgameonline.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is a leading party based medieval MMORPG that is, and will alyways be, Free to Play! A chaotic survival experience where only the strongest ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[16]/div[1]/div[1]",
+              "domain": "www.nttgame.com",
+              "title": "Knight Online",
+              "url": "https://www.nttgame.com/knight/en/guide/introduction",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nttgame.com › knight › guide › introduction",
+              "website_name": "NTTGame",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is a PvP-centric Massively Multiplayer Online Role Playing Game that has been under continuous development for almost a decade. Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[18]/div[1]/div[1]",
+              "domain": "steamcommunity.com",
+              "title": "Why people are playing this game? :: Knight Online EN",
+              "url": "https://steamcommunity.com/app/389430/discussions/0/364039785164754796//1000?l=schinese&ctp=2",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://steamcommunity.com › app › discussions",
+              "website_name": "Steam Community",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online was a good mmorpg back then,when most ppl's computers cant handle games like WoW. Thats why i started playing Knight Online back in 2006. Back ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "What is knight online free",
+                "What is knight online reddit",
+                "What is knight online gameplay",
+                "Knight Online private server",
+                "Knight Online 2026",
+                "Is Knight Online still active",
+                "Knight Online steam",
+                "Knight Online mobile game"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

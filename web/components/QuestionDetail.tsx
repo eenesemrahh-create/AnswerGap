@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { Badge, Rich } from "./Badge";
+import { ApiError, scoreQuestion } from "@/lib/api";
 import { useDateFormat, useI18n } from "@/i18n";
-import type { Node, Tree } from "@/lib/types";
+import type { Node, ScoreResult, Tree } from "@/lib/types";
 
 /* This panel answers "why is this a gap?".
  *
@@ -14,12 +16,31 @@ import type { Node, Tree } from "@/lib/types";
 export function QuestionDetail({
   node,
   tree,
+  onScored,
 }: {
   node: Node | null;
   tree: Tree;
+  /** Called with the freshly scored node so the tree above can update. */
+  onScored?: (result: ScoreResult) => void;
 }) {
   const { t } = useI18n();
   const formatDate = useDateFormat();
+  const [scoring, setScoring] = useState(false);
+  const [scoreError, setScoreError] = useState<ApiError | null>(null);
+
+  const runScore = async () => {
+    if (!node || scoring) return;
+    setScoring(true);
+    setScoreError(null);
+    try {
+      const result = await scoreQuestion(tree.slug, node.slug);
+      onScored?.(result);
+    } catch (e) {
+      setScoreError(e instanceof ApiError ? e : new ApiError("http", {}));
+    } finally {
+      setScoring(false);
+    }
+  };
 
   if (!node) {
     return (
@@ -30,6 +51,11 @@ export function QuestionDetail({
   }
 
   const hasData = node.results_checked > 0;
+
+  // Scoring costs one SERP request per question, so it is offered only where it
+  // can actually run: a live tree with an unscored question. Archived Phase 0
+  // trees are fixed evidence and the API refuses to re-score them.
+  const canScore = tree.source === "live" && !hasData;
 
   return (
     <aside className="panel">
@@ -88,9 +114,36 @@ export function QuestionDetail({
           ))}
         </>
       ) : (
-        <p className="note">
-          <Rich html={t("detail.noResults")} />
-        </p>
+        <>
+          <p className="note">
+            <Rich
+              html={t(canScore ? "detail.notScoredYet" : "detail.noResults")}
+            />
+          </p>
+          {canScore && (
+            <>
+              <button
+                type="button"
+                className="score-button"
+                onClick={runScore}
+                disabled={scoring}
+              >
+                {scoring ? t("detail.scoring") : t("detail.scoreButton")}
+              </button>
+              <p className="note">{t("detail.scoreCost")}</p>
+            </>
+          )}
+          {scoreError && (
+            <div className="error" style={{ marginTop: 12 }}>
+              <strong>{t(`error.${scoreError.kind}`, scoreError.values)}</strong>
+              {scoreError.detail && (
+                <div style={{ marginTop: 8 }}>
+                  <code>{scoreError.detail}</code>
+                </div>
+              )}
+            </div>
+          )}
+        </>
       )}
 
       {node.ai_sources.length > 0 && (

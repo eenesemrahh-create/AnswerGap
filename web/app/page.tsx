@@ -2,16 +2,19 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ApiError,
   fetchCountries,
   fetchLanguages,
   fetchMeta,
   fetchTrees,
+  search as runSearch,
 } from "@/lib/api";
 import {
   STATUSES,
   STATUS_COLOR,
+  isDryRun,
   type Country,
   type Meta,
   type SearchLanguage,
@@ -27,6 +30,7 @@ const MARKET_KEY = "answergap.market";
 export default function Landing() {
   const { t } = useI18n();
   const formatDate = useDateFormat();
+  const router = useRouter();
 
   const [trees, setTrees] = useState<TreeSummary[] | null>(null);
   const [meta, setMeta] = useState<Meta | null>(null);
@@ -34,6 +38,11 @@ export default function Landing() {
   const [languages, setLanguages] = useState<SearchLanguage[]>([]);
   const [error, setError] = useState<ApiError | null>(null);
   const [seed, setSeed] = useState("");
+
+  // Search state is kept apart from `error` above: a failed crawl must not
+  // blank out the saved analyses that are already on screen.
+  const [busy, setBusy] = useState(false);
+  const [searchError, setSearchError] = useState<ApiError | null>(null);
 
   // Which market to search. Defaults to the US and is remembered per browser.
   const [locationCode, setLocationCode] = useState<number>(2840);
@@ -70,6 +79,29 @@ export default function Landing() {
     fetchLanguages().then(setLanguages).catch(() => setLanguages([]));
   }, []);
 
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const term = seed.trim();
+    if (!term || busy) return;
+
+    setBusy(true);
+    setSearchError(null);
+    try {
+      const result = await runSearch({
+        seed: term,
+        location_code: locationCode,
+        language_code: languageCode,
+      });
+      // dry_run is not requested from the UI, so this is defensive only — but
+      // narrowing it here is what lets the tree branch stay type-safe.
+      if (isDryRun(result)) return;
+      router.push(`/tree/${encodeURIComponent(result.slug)}`);
+    } catch (e) {
+      setSearchError(e instanceof ApiError ? e : new ApiError("http", {}));
+      setBusy(false);
+    }
+  };
+
   const rememberMarket = (location: number, language: string) => {
     try {
       localStorage.setItem(
@@ -93,20 +125,42 @@ export default function Landing() {
       <h1>{t("landing.headline")}</h1>
       <p className="tagline">{t("landing.intro")}</p>
 
-      {/* Live crawling is not wired up yet. Rather than hiding the entry point,
-          it is shown disabled: the direction stays visible without pretending
-          to work. */}
-      <form className="form-row" onSubmit={(e) => e.preventDefault()}>
+      {/* The button is disabled only when a crawl genuinely cannot run — no
+          credentials on disk. That is a setup problem, and saying so beats
+          letting the user click into a 503. */}
+      <form className="form-row" onSubmit={submit}>
         <input
           value={seed}
           onChange={(e) => setSeed(e.target.value)}
           placeholder={t("landing.searchPlaceholder")}
           aria-label={t("landing.searchPlaceholder")}
+          disabled={busy}
         />
-        <button type="submit" disabled title={t("landing.searchDisabledHint")}>
-          {t("landing.searchButton")}
+        <button
+          type="submit"
+          disabled={busy || !seed.trim() || meta?.live_crawl_available === false}
+          title={
+            meta?.live_crawl_available === false
+              ? t("landing.searchDisabledHint")
+              : undefined
+          }
+        >
+          {busy ? t("landing.searching") : t("landing.searchButton")}
         </button>
       </form>
+
+      {busy && <p className="field-hint">{t("landing.searchingHint")}</p>}
+
+      {searchError && (
+        <div className="error" style={{ marginTop: 16 }}>
+          <strong>{t(`error.${searchError.kind}`, searchError.values)}</strong>
+          {searchError.detail && (
+            <div style={{ marginTop: 8 }}>
+              <code>{searchError.detail}</code>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="market-row">
         <label>

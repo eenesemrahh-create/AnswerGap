@@ -1,0 +1,877 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "8.9783 sec.",
+  "cost": 0.0026,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08262336-2374-0139-0000-e8ff5d517c57",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "1.4509 sec.",
+      "cost": 0.0026,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "knight online",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10,
+        "people_also_ask_click_depth": 4
+      },
+      "result": [
+        {
+          "keyword": "knight online",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=knight%20online&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-26 23:36:43 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "video",
+            "related_searches",
+            "knowledge_graph"
+          ],
+          "se_results_count": 100,
+          "pages_count": 1,
+          "items_count": 13,
+          "items": [
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "domain": "www.nttgame.com",
+              "title": "Knight Online",
+              "url": "https://www.nttgame.com/knight",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nttgame.com › knight",
+              "website_name": "NTTGame",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is a leading party based medieval MMORPG that is, and will alyways be, Free to Play! Register now and enjoy Knight Online.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[3]/div[3]/div[1]",
+              "domain": "store.steampowered.com",
+              "title": "Knight Online on Steam",
+              "url": "https://store.steampowered.com/app/389430/Knight_Online/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://store.steampowered.com › app › Knight_Online",
+              "website_name": "Steam",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is a PvP-centric MMORPG that has been under continuous development for over a decade! Two nations, El Morad and the Adonis Continent.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "Let's be real: Knight Online was the GOAT, but it deserves ...",
+              "url": "https://www.reddit.com/r/MMORPG/comments/1rmc5x9/lets_be_real_knight_online_was_the_goat_but_it/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "40+ comments  ·  5 months ago",
+              "website_name": "Reddit · r/MMORPG",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is easily one of the best nostalgic games ever released. Fast-paced, high stakes, and surprisingly balanced for its time. Just ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "More results from www.reddit.com",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=knight+online+site:www.reddit.com&sca_esv=c018bff2148a38b2&hl=en&gl=US&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQrQIoAnoECBgQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[7]/div[1]/div[1]",
+              "domain": "www.nttgame.com",
+              "title": "NTTGame Portal – Free to Play Online Games Portal - Home",
+              "url": "https://www.nttgame.com/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nttgame.com",
+              "website_name": "NTTGame",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online offers highly acclaimed PvP, party play, and an intricate war system with in-game events daily. MMORPG (ENG, TUR). Knight Online World LEARN MORE ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Do people still play Knight Online?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the story behind Knight Online?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "When did Knight Online come out?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is Knight Online free-to-play?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the best class in Knight Online?",
+                  "seed_question": "Is Knight Online free-to-play?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[5]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is Knight Online?",
+                  "seed_question": "Is Knight Online free-to-play?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[6]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is there a free-to-play knight game available?",
+                  "seed_question": "What is Knight Online?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[7]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which game is No. 1 online?",
+                  "seed_question": "What is Knight Online?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are the system requirements for Knight Online?",
+                  "seed_question": "What is Knight Online?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is there a knight game available on PC?",
+                  "seed_question": "What are the system requirements for Knight Online?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[10]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What's the best knight game?",
+                  "seed_question": "Is there a knight game available on PC?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[11]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the #1 PC game in the world?",
+                  "seed_question": "Is there a knight game available on PC?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[12]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Why did knights end?",
+                  "seed_question": "Is there a knight game available on PC?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[13]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[11]/div[1]/div[1]",
+              "domain": "en.wikipedia.org",
+              "title": "Knight Online",
+              "url": "https://en.wikipedia.org/wiki/Knight_Online",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://en.wikipedia.org › wiki › Knight_Online",
+              "website_name": "Wikipedia",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is an MMORPG developed by Mgame Corporation. Genre Fantasy MMORPG Mode MMO Knight Online is officially free-to-play",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[13]/div[1]/div[1]",
+              "domain": "www.nttgameonline.com",
+              "title": "Knight Online - Free to Play 3D MMORPG Game (Steam)",
+              "url": "https://www.nttgameonline.com/knight/en",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.nttgameonline.com › knight",
+              "website_name": "nttgameonline.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is a leading party based medieval MMORPG that is, and will alyways be, Free to Play! Register now and enjoy Knight Online.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[15]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Gaming Hardcore",
+                  "title": "Knight Online in 2024 - Is It Worth It? #mmo #mmorpg #usko",
+                  "timestamp": "2024-07-27 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=bY29vq5HWVI"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Gaming Hardcore",
+                  "title": "Knight Online in 2021",
+                  "timestamp": "2021-04-25 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=b7MYWYJ9KGo"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · MMOs.com",
+                  "title": "Knight Online Gameplay First Look HD - MMOs.com",
+                  "timestamp": "2015-06-25 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=KakhmsFF-d4"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · MMOHuts",
+                  "title": "Knight Online Gameplay - First Look HD",
+                  "timestamp": "2010-03-31 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=XBptfnh3jVs"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[17]/div[1]/div[1]",
+              "domain": "www.twitch.tv",
+              "title": "Knight Online",
+              "url": "https://www.twitch.tv/directory/category/knight-online",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.twitch.tv › Directory",
+              "website_name": "Twitch",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is a PvP-centric Massively Multiplayer Online Role Playing Game that has been under continuous development for almost a decade.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[19]/div[1]/div[1]",
+              "domain": "www.mmorpg.com",
+              "title": "Knight Online",
+              "url": "https://www.mmorpg.com/knight-online",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.mmorpg.com › knight-online",
+              "website_name": "MMORPG.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Knight Online is a free-to-play fantasy MMORPG developed by MGame and Noahsystem in which players must choose to play as an orc and side with the nation of ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Knight Online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[3]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Knight Online 2",
+                "Knight Online private server",
+                "Knight Online reddit",
+                "Knight Online classes",
+                "Knight Online 2026",
+                "Knight Online player count",
+                "Knight Online steam",
+                "Knight Online gameplay"
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "knowledge_graph",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "right",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]",
+              "title": "Knight Online",
+              "subtitle": "Online game",
+              "description": null,
+              "card_id": null,
+              "url": null,
+              "image_url": null,
+              "logo_url": null,
+              "cid": null,
+              "items": [
+                {
+                  "type": "knowledge_graph_images_item",
+                  "rank_group": 0,
+                  "rank_absolute": 0,
+                  "page": 1,
+                  "position": "left",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+                  "link": null,
+                  "items": [
+                    {
+                      "type": "knowledge_graph_images_element",
+                      "url": null,
+                      "domain": null,
+                      "alt": "Image of Knight Online Gameplay - First Look HD - YouTube",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08262336-2374-0139-0000-e8ff5d517c57:0",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
+                    },
+                    {
+                      "type": "knowledge_graph_images_element",
+                      "url": null,
+                      "domain": null,
+                      "alt": "Image of Knight Online on Steam",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08262336-2374-0139-0000-e8ff5d517c57:1",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]"
+                    },
+                    {
+                      "type": "knowledge_graph_images_element",
+                      "url": null,
+                      "domain": null,
+                      "alt": "Image of Knight Online on Steam",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08262336-2374-0139-0000-e8ff5d517c57:2",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]"
+                    },
+                    {
+                      "type": "knowledge_graph_images_element",
+                      "url": null,
+                      "domain": null,
+                      "alt": "Image of Steam Community :: Knight Online",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08262336-2374-0139-0000-e8ff5d517c57:3",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]"
+                    }
+                  ],
+                  "rectangle": null
+                },
+                {
+                  "type": "knowledge_graph_row_item",
+                  "rank_group": 0,
+                  "rank_absolute": 0,
+                  "page": 1,
+                  "position": "left",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+                  "title": "Genres",
+                  "data_attrid": "kc:/cvg/computer_videogame:cvg_genre",
+                  "text": "Genres : Massively multiplayer online role-playing game ·  See more",
+                  "links": [
+                    {
+                      "type": "link_element",
+                      "title": "Massively multiplayer online role-playing game",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=&si=APenkKnxxBAKu8uEyVJp5QG7kNERIzt0EhsYdVrbw5Is3icMpixJrJheWniKoy8Xp5FWhBIKCHT6KLv4GmE-PzL99Fy0uxy0am3jOGIfyonQJ06QsHBkEzALcuKfqFBbf-MXJRO49DD3ZtP7LxIiVnBw2rLm_CREahrtMjZYwjNuZ8KxVpXVSYAh-lbmdS3rQ3XGLc5Iqp7bg1fSQvf9u2CHHACBB3OJjwHL6ybUtyfHQ1EAVgJM46Epy1uh2MmEihtjbF6K0oZK&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQmxN6BAgaEAI",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[1]"
+                    },
+                    {
+                      "type": "link_element",
+                      "title": "See more",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=knight+online+genres&stick=H4sIAAAAAAAAAOPgE-LUz9U3MC0xtUzTUslOttJPLkvXT87PLSgtSS2KL8tMSc1PT8xNtQIKx6en5hWlLmIVyc7LTM8oUcjPy8nMS1UAixYDABq1ZUlKAAAA&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQ44YBegQIGhAD",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[2]"
+                    }
+                  ],
+                  "rectangle": null
+                },
+                {
+                  "type": "knowledge_graph_row_item",
+                  "rank_group": 0,
+                  "rank_absolute": 0,
+                  "page": 1,
+                  "position": "left",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "title": "Platform",
+                  "data_attrid": "kc:/cvg/computer_videogame:platform",
+                  "text": "Platform : Microsoft Windows",
+                  "links": [
+                    {
+                      "type": "link_element",
+                      "title": "Microsoft Windows",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=Microsoft+Windows&si=APenkKnxxBAKu8uEyVJp5QG7kNERIzt0EhsYdVrbw5Is3icMpmBKul_n2-pSmM2l8jCKJwEpqpLVe7onOaB9XtghFQE5K_sQLN_YT8zgI024yCBqbzJeVfbhOJP3mfL9pFy2G01C_ojDAAGuwZlEGENI7jeM5GI-g90GsUtN_wdGNlWa4v3KSsKtSky36kTySzxZpKUoTTlU_y1bL25Pz-Nbb2nov1_Ggg%3D%3D&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQmxN6BAgbEAI",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[1]"
+                    }
+                  ],
+                  "rectangle": null
+                },
+                {
+                  "type": "knowledge_graph_row_item",
+                  "rank_group": 0,
+                  "rank_absolute": 0,
+                  "page": 1,
+                  "position": "left",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]",
+                  "title": "Publishers",
+                  "data_attrid": "kc:/cvg/computer_videogame:publisher",
+                  "text": "Publishers : NTT Game, Mgame, NTTGame, K2 Network, X-Legend Entertainment, K2 Network, Inc., eGames",
+                  "links": [
+                    {
+                      "type": "link_element",
+                      "title": "NTT Game",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=NTT+Game&si=APenkKmVGdgpMPDQZoEWS8RIAhsqXAKlNLP0B8DNkkiU9KPI0SeAyPJUQtZZphXkFTnytFggkSM8XrKBARSx1qERizgNpEBFRAp08d2tBlHzWmmQN0wC4i_APoWwq7OVz9EPcCKpa6eN1cGCPYyXJMym-ZySKfkdiglC7Fv5mvusC03tI0Y5c0znvM4Mpur6n1jn7-4YielveQ-MINFinarGy00ekA3aFs7Al8o2bQYzemyu1LmCvIkLjPHzwq8xpCD3EXDztWhP&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQmxN6BAgZEAI",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[1]"
+                    },
+                    {
+                      "type": "link_element",
+                      "title": "Mgame",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=Mgame&si=APenkKllX05q7xl66dAosm6nb1iuMgV7Bv8meTZS-zIzIS3OM4bcskaipISMbI9Qjwp2TsOhLabwApyBEDdTYEPLmz1i2bBRvnLxJ3zSXFw1cNsMm_wa8HozWR6p81In-V0EaVP2934OtXHZZqs5tUE24zaQm6GzRoAaD-TqV3qATMiiDd-9QOsFADn1eX-T4jOJ79X3I2BVkGa5sPDsNMtqmtfqOsjgmmrpb6cQ5YLLz28cADlyVavH-0y7M0t6wJjGNugsiJJL&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQmxN6BAgZEAM",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[2]"
+                    },
+                    {
+                      "type": "link_element",
+                      "title": "NTTGame",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=NTTGame&si=APenkKmVGdgpMPDQZoEWS8RIAhsqXAKlNLP0B8DNkkiU9KPI0Uf3VfWwS6a9G7qsSDm9ntuDQ8Zn6zPpfhFLnNHDqaW7W2WrOOQQ1Vl2uwW5GokTZdHpv3aM0jn4Tcp7PJi7ba8MViR2duR1K5AsYr0iirPolLnFXlKPSbL3aozRRD1dLHdaRgnWBPMLmUIgjQso7LxG8lS9NO9iGBxhcxENv2Gqq_zqsymF43OAnSaUoEUrjain5AacsDbPbKEL5ambtCAi1H2x&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQmxN6BAgZEAQ",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[3]"
+                    },
+                    {
+                      "type": "link_element",
+                      "title": "K2 Network",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=K2+Network&si=APenkKkicnuBo3HChbgOSg9PTrSKjmOZoDYMZFfiLeKjxtW677X114A44HyGqPK3CFPDJIKeBhf795noYi0vPr6hhP5VGJmNuH50UrJ5hSmFARjaGUYLTIYP_SLDTygb8hS4daNZNxKiqq_PBqytUrpMKoMClK569MxSmlAXnlJ8-rZ3ipCUGl2YZ_rQZbWg5jijqRB1WabmKWsoRnLMfMStIDbLaWrsxT1zEDlp9KQyiiMh_CMjZlgmHXkyJxCTSh_x2ASctdpo&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQmxN6BAgZEAU",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[4]"
+                    },
+                    {
+                      "type": "link_element",
+                      "title": "X-Legend Entertainment",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=X-Legend+Entertainment&si=APenkKllX05q7xl66dAosm6nb1iuMgV7Bv8meTZS-zIzIS3OM0fU7qzVrHPKhB4j8fgTH2HEM8VLy-l1doZYajoPIn0L2Z_k6xJd79h2AXbKt3U5-qdgf_aEXHzyiXQ4M7jlDXgf-2jJhxdrIbj7z6M-Cy-7XqrLyVqtvqRuRWu6qjwiJIyWE4f0q276O-8SkHA6Zjz1Kl5kWvfRwYn4_I8GVvMkBOlwfX9zjCn0SFigHJBQn_EKDOE9Q8hNaISY8hskCV_XgDsCWVjNmkzskLfPf20izYOQyQ%3D%3D&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQmxN6BAgZEAY",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[5]"
+                    },
+                    {
+                      "type": "link_element",
+                      "title": "K2 Network, Inc.",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=K2+Network,+Inc.&si=APenkKmVGdgpMPDQZoEWS8RIAhsqXAKlNLP0B8DNkkiU9KPI0SmW7vurBBKh3reT6LkKcNfKTgL2J-TUprr-1Du7bouJwj9nIH_QZcMwNstTHeVbqb57ljJPcqcIqchPlVQhAkCkqEA0lQ9wz_FJNf90Yt1ynnISfoXnHY9WrxolQmLFBmaElAQ1DXNZb4sExDPEz83aJWyFcTQWmcRXN28l84quGaG8G5nQaJy4J4NjtZXcGTWNl5GSdHu6MghSiB2JZHDZ01RGdhhNMrX4bB_p42FXpOsmuA%3D%3D&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQmxN6BAgZEAc",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[6]"
+                    },
+                    {
+                      "type": "link_element",
+                      "title": "eGames",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&q=eGames&si=APenkKllX05q7xl66dAosm6nb1iuMgV7Bv8meTZS-zIzIS3OM21ztuU6atnrS4EfH8feHjz2PxP0nRWbLwLHhkZCJEjfAFkCosUv8m0VTuN0zs8hgFphuLolBjfyWHGERVzbAjx7oBVmQO8-oFScVQYRj_7J6hSvcThQvkE1mKVm1UoRN43uyVvrP8NkX-KKZpTcoRmPt3P1lpDZ9EVJG5kJr5QFanKy5dtsY6eUF3zZxwCSKW_4_KFRLZwAQUooVnscNW3WgaqZ&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQmxN6BAgZEAg",
+                      "domain": "www.google.com",
+                      "description": null,
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/span[2]/span[1]/a[7]"
+                    }
+                  ],
+                  "rectangle": null
+                },
+                {
+                  "type": "knowledge_graph_carousel_item",
+                  "rank_group": 0,
+                  "rank_absolute": 0,
+                  "page": 1,
+                  "position": "left",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[4]/div[1]/div[1]",
+                  "title": "People also search for",
+                  "data_attrid": null,
+                  "link": null,
+                  "items": [
+                    {
+                      "type": "knowledge_graph_carousel_element",
+                      "title": "Metin2",
+                      "subtitle": "2004",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&si=APenkKkicnuBo3HChbgOSg9PTrSKjmOZoDYMZFfiLeKjxtW67xh5mSeE5p7x4jWrT9q5ojhTpN1QMOlEn8k9eYzbkTs9U5wSl8I-erTUpAbbH_E3E--sAghKKIgUfTeRk7A5Tw0LQ6sDln3HuuYSnAcg0PIqEjO16twFUcj2fHGsrdJwLRkzWbq3FGISfUtdrYUXZqkYfgxk&q=Metin2&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQs9oBKAB6BAgfEAY",
+                      "domain": "www.google.com",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08262336-2374-0139-0000-e8ff5d517c57:4",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[4]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
+                    },
+                    {
+                      "type": "knowledge_graph_carousel_element",
+                      "title": "Silkroad Online",
+                      "subtitle": "2004",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&si=APenkKlisoOXLiCMwraINHtdqOQii4CK9kOlkQc8Apn-pS60yaCGViuuzJhXVa8P_qB6GyO4W6_4gd8jfiV75UETfOGTcob-0aEj_xLmFfy2N3tX1cz2XLkhR6VLPQIzhsvhbcC57NlTzkvClPIDUXV99L7ESDMIwbeWrsGnYmJ0rbSaiizdYbVW6K6ys4ZIW9B9rfhHCZMcE2ijHplDxYAT_2DEKygbzw%3D%3D&q=Silkroad+Online&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQs9oBKAB6BAgfEAo",
+                      "domain": "www.google.com",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08262336-2374-0139-0000-e8ff5d517c57:5",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[4]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]"
+                    },
+                    {
+                      "type": "knowledge_graph_carousel_element",
+                      "title": "NOWA Online World",
+                      "subtitle": null,
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&si=APenkKmVGdgpMPDQZoEWS8RIAhsqXAKlNLP0B8DNkkiU9KPI0ZHgUztvn8emfWYz0R2JqviFIoQX4XqjSpFsIKZMeBpRtgpOc_nm-JN260_ijUC1EBC8u5xWWOxk0XHM9o8l-TbjUC3dqilBTckxJRjCX7wc5KySzxiKUEqTtDkWy5tCtv4HsNoftgckaTmwuRLNurNO6J7i14AJl01XybNbTz9gya98cg%3D%3D&q=NOWA+Online+World&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQs9oBKAB6BAgfEA4",
+                      "domain": "www.google.com",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08262336-2374-0139-0000-e8ff5d517c57:6",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[4]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]"
+                    },
+                    {
+                      "type": "knowledge_graph_carousel_element",
+                      "title": "League of Legends",
+                      "subtitle": "2009",
+                      "url": "https://www.google.com/search?sca_esv=c018bff2148a38b2&hl=en&gl=US&si=APenkKkicnuBo3HChbgOSg9PTrSKjmOZoDYMZFfiLeKjxtW678A7bGaF5cCsJzgySFTQo4w3bKVSU9Xic_csFZTkUAKIxxHzE0rdi9l5hIIs-mDGr0iRgEt_G6HbcmwOlKV18EWqm0myIRshMaOSNGqT8fT1bXHd5BSag5ptUhV4bGXSBTAvFnGJu2vG_ubBmjRC0SjdPblndpnXSRcJQehxnZozbHfxBw%3D%3D&q=League+of+Legends&sa=X&ved=2ahUKEwiTgK6Iu7-WAxXYTqQEHYvFERoQs9oBKAB6BAgfEBI",
+                      "domain": "www.google.com",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08262336-2374-0139-0000-e8ff5d517c57:7",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[4]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[1]"
+                    }
+                  ],
+                  "rectangle": null
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "right",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[2]",
+              "asynchronous_ai_overview": true,
+              "markdown": null,
+              "items": null,
+              "references": null,
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

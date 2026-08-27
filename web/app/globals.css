@@ -745,3 +745,26 @@ table.table {
   color: var(--text-faint);
   font-weight: 650;
 }
+
+/* The score button sits inside the detail panel, on an unscored question.
+   Deliberately quieter than the landing page's Analyze button: it spends money
+   per click, so it should read as a considered action, not the obvious one. */
+.score-button {
+  width: 100%;
+  margin-top: 10px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text);
+  border-radius: var(--r);
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.score-button:hover:not(:disabled) {
+  background: var(--text);
+  color: var(--bg);
+}
+.score-button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}

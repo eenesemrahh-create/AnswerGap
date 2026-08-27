@@ -1,0 +1,930 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "7.3582 sec.",
+  "cost": 0.0026,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08271145-2374-0139-0000-6032544e6add",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "7.2195 sec.",
+      "cost": 0.0026,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "bilgisayar mühendisi",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10,
+        "people_also_ask_click_depth": 4
+      },
+      "result": [
+        {
+          "keyword": "bilgisayar mühendisi",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=bilgisayar%20m%C3%BChendisi&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-27 11:45:30 +00:00",
+          "spell": null,
+          "refinement_chips": {
+            "type": "refinement_chips",
+            "xpath": "/html[1]/body[1]/div[3]/div[1]/div[15]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+            "items": [
+              {
+                "type": "refinement_chips_element",
+                "title": "Maaş",
+                "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=Bilgisayar+m%C3%BChendisli%C4%9Fi+maa%C5%9F&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4r5RTX31P66PDigMHGaACNiw3NldKkrIYEExTXE2JIF71qADZa__cByup-O5pFTPk0SGqIQ67IHerGtPHihhqWuyIPl3espZ-s8g-WDOk6Xc9bsURgm9RZNSraoNBcnM2DpF_LMjryMxpT3_XLcGtYqH0F4uB9pf8Vuo9VaTuUKD3xg1NImpCU_5difmVMhK7x_8-B0nyINIQiGA77eFn6n-wmW4g&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQxKsJKAB6BAglEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Taban Puanları",
+                "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=Bilgisayar+M%C3%BChendisli%C4%9Fi+Taban+Puanlar%C4%B1&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rl8_hGtSu4x45sp5woMHOySkIHYuP5HFWNnbD8Ma8mABJZ2TF0SFZNa8UT78-PQkAnVWbXXA1RBw-sA1opBlaOQKbzUWH7sGFoTyHDzz2OedqiOcsS82xRmrduvEcmisWvTtlC80V-6JSWrI5uDPMQChBVNIO-fciK07pOVWeHJx6q8npm4FY9dIsk09uQmCtn0meA2Uf-DlglAzlm33mI5LUg07OJH9N6qIcrzhi5OFwyUKbjnnNyZhXmYdrDmxR5yjcvw&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQxKsJKAF6BAgnEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Nedir",
+                "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=Bilgisayar+M%C3%BChendisi+Nedir&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4ryNQm6Gg7fAUgFValC3hF2v338MRUQnnzhzKqAJ6zkOe9q-rOM8papsNq8IY6W31pY8C9e5cazcfU9gxnAWRcOFFBVgOsLS5_fi16U7Fu6-N5TYNt3aL8cVIKV71IG6i8N60z3eUkwcNUbNIqpcz55Y3IB1mV4PZsi9hzr1swaw1U88Hsix8mBrLwx9-yK9Cfw1KA6OAuuPcThMnK44RjJt8TaTA&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQxKsJKAJ6BAgpEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Nasıl Olunur",
+                "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=Bilgisayar+m%C3%BChendisi+Nas%C4%B1l+Olunur&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rQNLEEW1KxmGrQQDV-EUN2DDjdkm4v8ib3ZiIwnIoWcu_dol7EhELUFJz9pSYwkIdKXbcKoaqH7UPErEK0tUSfmoKTUL_A7izy0G5I39no_QkLF_0We72RLv_sz65gebrEEuAER-kpVjvU1N8k4efrUUCL3s5-pvMZhHh8efAWzx1p9P6uhdR8Ypwp8GuKAMfDFzlOo4qW8NwngZ1jXNaTsMA5-0D9KEEIV5n3PIGdRbVN1tQ&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQxKsJKAN6BAgoEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Dersleri",
+                "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=Bilgisayar+M%C3%BChendisli%C4%9Fi+Dersleri&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rhecdEkdYTRPNHLJkxw7nPLg0jdLVy1S4XWBWtn3gUTAvUYrrwO5IqdrLZVyroyKM-z_7lF2I9Un-KJP3VJBGQ5lwusX-i6YbwErO5qyN3bfWUFQtCFKyGZMCrGvX_6VLQRv_fMAXdbEK6QaaverHqiOBjy46N6myFkRAx-QfhQjow_NTlHxIGnxLE1VeLLtfSgEp84EwlM3QFO0o79wZp5K6sKu7KSGdeKDhW9bMXp9X8b_Z&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQxKsJKAR6BAgmEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "İngilizcesi",
+                "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=Bilgisayar+m%C3%BChendisi+ingilizcesi&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rGxvnnbs6YXdI8wSk0m6J6omcYPBZz01aKkXVJSQU3KSbQ5rjO35Y4lt_jWCBgcYBBhs4OkRcO7vSW6hxkHCN3bCwdaeoKjnCsea-YIyyduDVSwPfa5xc_GddxSRbRnIwMbuVlAoEZqzABuOCcE3SMq6-2GfP0nuAJuaMdzDEoIao6iNURqFH0afds54CJ9ToMPoo6eqHymyO-tXEG1ZYxcrcE3OYa1pAFNCUlAX77ddEQSba&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQxKsJKAV6BAhcEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Sıralama",
+                "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=Bilgisayar+m%C3%BChendisi+s%C4%B1ralama&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rArQZh9LdCXQeDxiIcQzaVGqFOs_sX1MdkCzZGQS2ysEvL9pzGyMshi6SaNr9J_nIxJKPovbWlGvuvjJt-pdf_SGAQabL7_ETZ_W0EtvN5rkDRm1bVIUVTmjnsmDthn3kOxT9CaZqRDAwWvWtBDEJxMeWBvm4JM32eXYxCDBj-d5xjxse9WIiX4i3gxjkD5-7qmcJx0vHPvkEgUeiWm5XVH9DDHk&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQxKsJKAZ6BAhZEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Kaç yıl",
+                "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=Bilgisayar+m%C3%BChendisli%C4%9Fi+ka%C3%A7+y%C4%B1l&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4r8i6xtzAh2xCRI0Ee2R6L6xfBV8PokTcNy07wVX1YFY3VRNTU3owU7Q-1lFLZ1mfzPU6Se9WHlL3W7vzj7-fojin2ceKR1B7Cm-nuc2YY8LGA8OuxnQf0TUBePv7bc71c98QrBXmHHKJ3wPPeiEFbO0Jui14JsN0GoY_R7OvpbYuNKIPi3MDWNZrN0ErHft_spVEsMJ3hvOHoUx8mnQpKASuG8R9qWmz7ZE4pYDHQythrjNhG&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQxKsJKAd6BAhbEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Hakkında bilgi",
+                "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=Bilgisayar+m%C3%BChendisli%C4%9Fi+hakk%C4%B1nda+bilgi&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rl8_hGtSu4x45sp5woMHOySkIHYuP5HFWNnbD8Ma8mABJZ2TF0SFZNa8UT78-PQkAuI5mUek9oJPd8BV7f74FPd00UHfmf03SXKsBUAZ9K_TQV6qFx2yVnRjtjJCkBsnCn-pflNlC3MZxIJqajX24dbVH1ZWjrtHIrx65OiozE282v4rDisjmLZRA0cWrtY_JfOvoB6BQ_Nn0hgRtCCsJuOMf9bl9gmawmjgiVYbDEUdhV4XU&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQxKsJKAh6BAhYEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              }
+            ]
+          },
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "images",
+            "related_searches"
+          ],
+          "se_results_count": 129,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Bilgisayar mühendisi, `bilgisayar sistemlerinin donanım ve yazılım altyapısını tasarlayan, geliştiren ve analiz eden mühendislik dalının uzmanıdır`.[](https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9) [[1]](https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9)[[2]](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk)\n\nBilgisayar Mühendisliği Nedir ve Ne İş Yapar?\n\nBilgisayar mühendisliği; bilgisayar bilimi ile elektronik mühendisliğini birleştiren bir disiplindir. Bu alandaki profesyoneller hem yazılım hem de donanım konularında bilgi sahibidir.[](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk) [[1]](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk)[[2]](https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9)\n\n- **Yazılım Geliştirme:** Uygulama, işletim sistemi ve web tabanlı projeler tasarlar.\n- **Donanım Tasarımı:** Mikroişlemciler, bellekler ve elektronik devreler üzerinde çalışır.\n- **Sistem Analizi:** Veri yapıları, algoritmalar ve veritabanı yönetimi sağlar.\n- **Test ve Bakım:** Mevcut sistemlerin performansını artırır ve sorunları giderir.[](https://google.com/goto?url=CAEScQHrOzAVEJ3NIhsS-AFHzstV1d8a9Ogv9YkTr7-BXZdAJpenDdLrlnn_tT2fNsmYfMvf4ymnZdXzZXbQg6Cixv6syNKxtQPpY_FDmKHOfmTLyTDpHA0CKkqR_xx9c6MSKuuc30DpyQzTuE3jKYVfoJnj) [[1]](https://google.com/goto?url=CAEScQHrOzAVEJ3NIhsS-AFHzstV1d8a9Ogv9YkTr7-BXZdAJpenDdLrlnn_tT2fNsmYfMvf4ymnZdXzZXbQg6Cixv6syNKxtQPpY_FDmKHOfmTLyTDpHA0CKkqR_xx9c6MSKuuc30DpyQzTuE3jKYVfoJnj)[[2]](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk)[[3]](https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9)\n\nİlgili eğitim detayları ve mesleki rehberlik için [Kariyer.net Bilgisayar Mühendisliği Rehberi](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk) sayfasını inceleyebilirsiniz.[](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk) [[1]](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk)Mesleğin detaylarını ve çalışma alanlarını anlatan tanıtım videosu:\n\n![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRbw2BRyzPXgwzqXNQjws68D6817aoiccFxYR4RCuNNiXL0UU6)\n14:50\n[](https://google.com/goto?url=CAESTgHrOzAVGb31gOP6yp6_jP7cmKAlp-PO9I8v1ZGYOZ6B6bR2kJVCRRboSlR9j5IH8e0eL_6rH-oakBkg62QEwB2jvzIEc1EHJuPmgzYHDQ) Bilgisayar Mühendisliği Nedir | Ne İş Yapar | Neden Tercih ...2,6 B kez görüntülendi  · 5 yıl önce![](https://api.dataforseo.com/cdn/i/08271145-2374-0139-0000-6032544e6add:2)\nYouTube · Buse Yaren Tekin\n\nBilgisayar mühendisliği hakkında **hangi konuyu** merak ediyorsunuz?\n\n- **Üniversite taban puanları ve bölümler** \n- **Yazılım veya donanım alanında kariyer yolları** \n- **Gerekli programlama dilleri ve teknik beceriler**",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Bilgisayar mühendisi, bilgisayar sistemlerinin donanım ve yazılım altyapısını tasarlayan, geliştiren ve analiz eden mühendislik dalının uzmanıdır.",
+                  "markdown": "Bilgisayar mühendisi, `bilgisayar sistemlerinin donanım ve yazılım altyapısını tasarlayan, geliştiren ve analiz eden mühendislik dalının uzmanıdır`.[](https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9) [[1]](https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9)[[2]](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Wikipedia",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9",
+                      "title": "Bilgisayar mühendisliği - Vikipedi",
+                      "text": "Bilgisayar mühendisliği, bilgisayar sistemlerinin tasarımı, geliştirilmesi, analizi ve uygulanmasıyla ilgilenen mühendislik dalıdı..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Kariyer.net",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk",
+                      "title": "Bilgisayar Mühendisliği Bölümü Nedir? Mezunları Ne İş Yapar?",
+                      "text": "Bilgisayar mühendisliği; bilgisayar donanımı ve yazılımını geliştirmek için gerekli olan bilgisayar bilimi ve elektronik mühendisl..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Bilgisayar Mühendisliği Nedir ve Ne İş Yapar?",
+                  "text": "Bilgisayar mühendisliği; bilgisayar bilimi ile elektronik mühendisliğini birleştiren bir disiplindir. Bu alandaki profesyoneller hem yazılım hem de donanım konularında bilgi sahibidir.",
+                  "markdown": "Bilgisayar mühendisliği; bilgisayar bilimi ile elektronik mühendisliğini birleştiren bir disiplindir. Bu alandaki profesyoneller hem yazılım hem de donanım konularında bilgi sahibidir.[](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk) [[1]](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk)[[2]](https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Kariyer.net",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk",
+                      "title": "Bilgisayar Mühendisliği Bölümü Nedir? Mezunları Ne İş Yapar?",
+                      "text": "Bilgisayar mühendisliği; bilgisayar donanımı ve yazılımını geliştirmek için gerekli olan bilgisayar bilimi ve elektronik mühendisl..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Wikipedia",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9",
+                      "title": "Bilgisayar mühendisliği - Vikipedi",
+                      "text": "Bilgisayar mühendisliği, bilgisayar sistemlerinin tasarımı, geliştirilmesi, analizi ve uygulanmasıyla ilgilenen mühendislik dalıdı..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Yazılım Geliştirme: Uygulama, işletim sistemi ve web tabanlı projeler tasarlar. Donanım Tasarımı: Mikroişlemciler, bellekler ve elektronik devreler üzerinde çalışır. Sistem Analizi: Veri yapıları, algoritmalar ve veritabanı yönetimi sağlar. Test ve Bakım: Mevcut sistemlerin performansını artırır ve sorunları giderir.",
+                  "markdown": "- **Yazılım Geliştirme:** Uygulama, işletim sistemi ve web tabanlı projeler tasarlar.\n- **Donanım Tasarımı:** Mikroişlemciler, bellekler ve elektronik devreler üzerinde çalışır.\n- **Sistem Analizi:** Veri yapıları, algoritmalar ve veritabanı yönetimi sağlar.\n- **Test ve Bakım:** Mevcut sistemlerin performansını artırır ve sorunları giderir.[](https://google.com/goto?url=CAEScQHrOzAVEJ3NIhsS-AFHzstV1d8a9Ogv9YkTr7-BXZdAJpenDdLrlnn_tT2fNsmYfMvf4ymnZdXzZXbQg6Cixv6syNKxtQPpY_FDmKHOfmTLyTDpHA0CKkqR_xx9c6MSKuuc30DpyQzTuE3jKYVfoJnj) [[1]](https://google.com/goto?url=CAEScQHrOzAVEJ3NIhsS-AFHzstV1d8a9Ogv9YkTr7-BXZdAJpenDdLrlnn_tT2fNsmYfMvf4ymnZdXzZXbQg6Cixv6syNKxtQPpY_FDmKHOfmTLyTDpHA0CKkqR_xx9c6MSKuuc30DpyQzTuE3jKYVfoJnj)[[2]](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk)[[3]](https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Coderspace",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAEScQHrOzAVEJ3NIhsS-AFHzstV1d8a9Ogv9YkTr7-BXZdAJpenDdLrlnn_tT2fNsmYfMvf4ymnZdXzZXbQg6Cixv6syNKxtQPpY_FDmKHOfmTLyTDpHA0CKkqR_xx9c6MSKuuc30DpyQzTuE3jKYVfoJnj",
+                      "title": "Bilgisayar Mühendisi Ne İş Yapar? | Kimler için Uygun",
+                      "text": "Bilgisayar mühendisleri, bilgisayar sistemlerini tasarlar, test eder ve bakımını yaparlar. Bu alanda eğitimli uzmanlar olarak, çeş..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Kariyer.net",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk",
+                      "title": "Bilgisayar Mühendisliği Bölümü Nedir? Mezunları Ne İş Yapar?",
+                      "text": "Bilgisayar mühendisliği; bilgisayar donanımı ve yazılımını geliştirmek için gerekli olan bilgisayar bilimi ve elektronik mühendisl..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Wikipedia",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9",
+                      "title": "Bilgisayar mühendisliği - Vikipedi",
+                      "text": "Bilgisayar mühendisliği, bilgisayar sistemlerinin tasarımı, geliştirilmesi, analizi ve uygulanmasıyla ilgilenen mühendislik dalıdı..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "İlgili eğitim detayları ve mesleki rehberlik için Kariyer.net Bilgisayar Mühendisliği Rehberi sayfasını inceleyebilirsiniz.",
+                  "markdown": "İlgili eğitim detayları ve mesleki rehberlik için [Kariyer.net Bilgisayar Mühendisliği Rehberi](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk) sayfasını inceleyebilirsiniz.[](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk) [[1]](https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk)",
+                  "links": [
+                    {
+                      "type": "link_element",
+                      "title": "Kariyer.net Bilgisayar Mühendisliği Rehberi",
+                      "description": null,
+                      "url": "https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk",
+                      "domain": "google.com"
+                    }
+                  ],
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Kariyer.net",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk",
+                      "title": "Bilgisayar Mühendisliği Bölümü Nedir? Mezunları Ne İş Yapar?",
+                      "text": "Bilgisayar mühendisliği; bilgisayar donanımı ve yazılımını geliştirmek için gerekli olan bilgisayar bilimi ve elektronik mühendisl..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Mesleğin detaylarını ve çalışma alanlarını anlatan tanıtım videosu: 14:50 Bilgisayar Mühendisliği Nedir | Ne İş Yapar | Neden Tercih ... 2,6 B kez görüntülendi · 5 yıl önce YouTube · Buse Yaren Tekin",
+                  "markdown": "Mesleğin detaylarını ve çalışma alanlarını anlatan tanıtım videosu:\n\n![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRbw2BRyzPXgwzqXNQjws68D6817aoiccFxYR4RCuNNiXL0UU6)\n14:50\n[](https://google.com/goto?url=CAESTgHrOzAVGb31gOP6yp6_jP7cmKAlp-PO9I8v1ZGYOZ6B6bR2kJVCRRboSlR9j5IH8e0eL_6rH-oakBkg62QEwB2jvzIEc1EHJuPmgzYHDQ) Bilgisayar Mühendisliği Nedir | Ne İş Yapar | Neden Tercih ...2,6 B kez görüntülendi  · 5 yıl önce![](https://api.dataforseo.com/cdn/i/08271145-2374-0139-0000-6032544e6add:1)\nYouTube · Buse Yaren Tekin",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Bilgisayar mühendisliği hakkında hangi konuyu merak ediyorsunuz?Üniversite taban puanları ve bölümler\nYazılım veya donanım alanında kariyer yolları\nGerekli programlama dilleri ve teknik beceriler",
+                  "markdown": "Bilgisayar mühendisliği hakkında **hangi konuyu** merak ediyorsunuz?\n\n- **Üniversite taban puanları ve bölümler** \n- **Yazılım veya donanım alanında kariyer yolları** \n- **Gerekli programlama dilleri ve teknik beceriler**",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Wikipedia",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESYgHrOzAVhS7Tvvrp3QUL73Oqnhw7nr9fMBgaykJnUHgqB775YYKhEnrHHDItCoNR7mbdxOrXioxusZdcY6vcVL-08n5z43GfnVSpSM99gTVcp7wJ8uuBIPljEAQFGJThL4e9",
+                  "title": "Bilgisayar mühendisliği - Vikipedi",
+                  "text": "Bilgisayar mühendisliği, bilgisayar sistemlerinin tasarımı, geliştirilmesi, analizi ve uygulanmasıyla ilgilenen mühendislik dalıdı..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Kariyer.net",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESYQHrOzAVnFNyEIUfNkmZd_gVTriJquDUeWCb_DyOoDWm0rgsjDQlzAVYH-q5gbrtMjHznvoxk99gM7dA16yxsoW90gK5q0x-ipOu7t19eGD7fpXwVwceHUJj3YX0a6JbIfk",
+                  "title": "Bilgisayar Mühendisliği Bölümü Nedir? Mezunları Ne İş Yapar?",
+                  "text": "Bilgisayar mühendisliği; bilgisayar donanımı ve yazılımını geliştirmek için gerekli olan bilgisayar bilimi ve elektronik mühendisl..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Coderspace",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAEScQHrOzAVEJ3NIhsS-AFHzstV1d8a9Ogv9YkTr7-BXZdAJpenDdLrlnn_tT2fNsmYfMvf4ymnZdXzZXbQg6Cixv6syNKxtQPpY_FDmKHOfmTLyTDpHA0CKkqR_xx9c6MSKuuc30DpyQzTuE3jKYVfoJnj",
+                  "title": "Bilgisayar Mühendisi Ne İş Yapar? | Kimler için Uygun",
+                  "text": "Bilgisayar mühendisleri, bilgisayar sistemlerini tasarlar, test eder ve bakımını yaparlar. Bu alanda eğitimli uzmanlar olarak, çeş..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "domain": "eksisozluk.com",
+              "title": "bilgisayar mühendisliği",
+              "url": "https://eksisozluk.com/bilgisayar-muhendisligi--32448",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://eksisozluk.com › bilgisayar-muhendisligi--32448",
+              "website_name": "Ekşi Sözlük",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "muhendislik sistem cozme ve tasarlama yetenegi gerektirir. muhendislik egitimi almis olmak muhendis olmak icin yeter, gerek veya sart degildir. ama devre ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bir bilgisayar mühendisi ne yapar?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bir bilgisayar mühendisi ne kadar maaş alıyor?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar müh okumak zor mu?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "1 yılda kaç bilgisayar mühendisi mezun oluyor?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar müh önü açık mı?",
+                  "seed_question": "1 yılda kaç bilgisayar mühendisi mezun oluyor?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[5]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Türkiye'de kaç tane bilgisayar mühendisi var?",
+                  "seed_question": "1 yılda kaç bilgisayar mühendisi mezun oluyor?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[6]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar mühendisliği iyi bir meslek mi?",
+                  "seed_question": "Türkiye'de kaç tane bilgisayar mühendisi var?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[7]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar mühendisi kaç binle alıyor?",
+                  "seed_question": "Türkiye'de kaç tane bilgisayar mühendisi var?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Yeni mezun bilgisayar mühendisi nasıl iş bulur?",
+                  "seed_question": "Türkiye'de kaç tane bilgisayar mühendisi var?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar mühendisi kendi işini nasıl kurar?",
+                  "seed_question": "Yeni mezun bilgisayar mühendisi nasıl iş bulur?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[10]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Yazılımda iş bulmak zor mu?",
+                  "seed_question": "Yeni mezun bilgisayar mühendisi nasıl iş bulur?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[11]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar mühendislerinin işsizlik oranı nedir?",
+                  "seed_question": "Yeni mezun bilgisayar mühendisi nasıl iş bulur?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[12]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "En çok hangi mühendis işsiz?",
+                  "seed_question": "Bilgisayar mühendislerinin işsizlik oranı nedir?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[13]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar mühendisliği ataması var mı?",
+                  "seed_question": "Bilgisayar mühendislerinin işsizlik oranı nedir?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[14]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Hangi bölümü okursam işsiz kalmam?",
+                  "seed_question": "Bilgisayar mühendislerinin işsizlik oranı nedir?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[15]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "images",
+              "rank_group": 1,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]",
+              "title": "Görseller",
+              "url": "https://www.google.com/search?sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&q=bilgisayar+m%C3%BChendisi&udm=2&source=univ&fir=t79ytQuLQJKPEM%252CtrvnhHnV5C_NxM%252C_%253BawIo4h-nWB4FWM%252CAApDZrs0O-vCsM%252C_%253BvTkXd_NIPXFldM%252CAEuRhdwPQYMNQM%252C_%253B9ts7YLe-ROY_4M%252CzTmnkZ46ADn1qM%252C_%253BmnmimLjeVdLU7M%252CdYOE-3Dk695rQM%252C_%253BZ_8jq8TKZ2Tm-M%252C0nrVstDFqQF_DM%252C_%253BPm-w8i89JGSExM%252CpqYyV_f1M3FRdM%252C_%253BNR9JDDX6AA5I5M%252C8cP-Y41Wt1M0pM%252C_%253BPdpJqdkfvV4RMM%252CmHud5y6FsU-bVM%252C_&usg=AI4_-kSY3otlLGx5YCZtOSc6t5tSCeejOQ&sa=X&ved=2ahUKEwiFu9z53cCWAxVpLUQIHa5nDVwQ7Al6BAgrEAU",
+              "items": [
+                {
+                  "type": "images_element",
+                  "alt": "Bilgisayar Mühendisi Ne İş Yapar? | Kimler için Uygun ...",
+                  "url": null,
+                  "image_url": "https://api.dataforseo.com/cdn/i/08271145-2374-0139-0000-6032544e6add:3"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Bilgisayar Mühendisliği",
+                  "url": null,
+                  "image_url": "https://api.dataforseo.com/cdn/i/08271145-2374-0139-0000-6032544e6add:4"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Bilgisayar Mühendisliği – KOSTÜ | Mühendislik ve Doğa ...",
+                  "url": null,
+                  "image_url": "https://api.dataforseo.com/cdn/i/08271145-2374-0139-0000-6032544e6add:5"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Bilgisayar Mühendisi Nasıl Olunur? | TAB Koleji",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3AlHyYE3ZiLpguFdPIpOHdLX7VkxTewOhbI0oNUSU2HAWoYKQiA59hC4&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Bilgisayar Mühendisliği Laboratuvarı 2",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAuNhTF6Ed0jJ-NVVvHoPIo1YvHjkqNabdv0RcjFLbNkw0FpknFb_Mgc&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Yazılım Mühendisliği mi Bilgisayar Mühendisliği mi ...",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVjzMsD9RNyLbRZCT8Zt2U6SJ1zUG8TaPK0sl3_U0xA7FnGAzDB_rGTDk&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Bilgisayar Mühendisliği: Meslek Tanımı ve İş Olanakları ...",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_ka0IhYZMCC_B1HgrBclhYwc-Pkf8aS_iiebZFO3iywJo11F-rTiWZmg&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Bilgisayar Mühendisi Kimdir, Ne İş Yapar? | Patika.dev",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMJJzoRz4NhaxT0fYiPGwIbHRaukI2c8Qd2XxdWvBAMfQaDOvX4u071Cg&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Bilgisayar mühendisi ne iş yapar? Bilgisayar mühendisliği",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvBR7JzWelz-IJ7W5jp_PtejjQK4D-mWIkrE47YAlU&s"
+                }
+              ],
+              "related_image_searches": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "www.kariyer.net",
+              "title": "Bilgisayar Mühendisliği Bölümü Nedir? Mezunları Ne İş ...",
+              "url": "https://www.kariyer.net/bolumler/bilgisayar+muhendisligi/nedir",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.kariyer.net › Bölümler",
+              "website_name": "Kariyer.net",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Bilgisayar mühendisliği; bilgisayar donanımı ve yazılımını geliştirmek için gerekli olan bilgisayar bilimi ve elektronik mühendisliğinin çeşitli alanlarını ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "bilgisayar donanımı ve yazılımını geliştirmek"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "tr.wikipedia.org",
+              "title": "Bilgisayar mühendisliği",
+              "url": "https://tr.wikipedia.org/wiki/Bilgisayar_m%C3%BChendisli%C4%9Fi",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://tr.wikipedia.org › wiki › Bilgisayar_mühendisliği",
+              "website_name": "Wikipedia",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Bilgisayar mühendisliği, bilgisayar sistemlerinin tasarımı, geliştirilmesi, analizi ve uygulanmasıyla ilgilenen mühendislik dalıdır. Bilgisayar mühendisleri ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Bilgisayar mühendisliği",
+                "Bilgisayar mühendisleri"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.beykoz.edu.tr",
+              "title": "Bilgisayar Mühendisliği (İngilizce)",
+              "url": "https://www.beykoz.edu.tr/icerik/812-bilgisayar-muhendisligi",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.beykoz.edu.tr › 812-bilgisayar-muhendisligi",
+              "website_name": "Beykoz Üniversitesi",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Bilgisayar Mühendisliği eğitiminin süresi dört yıldır. Eğitimin ilk yılında fizik, matematik, bilgisayar programlama gibi temel dersler verilir. Daha sonraki ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Bilgisayar Mühendisliği eğitiminin süresi dört yıldır"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[12]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "BİLGİSAYAR MÜHENDİSLİĞİ OKUMAK HAKKINDA HER ŞEY",
+              "url": "https://www.youtube.com/watch?v=0ayF9DJk2wU",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "147,3 B+ görüntüleme  ·  2 yıl önce",
+              "website_name": "YouTube · Mustafa Topcu",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": null,
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2024-07-26 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[14]/div[1]/div[1]",
+              "domain": "user.ceng.metu.edu.tr",
+              "title": "bilgisayar mühendisliğine ilişkin sıkça sorulan sorular",
+              "url": "https://user.ceng.metu.edu.tr/~ucoluk/bm.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://user.ceng.metu.edu.tr › ~ucoluk",
+              "website_name": "METU/CEng",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Bir Bilgisayar Mühendisi gününü bilgisayar karşısında mı geçirir? Bilgisayar Mühendisliğinde nasıl bilgisayar imal edileceği öğretiliyor mu? Bilgisayar ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Bilgisayar Mühendisi"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[16]/div[1]/div[1]",
+              "domain": "tr.linkedin.com",
+              "title": "Türkiye konumunda 1.000+ Bilgisayar Mühendisliği iş ilanı",
+              "url": "https://tr.linkedin.com/jobs/bilgisayar-m%C3%BChendisli%C4%9Fi-jobs",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://tr.linkedin.com › jobs › bilgisayar-mühendisliği-jobs",
+              "website_name": "LinkedIn",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Bugünün Türkiye konumundaki en önemli 1.000+ Bilgisayar Mühendisliği iş ilanı. Profesyonel iletişim ağınızı güçlendirin ve işe alının.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "ühendis"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[18]/div[1]/div[1]",
+              "domain": "coderspace.io",
+              "title": "Bilgisayar Mühendisi Ne İş Yapar? | Kimler için Uygun",
+              "url": "https://coderspace.io/blog/bilgisayar-muhendisi-ne-is-yapar-kimler-icin-uygun/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://coderspace.io › Bloglar",
+              "website_name": "Coderspace",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "15 Nis 2024 — Bilgisayar mühendisleri, bilgisayar sistemlerini tasarlar, test eder ve bakımını yaparlar. Bu alanda eğitimli uzmanlar olarak, çeşitli alanlarda ...",
+              "pre_snippet": "04/15/2024 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "bilgisayar sistemlerini tasarlar, test eder ve bakımını yaparlar"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2024-04-15 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Bilgisayar mühendisliği maaş",
+                "Bilgisayar Mühendisliği Taban Puanları",
+                "Bilgisayar Mühendisi Nedir",
+                "Bilgisayar mühendisliği ne iş yapar",
+                "Bilgisayar mühendisi Nasıl Olunur",
+                "Bilgisayar Mühendisliği Dersleri",
+                "Bilgisayar mühendisi nerede çalışır",
+                "Bilgisayar mühendisi ingilizcesi"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -15,10 +15,10 @@ export const de: Messages = {
       "Seite wirklich adressiert.",
     searchPlaceholder: "Suchbegriff eingeben — z. B. Zahnaufhellung",
     searchButton: "Analysieren",
-    searchDisabledHint: "Live-Crawling ist noch nicht angebunden",
-    liveNotice:
-      "Live-Crawling ist <b>noch nicht angebunden</b> — die Analysen unten " +
-      "wurden aus echten Google-Daten erstellt.",
+    searchDisabledHint: "Keine DataForSEO-Zugangsdaten gefunden - .env.example nach .env kopieren und ausfüllen.",
+    searching: "Suche läuft…",
+    searchingHint: "Google wird einmal abgefragt, mit aufgeklapptem „Ähnliche Fragen“-Block. Das dauert 30-60 Sekunden.",
+    liveNotice: "Eine Suche führt <b>eine einzige Live-Anfrage</b> aus und liefert den Fragenbaum. Die Lücken-Bewertung läuft <b>pro Frage</b> und wird von der Frage selbst gestartet.",
     savedAnalyses: "Gespeicherte Analysen",
     questionCount: "{count} Fragen",
     country: "Land",
@@ -81,10 +81,11 @@ export const de: Messages = {
     checked: "Geprüfte Treffer",
     volume: "Suchvolumen",
     resultsHeading: "Suchergebnisse · Überschneidung ≥ {threshold} zählt als Treffer",
-    noResults:
-      "Für diese Frage wurden <b>nie</b> Suchergebnisse abgerufen, daher wissen " +
-      "wir nicht, ob es eine Lücke ist. Deshalb ist sie gestrichelt gezeichnet. " +
-      "Sie wird bewertet, sobald Live-Crawling angebunden ist.",
+    noResults: "Für diese Frage wurden <b>nie Suchergebnisse abgerufen</b>, daher ist unbekannt, ob es eine Lücke ist - deshalb die gestrichelte Umrandung. Dies ist eine archivierte Analyse; für eine Bewertung eine Live-Suche mit demselben Begriff ausführen.",
+    notScoredYet: "Diese Frage wurde <b>noch nicht bewertet</b>. Die Prüfung kostet eine Suchanfrage und läuft deshalb nie automatisch — bis dahin ist unbekannt, ob es eine Lücke ist.",
+    scoreButton: "Diese Frage prüfen",
+    scoring: "Wird geprüft…",
+    scoreCost: "Eine SERP-Anfrage. Eine bereits abgerufene Frage kostet nichts.",
     untitled: "(ohne Titel)",
     aiHeading: "Quellen der Google KI-Übersicht",
     aiNote:
@@ -99,6 +100,9 @@ export const de: Messages = {
   notice: {
     archiveData: "Archivdaten",
     archiveDataDetail: "nicht live",
+    liveData: "Live-Crawl",
+    liveDataDetail: "eine Momentaufnahme, nicht live",
+    liveDataNote: "Einmal zum angezeigten Zeitpunkt abgerufen. Googles Ergebnisse ändern sich; für eine Aktualisierung die Suche erneut ausführen.",
     provisionalThreshold: "Vorläufige Schwelle",
     thresholdNote:
       "Die Lücken-Schwelle wurde nicht gegen gelabelte Daten validiert. Die " +
@@ -111,6 +115,10 @@ export const de: Messages = {
   error: {
     unreachable: "API nicht erreichbar ({url}). Läuft das Backend?",
     http: "{status} {statusText} — {path}",
+    noCredentials: "DataForSEO-Zugangsdaten fehlen. .env.example nach .env kopieren, ausfüllen und das Backend neu starten.",
+    budget: "Das Anfragelimit wurde erreicht; der Crawl wurde gestoppt, statt mehr auszugeben.",
+    upstream: "DataForSEO war nicht erreichbar oder hat einen Fehler geliefert. Eine fehlgeschlagene Anfrage wird nicht berechnet.",
+    badRequest: "Diese Anfrage kann so nicht ausgeführt werden.",
     backToAnalyses: "Zurück zu den Analysen",
     startBackend: "Zum Starten des Backends, im Projektverzeichnis:",
     loading: "Wird geladen…",

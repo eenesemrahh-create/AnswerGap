@@ -15,10 +15,10 @@ export const es: Messages = {
       "y te muestra cuáles no aborda ninguna página.",
     searchPlaceholder: "Escribe una palabra clave — p. ej. blanqueamiento dental",
     searchButton: "Analizar",
-    searchDisabledHint: "El rastreo en vivo aún no está conectado",
-    liveNotice:
-      "El rastreo en vivo <b>aún no está conectado</b> — los análisis de abajo " +
-      "se construyeron con datos reales de Google.",
+    searchDisabledHint: "No se encontraron credenciales de DataForSEO - copia .env.example a .env y complétalo.",
+    searching: "Buscando…",
+    searchingHint: "Se consulta a Google una vez, con el bloque «Otras preguntas» desplegado. Tarda entre 30 y 60 segundos.",
+    liveNotice: "Una búsqueda ejecuta <b>una sola petición en vivo</b> y devuelve el árbol de preguntas. La puntuación de huecos es <b>por pregunta</b> y se inicia desde la pregunta misma.",
     savedAnalyses: "Análisis guardados",
     questionCount: "{count} preguntas",
     country: "País",
@@ -82,10 +82,11 @@ export const es: Messages = {
     volume: "Volumen de búsqueda",
     resultsHeading:
       "Resultados de búsqueda · coincidencia ≥ {threshold} cuenta como acierto",
-    noResults:
-      "<b>Nunca</b> se recuperaron resultados para esta pregunta, así que no " +
-      "sabemos si es una brecha. Por eso se dibuja con borde discontinuo. Se " +
-      "puntuará cuando el rastreo en vivo esté conectado.",
+    noResults: "Para esta pregunta <b>nunca se descargaron</b> resultados de búsqueda, así que se desconoce si es un hueco - por eso se dibuja con borde discontinuo. Este es un análisis archivado; ejecuta una búsqueda en vivo con el mismo término para puntuarla.",
+    notScoredYet: "Esta pregunta <b>aún no se ha puntuado</b>. Comprobarla cuesta una petición de búsqueda, así que nunca ocurre automáticamente — y hasta entonces se desconoce si es un hueco.",
+    scoreButton: "Comprobar esta pregunta",
+    scoring: "Comprobando…",
+    scoreCost: "Una petición SERP. Una pregunta ya descargada no cuesta nada.",
     untitled: "(sin título)",
     aiHeading: "Fuentes del resumen de IA de Google",
     aiNote:
@@ -100,6 +101,9 @@ export const es: Messages = {
   notice: {
     archiveData: "Datos de archivo",
     archiveDataDetail: "no en vivo",
+    liveData: "Rastreo en vivo",
+    liveDataDetail: "una instantánea, no datos en vivo",
+    liveDataNote: "Descargado una vez, a la hora indicada. Los resultados de Google cambian; repite la búsqueda para actualizar.",
     provisionalThreshold: "Umbral provisional",
     thresholdNote:
       "El umbral de brecha no se ha validado contra datos etiquetados. Los " +
@@ -113,6 +117,10 @@ export const es: Messages = {
   error: {
     unreachable: "No se pudo conectar con la API ({url}). ¿Está el backend en marcha?",
     http: "{status} {statusText} — {path}",
+    noCredentials: "Faltan las credenciales de DataForSEO. Copia .env.example a .env, complétalo y reinicia el backend.",
+    budget: "Se alcanzó el límite de peticiones; el rastreo se detuvo en lugar de gastar más.",
+    upstream: "No se pudo contactar con DataForSEO, o devolvió un error. Una petición fallida no se cobra.",
+    badRequest: "Esa petición no se puede ejecutar tal como se ha pedido.",
     backToAnalyses: "Volver a los análisis",
     startBackend: "Para iniciar el backend, desde la raíz del proyecto:",
     loading: "Cargando…",

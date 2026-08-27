@@ -16,10 +16,10 @@ export const fr: Messages = {
       "montre celles qu'aucune page ne cible vraiment.",
     searchPlaceholder: "Saisissez un mot-clé — p. ex. blanchiment dentaire",
     searchButton: "Analyser",
-    searchDisabledHint: "L'exploration en direct n'est pas encore connectée",
-    liveNotice:
-      "L'exploration en direct <b>n'est pas encore connectée</b> — les analyses " +
-      "ci-dessous ont été construites à partir de vraies données Google.",
+    searchDisabledHint: "Aucun identifiant DataForSEO trouvé - copiez .env.example vers .env et remplissez-le.",
+    searching: "Recherche…",
+    searchingHint: "Google est interrogé une fois, avec le bloc « Autres questions posées » déplié. Cela prend 30 à 60 secondes.",
+    liveNotice: "Une recherche lance <b>une seule requête en direct</b> et renvoie l’arbre de questions. Le score de lacune se calcule <b>question par question</b> et se déclenche depuis la question elle-même.",
     savedAnalyses: "Analyses enregistrées",
     questionCount: "{count} questions",
     country: "Pays",
@@ -83,11 +83,11 @@ export const fr: Messages = {
     volume: "Volume de recherche",
     resultsHeading:
       "Résultats de recherche · recouvrement ≥ {threshold} compte comme succès",
-    noResults:
-      "Les résultats de recherche n'ont <b>jamais</b> été récupérés pour cette " +
-      "question ; nous ignorons donc s'il s'agit d'une lacune. C'est pourquoi " +
-      "elle est tracée en pointillés. Elle sera évaluée dès que l'exploration " +
-      "en direct sera connectée.",
+    noResults: "Les résultats de recherche <b>n’ont jamais été récupérés</b> pour cette question, on ignore donc s’il s’agit d’une lacune - d’où le contour en pointillés. Ceci est une analyse archivée ; lancez une recherche en direct sur le même terme pour l’évaluer.",
+    notScoredYet: "Cette question <b>n’a pas encore été évaluée</b>. La vérifier coûte une requête de recherche, elle n’est donc jamais lancée automatiquement — et d’ici là, on ignore s’il s’agit d’une lacune.",
+    scoreButton: "Vérifier cette question",
+    scoring: "Vérification…",
+    scoreCost: "Une requête SERP. Une question déjà récupérée ne coûte rien.",
     untitled: "(sans titre)",
     aiHeading: "Sources de l'aperçu IA de Google",
     aiNote:
@@ -102,6 +102,9 @@ export const fr: Messages = {
   notice: {
     archiveData: "Données d'archive",
     archiveDataDetail: "pas en direct",
+    liveData: "Exploration en direct",
+    liveDataDetail: "un instantané, pas du direct",
+    liveDataNote: "Récupéré une fois, à l’heure indiquée. Les résultats de Google évoluent ; relancez la recherche pour actualiser.",
     provisionalThreshold: "Seuil provisoire",
     thresholdNote:
       "Le seuil de lacune n'a pas été validé sur des données annotées. Les " +
@@ -116,6 +119,10 @@ export const fr: Messages = {
   error: {
     unreachable: "API injoignable ({url}). Le backend est-il démarré ?",
     http: "{status} {statusText} — {path}",
+    noCredentials: "Les identifiants DataForSEO sont absents. Copiez .env.example vers .env, remplissez-le, puis redémarrez le backend.",
+    budget: "Le plafond de requêtes a été atteint ; l’exploration s’est arrêtée plutôt que de dépenser davantage.",
+    upstream: "DataForSEO est injoignable, ou a renvoyé une erreur. Une requête échouée n’est pas facturée.",
+    badRequest: "Cette requête ne peut pas être exécutée telle quelle.",
     backToAnalyses: "Retour aux analyses",
     startBackend: "Pour démarrer le backend, à la racine du projet :",
     loading: "Chargement…",

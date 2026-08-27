@@ -1,0 +1,1245 @@
+<title>AnswerGap Mimari Kararı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+  /* AnswerGap mimari belgesi.
+   *
+   * Renk semantiği ürünün kendisinden geliyor ve burada da anlam taşıyor:
+   *   teal    -> kurulu ve doğrulanmış
+   *   kehribar-> var ama değişmesi gerekiyor
+   *   kesikli -> henüz yok
+   * Süs değil; belgenin yapısal dili bu. */
+
+  :root {
+    --ground: #fbfaf8;
+    --panel: #ffffff;
+    --panel-2: #f5f2ec;
+    --rule: #e5e0d8;
+    --rule-strong: #d3ccc0;
+
+    --ink: #1b1917;
+    --ink-soft: #5f594f;
+    --ink-faint: #8f887c;
+
+    --done: #0f766e;
+    --done-bg: #e3f4f1;
+    --done-rule: #9ed3cb;
+
+    --change: #b45309;
+    --change-bg: #fdf0d5;
+    --change-rule: #e9b872;
+
+    --absent: #8b857c;
+
+    --sans: "IBM Plex Sans", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+    --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, "SF Mono", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #131210;
+      --panel: #1b1a17;
+      --panel-2: #232120;
+      --rule: #302d28;
+      --rule-strong: #423d36;
+
+      --ink: #f1eee8;
+      --ink-soft: #a8a094;
+      --ink-faint: #7d7669;
+
+      --done: #45c8b8;
+      --done-bg: #10312d;
+      --done-rule: #1f584f;
+
+      --change: #fbbf24;
+      --change-bg: #3a2b0c;
+      --change-rule: #7c5a15;
+
+      --absent: #7d7669;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #131210;
+    --panel: #1b1a17;
+    --panel-2: #232120;
+    --rule: #302d28;
+    --rule-strong: #423d36;
+
+    --ink: #f1eee8;
+    --ink-soft: #a8a094;
+    --ink-faint: #7d7669;
+
+    --done: #45c8b8;
+    --done-bg: #10312d;
+    --done-rule: #1f584f;
+
+    --change: #fbbf24;
+    --change-bg: #3a2b0c;
+    --change-rule: #7c5a15;
+
+    --absent: #7d7669;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.68;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 40px 96px;
+  }
+
+  /* ---------- başlık ---------- */
+
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 22px;
+    margin-bottom: 14px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.14;
+    letter-spacing: -.022em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 16px 0 0;
+    max-width: 60ch;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 26px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    margin-bottom: 52px;
+  }
+
+  /* ---------- bölümler ---------- */
+
+  section { margin-bottom: 54px; }
+
+  h2 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 25px;
+    letter-spacing: -.016em;
+    line-height: 1.24;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 16.5px;
+    letter-spacing: -.006em;
+    margin: 32px 0 8px;
+  }
+  .section-rule {
+    height: 1px;
+    background: var(--rule-strong);
+    margin: 0 0 22px;
+  }
+  p { margin: 0 0 15px; max-width: 68ch; }
+  p:last-child { margin-bottom: 0; }
+
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  code {
+    font-family: var(--mono);
+    font-size: .855em;
+    background: var(--panel-2);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: .06em .34em;
+  }
+
+  a { color: var(--done); text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--change); outline-offset: 2px; }
+
+  ul, ol { max-width: 68ch; margin: 0 0 15px; padding-left: 22px; }
+  li { margin-bottom: 7px; }
+  li::marker { color: var(--ink-faint); }
+
+  /* ---------- karar kutusu ---------- */
+
+  .verdict {
+    background: var(--done-bg);
+    border: 1px solid var(--done-rule);
+    border-left: 3px solid var(--done);
+    border-radius: 6px;
+    padding: 22px 26px;
+    margin: 0 0 26px;
+  }
+  .verdict .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+    color: var(--done);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .verdict p {
+    font-family: var(--sans);
+    font-size: 19px;
+    line-height: 1.46;
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: -.012em;
+  }
+
+  .caution {
+    background: var(--change-bg);
+    border: 1px solid var(--change-rule);
+    border-left: 3px solid var(--change);
+    border-radius: 6px;
+    padding: 18px 22px;
+    margin: 22px 0;
+  }
+  .caution .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+    color: var(--change);
+    display: block;
+    margin-bottom: 7px;
+  }
+  .caution p { margin-bottom: 10px; }
+
+  /* ---------- durum rozeti ---------- */
+
+  .pill {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 20px;
+    vertical-align: 2px;
+    white-space: nowrap;
+  }
+  .pill.done { background: var(--done-bg); color: var(--done); border: 1px solid var(--done-rule); }
+  .pill.change { background: var(--change-bg); color: var(--change); border: 1px solid var(--change-rule); }
+  .pill.absent { background: transparent; color: var(--absent); border: 1px dashed var(--rule-strong); }
+
+  /* ---------- tablolar ---------- */
+
+  .scroll { overflow-x: auto; margin: 20px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--sans);
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  caption {
+    caption-side: bottom;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    padding-top: 10px;
+  }
+  th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    font-family: var(--mono);
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 0 14px 8px 0;
+    vertical-align: bottom;
+  }
+  td {
+    padding: 9px 14px 9px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  /* Alan listeleri mono ama SARMALI. `.num`in nowrap'i bu sütunu tablonun
+     dışına taşırıyordu; ekranda kaydırılıyor, kâğıtta kırpılıyordu. */
+  .fields {
+    font-family: var(--mono);
+    font-size: .88em;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+  td code { background: none; border: none; padding: 0; font-size: .92em; }
+
+  /* ---------- kod / ağaç blokları ---------- */
+
+  .block {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .block pre {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.72;
+    color: var(--ink);
+    white-space: pre;
+  }
+  .block .c { color: var(--ink-faint); }
+  .block .ok { color: var(--done); font-weight: 500; }
+  .block .warn { color: var(--change); font-weight: 500; }
+  .block .off { color: var(--absent); }
+
+  /* ---------- şekiller ---------- */
+
+  figure {
+    margin: 26px 0;
+    padding: 0;
+  }
+  figure svg {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    color: var(--ink-soft);
+  }
+  figcaption {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--ink-faint);
+    margin-top: 12px;
+    max-width: 72ch;
+  }
+
+  /* ---------- yol haritası ---------- */
+
+  .phase {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 0 18px;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .phase:last-of-type { border-bottom: 1px solid var(--rule); }
+  .phase-n {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--change);
+    padding-top: 3px;
+    letter-spacing: .04em;
+  }
+  .phase h4 {
+    font-family: var(--sans);
+    font-size: 15.5px;
+    font-weight: 600;
+    margin: 0 0 5px;
+  }
+  .phase p { margin: 0 0 6px; font-size: 15px; }
+  .phase p:last-child { margin-bottom: 0; }
+  .phase .why {
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule-strong);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    line-height: 1.7;
+  }
+
+  /* ---------- baskı ----------
+     PDF her zaman açık temada basılır: koyu zemin mürekkep yer ve
+     kâğıtta okunaksızdır. Tokenler burada zorla açık değerlere döner. */
+
+  @page {
+    size: A4;
+    margin: 18mm 16mm 20mm;
+  }
+
+  @media print {
+    :root, :root[data-theme="dark"] {
+      --ground: #ffffff;
+      --panel: #ffffff;
+      --panel-2: #f5f2ec;
+      --rule: #ddd7cd;
+      --rule-strong: #c8c1b5;
+      --ink: #16140f;
+      --ink-soft: #55504a;
+      --ink-faint: #7d766c;
+      --done: #0d5f59;
+      --done-bg: #e8f5f2;
+      --done-rule: #9ed3cb;
+      --change: #96450a;
+      --change-bg: #fdf2dc;
+      --change-rule: #e9b872;
+      --absent: #6f6a62;
+    }
+    body { font-size: 10.6pt; line-height: 1.55; background: #fff; }
+    .page { max-width: none; padding: 0; }
+    h1 { font-size: 26pt; }
+    h2 { font-size: 15pt; }
+    h3 { font-size: 11.5pt; }
+    .standfirst { font-size: 11.5pt; }
+    .verdict p { font-size: 12.5pt; }
+    .block pre { font-size: 8.4pt; line-height: 1.62; }
+    table { font-size: 9pt; }
+    section { margin-bottom: 26px; page-break-inside: auto; }
+    h2, h3 { page-break-after: avoid; }
+    figure, .block, .verdict, .caution, .phase, tr { page-break-inside: avoid; }
+    .scroll, .block { overflow: visible; }
+    a { color: inherit; text-decoration: none; }
+    .page-break { page-break-before: always; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Mimari kararı · Faz B sonrası</p>
+    <h1>Sıfırdan yazmayalım. Depolamayı değiştirelim.</h1>
+    <p class="standfirst">
+      Çekirdek alan mantığı sağlam ve ölçümle kazanılmış bilgiyi taşıyor.
+      Eksik olan yanlış kurulmuş değil, henüz hiç kurulmamış — ve bu ikisi
+      çok farklı maliyetler.
+    </p>
+  </header>
+
+  <div class="meta-row">
+    <span>27 Ağustos 2026</span>
+    <span>AnswerGap</span>
+    <span>6.591 satır kod</span>
+    <span>Toplam harcama $0,118</span>
+  </div>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>Karar</h2>
+    <div class="section-rule"></div>
+
+    <div class="verdict">
+      <span class="label">Tavsiye</span>
+      <p>
+        Mevcut mimarinin üzerinden gidelim. Yeniden yazmak, projenin en pahalı
+        varlığını — ölçülerek öğrenilmiş alan bilgisini — çöpe atar ve karşılığında
+        hiçbir şey kazandırmaz.
+      </p>
+    </div>
+
+    <p>
+      Bunu üç gerekçeyle söylüyorum, ve üçü de bugün doğruladığım şeylere dayanıyor.
+    </p>
+
+    <p>
+      <strong>Birincisi: çekirdek, kodun kendisinden daha değerli.</strong>
+      <code>answergap/</code> altındaki 1.180 satır saf fonksiyon değil sadece —
+      içine ölçülmüş kararlar gömülü. Dallanma çarpanının 8 değil <em>4</em> olduğu;
+      click depth'in recursion'dan ~13 kat ucuz olduğu; Google'ın artık PAA'yı AI
+      Overview ile cevapladığı ve kaynak URL kapsamasının <em>%0</em> olduğu; ve en
+      kritiği, gap metriğinin "en yüksek örtüşme" değil <em>eşiği geçen sayfa sayısı</em>
+      olduğu. Bu bulgular haftalarca ölçüm ve gerçek para karşılığı alındı. Yeniden
+      yazmak kodu geri getirir, bu bilgiyi getirmez.
+    </p>
+
+    <p>
+      <strong>İkincisi: eksik olan <em>yanlış</em> değil, <em>yok</em>.</strong>
+      Sökülecek kötü bir veritabanı şeması yok, yanlış seçilmiş bir ORM yok,
+      dolaşmış bir kimlik doğrulama katmanı yok. Kalıcılık katmanı hiç bulunmayan
+      bir prototip, doğru katmanı eklemek için mümkün olan en ucuz başlangıç
+      noktasıdır. Yeniden yazma, kötü kurulmuş bir temeli olanlar için doğru cevaptır;
+      bizimki henüz dökülmemiş.
+    </p>
+
+    <p>
+      <strong>Üçüncüsü: arayüz backend değişimine bağlı değil.</strong>
+      Web katmanı API ile HTTP üzerinden, <code>lib/types.ts</code>'te tanımlı tipli
+      bir sözleşmeyle konuşuyor. Depolamayı tamamen değiştirsek bile o sözleşme
+      korunduğu sürece arayüzün tek satırı değişmez. Bugün bunu fiilen test ettik:
+      canlı crawl'ı ekledim, arayüz aynı tiplerle çalışmaya devam etti.
+    </p>
+
+    <h3>Ama dört şey değişmek zorunda</h3>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:26%">Konu</th>
+            <th style="width:16%">Durum</th>
+            <th>Neden</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Depolama</strong></td>
+            <td><span class="pill change">Değişmeli</span></td>
+            <td>JSON dosyaları eşzamanlı yazma, TTL, sürüm geçmişi, kiracı ayrımı ve diff motorunu taşıyamaz. Bugün bu yüzden gerçek bir hata yaşadık.</td>
+          </tr>
+          <tr>
+            <td><strong>Test</strong></td>
+            <td><span class="pill absent">Hiç yok</span></td>
+            <td>Merkezî iddiası hesaplanmış bir metrik olan ve eşiği doğrulanmamış bir üründe sıfır test, en büyük tek risk.</td>
+          </tr>
+          <tr>
+            <td><strong>İş çalıştırıcı</strong></td>
+            <td><span class="pill absent">Hiç yok</span></td>
+            <td>Zamanlanmış crawl (ajans planı) ve Standard queue'ya geçiş, ikisi de asenkron iş gerektiriyor.</td>
+          </tr>
+          <tr>
+            <td><strong>Kimlik · kiracı · kredi</strong></td>
+            <td><span class="pill absent">Hiç yok</span></td>
+            <td>Kimse para ödeyemeden önce şart. Ama depolamadan <em>sonra</em> gelir — şeması ona oturur.</td>
+          </tr>
+        </tbody>
+      </table>
+      <caption>Sıra önemli: depolama diğer üçünün de üzerine oturduğu katman.</caption>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>Şu anki mimari</h2>
+    <div class="section-rule"></div>
+
+    <p>
+      Dört katman var ve üçü kurulu. Aşağıdaki şekil, "yeniden yazmayalım"
+      argümanının neye dayandığını gösteriyor: solda duran zincir sağlam ve
+      birbirine bağlı; sağdaki kutular ise bozuk değil, sadece <em>orada değil</em>.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 800 396" role="img" aria-label="AnswerGap katman mimarisi: tarayıcı, FastAPI ve answergap çekirdeği birbirine bağlı; kimlik, kredi, iş kuyruğu ve veritabanı henüz mevcut değil.">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+          </marker>
+        </defs>
+
+        <!-- sol zincir: kurulu -->
+        <rect x="20" y="18" width="392" height="54" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+        <text x="38" y="42" font-family="IBM Plex Sans, sans-serif" font-size="14" font-weight="600" fill="currentColor">Tarayıcı — Next.js 16 · React 19</text>
+        <text x="38" y="60" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor" opacity=".72">web/ · 4 ekran · 5 dil · 1.500 satır TSX</text>
+
+        <line x1="216" y1="72" x2="216" y2="110" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar)"></line>
+        <text x="228" y="96" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor" opacity=".72">HTTP · tipli sözleşme</text>
+
+        <rect x="20" y="112" width="392" height="54" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+        <text x="38" y="136" font-family="IBM Plex Sans, sans-serif" font-size="14" font-weight="600" fill="currentColor">API — FastAPI</text>
+        <text x="38" y="154" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor" opacity=".72">api/main.py · 8 endpoint · 245 satır</text>
+
+        <line x1="216" y1="166" x2="216" y2="204" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar)"></line>
+        <text x="228" y="190" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor" opacity=".72">doğrudan çağrı</text>
+
+        <rect x="20" y="206" width="392" height="62" rx="6" fill="var(--done-bg)" stroke="var(--done)" stroke-width="2"></rect>
+        <text x="38" y="230" font-family="IBM Plex Sans, sans-serif" font-size="14" font-weight="700" fill="var(--done)">Çekirdek — answergap/</text>
+        <text x="38" y="248" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--done)">6 modül · 1.180 satır · saf, sağlayıcıdan bağımsız</text>
+        <text x="38" y="262" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--done)" opacity=".8">ölçülmüş bilgi burada yaşıyor</text>
+
+        <line x1="120" y1="268" x2="120" y2="312" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar)"></line>
+        <line x1="312" y1="268" x2="312" y2="312" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar)"></line>
+
+        <rect x="20" y="314" width="188" height="52" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+        <text x="38" y="336" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="currentColor">DataForSEO</text>
+        <text x="38" y="353" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".72">dış · ücretli</text>
+
+        <rect x="224" y="314" width="188" height="52" rx="6" fill="none" stroke="var(--change)" stroke-width="1.8"></rect>
+        <text x="242" y="336" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="var(--change)">Dosya sistemi</text>
+        <text x="242" y="353" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--change)" opacity=".9">data/ · JSON · değişmeli</text>
+
+        <!-- ayırıcı -->
+        <line x1="452" y1="18" x2="452" y2="366" stroke="currentColor" stroke-width="1" stroke-dasharray="2 5" opacity=".45"></line>
+
+        <!-- sağ: yok -->
+        <text x="492" y="34" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.2" fill="var(--absent)">HENÜZ YOK</text>
+
+        <rect x="492" y="52" width="288" height="44" rx="6" fill="none" stroke="var(--absent)" stroke-width="1.4" stroke-dasharray="5 4"></rect>
+        <text x="510" y="72" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="var(--absent)">Veritabanı</text>
+        <text x="510" y="88" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--absent)">kayıt sistemi · geçmiş · diff</text>
+
+        <rect x="492" y="106" width="288" height="44" rx="6" fill="none" stroke="var(--absent)" stroke-width="1.4" stroke-dasharray="5 4"></rect>
+        <text x="510" y="126" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="var(--absent)">Kimlik ve kiracı</text>
+        <text x="510" y="142" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--absent)">kullanıcı · çalışma alanı</text>
+
+        <rect x="492" y="160" width="288" height="44" rx="6" fill="none" stroke="var(--absent)" stroke-width="1.4" stroke-dasharray="5 4"></rect>
+        <text x="510" y="180" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="var(--absent)">Kredi defteri</text>
+        <text x="510" y="196" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--absent)">Stripe · kullanım sayacı</text>
+
+        <rect x="492" y="214" width="288" height="44" rx="6" fill="none" stroke="var(--absent)" stroke-width="1.4" stroke-dasharray="5 4"></rect>
+        <text x="510" y="234" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="var(--absent)">İş kuyruğu</text>
+        <text x="510" y="250" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--absent)">zamanlanmış crawl · Standard queue</text>
+
+        <rect x="492" y="268" width="288" height="44" rx="6" fill="none" stroke="var(--absent)" stroke-width="1.4" stroke-dasharray="5 4"></rect>
+        <text x="510" y="288" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="var(--absent)">Test takımı</text>
+        <text x="510" y="304" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--absent)">matching · tree · saf fonksiyonlar</text>
+
+        <text x="492" y="342" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--absent)" opacity=".9">Hiçbiri yanlış kurulmuş değil —</text>
+        <text x="492" y="357" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--absent)" opacity=".9">hiçbiri kurulmamış. Bu iyi haber.</text>
+      </svg>
+      <figcaption>
+        Soldaki zincir uçtan uca çalışıyor ve bugün gerçek Google verisiyle
+        doğrulandı. Sağdaki kesikli kutular yeniden yazma gerektirmez; çekirdeğe
+        dokunmadan eklenirler. Tek istisna kehribar kutu: dosya sistemi yerinde
+        duruyor ama değişmesi gerekiyor.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="page-break">
+    <h2>Klasör yapısı</h2>
+    <div class="section-rule"></div>
+
+    <p>
+      Aşağıdaki ağaç diskteki gerçek durum. Renkler yukarıdaki semantiği
+      sürdürüyor: <span class="pill done">teal</span> kurulu ve doğrulanmış,
+      <span class="pill change">kehribar</span> var ama değişecek,
+      <span class="pill absent">gri</span> henüz yok.
+    </p>
+
+    <div class="block">
+<pre>AnswerGap/
+├── <span class="ok">answergap/</span>              <span class="c">çekirdek alan mantığı — 1.180 satır, saf Python</span>
+│   ├── <span class="ok">dataforseo.py</span>       <span class="c">346  API istemcisi: retry, bütçe tavanı, cache</span>
+│   ├── <span class="ok">languages.py</span>        <span class="c">320  dil paketleri (en·tr·de·es·fr): stopword, eşanlam</span>
+│   ├── <span class="ok">live.py</span>             <span class="c">498  canlı crawl + soru başına gap skoru   [bugün]</span>
+│   ├── <span class="ok">matching.py</span>         <span class="c">133  örtüşme skoru — ürünün merkezî hesabı</span>
+│   ├── <span class="ok">text.py</span>             <span class="c">141  normalizasyon: dedup ve cache anahtarı</span>
+│   └── <span class="ok">tree.py</span>             <span class="c">372  ağaç kurma, skorlama, durum sınıflandırma</span>
+│
+├── <span class="ok">api/</span>
+│   └── <span class="ok">main.py</span>             <span class="c">245  FastAPI · 8 endpoint · veritabanı yok</span>
+│
+├── <span class="ok">web/</span>                    <span class="c">Next.js 16 · React 19 · TypeScript</span>
+│   ├── <span class="ok">app/</span>                <span class="c">page.tsx (arama) · tree/[slug] (ağaç ekranı)</span>
+│   ├── <span class="ok">components/</span>         <span class="c">QuestionTree · GapTable · QuestionDetail · Badge</span>
+│   ├── <span class="ok">i18n/</span>               <span class="c">en.ts tipi tanımlar; eksik anahtar build'i kırar</span>
+│   └── <span class="ok">lib/</span>                <span class="c">api.ts (HTTP) · types.ts (sözleşme)</span>
+│
+├── <span class="warn">data/</span>                   <span class="warn">← mimari kararın düğümlendiği yer</span>
+│   ├── <span class="ok">raw/</span>                <span class="c">58 dosya · Faz 0 arşivi — KANIT, commit'li</span>
+│   ├── <span class="warn">live/serp/</span>          <span class="c">canlı SERP cache · node başına · $0,0112</span>
+│   ├── <span class="warn">live/trees/</span>         <span class="c">kurulu ağaçlar, tam JSON belge olarak  ← hata kaynağı</span>
+│   ├── <span class="ok">locations/</span>          <span class="c">213 ülke</span>
+│   └── <span class="ok">PHASE05_labels.csv</span>  <span class="c">14 satır, 14'ü etiketsiz  ← tıkanma noktası</span>
+│
+├── <span class="ok">scripts/</span>                <span class="c">Faz 0/0.5 doğrulama scriptleri — 1.213 satır</span>
+├── <span class="ok">CLAUDE.md</span>               <span class="c">ölçülmüş kuralların yazılı hali</span>
+├── <span class="warn">requirements.txt</span>        <span class="c">pratikte boş — fastapi/uvicorn/pydantic eksik</span>
+│
+├── <span class="off">tests/</span>                  <span class="off">yok</span>
+├── <span class="off">migrations/</span>             <span class="off">yok</span>
+└── <span class="off">.github/workflows/</span>      <span class="off">yok</span></pre>
+    </div>
+
+    <p>
+      Dikkat çekmek istediğim iki satır var. <code>data/raw/</code> bilerek
+      commit'li: bunlar raporlardaki her sayının geri izlendiği kanıt, ve
+      CLAUDE.md'nin deyimiyle tarihsel PAA verisi başka hiçbir yerde yok.
+      <code>requirements.txt</code> ise pratikte boş — içindeki yorum
+      "ürün kodu başladığında burası dolacak" diyor, o an geldi ama dolmadı.
+      Şu an projeyi temiz bir makinede kuramazsın.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>Bir aramanın yolculuğu</h2>
+    <div class="section-rule"></div>
+
+    <p>
+      Para tam olarak nerede harcanıyor sorusunun cevabı, kredi modelinin de
+      cevabı. Bugün ölçtüğüm gerçek rakamlarla:
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 800 268" role="img" aria-label="Bir aramanın akışı: tek istekle keşif 16 soru üretir ve 0,0026 dolara mal olur; gap skoru soru başına ayrı bir istek olup 0,0020 dolardır; cache isabetinde maliyet sıfırdır.">
+        <defs>
+          <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+          </marker>
+          <marker id="ar2t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--done)"></path>
+          </marker>
+        </defs>
+
+        <!-- keşif şeridi -->
+        <text x="20" y="24" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.1" fill="var(--ink-faint)">KEŞİF — 1 KREDİ</text>
+
+        <rect x="20" y="36" width="132" height="52" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+        <text x="86" y="58" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="currentColor">Tohum kelime</text>
+        <text x="86" y="75" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".72">“teeth whitening”</text>
+
+        <line x1="152" y1="62" x2="222" y2="62" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar2)"></line>
+        <text x="187" y="52" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" opacity=".75">1 istek</text>
+
+        <rect x="224" y="36" width="176" height="52" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+        <text x="312" y="58" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="currentColor">SERP · click_depth=4</text>
+        <text x="312" y="75" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--change)">$0,0026</text>
+
+        <line x1="400" y1="62" x2="470" y2="62" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar2)"></line>
+        <text x="435" y="50" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="currentColor" opacity=".75">seed_question</text>
+
+        <rect x="472" y="36" width="176" height="52" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+        <text x="560" y="58" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="currentColor">16 soru · 2 seviye</text>
+        <text x="560" y="75" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".72">15'i no_data</text>
+
+        <!-- cache dalı -->
+        <path d="M 312 88 L 312 118 L 700 118 L 700 92" fill="none" stroke="var(--done)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ar2t)"></path>
+        <text x="506" y="133" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--done)">aynı anahtar ikinci kez → cache · $0 · 20 ms</text>
+        <rect x="652" y="36" width="128" height="52" rx="6" fill="var(--done-bg)" stroke="var(--done)" stroke-width="1.5"></rect>
+        <text x="716" y="58" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="var(--done)">Cache</text>
+        <text x="716" y="75" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--done)">node başına</text>
+
+        <line x1="20" y1="156" x2="780" y2="156" stroke="currentColor" stroke-width="1" stroke-dasharray="2 5" opacity=".45"></line>
+
+        <!-- skorlama şeridi -->
+        <text x="20" y="182" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.1" fill="var(--ink-faint)">GAP SKORU — AYRI FİYATLI, SORU BAŞINA</text>
+
+        <rect x="20" y="194" width="176" height="52" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+        <text x="108" y="216" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="currentColor">Kullanıcı 1 soru seçer</text>
+        <text x="108" y="233" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".72">açık tıklama</text>
+
+        <line x1="196" y1="220" x2="266" y2="220" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar2)"></line>
+
+        <rect x="268" y="194" width="176" height="52" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+        <text x="356" y="216" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="currentColor">O sorunun SERP'i</text>
+        <text x="356" y="233" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--change)">$0,0020</text>
+
+        <line x1="444" y1="220" x2="514" y2="220" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar2)"></line>
+        <text x="479" y="210" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" opacity=".75">örtüşme</text>
+
+        <rect x="516" y="194" width="264" height="52" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+        <text x="648" y="216" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="currentColor">Eşiği geçen sayfa sayısı</text>
+        <text x="648" y="233" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".72">0 → gap · 1-2 → zayıf · 3+ → cevaplanmış</text>
+      </svg>
+      <figcaption>
+        Keşif ucuz, skorlama pahalı — ve bu ayrım kredi modelinin ta kendisi.
+        16 sorunun hepsini otomatik skorlamak aramayı ~15 kat pahalılaştırırdı;
+        doğrulanmamış bir eşikle bunu yapmak ise parayı muhtemelen yanlış cevaba
+        harcamak olurdu.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="page-break">
+    <h2>Veriler şu an nerede duruyor</h2>
+    <div class="section-rule"></div>
+
+    <p>
+      Hiç konuşmadığımız konu buydu ve cevabı şu: <strong>her şey düz JSON
+      dosyalarında, diskte.</strong> Veritabanı yok. API açılışta
+      <code>data/raw/</code>'u tarayıp ağaçları bellekte kuruyor; canlı aramalar
+      <code>data/live/</code>'a yazılıyor.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:30%">Yer</th>
+            <th style="width:16%">İçerik</th>
+            <th class="num" style="width:14%">Boyut</th>
+            <th>Rolü</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data/raw/</code></td>
+            <td>58 dosya</td>
+            <td class="num">17 MB</td>
+            <td>Faz 0 arşivi. Kanıt niteliğinde, commit'li. 15 MB'ı gitignore'lu konum dökümü.</td>
+          </tr>
+          <tr>
+            <td><code>data/live/serp/</code></td>
+            <td>5 yanıt</td>
+            <td class="num">212 KB</td>
+            <td>Canlı SERP cache'i. <strong>Node başına</strong> anahtarlanmış — bu doğru.</td>
+          </tr>
+          <tr>
+            <td><code>data/live/trees/</code></td>
+            <td>2 ağaç</td>
+            <td class="num">36 KB</td>
+            <td>Kurulmuş ağaçlar, <strong>tam JSON belge</strong> olarak. Sorun burada.</td>
+          </tr>
+          <tr>
+            <td><code>data/locations/</code></td>
+            <td>213 ülke</td>
+            <td class="num">24 KB</td>
+            <td>Statik referans. Sorunsuz.</td>
+          </tr>
+        </tbody>
+      </table>
+      <caption>Ortalama bir SERP yanıtı 30 KB. 43 yanıt toplam 1,3 MB.</caption>
+    </div>
+
+    <div class="caution">
+      <span class="label">Bugün yaşadığımız gerçek hata</span>
+      <p>
+        CLAUDE.md açıkça şunu söylüyor: <em>"Cache birimi node'dur, ağaç değil.
+        Ağaç seviyesinde cache'lersen tek bayat node 70 çağrının tekrarlanmasına
+        yol açar."</em> SERP cache'ini node başına yazdım — doğru. Ama kurulmuş
+        ağacı tek bir JSON belgesi olarak kaydettim, ve bu tam olarak kuralın
+        yasakladığı şey.
+      </p>
+      <p>
+        Sonuç: bir soruyu skorladım ($0,0020), sonra aynı aramayı tekrar
+        çalıştırdım. Ağaç yeni PAA yanıtından yeniden kuruldu ve
+        <strong>parayla alınmış skoru sildi</strong> — sayaç <code>covered: 2</code>'den
+        <code>covered: 1</code>'e düştü. Belirtiyi yamayla kapattım (eski skorlar artık
+        taşınıyor), ama sebep yama değil: <em>ağacı belge olarak saklamak.</em>
+      </p>
+      <p style="margin-bottom:0">
+        Bu, tek kullanıcılı bir prototipte küçük bir aksaklık. Zamanlanmış crawl'lar
+        ve eşzamanlı skorlama devreye girdiğinde aynı sebep sessiz veri kaybına döner.
+      </p>
+    </div>
+
+    <h3>Dosya sisteminin taşıyamayacağı dört şey</h3>
+
+    <ul>
+      <li><strong>Eşzamanlı yazma.</strong> İki skorlama isteği aynı ağaç dosyasına yazarsa biri kaybolur. Kilit yok, atomik yazma yok.</li>
+      <li><strong>TTL ve stale-while-revalidate.</strong> CLAUDE.md uyarlanabilir TTL istiyor (haber 6 saat, evergreen 90 gün, seviye 2+ iki katı). Dosya sisteminde son değişiklik tarihinden başka tutamak yok.</li>
+      <li><strong>Geçmiş ve diff.</strong> "Tarihsel PAA verisi en savunulabilir varlığımız" diyoruz, ama üzerine yazan bir dosya geçmiş tutmaz. Diff motorunun karşılaştıracağı ikinci bir sürüm yok.</li>
+      <li><strong>Kiracı ayrımı.</strong> Ajans planı çoklu çalışma alanı vaat ediyor. Dosya yolunda kiracı kavramı yok.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>Önerim: ağacı belge değil, satır olarak sakla</h2>
+    <div class="section-rule"></div>
+
+    <p>
+      Tek cümlelik özet: <strong>ağaç bir JSON belgesi değil, kenar satırlarından
+      oluşan bir tablo olmalı.</strong> Bu, bugünkü hatanın da doğrudan çözümü —
+      yeniden crawl yeni satır ekler, mevcut skoru <em>silemez</em>, çünkü ikisi
+      farklı satırlarda yaşar.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 800 330" role="img" aria-label="Karşılaştırma: ağacın tek JSON belgesi olarak saklanması yeniden crawl'da ödenmiş skoru siler; anlık görüntü ve kenar satırları olarak saklanması ise skoru ayrı satırda tuttuğu için korur.">
+        <defs>
+          <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+          </marker>
+          <marker id="ar3w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--change)"></path>
+          </marker>
+          <marker id="ar3t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--done)"></path>
+          </marker>
+        </defs>
+
+        <!-- SOL: bugün -->
+        <text x="20" y="20" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.1" fill="var(--change)">BUGÜN — TEK BELGE</text>
+
+        <rect x="20" y="34" width="120" height="38" rx="5" fill="none" stroke="currentColor" stroke-width="1.4"></rect>
+        <text x="80" y="58" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12" font-weight="600" fill="currentColor">Yeniden crawl</text>
+
+        <line x1="80" y1="72" x2="80" y2="104" stroke="var(--change)" stroke-width="1.6" marker-end="url(#ar3w)"></line>
+        <text x="92" y="93" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--change)">üzerine yazar</text>
+
+        <rect x="20" y="106" width="332" height="150" rx="6" fill="none" stroke="var(--change)" stroke-width="1.8"></rect>
+        <text x="36" y="128" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="var(--change)">teeth-whitening-en-2840.json</text>
+
+        <rect x="36" y="140" width="300" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"></rect>
+        <text x="48" y="159" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".8">kök · skorlu</text>
+
+        <rect x="36" y="176" width="300" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3" opacity=".55"></rect>
+        <text x="48" y="195" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".8">soru A · no_data</text>
+
+        <rect x="36" y="212" width="300" height="30" rx="4" fill="var(--change-bg)" stroke="var(--change)" stroke-width="1.5"></rect>
+        <text x="48" y="231" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--change)">soru B · SKORLU — $0,0020 ödendi</text>
+
+        <text x="20" y="278" font-family="IBM Plex Sans, sans-serif" font-size="12" font-weight="600" fill="var(--change)">Sonuç: soru B'nin skoru silinir.</text>
+        <text x="20" y="296" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".75">Belge bir bütün olarak değiştirilir; içindeki</text>
+        <text x="20" y="311" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".75">ödenmiş satırı koruyacak bir sınır yoktur.</text>
+
+        <!-- ayırıcı -->
+        <line x1="400" y1="14" x2="400" y2="320" stroke="currentColor" stroke-width="1" stroke-dasharray="2 5" opacity=".45"></line>
+
+        <!-- SAĞ: öneri -->
+        <text x="428" y="20" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.1" fill="var(--done)">ÖNERİ — SATIRLAR</text>
+
+        <rect x="428" y="34" width="120" height="38" rx="5" fill="none" stroke="currentColor" stroke-width="1.4"></rect>
+        <text x="488" y="58" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12" font-weight="600" fill="currentColor">Yeniden crawl</text>
+
+        <line x1="488" y1="72" x2="488" y2="104" stroke="var(--done)" stroke-width="1.6" marker-end="url(#ar3t)"></line>
+        <text x="500" y="93" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--done)">satır ekler</text>
+
+        <rect x="428" y="106" width="352" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"></rect>
+        <text x="440" y="125" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor">question · normalize edilmiş kimlik</text>
+
+        <rect x="428" y="142" width="352" height="30" rx="4" fill="var(--done-bg)" stroke="var(--done)" stroke-width="1.4"></rect>
+        <text x="440" y="161" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--done)">serp_snapshot · YENİ satır, eskisi durur</text>
+
+        <rect x="428" y="178" width="352" height="30" rx="4" fill="var(--done-bg)" stroke="var(--done)" stroke-width="1.4"></rect>
+        <text x="440" y="197" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--done)">paa_edge · YENİ kenarlar, snapshot'a bağlı</text>
+
+        <rect x="428" y="214" width="352" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"></rect>
+        <text x="440" y="233" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor">gap_score · DOKUNULMAZ</text>
+
+        <text x="428" y="278" font-family="IBM Plex Sans, sans-serif" font-size="12" font-weight="600" fill="var(--done)">Sonuç: skor korunur, geçmiş birikir.</text>
+        <text x="428" y="296" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".75">Diff motoru iki snapshot'ı karşılaştırır —</text>
+        <text x="428" y="311" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".75">ayrıca yazmaya gerek yok, veri zaten orada.</text>
+      </svg>
+      <figcaption>
+        Aradaki tek yapısal fark, ağacın belge mi yoksa kenar satırları mı
+        olduğu. Solda yeniden crawl bir yazma işlemidir ve her şeyin üstünden
+        geçer; sağda bir ekleme işlemidir ve hiçbir şeyi bozamaz. Diff motoru ile
+        "tarihsel PAA verisi bizim varlığımız" iddiası da sağdaki şemada bedavaya gelir.
+      </figcaption>
+    </figure>
+
+    <h3>Somut seçim: PostgreSQL + nesne depolama</h3>
+
+    <p>
+      <strong>Kayıt sistemi Postgres olsun.</strong> SQLite şaşırtıcı derecede
+      uzağa götürür ama zamanlanmış crawl'lar ve eşzamanlı skorlama eşzamanlı
+      yazar demektir; ayrıca diff motoru gerçek işlem ve indeks ister. Şu aşamada
+      Neon veya Supabase ücretsiz katmanı fazlasıyla yeter — kendi sunucunu
+      yönetme.
+    </p>
+
+    <p>
+      <strong>Ham SERP yanıtları satır değil, blob olsun.</strong> Ortalama 30 KB
+      ve JSON ~8-10 kat sıkışıyor. Bunları Postgres'e koymak veritabanını
+      şişirir ve hiçbir sorguya girmezler. Cloudflare R2 (çıkış ücreti yok) ya da
+      benzeri bir S3 uyumlu depoya, aynı cache anahtarıyla, gzip'li yaz.
+      Postgres'te sadece <em>çıkarılmış alanlar</em> dursun: başlık, URL, alan adı,
+      örtüşme skoru.
+    </p>
+
+    <p>
+      <strong>Dosya sistemi cache'i yerel geliştirme için kalsın.</strong> Aynı
+      arayüz, farklı arka uç. Bunu bugünden mümkün kılan şey, çekirdeğin zaten saf
+      olması — <code>Client</code> bir <code>cache_dir</code> alıyor; onun yerine bir
+      depo nesnesi almasını sağlamak küçük bir değişiklik.
+    </p>
+
+    <p>
+      <strong>Redis'i şimdi ekleme.</strong> İş kuyruğu ve hız sınırlama
+      gerektiğinde gelir. Şu an eklemek, karşılığı olmayan bir işletme yükü.
+    </p>
+
+    <h3>Şema taslağı</h3>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:20%">Tablo</th>
+            <th style="width:44%">Anahtar alanlar</th>
+            <th style="width:36%">Neden böyle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>question</code></td>
+            <td class="fields">id · normalized_text · display_text · language_code · location_code</td>
+            <td><code>(normalized, lang, loc)</code> üzerinde tekil. CLAUDE.md'nin cache anahtarının ta kendisi.</td>
+          </tr>
+          <tr>
+            <td><code>serp_snapshot</code></td>
+            <td class="fields">id · question_id · fetched_at · cost · blob_url · ttl_expires_at</td>
+            <td>Asla üzerine yazılmaz. Geçmiş burada birikir; TTL burada yaşar.</td>
+          </tr>
+          <tr>
+            <td><code>paa_edge</code></td>
+            <td class="fields">parent_question_id · child_question_id · snapshot_id · position</td>
+            <td>Ağaç budur. Belge değil kenar — tekrar sayısı da buradan bedava gelir.</td>
+          </tr>
+          <tr>
+            <td><code>gap_score</code></td>
+            <td class="fields">question_id · snapshot_id · threshold · strategy · matching_pages · status</td>
+            <td>Eşik ve strateji satırda saklanır: eşik değişince eski skorlar yalan olmaz.</td>
+          </tr>
+          <tr>
+            <td><code>crawl</code></td>
+            <td class="fields">id · workspace_id · seed_question_id · created_at</td>
+            <td>Kullanıcının bir araması. Geçmiş kısıtlanmaz (AlsoAsked'ın hatası).</td>
+          </tr>
+          <tr>
+            <td><code>label</code></td>
+            <td class="fields">question_id · verdict · user_id · created_at</td>
+            <td>Arayüzdeki başparmak. Eşik doğrulamasını kullanımın yan ürünü yapar.</td>
+          </tr>
+          <tr>
+            <td><code>workspace · user · credit_ledger</code></td>
+            <td class="fields">—</td>
+            <td>Kiracılık ve faturalama. Depolamadan sonra, en son gelir.</td>
+          </tr>
+        </tbody>
+      </table>
+      <caption>
+        Kritik ayrıntı: <code>gap_score</code> eşiği ve stratejiyi kendi satırında taşır.
+        Eşik henüz doğrulanmadığı için bu şart — değiştiğinde eski skorları yeniden
+        yorumlayabilmek gerekir.
+      </caption>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="page-break">
+    <h2>Bugüne kadar yapılanlar</h2>
+    <div class="section-rule"></div>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:20%">Aşama</th>
+            <th style="width:14%">Durum</th>
+            <th>Çıktı ve kanıt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Faz 0</strong><br><span class="num" style="font-size:11px;color:var(--ink-faint)">doğrulama</span></td>
+            <td><span class="pill done">Bitti</span></td>
+            <td>
+              Dallanma çarpanı ölçüldü: <strong>4</strong>, 8 değil. Click depth recursion'dan
+              ~13 kat ucuz çıktı. Şehir bazlı aramanın gereksiz olduğu iki kez ölçüldü
+              (Jaccard 1,000). <code>load_async_ai_overview</code>'ın para yaktığı kanıtlandı.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Faz 0 bulgusu</strong><br><span class="num" style="font-size:11px;color:var(--ink-faint)">gap nasıl hesaplanır</span></td>
+            <td><span class="pill done">Bitti</span></td>
+            <td>
+              32/32 PAA elementi <code>references: null</code> döndü — kaynak URL kapsaması
+              <strong>%0</strong>. Gap, PAA bloğundan hesaplanamaz. Çözüm: soruyu ayrıca sorup
+              organik sonuçları karşılaştırmak. Doğru metrik "en yüksek örtüşme" değil,
+              <strong>eşiği geçen sayfa sayısı</strong>.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Prototip</strong><br><span class="num" style="font-size:11px;color:var(--ink-faint)">çekirdek + API + arayüz</span></td>
+            <td><span class="pill done">Bitti</span></td>
+            <td>
+              6 modüllük çekirdek, 8 endpoint'li API, 4 ekranlı Next.js arayüzü,
+              5 dil (eksik anahtar build'i kırıyor), 213 ülke, gerçek Google verisinden
+              3 demo ağaç.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Faz B</strong><br><span class="num" style="font-size:11px;color:var(--ink-faint)">canlı crawl</span></td>
+            <td><span class="pill done">Bugün</span></td>
+            <td>
+              Arama kutusu DataForSEO'ya bağlandı. <code>seed_question</code> alanının gerçek
+              ebeveyni verdiği keşfedildi: <strong>tek istek, 16 node, iki gerçek seviye</strong>.
+              Gap skoru soru başına ayrı adım. Cache isabetinde $0 / 20 ms.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Eşik doğrulama</strong><br><span class="num" style="font-size:11px;color:var(--ink-faint)">Faz 0.5</span></td>
+            <td><span class="pill change">Tıkalı</span></td>
+            <td>
+              <code>PHASE05_labels.csv</code>: 14 satır, <strong>14'ü de etiketsiz</strong>.
+              Eşik <code>0,60</code> ve strateji <code>synonyms</code> hâlâ tahmin.
+              Bilinen yanlış pozitif: <em>"Can 60 year old teeth be whitened?"</em> gap
+              işaretleniyor ama <em>"Can Senior Teeth be Whitened?"</em> başlıklı sayfa
+              onu cevaplıyor.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <caption>Toplam harcama $0,118. Her sayı <code>data/raw/</code> altındaki bir yanıta geri izlenebilir.</caption>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>Sırada ne var</h2>
+    <div class="section-rule"></div>
+
+    <p>
+      Bu sıra keyfî değil; her adım bir öncekinin açtığı kapıdan geçiyor.
+      Numaralar gerçek bir bağımlılık zincirini gösteriyor.
+    </p>
+
+    <div class="phase">
+      <div class="phase-n">01</div>
+      <div>
+        <h4>Etiketleme — 20 dakika, $0</h4>
+        <p>Diskteki 14 soruyu G/N olarak etiketle, <code>phase05_evaluate.py</code>'yi çalıştır.</p>
+        <p class="why">
+          Neden önce bu: asıl soru "eşik kaç olmalı" değil, <strong>"sözlük yetiyor mu,
+          yoksa embedding şart mı"</strong>. 14 etiket bunu cevaplamaya yeter ve cevabı
+          mimariyi değiştirir. Embedding gerekiyorsa bunu depolama şemasını
+          yazmadan <em>önce</em> bilmek gerekir — vektörlerin nerede duracağı şemayı etkiler.
+        </p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-n">02</div>
+      <div>
+        <h4>Test takımı — çekirdek saf, kolay iş</h4>
+        <p><code>matching.py</code> ve <code>tree.py</code> saf fonksiyonlar; <code>data/raw/</code> altındaki gerçek yanıtlar hazır fikstür.</p>
+        <p class="why">
+          Depolamayı değiştirmeden önce yapılmalı. Testi olmayan bir kodu taşımak,
+          neyi bozduğunu bilmeden taşımaktır.
+        </p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-n">03</div>
+      <div>
+        <h4>Depolama katmanı — Postgres + blob</h4>
+        <p>Yukarıdaki şema. Dosya sistemi arka ucu yerel geliştirme için korunur.</p>
+        <p class="why">
+          Diğer her şeyin üzerine oturduğu katman. Diff motoru, TTL, geçmiş ve
+          kiracılık bu adımdan sonra <em>eklenecek özellik</em> olmaktan çıkıp
+          şemanın doğal sonucu olur.
+        </p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-n">04</div>
+      <div>
+        <h4>Arayüzde geri bildirim</h4>
+        <p>Skorlanmış her soruda "bu gerçekten gap mi?" başparmağı; <code>label</code> tablosuna yazar.</p>
+        <p class="why">
+          Etiketleme bir angarya olmaktan çıkıp kullanımın yan ürünü olur. Eşik
+          sorunu böyle kalıcı olarak çözülür — 14 etiketle değil, binlerce ile.
+        </p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-n">05</div>
+      <div>
+        <h4>İş kuyruğu ve Standard queue</h4>
+        <p>Asenkron crawl, zamanlanmış taramalar, node seviyesinde hata toleransı.</p>
+        <p class="why">
+          Standard queue Live'dan ~3,3 kat ucuz. Şu an bilerek Live kullanıyoruz
+          çünkü webhook bir dizüstüne ulaşamaz; sunucuya çıkınca bu sapma kapanır
+          ve birim maliyet üçte bire iner.
+        </p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-n">06</div>
+      <div>
+        <h4>Kimlik, kiracılık, kredi ve Stripe</h4>
+        <p>Kullanıcı, çalışma alanı, kredi defteri, ödeme.</p>
+        <p class="why">
+          En sona bırakılıyor çünkü şeması depolama katmanına oturuyor ve
+          gelirden önce doğrulanması gereken şey ürünün kendisi, faturalama değil.
+        </p>
+      </div>
+    </div>
+
+    <div class="caution">
+      <span class="label">Sıranın dışında, hemen</span>
+      <p style="margin-bottom:0">
+        <code>requirements.txt</code> doldurulmalı — <code>fastapi</code>,
+        <code>uvicorn</code>, <code>pydantic</code> kurulu ama yazılı değil. Şu an
+        proje temiz bir makinede kurulamıyor. Tek satırlık iş, ama kurulamayan bir
+        proje devredilemez de.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>Açık riskler</h2>
+    <div class="section-rule"></div>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32%">Risk</th>
+            <th style="width:14%">Ağırlık</th>
+            <th>Durum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Eşik doğrulanmamış</strong></td>
+            <td><span class="pill change">Yüksek</span></td>
+            <td>Ürünün merkezî iddiası ölçülmemiş bir sayıya dayanıyor. Bilinen bir yanlış pozitif var. Arayüz bunu "Provisional threshold" rozetiyle söylüyor — dürüst, ama çözüm değil.</td>
+          </tr>
+          <tr>
+            <td><strong>Eşanlam sorunu</strong></td>
+            <td><span class="pill change">Yüksek</span></td>
+            <td><code>60 year old</code> ↔ <code>senior</code> gibi anlam eşleşmelerini kelime örtüşmesi göremiyor. Sözlük mü embedding mi — adım 01 cevaplayacak.</td>
+          </tr>
+          <tr>
+            <td><strong>Sıfır test</strong></td>
+            <td><span class="pill change">Yüksek</span></td>
+            <td>Hesaplanmış bir metriği satan üründe hiç test yok. Adım 02.</td>
+          </tr>
+          <tr>
+            <td><strong>PAA gün içi kararlılığı</strong></td>
+            <td><span class="pill absent">Bilinmiyor</span></td>
+            <td>İki kararlılık ölçümü de arka arkaya yapıldı. Farklı saatlerde tekrarlanmadı.</td>
+          </tr>
+          <tr>
+            <td><strong>Google PAA'yı değiştirir</strong></td>
+            <td><span class="pill absent">Kontrol dışı</span></td>
+            <td>Zaten bir kez oldu: PAA cevapları AI Overview'a taşındı ve kaynak URL'leri kayboldu. Arşivlenen geçmiş, bu riske karşı elimizdeki tek sigorta.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    AnswerGap · mimari kararı · 27 Ağustos 2026<br>
+    Bu belgedeki her rakam bu tarihte diskteki dosyalardan ya da DataForSEO'nun
+    kendi bildirdiği maliyetlerden okundu; hiçbiri tahmin değil.<br>
+    Kaynak: <code>docs/mimari.html</code> — yeniden üretilebilir.
+  </footer>
+
+</div>

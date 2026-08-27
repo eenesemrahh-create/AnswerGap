@@ -1,0 +1,411 @@
+{
+  "seed": "teeth whitening",
+  "slug": "teeth-whitening-en-2840",
+  "language_code": "en",
+  "language_name": "English",
+  "location_code": 2840,
+  "node_count": 16,
+  "status_counts": {
+    "gap": 0,
+    "weak": 0,
+    "covered": 2,
+    "no_data": 14
+  },
+  "threshold": 0.6,
+  "strategy": "synonyms",
+  "threshold_validated": false,
+  "updated_at": "2026-08-26T23:20:07+00:00",
+  "source": "live",
+  "nodes": [
+    {
+      "id": "teeth whitening",
+      "slug": "teeth-whitening",
+      "question": "teeth whitening",
+      "depth": 0,
+      "parent_id": null,
+      "parents": [],
+      "repeat_count": 0,
+      "status": "covered",
+      "matching_pages": 7,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "Best Teeth Whitening Kits 2026: 9 Dentist-Approved Picks",
+          "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-teeth-whitening-kit/",
+          "domain": "www.forbes.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Teeth Whitening",
+          "url": "https://www.hopkinsmedicine.org/health/treatment-tests-and-therapies/teeth-whitening",
+          "domain": "www.hopkinsmedicine.org",
+          "overlap": 1.0
+        },
+        {
+          "title": "Teeth Whitening",
+          "url": "https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening",
+          "domain": "www.mouthhealthy.org",
+          "overlap": 1.0
+        },
+        {
+          "title": "Tooth Whitening: What We Now Know - PMC",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4058574/",
+          "domain": "pmc.ncbi.nlm.nih.gov",
+          "overlap": 0.5
+        },
+        {
+          "title": "Philips Zoom Teeth Whitening",
+          "url": "https://www.usa.philips.com/c-m-pe/teeth-whitening",
+          "domain": "www.usa.philips.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "10 Teeth Whitening Methods and What They Cost",
+          "url": "https://www.rejuv-health.com/cosmetic-dentistry/teeth-whitening-cost/",
+          "domain": "www.rejuv-health.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Teeth Whitening: Here's What You Need to Know",
+          "url": "https://www.youtube.com/watch?v=0hCocZ13l2Q",
+          "domain": "www.youtube.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Teeth whitening: Your guide to a brighter smile",
+          "url": "https://www.aspendental.com/dental-services/cosmetic-dentistry/teeth-whitening/",
+          "domain": "www.aspendental.com",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": "2026-08-26T23:20:07+00:00"
+    },
+    {
+      "id": "can yellow teeth actually be whitened",
+      "slug": "can-yellow-teeth-actually-be-whitened",
+      "question": "Can yellow teeth actually be whitened?",
+      "depth": 1,
+      "parent_id": "teeth whitening",
+      "parents": [
+        "teeth whitening"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "is it worth going to a dentist for teeth whitening",
+      "slug": "is-it-worth-going-to-a-dentist-for-teeth-whitening",
+      "question": "Is it worth going to a dentist for teeth whitening?",
+      "depth": 1,
+      "parent_id": "teeth whitening",
+      "parents": [
+        "teeth whitening",
+        "is tooth whitening painful"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "is there a downside to teeth whitening",
+      "slug": "is-there-a-downside-to-teeth-whitening",
+      "question": "Is there a downside to teeth whitening?",
+      "depth": 1,
+      "parent_id": "teeth whitening",
+      "parents": [
+        "teeth whitening"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "is tooth whitening painful",
+      "slug": "is-tooth-whitening-painful",
+      "question": "Is tooth whitening painful?",
+      "depth": 1,
+      "parent_id": "teeth whitening",
+      "parents": [
+        "teeth whitening"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the average teeth whitening cost",
+      "slug": "what-is-the-average-teeth-whitening-cost",
+      "question": "What is the average teeth whitening cost?",
+      "depth": 1,
+      "parent_id": "teeth whitening",
+      "parents": [
+        "teeth whitening",
+        "is it worth going to a dentist for teeth whitening"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the best method to whiten teeth",
+      "slug": "what-is-the-best-method-to-whiten-teeth",
+      "question": "What is the best method to whiten teeth?",
+      "depth": 1,
+      "parent_id": "teeth whitening",
+      "parents": [
+        "teeth whitening"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the difference between bleaching and whitening",
+      "slug": "what-is-the-difference-between-bleaching-and-whitening",
+      "question": "What is the difference between bleaching and whitening?",
+      "depth": 1,
+      "parent_id": "teeth whitening",
+      "parents": [
+        "teeth whitening",
+        "what is the average teeth whitening cost"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "can yellow teeth really be whitened",
+      "slug": "can-yellow-teeth-really-be-whitened",
+      "question": "Can yellow teeth really be whitened?",
+      "depth": 2,
+      "parent_id": "what is the difference between bleaching and whitening",
+      "parents": [
+        "what is the difference between bleaching and whitening"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "do teeth turn yellow again after whitening",
+      "slug": "do-teeth-turn-yellow-again-after-whitening",
+      "question": "Do teeth turn yellow again after whitening?",
+      "depth": 2,
+      "parent_id": "is tooth whitening painful",
+      "parents": [
+        "is tooth whitening painful"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "does insurance cover teeth whitening",
+      "slug": "does-insurance-cover-teeth-whitening",
+      "question": "Does insurance cover teeth whitening?",
+      "depth": 2,
+      "parent_id": "what is the average teeth whitening cost",
+      "parents": [
+        "what is the average teeth whitening cost"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "how do koreans whiten their teeth",
+      "slug": "how-do-koreans-whiten-their-teeth",
+      "question": "How do Koreans whiten their teeth?",
+      "depth": 2,
+      "parent_id": "what is the difference between bleaching and whitening",
+      "parents": [
+        "what is the difference between bleaching and whitening"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 7,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "My Honest Review of Teeth Whitening in Korea at Seoul ...",
+          "url": "https://www.reddit.com/r/KoreaSeoulBeauty/comments/1qksgps/my_honest_review_of_teeth_whitening_in_korea_at/",
+          "domain": "www.reddit.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Korean Teeth Whitening: Cost, Best Clinics, and Treatment ...",
+          "url": "https://us-uk.bookimed.com/article/korean-teeth-whitening/",
+          "domain": "us-uk.bookimed.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "I got the “PERFECT” teeth treatment in KOREA  *what you ...",
+          "url": "https://www.youtube.com/watch?v=qC1TyRJTsHg",
+          "domain": "www.youtube.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "K‑Beauty Teeth Whitening Hacks: Korean‑Style Smile Tips",
+          "url": "https://www.colgate.com/en-sg/oral-health/teeth-whitening/k-beauty-whitening-purple-toothpaste",
+          "domain": "www.colgate.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Teeth Whitening in Korea | English Speaking Dentists in ...",
+          "url": "https://www.minishteeth.com/teeth-whitening/",
+          "domain": "www.minishteeth.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Whitening",
+          "url": "https://oaksdentalkorea.com/whitening/",
+          "domain": "oaksdentalkorea.com",
+          "overlap": 0.333
+        },
+        {
+          "title": "Korean Teeth Whitening Routine: Dentist Reacts",
+          "url": "https://www.tiktok.com/@chelseadentalclinic/video/7469876333229722913?lang=en",
+          "domain": "www.tiktok.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Teeth whitening in Korea - which methods are the best?",
+          "url": "https://jivaka.kr/blogs/blog/teeth-whitening-in-korea-which-methods-are-the-best?srsltid=AfmBOoqUhztF9xlPhzldbHhUR6LL472rCdgmM9maQlhU7nG7PMapHsjY",
+          "domain": "jivaka.kr",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-how-do-koreans-whiten-their-teeth.json",
+      "updated_at": "2026-08-26T23:20:07+00:00"
+    },
+    {
+      "id": "how long will a teeth whitening last",
+      "slug": "how-long-will-a-teeth-whitening-last",
+      "question": "How long will a teeth whitening last?",
+      "depth": 2,
+      "parent_id": "is it worth going to a dentist for teeth whitening",
+      "parents": [
+        "is it worth going to a dentist for teeth whitening"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "how much will a dentist charge to whiten teeth",
+      "slug": "how-much-will-a-dentist-charge-to-whiten-teeth",
+      "question": "How much will a dentist charge to whiten teeth?",
+      "depth": 2,
+      "parent_id": "what is the average teeth whitening cost",
+      "parents": [
+        "what is the average teeth whitening cost"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the healthiest way to whiten my teeth",
+      "slug": "what-is-the-healthiest-way-to-whiten-my-teeth",
+      "question": "What is the healthiest way to whiten my teeth?",
+      "depth": 2,
+      "parent_id": "what is the difference between bleaching and whitening",
+      "parents": [
+        "what is the difference between bleaching and whitening"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "which teeth cannot be whitened",
+      "slug": "which-teeth-cannot-be-whitened",
+      "question": "Which teeth cannot be whitened?",
+      "depth": 2,
+      "parent_id": "is it worth going to a dentist for teeth whitening",
+      "parents": [
+        "is it worth going to a dentist for teeth whitening"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    }
+  ],
+  "billable_calls": 0,
+  "estimated_spend": 0.0,
+  "from_cache": true
+}

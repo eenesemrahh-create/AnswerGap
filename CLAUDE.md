@@ -43,12 +43,30 @@ do not propose it.
   same 15 questions by recursion would cost 4 requests ($0.008).
   **Click depth is ~13x cheaper than recursion.** Build the first two tree
   levels with this parameter, not by recursing.
+- **`seed_question` gives the real parent — one request is a TREE, not a list.**
+  Measured on `probe-A-click4.json`: with `click_depth=4` the 15 PAA elements
+  carry a `seed_question` field. Elements 0-3 have it `null` (Google's original
+  four); elements 4-14 name the question that was clicked to reveal them. So a
+  single request yields two genuine levels, parents included — no recursion.
+  **Wrinkle:** three of the four named parents were NOT among the original four,
+  because Google reflows the block as it expands. Add any unseen `seed_question`
+  as a level-1 node or its children are orphaned. See `answergap/live.py`.
 - **Do NOT use `load_async_ai_overview`.** $0.002 extra for nothing — the
   top-level `ai_overview` element already arrives with `references` populated
   (`asynchronous_ai_overview: false`). Phase 0 wasted money proving this.
+- **Read the cost from the response, never estimate it.** Each response carries
+  its own `cost`. Measured: a click-depth request reports **$0.0026** while
+  `LIVE_COST_PER_REQUEST` estimates $0.00198 — 31% low, because the flat
+  estimate does not carry the per-click surcharge. A plain scoring request is
+  **$0.0020**. `live._spend()` records the reported figure; a cache hit is $0
+  whatever the stored response once cost.
 - **Standard queue** (async + webhook) for product code. Priority is 2x and
   Live 3.3x, and our workflow is already asynchronous. Validation scripts use
   Live deliberately; see `answergap/dataforseo.py`.
+  **Current deviation:** `answergap/live.py` uses Live too. Standard means post,
+  poll `tasks_ready`, fetch — minutes, and a webhook cannot reach a laptop. That
+  is the wrong trade behind an interactive search box for a tenth of a cent.
+  Swapping it back is a one-module change and belongs in the move to a server.
 - Use `location_code`, never `location_name` (a spelling change breaks it).
 - `location_code` values are Google Geo Target IDs, so the same number works
   against the Ads API. Do not write a mapping table.
@@ -81,6 +99,16 @@ The cache unit is the **node, not the tree**. Cache at tree level and one stale
 node forces 70 calls to be repeated.
 
 Key: `paa:{location_code}:{language_code}:{normalized_question}`
+
+**This rule was broken on 2026-08-27 and it cost real data.** The SERP cache was
+keyed per node correctly, but the *built tree* was persisted as one JSON document
+under `data/live/trees/`. Re-running the same search rebuilt that document from
+the fresh PAA response and **destroyed a gap score that had already been paid
+for** — the counts fell from `covered: 2` to `covered: 1`. `live._carry_scores()`
+patches the symptom by carrying scored nodes across a re-crawl; the cause is
+storing the tree as a document at all, and that is what the storage migration
+fixes. A tree belongs in edge rows, where a re-crawl is an insert and cannot
+overwrite anything.
 
 Adaptive TTL:
 
@@ -221,7 +249,7 @@ defensible asset over time.
 
 # Current state — resume here
 
-Last worked: 2026-08-25. Working tree clean.
+Last worked: **2026-08-27**. Phase B (live crawl) shipped. Uncommitted.
 
 **First commit: `cdd581a`** — "Initial commit: validated prototype, US-first,
 five languages". 113 files. No remote configured yet; nothing has been pushed.
@@ -238,12 +266,19 @@ Two things stayed out of it on purpose:
 ## What exists and works
 
 - **Core** (`answergap/`) — language-aware normalization, matching, tree
-  building, DataForSEO client. Six modules, all English.
-- **API** (`api/main.py`) — FastAPI over the archived data. Endpoints:
-  `/api/meta`, `/api/trees`, `/api/tree/{slug}`,
-  `/api/tree/{slug}/question/{qslug}`, `/api/countries`, `/api/languages`.
+  building, DataForSEO client, live crawl. Seven modules, all English.
+- **API** (`api/main.py`) — FastAPI. Endpoints: `/api/meta`, `/api/trees`,
+  `/api/tree/{slug}`, `/api/tree/{slug}/question/{qslug}`, `/api/countries`,
+  `/api/languages`, plus **`POST /api/search`** and
+  **`POST /api/tree/{slug}/question/{qslug}/score`**.
+- **Live crawl** (`answergap/live.py`) — the search box works. One request with
+  `click_depth=4` returns a 16-node, two-level tree; gap scoring is a separate
+  per-question call. Live trees persist under `data/live/`, kept out of
+  `data/raw/` so the Phase 0 evidence is never rewritten. Live tree slugs are
+  market-qualified (`teeth-whitening-en-2840`) so they cannot shadow the demos.
 - **Interface** (`web/`) — Next.js 16, four screens: search/landing, question
-  tree (pan/zoom), gap table, question detail. Builds clean.
+  tree (pan/zoom), gap table, question detail. Builds clean. The search box is
+  wired; the detail panel offers "Check this question" on unscored live nodes.
 - **i18n** — English default plus de/es/fr/tr. `en.ts` defines the type; a
   missing key in any locale fails `npm run build`. Verified by deliberately
   adding a key and watching all four locales fail with TS2741.
@@ -259,6 +294,20 @@ Two things stayed out of it on purpose:
 Architecture walkthrough (diagrams, the evidence ledger, the known failure):
 https://claude.ai/code/artifact/8728066b-da07-4931-9b8e-241db01fafde
 
+**Architecture decision, 2026-08-27** — folder structure, the storage
+recommendation, what is done and what is next, in Turkish:
+`docs/mimari.html` (source, regenerate the PDF from it) and
+`docs/AnswerGap-Mimari.pdf` (10 pages).
+https://claude.ai/code/artifact/c5b1e0b3-55eb-4243-ab45-93f17054f990
+
+Regenerate the PDF after editing the HTML:
+
+```bash
+"/c/Program Files/Google/Chrome/Application/chrome.exe" --headless=new \
+  --disable-gpu --virtual-time-budget=25000 --no-pdf-header-footer \
+  --print-to-pdf="docs/AnswerGap-Mimari.pdf" "file:///<abs>/docs/mimari.html"
+```
+
 ## Restarting after a reboot
 
 ```bash
@@ -269,32 +318,81 @@ python -m uvicorn api.main:app --reload --port 8000
 cd web && npm run dev        # http://localhost:3000
 ```
 
-`fastapi` and `uvicorn` are already installed. `.env` already holds working
-DataForSEO credentials and is gitignored. `uvicorn.exe` is not on PATH — use
-`python -m uvicorn`. On Windows `pkill` does not stop it; kill by port instead.
+`fastapi` and `uvicorn` are already installed but **`requirements.txt` does not
+list them** — the project cannot be installed on a clean machine. `pydantic` is
+now used too. Fill this in; it is a one-line job.
+
+`.env` already holds working DataForSEO credentials and is gitignored.
+`uvicorn.exe` is not on PATH — use `python -m uvicorn`.
+
+**Windows/OneDrive operational notes, learned the hard way:**
+
+- `--reload` is unreliable under OneDrive: it detected the change, then the
+  worker never came back and the old code kept serving. Run without `--reload`
+  and restart manually after editing.
+- `pkill` does nothing. Kill by port — and kill **both** processes: the reloader
+  parent and its child. Killing only the parent leaves the child holding port
+  8000 and the next start dies with `[Errno 10048]`.
+
+```bash
+netstat -ano | grep ':8000' | grep LISTENING   # then taskkill //PID <pid> //F
+```
 
 ## Spend to date
 
-**~$0.107** total. Cache files under `data/raw/` mean re-running any script
-costs nothing — every script prints `Billable: 0` when the data is on disk.
-Always run `--dry-run` first; it prints the request plan and cost without
-touching the network.
+**~$0.118** total ($0.107 before Phase B, $0.0112 of live crawling on
+2026-08-27). Cache files mean re-running anything costs nothing — a repeated
+search returns in 20 ms and bills $0. Always run `--dry-run` first; the search
+endpoint accepts `"dry_run": true` and returns the request plan and its price
+without touching the network.
+
+Real measured prices: a `click_depth=4` crawl is **$0.0026**, a plain scoring
+request is **$0.0020**. Do not trust the flat estimate — read `cost` from the
+response.
 
 One unplanned charge: `phase05_collect.py` cost $0.030 when its sampling pool
 changed and re-fetched 15 questions. Check the dry run before running collect.
 
-## Next: Phase B — live crawl + in-UI feedback
+## Architecture verdict, 2026-08-27: do NOT rewrite
 
-Chosen before the interruption. Two parts, and they belong together:
+The question was asked and settled. Keep the current architecture.
 
-1. **Live crawl.** Wire the search box to DataForSEO. The country/language
-   picker is already built and remembers its selection; it just needs an
-   endpoint behind it. Standard queue (not Live), `click_depth=4` first, recurse
-   only for level 3+, node-level retry on transient errors.
-2. **Feedback in the interface.** A *"is this really a gap?"* thumbs up/down on
-   every scored question. This is what makes the unvalidated threshold solvable:
-   labelling becomes a by-product of use rather than a chore. Feed the collected
-   labels into `scripts/phase05_evaluate.py`.
+`answergap/` is 1,180 lines of pure, provider-agnostic domain logic with the
+measured findings baked into it. A rewrite returns the code and loses the
+knowledge. And what is missing is not *wrong*, it is *absent* — there is no bad
+schema to unpick, no wrong ORM, no tangled auth. A prototype with no persistence
+layer is the cheapest possible place to add the right one. The web layer talks
+to the API over a typed contract, so a storage change does not reach it; adding
+the live crawl today proved that in practice.
+
+Four things do have to change, in this order: **storage**, **tests**,
+**job runner**, **auth/tenancy/credits**.
+
+## Next, in dependency order
+
+1. **Label the 14 rows first — 20 minutes, $0.** The real question is not "what
+   should the threshold be" but **"is a dictionary enough, or are embeddings
+   required?"** 14 labels answer that, and the answer changes the schema: where
+   vectors live is a storage decision. Do not write the schema before knowing.
+2. **Tests.** `matching.py` and `tree.py` are pure functions and `data/raw/`
+   is a ready fixture set. Moving untested code is moving it blind.
+3. **Storage: Postgres + object storage.** Tables: `question`, `serp_snapshot`,
+   `paa_edge`, `gap_score`, `crawl`, `label`, then `workspace`/`user`/
+   `credit_ledger`. Raw SERP payloads go to a blob store (R2), gzipped, keyed by
+   the same cache key — 30 KB each, they belong in no query. **The tree is edge
+   rows, not a document** — that is the fix for the bug above, and it hands the
+   diff engine and the "historical PAA is our asset" claim over for free.
+   `gap_score` stores its own threshold and strategy, so a threshold change does
+   not turn old scores into lies. Keep the filesystem backend for local dev.
+   Do not add Redis yet.
+4. **Feedback in the interface.** A *"is this really a gap?"* thumbs up/down on
+   every scored question, writing to `label`. Labelling becomes a by-product of
+   use rather than a chore — this is what finally settles the threshold, with
+   thousands of labels instead of 14.
+5. **Job runner + Standard queue.** Scheduled crawls, async crawling, and the
+   ~3.3x unit-cost drop when the webhook deviation above can be closed.
+6. **Auth, tenancy, credits, Stripe.** Last, because its schema sits on the
+   storage layer and the thing to validate before revenue is the product.
 
 ## Immediately actionable, no new code needed
 

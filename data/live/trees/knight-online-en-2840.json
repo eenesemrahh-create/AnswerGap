@@ -1,0 +1,905 @@
+{
+  "seed": "knight online",
+  "slug": "knight-online-en-2840",
+  "language_code": "en",
+  "language_name": "English",
+  "location_code": 2840,
+  "node_count": 14,
+  "status_counts": {
+    "gap": 1,
+    "weak": 3,
+    "covered": 8,
+    "no_data": 2
+  },
+  "threshold": 0.6,
+  "strategy": "synonyms",
+  "threshold_validated": false,
+  "updated_at": "2026-08-27T14:55:18+00:00",
+  "source": "live",
+  "nodes": [
+    {
+      "id": "knight online",
+      "slug": "knight-online",
+      "question": "knight online",
+      "depth": 0,
+      "parent_id": null,
+      "parents": [],
+      "repeat_count": 0,
+      "status": "covered",
+      "matching_pages": 7,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "Knight Online",
+          "url": "https://www.nttgame.com/knight",
+          "domain": "www.nttgame.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knight Online on Steam",
+          "url": "https://store.steampowered.com/app/389430/Knight_Online/",
+          "domain": "store.steampowered.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Let's be real: Knight Online was the GOAT, but it deserves ...",
+          "url": "https://www.reddit.com/r/MMORPG/comments/1rmc5x9/lets_be_real_knight_online_was_the_goat_but_it/",
+          "domain": "www.reddit.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "NTTGame Portal – Free to Play Online Games Portal - Home",
+          "url": "https://www.nttgame.com/",
+          "domain": "www.nttgame.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://en.wikipedia.org/wiki/Knight_Online",
+          "domain": "en.wikipedia.org",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knight Online - Free to Play 3D MMORPG Game (Steam)",
+          "url": "https://www.nttgameonline.com/knight/en",
+          "domain": "www.nttgameonline.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://www.twitch.tv/directory/category/knight-online",
+          "domain": "www.twitch.tv",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://www.mmorpg.com/knight-online",
+          "domain": "www.mmorpg.com",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": "2026-08-26T23:36:54+00:00"
+    },
+    {
+      "id": "do people still play knight online",
+      "slug": "do-people-still-play-knight-online",
+      "question": "Do people still play Knight Online?",
+      "depth": 1,
+      "parent_id": "knight online",
+      "parents": [
+        "knight online"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 3,
+      "results_checked": 9,
+      "results": [
+        {
+          "title": "Is anyone still playing Knight Online? [2023] : r/MMORPG",
+          "url": "https://www.reddit.com/r/MMORPG/comments/16x1omk/is_anyone_still_playing_knight_online_2023/",
+          "domain": "www.reddit.com",
+          "overlap": 0.8
+        },
+        {
+          "title": "Old KNIGHT ONLINE is BACK after 20 YEARS!",
+          "url": "https://www.youtube.com/watch?v=5qKm0vTyPOo",
+          "domain": "www.youtube.com",
+          "overlap": 0.4
+        },
+        {
+          "title": "Knight Online in 2024 - Is It Worth It? #mmo #mmorpg #usko",
+          "url": "https://www.youtube.com/watch?v=bY29vq5HWVI",
+          "domain": "www.youtube.com",
+          "overlap": 0.4
+        },
+        {
+          "title": "Can someone share their thoughts on current state of KO? ...",
+          "url": "https://steamcommunity.com/app/389430/discussions/0/833873371400802552/",
+          "domain": "steamcommunity.com",
+          "overlap": 0.0
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://en.wikipedia.org/wiki/Knight_Online",
+          "domain": "en.wikipedia.org",
+          "overlap": 0.4
+        },
+        {
+          "title": "Knight Online - Free to Play 3D MMORPG Game (Steam)",
+          "url": "https://www.nttgameonline.com/knight/en",
+          "domain": "www.nttgameonline.com",
+          "overlap": 0.6
+        },
+        {
+          "title": "Knight Online Player Count - Steam Charts",
+          "url": "https://tracker.gg/population/steam/389430?from=2025-11-03T00:00:00.109Z&to=2025-11-10T00:00:00.109Z",
+          "domain": "tracker.gg",
+          "overlap": 0.6
+        },
+        {
+          "title": "Steam charts - Knight Online",
+          "url": "https://steamdb.info/app/389430/charts/",
+          "domain": "steamdb.info",
+          "overlap": 0.4
+        },
+        {
+          "title": "Knight Online on Steam",
+          "url": "https://store.steampowered.com/app/389430/Knight_Online/",
+          "domain": "store.steampowered.com",
+          "overlap": 0.4
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-do-people-still-play-knight-online.json",
+      "updated_at": "2026-08-27T12:00:14+00:00"
+    },
+    {
+      "id": "is knight online free to play",
+      "slug": "is-knight-online-free-to-play",
+      "question": "Is Knight Online free-to-play?",
+      "depth": 1,
+      "parent_id": "knight online",
+      "parents": [
+        "knight online"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 5,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "Knight Online - Free to Play 3D MMORPG Game (Steam)",
+          "url": "https://www.nttgameonline.com/knight/en",
+          "domain": "www.nttgameonline.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knights online is not free",
+          "url": "https://forums.mmorpg.com/discussion/117724/knights-online-is-not-free",
+          "domain": "forums.mmorpg.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "Knight Online on Steam",
+          "url": "https://store.steampowered.com/app/389430/Knight_Online/",
+          "domain": "store.steampowered.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://www.wtfast.com/en/games/knight-online/?srsltid=AfmBOorHmR7HP0RAqbj0uh1Ez1Wql5BsLBzviVRHD1Ldgs_unfOuo-H0",
+          "domain": "www.wtfast.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Spiral Knights, the first free to play game on Steam, is ...",
+          "url": "https://www.reddit.com/r/Games/comments/1j4e98/spiral_knights_the_first_free_to_play_game_on/",
+          "domain": "www.reddit.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://en.wikipedia.org/wiki/Knight_Online",
+          "domain": "en.wikipedia.org",
+          "overlap": 0.5
+        },
+        {
+          "title": "the game is a real free to play ? :: Knight Online EN",
+          "url": "https://steamcommunity.com/app/389430/discussions/0/412446292764935056/",
+          "domain": "steamcommunity.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "NTTGame Portal – Free to Play Online Games Portal - Home",
+          "url": "https://www.nttgame.com/",
+          "domain": "www.nttgame.com",
+          "overlap": 0.75
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-is-knight-online-free-to-play.json",
+      "updated_at": "2026-08-27T12:15:08+00:00"
+    },
+    {
+      "id": "is there a knight game available on pc",
+      "slug": "is-there-a-knight-game-available-on-pc",
+      "question": "Is there a knight game available on PC?",
+      "depth": 1,
+      "parent_id": "knight online",
+      "parents": [
+        "knight online",
+        "what are the system requirements for knight online"
+      ],
+      "repeat_count": 2,
+      "status": "gap",
+      "matching_pages": 0,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "Games where you are a knight? : r/gamingsuggestions",
+          "url": "https://www.reddit.com/r/gamingsuggestions/comments/18zfma5/games_where_you_are_a_knight/",
+          "domain": "www.reddit.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight's Path on Steam",
+          "url": "https://store.steampowered.com/app/2855590/Knights_Path/",
+          "domain": "store.steampowered.com",
+          "overlap": 0.25
+        },
+        {
+          "title": "Play Knighthood - RPG Knights on PC | Download Now",
+          "url": "https://play.google.com/pc-store/games/details?id=com.king.knightsrage",
+          "domain": "play.google.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "5 Must-Play Games Featuring Knights",
+          "url": "https://www.g2a.com/news/features/games-where-you-get-to-play-as-a-knight/",
+          "domain": "www.g2a.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight's Path - Gameplay & RPG Systems Breakdown",
+          "url": "https://www.youtube.com/watch?v=G3BAZeR3O9M",
+          "domain": "www.youtube.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Hollow Knight on Steam",
+          "url": "https://store.steampowered.com/app/367520/Hollow_Knight/",
+          "domain": "store.steampowered.com",
+          "overlap": 0.25
+        },
+        {
+          "title": "Knight's Path Is An Upcoming Medieval Action RPG For PC",
+          "url": "https://www.facebook.com/GamerlyHQ/posts/%EF%B8%8F-knights-path-is-an-upcoming-medieval-action-rpg-for-pc-that-focuses-on-realist/1429774111881824/",
+          "domain": "www.facebook.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Best medieval games 2026 - swords, knights, and more",
+          "url": "https://www.pcgamesn.com/best-medieval-games",
+          "domain": "www.pcgamesn.com",
+          "overlap": 0.5
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-is-there-a-knight-game-available-on-pc.json",
+      "updated_at": "2026-08-26T23:37:48+00:00"
+    },
+    {
+      "id": "what are the system requirements for knight online",
+      "slug": "what-are-the-system-requirements-for-knight-online",
+      "question": "What are the system requirements for Knight Online?",
+      "depth": 1,
+      "parent_id": "knight online",
+      "parents": [
+        "knight online",
+        "what is knight online"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is knight online",
+      "slug": "what-is-knight-online",
+      "question": "What is Knight Online?",
+      "depth": 1,
+      "parent_id": "knight online",
+      "parents": [
+        "knight online",
+        "is knight online free to play"
+      ],
+      "repeat_count": 2,
+      "status": "covered",
+      "matching_pages": 7,
+      "results_checked": 7,
+      "results": [
+        {
+          "title": "Let's be real: Knight Online was the GOAT, but it deserves ...",
+          "url": "https://www.reddit.com/r/MMORPG/comments/1rmc5x9/lets_be_real_knight_online_was_the_goat_but_it/",
+          "domain": "www.reddit.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knight Online on Steam",
+          "url": "https://store.steampowered.com/app/389430/Knight_Online/",
+          "domain": "store.steampowered.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://www.nttgame.com/knight",
+          "domain": "www.nttgame.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://en.wikipedia.org/wiki/Knight_Online",
+          "domain": "en.wikipedia.org",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knight Online - Free to Play 3D MMORPG Game (Steam)",
+          "url": "https://www.nttgameonline.com/knight/en",
+          "domain": "www.nttgameonline.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://www.nttgame.com/knight/en/guide/introduction",
+          "domain": "www.nttgame.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Why people are playing this game? :: Knight Online EN",
+          "url": "https://steamcommunity.com/app/389430/discussions/0/364039785164754796//1000?l=schinese&ctp=2",
+          "domain": "steamcommunity.com",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-what-is-knight-online.json",
+      "updated_at": "2026-08-27T12:15:56+00:00"
+    },
+    {
+      "id": "what is the story behind knight online",
+      "slug": "what-is-the-story-behind-knight-online",
+      "question": "What is the story behind Knight Online?",
+      "depth": 1,
+      "parent_id": "knight online",
+      "parents": [
+        "knight online"
+      ],
+      "repeat_count": 1,
+      "status": "weak",
+      "matching_pages": 1,
+      "results_checked": 9,
+      "results": [
+        {
+          "title": "The Story of Knight Online",
+          "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=608647518",
+          "domain": "steamcommunity.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "The History of Knight Online: A Complete Timeline",
+          "url": "https://nostalgic.gg/en/blog/knight-online-history-en",
+          "domain": "nostalgic.gg",
+          "overlap": 0.5
+        },
+        {
+          "title": "The History of Knight Online - Part 1",
+          "url": "https://www.youtube.com/watch?v=TlRhRFA626I",
+          "domain": "www.youtube.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://en.wikipedia.org/wiki/Knight_Online",
+          "domain": "en.wikipedia.org",
+          "overlap": 0.5
+        },
+        {
+          "title": "Let's be real: Knight Online was the GOAT, but it deserves ...",
+          "url": "https://www.reddit.com/r/MMORPG/comments/1rmc5x9/lets_be_real_knight_online_was_the_goat_but_it/",
+          "domain": "www.reddit.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight Online (Video Game 2002)",
+          "url": "https://www.imdb.com/title/tt23394966/",
+          "domain": "www.imdb.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight Online",
+          "url": "https://www.nttgame.com/knight/en/guide/introduction",
+          "domain": "www.nttgame.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "A Brief History of Knights",
+          "url": "https://www.english-heritage.org.uk/visit/inspire-me/brief-history-of-knights/",
+          "domain": "www.english-heritage.org.uk",
+          "overlap": 0.25
+        },
+        {
+          "title": "Knight Online on Steam",
+          "url": "https://store.steampowered.com/app/389430/Knight_Online/",
+          "domain": "store.steampowered.com",
+          "overlap": 0.5
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-what-is-the-story-behind-knight-online.json",
+      "updated_at": "2026-08-27T12:15:28+00:00"
+    },
+    {
+      "id": "when did knight online come out",
+      "slug": "when-did-knight-online-come-out",
+      "question": "When did Knight Online come out?",
+      "depth": 1,
+      "parent_id": "knight online",
+      "parents": [
+        "knight online"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "is there a free to play knight game available",
+      "slug": "is-there-a-free-to-play-knight-game-available",
+      "question": "Is there a free-to-play knight game available?",
+      "depth": 2,
+      "parent_id": "what is knight online",
+      "parents": [
+        "what is knight online"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 4,
+      "results_checked": 9,
+      "results": [
+        {
+          "title": "War the Knights 🕹️ Play on CrazyGames",
+          "url": "https://www.crazygames.com/game/war-the-knights",
+          "domain": "www.crazygames.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Spiral Knights, the first free to play game on Steam, is ...",
+          "url": "https://www.reddit.com/r/Games/comments/1j4e98/spiral_knights_the_first_free_to_play_game_on/",
+          "domain": "www.reddit.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "Knight Game - Path of Kings - Apps on Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.gameforge.xmobile.middleages&hl=en_US",
+          "domain": "play.google.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight Online - Free to Play 3D MMORPG Game (Steam)",
+          "url": "https://www.nttgameonline.com/knight/en",
+          "domain": "www.nttgameonline.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "Play Knight Games on LittleGames for free",
+          "url": "https://gameforge.com/en-US/littlegames/knight-games/",
+          "domain": "gameforge.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "Knight Squad FREE XBOX ONE LIVE GOLD Multiplayer ...",
+          "url": "https://www.youtube.com/watch?v=OxKar8qqNWA",
+          "domain": "www.youtube.com",
+          "overlap": 0.333
+        },
+        {
+          "title": "Knight's Tour chess puzzle [FREE][Android]",
+          "url": "https://discussions.unity.com/t/knights-tour-chess-puzzle-free-android/644132",
+          "domain": "discussions.unity.com",
+          "overlap": 0.333
+        },
+        {
+          "title": "️ Play Free Online Knight Games",
+          "url": "https://plays.org/knight-games/",
+          "domain": "plays.org",
+          "overlap": 0.667
+        },
+        {
+          "title": "Knight Online on Steam",
+          "url": "https://store.steampowered.com/app/389430/Knight_Online/",
+          "domain": "store.steampowered.com",
+          "overlap": 0.167
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-is-there-a-free-to-play-knight-game-available.json",
+      "updated_at": "2026-08-27T12:00:04+00:00"
+    },
+    {
+      "id": "what is the 1 pc game in the world",
+      "slug": "what-is-the-1-pc-game-in-the-world",
+      "question": "What is the #1 PC game in the world?",
+      "depth": 2,
+      "parent_id": "is there a knight game available on pc",
+      "parents": [
+        "is there a knight game available on pc"
+      ],
+      "repeat_count": 1,
+      "status": "weak",
+      "matching_pages": 1,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "Best PC Games - Top Selling Games for PC",
+          "url": "https://store.epicgames.com/collection/top-sellers",
+          "domain": "store.epicgames.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "PC Games Recommendation (1998-2025)",
+          "url": "https://www.imdb.com/list/ls094943782/",
+          "domain": "www.imdb.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "List of best-selling PC games",
+          "url": "https://en.wikipedia.org/wiki/List_of_best-selling_PC_games",
+          "domain": "en.wikipedia.org",
+          "overlap": 0.5
+        },
+        {
+          "title": "What do you think is the most played PC game ever? (In ...",
+          "url": "https://www.reddit.com/r/pcgaming/comments/vzaeec/what_do_you_think_is_the_most_played_pc_game_ever/",
+          "domain": "www.reddit.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Best Games on PC",
+          "url": "https://www.metacritic.com/browse/game/pc/",
+          "domain": "www.metacritic.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Which is the world's number one PC game?",
+          "url": "https://www.quora.com/Which-is-the-worlds-number-one-PC-game?no_redirect=1",
+          "domain": "www.quora.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Insights | Newzoo",
+          "url": "https://newzoo.com/articles/",
+          "domain": "newzoo.com",
+          "overlap": 0.0
+        },
+        {
+          "title": "Most Played",
+          "url": "https://store.steampowered.com/charts/mostplayed",
+          "domain": "store.steampowered.com",
+          "overlap": 0.0
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-what-is-the-1-pc-game-in-the-world.json",
+      "updated_at": "2026-08-27T11:59:02+00:00"
+    },
+    {
+      "id": "what is the best class in knight online",
+      "slug": "what-is-the-best-class-in-knight-online",
+      "question": "What is the best class in Knight Online?",
+      "depth": 2,
+      "parent_id": "is knight online free to play",
+      "parents": [
+        "is knight online free to play"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 5,
+      "results_checked": 9,
+      "results": [
+        {
+          "title": "Help chosing a class :: Knight Online EN",
+          "url": "https://steamcommunity.com/app/389430/discussions/0/412448792372537865/",
+          "domain": "steamcommunity.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "Knight Online Guide [For Beginners and Experts]",
+          "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=622021485",
+          "domain": "steamcommunity.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Best Knight classes for a complete newbie",
+          "url": "https://www.reddit.com/r/CompetitiveForHonor/comments/17xfi17/best_knight_classes_for_a_complete_newbie/",
+          "domain": "www.reddit.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "Best class for a „Knight“ character - Elder Scrolls Online forums",
+          "url": "https://forums.elderscrollsonline.com/en/discussion/658494/best-class-for-a-knight-character",
+          "domain": "forums.elderscrollsonline.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Best Classes in Knight Online: Which One Suits Your ...",
+          "url": "https://hyper3d.ai/blog/best-classes-in-knight-online-which-one-suits-your-playstyle",
+          "domain": "hyper3d.ai",
+          "overlap": 1.0
+        },
+        {
+          "title": "Which class is the best in EKO currently?",
+          "url": "https://www.facebook.com/groups/206545243037929/posts/1839224089770028/",
+          "domain": "www.facebook.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Whats the Best Class and type in PVP : KO Discussion",
+          "url": "https://www.taultunleashed.com/knight-online-discussions/whats-the-best-class-and-type-in-pvp-t40127.html",
+          "domain": "www.taultunleashed.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Warrior | Knight Online Wiki",
+          "url": "https://knight-online-world.fandom.com/wiki/Warrior",
+          "domain": "knight-online-world.fandom.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Whats the best PvE class?",
+          "url": "https://forums.mmorpg.com/discussion/31266/whats-the-best-pve-class",
+          "domain": "forums.mmorpg.com",
+          "overlap": 0.5
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-what-is-the-best-class-in-knight-online.json",
+      "updated_at": "2026-08-27T11:59:50+00:00"
+    },
+    {
+      "id": "what s the best knight game",
+      "slug": "what-s-the-best-knight-game",
+      "question": "What's the best knight game?",
+      "depth": 2,
+      "parent_id": "is there a knight game available on pc",
+      "parents": [
+        "is there a knight game available on pc"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 6,
+      "results_checked": 9,
+      "results": [
+        {
+          "title": "Game recommendations to play as a Knight.",
+          "url": "https://www.reddit.com/r/gaming/comments/1j1hmlm/game_recommendations_to_play_as_a_knight/",
+          "domain": "www.reddit.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "22 BEST Medieval SWORD Video Games (if you like Skyrim!)",
+          "url": "https://timothyrjeveland.com/best-medieval-video-games-like-skyrim/",
+          "domain": "timothyrjeveland.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "Best knights/ RPG open world games with lots of swords ...",
+          "url": "https://www.facebook.com/groups/1675594809369195/posts/3667944640134192/",
+          "domain": "www.facebook.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "16 Best Medieval Games You Need To Try in 2026: Old but ...",
+          "url": "https://www.eneba.com/hub/games/best-medieval-games/?srsltid=AfmBOooH27ejew72qBhXdGM2wpSbA-hSrHd-cjzX6n8ZboM3e2OkWTiZ",
+          "domain": "www.eneba.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "Best Medieval Knight RPG that isn't D&D?",
+          "url": "https://www.therpgsite.com/pen-paper-roleplaying-games-rpgs-discussion/best-medieval-knight-rpg-that-isn-t-dd/",
+          "domain": "www.therpgsite.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Top Medieval Games on Steam",
+          "url": "https://steam250.com/tag/medieval",
+          "domain": "steam250.com",
+          "overlap": 0.333
+        },
+        {
+          "title": "Top 20 Video Games Where You Play as a Knight",
+          "url": "https://earlygame.com/guides/gaming/top-20-video-games-where-you-play-as-a-knight",
+          "domain": "earlygame.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "What are your top 10 favorite medieval/fantasy video games?",
+          "url": "https://forum.kingdomcomerpg.com/t/what-are-your-top-10-favorite-medieval-fantasy-video-games/65134",
+          "domain": "forum.kingdomcomerpg.com",
+          "overlap": 0.333
+        },
+        {
+          "title": "Medieval",
+          "url": "https://store.steampowered.com/tags/en/Medieval/?snr=1_5_9__409",
+          "domain": "store.steampowered.com",
+          "overlap": 0.0
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-what-s-the-best-knight-game.json",
+      "updated_at": "2026-08-27T01:21:59+00:00"
+    },
+    {
+      "id": "which game is no 1 online",
+      "slug": "which-game-is-no-1-online",
+      "question": "Which game is No. 1 online?",
+      "depth": 2,
+      "parent_id": "what is knight online",
+      "parents": [
+        "what is knight online"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 5,
+      "results_checked": 9,
+      "results": [
+        {
+          "title": "Most Played",
+          "url": "https://store.steampowered.com/charts/mostplayed",
+          "domain": "store.steampowered.com",
+          "overlap": 0.0
+        },
+        {
+          "title": "[OC] Top 15 Online Games by Active Players (2024-2025)",
+          "url": "https://www.reddit.com/r/dataisbeautiful/comments/1oc1fvx/oc_top_15_online_games_by_active_players_20242025/",
+          "domain": "www.reddit.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Top 10 Most Played Mobile Games in the World 2026",
+          "url": "https://ngssolution.com/blogs/most-played-mobile-games-in-the-world/",
+          "domain": "ngssolution.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Insights | Newzoo",
+          "url": "https://newzoo.com/articles/",
+          "domain": "newzoo.com",
+          "overlap": 0.0
+        },
+        {
+          "title": "Most Played Games Right Now (2026 Stats) – Active Users ...",
+          "url": "https://www.demandsage.com/most-played-games-right-now/",
+          "domain": "www.demandsage.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "What are the best online games out there right now?",
+          "url": "https://www.quora.com/What-are-the-best-online-games-out-there-right-now",
+          "domain": "www.quora.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Top Five Online Games That No One Played",
+          "url": "https://www.youtube.com/watch?v=8lxo1kQ3oNk",
+          "domain": "www.youtube.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "What Are the 10 Most Popular Online Games in 2026?",
+          "url": "https://www.pogo.com/most-popular-online-games",
+          "domain": "www.pogo.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Today we're ranking the best online games, do you agree ...",
+          "url": "https://www.facebook.com/gamesradarplus/posts/today-were-ranking-the-best-online-games-do-you-agree-with-our-list/1180524070548006/",
+          "domain": "www.facebook.com",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2840-en-which-game-is-no-1-online.json",
+      "updated_at": "2026-08-27T12:15:18+00:00"
+    },
+    {
+      "id": "why did knights end",
+      "slug": "why-did-knights-end",
+      "question": "Why did knights end?",
+      "depth": 2,
+      "parent_id": "is there a knight game available on pc",
+      "parents": [
+        "is there a knight game available on pc"
+      ],
+      "repeat_count": 1,
+      "status": "weak",
+      "matching_pages": 1,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "From my 6 year old - why did knights go away?",
+          "url": "https://www.reddit.com/r/AskHistorians/comments/6iim5b/from_my_6_year_old_why_did_knights_go_away/",
+          "domain": "www.reddit.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight",
+          "url": "https://en.wikipedia.org/wiki/Knight",
+          "domain": "en.wikipedia.org",
+          "overlap": 0.5
+        },
+        {
+          "title": "When and Why Did Knights Exist? | Gloucestershire Archives",
+          "url": "https://www.gloucestershire.gov.uk/archives/learning-for-all/families/arise-sir-knight/when-and-why-did-knights-exist/",
+          "domain": "www.gloucestershire.gov.uk",
+          "overlap": 0.5
+        },
+        {
+          "title": "Since when did medieval knight culture begin to end, and ...",
+          "url": "https://www.quora.com/Since-when-did-medieval-knight-culture-begin-to-end-and-what-is-the-cause",
+          "domain": "www.quora.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "A Brief History of Knights",
+          "url": "https://www.english-heritage.org.uk/visit/inspire-me/brief-history-of-knights/",
+          "domain": "www.english-heritage.org.uk",
+          "overlap": 0.5
+        },
+        {
+          "title": "Knight | History, Orders, & Facts",
+          "url": "https://www.britannica.com/topic/knight-cavalryman",
+          "domain": "www.britannica.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "The day the age of knights died forever... On October 25, 1415 ...",
+          "url": "https://www.instagram.com/reel/DT81xHYiqVH/?hl=en",
+          "domain": "www.instagram.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "When did Knights Go Out of Style? | History Forum",
+          "url": "https://historum.com/t/when-did-knights-go-out-of-style.92605/",
+          "domain": "historum.com",
+          "overlap": 0.5
+        }
+      ],
+      "ai_sources": [
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com"
+      ],
+      "source_file": "data/live/serp/paa-2840-en-why-did-knights-end.json",
+      "updated_at": "2026-08-27T14:55:18+00:00"
+    }
+  ],
+  "billable_calls": 1,
+  "estimated_spend": 0.002,
+  "from_cache": false
+}

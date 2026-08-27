@@ -25,10 +25,10 @@ export const en = {
       "page actually targets.",
     searchPlaceholder: "Enter a keyword — e.g. teeth whitening",
     searchButton: "Analyze",
-    searchDisabledHint: "Live crawling is not connected yet",
-    liveNotice:
-      "Live crawling is <b>not connected yet</b> — the analyses below were built " +
-      "from real Google data.",
+    searchDisabledHint: "No DataForSEO credentials found - copy .env.example to .env and fill it in.",
+    searching: "Searching…",
+    searchingHint: "Asking Google once, with the “People also ask” block expanded. This takes 30-60 seconds.",
+    liveNotice: "A search runs <b>one live request</b> and returns the question tree. Gap scoring is <b>per question</b> and is started from the question itself.",
     savedAnalyses: "Saved analyses",
     questionCount: "{count} questions",
     country: "Country",
@@ -91,10 +91,11 @@ export const en = {
     checked: "Results checked",
     volume: "Search volume",
     resultsHeading: "Search results · overlap ≥ {threshold} counts as a match",
-    noResults:
-      "Search results were <b>never fetched</b> for this question, so we do not " +
-      "know whether it is a gap. That is why it is drawn with a dashed outline. " +
-      "It will be scored once live crawling is connected.",
+    noResults: "Search results were <b>never fetched</b> for this question, so whether it is a gap is unknown - that is why it is drawn with a dashed outline. This is an archived analysis; run a live search for the same seed to score it.",
+    notScoredYet: "This question has <b>not been scored yet</b>. Checking it costs one search request, so it never happens automatically — and until it does, whether it is a gap is unknown.",
+    scoreButton: "Check this question",
+    scoring: "Checking…",
+    scoreCost: "One SERP request. A question already fetched costs nothing.",
     untitled: "(no title)",
     aiHeading: "Google AI Overview sources",
     aiNote:
@@ -109,6 +110,9 @@ export const en = {
   notice: {
     archiveData: "Archive data",
     archiveDataDetail: "not live",
+    liveData: "Live crawl",
+    liveDataDetail: "a snapshot, not live",
+    liveDataNote: "Fetched once, at the time shown. Google’s results move; run the search again to refresh.",
     provisionalThreshold: "Provisional threshold",
     thresholdNote:
       "The gap threshold has not been validated against labelled data. Results " +
@@ -120,6 +124,10 @@ export const en = {
   error: {
     unreachable: "Could not reach the API ({url}). Is the backend running?",
     http: "{status} {statusText} — {path}",
+    noCredentials: "DataForSEO credentials are missing. Copy .env.example to .env, fill it in, then restart the backend.",
+    budget: "The request ceiling was reached, so the crawl stopped rather than spend more.",
+    upstream: "DataForSEO could not be reached, or returned an error. A failed request is not charged.",
+    badRequest: "That request cannot be run as asked.",
     backToAnalyses: "Back to analyses",
     startBackend: "To start the backend, from the project root:",
     loading: "Loading…",

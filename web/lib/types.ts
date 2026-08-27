@@ -48,10 +48,36 @@ export interface TreeSummary {
   strategy: string;
   threshold_validated: boolean;
   updated_at: string | null;
+  /** "live" for a crawl the user ran; absent for the Phase 0 archive. */
+  source?: string;
 }
 
 export interface Tree extends TreeSummary {
   nodes: Node[];
+  /** Requests actually billed by the call that produced this tree. */
+  billable_calls?: number;
+  estimated_spend?: number;
+  /** True when the crawl was served from cache and cost nothing. */
+  from_cache?: boolean;
+}
+
+/** `POST /api/search` with `dry_run: true` — the plan and its price, no data. */
+export interface DryRun {
+  dry_run: true;
+  planned: string[];
+  estimated_spend: number;
+}
+
+export type SearchResult = Tree | DryRun;
+
+export function isDryRun(result: SearchResult): result is DryRun {
+  return (result as DryRun).dry_run === true;
+}
+
+/** `POST /api/tree/{slug}/question/{slug}/score`. */
+export interface ScoreResult {
+  node: Node;
+  status_counts: Record<Status, number>;
 }
 
 export interface Meta {

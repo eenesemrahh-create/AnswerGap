@@ -1,0 +1,476 @@
+{
+  "seed": "bilgisayar mühendisi",
+  "slug": "bilgisayar-muhendisi-tr-2792",
+  "language_code": "tr",
+  "language_name": "Türkçe",
+  "location_code": 2792,
+  "node_count": 16,
+  "status_counts": {
+    "gap": 0,
+    "weak": 0,
+    "covered": 3,
+    "no_data": 13
+  },
+  "threshold": 0.6,
+  "strategy": "synonyms",
+  "threshold_validated": false,
+  "updated_at": "2026-08-27T12:00:35+00:00",
+  "source": "live",
+  "nodes": [
+    {
+      "id": "bilgisayar mühendisi",
+      "slug": "bilgisayar-muhendisi",
+      "question": "bilgisayar mühendisi",
+      "depth": 0,
+      "parent_id": null,
+      "parents": [],
+      "repeat_count": 0,
+      "status": "covered",
+      "matching_pages": 8,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "bilgisayar mühendisliği",
+          "url": "https://eksisozluk.com/bilgisayar-muhendisligi--32448",
+          "domain": "eksisozluk.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Bilgisayar Mühendisliği Bölümü Nedir? Mezunları Ne İş ...",
+          "url": "https://www.kariyer.net/bolumler/bilgisayar+muhendisligi/nedir",
+          "domain": "www.kariyer.net",
+          "overlap": 1.0
+        },
+        {
+          "title": "Bilgisayar mühendisliği",
+          "url": "https://tr.wikipedia.org/wiki/Bilgisayar_m%C3%BChendisli%C4%9Fi",
+          "domain": "tr.wikipedia.org",
+          "overlap": 1.0
+        },
+        {
+          "title": "Bilgisayar Mühendisliği (İngilizce)",
+          "url": "https://www.beykoz.edu.tr/icerik/812-bilgisayar-muhendisligi",
+          "domain": "www.beykoz.edu.tr",
+          "overlap": 1.0
+        },
+        {
+          "title": "BİLGİSAYAR MÜHENDİSLİĞİ OKUMAK HAKKINDA HER ŞEY",
+          "url": "https://www.youtube.com/watch?v=0ayF9DJk2wU",
+          "domain": "www.youtube.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "bilgisayar mühendisliğine ilişkin sıkça sorulan sorular",
+          "url": "https://user.ceng.metu.edu.tr/~ucoluk/bm.html",
+          "domain": "user.ceng.metu.edu.tr",
+          "overlap": 1.0
+        },
+        {
+          "title": "Türkiye konumunda 1.000+ Bilgisayar Mühendisliği iş ilanı",
+          "url": "https://tr.linkedin.com/jobs/bilgisayar-m%C3%BChendisli%C4%9Fi-jobs",
+          "domain": "tr.linkedin.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Bilgisayar Mühendisi Ne İş Yapar? | Kimler için Uygun",
+          "url": "https://coderspace.io/blog/bilgisayar-muhendisi-ne-is-yapar-kimler-icin-uygun/",
+          "domain": "coderspace.io",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [
+        "google.com",
+        "google.com",
+        "google.com"
+      ],
+      "source_file": null,
+      "updated_at": "2026-08-27T11:45:31+00:00"
+    },
+    {
+      "id": "1 yılda kaç bilgisayar mühendisi mezun oluyor",
+      "slug": "1-yilda-kac-bilgisayar-muhendisi-mezun-oluyor",
+      "question": "1 yılda kaç bilgisayar mühendisi mezun oluyor?",
+      "depth": 1,
+      "parent_id": "bilgisayar mühendisi",
+      "parents": [
+        "bilgisayar mühendisi"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "bilgisayar müh okumak zor mu",
+      "slug": "bilgisayar-muh-okumak-zor-mu",
+      "question": "Bilgisayar müh okumak zor mu?",
+      "depth": 1,
+      "parent_id": "bilgisayar mühendisi",
+      "parents": [
+        "bilgisayar mühendisi"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "bilgisayar mühendislerinin işsizlik oranı nedir",
+      "slug": "bilgisayar-muhendislerinin-issizlik-orani-nedir",
+      "question": "Bilgisayar mühendislerinin işsizlik oranı nedir?",
+      "depth": 1,
+      "parent_id": "bilgisayar mühendisi",
+      "parents": [
+        "bilgisayar mühendisi",
+        "yeni mezun bilgisayar mühendisi nasıl iş bulur"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "bir bilgisayar mühendisi ne kadar maaş alıyor",
+      "slug": "bir-bilgisayar-muhendisi-ne-kadar-maas-aliyor",
+      "question": "Bir bilgisayar mühendisi ne kadar maaş alıyor?",
+      "depth": 1,
+      "parent_id": "bilgisayar mühendisi",
+      "parents": [
+        "bilgisayar mühendisi"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "bir bilgisayar mühendisi ne yapar",
+      "slug": "bir-bilgisayar-muhendisi-ne-yapar",
+      "question": "Bir bilgisayar mühendisi ne yapar?",
+      "depth": 1,
+      "parent_id": "bilgisayar mühendisi",
+      "parents": [
+        "bilgisayar mühendisi"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "türkiye de kaç tane bilgisayar mühendisi var",
+      "slug": "turkiye-de-kac-tane-bilgisayar-muhendisi-var",
+      "question": "Türkiye'de kaç tane bilgisayar mühendisi var?",
+      "depth": 1,
+      "parent_id": "bilgisayar mühendisi",
+      "parents": [
+        "bilgisayar mühendisi",
+        "1 yılda kaç bilgisayar mühendisi mezun oluyor"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "yeni mezun bilgisayar mühendisi nasıl iş bulur",
+      "slug": "yeni-mezun-bilgisayar-muhendisi-nasil-is-bulur",
+      "question": "Yeni mezun bilgisayar mühendisi nasıl iş bulur?",
+      "depth": 1,
+      "parent_id": "bilgisayar mühendisi",
+      "parents": [
+        "bilgisayar mühendisi",
+        "türkiye de kaç tane bilgisayar mühendisi var"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "bilgisayar müh önü açık mı",
+      "slug": "bilgisayar-muh-onu-acik-mi",
+      "question": "Bilgisayar müh önü açık mı?",
+      "depth": 2,
+      "parent_id": "1 yılda kaç bilgisayar mühendisi mezun oluyor",
+      "parents": [
+        "1 yılda kaç bilgisayar mühendisi mezun oluyor"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "bilgisayar mühendisi kaç binle alıyor",
+      "slug": "bilgisayar-muhendisi-kac-binle-aliyor",
+      "question": "Bilgisayar mühendisi kaç binle alıyor?",
+      "depth": 2,
+      "parent_id": "türkiye de kaç tane bilgisayar mühendisi var",
+      "parents": [
+        "türkiye de kaç tane bilgisayar mühendisi var"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "bilgisayar mühendisi kendi işini nasıl kurar",
+      "slug": "bilgisayar-muhendisi-kendi-isini-nasil-kurar",
+      "question": "Bilgisayar mühendisi kendi işini nasıl kurar?",
+      "depth": 2,
+      "parent_id": "yeni mezun bilgisayar mühendisi nasıl iş bulur",
+      "parents": [
+        "yeni mezun bilgisayar mühendisi nasıl iş bulur"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "bilgisayar mühendisliği ataması var mı",
+      "slug": "bilgisayar-muhendisligi-atamasi-var-mi",
+      "question": "Bilgisayar mühendisliği ataması var mı?",
+      "depth": 2,
+      "parent_id": "bilgisayar mühendislerinin işsizlik oranı nedir",
+      "parents": [
+        "bilgisayar mühendislerinin işsizlik oranı nedir"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 8,
+      "results_checked": 9,
+      "results": [
+        {
+          "title": "Bilgisayar Mühendisliği ve KPSS : r/CodingTR",
+          "url": "https://www.reddit.com/r/CodingTR/comments/1rjk5qv/bilgisayar_m%C3%BChendisli%C4%9Fi_ve_kpss/",
+          "domain": "www.reddit.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "Bilgisayar Mühendisliği Atama Puanları",
+          "url": "https://www.eleman.net/kpss-kilavuzu/bilgisayar-muhendisligi/atama-puanlari",
+          "domain": "www.eleman.net",
+          "overlap": 1.0
+        },
+        {
+          "title": "MÜHENDİS (BİLGİSAYAR) KPSS Atama Taban Puanları",
+          "url": "https://tercihlerin.com/kpss/muhendis-bilgisayar",
+          "domain": "tercihlerin.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Bilgisayar mühendisi kpss ye girse atansa ne iş yapar ...",
+          "url": "https://www.kizlarsoruyor.com/egitim-kariyer/q24830819-bilgisayar-muhendisi-kpss-ye-girse-atansa-ne-is-yapar-ozele-gore",
+          "domain": "www.kizlarsoruyor.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "KPSS 2024/5 Lisans Bilgisayar Mühendisi Atama Taban ...",
+          "url": "https://www.basarisiralamalari.com/kpss-2024-5-lisans-bilgisayar-muhendisi-atama-taban-puanlari/",
+          "domain": "www.basarisiralamalari.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜM ANALİZİ - ATAMA ...",
+          "url": "https://www.youtube.com/watch?v=NTUZ8Ai9keE",
+          "domain": "www.youtube.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Bilgisayar Mühendisi Hangi KPSS'ye girmeli?",
+          "url": "https://forum.memurlar.net/konu/2577566/bilgisayar-muhendisi-hangi-kpss-ye-girmeli.html",
+          "domain": "forum.memurlar.net",
+          "overlap": 0.667
+        },
+        {
+          "title": "Kamuda bilgisayar mühendisliği : r/CodingTR",
+          "url": "https://www.reddit.com/r/CodingTR/comments/18zh94d/kamuda_bilgisayar_m%C3%BChendisli%C4%9Fi/",
+          "domain": "www.reddit.com",
+          "overlap": 0.667
+        },
+        {
+          "title": "Sözleşmeli 50 Mühendis Alım İlanı - Personel Genel Müdürlüğü",
+          "url": "https://pgm.adalet.gov.tr/Home/SayfaDetay/muhendis-alimi-aralik-201924122019101723",
+          "domain": "pgm.adalet.gov.tr",
+          "overlap": 0.333
+        }
+      ],
+      "ai_sources": [
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com"
+      ],
+      "source_file": "data/live/serp/paa-2792-tr-bilgisayar-muhendisligi-atamasi-var-mi.json",
+      "updated_at": "2026-08-27T11:58:39+00:00"
+    },
+    {
+      "id": "bilgisayar mühendisliği iyi bir meslek mi",
+      "slug": "bilgisayar-muhendisligi-iyi-bir-meslek-mi",
+      "question": "Bilgisayar mühendisliği iyi bir meslek mi?",
+      "depth": 2,
+      "parent_id": "türkiye de kaç tane bilgisayar mühendisi var",
+      "parents": [
+        "türkiye de kaç tane bilgisayar mühendisi var"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "en çok hangi mühendis işsiz",
+      "slug": "en-cok-hangi-muhendis-issiz",
+      "question": "En çok hangi mühendis işsiz?",
+      "depth": 2,
+      "parent_id": "bilgisayar mühendislerinin işsizlik oranı nedir",
+      "parents": [
+        "bilgisayar mühendislerinin işsizlik oranı nedir"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "hangi bölümü okursam işsiz kalmam",
+      "slug": "hangi-bolumu-okursam-issiz-kalmam",
+      "question": "Hangi bölümü okursam işsiz kalmam?",
+      "depth": 2,
+      "parent_id": "bilgisayar mühendislerinin işsizlik oranı nedir",
+      "parents": [
+        "bilgisayar mühendislerinin işsizlik oranı nedir"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 4,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "İşsiz kalmamak için Üniversitede hangi bölümleri okumak ...",
+          "url": "https://www.kizlarsoruyor.com/egitim-kariyer/q383623-ibiz-kalmamak-icin-universitede-hangi-bolumleri",
+          "domain": "www.kizlarsoruyor.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "İŞSİZ KALMA GARANTİLİ BÖLÜMLER",
+          "url": "https://forum.donanimhaber.com/issiz-kalma-garantili-bolumler--108071826",
+          "domain": "forum.donanimhaber.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "“İşletme okursam işsiz kalır mıyım?” Bu soruyu bugün birçok ...",
+          "url": "https://www.instagram.com/reel/DY2zlv5zrUR/",
+          "domain": "www.instagram.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Okursan işsiz kalmazsın diyebileceğiniz bölüm var mı?",
+          "url": "https://www.kizlarsoruyor.com/egitim-kariyer/q12434679-okursan-issiz-kalmazsin-diyebileceginiz-bolum-var-mi",
+          "domain": "www.kizlarsoruyor.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Türkiye'de İşsiz Kalmayacak Meslekler ve Geleceğe ...",
+          "url": "https://www.yenibiris.com/blog/turkiyede-issiz-kalmayacak-meslekler-ve-gelecege-hazirlik-rehberi/",
+          "domain": "www.yenibiris.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "işsiz kalmak istemeyen üniversitelilere öneriler",
+          "url": "https://eksisozluk.com/issiz-kalmak-istemeyen-universitelilere-oneriler--3402563",
+          "domain": "eksisozluk.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "İşsiz bırakmayan bölümler - En Son Haberler",
+          "url": "https://www.milliyet.com.tr/egitim/issiz-birakmayan-bolumler-7415885",
+          "domain": "www.milliyet.com.tr",
+          "overlap": 0.5
+        },
+        {
+          "title": "Hangi bölümü okursam işsiz kalmam?",
+          "url": "https://www.kizlarsoruyor.com/kizlar-bir-adim-one/q26207178-hangi-bolumu-okursam-issiz-kalmam",
+          "domain": "www.kizlarsoruyor.com",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2792-tr-hangi-bolumu-okursam-issiz-kalmam.json",
+      "updated_at": "2026-08-27T12:00:35+00:00"
+    },
+    {
+      "id": "yazılımda iş bulmak zor mu",
+      "slug": "yazilimda-is-bulmak-zor-mu",
+      "question": "Yazılımda iş bulmak zor mu?",
+      "depth": 2,
+      "parent_id": "yeni mezun bilgisayar mühendisi nasıl iş bulur",
+      "parents": [
+        "yeni mezun bilgisayar mühendisi nasıl iş bulur"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    }
+  ],
+  "billable_calls": 1,
+  "estimated_spend": 0.002,
+  "from_cache": false
+}

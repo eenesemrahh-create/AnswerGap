@@ -1,0 +1,657 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "2.4222 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08271158-2374-0139-0000-30676391031d",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "1.9696 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "Bilgisayar mühendisliği ataması var mı?",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "Bilgisayar mühendisliği ataması var mı?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=Bilgisayar%20m%C3%BChendisli%C4%9Fi%20atamas%C4%B1%20var%20m%C4%B1%3F&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-27 11:58:38 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "related_searches"
+          ],
+          "se_results_count": 113,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Evet, bilgisayar mühendisliği mezunlarının KPSS ile kamuya mühendis kadrosundan **ataması vardır**.[](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0) [[1]](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0)[[2]](https://google.com/goto?url=CAEShAEB6zswFYibM_2qYT6TpLWOLrDe_dQBdfY_lW-GwxD6dXX1PE69P745AheKp6hXIUSUDl8oFtVSorp3YiWusZRt7xCobYGhEhf1odIPlVxdEncBjOy64flhfEJkFdcZG1LhyE2TDlaz2vWzZnlzC-wJjc3w5jKmTZUAnNj-P5Ko91EtGXI)\n\nKamuda Bilgisayar Mühendisliği Atamaları Nasıl Olur?\n\n- **Merkezi Atamalar (KPSS B):** ÖSYM tarafından yayımlanan merkezi yerleştirme kılavuzlarıyla kamu kurumlarına doğrudan \"Mühendis\" unvanıyla atanabilirsiniz.[](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0) [[1]](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0)[[2]](https://google.com/goto?url=CAESmgEB6zswFYfWFKLhZhuaMepjfcIeLYEAjneiqOqBes3lTSnvWn_BsvHGEcJHWZ2dhWaxh5nRBqRTMudiyJnMpsoR2jxOQZevWD2z4WKu_IWX4XY2555eTFOilaGINBY7JFpCGGmpc0uBw0r2t1h0qYGQWplcUgaNakXPad6INBLnZY69ynudWziRJG3bqFGmzFxKwU57SuiIILia)\n- **Kurum Alımları ve Sözleşmeli Personel:** Bakanlıklar ve kamu iktisadi teşebbüsleri (KİT) kendi yayımladıkları ilanlarla sözleşmeli bilişim personeli veya mühendis alımı yapar. Bazı özel pozisyonlar mülakat veya ek şartlar (yabancı dil, sertifika) isteyebilir.[](https://google.com/goto?url=CAESdQHrOzAV0Ucf-NuQV8-1PKIO5itZfbH_QXM0dUYxL3EEYYrFh7lnfjgY6I7Z0s1AvJ_aGfVC8mUU4Ybweb5egGLfYAxlMZNXYdlX8NjCq59ez9WbUM4DN_dTlUlODc5DHoE8Tjl04HlMCUpCg_NGGlo7NdY1yQ) [[1]](https://google.com/goto?url=CAESdQHrOzAV0Ucf-NuQV8-1PKIO5itZfbH_QXM0dUYxL3EEYYrFh7lnfjgY6I7Z0s1AvJ_aGfVC8mUU4Ybweb5egGLfYAxlMZNXYdlX8NjCq59ez9WbUM4DN_dTlUlODc5DHoE8Tjl04HlMCUpCg_NGGlo7NdY1yQ)[[2]](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0)[[3]](https://google.com/goto?url=CAESmgEB6zswFYfWFKLhZhuaMepjfcIeLYEAjneiqOqBes3lTSnvWn_BsvHGEcJHWZ2dhWaxh5nRBqRTMudiyJnMpsoR2jxOQZevWD2z4WKu_IWX4XY2555eTFOilaGINBY7JFpCGGmpc0uBw0r2t1h0qYGQWplcUgaNakXPad6INBLnZY69ynudWziRJG3bqFGmzFxKwU57SuiIILia)\n- **Atama Puanları:** Her dönemin kontenjanına ve başvuru sayısına göre taban puanlar değişiklik gösterir; genellikle yüksek kapatır.[[1]](https://google.com/goto?url=CAEShAEB6zswFYibM_2qYT6TpLWOLrDe_dQBdfY_lW-GwxD6dXX1PE69P745AheKp6hXIUSUDl8oFtVSorp3YiWusZRt7xCobYGhEhf1odIPlVxdEncBjOy64flhfEJkFdcZG1LhyE2TDlaz2vWzZnlzC-wJjc3w5jKmTZUAnNj-P5Ko91EtGXI)[[2]](https://google.com/goto?url=CAESUwHrOzAVYYiIvV6YLHF0dxxzB891vZeXs0SLO1-3DqINT7jfhJDcdbO2nhoYTEDIqARSGFRqtr7QZLrktpRMXqR9z2ViKxKMOLeSn-wqi2E1QTo4)\n\nGüncel **KPSS dönemi** veya **hedeflediğiniz taban puan** hakkında bilgi istiyor musunuz? Size bu konuda rehberlik edebilirim.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Evet, bilgisayar mühendisliği mezunlarının KPSS ile kamuya mühendis kadrosundan ataması vardır.",
+                  "markdown": "Evet, bilgisayar mühendisliği mezunlarının KPSS ile kamuya mühendis kadrosundan **ataması vardır**.[](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0) [[1]](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0)[[2]](https://google.com/goto?url=CAEShAEB6zswFYibM_2qYT6TpLWOLrDe_dQBdfY_lW-GwxD6dXX1PE69P745AheKp6hXIUSUDl8oFtVSorp3YiWusZRt7xCobYGhEhf1odIPlVxdEncBjOy64flhfEJkFdcZG1LhyE2TDlaz2vWzZnlzC-wJjc3w5jKmTZUAnNj-P5Ko91EtGXI)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Reddit",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0",
+                      "title": "Kamuda bilgisayar mühendisliği : r/CodingTR - Reddit",
+                      "text": "Kamuda bilgisayar mühendisliği. Ne yazık ki bu paylaşım sahibi tarafından silindi. ... Yorum Bölümü ... Kamuda bilgisayar mühendis..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "DonanımHaber Forum",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAEShAEB6zswFYibM_2qYT6TpLWOLrDe_dQBdfY_lW-GwxD6dXX1PE69P745AheKp6hXIUSUDl8oFtVSorp3YiWusZRt7xCobYGhEhf1odIPlVxdEncBjOy64flhfEJkFdcZG1LhyE2TDlaz2vWzZnlzC-wJjc3w5jKmTZUAnNj-P5Ko91EtGXI",
+                      "title": "Bilgisayar Mühendisliği okuyup KPSS ile yerleşen var mı?",
+                      "text": "Bilgisayar Mühendisliği KPSS ile Devlete Ataması Var Mı? Evet, Bilgisayar Mühendisliği bölümü mezunları, KPSS puanları ile devlett..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Kamuda Bilgisayar Mühendisliği Atamaları Nasıl Olur?",
+                  "text": "Merkezi Atamalar (KPSS B): ÖSYM tarafından yayımlanan merkezi yerleştirme kılavuzlarıyla kamu kurumlarına doğrudan \"Mühendis\" unvanıyla atanabilirsiniz. Kurum Alımları ve Sözleşmeli Personel: Bakanlıklar ve kamu iktisadi teşebbüsleri (KİT) kendi yayımladıkları ilanlarla sözleşmeli bilişim personeli veya mühendis alımı yapar. Bazı özel pozisyonlar mülakat veya ek şartlar (yabancı dil, sertifika) isteyebilir. Atama Puanları: Her dönemin kontenjanına ve başvuru sayısına göre taban puanlar değişiklik gösterir; genellikle yüksek kapatır.",
+                  "markdown": "- **Merkezi Atamalar (KPSS B):** ÖSYM tarafından yayımlanan merkezi yerleştirme kılavuzlarıyla kamu kurumlarına doğrudan \"Mühendis\" unvanıyla atanabilirsiniz.[](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0) [[1]](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0)[[2]](https://google.com/goto?url=CAESmgEB6zswFYfWFKLhZhuaMepjfcIeLYEAjneiqOqBes3lTSnvWn_BsvHGEcJHWZ2dhWaxh5nRBqRTMudiyJnMpsoR2jxOQZevWD2z4WKu_IWX4XY2555eTFOilaGINBY7JFpCGGmpc0uBw0r2t1h0qYGQWplcUgaNakXPad6INBLnZY69ynudWziRJG3bqFGmzFxKwU57SuiIILia)\n- **Kurum Alımları ve Sözleşmeli Personel:** Bakanlıklar ve kamu iktisadi teşebbüsleri (KİT) kendi yayımladıkları ilanlarla sözleşmeli bilişim personeli veya mühendis alımı yapar. Bazı özel pozisyonlar mülakat veya ek şartlar (yabancı dil, sertifika) isteyebilir.[](https://google.com/goto?url=CAESdQHrOzAV0Ucf-NuQV8-1PKIO5itZfbH_QXM0dUYxL3EEYYrFh7lnfjgY6I7Z0s1AvJ_aGfVC8mUU4Ybweb5egGLfYAxlMZNXYdlX8NjCq59ez9WbUM4DN_dTlUlODc5DHoE8Tjl04HlMCUpCg_NGGlo7NdY1yQ) [[1]](https://google.com/goto?url=CAESdQHrOzAV0Ucf-NuQV8-1PKIO5itZfbH_QXM0dUYxL3EEYYrFh7lnfjgY6I7Z0s1AvJ_aGfVC8mUU4Ybweb5egGLfYAxlMZNXYdlX8NjCq59ez9WbUM4DN_dTlUlODc5DHoE8Tjl04HlMCUpCg_NGGlo7NdY1yQ)[[2]](https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0)[[3]](https://google.com/goto?url=CAESmgEB6zswFYfWFKLhZhuaMepjfcIeLYEAjneiqOqBes3lTSnvWn_BsvHGEcJHWZ2dhWaxh5nRBqRTMudiyJnMpsoR2jxOQZevWD2z4WKu_IWX4XY2555eTFOilaGINBY7JFpCGGmpc0uBw0r2t1h0qYGQWplcUgaNakXPad6INBLnZY69ynudWziRJG3bqFGmzFxKwU57SuiIILia)\n- **Atama Puanları:** Her dönemin kontenjanına ve başvuru sayısına göre taban puanlar değişiklik gösterir; genellikle yüksek kapatır.[[1]](https://google.com/goto?url=CAEShAEB6zswFYibM_2qYT6TpLWOLrDe_dQBdfY_lW-GwxD6dXX1PE69P745AheKp6hXIUSUDl8oFtVSorp3YiWusZRt7xCobYGhEhf1odIPlVxdEncBjOy64flhfEJkFdcZG1LhyE2TDlaz2vWzZnlzC-wJjc3w5jKmTZUAnNj-P5Ko91EtGXI)[[2]](https://google.com/goto?url=CAESUwHrOzAVYYiIvV6YLHF0dxxzB891vZeXs0SLO1-3DqINT7jfhJDcdbO2nhoYTEDIqARSGFRqtr7QZLrktpRMXqR9z2ViKxKMOLeSn-wqi2E1QTo4)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Reddit",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0",
+                      "title": "Kamuda bilgisayar mühendisliği : r/CodingTR - Reddit",
+                      "text": "Kamuda bilgisayar mühendisliği. Ne yazık ki bu paylaşım sahibi tarafından silindi. ... Yorum Bölümü ... Kamuda bilgisayar mühendis..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "KizlarSoruyor",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESmgEB6zswFYfWFKLhZhuaMepjfcIeLYEAjneiqOqBes3lTSnvWn_BsvHGEcJHWZ2dhWaxh5nRBqRTMudiyJnMpsoR2jxOQZevWD2z4WKu_IWX4XY2555eTFOilaGINBY7JFpCGGmpc0uBw0r2t1h0qYGQWplcUgaNakXPad6INBLnZY69ynudWziRJG3bqFGmzFxKwU57SuiIILia",
+                      "title": "Bilgisayar mühendisi kpss ye girse atansa ne iş yapar, özele göre farkı ...",
+                      "text": "Bilgisayar mühendisliği mezunu olarak KPSS'ye girip atanmak bayağı heyecan verici bir deneyim olabilir! Ben de üniversitedeyken ço..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Türkiye Cumhuriyeti Adalet Bakanlığı",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESdQHrOzAV0Ucf-NuQV8-1PKIO5itZfbH_QXM0dUYxL3EEYYrFh7lnfjgY6I7Z0s1AvJ_aGfVC8mUU4Ybweb5egGLfYAxlMZNXYdlX8NjCq59ez9WbUM4DN_dTlUlODc5DHoE8Tjl04HlMCUpCg_NGGlo7NdY1yQ",
+                      "title": "Sözleşmeli 50 Mühendis Alım İlanı - Personel Genel Müdürlüğü",
+                      "text": "1. Grup Java. Programlama. Bilgisayar Mühendisliği; Bilgisayar ve Yazılım Mühendisliği; Bilgisayar Sistemleri Mühendisliği; Bilişi..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "DonanımHaber Forum",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAEShAEB6zswFYibM_2qYT6TpLWOLrDe_dQBdfY_lW-GwxD6dXX1PE69P745AheKp6hXIUSUDl8oFtVSorp3YiWusZRt7xCobYGhEhf1odIPlVxdEncBjOy64flhfEJkFdcZG1LhyE2TDlaz2vWzZnlzC-wJjc3w5jKmTZUAnNj-P5Ko91EtGXI",
+                      "title": "Bilgisayar Mühendisliği okuyup KPSS ile yerleşen var mı?",
+                      "text": "Bilgisayar Mühendisliği KPSS ile Devlete Ataması Var Mı? Evet, Bilgisayar Mühendisliği bölümü mezunları, KPSS puanları ile devlett..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Tercihlerin",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESUwHrOzAVYYiIvV6YLHF0dxxzB891vZeXs0SLO1-3DqINT7jfhJDcdbO2nhoYTEDIqARSGFRqtr7QZLrktpRMXqR9z2ViKxKMOLeSn-wqi2E1QTo4",
+                      "title": "MÜHENDİS (BİLGİSAYAR) KPSS Atama Taban Puanları | Tercihlerin",
+                      "text": "MÜHENDİS (BİLGİSAYAR) kadrosu için KPSS atama taban puanları, kontenjan ve yerleşen sayıları. Geçmiş dönem verileriyle doğru değer..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Güncel KPSS dönemi veya hedeflediğiniz taban puan hakkında bilgi istiyor musunuz? Size bu konuda rehberlik edebilirim.",
+                  "markdown": "Güncel **KPSS dönemi** veya **hedeflediğiniz taban puan** hakkında bilgi istiyor musunuz? Size bu konuda rehberlik edebilirim.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Reddit",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESfwHrOzAVJSjRGez9Lo8TIelA-ut9q1avJhcS30YVAJqZiNa5DVS58bvIP7jmO_ORc5YBgsgHAlBRgq7J5Xg5Po45L4KlJKMye3eNW0Ig4xh_GWaGxnqTuej5xMwuntFwryaJXhkELx-7F_LeD_sKv2RBh5dw5X1ZzUHMskdaOf0",
+                  "title": "Kamuda bilgisayar mühendisliği : r/CodingTR - Reddit",
+                  "text": "Kamuda bilgisayar mühendisliği. Ne yazık ki bu paylaşım sahibi tarafından silindi. ... Yorum Bölümü ... Kamuda bilgisayar mühendis..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Türkiye Cumhuriyeti Adalet Bakanlığı",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESdQHrOzAV0Ucf-NuQV8-1PKIO5itZfbH_QXM0dUYxL3EEYYrFh7lnfjgY6I7Z0s1AvJ_aGfVC8mUU4Ybweb5egGLfYAxlMZNXYdlX8NjCq59ez9WbUM4DN_dTlUlODc5DHoE8Tjl04HlMCUpCg_NGGlo7NdY1yQ",
+                  "title": "Sözleşmeli 50 Mühendis Alım İlanı - Personel Genel Müdürlüğü",
+                  "text": "1. Grup Java. Programlama. Bilgisayar Mühendisliği; Bilgisayar ve Yazılım Mühendisliği; Bilgisayar Sistemleri Mühendisliği; Bilişi..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "DonanımHaber Forum",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAEShAEB6zswFYibM_2qYT6TpLWOLrDe_dQBdfY_lW-GwxD6dXX1PE69P745AheKp6hXIUSUDl8oFtVSorp3YiWusZRt7xCobYGhEhf1odIPlVxdEncBjOy64flhfEJkFdcZG1LhyE2TDlaz2vWzZnlzC-wJjc3w5jKmTZUAnNj-P5Ko91EtGXI",
+                  "title": "Bilgisayar Mühendisliği okuyup KPSS ile yerleşen var mı?",
+                  "text": "Bilgisayar Mühendisliği KPSS ile Devlete Ataması Var Mı? Evet, Bilgisayar Mühendisliği bölümü mezunları, KPSS puanları ile devlett..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "KizlarSoruyor",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESmgEB6zswFYfWFKLhZhuaMepjfcIeLYEAjneiqOqBes3lTSnvWn_BsvHGEcJHWZ2dhWaxh5nRBqRTMudiyJnMpsoR2jxOQZevWD2z4WKu_IWX4XY2555eTFOilaGINBY7JFpCGGmpc0uBw0r2t1h0qYGQWplcUgaNakXPad6INBLnZY69ynudWziRJG3bqFGmzFxKwU57SuiIILia",
+                  "title": "Bilgisayar mühendisi kpss ye girse atansa ne iş yapar, özele göre farkı ...",
+                  "text": "Bilgisayar mühendisliği mezunu olarak KPSS'ye girip atanmak bayağı heyecan verici bir deneyim olabilir! Ben de üniversitedeyken ço..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Tercihlerin",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESUwHrOzAVYYiIvV6YLHF0dxxzB891vZeXs0SLO1-3DqINT7jfhJDcdbO2nhoYTEDIqARSGFRqtr7QZLrktpRMXqR9z2ViKxKMOLeSn-wqi2E1QTo4",
+                  "title": "MÜHENDİS (BİLGİSAYAR) KPSS Atama Taban Puanları | Tercihlerin",
+                  "text": "MÜHENDİS (BİLGİSAYAR) kadrosu için KPSS atama taban puanları, kontenjan ve yerleşen sayıları. Geçmiş dönem verileriyle doğru değer..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "Bilgisayar Mühendisliği ve KPSS : r/CodingTR",
+              "url": "https://www.reddit.com/r/CodingTR/comments/1rjk5qv/bilgisayar_m%C3%BChendisli%C4%9Fi_ve_kpss/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "70+ yorum  ·  5 ay önce",
+              "website_name": "Reddit · r/CodingTR",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Atamalar az biliyorsunuz ve artık kpss ye çalışan çok insan var. Sizce puanlar nasıl değişir ? Artık 95 altı alan asla atanamaz gibi bişey ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "var"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar mühendisliği iş bulabiliyor mu?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar mühendisliği KPSS kaç puan?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "KPSS bilgisayar mühendisleri kaç kişi atanıyor?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Bilgisayar mühendislerinin yüzde kaçı işsiz?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.eleman.net",
+              "title": "Bilgisayar Mühendisliği Atama Puanları",
+              "url": "https://www.eleman.net/kpss-kilavuzu/bilgisayar-muhendisligi/atama-puanlari",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.eleman.net › kpss-kilavuzu › atama-puanlari",
+              "website_name": "Eleman.net",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Bilgisayar Mühendisliği Atama Puanları. Filtreleme sonuçlarınıza göre tüm öğrenim düzeylerine uygun tüm dönemlerde tüm iller için tüm kurumların BİLGİSAYAR ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Bilgisayar Mühendisliği Atama Puanları"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "tercihlerin.com",
+              "title": "MÜHENDİS (BİLGİSAYAR) KPSS Atama Taban Puanları",
+              "url": "https://tercihlerin.com/kpss/muhendis-bilgisayar",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://tercihlerin.com › kpss › muhendis-bilgisayar",
+              "website_name": "Tercihlerin",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "MÜHENDİS (BİLGİSAYAR) kadrosu için KPSS atama taban puanları, kontenjan ve yerleşen sayıları. Geçmiş dönem verileriyle doğru değerlendirme yapın.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "MÜHENDİS",
+                "BİLGİSAYAR",
+                "atama"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[9]/div[1]/div[1]",
+              "domain": "www.kizlarsoruyor.com",
+              "title": "Bilgisayar mühendisi kpss ye girse atansa ne iş yapar ...",
+              "url": "https://www.kizlarsoruyor.com/egitim-kariyer/q24830819-bilgisayar-muhendisi-kpss-ye-girse-atansa-ne-is-yapar-ozele-gore",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.kizlarsoruyor.com › ... › Sorular",
+              "website_name": "KizlarSoruyor",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "23 May 2025 — Kamuda genellikle “programcı” ya da “bilişim uzmanı” unvanlarıyla çalışabilirsin; kamuya alımlar KPSS B grubu puanıyla gerçekleşiyor.",
+              "pre_snippet": "05/23/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-05-23 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[11]/div[1]/div[1]",
+              "domain": "www.basarisiralamalari.com",
+              "title": "KPSS 2024/5 Lisans Bilgisayar Mühendisi Atama Taban ...",
+              "url": "https://www.basarisiralamalari.com/kpss-2024-5-lisans-bilgisayar-muhendisi-atama-taban-puanlari/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.basarisiralamalari.com › kpss-2024-5-lisans...",
+              "website_name": "Başarı Sıralamaları",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Bilgisayar Mühendisi 2024/5 atamalarında 50 atama gerçekleşmiş olup en düşük puan 82,85067 ve en yüksek puan 92,5209 olmuştur. KPSS 2024/5 Lisans Bilgisayar ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Bilgisayar Mühendisi 2024/5 atamalarında 50 atama gerçekleşmiş"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[12]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜM ANALİZİ - ATAMA ...",
+              "url": "https://www.youtube.com/watch?v=NTUZ8Ai9keE",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "5,7 B+ görüntüleme  ·  5 yıl önce",
+              "website_name": "YouTube · Rehber Hocam",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": "BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜM ANALİZİ - ATAMA PUANI KAÇ? (MESLEK ANALİZLERİ VİDEO - 29). @murathoca88 likes5.6K views5 years ago",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "BİLGİSAYAR MÜHENDİSLİĞİ",
+                "ATAMA"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2021-06-28 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[14]/div[1]/div[1]",
+              "domain": "forum.memurlar.net",
+              "title": "Bilgisayar Mühendisi Hangi KPSS'ye girmeli?",
+              "url": "https://forum.memurlar.net/konu/2577566/bilgisayar-muhendisi-hangi-kpss-ye-girmeli.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://forum.memurlar.net › konu › bilgisayar-muhend...",
+              "website_name": "Memurlar.Net",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "18 Oca 2025 — Bilgisayar mühendisi olarak atanmak istiyorsan çift yıllarda yapılan kpss sınavına (genel yetenek-genel kültür) girmen gerek. Yani 2026 kpss ...",
+              "pre_snippet": "01/18/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "çift yıllarda yapılan kpss sınavına (genel yetenek-genel kültür) girmen gerek"
+              ],
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "forum.memurlar.net alanından daha fazla sonuç",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=Bilgisayar+m%C3%BChendisli%C4%9Fi+atamas%C4%B1+var+m%C4%B1?+site:forum.memurlar.net&sca_esv=a4ac375be92b09b0&hl=tr&gl=TR&sa=X&ved=2ahUKEwjzwofz4MCWAxWLSFUIHUd2CSkQrQIoAnoECDcQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-01-18 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[16]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "Kamuda bilgisayar mühendisliği : r/CodingTR",
+              "url": "https://www.reddit.com/r/CodingTR/comments/18zh94d/kamuda_bilgisayar_m%C3%BChendisli%C4%9Fi/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "30+ yorum  ·  2 yıl önce",
+              "website_name": "Reddit · r/CodingTR",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Mühendis kadrosu : KPSS ile puan alıp merkezi atamadan yerleşebilirsin. Yerleştiğin kuruma/birime göre yapacağın iş değişir aktif bir görevde ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "KPSS ile puan alıp merkezi atamadan yerleşebilirsin"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[18]/div[1]/div[1]",
+              "domain": "pgm.adalet.gov.tr",
+              "title": "Sözleşmeli 50 Mühendis Alım İlanı - Personel Genel Müdürlüğü",
+              "url": "https://pgm.adalet.gov.tr/Home/SayfaDetay/muhendis-alimi-aralik-201924122019101723",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://pgm.adalet.gov.tr › Home › SayfaDetay › muhen...",
+              "website_name": "Türkiye Cumhuriyeti Adalet Bakanlığı",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "1. Grup Java. Programlama · 2. Grup Yazılım Testi. Bilgisayar Mühendisliği · 3. Grup Veri Tabanı Yönetimi. Bilgisayar Mühendisliği · 4. Grup Ağ ve Sistem Yönetimi.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Bilgisayar Mühendisliği"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Bilgisayar mühendisi atama sayısı",
+                "Bilgisayar Mühendisliği atama Puanları Son 5 Yıl",
+                "Bilgisayar Mühendisliği Atama 2026",
+                "Bilgisayar mühendisliği Devlet maaşı",
+                "KPSS bilgisayar Mühendisliği Maaşları",
+                "Bilgisayar Mühendisliği KPSS atamaları",
+                "Devlette bilgisayar mühendisi olmak",
+                "Bilgisayar Mühendisliği MERKEZİ ATAMA Puanlar"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
