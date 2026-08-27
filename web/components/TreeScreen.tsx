@@ -14,10 +14,11 @@ import { useDateFormat, useI18n } from "@/i18n";
 import { QuestionTree } from "./QuestionTree";
 import { GapTable } from "./GapTable";
 import { QuestionDetail } from "./QuestionDetail";
+import { RelatedSeeds } from "./RelatedSeeds";
 import { Notice } from "./Badge";
 import { LocalePicker } from "./LocalePicker";
 
-type View = "tree" | "table";
+type View = "tree" | "table" | "seeds";
 
 export function TreeScreen({ slug }: { slug: string }) {
   const { t, tag } = useI18n();
@@ -68,18 +69,25 @@ export function TreeScreen({ slug }: { slug: string }) {
     [tree, selectedId]
   );
 
-  /* A scored question changes both the node and the tree's status counts.
-   * Refetching the whole tree would work but would also throw away the pan/zoom
-   * position and the selection, so the one node is swapped in place. */
+  /* Scoring one question changes more than that question.
+   *
+   * The request bought for its organic results also carries a PAA block and a
+   * set of related searches, and the API now harvests both. So a score can add
+   * NEW nodes, and can add a parent to a node already on screen — neither of
+   * which swapping a single node in place could express. The API therefore
+   * returns the whole node list and it is taken as authoritative.
+   *
+   * Refetching the tree would do the same job but would also reset the pan/zoom
+   * position and the selection, which live in this component's state. */
   const applyScore = (result: ScoreResult) =>
     setTree((current) =>
       current
         ? {
             ...current,
             status_counts: result.status_counts,
-            nodes: current.nodes.map((n) =>
-              n.id === result.node.id ? result.node : n
-            ),
+            node_count: result.node_count,
+            related_searches: result.related_searches,
+            nodes: result.nodes,
           }
         : current
     );
@@ -146,6 +154,10 @@ export function TreeScreen({ slug }: { slug: string }) {
           <button aria-pressed={view === "table"} onClick={() => setView("table")}>
             {t("toolbar.table")}
           </button>
+          <button aria-pressed={view === "seeds"} onClick={() => setView("seeds")}>
+            {t("toolbar.seeds")}
+            <b className="count">{tree.related_searches?.length ?? 0}</b>
+          </button>
         </div>
 
         <div className="filters">
@@ -185,20 +197,24 @@ export function TreeScreen({ slug }: { slug: string }) {
       <div className="body-row">
         <main className="main">
           <div className="canvas">
-            {view === "tree" ? (
+            {view === "tree" && (
               <QuestionTree
                 nodes={tree.nodes}
                 selectedId={selectedId}
                 onSelect={setSelectedId}
                 highlighted={highlighted}
               />
-            ) : (
+            )}
+            {view === "table" && (
               <GapTable
                 nodes={filtered}
                 selectedId={selectedId}
                 onSelect={setSelectedId}
                 localeTag={tag}
               />
+            )}
+            {view === "seeds" && (
+              <RelatedSeeds phrases={tree.related_searches ?? []} />
             )}
           </div>
         </main>

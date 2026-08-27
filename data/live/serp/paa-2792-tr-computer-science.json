@@ -1,0 +1,916 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "2.6048 sec.",
+  "cost": 0.0026,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08271539-2374-0139-0000-3e2d99123797",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "1.9161 sec.",
+      "cost": 0.0026,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "computer science",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10,
+        "people_also_ask_click_depth": 4
+      },
+      "result": [
+        {
+          "keyword": "computer science",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=computer%20science&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-27 15:39:25 +00:00",
+          "spell": null,
+          "refinement_chips": {
+            "type": "refinement_chips",
+            "xpath": "/html[1]/body[1]/div[3]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+            "items": [
+              {
+                "type": "refinement_chips_element",
+                "title": "Ne demek",
+                "url": "https://www.google.com/search?sca_esv=405fdc0059ce604a&hl=tr&gl=TR&q=Computer+science+ne+demek&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rwqTxzvZZduQ2loy8Y8Gyvtn1zF_zF6c8DY2631xUeRQzY2VvTf6cTTWtE8zXvo3Uu3ES7WPQDUvbsmsJkjo65l__CowemDRCbc9kl3Z1pK7w_m3AJLri0-eV0I7Btelyxj_vpo_tJZNPuXJLQaVjI8gtrX6lBhFDCQBhzQ7xx2foYYRfAPClGZfm9Jhrijn_FPzvS8vb_gSkgRS0LD6Cdfb1mIg&sa=X&ved=2ahUKEwiG5bCfksGWAxWg8bsIHbWZEw4QxKsJKAB6BAgWEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Hangi bölüm",
+                "url": "https://www.google.com/search?sca_esv=405fdc0059ce604a&hl=tr&gl=TR&q=Computer+Science+hangi+b%C3%B6l%C3%BCm&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4ryfuH3jDSg32wgoQPn_iTDEf_EYEfnA9ePbLChfklofVLJYULoM75d3jx9tsbWZEGNzDz_-Zwqcti1zSUL1z-IBbnXhmip1bqdoeaAKt3cfpM_S6woq_pLjJWl3vvmtUCXXEevSsbj0C8iEwN5mXL7XaqgO6ggg_vOoGP0O4MK7kNSp58rmCwGrJFew57LVRFYtaJx21apIoIY0_M1rNpaRIe0aQ&sa=X&ved=2ahUKEwiG5bCfksGWAxWg8bsIHbWZEw4QxKsJKAF6BAgXEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Book",
+                "url": "https://www.google.com/search?sca_esv=405fdc0059ce604a&hl=tr&gl=TR&q=Computer+science+book&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rH0J9BcQGsm1kKnwAKOWyUEquE3uszk3-q7crFLSz2wilFY1tSKmvh4A54jD5I58E8KWKl1dQeSMW5IjNSWwFY__R1FxWb4wPZX_asnbp3OVOCdvdyRmn89IUMhZfVKTihr3AgJbXhoc6-99KvahjhqyLxRdPlORbMRhPy3c1dIFLpzzQYLyNaCsJjJ8mf-fDr12ViLFo9Wfj8jFqQJO4OtrMZI0&sa=X&ved=2ahUKEwiG5bCfksGWAxWg8bsIHbWZEw4QxKsJKAJ6BAgZEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Course",
+                "url": "https://www.google.com/search?sca_esv=405fdc0059ce604a&hl=tr&gl=TR&q=Computer+Science+course&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rDGpVLV-J2lF5czJrL5x5MZfkIm_i6bROvKQfYbCJpHQ0J5hmkArlcGjh_0W9UIkpxh20XhNGzps5eoJmVz0wogaoAx1wmpNCrfhz_QDszZmF54IL2B7JNCyKlJzzGcVTubUWmxsJ64O7iKMuaMN9IrUXCwKzJ1ltmb4EYa-tbY3BmIGporI65bMu5BDdJBMUJiprVfzCnJHBul3fw0cXvQBSNJw&sa=X&ved=2ahUKEwiG5bCfksGWAxWg8bsIHbWZEw4QxKsJKAN6BAgaEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Subjects",
+                "url": "https://www.google.com/search?sca_esv=405fdc0059ce604a&hl=tr&gl=TR&q=Computer+Science+subjects&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rwqTxzvZZduQ2loy8Y8Gyvtn1zF_zF6c8DY2631xUeRSM1MJlbUFs1u3YPpUIReKH_cr6j-nv4WFo5O2JYBd8jITl5AA7WMytfXB4fJLca74SdxkAtapU9UC5Cb92P8mqLI-gJXModxlcvASis3SEQDe3Q8T-gwO9HI4oMqN7v3tnvgheObSKOAm7oQ3wliBqoJSDiA1Q9wMGY2650jaPNNxw2CE&sa=X&ved=2ahUKEwiG5bCfksGWAxWg8bsIHbWZEw4QxKsJKAR6BAgeEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Types of",
+                "url": "https://www.google.com/search?sca_esv=405fdc0059ce604a&hl=tr&gl=TR&q=Types+of+computer+science&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4ruaCpHu1pUZriBEdBFrDmMmbDDRm67ynsQcJD2kLozvKgpL2fcAwWR9L64xrVd_3N61_7bD78uivkTwJ7cLMWRiKP7F4bLVjC0miFQuR6clAr_R4s8IDv5HiTgaesTz_Kp1T4kbbxp_fO63MljHEEWd0qKCqBZdb2NjWZhPT8195WeLQ1hGg2tMwUOAIQjnRib0fPNBQJc3R7--T8oJFSBOgD7mY&sa=X&ved=2ahUKEwiG5bCfksGWAxWg8bsIHbWZEw4QxKsJKAV6BAheEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "PDF",
+                "url": "https://www.google.com/search?sca_esv=405fdc0059ce604a&hl=tr&gl=TR&q=Computer+Science+PDF&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4ra7uLrhk_a13Bs2gjAHgdqrvXDUxUyX4__yx2-IWgoMzAkDsleQuzzs1H8TLC_FpKXtgv5DHwGIR2cOuCcLLq380us-dOPCPDt6_bbmWoAiKrTjyozuk_-bJ3-ZwQLSWXly0q48b1CBk3cFFkHQs02raTaxX_ApJSMnkG9Uz9J08SIm6JeZ-5YF2_lJfF598v54U6F0DlaWJ8rmW7Gbeq4_f86UA&sa=X&ved=2ahUKEwiG5bCfksGWAxWg8bsIHbWZEw4QxKsJKAZ6BAhbEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Jobs",
+                "url": "https://www.google.com/search?sca_esv=405fdc0059ce604a&hl=tr&gl=TR&q=Computer+science+jobs&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rH0J9BcQGsm1kKnwAKOWyUEquE3uszk3-q7crFLSz2wjYSJTOlj9q51bWIpLzdYv3YK4SmKSZCtOAa67QO2w5HZFBh9UvsCleanzv10j3mbvxxYy7E9GodQKsaU9B-buq8h7VdVCmXXPT22hQyir1ojNGThaKANCbykOx0qVyybHFNWJOOXWNjX0wg-BuiLPL-vG3WBY7cv8BTLIZRRKgU7eQpR8&sa=X&ved=2ahUKEwiG5bCfksGWAxWg8bsIHbWZEw4QxKsJKAd6BAhcEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              },
+              {
+                "type": "refinement_chips_element",
+                "title": "Wiki",
+                "url": "https://www.google.com/search?sca_esv=405fdc0059ce604a&hl=tr&gl=TR&q=Computer+science+wiki&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rH0J9BcQGsm1kKnwAKOWyUEquE3uszk3-q7crFLSz2wgmoLgDf-ozbPbIZOc2VmeME7e34beahtG1eGyOv_1zCabVDF9an9cKov-ouuMU_1cbqEvn2yrukNk5VHytHUSB9lFff3pDkWKYKfqoNwm3jxqkN5TzpdEz7sOpJsdwd_3FSXfyS7XCVvsfm_gzgsXbto9ft6oABCtg6fnb8BUSHtDOsGg&sa=X&ved=2ahUKEwiG5bCfksGWAxWg8bsIHbWZEw4QxKsJKAh6BAhdEAE&ictx=0",
+                "domain": "www.google.com",
+                "options": null
+              }
+            ]
+          },
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "related_searches"
+          ],
+          "se_results_count": 134,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[3]/div[1]/div[1]",
+              "domain": "eksisozluk.com",
+              "title": "computer science",
+              "url": "https://eksisozluk.com/computer-science--100543",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://eksisozluk.com › computer-science--100543",
+              "website_name": "Ekşi Sözlük",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "computer science ... ing. bilgisayar bilimi. bilgisayar muhendisliginden cok farklidir. ... usa'de tüm mühendisliklerin toplamının 2 katı mezun veren bilim dalı.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "bilgisayar bilimi"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What does computer science do?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which is better, IT or computer science?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is turkey good for computer science?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What do I need to know before studying computer science?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is computer science very hard?",
+                  "seed_question": "What do I need to know before studying computer science?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[5]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the first thing to learn in computer science?",
+                  "seed_question": "What do I need to know before studying computer science?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[6]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can I teach myself computer science?",
+                  "seed_question": "What is the first thing to learn in computer science?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[7]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "How many subjects are in computer science?",
+                  "seed_question": "What is the first thing to learn in computer science?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is computer science heavy in math?",
+                  "seed_question": "What is the first thing to learn in computer science?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What level of math is needed for computer science?",
+                  "seed_question": "Is computer science heavy in math?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[10]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Are high IQ people good at math?",
+                  "seed_question": "Is computer science heavy in math?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[11]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which is harder, mathematics or computer science?",
+                  "seed_question": "Is computer science heavy in math?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[12]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which is the hardest subject in computer science?",
+                  "seed_question": "Which is harder, mathematics or computer science?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[13]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What degree has the least math?",
+                  "seed_question": "Which is harder, mathematics or computer science?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[14]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Why does CS have so much math?",
+                  "seed_question": "Which is harder, mathematics or computer science?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[15]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[7]/div[1]/div[1]",
+              "domain": "en.wikipedia.org",
+              "title": "Computer science",
+              "url": "https://en.wikipedia.org/wiki/Computer_science",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://en.wikipedia.org › ...",
+              "website_name": "Wikipedia",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Computer science is the study of computation, information, and automation. ... Included broadly in the sciences, computer science spans theoretical disciplines ( ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "the study of computation, information, and automation"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[8]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "Computer science is `the systematic study of computation, information processing, and the design of both software and hardware systems`.[](https://google.com/goto?url=CAESUQHrOzAVaHItOsZ2z37LkPtJH5Pt70k9PyMuxZAl-Bz6MGX-NX3bmO7M-UyTQnTXm6jR3SLsMVanbpDn-q4Dnv2bzyxm4seRBkZlxzKUATRuPA) [[1]](https://google.com/goto?url=CAESUQHrOzAVaHItOsZ2z37LkPtJH5Pt70k9PyMuxZAl-Bz6MGX-NX3bmO7M-UyTQnTXm6jR3SLsMVanbpDn-q4Dnv2bzyxm4seRBkZlxzKUATRuPA)[[2]](https://google.com/goto?url=CAESPwHrOzAVgg_6Fn8UuFHgEGJQrWHzv7p063BY3n3_gbswJqJosXseVzY6xeAMe3M8JpDWYH8-4Q1_akvbynZpYw)\n\nCore Concepts\n\n- **Algorithms:** Step-by-step instructions and logical rules used to solve complex problems and manipulate data efficiently.\n- **Programming Languages:** Artificial languages like Python, C++, or Java that let humans write instructions that a computer can translate and execute.\n- **Systems and Architecture:** The study of how computer hardware, operating system kernels, and memory interact to run applications.\n- **Theory of Computation:** The mathematical exploration of what computers can fundamentally compute and their inherent limitations.[](https://google.com/goto?url=CAESTgHrOzAVPrmYdY8ZmSgeFXl2j-HrdBkQ6WJpUopUSKCL8EfZrNhZI_mLT89BXsWy6LVR7RlM2Su2hQluj4hj07T3mBcN_7jbymVg5-BrZg) [[1]](https://google.com/goto?url=CAESTgHrOzAVPrmYdY8ZmSgeFXl2j-HrdBkQ6WJpUopUSKCL8EfZrNhZI_mLT89BXsWy6LVR7RlM2Su2hQluj4hj07T3mBcN_7jbymVg5-BrZg)[[2]](https://google.com/goto?url=CAESYAHrOzAVf63PxKFrT9_9Mu09MRrjtkj9fqnGVMLuW42hO4eRuaRn-E-PL1ueApoHl-f1tUnaDrKmpS11jiddRMYhjjbdjk8mfUftxOe-zmbguXVQSr9HUm0AGU5kZvzt7w)[[3]](https://google.com/goto?url=CAESUgHrOzAVrz2n3i4MhYlW6Zh50lbj6hF49jDObjsWhfZRbeHrC_LaxHGbxYRWKep8g1EeYq78oX0Q5RTcRd2Td3MP-JRjSXEU26THk_OcXQVd3wc)\n\nMajor Specializations\n\n- **Artificial Intelligence (AI):** Building systems that perform tasks requiring human-like reasoning, learning, and pattern recognition.\n- **Software Engineering:** The disciplined creation, testing, and maintenance of large-scale software applications.\n- **Cybersecurity:** Protecting networks, computers, and private data from digital attacks, theft, or unauthorized access.\n- **Data Science:** Collecting, storing, and analyzing massive data sets to uncover actionable insights.[](https://google.com/goto?url=CAESUwHrOzAVATgGUBWTzvadKOtF438FbPmc8YIdce1tkdQebu_ubAI8PLoEJbxVIyVQh8H2maJUbVKsk6fn6jUPalS2PRG0Z_eFwfQFF_E9YS_FBghA) [[1]](https://google.com/goto?url=CAESUwHrOzAVATgGUBWTzvadKOtF438FbPmc8YIdce1tkdQebu_ubAI8PLoEJbxVIyVQh8H2maJUbVKsk6fn6jUPalS2PRG0Z_eFwfQFF_E9YS_FBghA)[[2]](https://google.com/goto?url=CAESYAHrOzAVf63PxKFrT9_9Mu09MRrjtkj9fqnGVMLuW42hO4eRuaRn-E-PL1ueApoHl-f1tUnaDrKmpS11jiddRMYhjjbdjk8mfUftxOe-zmbguXVQSr9HUm0AGU5kZvzt7w)[[3]](https://google.com/goto?url=CAESTgHrOzAV0bDqCxcKdiIbHnk3nDWq5Y-uEFHQpFRBdA_2uXs1aSwAWH3LRV3g0uOasHdoy2nJWLlVQDv_N_cMGN6BsWenoa-8yceh_hg5jw)[[4]](https://google.com/goto?url=CAESPwHrOzAVgg_6Fn8UuFHgEGJQrWHzv7p063BY3n3_gbswJqJosXseVzY6xeAMe3M8JpDWYH8-4Q1_akvbynZpYw)\n\nIf you're interested, let me know:\n\n- Are you looking to **learn programming** or study **theoretical concepts**?\n- Do you want a recommendation for a **specific language** or **career path**?",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Computer science is the systematic study of computation, information processing, and the design of both software and hardware systems.",
+                  "markdown": "Computer science is `the systematic study of computation, information processing, and the design of both software and hardware systems`.[](https://google.com/goto?url=CAESUQHrOzAVaHItOsZ2z37LkPtJH5Pt70k9PyMuxZAl-Bz6MGX-NX3bmO7M-UyTQnTXm6jR3SLsMVanbpDn-q4Dnv2bzyxm4seRBkZlxzKUATRuPA) [[1]](https://google.com/goto?url=CAESUQHrOzAVaHItOsZ2z37LkPtJH5Pt70k9PyMuxZAl-Bz6MGX-NX3bmO7M-UyTQnTXm6jR3SLsMVanbpDn-q4Dnv2bzyxm4seRBkZlxzKUATRuPA)[[2]](https://google.com/goto?url=CAESPwHrOzAVgg_6Fn8UuFHgEGJQrWHzv7p063BY3n3_gbswJqJosXseVzY6xeAMe3M8JpDWYH8-4Q1_akvbynZpYw)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Wikipedia",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESUQHrOzAVaHItOsZ2z37LkPtJH5Pt70k9PyMuxZAl-Bz6MGX-NX3bmO7M-UyTQnTXm6jR3SLsMVanbpDn-q4Dnv2bzyxm4seRBkZlxzKUATRuPA",
+                      "title": "Computer science - Wikipedia",
+                      "text": "Computer science. Article · Talk. Language; Download PDF; Watch · View source. For other uses, see Computer science (disambiguatio..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Michigan Technological University",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESPwHrOzAVgg_6Fn8UuFHgEGJQrWHzv7p063BY3n3_gbswJqJosXseVzY6xeAMe3M8JpDWYH8-4Q1_akvbynZpYw",
+                      "title": "What is Computer Science?",
+                      "text": "Computer science is the study of computers and computational systems. It's a broad field that includes: * **Software development**"
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Core Concepts",
+                  "text": "Algorithms: Step-by-step instructions and logical rules used to solve complex problems and manipulate data efficiently. Programming Languages: Artificial languages like Python, C++, or Java that let humans write instructions that a computer can translate and execute. Systems and Architecture: The study of how computer hardware, operating system kernels, and memory interact to run applications. Theory of Computation: The mathematical exploration of what computers can fundamentally compute and their inherent limitations.",
+                  "markdown": "- **Algorithms:** Step-by-step instructions and logical rules used to solve complex problems and manipulate data efficiently.\n- **Programming Languages:** Artificial languages like Python, C++, or Java that let humans write instructions that a computer can translate and execute.\n- **Systems and Architecture:** The study of how computer hardware, operating system kernels, and memory interact to run applications.\n- **Theory of Computation:** The mathematical exploration of what computers can fundamentally compute and their inherent limitations.[](https://google.com/goto?url=CAESTgHrOzAVPrmYdY8ZmSgeFXl2j-HrdBkQ6WJpUopUSKCL8EfZrNhZI_mLT89BXsWy6LVR7RlM2Su2hQluj4hj07T3mBcN_7jbymVg5-BrZg) [[1]](https://google.com/goto?url=CAESTgHrOzAVPrmYdY8ZmSgeFXl2j-HrdBkQ6WJpUopUSKCL8EfZrNhZI_mLT89BXsWy6LVR7RlM2Su2hQluj4hj07T3mBcN_7jbymVg5-BrZg)[[2]](https://google.com/goto?url=CAESYAHrOzAVf63PxKFrT9_9Mu09MRrjtkj9fqnGVMLuW42hO4eRuaRn-E-PL1ueApoHl-f1tUnaDrKmpS11jiddRMYhjjbdjk8mfUftxOe-zmbguXVQSr9HUm0AGU5kZvzt7w)[[3]](https://google.com/goto?url=CAESUgHrOzAVrz2n3i4MhYlW6Zh50lbj6hF49jDObjsWhfZRbeHrC_LaxHGbxYRWKep8g1EeYq78oX0Q5RTcRd2Td3MP-JRjSXEU26THk_OcXQVd3wc)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "YouTube",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESTgHrOzAVPrmYdY8ZmSgeFXl2j-HrdBkQ6WJpUopUSKCL8EfZrNhZI_mLT89BXsWy6LVR7RlM2Su2hQluj4hj07T3mBcN_7jbymVg5-BrZg",
+                      "title": "COMPUTER SCIENCE explained in 17 Minutes",
+                      "text": "computers make no sense throw some metal in a box and boom. what the heck is going on. here. inside your PC is a central processin..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "ITserv Technology",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESYAHrOzAVf63PxKFrT9_9Mu09MRrjtkj9fqnGVMLuW42hO4eRuaRn-E-PL1ueApoHl-f1tUnaDrKmpS11jiddRMYhjjbdjk8mfUftxOe-zmbguXVQSr9HUm0AGU5kZvzt7w",
+                      "title": "What is Computer Science? - ITserv Technology",
+                      "text": "* Computer science is the study of computers and computational systems, encompassing both theoretical and practical aspects of com..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "YouTube",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESUgHrOzAVrz2n3i4MhYlW6Zh50lbj6hF49jDObjsWhfZRbeHrC_LaxHGbxYRWKep8g1EeYq78oX0Q5RTcRd2Td3MP-JRjSXEU26THk_OcXQVd3wc",
+                      "title": "What is computer science? | Intro to CS - Python | Khan Academy",
+                      "text": "and that probably wasn't particularly helpful because what does it mean to study a computer to get to a better definition it'll be..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Major Specializations",
+                  "text": "Artificial Intelligence (AI): Building systems that perform tasks requiring human-like reasoning, learning, and pattern recognition. Software Engineering: The disciplined creation, testing, and maintenance of large-scale software applications. Cybersecurity: Protecting networks, computers, and private data from digital attacks, theft, or unauthorized access. Data Science: Collecting, storing, and analyzing massive data sets to uncover actionable insights.",
+                  "markdown": "- **Artificial Intelligence (AI):** Building systems that perform tasks requiring human-like reasoning, learning, and pattern recognition.\n- **Software Engineering:** The disciplined creation, testing, and maintenance of large-scale software applications.\n- **Cybersecurity:** Protecting networks, computers, and private data from digital attacks, theft, or unauthorized access.\n- **Data Science:** Collecting, storing, and analyzing massive data sets to uncover actionable insights.[](https://google.com/goto?url=CAESUwHrOzAVATgGUBWTzvadKOtF438FbPmc8YIdce1tkdQebu_ubAI8PLoEJbxVIyVQh8H2maJUbVKsk6fn6jUPalS2PRG0Z_eFwfQFF_E9YS_FBghA) [[1]](https://google.com/goto?url=CAESUwHrOzAVATgGUBWTzvadKOtF438FbPmc8YIdce1tkdQebu_ubAI8PLoEJbxVIyVQh8H2maJUbVKsk6fn6jUPalS2PRG0Z_eFwfQFF_E9YS_FBghA)[[2]](https://google.com/goto?url=CAESYAHrOzAVf63PxKFrT9_9Mu09MRrjtkj9fqnGVMLuW42hO4eRuaRn-E-PL1ueApoHl-f1tUnaDrKmpS11jiddRMYhjjbdjk8mfUftxOe-zmbguXVQSr9HUm0AGU5kZvzt7w)[[3]](https://google.com/goto?url=CAESTgHrOzAV0bDqCxcKdiIbHnk3nDWq5Y-uEFHQpFRBdA_2uXs1aSwAWH3LRV3g0uOasHdoy2nJWLlVQDv_N_cMGN6BsWenoa-8yceh_hg5jw)[[4]](https://google.com/goto?url=CAESPwHrOzAVgg_6Fn8UuFHgEGJQrWHzv7p063BY3n3_gbswJqJosXseVzY6xeAMe3M8JpDWYH8-4Q1_akvbynZpYw)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Çukurova Üniversitesi",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESUwHrOzAVATgGUBWTzvadKOtF438FbPmc8YIdce1tkdQebu_ubAI8PLoEJbxVIyVQh8H2maJUbVKsk6fn6jUPalS2PRG0Z_eFwfQFF_E9YS_FBghA",
+                      "title": "Computer Sciences - Information Package | Course Catalog",
+                      "text": "Goals. The purpose of the Computer Science program is to provide students with a comprehensive education in computer technologies,"
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "ITserv Technology",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESYAHrOzAVf63PxKFrT9_9Mu09MRrjtkj9fqnGVMLuW42hO4eRuaRn-E-PL1ueApoHl-f1tUnaDrKmpS11jiddRMYhjjbdjk8mfUftxOe-zmbguXVQSr9HUm0AGU5kZvzt7w",
+                      "title": "What is Computer Science? - ITserv Technology",
+                      "text": "* Computer science is the study of computers and computational systems, encompassing both theoretical and practical aspects of com..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "YouTube",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESTgHrOzAV0bDqCxcKdiIbHnk3nDWq5Y-uEFHQpFRBdA_2uXs1aSwAWH3LRV3g0uOasHdoy2nJWLlVQDv_N_cMGN6BsWenoa-8yceh_hg5jw",
+                      "title": "Roadmap to Computer Science Mastery - Complete Introduction",
+                      "text": "hey it's Caleb welcome to this video this is going to be a highle overview of computer science and the variety of topics that we'r..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Michigan Technological University",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESPwHrOzAVgg_6Fn8UuFHgEGJQrWHzv7p063BY3n3_gbswJqJosXseVzY6xeAMe3M8JpDWYH8-4Q1_akvbynZpYw",
+                      "title": "What is Computer Science?",
+                      "text": "Computer science is the study of computers and computational systems. It's a broad field that includes: * **Software development**"
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you're interested, let me know:Are you looking to learn programming or study theoretical concepts ?\nDo you want a recommendation for a specific language or career path ?",
+                  "markdown": "If you're interested, let me know:\n\n- Are you looking to **learn programming** or study **theoretical concepts**?\n- Do you want a recommendation for a **specific language** or **career path**?",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Wikipedia",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESUQHrOzAVaHItOsZ2z37LkPtJH5Pt70k9PyMuxZAl-Bz6MGX-NX3bmO7M-UyTQnTXm6jR3SLsMVanbpDn-q4Dnv2bzyxm4seRBkZlxzKUATRuPA",
+                  "title": "Computer science - Wikipedia",
+                  "text": "Computer science. Article · Talk. Language; Download PDF; Watch · View source. For other uses, see Computer science (disambiguatio..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Çukurova Üniversitesi",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESUwHrOzAVATgGUBWTzvadKOtF438FbPmc8YIdce1tkdQebu_ubAI8PLoEJbxVIyVQh8H2maJUbVKsk6fn6jUPalS2PRG0Z_eFwfQFF_E9YS_FBghA",
+                  "title": "Computer Sciences - Information Package | Course Catalog",
+                  "text": "Goals. The purpose of the Computer Science program is to provide students with a comprehensive education in computer technologies,"
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Michigan Technological University",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESPwHrOzAVgg_6Fn8UuFHgEGJQrWHzv7p063BY3n3_gbswJqJosXseVzY6xeAMe3M8JpDWYH8-4Q1_akvbynZpYw",
+                  "title": "What is Computer Science?",
+                  "text": "Computer science is the study of computers and computational systems. It's a broad field that includes: * **Software development**"
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "ITserv Technology",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESYAHrOzAVf63PxKFrT9_9Mu09MRrjtkj9fqnGVMLuW42hO4eRuaRn-E-PL1ueApoHl-f1tUnaDrKmpS11jiddRMYhjjbdjk8mfUftxOe-zmbguXVQSr9HUm0AGU5kZvzt7w",
+                  "title": "What is Computer Science? - ITserv Technology",
+                  "text": "* Computer science is the study of computers and computational systems, encompassing both theoretical and practical aspects of com..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "YouTube",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESTgHrOzAVPrmYdY8ZmSgeFXl2j-HrdBkQ6WJpUopUSKCL8EfZrNhZI_mLT89BXsWy6LVR7RlM2Su2hQluj4hj07T3mBcN_7jbymVg5-BrZg",
+                  "title": "COMPUTER SCIENCE explained in 17 Minutes",
+                  "text": "computers make no sense throw some metal in a box and boom. what the heck is going on. here. inside your PC is a central processin..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "YouTube",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESTgHrOzAV0bDqCxcKdiIbHnk3nDWq5Y-uEFHQpFRBdA_2uXs1aSwAWH3LRV3g0uOasHdoy2nJWLlVQDv_N_cMGN6BsWenoa-8yceh_hg5jw",
+                  "title": "Roadmap to Computer Science Mastery - Complete Introduction",
+                  "text": "hey it's Caleb welcome to this video this is going to be a highle overview of computer science and the variety of topics that we'r..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "YouTube",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESUgHrOzAVrz2n3i4MhYlW6Zh50lbj6hF49jDObjsWhfZRbeHrC_LaxHGbxYRWKep8g1EeYq78oX0Q5RTcRd2Td3MP-JRjSXEU26THk_OcXQVd3wc",
+                  "title": "What is computer science? | Intro to CS - Python | Khan Academy",
+                  "text": "and that probably wasn't particularly helpful because what does it mean to study a computer to get to a better definition it'll be..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]",
+              "domain": "www.bilgi.edu.tr",
+              "title": "Department of Computer Science - İstanbul",
+              "url": "https://www.bilgi.edu.tr/en/academic/faculty-of-engineering-and-natural-sciences/computer-science/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.bilgi.edu.tr › academic › computer-science",
+              "website_name": "Bilgi Üniversitesi",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Our courses can be broadly divided into four broad categories. Firstly, the mathematical basis for computer science is dealt with in our courses on discrete ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "computer science"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[12]/div[1]/div[1]",
+              "domain": "dergipark.org.tr",
+              "title": "Computer Science Home",
+              "url": "https://dergipark.org.tr/en/pub/bbd",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://dergipark.org.tr › bbd",
+              "website_name": "DergiPark",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Journal of Computer Science (JCS ) is an international peer-reviewed journal. It publishes original and high-quality unpublished research papers in all areas of ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Journal of Computer Science (JCS"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]",
+              "domain": "cs.sabanciuniv.edu",
+              "title": "Computer Science & Engineering",
+              "url": "https://cs.sabanciuniv.edu/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://cs.sabanciuniv.edu",
+              "website_name": "Sabancı Üniversitesi",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Computer Science and Engineering (CSE) Program addresses leading edge science and technology both with its wide curriculum and research expertise.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "addresses leading edge science and technology"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[16]/div[1]/div[1]",
+              "domain": "www.britannica.com",
+              "title": "Computer science | Definition, Types, & Facts",
+              "url": "https://www.britannica.com/science/computer-science",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.britannica.com › ...",
+              "website_name": "Britannica",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Computer science is the study of computers and computing as well as their theoretical and practical applications. Computer science applies the principles of ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "the study of computers and computing"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[18]/div[1]/div[1]",
+              "domain": "www.timeshighereducation.com",
+              "title": "Computer Science World University Rankings 2026",
+              "url": "https://www.timeshighereducation.com/world-university-rankings/2026/subject-ranking/computer-science",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.timeshighereducation.com › ...",
+              "website_name": "Times Higher Education",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "The Times Higher Education World University Rankings by Subject 2026 reveal the world's top universities for computer science. The 2026 Computer Science ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "world's top universities for computer science"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[20]/div[1]/div[1]",
+              "domain": "www.mtu.edu",
+              "title": "What is Computer Science?",
+              "url": "https://www.mtu.edu/cs/what/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.mtu.edu › what",
+              "website_name": "Michigan Technological University",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Computer science is the study of computers and computational systems. Computer scientists use various mathematical algorithms, coding procedures, and their ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "the study of computers and computational systems"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[2]/div[2]/div[1]/div[1]/div[22]/div[1]/div[1]",
+              "domain": "www.bachelorsportal.com",
+              "title": "Computer Sciences in Turkey: 2026 Bachelor's Guide",
+              "url": "https://www.bachelorsportal.com/study-options/268894489/computer-sciences-turkey.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.bachelorsportal.com › ...",
+              "website_name": "Bachelorsportal",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Your guide to a Bachelor's in Computer Sciences in Turkey in 2026: Top universities, scholarships, studying online, country & subject information & more.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Computer Sciences"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[14]/div[1]/div[3]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Computer science ne demek",
+                "Computer Science hangi bölüm",
+                "Computer science book",
+                "Computer science nedir",
+                "Computer Science course",
+                "Computer Science subjects",
+                "Types of computer science",
+                "Computer Science PDF"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

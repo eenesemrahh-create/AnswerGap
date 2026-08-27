@@ -23,6 +23,12 @@ export interface Node {
   id: string;
   slug: string;
   question: string;
+  /** How much of the seed's meaning this question still carries, 0–1. */
+  relevance: number | null;
+  /** `relevance` decayed along the path from the root — what the crawler gates on. */
+  reach: number | null;
+  /** "harvest": found inside a response bought to gap-score another question. */
+  discovered_by: "paa" | "harvest";
   depth: number;
   parent_id: string | null;
   parents: string[];
@@ -50,6 +56,12 @@ export interface TreeSummary {
   updated_at: string | null;
   /** "live" for a crawl the user ran; absent for the Phase 0 archive. */
   source?: string;
+  /**
+   * Query phrases Google shows alongside the results, accumulated across every
+   * response fetched for this tree. NOT questions, so they are never nodes —
+   * they are the next seeds to search.
+   */
+  related_searches?: string[];
 }
 
 export interface Tree extends TreeSummary {
@@ -74,10 +86,31 @@ export function isDryRun(result: SearchResult): result is DryRun {
   return (result as DryRun).dry_run === true;
 }
 
-/** `POST /api/tree/{slug}/question/{slug}/score`. */
+/** A question the relevance gate refused to add to the tree. */
+export interface DroppedQuestion {
+  question: string;
+  relevance: number;
+  reach: number;
+}
+
+/**
+ * `POST /api/tree/{slug}/question/{slug}/score`.
+ *
+ * Scoring is also a discovery call: the response carries a PAA block and a set
+ * of related searches beyond the organic results being scored. So the reply is
+ * not just the scored node — `nodes` is the whole updated list, because the
+ * harvest can also add parents to questions already on screen.
+ */
 export interface ScoreResult {
   node: Node;
+  nodes: Node[];
+  /** Newly added by the harvest. Only for telling the user what it found. */
+  discovered: Node[];
+  /** Refused by the relevance gate. Shown so a bounded crawl says it is bounded. */
+  dropped: DroppedQuestion[];
+  related_searches: string[];
   status_counts: Record<Status, number>;
+  node_count: number;
 }
 
 export interface Meta {

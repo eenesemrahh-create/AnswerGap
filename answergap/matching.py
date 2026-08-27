@@ -131,3 +131,35 @@ def features(scores: list[float], threshold: float) -> dict:
         "top3_mean": sum(ranked[:3]) / min(3, len(ranked)),
         "checked": len(scores),
     }
+
+
+def seed_relevance(
+    seed: str,
+    question: str,
+    language: str | Language | None = None,
+    strategy: str = DEFAULT_STRATEGY,
+) -> float:
+    """How much of the SEED's meaning a discovered question still carries.
+
+    CLAUDE.md's crawler rule — "stop expanding nodes whose semantic similarity
+    to the seed has dropped" — needs a number, and this is it. Same machinery as
+    `overlap`, pointed the other way: there we ask how much of a question a PAGE
+    covers, here how much of the seed a QUESTION still covers. A question with
+    an empty URL is exactly a page with a title and no slug, so `overlap` does
+    the work and there is no second scoring path to keep in step.
+
+    MEASURED on the `knight online` crawl, 44 harvested questions:
+
+        1.00   9 questions   on topic      "Is Knight Online still popular?"
+        0.50  23 questions   UNDECIDABLE   "Is there a free-to-play knight
+                                            game available?" sits beside
+                                            "Did any peasants become knights?"
+        0.00  12 questions   drifted       "Are MMOs a dying genre?"
+
+    So it separates the extremes cleanly and cannot split the middle band. That
+    is the same lexical wall CLAUDE.md already records against the gap
+    threshold (`60 year old` ↔ `senior`), which is the useful part of the
+    result: ONE embedding layer settles both open questions, and until it
+    exists the middle band must be kept and labelled rather than guessed at.
+    """
+    return overlap(seed, question, "", language, strategy)

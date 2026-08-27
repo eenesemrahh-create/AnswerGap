@@ -47,6 +47,7 @@ export const fr: Messages = {
   },
 
   toolbar: {
+    seeds: "Recherches associées",
     tree: "Arbre",
     table: "Tableau",
     searchPlaceholder: "Filtrer les questions…",
@@ -70,6 +71,12 @@ export const fr: Messages = {
     volumeHint: "Google Ads n'est pas connecté",
     noVolume: "aucune donnée",
     empty: "Aucune question ne correspond au filtre.",
+  },
+
+  seeds: {
+    note:
+      "Google affiche ces expressions à côté des résultats. Ce sont des requêtes, pas des questions : elles ne deviennent donc jamais des nœuds de l'arbre, ce sont les prochains mots-clés à analyser.",
+    empty: "Aucune recherche associée n'a encore été enregistrée pour cet arbre.",
   },
 
   detail: {
@@ -97,6 +104,10 @@ export const fr: Messages = {
     updated: "Dernière mise à jour : {date}",
     matching: "Correspondance : {strategy} · seuil {threshold}",
     unvalidated: "(non validé)",
+    harvestFound: "Cette requête a également révélé {count} nouvelles questions, sans coût supplémentaire.",
+    harvestDropped: "{count} autres ont été écartées car trop éloignées du mot-clé de départ.",
+    harvestedNode: "Trouvée dans les résultats d'une autre question",
+    relevance: "Proximité au mot-clé {value}",
   },
 
   notice: {

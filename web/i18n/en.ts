@@ -56,6 +56,7 @@ export const en = {
   },
 
   toolbar: {
+    seeds: "Related searches",
     tree: "Tree",
     table: "Table",
     searchPlaceholder: "Filter questions…",
@@ -79,6 +80,12 @@ export const en = {
     volumeHint: "Google Ads is not connected",
     noVolume: "no data",
     empty: "No question matches the filter.",
+  },
+
+  seeds: {
+    note:
+      "Google shows these phrases beside the results. They are queries, not questions, so they are never nodes in the tree — they are the next seeds to search.",
+    empty: "No related searches have been recorded for this tree yet.",
   },
 
   detail: {
@@ -105,6 +112,10 @@ export const en = {
     updated: "Last updated: {date}",
     matching: "Matching: {strategy} · threshold {threshold}",
     unvalidated: "(unvalidated)",
+    harvestFound: "This request also revealed {count} new questions, at no extra cost.",
+    harvestDropped: "{count} more were left out for drifting away from the seed.",
+    harvestedNode: "Found inside another question's results",
+    relevance: "Seed relevance {value}",
   },
 
   notice: {

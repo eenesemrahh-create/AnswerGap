@@ -46,6 +46,7 @@ export const de: Messages = {
   },
 
   toolbar: {
+    seeds: "Ähnliche Suchanfragen",
     tree: "Baum",
     table: "Tabelle",
     searchPlaceholder: "Fragen filtern…",
@@ -69,6 +70,12 @@ export const de: Messages = {
     volumeHint: "Google Ads ist nicht angebunden",
     noVolume: "keine Daten",
     empty: "Keine Frage passt zum Filter.",
+  },
+
+  seeds: {
+    note:
+      "Google zeigt diese Begriffe neben den Ergebnissen. Es sind Suchanfragen, keine Fragen — deshalb werden sie nie zu Knoten im Baum, sondern sind die nächsten Startbegriffe.",
+    empty: "Für diesen Baum wurden noch keine ähnlichen Suchanfragen erfasst.",
   },
 
   detail: {
@@ -95,6 +102,10 @@ export const de: Messages = {
     updated: "Zuletzt aktualisiert: {date}",
     matching: "Abgleich: {strategy} · Schwelle {threshold}",
     unvalidated: "(nicht validiert)",
+    harvestFound: "Diese Anfrage brachte ohne Zusatzkosten {count} weitere neue Fragen zutage.",
+    harvestDropped: "{count} weitere blieben außen vor, weil sie zu weit vom Startbegriff abweichen.",
+    harvestedNode: "In den Ergebnissen einer anderen Frage gefunden",
+    relevance: "Nähe zum Startbegriff {value}",
   },
 
   notice: {

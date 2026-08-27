@@ -46,6 +46,7 @@ export const es: Messages = {
   },
 
   toolbar: {
+    seeds: "Búsquedas relacionadas",
     tree: "Árbol",
     table: "Tabla",
     searchPlaceholder: "Filtrar preguntas…",
@@ -69,6 +70,12 @@ export const es: Messages = {
     volumeHint: "Google Ads no está conectado",
     noVolume: "sin datos",
     empty: "Ninguna pregunta coincide con el filtro.",
+  },
+
+  seeds: {
+    note:
+      "Google muestra estas frases junto a los resultados. Son consultas, no preguntas, así que nunca son nodos del árbol: son las siguientes semillas que buscar.",
+    empty: "Aún no se han registrado búsquedas relacionadas para este árbol.",
   },
 
   detail: {
@@ -96,6 +103,10 @@ export const es: Messages = {
     updated: "Última actualización: {date}",
     matching: "Coincidencia: {strategy} · umbral {threshold}",
     unvalidated: "(sin validar)",
+    harvestFound: "Esta petición también reveló {count} preguntas nuevas, sin coste adicional.",
+    harvestDropped: "{count} más quedaron fuera por alejarse demasiado de la semilla.",
+    harvestedNode: "Encontrada dentro de los resultados de otra pregunta",
+    relevance: "Cercanía a la semilla {value}",
   },
 
   notice: {

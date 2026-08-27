@@ -229,6 +229,15 @@ def score_question_endpoint(
 
     This is the expensive half of the product: one SERP call per question. It
     stays explicit so the cost is always something the user chose.
+
+    The same request is also a discovery call, so the reply carries more than
+    the scored node: `live.score` mines the response for its own PAA block and
+    related searches. `nodes` therefore comes back whole rather than as a single
+    node to swap in - the harvest can add a parent to a question already on
+    screen, which no single-node reply could express.
+
+    `dropped` is part of the contract, not debug output. A crawl that bounds its
+    own coverage has to say so, or it reads as complete when it is not.
     """
     found = _lookup(slug)
     if found.get("source") != "live":
@@ -238,8 +247,16 @@ def score_question_endpoint(
             "Run a live search for this seed instead.",
         )
     try:
-        node = _run(lambda: live.score(found, question_slug, refresh=refresh))
+        result = _run(lambda: live.score(found, question_slug, refresh=refresh))
     except KeyError as e:
         raise HTTPException(404, f"No question: {question_slug}") from e
     _LIVE[found["slug"]] = found
-    return {"node": node, "status_counts": found["status_counts"]}
+    return {
+        "node": result["node"],
+        "nodes": found["nodes"],
+        "discovered": result["discovered"],
+        "dropped": result["dropped"],
+        "related_searches": found.get("related_searches", []),
+        "status_counts": found["status_counts"],
+        "node_count": found["node_count"],
+    }

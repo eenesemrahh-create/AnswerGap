@@ -46,6 +46,7 @@ export const tr: Messages = {
   },
 
   toolbar: {
+    seeds: "İlgili aramalar",
     tree: "Ağaç",
     table: "Tablo",
     searchPlaceholder: "Sorularda filtrele…",
@@ -69,6 +70,12 @@ export const tr: Messages = {
     volumeHint: "Google Ads bağlı değil",
     noVolume: "veri yok",
     empty: "Filtreye uyan soru yok.",
+  },
+
+  seeds: {
+    note:
+      "Google bu ifadeleri sonuçların yanında gösterir. Bunlar soru değil sorgudur, bu yüzden ağaçta düğüm olmazlar — aranacak bir sonraki tohumlardır.",
+    empty: "Bu ağaç için henüz ilgili arama kaydedilmedi.",
   },
 
   detail: {
@@ -95,6 +102,10 @@ export const tr: Messages = {
     updated: "Son güncelleme: {date}",
     matching: "Eşleştirme: {strategy} · eşik {threshold}",
     unvalidated: "(doğrulanmadı)",
+    harvestFound: "Bu istek ek maliyet olmadan {count} yeni soru daha ortaya çıkardı.",
+    harvestDropped: "{count} soru tohumdan uzaklaştığı için dışarıda bırakıldı.",
+    harvestedNode: "Başka bir sorunun sonuçları içinde bulundu",
+    relevance: "Tohum yakınlığı {value}",
   },
 
   notice: {

@@ -49,6 +49,13 @@ export default function Landing() {
   const [languageCode, setLanguageCode] = useState<string>("en");
 
   useEffect(() => {
+    /* A related-search chip on a tree page links here with the phrase attached.
+     * Read straight off `location` rather than through useSearchParams, which
+     * would force a Suspense boundary around the whole landing page for what is
+     * an optional prefill. This component is client-side either way. */
+    const prefill = new URLSearchParams(window.location.search).get("seed");
+    if (prefill) setSeed(prefill);
+
     Promise.all([fetchTrees(), fetchMeta()])
       .then(([treeList, metaData]) => {
         setTrees(treeList);

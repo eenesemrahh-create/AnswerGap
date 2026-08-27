@@ -104,11 +104,19 @@ Key: `paa:{location_code}:{language_code}:{normalized_question}`
 keyed per node correctly, but the *built tree* was persisted as one JSON document
 under `data/live/trees/`. Re-running the same search rebuilt that document from
 the fresh PAA response and **destroyed a gap score that had already been paid
-for** — the counts fell from `covered: 2` to `covered: 1`. `live._carry_scores()`
+for** — the counts fell from `covered: 2` to `covered: 1`. `live._carry_previous()`
 patches the symptom by carrying scored nodes across a re-crawl; the cause is
 storing the tree as a document at all, and that is what the storage migration
 fixes. A tree belongs in edge rows, where a re-crawl is an insert and cannot
 overwrite anything.
+
+**Harvesting widened that same hole.** Harvested nodes come out of scoring
+responses, so a re-crawl rebuilding from the seed response alone cannot
+rediscover them — without a carry it would delete them outright.
+`_carry_previous` now carries three things: gap scores, harvested nodes
+(parents first, orphans dropped) and related searches. Three carries patching
+one document-shaped wound is the argument for the storage migration, not
+against it.
 
 Adaptive TTL:
 
@@ -200,6 +208,73 @@ from the English demo tree:
 That is a **false positive in the product's central claim**. Settle it with
 embeddings or a broader synonym layer before fixing the threshold.
 
+## Scoring is also a discovery call — harvest it
+
+Measured 2026-08-27 across the eleven `knight online` responses on disk: **every
+SERP response carries its own PAA block (4 questions) and its own related
+searches (8 phrases)**, alongside the organic results gap scoring reads. Reading
+only `organic` discarded **27 unseen questions and 71 phrases already paid for**
+— the tree was 14 nodes where the same money had bought 41.
+
+Separating discovery from scoring stays right. Discarding the rest of the
+response does not. `live.score` now folds both back in, so the tree widens as a
+by-product of scoring at **no extra cost**.
+
+Related searches are **not questions and must never become nodes.** "Knight
+Online private server" is a query. They are the **next seeds**, and they are a
+surface AlsoAsked does not have.
+
+## The relevance gate — `relevance` and `reach`
+
+Harvesting without a gate widens the tree with garbage. "knight online" is a
+game; "knight" is a medieval soldier, and Google slides between the two.
+
+`matching.seed_relevance` scores a question against the seed with the same
+machinery as page matching, pointed the other way. Measured on 44 harvested
+questions:
+
+| Score | Count | Reading |
+|---|---:|---|
+| 1.00 | 9 | on topic |
+| 0.50 | 23 | **undecidable** |
+| 0.00 | 12 | drifted |
+
+The extremes separate cleanly; the middle band cannot be split, and it holds
+"Is there a free-to-play knight game available?" beside "Did any peasants become
+knights?". **This is the same lexical wall already recorded against the gap
+threshold** (`60 year old` ↔ `senior`). One embedding layer settles both open
+questions — which is why the labelling round comes before the schema.
+
+**Gate on `reach`, not `relevance`.** Judging each child alone let drift
+*compound*: "Why did knights end?" scores 0.5, so does every medieval question
+under it, and the whole branch walked in. `reach` = a node's own relevance times
+its parent's reach. Drift accumulates along a path, so the score must too — and
+that is literally the rule above, *stop expanding **nodes** that have drifted*.
+
+`EXPANSION_FLOOR = 0.25`, measured not picked. A two-word seed makes the score
+coarse, so reach only lands on 1.0 / 0.5 / 0.25 / 0.125 / 0:
+
+| Floor | Kept | Cut | What the cut removes |
+|---|---:|---:|---|
+| 0.50 | 8 | 25 | the medieval branch **and** the knight-game alternatives |
+| 0.25 | 14 | 19 | the medieval branch only |
+
+0.5 also throws away "What is the best knight game?" — a competitor question,
+exactly what this product exists to find. **Two hops of half-drift is adjacency;
+three is a different subject.**
+
+**The gate applies to the harvest only, never to the seed response.** Google's
+answer to the seed is the primary data; filtering it would be second-guessing
+the source and would shrink the very tree this is meant to widen.
+
+Result on `knight online`: **14 → 28 nodes, depth 3, 79 related phrases, $0.00.**
+
+Rejected while measuring: the free `knowledge_graph` element as an entity anchor
+(`title: Knight Online / subtitle: Online game / Genres: MMORPG`). Its
+distinctive tokens do not lexically match "MMORPG", and its generic ones —
+"game", "online" — would wave through exactly the drift being stopped. Do not
+re-propose it without embeddings.
+
 ## Diff engine
 
 After a refresh, compare old and new:
@@ -273,11 +348,12 @@ Two things stayed out of it on purpose:
   **`POST /api/tree/{slug}/question/{qslug}/score`**.
 - **Live crawl** (`answergap/live.py`) — the search box works. One request with
   `click_depth=4` returns a 16-node, two-level tree; gap scoring is a separate
-  per-question call. Live trees persist under `data/live/`, kept out of
+  per-question call that also **harvests** its own response, so the tree keeps
+  widening for free and reaches depth 3 (see the two sections above). Live trees persist under `data/live/`, kept out of
   `data/raw/` so the Phase 0 evidence is never rewritten. Live tree slugs are
   market-qualified (`teeth-whitening-en-2840`) so they cannot shadow the demos.
-- **Interface** (`web/`) — Next.js 16, four screens: search/landing, question
-  tree (pan/zoom), gap table, question detail. Builds clean. The search box is
+- **Interface** (`web/`) — Next.js 16, five screens: search/landing, question
+  tree (pan/zoom), gap table, related searches, question detail. Builds clean. The search box is
   wired; the detail panel offers "Check this question" on unscored live nodes.
 - **i18n** — English default plus de/es/fr/tr. `en.ts` defines the type; a
   missing key in any locale fails `npm run build`. Verified by deliberately

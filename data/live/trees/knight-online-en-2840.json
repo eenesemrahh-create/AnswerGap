@@ -4,23 +4,107 @@
   "language_code": "en",
   "language_name": "English",
   "location_code": 2840,
-  "node_count": 14,
+  "node_count": 28,
   "status_counts": {
     "gap": 1,
     "weak": 3,
     "covered": 8,
-    "no_data": 2
+    "no_data": 16
   },
   "threshold": 0.6,
   "strategy": "synonyms",
   "threshold_validated": false,
-  "updated_at": "2026-08-27T14:55:18+00:00",
+  "updated_at": "2026-08-27T15:17:36+00:00",
   "source": "live",
+  "related_searches": [
+    "Best games for PC free",
+    "Best knight games PC",
+    "Best medieval games",
+    "Best PC games of all time",
+    "Did knights exist in the 1700s",
+    "Do people still play knight online reddit",
+    "Do people still play knight online xbox",
+    "Games like Knight Online",
+    "Games like War the Knights",
+    "Is Knight Online still active",
+    "Is Ragnarok Online still alive",
+    "Is there a free to play knight game available on android",
+    "Is there a free to play knight game available on pc",
+    "Is there a free to play knight game available reddit",
+    "Is there a knight game available on pc free",
+    "Is there a knight game available on pc reddit",
+    "Kim Byung-min RAN Online",
+    "Knight game Online",
+    "Knight game PC",
+    "Knight Online 2",
+    "Knight Online 2026",
+    "Knight Online classes",
+    "Knight Online Classic",
+    "Knight Online English server",
+    "Knight Online game",
+    "Knight Online gameplay",
+    "Knight Online mobile game",
+    "Knight Online Paper mage",
+    "Knight Online player count",
+    "Knight Online private server",
+    "Knight Online reddit",
+    "Knight Online release Date",
+    "Knight Online steam",
+    "Knight Online World",
+    "Knight Path game",
+    "Knight video games",
+    "Knight's path game release date",
+    "Medieval games PC",
+    "Medieval knight video game",
+    "Most played game in the world right now",
+    "Most played games right now",
+    "Most popular PC games in the world",
+    "Multiplayer knight game Xbox",
+    "Ragnarok Online franchise",
+    "Ragnarok Online Switch",
+    "Ragnarok Online: World Journey",
+    "Top 10 games in the world",
+    "Top 10 most played game in the world",
+    "Top 10 most popular PC games of all time",
+    "Top 10 PC games in the world",
+    "Video game what is the #1 pc game in the world",
+    "Video game which game is no 1 online",
+    "War of Knights game",
+    "War the Knights game online",
+    "War the Knights mobile",
+    "War the Knights Play Store",
+    "What did knights do in the Middle Ages",
+    "What did knights wear",
+    "What happened to Ragnarok Online",
+    "What is knight online free",
+    "What is knight online gameplay",
+    "What is knight online reddit",
+    "What is the #1 pc game in the world reddit",
+    "What is the #1 pc game in the world right now",
+    "What is the best class in knight online for beginners",
+    "What is the best class in knight online reddit",
+    "What is the story behind knight online multiplayer",
+    "What is the story behind knight online reddit",
+    "What's the best knight game ps4",
+    "What's the best knight game reddit",
+    "What's the best knight game xbox",
+    "When did knights exist",
+    "When did knights start",
+    "Which game is no 1 online multiplayer",
+    "Which game is no 1 online reddit",
+    "Why did knights end in england",
+    "Why did knights end in the middle ages",
+    "Why did knights end reddit",
+    "World no 1 game mobile"
+  ],
   "nodes": [
     {
       "id": "knight online",
       "slug": "knight-online",
       "question": "knight online",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
       "depth": 0,
       "parent_id": null,
       "parents": [],
@@ -80,18 +164,22 @@
       ],
       "ai_sources": [],
       "source_file": null,
-      "updated_at": "2026-08-26T23:36:54+00:00"
+      "updated_at": "2026-08-27T15:12:45+00:00"
     },
     {
       "id": "do people still play knight online",
       "slug": "do-people-still-play-knight-online",
       "question": "Do people still play Knight Online?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
       "depth": 1,
       "parent_id": "knight online",
       "parents": [
-        "knight online"
+        "knight online",
+        "what is the best class in knight online"
       ],
-      "repeat_count": 1,
+      "repeat_count": 2,
       "status": "covered",
       "matching_pages": 3,
       "results_checked": 9,
@@ -153,12 +241,15 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-do-people-still-play-knight-online.json",
-      "updated_at": "2026-08-27T12:00:14+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
     },
     {
       "id": "is knight online free to play",
       "slug": "is-knight-online-free-to-play",
       "question": "Is Knight Online free-to-play?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
       "depth": 1,
       "parent_id": "knight online",
       "parents": [
@@ -220,12 +311,15 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-is-knight-online-free-to-play.json",
-      "updated_at": "2026-08-27T12:15:08+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
     },
     {
       "id": "is there a knight game available on pc",
       "slug": "is-there-a-knight-game-available-on-pc",
       "question": "Is there a knight game available on PC?",
+      "relevance": 0.5,
+      "reach": 0.5,
+      "discovered_by": "paa",
       "depth": 1,
       "parent_id": "knight online",
       "parents": [
@@ -288,12 +382,15 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-is-there-a-knight-game-available-on-pc.json",
-      "updated_at": "2026-08-26T23:37:48+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
     },
     {
       "id": "what are the system requirements for knight online",
       "slug": "what-are-the-system-requirements-for-knight-online",
       "question": "What are the system requirements for Knight Online?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
       "depth": 1,
       "parent_id": "knight online",
       "parents": [
@@ -313,6 +410,9 @@
       "id": "what is knight online",
       "slug": "what-is-knight-online",
       "question": "What is Knight Online?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
       "depth": 1,
       "parent_id": "knight online",
       "parents": [
@@ -369,12 +469,15 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-what-is-knight-online.json",
-      "updated_at": "2026-08-27T12:15:56+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
     },
     {
       "id": "what is the story behind knight online",
       "slug": "what-is-the-story-behind-knight-online",
       "question": "What is the story behind Knight Online?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
       "depth": 1,
       "parent_id": "knight online",
       "parents": [
@@ -442,12 +545,15 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-what-is-the-story-behind-knight-online.json",
-      "updated_at": "2026-08-27T12:15:28+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
     },
     {
       "id": "when did knight online come out",
       "slug": "when-did-knight-online-come-out",
       "question": "When did Knight Online come out?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
       "depth": 1,
       "parent_id": "knight online",
       "parents": [
@@ -463,9 +569,96 @@
       "updated_at": null
     },
     {
+      "id": "are free online games actually free",
+      "slug": "are-free-online-games-actually-free",
+      "question": "Are free online games actually free?",
+      "relevance": 0.5,
+      "reach": 0.5,
+      "discovered_by": "harvest",
+      "depth": 2,
+      "parent_id": "is knight online free to play",
+      "parents": [
+        "is knight online free to play"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "are there any games where you play as a knight",
+      "slug": "are-there-any-games-where-you-play-as-a-knight",
+      "question": "Are there any games where you play as a knight?",
+      "relevance": 0.5,
+      "reach": 0.25,
+      "discovered_by": "harvest",
+      "depth": 2,
+      "parent_id": "is there a knight game available on pc",
+      "parents": [
+        "is there a knight game available on pc"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "can you still be a knight today",
+      "slug": "can-you-still-be-a-knight-today",
+      "question": "Can you still be a knight today?",
+      "relevance": 0.5,
+      "reach": 0.5,
+      "discovered_by": "harvest",
+      "depth": 2,
+      "parent_id": "do people still play knight online",
+      "parents": [
+        "do people still play knight online"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "is knight online still popular",
+      "slug": "is-knight-online-still-popular",
+      "question": "Is Knight Online still popular?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "harvest",
+      "depth": 2,
+      "parent_id": "do people still play knight online",
+      "parents": [
+        "do people still play knight online"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
       "id": "is there a free to play knight game available",
       "slug": "is-there-a-free-to-play-knight-game-available",
       "question": "Is there a free-to-play knight game available?",
+      "relevance": 0.5,
+      "reach": 0.5,
+      "discovered_by": "paa",
       "depth": 2,
       "parent_id": "what is knight online",
       "parents": [
@@ -533,12 +726,15 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-is-there-a-free-to-play-knight-game-available.json",
-      "updated_at": "2026-08-27T12:00:04+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
     },
     {
       "id": "what is the 1 pc game in the world",
       "slug": "what-is-the-1-pc-game-in-the-world",
       "question": "What is the #1 PC game in the world?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
       "depth": 2,
       "parent_id": "is there a knight game available on pc",
       "parents": [
@@ -600,12 +796,15 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-what-is-the-1-pc-game-in-the-world.json",
-      "updated_at": "2026-08-27T11:59:02+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
     },
     {
       "id": "what is the best class in knight online",
       "slug": "what-is-the-best-class-in-knight-online",
       "question": "What is the best class in Knight Online?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
       "depth": 2,
       "parent_id": "is knight online free to play",
       "parents": [
@@ -673,12 +872,79 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-what-is-the-best-class-in-knight-online.json",
-      "updated_at": "2026-08-27T11:59:50+00:00"
+      "updated_at": "2026-08-27T15:17:36+00:00"
+    },
+    {
+      "id": "what is the best knight game",
+      "slug": "what-is-the-best-knight-game",
+      "question": "What is the best knight game?",
+      "relevance": 0.5,
+      "reach": 0.25,
+      "discovered_by": "harvest",
+      "depth": 2,
+      "parent_id": "is there a knight game available on pc",
+      "parents": [
+        "is there a knight game available on pc"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the origin of knight",
+      "slug": "what-is-the-origin-of-knight",
+      "question": "What is the origin of knight?",
+      "relevance": 0.5,
+      "reach": 0.5,
+      "discovered_by": "harvest",
+      "depth": 2,
+      "parent_id": "what is the story behind knight online",
+      "parents": [
+        "what is the story behind knight online"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what type of game is knight online",
+      "slug": "what-type-of-game-is-knight-online",
+      "question": "What type of game is Knight Online?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "harvest",
+      "depth": 2,
+      "parent_id": "is knight online free to play",
+      "parents": [
+        "is knight online free to play",
+        "what is knight online"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
     },
     {
       "id": "what s the best knight game",
       "slug": "what-s-the-best-knight-game",
       "question": "What's the best knight game?",
+      "relevance": 0.5,
+      "reach": 0.25,
+      "discovered_by": "paa",
       "depth": 2,
       "parent_id": "is there a knight game available on pc",
       "parents": [
@@ -746,12 +1012,15 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-what-s-the-best-knight-game.json",
-      "updated_at": "2026-08-27T01:21:59+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
     },
     {
       "id": "which game is no 1 online",
       "slug": "which-game-is-no-1-online",
       "question": "Which game is No. 1 online?",
+      "relevance": 0.5,
+      "reach": 0.5,
+      "discovered_by": "paa",
       "depth": 2,
       "parent_id": "what is knight online",
       "parents": [
@@ -819,12 +1088,15 @@
       ],
       "ai_sources": [],
       "source_file": "data/live/serp/paa-2840-en-which-game-is-no-1-online.json",
-      "updated_at": "2026-08-27T12:15:18+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
     },
     {
       "id": "why did knights end",
       "slug": "why-did-knights-end",
       "question": "Why did knights end?",
+      "relevance": 0.5,
+      "reach": 0.25,
+      "discovered_by": "paa",
       "depth": 2,
       "parent_id": "is there a knight game available on pc",
       "parents": [
@@ -896,10 +1168,157 @@
         "google.com"
       ],
       "source_file": "data/live/serp/paa-2840-en-why-did-knights-end.json",
-      "updated_at": "2026-08-27T14:55:18+00:00"
+      "updated_at": "2026-08-27T15:12:30+00:00"
+    },
+    {
+      "id": "is there a knight game app",
+      "slug": "is-there-a-knight-game-app",
+      "question": "Is there a knight game app?",
+      "relevance": 0.5,
+      "reach": 0.25,
+      "discovered_by": "harvest",
+      "depth": 3,
+      "parent_id": "is there a free to play knight game available",
+      "parents": [
+        "is there a free to play knight game available"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what are the top 3 online games",
+      "slug": "what-are-the-top-3-online-games",
+      "question": "What are the top 3 online games?",
+      "relevance": 0.5,
+      "reach": 0.25,
+      "discovered_by": "harvest",
+      "depth": 3,
+      "parent_id": "which game is no 1 online",
+      "parents": [
+        "which game is no 1 online"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the 1 online game",
+      "slug": "what-is-the-1-online-game",
+      "question": "What is the #1 online game?",
+      "relevance": 0.5,
+      "reach": 0.25,
+      "discovered_by": "harvest",
+      "depth": 3,
+      "parent_id": "which game is no 1 online",
+      "parents": [
+        "which game is no 1 online"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the best class in soul knight",
+      "slug": "what-is-the-best-class-in-soul-knight",
+      "question": "What is the best class in Soul Knight?",
+      "relevance": 0.5,
+      "reach": 0.5,
+      "discovered_by": "harvest",
+      "depth": 3,
+      "parent_id": "what is the best class in knight online",
+      "parents": [
+        "what is the best class in knight online"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the best weapon for a knight",
+      "slug": "what-is-the-best-weapon-for-a-knight",
+      "question": "What is the best weapon for a knight?",
+      "relevance": 0.5,
+      "reach": 0.5,
+      "discovered_by": "harvest",
+      "depth": 3,
+      "parent_id": "what is the best class in knight online",
+      "parents": [
+        "what is the best class in knight online"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the new knight game",
+      "slug": "what-is-the-new-knight-game",
+      "question": "What is the new knight game?",
+      "relevance": 0.5,
+      "reach": 0.25,
+      "discovered_by": "harvest",
+      "depth": 3,
+      "parent_id": "is there a free to play knight game available",
+      "parents": [
+        "is there a free to play knight game available"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "which class is the best in portal knights",
+      "slug": "which-class-is-the-best-in-portal-knights",
+      "question": "Which class is the best in Portal Knights?",
+      "relevance": 0.5,
+      "reach": 0.5,
+      "discovered_by": "harvest",
+      "depth": 3,
+      "parent_id": "what is the best class in knight online",
+      "parents": [
+        "what is the best class in knight online"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
     }
   ],
-  "billable_calls": 1,
-  "estimated_spend": 0.002,
-  "from_cache": false
+  "billable_calls": 0,
+  "estimated_spend": 0.0,
+  "from_cache": true
 }

@@ -1,0 +1,491 @@
+{
+  "seed": "computer science",
+  "slug": "computer-science-tr-2792",
+  "language_code": "tr",
+  "language_name": "Türkçe",
+  "location_code": 2792,
+  "node_count": 16,
+  "status_counts": {
+    "gap": 0,
+    "weak": 0,
+    "covered": 2,
+    "no_data": 14
+  },
+  "threshold": 0.6,
+  "strategy": "synonyms",
+  "threshold_validated": false,
+  "updated_at": "2026-08-27T15:39:54+00:00",
+  "source": "live",
+  "related_searches": [
+    "Computer science book",
+    "Computer Science course",
+    "Computer Science hangi bölüm",
+    "Computer science ne demek",
+    "Computer science nedir",
+    "Computer Science PDF",
+    "Computer Science subjects",
+    "How hard is computer science compared to other majors",
+    "Is computer science 1 hard",
+    "Is computer science easy or hard",
+    "Is computer science hard to get a job",
+    "Is computer science harder than engineering",
+    "Is computer science harder than nursing",
+    "Is computer science in demand",
+    "Is computer science major hard",
+    "Types of computer science"
+  ],
+  "nodes": [
+    {
+      "id": "computer science",
+      "slug": "computer-science",
+      "question": "computer science",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 0,
+      "parent_id": null,
+      "parents": [],
+      "repeat_count": 0,
+      "status": "covered",
+      "matching_pages": 9,
+      "results_checked": 9,
+      "results": [
+        {
+          "title": "computer science",
+          "url": "https://eksisozluk.com/computer-science--100543",
+          "domain": "eksisozluk.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Computer science",
+          "url": "https://en.wikipedia.org/wiki/Computer_science",
+          "domain": "en.wikipedia.org",
+          "overlap": 1.0
+        },
+        {
+          "title": "Department of Computer Science - İstanbul",
+          "url": "https://www.bilgi.edu.tr/en/academic/faculty-of-engineering-and-natural-sciences/computer-science/",
+          "domain": "www.bilgi.edu.tr",
+          "overlap": 1.0
+        },
+        {
+          "title": "Computer Science Home",
+          "url": "https://dergipark.org.tr/en/pub/bbd",
+          "domain": "dergipark.org.tr",
+          "overlap": 1.0
+        },
+        {
+          "title": "Computer Science & Engineering",
+          "url": "https://cs.sabanciuniv.edu/",
+          "domain": "cs.sabanciuniv.edu",
+          "overlap": 1.0
+        },
+        {
+          "title": "Computer science | Definition, Types, & Facts",
+          "url": "https://www.britannica.com/science/computer-science",
+          "domain": "www.britannica.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Computer Science World University Rankings 2026",
+          "url": "https://www.timeshighereducation.com/world-university-rankings/2026/subject-ranking/computer-science",
+          "domain": "www.timeshighereducation.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "What is Computer Science?",
+          "url": "https://www.mtu.edu/cs/what/",
+          "domain": "www.mtu.edu",
+          "overlap": 1.0
+        },
+        {
+          "title": "Computer Sciences in Turkey: 2026 Bachelor's Guide",
+          "url": "https://www.bachelorsportal.com/study-options/268894489/computer-sciences-turkey.html",
+          "domain": "www.bachelorsportal.com",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com",
+        "google.com"
+      ],
+      "source_file": null,
+      "updated_at": "2026-08-27T15:39:27+00:00"
+    },
+    {
+      "id": "ıs computer science heavy in math",
+      "slug": "is-computer-science-heavy-in-math",
+      "question": "Is computer science heavy in math?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "computer science",
+      "parents": [
+        "computer science",
+        "what is the first thing to learn in computer science"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "ıs turkey good for computer science",
+      "slug": "is-turkey-good-for-computer-science",
+      "question": "Is turkey good for computer science?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "computer science",
+      "parents": [
+        "computer science"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what do ı need to know before studying computer science",
+      "slug": "what-do-i-need-to-know-before-studying-computer-science",
+      "question": "What do I need to know before studying computer science?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "computer science",
+      "parents": [
+        "computer science"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what does computer science do",
+      "slug": "what-does-computer-science-do",
+      "question": "What does computer science do?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "computer science",
+      "parents": [
+        "computer science"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the first thing to learn in computer science",
+      "slug": "what-is-the-first-thing-to-learn-in-computer-science",
+      "question": "What is the first thing to learn in computer science?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "computer science",
+      "parents": [
+        "computer science",
+        "what do ı need to know before studying computer science"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "which is better ıt or computer science",
+      "slug": "which-is-better-it-or-computer-science",
+      "question": "Which is better, IT or computer science?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "computer science",
+      "parents": [
+        "computer science"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "which is harder mathematics or computer science",
+      "slug": "which-is-harder-mathematics-or-computer-science",
+      "question": "Which is harder, mathematics or computer science?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "computer science",
+      "parents": [
+        "computer science",
+        "ıs computer science heavy in math"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "are high ıq people good at math",
+      "slug": "are-high-iq-people-good-at-math",
+      "question": "Are high IQ people good at math?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "ıs computer science heavy in math",
+      "parents": [
+        "ıs computer science heavy in math"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "can ı teach myself computer science",
+      "slug": "can-i-teach-myself-computer-science",
+      "question": "Can I teach myself computer science?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "what is the first thing to learn in computer science",
+      "parents": [
+        "what is the first thing to learn in computer science"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "how many subjects are in computer science",
+      "slug": "how-many-subjects-are-in-computer-science",
+      "question": "How many subjects are in computer science?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "what is the first thing to learn in computer science",
+      "parents": [
+        "what is the first thing to learn in computer science"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "ıs computer science very hard",
+      "slug": "is-computer-science-very-hard",
+      "question": "Is computer science very hard?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "what do ı need to know before studying computer science",
+      "parents": [
+        "what do ı need to know before studying computer science"
+      ],
+      "repeat_count": 1,
+      "status": "covered",
+      "matching_pages": 7,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "How difficult is a computer science degree? could ...",
+          "url": "https://www.reddit.com/r/learnprogramming/comments/105j5oh/how_difficult_is_a_computer_science_degree_could/",
+          "domain": "www.reddit.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "How Hard is Computer Science: A Complete Breakdown",
+          "url": "https://www.franklin.edu/blog/how-hard-is-computer-science",
+          "domain": "www.franklin.edu",
+          "overlap": 0.75
+        },
+        {
+          "title": "Is Computer Science Really that Hard?",
+          "url": "https://www.boot.dev/blog/computer-science/is-computer-science-hard",
+          "domain": "www.boot.dev",
+          "overlap": 0.75
+        },
+        {
+          "title": "Is Studying Computer Science as Hard as People Make It?",
+          "url": "https://www.computerscience.org/resources/is-computer-science-hard/",
+          "domain": "www.computerscience.org",
+          "overlap": 0.75
+        },
+        {
+          "title": "How hard is computer science? I'm a junior in high school ...",
+          "url": "https://www.quora.com/How-hard-is-computer-science-I-m-a-junior-in-high-school-and-trying-to-decide-my-major",
+          "domain": "www.quora.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "struggling students - Why is computer science hard?",
+          "url": "https://cseducators.stackexchange.com/questions/6598/why-is-computer-science-hard",
+          "domain": "cseducators.stackexchange.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "Is Computer Science Hard?",
+          "url": "https://www.coursera.org/articles/is-computer-science-hard",
+          "domain": "www.coursera.org",
+          "overlap": 0.75
+        },
+        {
+          "title": "Is Computer Science Really that Hard? | by Natalie Schooner",
+          "url": "https://medium.com/bootdotdev/is-computer-science-really-that-hard-c24ad2f10d4d",
+          "domain": "medium.com",
+          "overlap": 0.75
+        }
+      ],
+      "ai_sources": [],
+      "source_file": "data/live/serp/paa-2792-tr-is-computer-science-very-hard.json",
+      "updated_at": "2026-08-27T15:39:54+00:00"
+    },
+    {
+      "id": "what degree has the least math",
+      "slug": "what-degree-has-the-least-math",
+      "question": "What degree has the least math?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "which is harder mathematics or computer science",
+      "parents": [
+        "which is harder mathematics or computer science"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what level of math is needed for computer science",
+      "slug": "what-level-of-math-is-needed-for-computer-science",
+      "question": "What level of math is needed for computer science?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "ıs computer science heavy in math",
+      "parents": [
+        "ıs computer science heavy in math"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "which is the hardest subject in computer science",
+      "slug": "which-is-the-hardest-subject-in-computer-science",
+      "question": "Which is the hardest subject in computer science?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "which is harder mathematics or computer science",
+      "parents": [
+        "which is harder mathematics or computer science"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "why does cs have so much math",
+      "slug": "why-does-cs-have-so-much-math",
+      "question": "Why does CS have so much math?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "which is harder mathematics or computer science",
+      "parents": [
+        "which is harder mathematics or computer science"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    }
+  ],
+  "billable_calls": 1,
+  "estimated_spend": 0.002,
+  "from_cache": false
+}
