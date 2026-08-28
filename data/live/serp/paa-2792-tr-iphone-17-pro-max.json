@@ -1,0 +1,776 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "2.6501 sec.",
+  "cost": 0.0026,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08272214-2374-0139-0000-696ef1c78758",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.2739 sec.",
+      "cost": 0.0026,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "iphone 17 pro max",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10,
+        "people_also_ask_click_depth": 4
+      },
+      "result": [
+        {
+          "keyword": "iphone 17 pro max",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=iphone%2017%20pro%20max&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-27 22:14:53 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "organic",
+            "people_also_ask",
+            "images",
+            "related_searches"
+          ],
+          "se_results_count": 197,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "domain": "www.akakce.com",
+              "title": "iPhone 17 Pro Max 256 GB - Akakçe",
+              "url": "https://www.akakce.com/cep-telefonu/en-ucuz-iphone-17-pro-max-fiyati,370526315.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.akakce.com › ... › Cep Telefonu › iPhone",
+              "website_name": "Akakçe",
+              "is_image": true,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_image"
+              ],
+              "description": "En ucuz iPhone 17 Pro Max 256 GB fiyatları 110.199,05 TL'den başlayan seçeneklerle Akakçe'de! iPhone 17 Pro Max 256 GB özelliklerini incele, 168 mağazadaki ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": [
+                {
+                  "type": "images_element",
+                  "alt": "www.akakce.com sitesinden iphone 17 pro max",
+                  "url": null,
+                  "image_url": "https://api.dataforseo.com/cdn/i/08272214-2374-0139-0000-696ef1c78758:0"
+                }
+              ],
+              "amp_version": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 3.4,
+                "votes_count": 8,
+                "rating_max": 5
+              },
+              "price": {
+                "current": 110199.05,
+                "regular": null,
+                "max_value": null,
+                "currency": "TRY",
+                "is_price_range": false,
+                "displayed_price": "₺110.199,05"
+              },
+              "highlighted": [
+                "iPhone 17 Pro Max 256 GB fiyatları 110.199,05 TL'den başlayan seçeneklerle Akakçe'de"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]",
+              "domain": "www.mediamarkt.com.tr",
+              "title": "APPLE iPhone 17 Pro Max 256 GB Akıllı Telefon Kozmik ...",
+              "url": "https://www.mediamarkt.com.tr/tr/product/_apple-mfyn4tua-iphone-17-pro-max-256gb-akilli-telefon-kozmik-turuncu-1249246.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.mediamarkt.com.tr › ... › iPhone 17 Pro Max",
+              "website_name": "MediaMarkt",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "iPhone · iPhone 17 Pro Max. 5000 TL Ek Destek ! Birlikte Al! APPLE|. Ürün no. 1249246. APPLE iPhone 17 Pro Max 256 GB Akıllı Telefon Kozmik Turuncu MFYN4TU/A.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": {
+                "current": 121999,
+                "regular": null,
+                "max_value": null,
+                "currency": "TRY",
+                "is_price_range": false,
+                "displayed_price": "₺121.999,00"
+              },
+              "highlighted": [
+                "iPhone 17 Pro Max"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]",
+              "domain": "www.apple.com",
+              "title": "iPhone 17 Pro ve iPhone 17 Pro Max",
+              "url": "https://www.apple.com/tr/iphone-17-pro/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.apple.com › iphone-17-pro",
+              "website_name": "Apple",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "iPhone 17 Pro. Sıra dışı performans. Yeni Center Stage ön kamera. Son teknoloji Pro kamera sistemi. Çığır açıcı pil ömrü. A19 Pro çip.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "iPhone 17 Pro"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[6]/div[1]/div[1]",
+              "domain": "www.vatanbilgisayar.com",
+              "title": "iPhone 17 Pro Max 256 GB Akıllı Telefon Abis",
+              "url": "https://www.vatanbilgisayar.com/iphone-17-pro-max-akilli-telefon.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.vatanbilgisayar.com › ... › APPLE",
+              "website_name": "Vatan Bilgisayar",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Devasa 6.9 inç Super Retina XDR ekranı, çığır açan 48 MP Fusion kamera sistemi, bugüne kadarki en güçlü A19 Pro çipi ve iPhone'da şimdiye kadar sunulan en uzun ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 4.9,
+                "votes_count": 376,
+                "rating_max": 5
+              },
+              "price": {
+                "current": 121999,
+                "regular": null,
+                "max_value": 182999,
+                "currency": "TRY",
+                "is_price_range": true,
+                "displayed_price": "₺121.999,00 - ₺182.999,00"
+              },
+              "highlighted": [
+                "Devasa 6.9 inç Super Retina XDR ekranı"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[8]/div[1]/div[1]",
+              "domain": "www.trendyol.com",
+              "title": "iPhone 17 Pro Max Cep Telefonu",
+              "url": "https://www.trendyol.com/iphone-17-pro-max-cep-telefonu-x-c103498-a292-v10632552",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.trendyol.com › iphone-17-pro-max-cep-tel...",
+              "website_name": "Trendyol",
+              "is_image": true,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_image"
+              ],
+              "description": "Süper retina XDR OLED ekran özelliğiyle canlı, parlak, göz alıcı, gerçekçi, yüksek kontrast görüntü olanağı tanır. 120 Hz ProMotion yenileme hızıyla aktif ve ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": [
+                {
+                  "type": "images_element",
+                  "alt": "www.trendyol.com sitesinden iphone 17 pro max",
+                  "url": null,
+                  "image_url": "https://api.dataforseo.com/cdn/i/08272214-2374-0139-0000-696ef1c78758:1"
+                }
+              ],
+              "amp_version": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 4.6,
+                "votes_count": 836,
+                "rating_max": 5
+              },
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 Pro Max kaç TL'dir?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Apple iPhone 17 Pro Max kaç TL?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 Pro Max ne zaman gelecek?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 Pro Max geldi mi?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Türkiye'de iPhone 17 fiyatı ne kadar?",
+                  "seed_question": "iPhone 17 Pro Max geldi mi?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[5]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 18 Pro Max çıktı mı?",
+                  "seed_question": "iPhone 17 Pro Max geldi mi?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[6]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 19 Pro Max çıktı mı?",
+                  "seed_question": "iPhone 18 Pro Max çıktı mı?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[7]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "İPhone 17 Pro Max özellikleri nelerdir?",
+                  "seed_question": "iPhone 18 Pro Max çıktı mı?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 18 kaç TL olacak?",
+                  "seed_question": "iPhone 18 Pro Max çıktı mı?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "İPhone 17 Pro Max Kaç mAh?",
+                  "seed_question": "iPhone 18 kaç TL olacak?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[10]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 18 Pro'nun özellikleri nelerdir?",
+                  "seed_question": "iPhone 18 kaç TL olacak?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[11]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "İPhone 17 zamlandı mı?",
+                  "seed_question": "iPhone 18 kaç TL olacak?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[12]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 çıktığında 16 fiyatı düşer mi?",
+                  "seed_question": "İPhone 17 zamlandı mı?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[13]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 Pro Max 512 GB'nin fiyatı nedir?",
+                  "seed_question": "İPhone 17 zamlandı mı?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[14]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 ne farkı var?",
+                  "seed_question": "İPhone 17 zamlandı mı?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]/div[1]/div[1]/div[2]/div[15]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[12]/div[1]/div[1]",
+              "domain": "www.epey.com",
+              "title": "Apple iPhone 17 Pro Max (2 TB) Fiyatı ve Özellikleri",
+              "url": "https://www.epey.com/akilli-telefonlar/apple-iphone-17-pro-max-2tb.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.epey.com › Telefon › Apple",
+              "website_name": "Epey",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "TASARIM TASARIM · Boy 163.4 mm · En 78 mm · Kalınlık 8.75 mm · Ağırlık 231 Gram · Renk Seçenekleri Gümüş Mavi (Koyu) Turuncu · Gövde Malzemesi (Kapak) Cam ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 3,
+                "votes_count": 70,
+                "rating_max": 5
+              },
+              "price": {
+                "current": 159140.8,
+                "regular": null,
+                "max_value": 189999,
+                "currency": "TRY",
+                "is_price_range": true,
+                "displayed_price": "₺159.140,80 - ₺189.999,00"
+              },
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[13]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "iPhone 17 Pro Max ile 10 Aylık Deneyim! | 120.000 TL'ye alınır ...",
+              "url": "https://www.youtube.com/watch?v=2Nw7K97cuts",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "52,2 B+ görüntüleme  ·  1 ay önce",
+              "website_name": "YouTube · Hardware Plus",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": "Not: Bu videodaki ürün Apple Türkiye tarafından tedarik edilmiştir. Bu videoda Eren, yaklaşık 10 aydır günlük telefonu olarak kullandığı ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-07-09 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[15]/div[1]/div[1]",
+              "domain": "www.sahibinden.com",
+              "title": "iPhone 17 Pro Max Modelleri ve Fiyatları",
+              "url": "https://www.sahibinden.com/iphone-17-pro-max",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.sahibinden.com › ... › Cep Telefonu › Apple",
+              "website_name": "Sahibinden.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "iPhone 17 Pro Max Cep Telefonu Fiyatları · 24 AY APPLE GARANTİLİ 17 PRO MAX 256 GB MAĞAZADAN TR!!! · 17 PRO MAX 256GB KAPALI KUTU. 55.999 TL. İstanbul ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "iPhone 17 Pro Max Cep Telefonu Fiyatları"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "images",
+              "rank_group": 1,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[17]/div[1]",
+              "title": "Görseller",
+              "url": "https://www.google.com/search?sca_esv=f814840d80206240&hl=tr&gl=TR&q=iphone+17+pro+max&udm=2&source=univ&fir=Zllk2Y7Ro-0uvM%252CtUjxsSdpVdo3SM%252C_%253BUUVZfyWMJjIKhM%252CAQhLuwzORd8CoM%252C_%253BRa9DkAsXoxWvPM%252C2lediNDnBMuS8M%252C_%253Bqcxkf9cBgLKbAM%252CnJ3VnYTg48kvKM%252C_%253B9IscfYvFWII6sM%252ChgSSH1NME7xV6M%252C_%253BIWU-IYxNLy-9JM%252C7qQ1BZbcxXuJBM%252C_%253Bk2rza0UUiZatgM%252C2lediNDnBMuS8M%252C_%253BQYfv0NZCntnnzM%252CbfH8Wk1PRhmb_M%252C_%253BxgMnoKUrf_Y6fM%252Cw3-cuBSvmuTQjM%252C_&usg=AI4_-kSL89Be_EKotOUgT_o1lmFntaoloQ&sa=X&ved=2ahUKEwi58dTR6sGWAxVQUaQEHdJSLqoQ7Al6BAhPEAU",
+              "items": [
+                {
+                  "type": "images_element",
+                  "alt": "iPhone 17 Pro Max için MagSafe özellikli Silikon Kılıf - Terra Cotta",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSHBk8BhJJyQzh1vXd2f1k-L3edYo5uAPrEUAQ_HpdN-T-PRVCOioSgU8&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Apple iPhone 17 Pro Max 256 GB Kozmik Turuncu Fiyatı",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPReobQo6HPSFoo6h1kUf5381SHplTj3YsuQtkrDIRDlSJKJXxqRhHsZY&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "iPhone 17 Pro Max 256 GB Fiyatları, Özellikleri ve Yorumları ...",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUzyTp3vu6N-mfKGkH-leOtU-No_9GopACHaZi8m5s_RXeWlvY_WFq5c0&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "iPhone 17 Pro Max 256 GB Fiyatı, Renkleri ve Özellikleri - Pasaj",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT773xqb3bRxSNzQK_wtI8RriG-ZDZF2PVFHsGf0Eibb1kYEiSQd8Z9EWU&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "iPhone 17 Pro",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLE7EwEqQY0OxvgDlT-MAL8qd6GRxkHejf-reJfNiYvsxuKxwut5Ubm4E&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Apple iPhone 17 Pro Max 512GB Abis - Fiyatı, Yorumları",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvBCadIySmX_5GG5qaEouKOMZ_lT3jSZrgas8Gli4krtV51oal7OvFzjs&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "iPhone 17 Pro Max 256 GB Fiyatları, Özellikleri ve Yorumları ...",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToJpE9GS13nIcsPgXQg5_WAnoiSCrkSqL1wRfPseCxSOvrzv84taSBS00&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "Apple iPhone 17 Pro Max 512 GB:ProMotion teknolojisine sahip 6.9 inç ekran,  A19 Pro Çip, Bir iPhone’da Şimdiye Kadarki En İyi Pil Ömrü, Pro Fusion ...",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRikC7tkgiQ0nsLh7YhYycAYhsJYGKmwQYDzzDwh94xgauRdVhib3WjPRA&s"
+                },
+                {
+                  "type": "images_element",
+                  "alt": "APPLE iPhone 17 Pro Max 256 GB Akıllı Telefon Gümüş MFYM4TU ...",
+                  "url": null,
+                  "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrq80g_-f95I1XcOW9hhZv-aOyma3BjYDiJXhgiY6AIij0giwfyHzFXG0&s"
+                }
+              ],
+              "related_image_searches": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[2]/div[1]/div[1]/div[18]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "İPHONE 17 PRO MAX İLE 5 AY GEÇİRDİM !!",
+              "url": "https://www.youtube.com/watch?v=K0W5QKdNIWk",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "252,3 B+ görüntüleme  ·  6 ay önce",
+              "website_name": "YouTube · Mert Bayantemur",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": "Selam millet bugün 5 aydır kullandığım iPhone 17 Pro Max hakkında konuşuyoruz. Telefonu aldığımdan beri neler yaşadım, neleri sevdim neleri ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "iPhone 17 Pro Max"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-02-10 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[3]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "iPhone 17 Pro Max 256 GB fiyat",
+                "iPhone 17 Pro Max Epey",
+                "iPhone 17 Pro Max renkleri",
+                "iPhone 17 Pro Max sahibinden",
+                "iPhone 17 Pro Max Teknosa",
+                "iPhone 17 Pro Max Trendyol"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

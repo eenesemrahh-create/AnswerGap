@@ -1,0 +1,697 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "0.9731 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08272216-2374-0139-0000-77ae778669a1",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "0.8896 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "iPhone 17 Pro Max ne zaman gelecek?",
+        "location_code": 2792,
+        "language_code": "tr",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10
+      },
+      "result": [
+        {
+          "keyword": "iPhone 17 Pro Max ne zaman gelecek?",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2792,
+          "language_code": "tr",
+          "check_url": "https://www.google.com/search?q=iPhone%2017%20Pro%20Max%20ne%20zaman%20gelecek%3F&hl=tr&gl=TR&ie=UTF-8&uule=w+CAIQIFISCXEmT5ZcFbAUESpfYirU29lA",
+          "datetime": "2026-08-27 22:16:12 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "video",
+            "related_searches"
+          ],
+          "se_results_count": 201,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "iPhone 17 Pro Max, **19 Eylül 2025** tarihinde resmi olarak piyasaya çıkmıştır.[](https://google.com/goto?url=CAESWwHrOzAVfYckF3qJOgi8DJAeZtk1Qnv_GjZsSeeMMLY0qvS_diNn5mMBkvvz5JnC8OGZUhAleBL632ZS2yZTH3xeuase6E_W2buFbz7muodPWPjKkj2I-4WRntU) [[1]](https://google.com/goto?url=CAESWwHrOzAVfYckF3qJOgi8DJAeZtk1Qnv_GjZsSeeMMLY0qvS_diNn5mMBkvvz5JnC8OGZUhAleBL632ZS2yZTH3xeuase6E_W2buFbz7muodPWPjKkj2I-4WRntU)[[2]](https://google.com/goto?url=CAESrwEB6zswFVRKK9lkWfvsD1WTHi0GQ6xmmHYpkH7kHGRQmFZX9377_1zhKXMUY_xnzRcW3hnUoqRa1AaEZAknLv5kIByX9-vcMCpYnpilVPQTd_AjN6gcywpmF7_257d30P2Q4N-2MrtDqta4B1RGV3VJnw3Nfb_rkkgyqGy2fSETinoXnRxbLlJM2ef9OuEqO8ZjjBwgxN7Bach6Lcp9hhQim7wxy74cwFAd1X6CrvXi)\n\nÇıkış Takvimi ve Detaylar\n\n- **Tanıtım Tarihi:** 9 Eylül 2025\n- **Ön Sipariş Tarihi:** 12 Eylül 2025\n- **Satışa Çıkış Tarihi:** 19 Eylül 2025\n- **Öne Çıkan Özellikler:** 6,9 inç Super Retina XDR OLED ekran, üç adet 48 MP arka kamera sistemi ve serinin en uzun pil ömrü.[](https://google.com/goto?url=CAEScwHrOzAVwGW8Rr9meth5iReP8JQnRDK6SHFouOdyO4rewUGqpCAhCPSKrbqi_hdPy1q0bdpQolwRNcFSpQ42qnkI2fDTnGKJQSk1Ef03kgnFi77sS_T6xB5rmf8Kk5P2HHL12YUCjGHPx3CLdBYnL-QHndg) [[1]](https://google.com/goto?url=CAEScwHrOzAVwGW8Rr9meth5iReP8JQnRDK6SHFouOdyO4rewUGqpCAhCPSKrbqi_hdPy1q0bdpQolwRNcFSpQ42qnkI2fDTnGKJQSk1Ef03kgnFi77sS_T6xB5rmf8Kk5P2HHL12YUCjGHPx3CLdBYnL-QHndg)[[2]](https://google.com/goto?url=CAESrwEB6zswFVRKK9lkWfvsD1WTHi0GQ6xmmHYpkH7kHGRQmFZX9377_1zhKXMUY_xnzRcW3hnUoqRa1AaEZAknLv5kIByX9-vcMCpYnpilVPQTd_AjN6gcywpmF7_257d30P2Q4N-2MrtDqta4B1RGV3VJnw3Nfb_rkkgyqGy2fSETinoXnRxbLlJM2ef9OuEqO8ZjjBwgxN7Bach6Lcp9hhQim7wxy74cwFAd1X6CrvXi)[[3]](https://google.com/goto?url=CAESSQHrOzAV99k-B9Ykh2JOSvuE0EpFlAp5bdRYSFqJ0JsfNc2vcsGOA8D3I4mXdaJPBvk7uZ6sxEf49UgdjV6HqmS-FJ7X2EnBIb4)[[4]](https://google.com/goto?url=CAESTgHrOzAVkVfxE-sS6dPHer4qUiHgPykUHSNbawyEGwxvYVBSF5K3zANPECypJ5vCOtNanXDu4XkJ9mBHK8vbK3vAAgyJ6b9PIHyW7cd7Vw)[[5]](https://google.com/goto?url=CAESSgHrOzAVVbEfmjmNaWSZopUWZFHn0sfqpPZCzzZ4Lhwkui1ms4-0WnNClt177LjOTXn9MnFQ-rD0_n4BnUPVj8lmGN07Qe46wQ9_)\n\nİsterseniz iPhone 17 Pro Max **fiyatları** veya **teknik özellikleri** hakkında daha fazla detay verebilirim. Hangi konuda bilgi almak istersiniz?",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "iPhone 17 Pro Max, 19 Eylül 2025 tarihinde resmi olarak piyasaya çıkmıştır.",
+                  "markdown": "iPhone 17 Pro Max, **19 Eylül 2025** tarihinde resmi olarak piyasaya çıkmıştır.[](https://google.com/goto?url=CAESWwHrOzAVfYckF3qJOgi8DJAeZtk1Qnv_GjZsSeeMMLY0qvS_diNn5mMBkvvz5JnC8OGZUhAleBL632ZS2yZTH3xeuase6E_W2buFbz7muodPWPjKkj2I-4WRntU) [[1]](https://google.com/goto?url=CAESWwHrOzAVfYckF3qJOgi8DJAeZtk1Qnv_GjZsSeeMMLY0qvS_diNn5mMBkvvz5JnC8OGZUhAleBL632ZS2yZTH3xeuase6E_W2buFbz7muodPWPjKkj2I-4WRntU)[[2]](https://google.com/goto?url=CAESrwEB6zswFVRKK9lkWfvsD1WTHi0GQ6xmmHYpkH7kHGRQmFZX9377_1zhKXMUY_xnzRcW3hnUoqRa1AaEZAknLv5kIByX9-vcMCpYnpilVPQTd_AjN6gcywpmF7_257d30P2Q4N-2MrtDqta4B1RGV3VJnw3Nfb_rkkgyqGy2fSETinoXnRxbLlJM2ef9OuEqO8ZjjBwgxN7Bach6Lcp9hhQim7wxy74cwFAd1X6CrvXi)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Teknosa",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESWwHrOzAVfYckF3qJOgi8DJAeZtk1Qnv_GjZsSeeMMLY0qvS_diNn5mMBkvvz5JnC8OGZUhAleBL632ZS2yZTH3xeuase6E_W2buFbz7muodPWPjKkj2I-4WRntU",
+                      "title": "iPhone 17 Pro Max Fiyatları - 256GB, 512GB, 1TB & 2TB | Teknosa",
+                      "text": "Giriş Yap / Üye Ol * Telefon. * Cep Telefonu. * iOS Telefon. * iPhone 17 Pro Max. ... * Dahili Hafıza. 1 TB (3) 256 GB (3) 512 G"
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Apple",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESrwEB6zswFVRKK9lkWfvsD1WTHi0GQ6xmmHYpkH7kHGRQmFZX9377_1zhKXMUY_xnzRcW3hnUoqRa1AaEZAknLv5kIByX9-vcMCpYnpilVPQTd_AjN6gcywpmF7_257d30P2Q4N-2MrtDqta4B1RGV3VJnw3Nfb_rkkgyqGy2fSETinoXnRxbLlJM2ef9OuEqO8ZjjBwgxN7Bach6Lcp9hhQim7wxy74cwFAd1X6CrvXi",
+                      "title": "Apple, iPhone 17 Pro ve iPhone 17 Pro Max'i tanıttı",
+                      "text": "Daha Fazla iPhone * iPhone Desteği. * iOS 27'ye İlk Bakış * Apple Intelligence. * Apple Uygulamaları * iPhone'da Gizlilik. * Mac i..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Çıkış Takvimi ve Detaylar",
+                  "text": "Tanıtım Tarihi: 9 Eylül 2025 Ön Sipariş Tarihi: 12 Eylül 2025 Satışa Çıkış Tarihi: 19 Eylül 2025 Öne Çıkan Özellikler: 6,9 inç Super Retina XDR OLED ekran, üç adet 48 MP arka kamera sistemi ve serinin en uzun pil ömrü.",
+                  "markdown": "- **Tanıtım Tarihi:** 9 Eylül 2025\n- **Ön Sipariş Tarihi:** 12 Eylül 2025\n- **Satışa Çıkış Tarihi:** 19 Eylül 2025\n- **Öne Çıkan Özellikler:** 6,9 inç Super Retina XDR OLED ekran, üç adet 48 MP arka kamera sistemi ve serinin en uzun pil ömrü.[](https://google.com/goto?url=CAEScwHrOzAVwGW8Rr9meth5iReP8JQnRDK6SHFouOdyO4rewUGqpCAhCPSKrbqi_hdPy1q0bdpQolwRNcFSpQ42qnkI2fDTnGKJQSk1Ef03kgnFi77sS_T6xB5rmf8Kk5P2HHL12YUCjGHPx3CLdBYnL-QHndg) [[1]](https://google.com/goto?url=CAEScwHrOzAVwGW8Rr9meth5iReP8JQnRDK6SHFouOdyO4rewUGqpCAhCPSKrbqi_hdPy1q0bdpQolwRNcFSpQ42qnkI2fDTnGKJQSk1Ef03kgnFi77sS_T6xB5rmf8Kk5P2HHL12YUCjGHPx3CLdBYnL-QHndg)[[2]](https://google.com/goto?url=CAESrwEB6zswFVRKK9lkWfvsD1WTHi0GQ6xmmHYpkH7kHGRQmFZX9377_1zhKXMUY_xnzRcW3hnUoqRa1AaEZAknLv5kIByX9-vcMCpYnpilVPQTd_AjN6gcywpmF7_257d30P2Q4N-2MrtDqta4B1RGV3VJnw3Nfb_rkkgyqGy2fSETinoXnRxbLlJM2ef9OuEqO8ZjjBwgxN7Bach6Lcp9hhQim7wxy74cwFAd1X6CrvXi)[[3]](https://google.com/goto?url=CAESSQHrOzAV99k-B9Ykh2JOSvuE0EpFlAp5bdRYSFqJ0JsfNc2vcsGOA8D3I4mXdaJPBvk7uZ6sxEf49UgdjV6HqmS-FJ7X2EnBIb4)[[4]](https://google.com/goto?url=CAESTgHrOzAVkVfxE-sS6dPHer4qUiHgPykUHSNbawyEGwxvYVBSF5K3zANPECypJ5vCOtNanXDu4XkJ9mBHK8vbK3vAAgyJ6b9PIHyW7cd7Vw)[[5]](https://google.com/goto?url=CAESSgHrOzAVVbEfmjmNaWSZopUWZFHn0sfqpPZCzzZ4Lhwkui1ms4-0WnNClt177LjOTXn9MnFQ-rD0_n4BnUPVj8lmGN07Qe46wQ9_)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Trendyol",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAEScwHrOzAVwGW8Rr9meth5iReP8JQnRDK6SHFouOdyO4rewUGqpCAhCPSKrbqi_hdPy1q0bdpQolwRNcFSpQ42qnkI2fDTnGKJQSk1Ef03kgnFi77sS_T6xB5rmf8Kk5P2HHL12YUCjGHPx3CLdBYnL-QHndg",
+                      "title": "iPhone 17 Pro Max Cep Telefonu Fiyatları Trendyol",
+                      "text": "Markanın yenilikçi ürünü 6,9 inç geniş ekrana sahip özelliğiyle teknoloji tutkunlarının gözünü kamaştırır. Süper retina XDR OLED e..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Apple",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESrwEB6zswFVRKK9lkWfvsD1WTHi0GQ6xmmHYpkH7kHGRQmFZX9377_1zhKXMUY_xnzRcW3hnUoqRa1AaEZAknLv5kIByX9-vcMCpYnpilVPQTd_AjN6gcywpmF7_257d30P2Q4N-2MrtDqta4B1RGV3VJnw3Nfb_rkkgyqGy2fSETinoXnRxbLlJM2ef9OuEqO8ZjjBwgxN7Bach6Lcp9hhQim7wxy74cwFAd1X6CrvXi",
+                      "title": "Apple, iPhone 17 Pro ve iPhone 17 Pro Max'i tanıttı",
+                      "text": "Daha Fazla iPhone * iPhone Desteği. * iOS 27'ye İlk Bakış * Apple Intelligence. * Apple Uygulamaları * iPhone'da Gizlilik. * Mac i..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "DonanımHaber",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESSQHrOzAV99k-B9Ykh2JOSvuE0EpFlAp5bdRYSFqJ0JsfNc2vcsGOA8D3I4mXdaJPBvk7uZ6sxEf49UgdjV6HqmS-FJ7X2EnBIb4",
+                      "title": "iPhone 17 Pro Max fiyatı, özellikleri ve çıkış tarihi - DonanımHaber",
+                      "text": "iPhone 17 Pro Max ve diğer Ayfon 17 modelleri, 12 Eylül Cuma günü Apple Online Store üzerinden Türkiye'de ön siparişe açılacak. Te..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "YouTube",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESTgHrOzAVkVfxE-sS6dPHer4qUiHgPykUHSNbawyEGwxvYVBSF5K3zANPECypJ5vCOtNanXDu4XkJ9mBHK8vbK3vAAgyJ6b9PIHyW7cd7Vw",
+                      "title": "iPhone 17 Pro Max kutu açılımı ve ilk inceleme! (GECE YARISI ACİL!)",
+                      "text": "geliyor. Video, Teknoway desteğiyle çekildi. Aksesuarları ise Easycep mağazalarında bulabilirsiniz (işbirliği) iPhone 17 Pro Max'i..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Apple",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESSgHrOzAVVbEfmjmNaWSZopUWZFHn0sfqpPZCzzZ4Lhwkui1ms4-0WnNClt177LjOTXn9MnFQ-rD0_n4BnUPVj8lmGN07Qe46wQ9_",
+                      "title": "iPhone 17 Pro ve iPhone 17 Pro Max - Apple (TR)",
+                      "text": "Daha Fazla iPhone * iPhone Desteği. * iOS 27'ye İlk Bakış * Apple Intelligence. * Apple Uygulamaları * iPhone'da Gizlilik. * Mac i..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "İsterseniz iPhone 17 Pro Max fiyatları veya teknik özellikleri hakkında daha fazla detay verebilirim. Hangi konuda bilgi almak istersiniz?",
+                  "markdown": "İsterseniz iPhone 17 Pro Max **fiyatları** veya **teknik özellikleri** hakkında daha fazla detay verebilirim. Hangi konuda bilgi almak istersiniz?",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Teknosa",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESWwHrOzAVfYckF3qJOgi8DJAeZtk1Qnv_GjZsSeeMMLY0qvS_diNn5mMBkvvz5JnC8OGZUhAleBL632ZS2yZTH3xeuase6E_W2buFbz7muodPWPjKkj2I-4WRntU",
+                  "title": "iPhone 17 Pro Max Fiyatları - 256GB, 512GB, 1TB & 2TB | Teknosa",
+                  "text": "Giriş Yap / Üye Ol * Telefon. * Cep Telefonu. * iOS Telefon. * iPhone 17 Pro Max. ... * Dahili Hafıza. 1 TB (3) 256 GB (3) 512 G"
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Trendyol",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAEScwHrOzAVwGW8Rr9meth5iReP8JQnRDK6SHFouOdyO4rewUGqpCAhCPSKrbqi_hdPy1q0bdpQolwRNcFSpQ42qnkI2fDTnGKJQSk1Ef03kgnFi77sS_T6xB5rmf8Kk5P2HHL12YUCjGHPx3CLdBYnL-QHndg",
+                  "title": "iPhone 17 Pro Max Cep Telefonu Fiyatları Trendyol",
+                  "text": "Markanın yenilikçi ürünü 6,9 inç geniş ekrana sahip özelliğiyle teknoloji tutkunlarının gözünü kamaştırır. Süper retina XDR OLED e..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Apple",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESSgHrOzAVVbEfmjmNaWSZopUWZFHn0sfqpPZCzzZ4Lhwkui1ms4-0WnNClt177LjOTXn9MnFQ-rD0_n4BnUPVj8lmGN07Qe46wQ9_",
+                  "title": "iPhone 17 Pro ve iPhone 17 Pro Max - Apple (TR)",
+                  "text": "Daha Fazla iPhone * iPhone Desteği. * iOS 27'ye İlk Bakış * Apple Intelligence. * Apple Uygulamaları * iPhone'da Gizlilik. * Mac i..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "YouTube",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESTgHrOzAVkVfxE-sS6dPHer4qUiHgPykUHSNbawyEGwxvYVBSF5K3zANPECypJ5vCOtNanXDu4XkJ9mBHK8vbK3vAAgyJ6b9PIHyW7cd7Vw",
+                  "title": "iPhone 17 Pro Max kutu açılımı ve ilk inceleme! (GECE YARISI ACİL!)",
+                  "text": "geliyor. Video, Teknoway desteğiyle çekildi. Aksesuarları ise Easycep mağazalarında bulabilirsiniz (işbirliği) iPhone 17 Pro Max'i..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Apple",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESrwEB6zswFVRKK9lkWfvsD1WTHi0GQ6xmmHYpkH7kHGRQmFZX9377_1zhKXMUY_xnzRcW3hnUoqRa1AaEZAknLv5kIByX9-vcMCpYnpilVPQTd_AjN6gcywpmF7_257d30P2Q4N-2MrtDqta4B1RGV3VJnw3Nfb_rkkgyqGy2fSETinoXnRxbLlJM2ef9OuEqO8ZjjBwgxN7Bach6Lcp9hhQim7wxy74cwFAd1X6CrvXi",
+                  "title": "Apple, iPhone 17 Pro ve iPhone 17 Pro Max'i tanıttı",
+                  "text": "Daha Fazla iPhone * iPhone Desteği. * iOS 27'ye İlk Bakış * Apple Intelligence. * Apple Uygulamaları * iPhone'da Gizlilik. * Mac i..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "DonanımHaber",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESSQHrOzAV99k-B9Ykh2JOSvuE0EpFlAp5bdRYSFqJ0JsfNc2vcsGOA8D3I4mXdaJPBvk7uZ6sxEf49UgdjV6HqmS-FJ7X2EnBIb4",
+                  "title": "iPhone 17 Pro Max fiyatı, özellikleri ve çıkış tarihi - DonanımHaber",
+                  "text": "iPhone 17 Pro Max ve diğer Ayfon 17 modelleri, 12 Eylül Cuma günü Apple Online Store üzerinden Türkiye'de ön siparişe açılacak. Te..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]",
+              "domain": "www.apple.com",
+              "title": "iPhone 17 Pro ve iPhone 17 Pro Max",
+              "url": "https://www.apple.com/tr/iphone-17-pro/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.apple.com › iphone-17-pro",
+              "website_name": "Apple",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "iPhone 17 Pro Max her zaman fazla mesaiye hazır. Apple TV+ dizisi Silo'nun bir ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "iPhone 17 Pro Max her zaman fazla mesaiye hazır"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 Pro Max ne zaman çıkıyor?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 Pro Türkiye'ye ne zaman gelecek?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 Pro Max çıkacak mı?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "iPhone 17 Pro Max kaç TL olacak?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]/div[1]",
+              "domain": "www.epey.com",
+              "title": "Apple iPhone 17 Pro Max Fiyatı ve Özellikleri",
+              "url": "https://www.epey.com/akilli-telefonlar/apple-iphone-17-pro-max.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.epey.com › Telefon › Apple",
+              "website_name": "Epey",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Apple iPhone 17 Pro Max ; Düşme Direnci Sınıfı B ; Onarılabilirlik Sınıfı C ; Çıkış Yılı 2025 ; Duyurulma Tarihi 2025, Eylül ; Seri Apple iPhone 17 ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 3.9,
+                "votes_count": 391,
+                "rating_max": 5
+              },
+              "price": {
+                "current": 111999,
+                "regular": null,
+                "max_value": 134999,
+                "currency": "TRY",
+                "is_price_range": true,
+                "displayed_price": "₺111.999,00 - ₺134.999,00"
+              },
+              "highlighted": [
+                "2025"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]/div[1]",
+              "domain": "www.donanimhaber.com",
+              "title": "iPhone 17 Pro Max fiyatı, özellikleri ve çıkış tarihi 📱",
+              "url": "https://www.donanimhaber.com/iphone-17",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.donanimhaber.com › iphone-17",
+              "website_name": "DonanımHaber",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "iPhone 17 Pro Max ve diğer Ayfon 17 modelleri, 12 Eylül Cuma günü Apple Online Store üzerinden Türkiye'de ön siparişe açılacak. Telefonlar 19 Eylül tarihinde de ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 5,
+                "votes_count": 480365,
+                "rating_max": 5
+              },
+              "price": {
+                "current": 77999,
+                "regular": null,
+                "max_value": 119999,
+                "currency": "TRY",
+                "is_price_range": true,
+                "displayed_price": "₺77.999,00 - ₺119.999,00"
+              },
+              "highlighted": [
+                "iPhone 17 Pro Max",
+                "17"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]",
+              "domain": "www.pt.com.tr",
+              "title": "iPhone 17 Pro ve iPhone 17 Pro Max ile Yeni Bir Devrime ...",
+              "url": "https://www.pt.com.tr/iphone-17-pro-ve-iphone-17-pro-max-ile-yeni-bir-devrime-hazir-olun?srsltid=AfmBOopAvMORK-bLVUL83YlbEr0LEEEFdvxY1920IRkpmjbv63ZdeQS7",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.pt.com.tr › Trendler › Genel",
+              "website_name": "Pozitif Teknoloji",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "10 Eyl 2025 — Daha büyük ekranı ve daha güçlü bataryasıyla öne çıkan iPhone 17 Pro Max, Türkiye'de 119.999 TL'den başlayan fiyatlarla satışa sunuldu. 2 TB'a ...",
+              "pre_snippet": "09/10/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "iPhone 17 Pro Max"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-09-10 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "video",
+              "rank_group": 1,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[12]/div[1]",
+              "items": [
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Hardware Plus",
+                  "title": "iPhone 17 Pro Max ile 10 Aylık Deneyim! | 120.000 TL'ye alınır ...",
+                  "timestamp": "2026-07-27 22:16:12 +00:00",
+                  "url": "https://www.youtube.com/watch?v=2Nw7K97cuts"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Migros Türkiye",
+                  "title": "İşte Karşınızda iPhone 17: Air, Pro ve Pro Max Tasarım ...",
+                  "timestamp": "2025-08-19 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=26wFPBKfWKQ"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · Hardware Plus",
+                  "title": "Apple Etkinliği - 9 Eylül | iPhone 17 Serisi Tanıtılıyor!",
+                  "timestamp": "2025-09-11 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=-hp9YehIA6o"
+                },
+                {
+                  "type": "video_element",
+                  "source": "YouTube · RN Donanım",
+                  "title": "Introducing the iPhone 17 PRO MAX - ALL ITS FEATURES ...",
+                  "timestamp": "2025-07-25 00:00:00 +00:00",
+                  "url": "https://www.youtube.com/watch?v=vOpECqN7JMU"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]",
+              "domain": "www.hepsiburada.com",
+              "title": "iPhone 17 Pro Max Fiyatı, Özellikleri ve Yorumları",
+              "url": "https://www.hepsiburada.com/iphone-17-pro-max-iphone-ios-telefonlar-xc-60005202-t6722",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.hepsiburada.com › ... › iPhone",
+              "website_name": "Hepsiburada",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "4 gün önce — iPhone 17 Pro Max ile en gelişmiş kamera teknolojisi ve üst düzey performansı deneyimleyin. Büyük ekran, güçlü pil ve premium deneyim ...",
+              "pre_snippet": "4 gün önce",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 4.8,
+                "votes_count": 232,
+                "rating_max": 5
+              },
+              "price": {
+                "current": 118499,
+                "regular": null,
+                "max_value": 161999,
+                "currency": "TRY",
+                "is_price_range": true,
+                "displayed_price": "₺118.499,00 - ₺161.999,00"
+              },
+              "highlighted": [
+                "iPhone 17 Pro Max"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-08-23 22:16:12 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[16]/div[1]/div[1]",
+              "domain": "www.cnnturk.com",
+              "title": "Iphone 17 Air, Pro ve Iphone 17 Pro Max Ne Zaman Satışa ...",
+              "url": "https://www.cnnturk.com/ekonomi/iphone-17-cikis-tarihi-iphone-17-pro-ve-iphone-17-pro-max-ne-zaman-satisa-cikacak-fiyati-ne-olacak-teknik-ozellikleri-ne-2333378",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.cnnturk.com › Ekonomi",
+              "website_name": "CNN Türk",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "14 Eyl 2025 — Apple'ın 2025-2026 iPhone 17 Pro ve iPhone 17 Pro Max modelleri için çıkış tarihi araştırılıyor. iPhone 17 serisinin 9 Eylül 2025 Salı günü ...",
+              "pre_snippet": "09/14/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "9 Eylül 2025 Salı günü"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-09-14 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[18]/div[1]/div[1]",
+              "domain": "getmobil.com",
+              "title": "iPhone 17 Ne Zaman Çıkacak? İşte Detaylar!",
+              "url": "https://getmobil.com/blog/iphone-17-ne-zaman-cikacak-turkiyeye-ne-zaman-gelecek/?srsltid=AfmBOop0zLd0rTDQp2gnkfxmgbcLCHlhGeTUmmkabhp6n8l8VhlINl2m",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://getmobil.com › Anasayfa › Blog",
+              "website_name": "Getmobil",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "26 Ağu 2025 — Apple iPhone 17 modelleri 12 Eylül 2025 tarihinde Türkiye'de ön siparişe açılacak. Ardından, 19 Eylül 2025'te satışa sunulması bekleniyor. Ancak ...",
+              "pre_snippet": "08/26/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "12 Eylül 2025 tarihinde Türkiye'de ön siparişe açılacak"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-08-26 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[19]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "iPhone 17 Pro Max Özellikleri ve Fiyatı belli oldu! iPhone Air ...",
+              "url": "https://www.youtube.com/watch?v=I_hh8URg3HE",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "292,1 B+ görüntüleme  ·  11 ay önce",
+              "website_name": "YouTube · ShiftDelete.Net",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": "iPhone 17 Pro Max Özellikleri ve Fiyatı belli oldu. iPhone 17, iPhone 17 Air, iPhone 17 Pro ve iPhone 17 Pro Max modellerinin tanıtılacağı ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "iPhone 17 Pro Max",
+                "iPhone 17"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-09-27 22:16:12 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "iPhone 17 Pro Max 256 GB fiyat",
+                "iPhone 17 Pro Max fiyat",
+                "iPhone 17 Pro 256 GB fiyat",
+                "iPhone 17 Pro Max özellikleri",
+                "iPhone 17 Pro Max renkleri",
+                "iPhone 17 Pro fiyat",
+                "iPhone 17 Pro Max yurtdışı fiyatı",
+                "Vatan iPhone 17 Pro Max"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

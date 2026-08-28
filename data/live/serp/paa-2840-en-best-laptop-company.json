@@ -1,0 +1,1505 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "2.5599 sec.",
+  "cost": 0.0026,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08272219-2374-0139-0000-2832729e152d",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.4383 sec.",
+      "cost": 0.0026,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "best laptop company",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10,
+        "people_also_ask_click_depth": 4
+      },
+      "result": [
+        {
+          "keyword": "best laptop company",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=best%20laptop%20company&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-27 22:19:04 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "popular_products",
+            "perspectives",
+            "related_searches"
+          ],
+          "se_results_count": 184,
+          "pages_count": 1,
+          "items_count": 15,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "There is no single best laptop company, but `Apple and Lenovo` lead the industry for overall build quality, performance, and reliability.\n\nMost users on [Reddit](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) agree that the specific model line matters more than the brand name itself. Different companies excel at different tasks.[](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) [[1]](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew)\n\nTop Laptop Companies\n\n- **Apple** \n\t- **Best for:** Creators, students, and long battery life.\n\t- **Top lines:** MacBook Air and MacBook Pro.\n\t- **Why buy:** Fast Apple silicon chips, silent fanless designs, and premium screens.[](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) [[1]](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew)[[2]](https://www.google.com/search?q=product&prds=pvt:hg,productid:7855398895688764391,catalogid:18086732570307515327,gpcid:5383435682118214789,mid:576462883325356260&ibp=oshop)[[3]](https://www.google.com/search?q=product&prds=pvt:hg,productid:198463476649276833,catalogid:15894706522579533822,gpcid:8602998232814770163,mid:576462562025329966&ibp=oshop)[[4]](https://google.com/goto?url=CAESXAHrOzAVYj_yIfJYEWWFxo82pe_cLqUMRgph_4l5hZHQMN_sIekeb10IP5G2WJTD6uxxERAxjwhpgz6YCMLH3N4DabFsfwsVmliw1GEc15V30GN03FGHMGeDiA8S)\n- **Lenovo** \n\t- **Best for:** Business workers and all-round users.\n\t- **Top lines:** ThinkPad and Yoga.\n\t- **Why buy:** Comfortable keyboards, durable frames, and great value options.[](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) [[1]](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew)[[2]](https://google.com/goto?url=CAESXAHrOzAVYj_yIfJYEWWFxo82pe_cLqUMRgph_4l5hZHQMN_sIekeb10IP5G2WJTD6uxxERAxjwhpgz6YCMLH3N4DabFsfwsVmliw1GEc15V30GN03FGHMGeDiA8S)[[3]](https://google.com/goto?url=CAESeAHrOzAV8qHcAkuobX7caOVAu8seni46l0ykAoDOwYo_2WBzQz-bOii_cwUUzfz8kEtb6ni07Ts5oaubGwmBcM2g4K95iBpdPr2nG7_5DMftXq0fTd_eDtk8VoXTGeQUi6P5G1DgGktChZorzAy7E2BqOreM2BIw4g)[[4]](https://google.com/goto?url=CAESbAHrOzAVsfetqQnaLmPCPsiYitFmy9HSf5mpeoJIp3paw51cvyjAJCiqIYX-A-MPyz2WxtxNVZo1tVyyWbgAuY3zkP6sKdNlNodmfkIn1U2GPgWZmKLkwCHK8YjNpcU5aIt4Eocfk5eengTN_w)\n- **Dell** \n\t- **Best for:** Windows power users and professionals.\n\t- **Top lines:** XPS and Latitude.\n\t- **Why buy:** Bright OLED displays, strong metal builds, and long-term support.[](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) [[1]](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew)[[2]](https://google.com/goto?url=CAESXAHrOzAVYj_yIfJYEWWFxo82pe_cLqUMRgph_4l5hZHQMN_sIekeb10IP5G2WJTD6uxxERAxjwhpgz6YCMLH3N4DabFsfwsVmliw1GEc15V30GN03FGHMGeDiA8S)[[3]](https://google.com/goto?url=CAESeAHrOzAV8qHcAkuobX7caOVAu8seni46l0ykAoDOwYo_2WBzQz-bOii_cwUUzfz8kEtb6ni07Ts5oaubGwmBcM2g4K95iBpdPr2nG7_5DMftXq0fTd_eDtk8VoXTGeQUi6P5G1DgGktChZorzAy7E2BqOreM2BIw4g)[[4]](https://google.com/goto?url=CAESTwHrOzAVI9E_bPf8dCAKfNLzuy5BMfVFimFT3CxEXBGLr2N8TWue5REFjZfaBsnYiXd8VxRnoNB8lJlpryQHk5FBLryDJHt76j0Qwd_WMMI)\n- **Asus** \n\t- **Best for:** Gamers and creative multi-taskers.\n\t- **Top lines:** Zenbook and ROG (Republic of Gamers).\n\t- **Why buy:** High frame-rate gaming setups and thin, light creative laptops.[](https://google.com/goto?url=CAESTAHrOzAVJ7MfQY8XsMqYYHb08lAUI0DKMlIRggzKZel5W3hB5eFX006BVNKsSDMnufg-09st_IdsryxFu6yzw78qP5ALWKltgK4Io90) [[1]](https://google.com/goto?url=CAESTAHrOzAVJ7MfQY8XsMqYYHb08lAUI0DKMlIRggzKZel5W3hB5eFX006BVNKsSDMnufg-09st_IdsryxFu6yzw78qP5ALWKltgK4Io90)[[2]](https://google.com/goto?url=CAEScwHrOzAVi2UjFwQf5b-IuVk1e936I5xTby8_6dPApxLgkGikjS3p0lr-hwxOYSoJCkQOp3MzBnNlc2r-yvSMSilfFXFS12LyA2cLOLdBdrlJBmFkNo3hc_QQYhcSarh3HjWJxJsgc1O53Dd8IREygAY9F_Q)[[3]](https://google.com/goto?url=CAESeAHrOzAV8qHcAkuobX7caOVAu8seni46l0ykAoDOwYo_2WBzQz-bOii_cwUUzfz8kEtb6ni07Ts5oaubGwmBcM2g4K95iBpdPr2nG7_5DMftXq0fTd_eDtk8VoXTGeQUi6P5G1DgGktChZorzAy7E2BqOreM2BIw4g)[[4]](https://google.com/goto?url=CAESbAHrOzAVsfetqQnaLmPCPsiYitFmy9HSf5mpeoJIp3paw51cvyjAJCiqIYX-A-MPyz2WxtxNVZo1tVyyWbgAuY3zkP6sKdNlNodmfkIn1U2GPgWZmKLkwCHK8YjNpcU5aIt4Eocfk5eengTN_w)\n\nIf you tell me your **budget** and **what you plan to use the laptop for** (like gaming, school, or video editing), I can recommend the exact right model for you.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "There is no single best laptop company, but Apple and Lenovo lead the industry for overall build quality, performance, and reliability.",
+                  "markdown": "There is no single best laptop company, but `Apple and Lenovo` lead the industry for overall build quality, performance, and reliability.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Most users on Reddit agree that the specific model line matters more than the brand name itself. Different companies excel at different tasks.",
+                  "markdown": "Most users on [Reddit](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) agree that the specific model line matters more than the brand name itself. Different companies excel at different tasks.[](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) [[1]](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew)",
+                  "links": [
+                    {
+                      "type": "link_element",
+                      "title": "Reddit",
+                      "description": null,
+                      "url": "https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew",
+                      "domain": "google.com"
+                    }
+                  ],
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Reddit",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew",
+                      "title": "How would you rank the major laptop brands? - Reddit",
+                      "text": "Product Line over Brand: The quality, reliability, and longevity of laptops depend more on the specific product line or model rath..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Top Laptop Companies",
+                  "text": "AppleBest for: Creators, students, and long battery life.\nTop lines: MacBook Air and MacBook Pro.\nWhy buy: Fast Apple silicon chips, silent fanless designs, and premium screens. Best for: Creators, students, and long battery life. Top lines: MacBook Air and MacBook Pro. Why buy: Fast Apple silicon chips, silent fanless designs, and premium screens. LenovoBest for: Business workers and all-round users.\nTop lines: ThinkPad and Yoga.\nWhy buy: Comfortable keyboards, durable frames, and great value options. Best for: Business workers and all-round users. Top lines: ThinkPad and Yoga. Why buy: Comfortable keyboards, durable frames, and great value options. DellBest for: Windows power users and professionals.\nTop lines: XPS and Latitude.\nWhy buy: Bright OLED displays, strong metal builds, and long-term support. Best for: Windows power users and professionals. Top lines: XPS and Latitude. Why buy: Bright OLED displays, strong metal builds, and long-term support. AsusBest for: Gamers and creative multi-taskers.\nTop lines: Zenbook and ROG (Republic of Gamers).\nWhy buy: High frame-rate gaming setups and thin, light creative laptops. Best for: Gamers and creative multi-taskers. Top lines: Zenbook and ROG (Republic of Gamers). Why buy: High frame-rate gaming setups and thin, light creative laptops.",
+                  "markdown": "- **Apple** \n\t- **Best for:** Creators, students, and long battery life.\n\t- **Top lines:** MacBook Air and MacBook Pro.\n\t- **Why buy:** Fast Apple silicon chips, silent fanless designs, and premium screens.[](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) [[1]](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew)[[2]](https://www.google.com/search?q=product&prds=pvt:hg,productid:7855398895688764391,catalogid:18086732570307515327,gpcid:5383435682118214789,mid:576462883325356260&ibp=oshop)[[3]](https://www.google.com/search?q=product&prds=pvt:hg,productid:198463476649276833,catalogid:15894706522579533822,gpcid:8602998232814770163,mid:576462562025329966&ibp=oshop)[[4]](https://google.com/goto?url=CAESXAHrOzAVYj_yIfJYEWWFxo82pe_cLqUMRgph_4l5hZHQMN_sIekeb10IP5G2WJTD6uxxERAxjwhpgz6YCMLH3N4DabFsfwsVmliw1GEc15V30GN03FGHMGeDiA8S)\n- **Lenovo** \n\t- **Best for:** Business workers and all-round users.\n\t- **Top lines:** ThinkPad and Yoga.\n\t- **Why buy:** Comfortable keyboards, durable frames, and great value options.[](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) [[1]](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew)[[2]](https://google.com/goto?url=CAESXAHrOzAVYj_yIfJYEWWFxo82pe_cLqUMRgph_4l5hZHQMN_sIekeb10IP5G2WJTD6uxxERAxjwhpgz6YCMLH3N4DabFsfwsVmliw1GEc15V30GN03FGHMGeDiA8S)[[3]](https://google.com/goto?url=CAESeAHrOzAV8qHcAkuobX7caOVAu8seni46l0ykAoDOwYo_2WBzQz-bOii_cwUUzfz8kEtb6ni07Ts5oaubGwmBcM2g4K95iBpdPr2nG7_5DMftXq0fTd_eDtk8VoXTGeQUi6P5G1DgGktChZorzAy7E2BqOreM2BIw4g)[[4]](https://google.com/goto?url=CAESbAHrOzAVsfetqQnaLmPCPsiYitFmy9HSf5mpeoJIp3paw51cvyjAJCiqIYX-A-MPyz2WxtxNVZo1tVyyWbgAuY3zkP6sKdNlNodmfkIn1U2GPgWZmKLkwCHK8YjNpcU5aIt4Eocfk5eengTN_w)\n- **Dell** \n\t- **Best for:** Windows power users and professionals.\n\t- **Top lines:** XPS and Latitude.\n\t- **Why buy:** Bright OLED displays, strong metal builds, and long-term support.[](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew) [[1]](https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew)[[2]](https://google.com/goto?url=CAESXAHrOzAVYj_yIfJYEWWFxo82pe_cLqUMRgph_4l5hZHQMN_sIekeb10IP5G2WJTD6uxxERAxjwhpgz6YCMLH3N4DabFsfwsVmliw1GEc15V30GN03FGHMGeDiA8S)[[3]](https://google.com/goto?url=CAESeAHrOzAV8qHcAkuobX7caOVAu8seni46l0ykAoDOwYo_2WBzQz-bOii_cwUUzfz8kEtb6ni07Ts5oaubGwmBcM2g4K95iBpdPr2nG7_5DMftXq0fTd_eDtk8VoXTGeQUi6P5G1DgGktChZorzAy7E2BqOreM2BIw4g)[[4]](https://google.com/goto?url=CAESTwHrOzAVI9E_bPf8dCAKfNLzuy5BMfVFimFT3CxEXBGLr2N8TWue5REFjZfaBsnYiXd8VxRnoNB8lJlpryQHk5FBLryDJHt76j0Qwd_WMMI)\n- **Asus** \n\t- **Best for:** Gamers and creative multi-taskers.\n\t- **Top lines:** Zenbook and ROG (Republic of Gamers).\n\t- **Why buy:** High frame-rate gaming setups and thin, light creative laptops.[](https://google.com/goto?url=CAESTAHrOzAVJ7MfQY8XsMqYYHb08lAUI0DKMlIRggzKZel5W3hB5eFX006BVNKsSDMnufg-09st_IdsryxFu6yzw78qP5ALWKltgK4Io90) [[1]](https://google.com/goto?url=CAESTAHrOzAVJ7MfQY8XsMqYYHb08lAUI0DKMlIRggzKZel5W3hB5eFX006BVNKsSDMnufg-09st_IdsryxFu6yzw78qP5ALWKltgK4Io90)[[2]](https://google.com/goto?url=CAEScwHrOzAVi2UjFwQf5b-IuVk1e936I5xTby8_6dPApxLgkGikjS3p0lr-hwxOYSoJCkQOp3MzBnNlc2r-yvSMSilfFXFS12LyA2cLOLdBdrlJBmFkNo3hc_QQYhcSarh3HjWJxJsgc1O53Dd8IREygAY9F_Q)[[3]](https://google.com/goto?url=CAESeAHrOzAV8qHcAkuobX7caOVAu8seni46l0ykAoDOwYo_2WBzQz-bOii_cwUUzfz8kEtb6ni07Ts5oaubGwmBcM2g4K95iBpdPr2nG7_5DMftXq0fTd_eDtk8VoXTGeQUi6P5G1DgGktChZorzAy7E2BqOreM2BIw4g)[[4]](https://google.com/goto?url=CAESbAHrOzAVsfetqQnaLmPCPsiYitFmy9HSf5mpeoJIp3paw51cvyjAJCiqIYX-A-MPyz2WxtxNVZo1tVyyWbgAuY3zkP6sKdNlNodmfkIn1U2GPgWZmKLkwCHK8YjNpcU5aIt4Eocfk5eengTN_w)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Reddit",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew",
+                      "title": "How would you rank the major laptop brands? - Reddit",
+                      "text": "Product Line over Brand: The quality, reliability, and longevity of laptops depend more on the specific product line or model rath..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Google",
+                      "domain": "www.google.com",
+                      "url": "https://www.google.com/search?q=product&prds=pvt:hg,productid:7855398895688764391,catalogid:18086732570307515327,gpcid:5383435682118214789,mid:576462883325356260&ibp=oshop",
+                      "title": "15-inch Apple MacBook Air M5",
+                      "text": "MacBook Air is remarkably light at just 3.3 pounds, and less than half an inch thin. It’s designed to fit easily into your bag, so..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Google",
+                      "domain": "www.google.com",
+                      "url": "https://www.google.com/search?q=product&prds=pvt:hg,productid:198463476649276833,catalogid:15894706522579533822,gpcid:8602998232814770163,mid:576462562025329966&ibp=oshop",
+                      "title": "13-inch Apple MacBook Air M5",
+                      "text": "The Apple MacBook Air combines performance with sleek design, making it a preferred choice for users who value efficiency. Featuri..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Tech Point Zone",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESXAHrOzAVYj_yIfJYEWWFxo82pe_cLqUMRgph_4l5hZHQMN_sIekeb10IP5G2WJTD6uxxERAxjwhpgz6YCMLH3N4DabFsfwsVmliw1GEc15V30GN03FGHMGeDiA8S",
+                      "title": "Top 10 Best Laptop Brands in the World (July 2026) – UAE Guide",
+                      "text": "Table_title: Best Laptop Brands in the World – Complete Guide for UAE Buyers Table_content: | Brand | Best For | Price Range (AED)"
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Quora",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESeAHrOzAV8qHcAkuobX7caOVAu8seni46l0ykAoDOwYo_2WBzQz-bOii_cwUUzfz8kEtb6ni07Ts5oaubGwmBcM2g4K95iBpdPr2nG7_5DMftXq0fTd_eDtk8VoXTGeQUi6P5G1DgGktChZorzAy7E2BqOreM2BIw4g",
+                      "title": "What companies have best quality-built laptops, other ... - Quora",
+                      "text": "Recommended Brands (Non-Apple): Many manufacturers offer high-quality laptops, with strong recommendations for Lenovo (ThinkPad an..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Forbes",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESbAHrOzAVsfetqQnaLmPCPsiYitFmy9HSf5mpeoJIp3paw51cvyjAJCiqIYX-A-MPyz2WxtxNVZo1tVyyWbgAuY3zkP6sKdNlNodmfkIn1U2GPgWZmKLkwCHK8YjNpcU5aIt4Eocfk5eengTN_w",
+                      "title": "Best Laptops 2026 - Forbes Vetted",
+                      "text": "Our Top Recommendations * Best Laptop Overall: Apple MacBook Air. Check Price. * Best Value Laptop: Apple MacBook Neo. Check Price..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "PCMag",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESTwHrOzAVI9E_bPf8dCAKfNLzuy5BMfVFimFT3CxEXBGLr2N8TWue5REFjZfaBsnYiXd8VxRnoNB8lJlpryQHk5FBLryDJHt76j0Qwd_WMMI",
+                      "title": "The Best Laptops We've Tested (August 2026) | PCMag",
+                      "text": "Best Windows Laptop for Most People. HP OmniBook 5 14. 4.0 Excellent · Field-leading battery life; Aggressively priced, and speedy..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "WIRED",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAESTAHrOzAVJ7MfQY8XsMqYYHb08lAUI0DKMlIRggzKZel5W3hB5eFX006BVNKsSDMnufg-09st_IdsryxFu6yzw78qP5ALWKltgK4Io90",
+                      "title": "Best Laptops (2026): My Top Recommendations After ... - WIRED",
+                      "text": "Asus has quickly become a favorite, notable for the sheer number of laptops available in the consumer market. The company takes a ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "RefurbishedDirect.com",
+                      "domain": "google.com",
+                      "url": "https://google.com/goto?url=CAEScwHrOzAVi2UjFwQf5b-IuVk1e936I5xTby8_6dPApxLgkGikjS3p0lr-hwxOYSoJCkQOp3MzBnNlc2r-yvSMSilfFXFS12LyA2cLOLdBdrlJBmFkNo3hc_QQYhcSarh3HjWJxJsgc1O53Dd8IREygAY9F_Q",
+                      "title": "Best Laptop Brands of 2026 | Compare the top 10!",
+                      "text": "Top 10 Laptop Brands of 2026 * ZenBook: Sleek, stylish ultrabooks with a premium finish. * VivoBook: Affordable all-rounders for e..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you tell me your budget and what you plan to use the laptop for (like gaming, school, or video editing), I can recommend the exact right model for you.",
+                  "markdown": "If you tell me your **budget** and **what you plan to use the laptop for** (like gaming, school, or video editing), I can recommend the exact right model for you.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Reddit",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESgAEB6zswFSpjBkFANUKQsRXlDhudv5vNMckyoM44nQD1FiE0AB22PF84U9oZPm3niH1mwPVJJmV84MjDSWFGSGAigS_gdToolwS_ohNAfs44znWbE5D6ntMFo4Z0f0cCUacHpSZl2TFeQ65FgyFiUln4R6jZ1C4JSIof4KDcFyPNew",
+                  "title": "How would you rank the major laptop brands? - Reddit",
+                  "text": "Product Line over Brand: The quality, reliability, and longevity of laptops depend more on the specific product line or model rath..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "WIRED",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESTAHrOzAVJ7MfQY8XsMqYYHb08lAUI0DKMlIRggzKZel5W3hB5eFX006BVNKsSDMnufg-09st_IdsryxFu6yzw78qP5ALWKltgK4Io90",
+                  "title": "Best Laptops (2026): My Top Recommendations After ... - WIRED",
+                  "text": "Asus has quickly become a favorite, notable for the sheer number of laptops available in the consumer market. The company takes a ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Tech Point Zone",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESXAHrOzAVYj_yIfJYEWWFxo82pe_cLqUMRgph_4l5hZHQMN_sIekeb10IP5G2WJTD6uxxERAxjwhpgz6YCMLH3N4DabFsfwsVmliw1GEc15V30GN03FGHMGeDiA8S",
+                  "title": "Top 10 Best Laptop Brands in the World (July 2026) – UAE Guide",
+                  "text": "Table_title: Best Laptop Brands in the World – Complete Guide for UAE Buyers Table_content: | Brand | Best For | Price Range (AED)"
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "PCMag",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESTwHrOzAVI9E_bPf8dCAKfNLzuy5BMfVFimFT3CxEXBGLr2N8TWue5REFjZfaBsnYiXd8VxRnoNB8lJlpryQHk5FBLryDJHt76j0Qwd_WMMI",
+                  "title": "The Best Laptops We've Tested (August 2026) | PCMag",
+                  "text": "Best Windows Laptop for Most People. HP OmniBook 5 14. 4.0 Excellent · Field-leading battery life; Aggressively priced, and speedy..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Forbes",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESbAHrOzAVsfetqQnaLmPCPsiYitFmy9HSf5mpeoJIp3paw51cvyjAJCiqIYX-A-MPyz2WxtxNVZo1tVyyWbgAuY3zkP6sKdNlNodmfkIn1U2GPgWZmKLkwCHK8YjNpcU5aIt4Eocfk5eengTN_w",
+                  "title": "Best Laptops 2026 - Forbes Vetted",
+                  "text": "Our Top Recommendations * Best Laptop Overall: Apple MacBook Air. Check Price. * Best Value Laptop: Apple MacBook Neo. Check Price..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "RefurbishedDirect.com",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAEScwHrOzAVi2UjFwQf5b-IuVk1e936I5xTby8_6dPApxLgkGikjS3p0lr-hwxOYSoJCkQOp3MzBnNlc2r-yvSMSilfFXFS12LyA2cLOLdBdrlJBmFkNo3hc_QQYhcSarh3HjWJxJsgc1O53Dd8IREygAY9F_Q",
+                  "title": "Best Laptop Brands of 2026 | Compare the top 10!",
+                  "text": "Top 10 Laptop Brands of 2026 * ZenBook: Sleek, stylish ultrabooks with a premium finish. * VivoBook: Affordable all-rounders for e..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Quora",
+                  "domain": "google.com",
+                  "url": "https://google.com/goto?url=CAESeAHrOzAV8qHcAkuobX7caOVAu8seni46l0ykAoDOwYo_2WBzQz-bOii_cwUUzfz8kEtb6ni07Ts5oaubGwmBcM2g4K95iBpdPr2nG7_5DMftXq0fTd_eDtk8VoXTGeQUi6P5G1DgGktChZorzAy7E2BqOreM2BIw4g",
+                  "title": "What companies have best quality-built laptops, other ... - Quora",
+                  "text": "Recommended Brands (Non-Apple): Many manufacturers offer high-quality laptops, with strong recommendations for Lenovo (ThinkPad an..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Google",
+                  "domain": "www.google.com",
+                  "url": "https://www.google.com/search?q=product&prds=pvt:hg,productid:7855398895688764391,catalogid:18086732570307515327,gpcid:5383435682118214789,mid:576462883325356260&ibp=oshop",
+                  "title": "15-inch Apple MacBook Air M5",
+                  "text": "MacBook Air is remarkably light at just 3.3 pounds, and less than half an inch thin. It’s designed to fit easily into your bag, so..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Google",
+                  "domain": "www.google.com",
+                  "url": "https://www.google.com/search?q=product&prds=pvt:hg,productid:198463476649276833,catalogid:15894706522579533822,gpcid:8602998232814770163,mid:576462562025329966&ibp=oshop",
+                  "title": "13-inch Apple MacBook Air M5",
+                  "text": "The Apple MacBook Air combines performance with sleek design, making it a preferred choice for users who value efficiency. Featuri..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "How would you rank the major laptop brands?",
+              "url": "https://www.reddit.com/r/laptops/comments/1fscbny/how_would_you_rank_the_major_laptop_brands/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "70+ comments  ·  1 year ago",
+              "website_name": "Reddit · r/laptops",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "How would you rank the major laptop brands (Apple, Dell, HP, ASUS, Acer, Samsung, MSI, Lenovo, etc) from best to worst in terms of overall quality, reliability, ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": [
+                {
+                  "type": "link_element",
+                  "title": "More results from www.reddit.com",
+                  "description": null,
+                  "url": "https://www.google.com/search?q=best+laptop+company+site:www.reddit.com&sca_esv=f814840d80206240&hl=en&gl=US&sa=X&ved=2ahUKEwivvYXJ68GWAxXgVaQEHT9fNjYQrQIoAnoECCsQAw",
+                  "domain": "www.google.com"
+                }
+              ],
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Who is the best brand of laptop?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are top 5 laptops?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Whose laptop is best, Dell or HP?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which is the most reliable brand of laptop?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What laptop to stay away from?",
+                  "seed_question": "Which is the most reliable brand of laptop?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[5]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are the top 3 best laptop brands?",
+                  "seed_question": "Which is the most reliable brand of laptop?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[6]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is HP or Lenovo better?",
+                  "seed_question": "What are the top 3 best laptop brands?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[7]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the #1 laptop brand?",
+                  "seed_question": "What are the top 3 best laptop brands?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are the best laptops in 2026?",
+                  "seed_question": "What are the top 3 best laptop brands?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the best laptop to buy right now?",
+                  "seed_question": "What are the best laptops in 2026?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[10]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What laptop do consumer reports recommend?",
+                  "seed_question": "What are the best laptops in 2026?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[11]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which laptop should I buy in 2026?",
+                  "seed_question": "What are the best laptops in 2026?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[12]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are the top 5 laptops?",
+                  "seed_question": "Which laptop should I buy in 2026?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[13]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are the best laptops for seniors in 2026?",
+                  "seed_question": "Which laptop should I buy in 2026?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[14]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which laptop brand is recommended?",
+                  "seed_question": "Which laptop should I buy in 2026?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]/div[15]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[5]/div[1]/div[1]",
+              "domain": "www.pcmag.com",
+              "title": "The Best Laptops We've Tested (August 2026)",
+              "url": "https://www.pcmag.com/picks/the-best-laptops",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.pcmag.com › Best Products › Laptops",
+              "website_name": "PCMag",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Aug 1, 2026 — We test more than 100 models every year to determine the best laptop overall. Best Windows Laptop for Most People HP OmniBook 5 14 4.0. Best ...",
+              "pre_snippet": "08/01/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "HP OmniBook 5 14 4.0"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-08-01 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[7]/div[1]/div[1]",
+              "domain": "www.rtings.com",
+              "title": "The 7 Best Business Laptops of 2026",
+              "url": "https://www.rtings.com/laptop/reviews/best/by-usage/business",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.rtings.com › Laptop › Best",
+              "website_name": "RTINGS.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Nov 27, 2025 — The best business laptop we've tested is the Lenovo ThinkPad X9 15 Aura Edition (2025). we recommend the Apple MacBook Air 15 (M4, 2025), one ...",
+              "pre_snippet": "11/27/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Lenovo ThinkPad X9 15 Aura Edition"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-11-27 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[8]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "Every Major Laptop Brand Explained | Lenovo, Apple, Asus, ...",
+              "url": "https://www.youtube.com/watch?v=XCyg5i5iAYY&vl=en",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "297.4K+ views  ·  3 months ago",
+              "website_name": "YouTube · BLASTERTECHNOLOGY",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": null,
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-05-09 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[10]/div[1]/div[1]",
+              "domain": "techpointzone.com",
+              "title": "Top 10 Best Laptop Brands in the World (July 2026) – UAE ...",
+              "url": "https://techpointzone.com/best-laptop-brands-in-the-world?srsltid=AfmBOoroR6l8_iz0fgkHULWidf7AoThSEOL9_YBvKTMUcOnLPX-pRM7x",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://techpointzone.com › best-laptop-brands-in-the-w...",
+              "website_name": "Tech Point Zone",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Aug 4, 2026 — When it comes to naming the number one laptop brand, Lenovo leads global market share by a comfortable margin. followed closely by HP and Dell. ...",
+              "pre_snippet": "08/04/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Lenovo leads global market share"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-08-04 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[12]/div[1]/div[1]",
+              "domain": "www.wired.com",
+              "title": "Best Laptops (2026): My Top Recommendations After ...",
+              "url": "https://www.wired.com/story/best-laptops/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.wired.com › Gear › laptops",
+              "website_name": "WIRED",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Jul 25, 2026 — Asus has quickly become a favorite, notable for the sheer number of laptops available in the consumer market. The company takes a similar ... Read more",
+              "pre_snippet": "07/25/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Asus"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-07-25 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[14]/div[1]/div[1]",
+              "domain": "callnerds.com",
+              "title": "Best Laptop Brands To Buy - Nerds on ...",
+              "url": "https://callnerds.com/best-laptop-brand/?srsltid=AfmBOooMXSGZ4fI13gEZ0NZNv1x2j95wB4_FPgsdVI9b-jzf7eWSb0mL",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://callnerds.com › Blog › Advice",
+              "website_name": "Nerds on Call",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "The best laptop brand is the one that fits your needs, budget, and expectations. Apple, Dell, HP, Lenovo, ASUS, and Acer all offer strong options across ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Apple, Dell, HP, Lenovo, ASUS, and Acer"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[16]/div[1]/div[1]",
+              "domain": "en.wikipedia.org",
+              "title": "List of laptop brands and manufacturers",
+              "url": "https://en.wikipedia.org/wiki/List_of_laptop_brands_and_manufacturers",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://en.wikipedia.org › wiki › List_of_laptop_brands...",
+              "website_name": "Wikipedia",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Major brands ; HP, United States, EliteBook, OmniBook, ProBook, ZBook, Omen ; Dell, United States, Alienware, Dell, Dell Pro, Dell Pro Precision, XPS ; Apple ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "HP"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "popular_products",
+              "rank_group": 1,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[18]",
+              "title": "More products",
+              "items": [
+                {
+                  "type": "popular_products_element",
+                  "title": "Lenovo IdeaPad Slim 3i 15.6\" Intel Core 3 Laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "Best Buy & more\nFree delivery by Sat",
+                  "more_sellers": true,
+                  "seller": "Best Buy",
+                  "image_url": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQ5BtPEI1I-cO2BCE2KbTUquHbqQ2meVDx85_0D3Ig1kdw5DLVKyKFYHRs8iJjq1_smOolu7Zmer_SDTsYq4Ytxnq_JkXe9hbT_SqoQsEOYKNNDOCst4oHn",
+                  "price": {
+                    "current": 299.99,
+                    "regular": 500,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$299.99 $500"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.8,
+                    "votes_count": 77,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "10393776598438054065",
+                    "data_docid": "3271261900337432525",
+                    "gid": "16915425765106757596"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Dell 15.6\" FHD Touchscreen Laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "Best Buy & more\nFree delivery by Sat\nPerforms well (39 user reviews)",
+                  "more_sellers": true,
+                  "seller": "Best Buy",
+                  "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSoZpBpGtOCyND7GekkT0c-hxNbi2_JmuXvkpSCGfhyhZSBruOfwBb1Nhgc3WsPvhdtp-cC-XUGBlq5FUvr9u4QNw5pZ_Xua40spdQs4GKvok4UxqnprzO4wg",
+                  "price": {
+                    "current": 499.99,
+                    "regular": 850,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$499.99 $850"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.5,
+                    "votes_count": 223,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "8557001650358756300",
+                    "data_docid": "1427339533537270820",
+                    "gid": "17139059094974390230"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Apple MacBook Neo 13-inch A18 Pro chip",
+                  "url": "https://google.com/goto?url=CAESaQHrOzAVHwWrIfhJcXEtaDAOqLyQTi-ikU5zFraXaKKDAXD89Qt-h0c4MY3lUBzVmvzvRGeetumQlyvx1yGpO9IlfPXrNQhvowea5waKLMIL-GrtszDiJ9q3yRUwLUvIm5d1OFFpagqtyw",
+                  "domain": "google.com",
+                  "description": "costco.com & more\nFree delivery\nPremium MacBook look and feel at much lower cost · Baseline 256GB SSD will fill up fast CNET",
+                  "more_sellers": true,
+                  "seller": "costco.com",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSnDEbrgbbTQ613_ZbZ86UvcQ4gsXJ1OcVQtabhc_7AwEDMd86ep3Z2scXyweoYblfMIbhd1UXOIdibDATNaYVN6X-I6nMsGU_hh15k24RtCEtQ2k6XXotu",
+                  "price": {
+                    "current": 702.99,
+                    "regular": null,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$702.99"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.8,
+                    "votes_count": 5400,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "8071037808297078357",
+                    "data_docid": "17951768239811167404",
+                    "gid": "6376925527945280566"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Dell XPS 13 Laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "Dell & more\nFree delivery by Wed",
+                  "more_sellers": true,
+                  "seller": "Dell",
+                  "image_url": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQqbA1410inT0w1Dv-pzsYSOjpHKyvs9vLPHaE8jZB5jnS7-GID2d-E2BAadb4ABaeNI3y6BPvUhUBmvfTzNx2Nu_W_rgRrj0swUGm2XHlJwZZAiihrJG23QA",
+                  "price": {
+                    "current": 699.99,
+                    "regular": null,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$699.99"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4,
+                    "votes_count": 15,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "17002373481792632208",
+                    "data_docid": "16857607869694017550",
+                    "gid": "9791592546631715713"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Lenovo IdeaPad Slim 3i 15.6\" Full HD Laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "Best Buy & more\nPerforms well (56 user reviews)",
+                  "more_sellers": true,
+                  "seller": "Best Buy",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSEKtsm7PjngfUCmvS6jXYz21_knSZlBxqlfs0Y-oEXJZveDvtZfwLIOJC6Om1Lze0Gqx_2Nw8wEgB8YfjNuFSgSThPXxZqeV1rTtL1ZMEOFx4hJQ7C4wGqCQ",
+                  "price": {
+                    "current": 349.99,
+                    "regular": 400,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$349.99 $400"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.5,
+                    "votes_count": 219,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "12318146257178197663",
+                    "data_docid": "8939083646811488460",
+                    "gid": "2100783112320092396"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Dell XPS 14 Laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "Dell & more\nFree delivery",
+                  "more_sellers": true,
+                  "seller": "Dell",
+                  "image_url": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRt3iYRx2NZcGCovSl84p-MhdxPtSWnMaEF4BI2afbecfggYVWjfvH9uRb7tL1rXxhN0wAg3TGNNJd_92xQudrO_IHpdmeB_w4k1OTu9L5C6GF8RSufh7Af",
+                  "price": {
+                    "current": 1939.99,
+                    "regular": null,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$1,939.99"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 3.9,
+                    "votes_count": 158,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "7221657926716731331",
+                    "data_docid": "17097890064905820220",
+                    "gid": "6465830559150421164"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "GeekBook M16 Laptop Intel Ultra",
+                  "url": null,
+                  "domain": null,
+                  "description": "geekompc.com\nFree delivery",
+                  "more_sellers": false,
+                  "seller": "geekompc.com",
+                  "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTs3UApLMRGuJQZCGrH3cDh5DTCBtOvrETIVvBW0GvQs7Rdsll1pM58gCBdrAt-k7bhR7Wy0pKSFSmqLhBaz4wFUzi8Tlb_VMDvvcYGhcOARH2UdrZPC4a_",
+                  "price": {
+                    "current": 747.12,
+                    "regular": 899,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$747.12 $899"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.4,
+                    "votes_count": 93,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "6528782763790777592",
+                    "data_docid": "16366716777503722063",
+                    "gid": "14053807744428465270"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Lenovo Legion 9i Gaming Laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "B&H Photo-Video-Audio\nFree delivery by Tue\nLower than most gaming laptops",
+                  "more_sellers": false,
+                  "seller": "B&H Photo-Video-Audio",
+                  "image_url": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQwI0zmMpTHFfe_rU0TzDftJ3PH2RKuUx22w8yWt6KFxID_e8vqznIrb0fKAGRknBN6OBZUH0byZrF99GmZsdh4f1L-9_TZroLR9UOMfsseWafJ_ebgxZjz",
+                  "price": {
+                    "current": 4999,
+                    "regular": 5699,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$4,999.00 $5,699"
+                  },
+                  "rating": null,
+                  "product_identifiers": {
+                    "product_id": "3537159924828024245",
+                    "data_docid": "1197576541038904768",
+                    "gid": "3591431477675957216"
+                  }
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[20]/div[1]/div[1]",
+              "domain": "www.qualcomm.com",
+              "title": "Best Laptop Brands 2026: Top Brands and Devices to Know",
+              "url": "https://www.qualcomm.com/snapdragon/laptops-and-tablets/guide-best-laptops-and-pcs/best-laptop-brands",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.qualcomm.com › snapdragon › best-laptop...",
+              "website_name": "Qualcomm",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "What are the best laptop brands? Some of the most well-known laptop brands include Dell, Lenovo, HP, Microsoft, Samsung, ASUS, and Acer, each offering devices ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Dell, Lenovo, HP, Microsoft, Samsung, ASUS, and Acer"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "perspectives",
+              "rank_group": 1,
+              "rank_absolute": 13,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[22]/div[1]",
+              "title": "What people are saying",
+              "items": [
+                {
+                  "type": "perspectives_element",
+                  "title": "Best Laptops of 2026: Top Picks Tested by CNET",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESaAHrOzAVj0Xi2bItO8IyDe4C7whdXhNmzGhoHUMC9wi5yFyePOInGgj42JbsMdhS2BPuI42UAiISHIZfzDYr6qnru636HrPyArkAna0l3HASTdLmufiSiqZct0WBOPcG9QjnizUKRCpy",
+                  "domain": "google.com",
+                  "date": "2 weeks ago",
+                  "source": "Matt Elliott",
+                  "timestamp": "2026-08-13 22:19:03 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "After Testing Hundreds of Laptops, These Are the Models I Recommend",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESYQHrOzAVxai0Wwx9xuQ411_NAfQTTjTG-Smx1Wd70-J5AhwN8nXgaQmZNbtWXfW_OXSGTSsl46OF3ZmbBEXTTnUvX0FBM9RSQXoLvh_uWGh3Ju5aEbvH07lOhTKin14IUdE",
+                  "domain": "google.com",
+                  "date": "1 month ago",
+                  "source": "Luke Larsen",
+                  "timestamp": "2026-07-27 22:19:03 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "The 3 Best Business Laptops of 2026 | Reviews by Wirecutter",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESeQHrOzAVCQ1Ft5NA3ZbScH658s7gT3yQVmcmhqRBYRuzF7_6kUfPpG39qFsuZ_KznYESHRAXNxG_2WLRCUkXubYgBTIxUauWHIvgqTPyfouUM1PomQ-D5kJw6SZ6HZExjqSWxiqj_0s99NxTgoYGWHKxtLVuIM_wR4k",
+                  "domain": "google.com",
+                  "date": "1 week ago",
+                  "source": "Dave Gershgorn",
+                  "timestamp": "2026-08-20 22:19:03 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "The 6 Best Laptops For College of 2026",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAEScwHrOzAVpg7Q9lWwur6IT8q90pQT6V9uTjZ3c2BJqXgBkeArt4Px3FXTzGpXIwFTwhc9ghBhlnkFsJc2c7ByQeXOhcZ0PBTF8mlKytt6lly4nd2VCzECX0pg8g12iaRgNP05aeafdbcXmHls14wCfDxlQDE",
+                  "domain": "google.com",
+                  "date": "6 days ago",
+                  "source": "Pierre-Olivier Jourdenais",
+                  "timestamp": "2026-08-21 22:19:03 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "We Tested 2 Dozen Models To Find The Best Laptops—Here Are The Winners",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESgQEB6zswFXLh_3RFbLgfu6E0_xWOLDSR0mFSJJqwgLg1Wu8VUAgEZJyvrATYh7VJiE7LEs-gH3yoyW3QLk-nk_VzU2oqFuNrQefytGTZChLnrK7oUjfx-z4u-O0jYkQMWDUVaTvBVAf6z5DPKx5SpqKDbk0-9TNWYGkXxd6ckylQT0U",
+                  "domain": "google.com",
+                  "date": "Jun 15, 2026",
+                  "source": "Steven John, Rebecca Isaacs",
+                  "timestamp": "2026-06-15 00:00:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "The Best-Selling Laptop Brands in the World.",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESnAEB6zswFRZ0rbIXu_JtUNRA3vmZHFSEI1hHZ8CCMEqJMVPAmMreK6KcuY1NNUS00v1DBwWudmXzwz-FOjaZgovIYQx6SwnIQv6sM85IUD0FvPkbOCqIZU4ghTCl0SXDBIRsbABilgzSikVJCjf6q0jeqAM0lB-KJN_EECrQ6Am-Z7WKBWKQVJb4OKksw-hty6Bw6sb789Np3Kv9T3M",
+                  "domain": "google.com",
+                  "date": "1 month ago",
+                  "source": "VGraphs",
+                  "timestamp": "2026-07-27 22:19:03 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Which laptop brand is best for developers? \n\n- Apple \n- Lenovo \n- Dell \n- ASUS \n- System76",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESpgEB6zswFQSnP-ZmhPvLVQOjFOpKG2mV1S9cPp5jOqvkA0OvQtH7sF2HaNQCQbybZNZhU-PD82HJKCZnxihvW3bBwj3aufv99ty5V3cqSNNZCE9AZ-u9VL-PZpTvB8w42WfXeBlkLDfVe0TEdDUEBnWDatjsQLog_rn2Z97kLCFoKu44i_OQLkVQihYHPr1IndzlEkeDMYXSl03IuT1LN3eeFcQKyo9M",
+                  "domain": "google.com",
+                  "date": "1 month ago",
+                  "source": "DanielSmidstrup",
+                  "timestamp": "2026-07-27 22:19:03 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "The Best Work Laptops for 2026",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAEScwHrOzAVqrB1xcpqq_JHVBA-MeyNVl_BWbzqzr4-kuwboTchaqdHVa_URvN30ml6wq7daPXzOq3aaQr5QhOBlV92M95j-DbaJ07wW5J_gW-68j5cTKtJN00a9TTP3X0fAEia55nF8rEaQy_UuLLH3udGxi0",
+                  "domain": "google.com",
+                  "date": "1 week ago",
+                  "source": "Brian Westover, Tom Brant",
+                  "timestamp": "2026-08-20 22:19:03 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Worse and best laptop company?",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESiAEB6zswFcdYsUIiQmWLdmmRq2OXLHcm1Ho07PVfLFhlJnlu7CJztObBaj8G8x4RLsQZ5tU1aFjF9uOQpyuKS8w6HLJIqUsMc_Fi58OicqilRv29KvG4VjhYensdANLXmhA6BgmbIvzQ4WDjWAN6mBdVIFkviXHKDKkUB4CIPRZwrDaYB6G3R2Cd",
+                  "domain": "google.com",
+                  "date": "May 30, 2026",
+                  "source": "r/laptops",
+                  "timestamp": "2026-05-30 00:00:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Best laptops of 2026: We tested 80+ to find the top 9",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESbwHrOzAVNtHVwIP8FIjMmX5SO7d0s0E8J62yaQtk-N4jSvH0bVYQbQBYl1hq3Dpk48n34zLsPBy8foIHsCGvS-Yek_C5OZtccyCG4LaE1XtEYf3ABn9j8Wpbi7a0QTVvPI-rcZSr1AP1iunTDhOBCQ",
+                  "domain": "google.com",
+                  "date": "3 weeks ago",
+                  "source": "Mashable",
+                  "timestamp": "2026-08-06 22:19:03 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Best laptops 2026: our expert-tested top picks for every budget",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESjwEB6zswFd20G1LkGLiBT6NtmOk6-a5E4CdLaUKuAJ35OXzNi-QG1sLD9wdZ9byrNRH8KLwSlIhgl16GOCPp3V8NRln7bcFmmiMa-xo5H6K5qUD7gt604BHFl9R457NODXrdgb4HlOLPfTMBZKjuf0l8naziSgWIZ83bbSBZSsH4i1cMDv5l_pTW0XZZkwCQZw",
+                  "domain": "google.com",
+                  "date": "1 week ago",
+                  "source": "Oliver Trebilcock",
+                  "timestamp": "2026-08-20 22:19:03 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "The best laptops for every kind of user",
+                  "description": null,
+                  "url": "https://google.com/goto?url=CAESfwHrOzAV_IxkvEz0V5Pe5Aj1baO66gg4CNTvyn1zboyCMwvmC3UDOWo9R8UADcPsi1fuRHyNUO-5NTplYxy10ZyIOGwwjCURdOH91c6ZyyF8TCs08atCA59q0ME8IEEoKIS4d9T976gAdQKhfxT0jlW8hKmINoR0FThmgAVAdx4",
+                  "domain": "google.com",
+                  "date": "3 weeks ago",
+                  "source": "Alun Taylor",
+                  "timestamp": "2026-08-06 22:19:03 +00:00"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "popular_products",
+              "rank_group": 2,
+              "rank_absolute": 14,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[24]",
+              "title": "Deals on Laptops",
+              "items": [
+                {
+                  "type": "popular_products_element",
+                  "title": "Lenovo IdeaPad Slim 3i 15.6\" Intel Core 3 Laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "Best Buy & more\nFree delivery by Sat",
+                  "more_sellers": true,
+                  "seller": "Best Buy",
+                  "image_url": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTZHGH4THXs7DiJKDyWfVkG7EEMwnrvgyT4S9sI2MFtzGkgkrm7Off3WtmS5RrkjhntLChyuqrYccybtv-98wC1uEUynvhPNFWDvIJC4ZGUs3wfxZhrY40w",
+                  "price": {
+                    "current": 299.99,
+                    "regular": 500,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$299.99 $500"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.8,
+                    "votes_count": 77,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "10393776598438054065",
+                    "data_docid": "3271261900337432525",
+                    "gid": "16915425765106757596"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Dell 15.6\" FHD Touchscreen Laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "Best Buy & more\nPerforms well (39 user reviews)",
+                  "more_sellers": true,
+                  "seller": "Best Buy",
+                  "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRhBkVdFxhzsq4jfV_8gUGWUlWE8bpPdOaiLGD7oxXlNuuMEQW-kJ_ePKuxwOv9Ce99_V5K2KZjN91xMadfSw1mmeRpIiOQ4sWpmHpUOQGdSJwBCOpD078SrA",
+                  "price": {
+                    "current": 554,
+                    "regular": 850,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$554.00 $850"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.5,
+                    "votes_count": 223,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "8557001650358756300",
+                    "data_docid": "1427339533537270820",
+                    "gid": "17139059094974390230"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "GeekBook X14 Pro Ultralight Laptop with Efficient Cooling 16GB RAM 512GB SSD",
+                  "url": null,
+                  "domain": null,
+                  "description": "geekompc.com\nFree delivery",
+                  "more_sellers": false,
+                  "seller": "geekompc.com",
+                  "image_url": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTu78opaa1nQCcPZwS2BZ-OHc072uPNklugvNmDYshwqcyPHSFJeysyxNFCZ6nfUzd94fpN7zSsuysuyO79h4xfsfuCCSBi07eRqCFdRtCHkxjyHRj1YB93",
+                  "price": {
+                    "current": 747.12,
+                    "regular": 999,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$747.12 $999"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.5,
+                    "votes_count": 127,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": null,
+                    "data_docid": "15096415310817441408",
+                    "gid": null
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Lenovo IdeaPad Slim 3i 15.6\" Full HD Laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "Best Buy & more\nPerforms well (56 user reviews)",
+                  "more_sellers": true,
+                  "seller": "Best Buy",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSbpVWP8-A6I-46ISqtdlEenXJLyEChC65ywxdTnM41PmDRauEzVyDxXX9OJyUHRp5H2vKG8id9P3zfYbc9iFNExaE5R4uj8aPNaFbA-jt4GXboWLFjQqV-mw",
+                  "price": {
+                    "current": 349.99,
+                    "regular": 400,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$349.99 $400"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.5,
+                    "votes_count": 219,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "12318146257178197663",
+                    "data_docid": "8939083646811488460",
+                    "gid": "2100783112320092396"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "High Performance Laptop GeekBook X14 Pro Ultra 9 185H best windows laptop",
+                  "url": null,
+                  "domain": null,
+                  "description": "geekompc.com\nFree delivery",
+                  "more_sellers": false,
+                  "seller": "geekompc.com",
+                  "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcS6Ok10qShRFttjNvbkzuwsSG2LFfbie3rag3V_0MJkGK_44xV8-6l7w5XvyvIcJJ1GcHwya9wdlyOhuqRxxQsbUbHI85wY4wiWTpx_RetdwzIBZpVZ_JNkyA",
+                  "price": {
+                    "current": 984.72,
+                    "regular": 1299,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$984.72 $1,299"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.5,
+                    "votes_count": 127,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": null,
+                    "data_docid": "4185933453426959552",
+                    "gid": null
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Dell Pro 16 PC16250 Core",
+                  "url": null,
+                  "domain": null,
+                  "description": "Dell & more\nFree delivery by Wed",
+                  "more_sellers": true,
+                  "seller": "Dell",
+                  "image_url": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSSR5cJbOl60kItLJ6o0I6UhdYK6qAdg8MProJca4VrrrOa-_lF1U_SjFS0fVW_k6Wd3yO6jz1xLcfeLxexUgDqeXb785HK5KR65pj6g4kXwF7lwh6oJxTh",
+                  "price": {
+                    "current": 1408.97,
+                    "regular": 2029,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$1,408.97 $2,029"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.4,
+                    "votes_count": 751,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "9636589979544966852",
+                    "data_docid": "12854925308808794107",
+                    "gid": "3866338537246215560"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Lenovo IdeaPad Slim 3 Chromebook",
+                  "url": null,
+                  "domain": null,
+                  "description": "Best Buy & more",
+                  "more_sellers": true,
+                  "seller": "Best Buy",
+                  "image_url": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQvfYKNOqFQQNo3cSIkSLxnLKdbMfp6scA7xoP6M5pBV_v0pv3Qggp-1mCgqeQeA_pp7rmAtaNvarDSjBLIlgK4s8j7-weku0C1nVH2H_xid__uEHop-7tMbw",
+                  "price": {
+                    "current": 264.72,
+                    "regular": 419,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$264.72 $419"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.5,
+                    "votes_count": 64,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "14670569720637338315",
+                    "data_docid": "9599257023838937516",
+                    "gid": "15183020060887414759"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "GeekBook Laptop: Next-Gen AI Performance with Intel Core Ultra 9 185H",
+                  "url": null,
+                  "domain": null,
+                  "description": "geekompc.com\nFree delivery",
+                  "more_sellers": false,
+                  "seller": "geekompc.com",
+                  "image_url": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSY29ES5_T5Uy--orae5Dy75XetTI04wRmrTkSDJ4c7BDHjhGQmD7t0x9lJWz_9eBfHGS04VBk9cd1H-dH8ysnv1PA3W-D1fIsifameFCmZubwmpnzJUKgAcw",
+                  "price": {
+                    "current": 984.72,
+                    "regular": 1299,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$984.72 $1,299"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.6,
+                    "votes_count": 34,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": null,
+                    "data_docid": "14071345906633660399",
+                    "gid": null
+                  }
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 15,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Best laptop company in the world",
+                "Top 10 laptop brands",
+                "Best laptop company reddit",
+                "Best laptop brand for students",
+                "Top 10 best laptop in the world",
+                "Best laptop for business and personal use",
+                "Best laptop company for gaming",
+                "Top 10 laptop brands with price"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
