@@ -108,6 +108,20 @@ export const de: Messages = {
     relevance: "Nähe zum Startbegriff {value}",
   },
 
+  verdict: {
+    heading: "Ist das wirklich eine Lücke?",
+    ask: "Der Schwellenwert steht noch nicht fest. Ihre Antwort entscheidet ihn — kostenlos, es wird keine Suche ausgeführt.",
+    gap: "Ja, eine Lücke",
+    notGap: "Nein, abgedeckt",
+    gapHint: "Keine der Seiten hier wurde geschrieben, um diese Frage zu beantworten.",
+    notGapHint: "Mindestens eine Seite hier beantwortet sie direkt.",
+    recorded: "Gespeichert. Zum Zurückziehen dieselbe Schaltfläche erneut anklicken.",
+    retracted: "Urteil zurückgezogen.",
+    saving: "Wird gespeichert…",
+    tally: "Bisher {questions} Fragen beurteilt ({gap} Lücken, {notGap} nicht).",
+    disagrees: "Das widerspricht der Metrik — genau das ist der nützliche Fall.",
+  },
+
   notice: {
     archiveData: "Archivdaten",
     archiveDataDetail: "nicht live",

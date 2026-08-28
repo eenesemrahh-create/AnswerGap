@@ -109,6 +109,20 @@ export const es: Messages = {
     relevance: "Cercanía a la semilla {value}",
   },
 
+  verdict: {
+    heading: "¿Esto es realmente un hueco?",
+    ask: "El umbral todavía no está fijado. Tu respuesta es lo que lo fija — no cuesta nada y no se ejecuta ninguna búsqueda.",
+    gap: "Sí, es un hueco",
+    notGap: "No, está cubierto",
+    gapHint: "Ninguna página de aquí se escribió para responder a esta pregunta.",
+    notGapHint: "Al menos una página de aquí la responde directamente.",
+    recorded: "Registrado. Pulsa el mismo botón otra vez para retirarlo.",
+    retracted: "Veredicto retirado.",
+    saving: "Guardando…",
+    tally: "{questions} preguntas evaluadas hasta ahora ({gap} huecos, {notGap} no).",
+    disagrees: "Esto contradice a la métrica, que es justo el caso útil.",
+  },
+
   notice: {
     archiveData: "Datos de archivo",
     archiveDataDetail: "no en vivo",

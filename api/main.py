@@ -26,7 +26,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from answergap import live
+from answergap import labels, live
 from answergap.dataforseo import BudgetExceeded, DataForSEOError
 from answergap.languages import DEFAULT_LOCATION_CODE, LANGUAGES
 from answergap.tree import STRATEGY, THRESHOLD, all_trees
@@ -96,6 +96,11 @@ def meta() -> dict:
         # letting the user click into a 503.
         "live_crawl_available": live.available(),
         "tree_count": len(_TREES) + len(_LIVE),
+        # How much labelled data the threshold question has to work with.
+        # Phase 0.5 settled it with 14 rows and could not separate the one
+        # real gap from four false ones; the UI says so out loud, and this
+        # is the number it says.
+        "labels": labels.counts(),
         "default_location_code": DEFAULT_LOCATION_CODE,
         "default_language_code": "en",
     }
@@ -259,4 +264,75 @@ def score_question_endpoint(
         "related_searches": found.get("related_searches", []),
         "status_counts": found["status_counts"],
         "node_count": found["node_count"],
+    }
+
+
+# ------------------------------------------------------------------ labels
+
+
+class LabelRequest(BaseModel):
+    """`G` gap · `N` not a gap · `?` retract a previous verdict."""
+
+    label: str = Field(pattern="^[GNgn?]$")
+
+
+@app.get("/api/tree/{slug}/labels")
+def tree_labels(slug: str) -> dict[str, str]:
+    """Verdicts already given on this tree's questions, by question slug.
+
+    Resolved through the question text, not the tree, so a verdict given on the
+    same question in another tree shows up here too. The judgement is about the
+    question against its results; which branch it was reached through is not
+    part of it.
+    """
+    return labels.for_tree(_lookup(slug))
+
+
+@app.post("/api/tree/{slug}/question/{question_slug}/label")
+def label_question(slug: str, question_slug: str, request: LabelRequest) -> dict:
+    """Record a human verdict on one gap score. Free, and never billable.
+
+    Allowed on archived trees as well as live ones. Scoring is refused on the
+    archive because it would spend money rewriting fixed evidence; labelling
+    spends nothing and the archive is the best-understood data on disk, so
+    refusing it would throw away the easiest labels available.
+
+    Refused on an unscored question: with no fetched results there is no claim
+    to agree or disagree with, and CLAUDE.md is explicit that unknown must stay
+    unknown rather than being recorded as a judgement.
+    """
+    found = _lookup(slug)
+    node = next(
+        (n for n in found["nodes"] if n["slug"] == question_slug), None
+    )
+    if node is None:
+        raise HTTPException(404, f"No question: {question_slug}")
+    if not node.get("results_checked"):
+        raise HTTPException(
+            409,
+            "This question has no fetched results, so there is no gap verdict "
+            "to agree or disagree with. Score it first.",
+        )
+
+    try:
+        labels.record(
+            question=node["question"],
+            language_code=found.get("language_code") or "en",
+            location_code=found.get("location_code"),
+            label=request.label,
+            tree_slug=found["slug"],
+            question_slug=question_slug,
+            predicted=node.get("status"),
+            threshold=found.get("threshold", THRESHOLD),
+            strategy=found.get("strategy", STRATEGY),
+            matching_pages=node.get("matching_pages"),
+            results_checked=node.get("results_checked"),
+            overlaps=[r["overlap"] for r in node.get("results", [])],
+        )
+    except labels.InvalidLabel as e:
+        raise HTTPException(400, str(e)) from e
+
+    return {
+        "labels": labels.for_tree(found),
+        "counts": labels.counts(),
     }

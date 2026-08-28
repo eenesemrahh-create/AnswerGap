@@ -14,7 +14,7 @@
   "threshold": 0.6,
   "strategy": "synonyms",
   "threshold_validated": false,
-  "updated_at": "2026-08-27T15:17:36+00:00",
+  "updated_at": "2026-08-28T15:43:53+00:00",
   "source": "live",
   "related_searches": [
     "Best games for PC free",
@@ -164,7 +164,7 @@
       ],
       "ai_sources": [],
       "source_file": null,
-      "updated_at": "2026-08-27T15:12:45+00:00"
+      "updated_at": "2026-08-28T15:43:53+00:00"
     },
     {
       "id": "do people still play knight online",
@@ -176,10 +176,9 @@
       "depth": 1,
       "parent_id": "knight online",
       "parents": [
-        "knight online",
-        "what is the best class in knight online"
+        "knight online"
       ],
-      "repeat_count": 2,
+      "repeat_count": 1,
       "status": "covered",
       "matching_pages": 3,
       "results_checked": 9,

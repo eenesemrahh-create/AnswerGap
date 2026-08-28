@@ -1,0 +1,1349 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "8.5075 sec.",
+  "cost": 0.0026,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08281628-2374-0139-0000-2a40228e0f0a",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "8.1485 sec.",
+      "cost": 0.0026,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "chocolate",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10,
+        "people_also_ask_click_depth": 4
+      },
+      "result": [
+        {
+          "keyword": "chocolate",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=chocolate&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-28 16:29:03 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "popular_products",
+            "organic",
+            "local_pack",
+            "people_also_ask",
+            "perspectives",
+            "product_considerations",
+            "related_searches",
+            "knowledge_graph"
+          ],
+          "se_results_count": 195,
+          "pages_count": 1,
+          "items_count": 19,
+          "items": [
+            {
+              "type": "knowledge_graph",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]",
+              "title": "Chocolate",
+              "subtitle": "Food",
+              "description": null,
+              "card_id": null,
+              "url": null,
+              "image_url": null,
+              "logo_url": null,
+              "cid": null,
+              "items": [
+                {
+                  "type": "knowledge_graph_carousel_item",
+                  "rank_group": 0,
+                  "rank_absolute": 0,
+                  "page": 1,
+                  "position": "left",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[4]/div[1]/div[2]/div[1]/div[1]",
+                  "title": "People also search for",
+                  "data_attrid": null,
+                  "link": null,
+                  "items": [
+                    {
+                      "type": "knowledge_graph_carousel_element",
+                      "title": "Vegetable",
+                      "subtitle": null,
+                      "url": "https://www.google.com/search?sca_esv=749e74545b1e12dc&hl=en&gl=US&si=APenkKlisoOXLiCMwraINHtdqOQii4CK9kOlkQc8Apn-pS60yZTAb30e_pTjEhBh5dNYTD7AlBKfCvurSld0syeotV4pU7C0GoBm2oitgRYs6N89ZqHCOt1oaqzyfAL9PNYMWH1ox-bVfB2AmX8RYI-yLuOX0ck7j_OFZMQNT_4iXi3FjgQxlH8BJX5oUWemlmrwuNhdxYWP&q=Vegetable&sa=X&ved=2ahUKEwie-MmY38OWAxXsU0EAHRRfOacQs9oBKAB6BAgYEAY",
+                      "domain": "www.google.com",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:0",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[4]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
+                    },
+                    {
+                      "type": "knowledge_graph_carousel_element",
+                      "title": "Tea",
+                      "subtitle": null,
+                      "url": "https://www.google.com/search?sca_esv=749e74545b1e12dc&hl=en&gl=US&si=APenkKnxxBAKu8uEyVJp5QG7kNERIzt0EhsYdVrbw5Is3icMpoFf8997YfT4-lxQZ3quJhUQJnJuJ3EyTdoo5ofUMtsIJXERO4SxwlKc2wM7s2J96FzXAsaru098iQ4kxD_j_aua22-VtmO2xnqr9Jl-sbW53VOFxr171ovoqvSmjbRb5xIp9V1rdDbFfzQqY8qYvhO7EG7w&q=Tea&sa=X&ved=2ahUKEwie-MmY38OWAxXsU0EAHRRfOacQs9oBKAB6BAgYEAo",
+                      "domain": "www.google.com",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:1",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[4]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]"
+                    },
+                    {
+                      "type": "knowledge_graph_carousel_element",
+                      "title": "Pasta",
+                      "subtitle": null,
+                      "url": "https://www.google.com/search?sca_esv=749e74545b1e12dc&hl=en&gl=US&si=APenkKnxxBAKu8uEyVJp5QG7kNERIzt0EhsYdVrbw5Is3icMpohyp6hN5H5pdn5R8pbkO9TsOLu-rnbGB9zVO5DfIaP5nQt4xN4WkScmxAi78hxI0qDdsh52GAX8LbuhdkF8gHl6jPLDceGzndMDM9ga4HHHzl0FSyR2UF9qIZ2B-pKRRoYlegP_3mw1M3-XTWZhj79pVInc&q=Pasta&sa=X&ved=2ahUKEwie-MmY38OWAxXsU0EAHRRfOacQs9oBKAB6BAgYEA4",
+                      "domain": "www.google.com",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:2",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[4]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]"
+                    },
+                    {
+                      "type": "knowledge_graph_carousel_element",
+                      "title": "Coffee",
+                      "subtitle": null,
+                      "url": "https://www.google.com/search?sca_esv=749e74545b1e12dc&hl=en&gl=US&si=APenkKlisoOXLiCMwraINHtdqOQii4CK9kOlkQc8Apn-pS60yWCQMvO2rF8JdIYXUU195nsFIRU6k-cABt5Un-cy5zXQZEOkjwBj3KdX9arYObeH_IlXGaC2A8m_Rd2t-sHnl3cdziATUOcMOluCIBrbq6zZS5oV7Objf0SxhPq-p0QdtslsxqA7DAP_loQIxUnMfOtsga2a&q=Coffee&sa=X&ved=2ahUKEwie-MmY38OWAxXsU0EAHRRfOacQs9oBKAB6BAgYEBI",
+                      "domain": "www.google.com",
+                      "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:3",
+                      "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[4]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[1]"
+                    }
+                  ],
+                  "rectangle": null
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]",
+              "asynchronous_ai_overview": true,
+              "markdown": null,
+              "items": null,
+              "references": null,
+              "rectangle": null
+            },
+            {
+              "type": "popular_products",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[3]/div[1]",
+              "title": "Popular products",
+              "items": [
+                {
+                  "type": "popular_products_element",
+                  "title": "Ghirardelli Best Sellers Chocolate Bar Bundle",
+                  "url": null,
+                  "domain": null,
+                  "description": "Ghirardelli\nFree delivery on $75+\nMilk Chocolate · Milk Chocolate Caramel · Bar",
+                  "more_sellers": false,
+                  "seller": "Ghirardelli",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:4",
+                  "price": {
+                    "current": 54.36,
+                    "regular": 64,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$54.36 $64"
+                  },
+                  "rating": null,
+                  "product_identifiers": {
+                    "product_id": "7145663524373395367",
+                    "data_docid": "11912239951221781272",
+                    "gid": "4959555695972613811"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Ferrero Rocher Assorted Collection",
+                  "url": null,
+                  "domain": null,
+                  "description": "Target & more\nFree delivery on $35+\nTastes good (1,739 user reviews)",
+                  "more_sellers": true,
+                  "seller": "Target",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:5",
+                  "price": {
+                    "current": 16.29,
+                    "regular": 1.79,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$16.29 $1.79/oz"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.8,
+                    "votes_count": 4400,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "3662307895019182055",
+                    "data_docid": "4725182691290747909",
+                    "gid": "15333021846765954472"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Ferrero Rocher Hazelnut",
+                  "url": null,
+                  "domain": null,
+                  "description": "CVS Pharmacy & more\nFree delivery on $35+\nTastes good (19,856 user reviews)",
+                  "more_sellers": true,
+                  "seller": "CVS Pharmacy",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:6",
+                  "price": {
+                    "current": 19.99,
+                    "regular": 2.53,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$19.99 $2.53/oz"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.8,
+                    "votes_count": 49000,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "17620007516642492141",
+                    "data_docid": "13229892216386815828",
+                    "gid": "989514648182670630"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Lindt Lindor Assorted Chocolate Truffles",
+                  "url": null,
+                  "domain": null,
+                  "description": "Target & more\nFree delivery on $100+\nGood texture (7,780 user reviews)",
+                  "more_sellers": true,
+                  "seller": "Target",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:7",
+                  "price": {
+                    "current": 6.99,
+                    "regular": 1.37,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$6.99 $1.37/oz"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.8,
+                    "votes_count": 18000,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "16433637663202892261",
+                    "data_docid": "13964043547353558640",
+                    "gid": "2232575142687720317"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "See's Candies Assorted Chocolates Box 1lb Best Chocolate Gift Delivery",
+                  "url": null,
+                  "domain": null,
+                  "description": "See's Candies Official Online Store & more\nMilk Chocolate · Assorted · Box",
+                  "more_sellers": true,
+                  "seller": "See's Candies Official Online Store",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:8",
+                  "price": {
+                    "current": 34,
+                    "regular": 1.31,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$34.00 $1.31/ct"
+                  },
+                  "rating": null,
+                  "product_identifiers": {
+                    "product_id": "9910417370862839035",
+                    "data_docid": "5247166745033508341",
+                    "gid": "8310968497921443251"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Feastables Milk Chocolate Bar",
+                  "url": "https://foodgeek.io/en/feastables-review-chocolate-maker/",
+                  "domain": "foodgeek.io",
+                  "description": "Target & more\nFree delivery on $100+\nMelts great in your mouth · Rich and creamy flavor Foodgeek",
+                  "more_sellers": true,
+                  "seller": "Target",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:9",
+                  "price": {
+                    "current": 2.69,
+                    "regular": 0.04,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$2.69 $0.04/g"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.3,
+                    "votes_count": 1400,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "12598280032711012790",
+                    "data_docid": "6897147667701798529",
+                    "gid": "15778584535383249918"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Assorted Premium Chocolate Gift Box 32 SQUARES",
+                  "url": null,
+                  "domain": null,
+                  "description": "Ghirardelli\nMilk Chocolate · Box · Assorted Colors",
+                  "more_sellers": false,
+                  "seller": "Ghirardelli",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:10",
+                  "price": {
+                    "current": 31.41,
+                    "regular": 37,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$31.41 $37"
+                  },
+                  "rating": null,
+                  "product_identifiers": {
+                    "product_id": "3187330341383713504",
+                    "data_docid": "2651640367279435497",
+                    "gid": "9117703289989433771"
+                  }
+                },
+                {
+                  "type": "popular_products_element",
+                  "title": "Lindt Lindor Milk Chocolate Truffles",
+                  "url": null,
+                  "domain": null,
+                  "description": "CVS Pharmacy & more\nFree delivery on $35+\nGood texture (7,757 user reviews)",
+                  "more_sellers": true,
+                  "seller": "CVS Pharmacy",
+                  "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:11",
+                  "price": {
+                    "current": 8.29,
+                    "regular": 1.63,
+                    "max_value": null,
+                    "currency": "USD",
+                    "is_price_range": false,
+                    "displayed_price": "$8.29 $1.63/oz"
+                  },
+                  "rating": {
+                    "rating_type": "Max5",
+                    "value": 4.8,
+                    "votes_count": 18000,
+                    "rating_max": 5
+                  },
+                  "product_identifiers": {
+                    "product_id": "1762174661725726864",
+                    "data_docid": "13492505321555295549",
+                    "gid": "17691801362436260574"
+                  }
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[5]/div[1]/div[1]",
+              "domain": "en.wikipedia.org",
+              "title": "Chocolate",
+              "url": "https://en.wikipedia.org/wiki/Chocolate",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://en.wikipedia.org › wiki › Chocolate",
+              "website_name": "Wikipedia",
+              "is_image": true,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_image"
+              ],
+              "description": "Chocolate is a food made from roasted and ground cocoa beans. It can be a liquid, solid, or paste. It is eaten on its own and used to flavor other foods. Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": [
+                {
+                  "type": "images_element",
+                  "alt": "chocolate from en.wikipedia.org",
+                  "url": null,
+                  "image_url": "https://api.dataforseo.com/cdn/i/08281628-2374-0139-0000-2a40228e0f0a:12"
+                }
+              ],
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "a food made from roasted and ground cocoa beans"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "local_pack",
+              "rank_group": 1,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[7]/div[1]/div[4]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]",
+              "title": "Rogue Chocolate",
+              "description": "Salem, OR \nClosed · Opens 12 PM \nTakeout \n",
+              "domain": null,
+              "phone": null,
+              "booking_url": null,
+              "url": null,
+              "is_paid": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 5,
+                "votes_count": 11,
+                "rating_max": 5
+              },
+              "cid": "11319878032327923295",
+              "rectangle": null
+            },
+            {
+              "type": "local_pack",
+              "rank_group": 2,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[7]/div[1]/div[4]/div[1]/div[1]/div[3]/div[1]/div[3]/div[1]/div[1]",
+              "title": "Chocolate Chocolate Chocolate Company",
+              "description": "St. Louis, MO \nStandby for handmade chocolates \n",
+              "domain": null,
+              "phone": null,
+              "booking_url": null,
+              "url": null,
+              "is_paid": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 4.7,
+                "votes_count": 662,
+                "rating_max": 5
+              },
+              "cid": "11975053346363305984",
+              "rectangle": null
+            },
+            {
+              "type": "local_pack",
+              "rank_group": 3,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[7]/div[1]/div[4]/div[1]/div[1]/div[3]/div[1]/div[5]/div[1]/div[1]",
+              "title": "Xocolatl Chocolate",
+              "description": "Atlanta, GA \nTakeout · Delivery · No dine-in \n",
+              "domain": null,
+              "phone": null,
+              "booking_url": null,
+              "url": null,
+              "is_paid": false,
+              "rating": {
+                "rating_type": "Max5",
+                "value": 4.7,
+                "votes_count": 155,
+                "rating_max": 5
+              },
+              "cid": "17536857415078162109",
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the top 5 best chocolate?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What was Princess Diana's favorite chocolate?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the oldest candy bar still sold today?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the most unhealthy chocolate?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the cleanest chocolate bar to eat?",
+                  "seed_question": "What is the most unhealthy chocolate?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[5]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What chocolate should you not eat?",
+                  "seed_question": "What is the most unhealthy chocolate?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[6]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are the 10 worst chocolate bars to avoid?",
+                  "seed_question": "What chocolate should you not eat?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[7]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What organ does chocolate affect?",
+                  "seed_question": "What chocolate should you not eat?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the safest brand of chocolate to eat?",
+                  "seed_question": "What chocolate should you not eat?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which type of chocolate is the healthiest at the grocery store?",
+                  "seed_question": "What is the safest brand of chocolate to eat?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[10]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is Ghirardelli chocolate safe?",
+                  "seed_question": "What is the safest brand of chocolate to eat?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[11]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What should I eat if I crave chocolate?",
+                  "seed_question": "What is the safest brand of chocolate to eat?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[12]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What kills chocolate cravings?",
+                  "seed_question": "What should I eat if I crave chocolate?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[13]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is my body lacking when I crave chocolate?",
+                  "seed_question": "What should I eat if I crave chocolate?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[14]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What does it mean if I constantly crave chocolate?",
+                  "seed_question": "What should I eat if I crave chocolate?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/div[1]/div[1]/div[1]/div[2]/div[15]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[11]/div[1]/div[1]",
+              "domain": "chocolate.com",
+              "title": "Premium Chocolate | No Melt Guarantee | Chocolate.com",
+              "url": "https://chocolate.com/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://chocolate.com",
+              "website_name": "Chocolate.com",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "The world's largest online selection of chocolate & home of Grandma Anne's famous Chocolate Chunks. Explore our decadent chocolate creations ...",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": {
+                "current": 12.95,
+                "regular": null,
+                "max_value": null,
+                "currency": "USD",
+                "is_price_range": false,
+                "displayed_price": "$12.95 delivery"
+              },
+              "highlighted": [
+                "The world's largest online selection of chocolate"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "perspectives",
+              "rank_group": 1,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[13]/div[1]",
+              "title": "What people are saying",
+              "items": [
+                {
+                  "type": "perspectives_element",
+                  "title": "Spicy Chocolate Roulette",
+                  "description": null,
+                  "url": "https://www.youtube.com/shorts/oR43lrcv2ik",
+                  "domain": "www.youtube.com",
+                  "date": "3 days ago",
+                  "source": "MrBeast 2",
+                  "timestamp": "2026-08-25 16:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Dark chocolate ‘lovers’ = liars 😆😎\n\nPS. Did you know that dark chocolate and milk chocolate have the same calories? 👀",
+                  "description": null,
+                  "url": "https://www.instagram.com/reel/DckkQuEoY-v/",
+                  "domain": "www.instagram.com",
+                  "date": "7 hours ago",
+                  "source": "the_lean_girl",
+                  "timestamp": "2026-08-28 09:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Sarah Kraffty. . Welcome back to making chocolate from scratch! #chocolate #chocolatebar #desserts #recipes #howto",
+                  "description": null,
+                  "url": "https://www.facebook.com/61552152101386/videos/welcome-back-to-making-chocolate-from-scratch-chocolate-chocolatebar-desserts-re/2126475848217556/",
+                  "domain": "www.facebook.com",
+                  "date": "3 weeks ago",
+                  "source": "61552152101386",
+                  "timestamp": "2026-08-07 16:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Chocolate Covered Apple Slices with date caramel & chopped peanuts! 🍎🍫 This is such a fun snack to make this fall (especially for an after-school treat!) You can customize with any toppings you’d like – a peanut butter drizzle, coconut, dried fruit, crushed Oreos, sprinkles, etc. \n\nThe basic process is to slice an apple (we use honeycrisp) about 1/4” thick, pat it dry, then insert a popsicle or cake pop stick in the bottom. (Do a trial run before you slice the whole apple, because if it’s too thin, the apple slice will split! It can also help to make a hole with something sharp like a skewer first.) \n\nCoat both sides in melted chocolate of your choice, then add toppings. Keep these stored in the fridge for ~3 days (after that, the apple may start to get a little mushy). Enjoy! \n\nIf you want a more detailed tutorial, put ‘RECIPE’ below and we’ll send it straight to you to save for later 💌",
+                  "description": null,
+                  "url": "https://www.instagram.com/reel/DcloUS3gwoQ/",
+                  "domain": "www.instagram.com",
+                  "date": "1 hour ago",
+                  "source": "crowded_kitchen",
+                  "timestamp": "2026-08-28 15:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Why did u keep your chocolate a secret ?",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/askswitzerland/comments/1w05ij9/why_did_u_keep_your_chocolate_a_secret/",
+                  "domain": "www.reddit.com",
+                  "date": "20 hours ago",
+                  "source": "r/askswitzerland",
+                  "timestamp": "2026-08-27 20:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "F*CK or SUCK \nHigh Protein Chocolate Crunch Cake\n\n@chestbrah.official actually in my f*ckin house. 😂\n\n👨‍🍳 Ingredients, makes 2 serves\n\n✅ Self Raising Flour, 30g (¼ cup)\n✅ Dutch Chocolate Protein Powder, 30g (1 scoop)\n✅ Large Egg, 1\n✅ Sugar Free Maple Syrup, 120ml (½ cup), divided\n✅ Cocoa Powder, 20g (4 tbsp), divided\n✅ Corn Flakes, 20g (¾ cup)\n\n✅ Optional but if you wanted to take this to the next level melt dark chocolate and maple syrup to coat the cornflakes! \n\n👉 Method\n\n1. Add the flour, whey protein, egg, half the cocoa powder and 60ml (¼ cup) sugar free maple syrup to a bowl.\n2. Mix until smooth and microwave for 60 seconds. Let cool for at least 20 minutes (this keeps the cornflakes crunchy)\n3. In another bowl, mix enough sugar free maple syrup and cocoa powder together to make a thick paste.\n4. Add the corn flakes and fold through until completely coated.\n5. Spoon the chocolate crunch mixture over the cake.\n6. Dig in and enjoy\n\n📊 Calories and Macros, per serve\n\nCalories: approx",
+                  "description": null,
+                  "url": "https://www.instagram.com/reel/DckT7-YzP9m/",
+                  "domain": "www.instagram.com",
+                  "date": "6 hours ago",
+                  "source": "mattwest_roadtoaesthetics",
+                  "timestamp": "2026-08-28 10:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "This Chocolate Drink is gooooooood🤤 #hungrysam #reallygoodornot",
+                  "description": null,
+                  "url": "https://www.youtube.com/shorts/nOokN59DJ4U",
+                  "domain": "www.youtube.com",
+                  "date": "12 hours ago",
+                  "source": "Hungry Sam",
+                  "timestamp": "2026-08-28 04:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "If you love chocolate, these blondies are about to become your new favorite dessert. 🤎☕🍫\n\nThese Salted Espresso Chocolate Chunk Blondies are perfectly chewy, loaded with melty chocolate, and finished with flaky sea salt. The espresso doesn’t make them taste like coffee—it just makes the chocolate taste even richer.\n\nTrust me… these won’t last more than a day. ✨\n\nSave this recipe for your next baking day!\n\nComment “RECIPE” and I’ll send you the full recipe straight to your DMs! 💌",
+                  "description": null,
+                  "url": "https://www.instagram.com/reel/DcjYvlkRzBf/",
+                  "domain": "www.instagram.com",
+                  "date": "22 hours ago",
+                  "source": "mersgoodeats",
+                  "timestamp": "2026-08-27 18:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "NatashasKitchen.com. . A decadent, moist Chocolate Cake recipe with the easiest chocolate frosting and a soft, tender crumb. Comment \"SAVE\" and I'll send you the recipe",
+                  "description": null,
+                  "url": "https://www.facebook.com/natashaskitchen/videos/a-decadent-moist-chocolate-cake-recipe-with-the-easiest-chocolate-frosting-and-a/2140066076948562/",
+                  "domain": "www.facebook.com",
+                  "date": "20 hours ago",
+                  "source": "natashaskitchen",
+                  "timestamp": "2026-08-27 20:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Easy Chocolate Waffles Recipe",
+                  "description": null,
+                  "url": "https://www.youtube.com/watch?v=iwpNbAl6938",
+                  "domain": "www.youtube.com",
+                  "date": "21 hours ago",
+                  "source": "Preppy Kitchen",
+                  "timestamp": "2026-08-27 19:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "We Had Over 30 Kids Taste-Test Chocolate Cereals. Here Are Their Favorites.",
+                  "description": null,
+                  "url": "https://www.nytimes.com/wirecutter/reviews/chocolate-cereal-taste-test/",
+                  "domain": "www.nytimes.com",
+                  "date": "21 hours ago",
+                  "source": "Rachel Wharton",
+                  "timestamp": "2026-08-27 19:29:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Family Style Cooking. . How did I not know this chocolate trick? Kyra makes homemade chocolate peanut butter cups.",
+                  "description": null,
+                  "url": "https://www.facebook.com/FamilyStyleCooking/videos/how-did-i-not-know-this-chocolate-trickkyra-makes-homemade-chocolate-peanut-butt/1982744022437320/",
+                  "domain": "www.facebook.com",
+                  "date": "18 hours ago",
+                  "source": "FamilyStyleCooking",
+                  "timestamp": "2026-08-27 22:29:00 +00:00"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[15]/div[1]/div[1]",
+              "domain": "www.chocolatechocolate.com",
+              "title": "Craft Chocolate Bars",
+              "url": "https://www.chocolatechocolate.com/collections/craft-chocolate-bars?srsltid=AfmBOopdz-RJgd7g_JEamU7JakIvaM9PeWaO4eHD5X3DAlxZo5ioPnLS",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.chocolatechocolate.com › collections › craft...",
+              "website_name": "Chocolate Chocolate Chocolate Company",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Crafted by our master chocolatiers, each chocolate bar is filled with our famous caramel, truffle or peanut butter.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "chocolate"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[17]/div[1]/div[1]",
+              "domain": "www.thegoodchocolate.com",
+              "title": "Shop Delicious & Healthy Chocolates Online",
+              "url": "https://www.thegoodchocolate.com/shop/?srsltid=AfmBOopUpHLXIKlitAfnPVZTZS2328-YbyeXzl9Tp5O3BG6On2qe71Ov",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.thegoodchocolate.com › shop",
+              "website_name": "The Good Chocolate",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Buy tasty & healthy zero-sugar chocolates online from The Good Chocolate. We have all of your favorite flavors in Square, Mini-Bar or Bar sizes.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": {
+                "current": 10,
+                "regular": null,
+                "max_value": 100,
+                "currency": "USD",
+                "is_price_range": true,
+                "displayed_price": "$10 to $100"
+              },
+              "highlighted": [
+                "Buy tasty & healthy zero-sugar chocolates online"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 13,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[19]/div[1]/div[1]",
+              "domain": "www.formaggiokitchen.com",
+              "title": "Specialty Foods - Sweets - Chocolate",
+              "url": "https://www.formaggiokitchen.com/sweets/chocolate/?srsltid=AfmBOorK_0rrDblra01bleEgHJU3Nv536cs-aDuPx5wzU-6dMqgC3_6Y",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.formaggiokitchen.com › ... › Sweets",
+              "website_name": "Formaggio Kitchen",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "We focus on bean-to-bar producers who eschew emulsifiers and create their wonderous chocolates with nothing more than sugar and cacao.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": {
+                "current": 195,
+                "regular": null,
+                "max_value": null,
+                "currency": "USD",
+                "is_price_range": false,
+                "displayed_price": "Free delivery over $195"
+              },
+              "highlighted": [
+                "chocolates"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 14,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[21]/div[1]/div[1]",
+              "domain": "www.merriam-webster.com",
+              "title": "CHOCOLATE Definition & Meaning",
+              "url": "https://www.merriam-webster.com/dictionary/chocolate",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.merriam-webster.com › dictionary › choco...",
+              "website_name": "Merriam-Webster",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "4 days ago — The meaning of CHOCOLATE is a food prepared from ground roasted cacao beans. a beverage made by mixing chocolate with water or milk … a ...",
+              "pre_snippet": "4 days ago",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "a food prepared from ground roasted cacao beans"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-08-24 16:29:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 15,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[23]/div[1]/div[1]",
+              "domain": "candyusa.com",
+              "title": "Kinds of Chocolate - NCA",
+              "url": "https://candyusa.com/story-of-chocolate/what-is-chocolate/kinds-of-chocolate/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://candyusa.com › ... › What is Chocolate?",
+              "website_name": "The National Confectioners Association - NCA",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "There are three main kinds of chocolate: Dark Chocolate: Unsweetened chocolate, or baking chocolate, plus milk solids.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Dark Chocolate"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 16,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[24]/div[1]/div[1]/div[1]",
+              "domain": "www.youtube.com",
+              "title": "Chocolatiers Blind Taste Test Every Chocolate Bar | The Taste ...",
+              "url": "https://www.youtube.com/watch?v=bgUe5BIqaB4",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "1.7M+ views  ·  10 months ago",
+              "website_name": "YouTube · Epicurious",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": null,
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-10-08 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 9,
+              "rank_absolute": 17,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[26]/div[1]/div[1]",
+              "domain": "www.bigy.com",
+              "title": "Chocolate Gifts, Recipes & Sweet Ideas",
+              "url": "https://www.bigy.com/page/chocolate-lovers",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.bigy.com › page › chocolate-lovers",
+              "website_name": "Big Y",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Explore chocolates, gift ideas, hot chocolate gifts, and rich recipes. Indulge your sweet side with chocolate foods and treats from Big Y.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Explore chocolates, gift ideas, hot chocolate gifts, and rich recipes"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "product_considerations",
+              "rank_group": 1,
+              "rank_absolute": 18,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[1]/div[2]/div[1]/div[1]/div[27]/div[1]",
+              "title": "Things to know",
+              "items": [
+                {
+                  "type": "product_considerations_element",
+                  "title": "chocolate calories",
+                  "consideration_category": "Calories",
+                  "expanded_element": null
+                },
+                {
+                  "type": "product_considerations_element",
+                  "title": "What are the health benefits of chocolate?",
+                  "consideration_category": "Health Benefits",
+                  "expanded_element": [
+                    {
+                      "type": "product_considerations_expanded_element",
+                      "title": "The Health Effects of Chocolate and Cocoa: A Systematic Review - PMC",
+                      "featured_title": null,
+                      "breadcrumb": "https://pmc.ncbi.nlm.nih.gov › articles › PMC8470865",
+                      "snippet": "Several meta-analyses have suggested the benefits of chocolate consumption in reducing the risk of cardiometabolic events including coronary heart disease, myocardial infarction, stroke, and diabetes [9,10].",
+                      "domain": "www.google.com",
+                      "url": "https://www.google.com/search?sca_esv=749e74545b1e12dc&hl=en&gl=US&q=health+benefits+of+chocolate&sa=X&ved=2ahUKEwie-MmY38OWAxXsU0EAHRRfOacQrooIegQIVhAe",
+                      "timestamp": null,
+                      "related_searches": [
+                        "What are the health benefits of chocolate?"
+                      ],
+                      "about_this_result": null
+                    }
+                  ]
+                },
+                {
+                  "type": "product_considerations_element",
+                  "title": "What are the different types of chocolate?",
+                  "consideration_category": "Types",
+                  "expanded_element": [
+                    {
+                      "type": "product_considerations_expanded_element",
+                      "title": "Types of chocolate - Valrhona",
+                      "featured_title": "Types of chocolate",
+                      "breadcrumb": "https://www.valrhona.com › chocolate-terminology › typ...",
+                      "snippet": "Dark Chocolate.\nMilk chocolate.\nWhite Chocolate.\nDulcey chocolate.\nChocolate for tasting and snacking.\nChocolate bars.\nChocolate bonbons.\nCooking chocolate.",
+                      "domain": "www.google.com",
+                      "url": "https://www.google.com/search?sca_esv=749e74545b1e12dc&hl=en&gl=US&q=different+type+of+chocolate&sa=X&ved=2ahUKEwie-MmY38OWAxXsU0EAHRRfOacQrooIegQIVhAt",
+                      "timestamp": null,
+                      "related_searches": [
+                        "What are the different types of chocolate?"
+                      ],
+                      "about_this_result": null
+                    }
+                  ]
+                },
+                {
+                  "type": "product_considerations_element",
+                  "title": "How is chocolate made?",
+                  "consideration_category": "Production",
+                  "expanded_element": [
+                    {
+                      "type": "product_considerations_ai_overview_expanded_element",
+                      "items": [
+                        {
+                          "type": "ai_overview_element",
+                          "title": null,
+                          "text": "Chocolate is made by harvesting, fermenting, and drying cacao beans, which are then roasted, cracked, and winnowed to separate the inner nibs. These nibs are ground into cocoa liquor, mixed with ingredients like sugar and cocoa butter, refined, conched for smoothness, and tempered before being molded into bars.",
+                          "images": null,
+                          "references": null
+                        },
+                        {
+                          "type": "ai_overview_element",
+                          "title": "Key Steps in Chocolate Production",
+                          "text": "Harvesting and Fermenting: Cacao pods are opened to remove the beans, which are fermented for several days to develop flavor, color, and aroma. Drying and Shipping: Fermented beans are dried (often in the sun) to reduce moisture content for shipping. Roasting: The beans are roasted at around 210°F to enhance flavor and loosen the shells. Winnowing: A machine breaks the roasted beans and separates the outer shells from the valuable inner part, called the cacao nib. Grinding and Mixing: Nibs are ground into a thick liquid called cocoa liquor (or cocoa mass). Conching: The mixture is refined to reduce particle size, then \"conched\"—a process involving heat, aeration, and mixing—to eliminate remaining bitterness and refine the texture. Tempering and Molding: The chocolate is tempered (precisely heated and cooled) to create a stable, shiny, and crisp finish, then molded into shapes.",
+                          "images": null,
+                          "references": null
+                        },
+                        {
+                          "type": "ai_overview_element",
+                          "title": null,
+                          "text": "This video shows the transformation of cacao beans into chocolate in a factory setting:",
+                          "images": null,
+                          "references": null
+                        },
+                        {
+                          "type": "ai_overview_element",
+                          "title": null,
+                          "text": "This video shows the transformation of cacao beans into chocolate in a factory setting:",
+                          "images": null,
+                          "references": null
+                        },
+                        {
+                          "type": "ai_overview_element",
+                          "title": "Common Additives",
+                          "text": "Dark Chocolate: Cocoa liquor, cocoa butter, and sugar. Milk Chocolate: Cocoa liquor, cocoa butter, sugar, and milk powder. White Chocolate: Cocoa butter, sugar, and milk powder (no cocoa solids).",
+                          "images": null,
+                          "references": null
+                        }
+                      ],
+                      "references": null
+                    }
+                  ]
+                },
+                {
+                  "type": "product_considerations_element",
+                  "title": "What are some popular chocolate brands?",
+                  "consideration_category": "Popular Brands",
+                  "expanded_element": [
+                    {
+                      "type": "product_considerations_ai_overview_expanded_element",
+                      "items": [
+                        {
+                          "type": "ai_overview_element",
+                          "title": null,
+                          "text": "Popular chocolate brands range from widely available, consumer-favorite candy bars like Hershey's, Reese's, KitKat, and Dove to higher-end, premium options. For gourmet or high-quality chocolate, popular choices include Lindt, Ghirardelli, Valrhona, Lake Champlain, and Läderach, which are praised for their rich taste and better ingredients.",
+                          "images": null,
+                          "references": null
+                        },
+                        {
+                          "type": "ai_overview_element",
+                          "title": null,
+                          "text": "Here are some of the most popular chocolate brands categorized by type:",
+                          "images": null,
+                          "references": null
+                        },
+                        {
+                          "type": "ai_overview_element",
+                          "title": "Top Mass-Market/Candy Brands (USA):",
+                          "text": "Hershey's : The leading brand in the US. Reese's : Famous for peanut butter cups. KitKat : Known for its wafer-and-chocolate combination. Snickers : A top-selling chocolate bar. Dove : Widely known for milk and dark chocolate bars. Cadbury : Famous for dairy milk chocolate.",
+                          "images": null,
+                          "references": null
+                        },
+                        {
+                          "type": "ai_overview_element",
+                          "title": "Premium & Gourmet Chocolate Brands:",
+                          "text": "Lake Champlain Chocolates : Highly rated for quality, often featuring organic and fair-trade options. Lindt: Widely accessible European chocolate known for truffles and bars. Ghirardelli: Known for high-quality, intense dark chocolate and baking products. Läderach : Top-tier Swiss chocolate, highly praised for its freshness and complex flavor. Valrhona : Frequently used by professionals and considered one of the best French chocolatiers. Whittaker's : A highly regarded New Zealand brand known for its high-quality milk chocolate. Ferrero Rocher : Known for its iconic gold-foil wrapped hazelnut chocolates.",
+                          "images": null,
+                          "references": null
+                        },
+                        {
+                          "type": "ai_overview_element",
+                          "title": "Artisan & Specialty Brands:",
+                          "text": "Chocolove : Known for its high-percentage dark chocolate bars. TCHO : A brand known for high-quality, ethically sourced chocolate. Guittard : A popular premium brand used by many pastry chefs. Amano : An artisan producer of single-origin bars.",
+                          "images": null,
+                          "references": null
+                        }
+                      ],
+                      "references": null
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 19,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[3]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Chocolate Dairy Milk",
+                "Chocolate brands",
+                "Chocolate candy",
+                "Chocolate bar",
+                "Chocolate all",
+                "Chocolate Walmart",
+                "Chocolate Box",
+                "Chocolate cake"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

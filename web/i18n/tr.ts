@@ -108,6 +108,20 @@ export const tr: Messages = {
     relevance: "Tohum yakınlığı {value}",
   },
 
+  verdict: {
+    heading: "Bu gerçekten bir boşluk mu?",
+    ask: "Eşik henüz oturmadı. Onu oturtacak olan senin cevabın — bedava, hiçbir arama yapılmıyor.",
+    gap: "Evet, boşluk",
+    notGap: "Hayır, kapsanmış",
+    gapHint: "Buradaki hiçbir sayfa bu soruyu cevaplamak için yazılmamış.",
+    notGapHint: "Buradaki en az bir sayfa bunu doğrudan cevaplıyor.",
+    recorded: "Kaydedildi. Geri almak için aynı düğmeye tekrar bas.",
+    retracted: "Karar geri alındı.",
+    saving: "Kaydediliyor…",
+    tally: "Şu ana kadar {questions} soru değerlendirildi ({gap} boşluk, {notGap} değil).",
+    disagrees: "Bu, metriğin dediğiyle çelişiyor — asıl işe yarayan durum bu.",
+  },
+
   notice: {
     archiveData: "Arşiv veri",
     archiveDataDetail: "canlı değil",

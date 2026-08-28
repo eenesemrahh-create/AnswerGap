@@ -196,17 +196,59 @@ Consequences:
 - That also shapes the credit model: discovery is 1 credit, gap analysis is
   priced separately.
 
-**Known weakness — must be resolved before the threshold is fixed.** Matching is
-lexical and misses synonyms. Language packs cover the common classes
-(`cost`↔`price`, `TL`↔`fiyat`), but semantics still slip through. A live example
-from the English demo tree:
+### SETTLED 2026-08-28: lexical matching cannot do this. Embeddings are required.
 
-> *"Can 60 year old teeth be whitened?"* is reported as a gap, yet
-> `sunlakesdentistry.com — "Can Senior Teeth be Whitened?"` answers it directly.
-> `60 year old` ↔ `senior` is a meaning match no word overlap can see.
+The 14 rows were labelled and `phase05_evaluate.py` run. Three measurements,
+each on its own sufficient:
 
-That is a **false positive in the product's central claim**. Settle it with
-embeddings or a broader synonym layer before fixing the threshold.
+**1. The best of 72 candidate rules reaches precision 0.20.** 1 gap / 13 not.
+Every rule that finds the one real gap also flags four questions that are not
+gaps. The report's own bar is 0.85.
+
+**2. Under the winning rule the real gap is numerically identical to three false
+ones.** `words · pages with overlap ≥ 0.6 is ≤ 0` — all four score 0 pages
+clearing the threshold and a top overlap of exactly 0.50:
+
+| Question | Label | ≥0.6 | max |
+|---|:--:|---:|---:|
+| Do dentists recommend teeth whitening? | **G** | 0 | 0.50 |
+| What is the best treatment to whiten teeth? | N | 0 | 0.50 |
+| Can 60 year old teeth be whitened? | N | 0 | 0.50 |
+| Can yellow teeth actually be whitened? | N | 0 | 0.50 |
+
+**No threshold can separate identical numbers.** This was never a threshold
+problem. Moving to `stems` relocates the collision (G and *"best treatment"*
+both land on max 0.75, 4 pages ≥0.6) without removing it.
+
+**3. The synonym dictionary is already doing nothing.** `synonyms` and `stems`
+return the same score vector on 13 of the 14 questions — the dictionary changes
+exactly one number. And `synonyms` best-F1 **0.22 is worse than plain `words`
+at 0.33**: the layer currently costs accuracy.
+
+**Why a bigger dictionary cannot fix it** — the four false positives are
+*paraphrase*, not vocabulary:
+
+| Question | Page that answers it | Class |
+|---|---|---|
+| Can yellow teeth actually be **whitened**? | Can Yellow Teeth **Become White Again**? | multi-word paraphrase — a word→word map cannot express it |
+| **How bad does** getting your teeth whitened **hurt**? | **Does** Professional Teeth Whitening **Hurt**? | question form, not vocabulary |
+| Can **60 year old** teeth be whitened? | Can **Senior** Teeth be Whitened? | open class: 60/70/80 year old, elderly, aging, older adults |
+| What is the best **treatment** to whiten teeth? | What is The Best Teeth Whitening **Method** | the only one a dictionary could fix |
+
+Three of four are structurally out of reach of a word-level dictionary. Adding
+words buys the fourth.
+
+**Consequence for the schema:** `question` carries a vector column (pgvector),
+and `gap_score` records the **embedding model** alongside its threshold and
+strategy — otherwise a model swap turns old scores into lies exactly the way a
+threshold change would.
+
+**Honest caveat.** One positive in fourteen. This sample cannot *measure*
+precision — the confidence interval is meaningless. What it can do is answer the
+binary question, and it does, because the failure is structural and visible in
+all four cases rather than statistical. That is also why the feedback layer
+below exists: the number that settles a *threshold* has to come from thousands
+of labels, not fourteen.
 
 ## Scoring is also a discovery call — harvest it
 
@@ -242,8 +284,10 @@ questions:
 The extremes separate cleanly; the middle band cannot be split, and it holds
 "Is there a free-to-play knight game available?" beside "Did any peasants become
 knights?". **This is the same lexical wall already recorded against the gap
-threshold** (`60 year old` ↔ `senior`). One embedding layer settles both open
-questions — which is why the labelling round comes before the schema.
+threshold** (`60 year old` ↔ `senior`). The labelling round has since been run
+and it settled both: **embeddings, not a dictionary** — see the SETTLED block
+above. The 0.50 band here is the same undecidable middle, and it closes for the
+same reason.
 
 **Gate on `reach`, not `relevance`.** Judging each child alone let drift
 *compound*: "Why did knights end?" scores 0.5, so does every medieval question
@@ -274,6 +318,54 @@ Rejected while measuring: the free `knowledge_graph` element as an entity anchor
 distinctive tokens do not lexically match "MMORPG", and its generic ones —
 "game", "online" — would wave through exactly the drift being stopped. Do not
 re-propose it without embeddings.
+
+## The feedback layer — labelling as a by-product of use
+
+Shipped 2026-08-28. `answergap/labels.py` + two endpoints + a two-button row in
+the question detail panel.
+
+The threshold cannot be settled on 14 hand-labelled rows, and nobody
+hand-labels 200. So every **scored** question in the UI asks *"is this really a
+gap?"* and the answer is stored. Free, never a billable request.
+
+**Append-only, and that is the point.** CLAUDE.md already records what storing
+mutable state as a document cost on 2026-08-27. Labels are the first place the
+row discipline is actually applied: changing your mind writes a NEW line,
+retracting writes the verdict `?`, nothing is ever rewritten in place.
+`labels.current()` collapses the log by taking the last line per question.
+`data/labels/labels.jsonl` is the filesystem backend; its fields are already the
+`label` table's columns.
+
+**Every row carries its own score.** `predicted`, `threshold`, `strategy`,
+`matching_pages` and the full `overlaps` vector, as they stood when the verdict
+was given. The tree they came from is mutable — a re-crawl or a threshold change
+would otherwise rewrite the evidence the human was reacting to. Same rule as
+`gap_score`.
+
+**Keyed by question, not by tree.** `{language_code}:{normalized_question}`. The
+same question appears under several parents and in several trees; the judgement
+is about the question against its results, so a verdict given in one tree shows
+up in all of them.
+
+- **Refused on an unscored question** (409). With no fetched results there is no
+  claim to agree or disagree with, and unknown must stay unknown.
+- **Allowed on archived Phase 0 trees**, unlike scoring. Scoring is refused
+  there because it spends money rewriting fixed evidence; labelling spends
+  nothing, and the archive is the best-understood data on disk — refusing it
+  would throw away the cheapest labels available.
+- **Both buttons carry equal visual weight.** Nudging toward either answer
+  biases the set this exists to collect, and a biased set is worse than a small
+  one. The panel does say when a verdict *disagrees* with the metric — that is
+  the only kind of label that can move anything.
+- **The buttons sit BELOW the results list.** The question is "do these page
+  titles answer it?", so it can only be asked once the titles have been read.
+  Above the evidence it would be asking the user to rate a number.
+
+`scripts/phase05_evaluate.py` reads the JSONL alongside the CSV, indexing
+`data/live/serp/` as well as `data/raw/` so live-crawl verdicts can be rescored
+under every strategy rather than merely replayed. A label whose response is not
+cached is **dropped and reported**, never scored as all-zero — that would
+manufacture a gap the metric never claimed.
 
 ## Diff engine
 
@@ -309,9 +401,13 @@ defensible asset over time.
 
 ## Open questions
 
-- [ ] What should the gap threshold be, and how is the synonym problem solved —
-      dictionary or embeddings? `scripts/phase05_evaluate.py` is set up to
-      settle this against labelled data.
+- [x] **Dictionary or embeddings? — embeddings.** Settled 2026-08-28 on 14
+      labels; see the SETTLED block above. The dictionary layer is measurably
+      inert (it moves one number in fourteen) and three of the four false
+      positives are paraphrase, which no word-level map can reach.
+- [ ] What should the gap threshold be? Still open, and deliberately so: it
+      cannot be fixed on 14 rows with one positive. The in-product feedback
+      buttons now collect labels as a by-product of use; revisit at ~200.
 - [ ] Should AI Overview become a product surface? The top-level `ai_overview`
       element arrives with references — *"does Google's AI answer this, and who
       does it cite?"* is a signal AlsoAsked does not have.
@@ -324,7 +420,9 @@ defensible asset over time.
 
 # Current state — resume here
 
-Last worked: **2026-08-27**. Phase B (live crawl) shipped. Uncommitted.
+Last worked: **2026-08-28**. The threshold question is settled (embeddings,
+not a dictionary) and the in-product feedback layer that will settle the
+threshold *number* is shipped. Phase B (live crawl) shipped 2026-08-27.
 
 **First commit: `cdd581a`** — "Initial commit: validated prototype, US-first,
 five languages". 113 files. No remote configured yet; nothing has been pushed.
@@ -341,11 +439,14 @@ Two things stayed out of it on purpose:
 ## What exists and works
 
 - **Core** (`answergap/`) — language-aware normalization, matching, tree
-  building, DataForSEO client, live crawl. Seven modules, all English.
+  building, DataForSEO client, live crawl, label store. Eight modules, all
+  English.
 - **API** (`api/main.py`) — FastAPI. Endpoints: `/api/meta`, `/api/trees`,
   `/api/tree/{slug}`, `/api/tree/{slug}/question/{qslug}`, `/api/countries`,
-  `/api/languages`, plus **`POST /api/search`** and
-  **`POST /api/tree/{slug}/question/{qslug}/score`**.
+  `/api/languages`, plus **`POST /api/search`**,
+  **`POST /api/tree/{slug}/question/{qslug}/score`**, and the free feedback
+  pair **`GET /api/tree/{slug}/labels`** /
+  **`POST /api/tree/{slug}/question/{qslug}/label`**.
 - **Live crawl** (`answergap/live.py`) — the search box works. One request with
   `click_depth=4` returns a 16-node, two-level tree; gap scoring is a separate
   per-question call that also **harvests** its own response, so the tree keeps
@@ -354,7 +455,8 @@ Two things stayed out of it on purpose:
   market-qualified (`teeth-whitening-en-2840`) so they cannot shadow the demos.
 - **Interface** (`web/`) — Next.js 16, five screens: search/landing, question
   tree (pan/zoom), gap table, related searches, question detail. Builds clean. The search box is
-  wired; the detail panel offers "Check this question" on unscored live nodes.
+  wired; the detail panel offers "Check this question" on unscored live nodes,
+  and *"is this really a gap?"* on scored ones.
 - **i18n** — English default plus de/es/fr/tr. `en.ts` defines the type; a
   missing key in any locale fails `npm run build`. Verified by deliberately
   adding a key and watching all four locales fail with TS2741.
@@ -417,7 +519,8 @@ netstat -ano | grep ':8000' | grep LISTENING   # then taskkill //PID <pid> //F
 ## Spend to date
 
 **~$0.118** total ($0.107 before Phase B, $0.0112 of live crawling on
-2026-08-27). Cache files mean re-running anything costs nothing — a repeated
+2026-08-27). **2026-08-28 spent $0.00** — labelling, evaluation and the
+feedback layer all run against data already on disk. Cache files mean re-running anything costs nothing — a repeated
 search returns in 20 ms and bills $0. Always run `--dry-run` first; the search
 endpoint accepts `"dry_run": true` and returns the request plan and its price
 without touching the network.
@@ -446,10 +549,9 @@ Four things do have to change, in this order: **storage**, **tests**,
 
 ## Next, in dependency order
 
-1. **Label the 14 rows first — 20 minutes, $0.** The real question is not "what
-   should the threshold be" but **"is a dictionary enough, or are embeddings
-   required?"** 14 labels answer that, and the answer changes the schema: where
-   vectors live is a storage decision. Do not write the schema before knowing.
+1. ~~**Label the 14 rows first.**~~ **DONE 2026-08-28. Answer: embeddings.**
+   See the SETTLED block above. The schema now knows what it needs: a vector
+   column on `question`, and an embedding-model field on `gap_score`.
 2. **Tests.** `matching.py` and `tree.py` are pure functions and `data/raw/`
    is a ready fixture set. Moving untested code is moving it blind.
 3. **Storage: Postgres + object storage.** Tables: `question`, `serp_snapshot`,
@@ -461,10 +563,11 @@ Four things do have to change, in this order: **storage**, **tests**,
    `gap_score` stores its own threshold and strategy, so a threshold change does
    not turn old scores into lies. Keep the filesystem backend for local dev.
    Do not add Redis yet.
-4. **Feedback in the interface.** A *"is this really a gap?"* thumbs up/down on
-   every scored question, writing to `label`. Labelling becomes a by-product of
-   use rather than a chore — this is what finally settles the threshold, with
-   thousands of labels instead of 14.
+4. ~~**Feedback in the interface.**~~ **DONE 2026-08-28**, ahead of storage
+   because the labelled set has to start filling now — it is the input to both
+   the threshold and the embedding evaluation, and it is worthless if collection
+   starts later. Writes to `data/labels/labels.jsonl`; the storage step moves it
+   to the `label` table with no shape change.
 5. **Job runner + Standard queue.** Scheduled crawls, async crawling, and the
    ~3.3x unit-cost drop when the webhook deviation above can be closed.
 6. **Auth, tenancy, credits, Stripe.** Last, because its schema sits on the

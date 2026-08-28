@@ -113,6 +113,31 @@ export interface ScoreResult {
   node_count: number;
 }
 
+/**
+ * A human verdict on a gap score. `G` gap · `N` not a gap.
+ *
+ * Phase 0.5 measured the metric against 14 hand-labelled questions and the best
+ * of 72 rules reached precision 0.20 — the one real gap was never separated
+ * from four false ones. Fourteen labels cannot settle that, so the product
+ * collects them as a by-product of use.
+ */
+export type Verdict = "G" | "N";
+
+/** How much labelled data exists. Shown so the UI can say why it is asking. */
+export interface LabelCounts {
+  gap: number;
+  not_gap: number;
+  questions: number;
+  /** Includes superseded verdicts; the log is append-only. */
+  verdicts: number;
+}
+
+/** `POST .../label` — the tree's verdicts after the vote, and the global tally. */
+export interface LabelResult {
+  labels: Record<string, Verdict>;
+  counts: LabelCounts;
+}
+
 export interface Meta {
   source: string;
   live: boolean;
@@ -124,6 +149,8 @@ export interface Meta {
   tree_count: number;
   default_location_code: number;
   default_language_code: string;
+  /** Size of the labelled set the threshold question has to work with. */
+  labels: LabelCounts;
 }
 
 export interface Country {

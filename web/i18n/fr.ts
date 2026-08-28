@@ -110,6 +110,20 @@ export const fr: Messages = {
     relevance: "Proximité au mot-clé {value}",
   },
 
+  verdict: {
+    heading: "Est-ce vraiment une lacune ?",
+    ask: "Le seuil n’est pas encore fixé. C’est votre réponse qui le fixe — gratuit, aucune recherche n’est lancée.",
+    gap: "Oui, une lacune",
+    notGap: "Non, c’est couvert",
+    gapHint: "Aucune page ici n’a été écrite pour répondre à cette question.",
+    notGapHint: "Au moins une page ici y répond directement.",
+    recorded: "Enregistré. Cliquez à nouveau sur le même bouton pour le retirer.",
+    retracted: "Verdict retiré.",
+    saving: "Enregistrement…",
+    tally: "{questions} questions jugées à ce jour ({gap} lacunes, {notGap} non).",
+    disagrees: "Cela contredit la métrique — c’est précisément le cas utile.",
+  },
+
   notice: {
     archiveData: "Données d'archive",
     archiveDataDetail: "pas en direct",

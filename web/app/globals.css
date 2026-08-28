@@ -802,3 +802,42 @@ table.table {
   opacity: .45;
   cursor: not-allowed;
 }
+
+/* The two verdict buttons. Equal weight on purpose: nudging toward either
+   answer would bias the labelled set this exists to collect, and a biased set
+   is worse than a small one. Unlike .score-button they spend nothing, so they
+   may read as the obvious next action. */
+.verdict-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.verdict-button {
+  flex: 1;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text);
+  border-radius: var(--r);
+  padding: 9px 12px;
+  font-weight: 600;
+  font-size: 12.5px;
+}
+.verdict-button:hover:not(:disabled) {
+  border-color: var(--text);
+}
+.verdict-button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+/* The chosen verdict is filled with its own status colour, so the answer reads
+   in the same vocabulary as the badge above it. */
+.verdict-button.gap[aria-pressed="true"] {
+  background: var(--gap);
+  border-color: var(--gap);
+  color: var(--bg);
+}
+.verdict-button.covered[aria-pressed="true"] {
+  background: var(--covered);
+  border-color: var(--covered);
+  color: var(--bg);
+}

@@ -2,13 +2,15 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ApiError, API_BASE, fetchTree } from "@/lib/api";
+import { ApiError, API_BASE, fetchLabels, fetchTree } from "@/lib/api";
 import {
   STATUSES,
   STATUS_COLOR,
+  type LabelCounts,
   type ScoreResult,
   type Status,
   type Tree,
+  type Verdict,
 } from "@/lib/types";
 import { useDateFormat, useI18n } from "@/i18n";
 import { QuestionTree } from "./QuestionTree";
@@ -31,10 +33,23 @@ export function TreeScreen({ slug }: { slug: string }) {
   const [query, setQuery] = useState("");
   const [hidden, setHidden] = useState<Set<Status>>(new Set());
 
+  /* Verdicts live here rather than in the panel because they outlive the
+     selection: clicking through questions must not reload them, and a verdict
+     given on one question is drawn on the node in the tree behind it. */
+  const [verdicts, setVerdicts] = useState<Record<string, Verdict>>({});
+  const [labelCounts, setLabelCounts] = useState<LabelCounts | null>(null);
+
   useEffect(() => {
     fetchTree(slug)
       .then(setTree)
       .catch((e) => setError(e instanceof ApiError ? e : new ApiError("http", {})));
+  }, [slug]);
+
+  // Loaded separately and allowed to fail quietly. Labels are a side channel;
+  // an empty verdict map is a working screen, so a failure here must not take
+  // the tree down with it.
+  useEffect(() => {
+    fetchLabels(slug).then(setVerdicts).catch(() => setVerdicts({}));
   }, [slug]);
 
   const toggleStatus = (status: Status) =>
@@ -139,7 +154,17 @@ export function TreeScreen({ slug }: { slug: string }) {
           </Notice>
         )}
         {!tree.threshold_validated && (
-          <Notice title={t("notice.thresholdNote")}>
+          <Notice
+            title={
+              labelCounts
+                ? `${t("notice.thresholdNote")} ${t("verdict.tally", {
+                    questions: labelCounts.questions,
+                    gap: labelCounts.gap,
+                    notGap: labelCounts.not_gap,
+                  })}`
+                : t("notice.thresholdNote")
+            }
+          >
             <b>{t("notice.provisionalThreshold")}</b> {tree.threshold.toFixed(2)}
           </Notice>
         )}
@@ -218,7 +243,16 @@ export function TreeScreen({ slug }: { slug: string }) {
             )}
           </div>
         </main>
-        <QuestionDetail node={selected} tree={tree} onScored={applyScore} />
+        <QuestionDetail
+          node={selected}
+          tree={tree}
+          onScored={applyScore}
+          verdicts={verdicts}
+          onVerdict={(labels, counts) => {
+            setVerdicts(labels);
+            setLabelCounts(counts);
+          }}
+        />
       </div>
     </div>
   );

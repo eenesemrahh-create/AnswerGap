@@ -1,11 +1,13 @@
 import type {
   Country,
+  LabelResult,
   Meta,
   ScoreResult,
   SearchLanguage,
   SearchResult,
   Tree,
   TreeSummary,
+  Verdict,
 } from "./types";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -126,3 +128,23 @@ export const fetchTrees = () => get<TreeSummary[]>("/api/trees");
 export const fetchTree = (slug: string) => get<Tree>(`/api/tree/${slug}`);
 export const fetchCountries = () => get<Country[]>("/api/countries");
 export const fetchLanguages = () => get<SearchLanguage[]>("/api/languages");
+
+/** Verdicts already recorded on this tree's questions, by question slug. */
+export const fetchLabels = (slug: string) =>
+  get<Record<string, Verdict>>(`/api/tree/${slug}/labels`);
+
+/**
+ * Record a human verdict on one gap score. Free — never a billable request.
+ *
+ * `"?"` retracts a previous verdict. It is sent as a value rather than as a
+ * DELETE because the store is append-only: withdrawing a judgement is itself a
+ * judgement, and overwriting history is the mistake this whole layer avoids.
+ */
+export const submitLabel = (
+  slug: string,
+  questionSlug: string,
+  label: Verdict | "?"
+) =>
+  post<LabelResult>(`/api/tree/${slug}/question/${questionSlug}/label`, {
+    label,
+  });

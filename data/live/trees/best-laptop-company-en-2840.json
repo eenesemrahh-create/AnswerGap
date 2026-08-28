@@ -4,27 +4,31 @@
   "language_code": "en",
   "language_name": "English",
   "location_code": 2840,
-  "node_count": 16,
+  "node_count": 17,
   "status_counts": {
     "gap": 0,
     "weak": 0,
-    "covered": 1,
+    "covered": 2,
     "no_data": 15
   },
   "threshold": 0.6,
   "strategy": "synonyms",
   "threshold_validated": false,
-  "updated_at": "2026-08-27T22:19:06+00:00",
+  "updated_at": "2026-08-28T16:26:55+00:00",
   "source": "live",
   "related_searches": [
     "Best laptop brand for students",
+    "Best laptop brands 2026",
     "Best laptop company for gaming",
     "Best laptop company in the world",
     "Best laptop company reddit",
     "Best laptop for business and personal use",
     "Top 10 best laptop in the world",
     "Top 10 laptop brands",
-    "Top 10 laptop brands with price"
+    "Top 10 laptop brands with price",
+    "Top 5 best laptop brands",
+    "Top laptop brands in world",
+    "What are the top 3 best laptop brands in the world"
   ],
   "nodes": [
     {
@@ -147,13 +151,77 @@
         "which is the most reliable brand of laptop"
       ],
       "repeat_count": 2,
-      "status": "no_data",
-      "matching_pages": 0,
-      "results_checked": 0,
-      "results": [],
-      "ai_sources": [],
-      "source_file": null,
-      "updated_at": null
+      "status": "covered",
+      "matching_pages": 5,
+      "results_checked": 9,
+      "results": [
+        {
+          "title": "How would you rank the major laptop brands?",
+          "url": "https://www.reddit.com/r/laptops/comments/1fscbny/how_would_you_rank_the_major_laptop_brands/",
+          "domain": "www.reddit.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "The Best Laptops We've Tested (August 2026)",
+          "url": "https://www.pcmag.com/picks/the-best-laptops",
+          "domain": "www.pcmag.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Best Laptops of 2026: Top Picks Tested by CNET",
+          "url": "https://www.cnet.com/tech/computing/best-laptop/",
+          "domain": "www.cnet.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "The 7 Best Laptop Brands of 2026",
+          "url": "https://www.rtings.com/laptop/reviews/best/brands",
+          "domain": "www.rtings.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "Every Major Laptop Brand Explained | Lenovo, Apple, Asus ...",
+          "url": "https://www.youtube.com/watch?v=XCyg5i5iAYY&vl=en",
+          "domain": "www.youtube.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Amazon Best Sellers: Best Laptop Computers",
+          "url": "https://www.amazon.com/Best-Sellers-Laptop-Computers/zgbs/electronics/565108",
+          "domain": "www.amazon.com",
+          "overlap": 0.5
+        },
+        {
+          "title": "Best Laptops (2026): My Top Recommendations After ...",
+          "url": "https://www.wired.com/story/best-laptops/",
+          "domain": "www.wired.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "Best Laptop Brands To Buy - Nerds on ...",
+          "url": "https://callnerds.com/best-laptop-brand/?srsltid=AfmBOorHa3dWKAXJ6z-WvNJ3l8WMbaRJpF66pBneZR9Xtcou8VZxAfJB",
+          "domain": "callnerds.com",
+          "overlap": 0.75
+        },
+        {
+          "title": "Top 10 Best Laptop Brands in the World (July 2026) – UAE ...",
+          "url": "https://techpointzone.com/best-laptop-brands-in-the-world?srsltid=AfmBOoo5eN2E9b3xWy1uyMSS8wJSzMbZj9QIxawfed5vy5RrjB9dd2D0",
+          "domain": "techpointzone.com",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [
+        "www.reddit.com",
+        "www.wired.com",
+        "www.pcmag.com",
+        "www.geeks2u.com.au",
+        "en.wikipedia.org",
+        "www.forbes.com",
+        "www.youtube.com",
+        "techpointzone.com"
+      ],
+      "source_file": "data/live/serp/paa-2840-en-what-are-the-top-3-best-laptop-brands.json",
+      "updated_at": "2026-08-28T16:26:55+00:00"
     },
     {
       "id": "what are top 5 laptops",
@@ -165,9 +233,10 @@
       "depth": 1,
       "parent_id": "best laptop company",
       "parents": [
-        "best laptop company"
+        "best laptop company",
+        "what are the top 3 best laptop brands"
       ],
-      "repeat_count": 1,
+      "repeat_count": 2,
       "status": "no_data",
       "matching_pages": 0,
       "results_checked": 0,
@@ -409,6 +478,27 @@
       "updated_at": null
     },
     {
+      "id": "which brand of laptop is the best",
+      "slug": "which-brand-of-laptop-is-the-best",
+      "question": "Which brand of laptop is the best?",
+      "relevance": 0.667,
+      "reach": 0.445,
+      "discovered_by": "harvest",
+      "depth": 2,
+      "parent_id": "what are the top 3 best laptop brands",
+      "parents": [
+        "what are the top 3 best laptop brands"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
       "id": "which laptop brand is recommended",
       "slug": "which-laptop-brand-is-recommended",
       "question": "Which laptop brand is recommended?",
@@ -431,6 +521,6 @@
     }
   ],
   "billable_calls": 1,
-  "estimated_spend": 0.0026,
+  "estimated_spend": 0.002,
   "from_cache": false
 }

@@ -118,6 +118,20 @@ export const en = {
     relevance: "Seed relevance {value}",
   },
 
+  verdict: {
+    heading: "Is this really a gap?",
+    ask: "The threshold is not settled yet. Your answer is what settles it — it costs nothing and no search is run.",
+    gap: "Yes, a gap",
+    notGap: "No, it's covered",
+    gapHint: "No page here was written to answer this question.",
+    notGapHint: "At least one page here answers it directly.",
+    recorded: "Recorded. Click the same button again to withdraw it.",
+    retracted: "Verdict withdrawn.",
+    saving: "Saving…",
+    tally: "{questions} questions judged so far ({gap} gaps, {notGap} not).",
+    disagrees: "This disagrees with the metric — which is the useful case.",
+  },
+
   notice: {
     archiveData: "Archive data",
     archiveDataDetail: "not live",

@@ -2,9 +2,15 @@
 
 import { useState } from "react";
 import { Badge, Rich } from "./Badge";
-import { ApiError, scoreQuestion } from "@/lib/api";
+import { ApiError, scoreQuestion, submitLabel } from "@/lib/api";
 import { useDateFormat, useI18n } from "@/i18n";
-import type { Node, ScoreResult, Tree } from "@/lib/types";
+import type {
+  LabelCounts,
+  Node,
+  ScoreResult,
+  Tree,
+  Verdict,
+} from "@/lib/types";
 
 /* This panel answers "why is this a gap?".
  *
@@ -17,11 +23,16 @@ export function QuestionDetail({
   node,
   tree,
   onScored,
+  verdicts,
+  onVerdict,
 }: {
   node: Node | null;
   tree: Tree;
   /** Called with the freshly scored node so the tree above can update. */
   onScored?: (result: ScoreResult) => void;
+  /** Verdicts already recorded, by question slug. Owned by the screen above. */
+  verdicts: Record<string, Verdict>;
+  onVerdict?: (labels: Record<string, Verdict>, counts: LabelCounts) => void;
 }) {
   const { t } = useI18n();
   const formatDate = useDateFormat();
@@ -38,6 +49,39 @@ export function QuestionDetail({
     found: number;
     dropped: number;
   } | null>(null);
+
+  /* The verdict just cast, so the panel can confirm it without a refetch.
+   *
+   * Tagged with the question, like `harvest` above: the confirmation belongs to
+   * one question and must never appear under a different one after a click in
+   * the tree. */
+  const [voted, setVoted] = useState<{ slug: string; retracted: boolean } | null>(
+    null
+  );
+  const [voting, setVoting] = useState(false);
+  const [voteError, setVoteError] = useState<ApiError | null>(null);
+
+  /* Clicking the button already selected withdraws the verdict.
+   *
+   * Sent as the value "?" rather than as a delete: the store is append-only, so
+   * changing your mind writes a new line instead of erasing the old one. The
+   * history of a judgement is worth keeping - it is the thing that shows how
+   * often the metric and a human disagree. */
+  const castVerdict = async (choice: Verdict) => {
+    if (!node || voting) return;
+    const next = verdicts[node.slug] === choice ? "?" : choice;
+    setVoting(true);
+    setVoteError(null);
+    try {
+      const result = await submitLabel(tree.slug, node.slug, next);
+      setVoted({ slug: node.slug, retracted: next === "?" });
+      onVerdict?.(result.labels, result.counts);
+    } catch (e) {
+      setVoteError(e instanceof ApiError ? e : new ApiError("http", {}));
+    } finally {
+      setVoting(false);
+    }
+  };
 
   const runScore = async () => {
     if (!node || scoring) return;
@@ -72,6 +116,14 @@ export function QuestionDetail({
   // can actually run: a live tree with an unscored question. Archived Phase 0
   // trees are fixed evidence and the API refuses to re-score them.
   const canScore = tree.source === "live" && !hasData;
+
+  const verdict = verdicts[node.slug] ?? null;
+  /* The metric calls anything below the threshold a gap; `weak` is the same
+     claim hedged. So a "gap" verdict contradicts `covered`, and a "covered"
+     verdict contradicts `gap` or `weak`. */
+  const metricSaysGap = node.status === "gap" || node.status === "weak";
+  const disagrees =
+    (verdict === "G" && !metricSaysGap) || (verdict === "N" && metricSaysGap);
 
   return (
     <aside className="panel">
@@ -143,6 +195,55 @@ export function QuestionDetail({
               </div>
             </div>
           ))}
+
+          {/* The verdict sits BELOW the evidence, never above it.
+              The question is "do these page titles answer it?", so it can only
+              be asked once the titles have been read. Asking first would be
+              asking the user to rate a number. */}
+          <h3>{t("verdict.heading")}</h3>
+          <p className="note">{t("verdict.ask")}</p>
+          <div className="verdict-row">
+            <button
+              type="button"
+              className="verdict-button gap"
+              aria-pressed={verdict === "G"}
+              disabled={voting}
+              onClick={() => castVerdict("G")}
+              title={t("verdict.gapHint")}
+            >
+              {t("verdict.gap")}
+            </button>
+            <button
+              type="button"
+              className="verdict-button covered"
+              aria-pressed={verdict === "N"}
+              disabled={voting}
+              onClick={() => castVerdict("N")}
+              title={t("verdict.notGapHint")}
+            >
+              {t("verdict.notGap")}
+            </button>
+          </div>
+          {voting && <p className="note">{t("verdict.saving")}</p>}
+          {!voting && voted?.slug === node.slug && (
+            <p className="note">
+              {t(voted.retracted ? "verdict.retracted" : "verdict.recorded")}
+              {/* A verdict that agrees with the metric confirms it; one that
+                  disagrees is the only kind that can move the threshold. Saying
+                  so is what makes the disagreement worth the click. */}
+              {!voted.retracted && disagrees && ` ${t("verdict.disagrees")}`}
+            </p>
+          )}
+          {voteError && (
+            <div className="error" style={{ marginTop: 12 }}>
+              <strong>{t(`error.${voteError.kind}`, voteError.values)}</strong>
+              {voteError.detail && (
+                <div style={{ marginTop: 8 }}>
+                  <code>{voteError.detail}</code>
+                </div>
+              )}
+            </div>
+          )}
         </>
       ) : (
         <>

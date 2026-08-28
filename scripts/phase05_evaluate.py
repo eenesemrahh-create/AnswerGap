@@ -32,12 +32,18 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from answergap import labels as label_store  # noqa: E402
 from answergap.matching import STRATEGIES, score_results  # noqa: E402
 from answergap.text import normalize  # noqa: E402
 from answergap.tree import index_raw  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"
+# Verdicts from the UI are about live crawls, whose SERP responses are cached
+# here rather than in the Phase 0 archive. Both are indexed so a label can be
+# rescored under every strategy, not just replayed at the threshold it was
+# given under.
+LIVE_SERP_DIR = ROOT / "data" / "live" / "serp"
 CSV_PATH = ROOT / "data" / "PHASE05_labels.csv"
 REPORT_PATH = ROOT / "data" / "PHASE05_RESULT.md"
 
@@ -90,13 +96,53 @@ def main() -> int:
         log("         12-14 labeled questions is the practical minimum.")
         log("")
 
+    # In-product verdicts are merged in on equal terms. The CSV was a one-off
+    # hand-labelling round; the thumbs in the UI are the same judgement given
+    # while looking at the same evidence, and the whole point of collecting them
+    # is that this script reads them. Where both exist for one question the UI
+    # wins: it is the later verdict.
+    from_ui = 0
+    for stored in label_store.current().values():
+        question = stored["question"]
+        language = stored.get("language_code") or "en"
+        key = (normalize(question, language), language)
+        replaced = False
+        for row in labeled:
+            if (normalize(row["question"], row.get("language") or "en"),
+                    row.get("language") or "en") == key:
+                row["label"] = stored["label"]
+                replaced = True
+                break
+        if not replaced:
+            labeled.append({
+                "question": question,
+                "label": stored["label"],
+                "seed": "",
+                "language": language,
+            })
+        from_ui += 1
+
     index = index_raw(RAW_DIR)
+    if LIVE_SERP_DIR.exists():
+        # Archive wins a collision: it is the fixed Phase 0 evidence every
+        # number in the reports traces back to, and a live re-crawl of the same
+        # question would silently move it.
+        for key, entry in index_raw(LIVE_SERP_DIR).items():
+            index.setdefault(key, entry)
+
     records = []
+    unmatched = []
     for row in labeled:
         question = row["question"]
         language = row.get("language") or "en"
         entry = index.get(normalize(question, language))
-        results = entry["results"] if entry else []
+        if entry is None:
+            # No cached response means no scores to test the rules against.
+            # Counting it as an all-zero row would manufacture a gap the metric
+            # never claimed, so it is dropped and reported.
+            unmatched.append(question)
+            continue
+        results = entry["results"]
         records.append(
             {
                 "question": question,
@@ -109,6 +155,18 @@ def main() -> int:
                 },
             }
         )
+
+    if from_ui:
+        log(f"{from_ui} verdict(s) merged in from the UI (data/labels/labels.jsonl)")
+    if unmatched:
+        log(f"{len(unmatched)} labeled question(s) skipped - no cached SERP response:")
+        for question in unmatched[:5]:
+            log(f"    {question}")
+        log("")
+
+    if not records:
+        log("No labeled question has a cached response to score against.")
+        return 1
 
     actual = [r["actual"] for r in records]
     gap_count = sum(actual)
