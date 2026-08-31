@@ -1068,3 +1068,150 @@ def spend_summary() -> dict:
             "serp_snapshots": snapshots["n"],
         },
     }
+
+
+# ------------------------------------------------------------------ diff
+#
+# CLAUDE.md: "Historical PAA data exists nowhere else and becomes our most
+# defensible asset over time." Edge rows are what make that true rather than
+# aspirational - every crawl keeps its own edges, so two crawl ids and a set
+# difference is the entire diff engine. There is nothing to build but a query.
+
+
+def _paa_questions(cur, crawl_id: int) -> dict[str, dict]:
+    """The questions GOOGLE returned for a crawl, keyed by normalized text.
+
+    `discovered_by = 'paa'` is the whole point of this filter, and it is not a
+    detail. Harvested questions come out of responses WE bought while scoring,
+    so they appear when we spend money, not when Google changes its mind.
+    Counting them as "new this week" would report our own activity back to the
+    user as a market signal - the most misleading kind of wrong, because it
+    would be indistinguishable from the real thing.
+    """
+    cur.execute(
+        """
+        SELECT DISTINCT ON (q.normalized)
+               q.normalized, q.text, e.depth
+          FROM paa_edge e
+          JOIN question q ON q.id = e.child_id
+         WHERE e.crawl_id = %s
+           AND e.discovered_by = 'paa'
+         ORDER BY q.normalized, e.depth
+        """,
+        (crawl_id,),
+    )
+    return {r["normalized"]: r for r in cur.fetchall()}
+
+
+def diff_crawls(slug: str) -> dict | None:
+    """What changed between the two most recent crawls of one seed.
+
+    Returns None when there is only one crawl - nothing to compare is not an
+    empty diff, and rendering it as "no changes" would claim a measurement that
+    was never made.
+
+    SETS, NOT SEQUENCES. CLAUDE.md is explicit that PAA ordering moves for an
+    identical query and that notifying on it "would drown users in false
+    alarms", so position is never compared. A question that merely moved from
+    third to first is not a change and does not appear here at all.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT id, created_at FROM crawl
+             WHERE slug = %s
+             ORDER BY created_at DESC, id DESC
+             LIMIT 2
+            """,
+            (slug,),
+        )
+        crawls = cur.fetchall()
+        if len(crawls) < 2:
+            return None
+
+        current, previous = crawls[0], crawls[1]
+        now = _paa_questions(cur, current["id"])
+        before = _paa_questions(cur, previous["id"])
+
+    changes = compare_questions(now, before)
+
+    return {
+        "current": {
+            "crawl_id": current["id"],
+            "at": current["created_at"].isoformat(timespec="seconds"),
+        },
+        "previous": {
+            "crawl_id": previous["id"],
+            "at": previous["created_at"].isoformat(timespec="seconds"),
+        },
+        **changes,
+        "crawl_count": crawl_count(slug),
+    }
+
+
+def compare_questions(now: dict[str, dict], before: dict[str, dict]) -> dict:
+    """Set difference between two crawls' question sets. PURE.
+
+    The rule this enforces is CLAUDE.md's, and it is the one most likely to be
+    broken by someone trying to be helpful: ORDER CHANGES ARE NOISE AND MUST NOT
+    NOTIFY. PAA ordering moves for an identical query, so a diff that compared
+    sequences would report a change every single time and the alerts would be
+    worthless within a week. Comparing sets makes that structurally impossible
+    rather than merely intended.
+
+    Kept free of SQL so exactly that can be tested.
+    """
+
+    def shape(rows: list[dict]) -> list[dict]:
+        rows = sorted(rows, key=lambda r: (r["depth"], r["text"]))
+        return [
+            {"question": r["text"], "normalized": r["normalized"], "depth": r["depth"]}
+            for r in rows
+        ]
+
+    return {
+        # The valuable signal, and the one CLAUDE.md says to notify on.
+        "added": shape([now[k] for k in now.keys() - before.keys()]),
+        # A content-refresh signal: something that used to be asked is not any
+        # more, and a page written for it is now aimed at nothing.
+        "removed": shape([before[k] for k in before.keys() - now.keys()]),
+        "unchanged": len(now.keys() & before.keys()),
+    }
+
+
+def crawl_count(slug: str) -> int:
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT count(*) AS n FROM crawl WHERE slug = %s", (slug,))
+        return cur.fetchone()["n"]
+
+
+def crawl_history(slug: str, limit: int = 20) -> list[dict]:
+    """Every crawl of a seed, newest first. The asset, listed.
+
+    Nothing else has this: Google does not publish PAA history and no competitor
+    keeps it. It is a plain SELECT only because the tree was stored as edges.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT c.id, c.created_at, c.spend, c.billable_calls,
+                   count(DISTINCT e.child_id) AS questions
+              FROM crawl c
+              LEFT JOIN paa_edge e ON e.crawl_id = c.id
+             WHERE c.slug = %s
+             GROUP BY c.id
+             ORDER BY c.created_at DESC, c.id DESC
+             LIMIT %s
+            """,
+            (slug, limit),
+        )
+        return [
+            {
+                "crawl_id": r["id"],
+                "at": r["created_at"].isoformat(timespec="seconds"),
+                "questions": r["questions"],
+                "spend": float(r["spend"] or 0),
+                "billable_calls": r["billable_calls"],
+            }
+            for r in cur.fetchall()
+        ]

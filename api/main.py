@@ -601,3 +601,26 @@ def dev_spend() -> dict:
     summary["storage"] = _DB
     summary["callback_configured"] = bool(_postback_url())
     return summary
+
+
+# --------------------------------------------------------------- diff
+
+
+@app.get("/api/tree/{slug}/diff")
+def tree_diff(slug: str) -> dict:
+    """What Google changed between the two most recent crawls of this seed.
+
+    `null` rather than an empty diff when there is only one crawl. Nothing to
+    compare is not "no changes", and rendering it as such would claim a
+    measurement that was never made - the same distinction the interface already
+    draws between `no_data` and a gap.
+
+    Order changes never appear here. CLAUDE.md: PAA ordering moves for an
+    identical query, and notifying on it would drown users in false alarms.
+    """
+    if not db.available():
+        raise HTTPException(503, "No database configured.")
+    return {
+        "diff": db.diff_crawls(slug),
+        "history": db.crawl_history(slug),
+    }
