@@ -34,7 +34,7 @@ Two processes.
 
 ```bash
 # 1) Backend  (from the project root)
-pip install fastapi uvicorn
+pip install -r requirements.txt
 python -m uvicorn api.main:app --reload --port 8000
 
 # 2) Frontend (separate terminal)
@@ -140,3 +140,27 @@ Measured branching factor is **4** in both Turkish and English (the original
 model assumed 8), so depth 3 is ~85 nodes rather than ~585.
 `people_also_ask_click_depth=4` returns 15 questions in a single request —
 roughly 3x cheaper than recursing for the same output.
+
+---
+
+## Deploying to Railway
+
+Two services out of this one repository. Config lives in the repo, not the
+dashboard: `railway.json` (api) and `web/railway.json` (web).
+
+| Service | Root directory | Environment variables |
+|---|---|---|
+| api | `/` | `DATAFORSEO_LOGIN`, `DATAFORSEO_PASSWORD`, `ALLOWED_ORIGINS`, `ANSWERGAP_DATA_DIR` |
+| web | `web` | `NEXT_PUBLIC_API_URL` |
+
+Order matters. `NEXT_PUBLIC_API_URL` is compiled **into** the JavaScript bundle,
+so deploy the api first, copy its public domain, then set the variable and
+deploy the web — editing it later without a redeploy changes nothing. Point the
+api's `ALLOWED_ORIGINS` back at the web domain; every screen is a client
+component, so the browser, not the server, is what calls the API.
+
+Attach a **volume** to the api service and set `ANSWERGAP_DATA_DIR` to its mount
+path. Container disks are ephemeral, and `data/live/serp/` is a cache of SERP
+responses that cost money — without a volume every deploy buys them again, and
+the append-only label log starts over. `data/raw/` is unaffected: it ships in
+the repository and is only ever read.

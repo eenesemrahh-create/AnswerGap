@@ -42,10 +42,13 @@ import tempfile
 from pathlib import Path
 from typing import Literal
 
+from answergap import paths
 from answergap.text import normalize
 
-ROOT = Path(__file__).resolve().parent.parent
-LABELS_DIR = ROOT / "data" / "labels"
+ROOT = paths.ROOT
+# Append-only, and therefore the last thing that should live on an ephemeral
+# container filesystem. Follows ANSWERGAP_DATA_DIR onto a volume.
+LABELS_DIR = paths.LABELS_DIR
 LABELS_PATH = LABELS_DIR / "labels.jsonl"
 
 Verdict = Literal["G", "N", "?"]

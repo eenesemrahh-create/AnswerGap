@@ -75,7 +75,7 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import languages
+from . import languages, paths
 from .dataforseo import (
     LIVE_COST_PER_REQUEST,
     Client,
@@ -96,10 +96,12 @@ from .tree import (
     score_question,
 )
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = paths.ROOT
 
-# Kept apart from data/raw/ on purpose - see the module docstring.
-LIVE_DIR = ROOT / "data" / "live"
+# Kept apart from data/raw/ on purpose - see the module docstring. Relocatable
+# via ANSWERGAP_DATA_DIR, because this is the directory a container redeploy
+# would otherwise wipe - and it holds SERP responses that were paid for.
+LIVE_DIR = paths.LIVE_DIR
 SERP_DIR = LIVE_DIR / "serp"
 TREES_DIR = LIVE_DIR / "trees"
 

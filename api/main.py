@@ -19,6 +19,7 @@ Run:
 from __future__ import annotations
 
 import json
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -33,6 +34,19 @@ from answergap.tree import STRATEGY, THRESHOLD, all_trees
 
 ROOT = Path(__file__).resolve().parent.parent
 COUNTRIES_PATH = ROOT / "data" / "locations" / "countries.json"
+
+# Who may call this API from a browser. Every screen in `web/` is a client
+# component, so the fetch comes from the visitor's browser, not from Next's
+# server - which makes CORS load-bearing the moment the two halves stop sharing
+# localhost. Comma-separated; the default keeps local development working with
+# no environment set.
+ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        "ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000"
+    ).split(",")
+    if origin.strip()
+]
 
 # Archive and live trees are held apart. The archive is Phase 0 evidence and is
 # rebuilt from data/raw/ at startup; live trees are user crawls under data/live/
@@ -66,7 +80,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )

@@ -496,9 +496,10 @@ python -m uvicorn api.main:app --reload --port 8000
 cd web && npm run dev        # http://localhost:3000
 ```
 
-`fastapi` and `uvicorn` are already installed but **`requirements.txt` does not
-list them** — the project cannot be installed on a clean machine. `pydantic` is
-now used too. Fill this in; it is a one-line job.
+`requirements.txt` now lists the three runtime dependencies — `fastapi`,
+`uvicorn`, `pydantic`, pinned to the versions developed against — so
+`pip install -r requirements.txt` works on a clean machine. `answergap/` itself
+stays stdlib-only; those three exist for `api/main.py` alone.
 
 `.env` already holds working DataForSEO credentials and is gitignored.
 `uvicorn.exe` is not on PATH — use `python -m uvicorn`.
@@ -515,6 +516,45 @@ now used too. Fill this in; it is a one-line job.
 ```bash
 netstat -ano | grep ':8000' | grep LISTENING   # then taskkill //PID <pid> //F
 ```
+
+## Deployment — Railway, two services from one repo
+
+Added 2026-08-31. Config-as-code, so the platform is described in the repository
+rather than in a dashboard nobody can diff.
+
+| Service | Root dir | Config | Builder |
+|---|---|---|---|
+| api | `/` | `railway.json` | Nixpacks → Python (`requirements.txt`, `.python-version` = 3.13) |
+| web | `web` | `web/railway.json` | Nixpacks → Node (`package.json`) |
+
+Three things had to change for the two halves to survive being separated:
+
+- **CORS is no longer hardcoded.** Every screen in `web/` is a client component,
+  so the fetch leaves the visitor's browser, not Next's server. The moment API
+  and web stop sharing localhost, `ALLOWED_ORIGINS` becomes load-bearing.
+  Comma-separated; the default is still localhost, so local dev needs no env.
+- **`NEXT_PUBLIC_API_URL` is a BUILD-time variable.** `NEXT_PUBLIC_*` is baked
+  into the bundle (verified: the URL appears inside `.next/static/chunks/`).
+  Changing it in the dashboard does nothing until the web service is redeployed.
+  This also forces the order: deploy api, take its domain, then build web.
+- **`answergap/paths.py` — the writable state is relocatable.** Container
+  filesystems are ephemeral, and `data/live/serp/` holds SERP responses that
+  were **paid for** while `data/labels/labels.jsonl` is the append-only log
+  CLAUDE.md insists is never rewritten. A redeploy would delete both. Point
+  `ANSWERGAP_DATA_DIR` at a mounted volume and they move together — one switch
+  for both, so a volume cannot be wired to one and forgotten for the other.
+  `data/raw/` does **not** follow it: the archive ships in the repo, is
+  read-only, and is resolved from the source tree.
+
+**A volume is not optional if any live crawling happens in production.** Without
+one, every deploy re-buys the same SERP responses. This is a stopgap for the
+storage migration in the "Next" list, not a replacement for it — the
+document-shaped-tree bug recorded above is still there, just now on a volume.
+
+Verified locally before the first deploy: API boots and serves `/api/meta`; a
+foreign origin is refused (400) and an allowed one gets its header; with a fresh
+`ANSWERGAP_DATA_DIR` the tree count falls from 11 to 3 — the three committed
+archive demos, live trees and labels correctly gone; `npm run build` is clean.
 
 ## Spend to date
 
