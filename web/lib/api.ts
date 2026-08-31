@@ -1,5 +1,8 @@
 import type {
+  BatchPlan,
   Country,
+  DevSpend,
+  JobsStatus,
   LabelResult,
   Meta,
   ScoreResult,
@@ -122,6 +125,26 @@ export const scoreQuestion = (
   post<ScoreResult>(
     `/api/tree/${slug}/question/${questionSlug}/score?refresh=${refresh}`
   );
+
+/**
+ * Queue gap scoring for several questions at once, on the Standard queue.
+ *
+ * `dry_run` returns the plan and its price without spending anything, and the
+ * UI always asks for that first: a batch is exactly where a surprise would be
+ * expensive. Results do NOT come back here - tasks land minutes later, so the
+ * caller polls `fetchJobs`.
+ */
+export const scoreBatch = (
+  slug: string,
+  input: { questions?: string[]; top_n?: number; dry_run?: boolean }
+) => post<BatchPlan>(`/api/tree/${slug}/score-batch`, input);
+
+/** Queued scoring for one tree. Also sweeps stranded tasks on the way past. */
+export const fetchJobs = (slug: string) =>
+  get<JobsStatus>(`/api/tree/${slug}/jobs`);
+
+/** Everything spent, reported rather than estimated. Developer view only. */
+export const fetchDevSpend = () => get<DevSpend>("/api/dev/spend");
 
 export const fetchMeta = () => get<Meta>("/api/meta");
 export const fetchTrees = () => get<TreeSummary[]>("/api/trees");

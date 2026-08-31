@@ -151,6 +151,97 @@ export interface Meta {
   default_language_code: string;
   /** Size of the labelled set the threshold question has to work with. */
   labels: LabelCounts;
+  /**
+   * Who is looking. One value today, and the whole point is that the UI asks.
+   * When sign-in arrives this comes from a session instead of a constant and
+   * nothing else changes - a screen that has never had to ask is far harder to
+   * retrofit than one that always asked and always got the same answer.
+   */
+  role: "developer";
+  /** Real per-request cost in USD. Not credits - see `Pricing`. */
+  pricing: Pricing;
+  /** What the storage layer did at boot. Null when no database is configured. */
+  storage?: StorageState;
+}
+
+/**
+ * The underlying cost of a request, in dollars.
+ *
+ * Customers will be priced in credits; a developer needs this, because the
+ * argument for the Standard queue is a comparison that can only be made in the
+ * currency actually being spent.
+ */
+export interface Pricing {
+  live_per_request: number;
+  standard_per_request: number;
+  click_surcharge: number;
+  click_depth: number;
+}
+
+export interface StorageState {
+  configured: boolean;
+  ok: boolean;
+  tables: string[];
+  applied: string[];
+  error: string | null;
+}
+
+/** What a batch would cost, or what it just queued. */
+export interface BatchPlan {
+  queued: string[];
+  skipped: { slug: string; reason: string }[];
+  count: number;
+  /** Always present, dry run or not: the price is visible before it is spent. */
+  estimated_spend: number;
+  queue: "standard";
+  callback: boolean;
+  dry_run?: boolean;
+  /** Reported by DataForSEO once the tasks are actually posted. */
+  spend?: number;
+  posted?: {
+    slug: string | null;
+    task_id: string | null;
+    cost: number | null;
+    error: string | null;
+  }[];
+}
+
+export interface Job {
+  task_id: string;
+  cache_key: string;
+  keyword: string;
+  status: "posted" | "done" | "failed";
+  cost: number | null;
+  error: string | null;
+  posted_at: string;
+  completed_at: string | null;
+}
+
+export interface JobsStatus {
+  tasks: Job[];
+  pending: number;
+  done: number;
+  failed: number;
+  task_count: number;
+  spend: number;
+  swept: { checked: number; ingested: number; errors: string[] } | null;
+}
+
+/** Everything spent so far, split by how it was bought. Reported, not estimated. */
+export interface DevSpend {
+  live: { crawls: number; spend: number };
+  standard: {
+    tasks: number;
+    spend: number;
+    pending: number;
+    failed: number;
+    /** What the same queued work would have cost on Live. */
+    if_live: number;
+  };
+  total: number;
+  rows: { questions: number; gap_scores: number; serp_snapshots: number };
+  storage: StorageState;
+  callback_configured: boolean;
 }
 
 export interface Country {

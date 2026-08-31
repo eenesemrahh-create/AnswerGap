@@ -854,3 +854,161 @@ table.table {
   border-color: var(--covered);
   color: var(--bg);
 }
+
+/* ---------------------------------------------------------- batch scoring
+   The price sits in the same line as the button, at the same size as the
+   count. It is not a footnote: one click here is ten charges, and a cost the
+   reader has to go looking for is a cost they will not look for. */
+.batch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-size: 12.5px;
+}
+.batch-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-soft);
+}
+.batch-size input {
+  width: 52px;
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: right;
+}
+.batch button {
+  padding: 4px 11px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.batch button:hover:not(:disabled) { background: var(--surface-2); }
+.batch button:disabled { opacity: .5; cursor: default; }
+.batch button.primary {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.batch.confirm {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  min-width: 320px;
+}
+.batch-line { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.batch-actions { display: flex; gap: 8px; }
+.batch-skipped { font-size: 11.5px; line-height: 1.45; }
+
+/* Tabular figures so a price never jitters as it updates. */
+.batch-cost {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.batch-failed { color: var(--gap); font-weight: 600; }
+
+.batch.running { color: var(--text-soft); }
+.spinner {
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--text-soft);
+  border-radius: 50%;
+  animation: batch-spin .8s linear infinite;
+}
+@keyframes batch-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+}
+
+/* ------------------------------------------------------- developer panel
+   Deliberately plain. This is an instrument, not a feature: it should read as
+   something bolted to the side of the product, because that is what it is
+   until roles exist and it sits behind one. */
+.devpanel { position: relative; }
+.devpanel-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.devpanel-toggle:hover { background: var(--surface-2); }
+.devpanel .dot.dev {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--focus);
+}
+.devpanel-total {
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.devpanel-caret { color: var(--text-faint); }
+
+.devpanel-body {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 40;
+  width: 380px;
+  padding: 12px 14px;
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: var(--shadow-panel);
+  font-size: 12px;
+}
+.devtable { width: 100%; border-collapse: collapse; }
+.devtable th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-soft);
+  padding: 3px 0;
+}
+.devtable td { padding: 3px 0; color: var(--text-soft); }
+.devtable td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--text);
+}
+.devtable tr.devsaved td.num { color: var(--covered); }
+.devtable tr.devtotal th,
+.devtable tr.devtotal td {
+  border-top: 1px solid var(--border);
+  padding-top: 6px;
+  color: var(--text);
+  font-weight: 700;
+}
+.devgrid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  color: var(--text-faint);
+  line-height: 1.5;
+}

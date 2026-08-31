@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ApiError, API_BASE, fetchLabels, fetchTree } from "@/lib/api";
+import { ApiError, API_BASE, fetchLabels, fetchMeta, fetchTree } from "@/lib/api";
 import {
   STATUSES,
   STATUS_COLOR,
   type LabelCounts,
+  type Meta,
   type ScoreResult,
   type Status,
   type Tree,
@@ -19,6 +20,8 @@ import { QuestionDetail } from "./QuestionDetail";
 import { RelatedSeeds } from "./RelatedSeeds";
 import { Notice } from "./Badge";
 import { LocalePicker } from "./LocalePicker";
+import { BatchScore } from "./BatchScore";
+import { DevPanel } from "./DevPanel";
 
 type View = "tree" | "table" | "seeds";
 
@@ -38,6 +41,21 @@ export function TreeScreen({ slug }: { slug: string }) {
      given on one question is drawn on the node in the tree behind it. */
   const [verdicts, setVerdicts] = useState<Record<string, Verdict>>({});
   const [labelCounts, setLabelCounts] = useState<LabelCounts | null>(null);
+
+  /* Who is looking, and what a request actually costs. Allowed to fail
+     quietly: without it the screen loses the developer panel and the batch
+     button, which is a smaller loss than losing the tree. */
+  const [meta, setMeta] = useState<Meta | null>(null);
+  useEffect(() => {
+    fetchMeta().then(setMeta).catch(() => setMeta(null));
+  }, []);
+
+  const reload = () =>
+    fetchTree(slug)
+      .then(setTree)
+      .catch(() => {
+        /* the tree on screen is still the last good one */
+      });
 
   useEffect(() => {
     fetchTree(slug)
@@ -168,6 +186,7 @@ export function TreeScreen({ slug }: { slug: string }) {
             <b>{t("notice.provisionalThreshold")}</b> {tree.threshold.toFixed(2)}
           </Notice>
         )}
+        {meta && <DevPanel meta={meta} />}
         <LocalePicker />
       </header>
 
@@ -200,6 +219,15 @@ export function TreeScreen({ slug }: { slug: string }) {
             </button>
           ))}
         </div>
+
+        {meta && tree.source === "live" && (
+          <BatchScore
+            slug={slug}
+            pricing={meta.pricing}
+            unscored={tree.nodes.filter((n) => !n.results_checked).length}
+            onFinished={reload}
+          />
+        )}
 
         <input
           className="search"

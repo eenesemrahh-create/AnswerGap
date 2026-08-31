@@ -157,6 +157,48 @@ export const en = {
     disagrees: "This disagrees with the metric — which is the useful case.",
   },
 
+  // Batch scoring. The price is stated before it is spent and the Live figure
+  // sits beside it, because the argument for the Standard queue is a ratio and
+  // a ratio with one half hidden is just a number.
+  batch: {
+    size: "Batch size",
+    check: "Check top {count}",
+    pricing: "Pricing…",
+    confirmCount: "{count} questions",
+    vsLive: "on the {queue} queue · {live} on Live",
+    skipped: "{count} skipped — already checked, or already queued.",
+    noCallback: "No callback configured: results will be collected by polling, which takes minutes rather than seconds.",
+    confirm: "Queue them",
+    cancel: "Cancel",
+    posting: "Queueing…",
+    running: "{done} of {total} back",
+    failed: "{count} failed",
+    allChecked: "Every question has been checked.",
+  },
+
+  // The developer role's surface. Dollars, not credits - see DevPanel.
+  dev: {
+    role: "developer",
+    loading: "Reading…",
+    liveQueue: "Live",
+    standardQueue: "Standard",
+    crawls: "{count} searches",
+    tasks: "{count} questions",
+    saved: "Saved",
+    savedNote: "the same work on Live would have been {ifLive}",
+    total: "Total",
+    perRequest: "Per request: {live} Live · {standard} Standard",
+    rows: "{questions} questions · {scores} scores · {snapshots} stored responses",
+    storage: "Storage {state} · {tables} tables",
+    ok: "ok",
+    broken: "FAILING",
+    callback: "Callback {state}",
+    on: "on",
+    offSweep: "off — falling back to polling",
+    pending: "{count} still queued",
+    failedTasks: "{count} tasks failed",
+  },
+
   notice: {
     archiveData: "Archive data",
     archiveDataDetail: "not live",
