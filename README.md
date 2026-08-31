@@ -146,12 +146,15 @@ roughly 3x cheaper than recursing for the same output.
 ## Deploying to Railway
 
 Two services out of this one repository. Config lives in the repo, not the
-dashboard: `railway.json` (api) and `web/railway.json` (web).
+dashboard.
 
-| Service | Root directory | Environment variables |
-|---|---|---|
-| api | `/` | `DATAFORSEO_LOGIN`, `DATAFORSEO_PASSWORD`, `ALLOWED_ORIGINS`, `ANSWERGAP_DATA_DIR` |
-| web | `web` | `NEXT_PUBLIC_API_URL` |
+| Service | Root directory | Config path | Environment variables |
+|---|---|---|---|
+| api | `/` | `/railway.json` | `DATAFORSEO_LOGIN`, `DATAFORSEO_PASSWORD`, `ALLOWED_ORIGINS`, `ANSWERGAP_DATA_DIR` |
+| web | `/web` | `/web/railway.json` | `NEXT_PUBLIC_API_URL` |
+
+The config file does **not** follow the root directory — set the web service's
+config path to `/web/railway.json` explicitly, or it inherits the api's.
 
 Order matters. `NEXT_PUBLIC_API_URL` is compiled **into** the JavaScript bundle,
 so deploy the api first, copy its public domain, then set the variable and
@@ -160,7 +163,11 @@ api's `ALLOWED_ORIGINS` back at the web domain; every screen is a client
 component, so the browser, not the server, is what calls the API.
 
 Attach a **volume** to the api service and set `ANSWERGAP_DATA_DIR` to its mount
-path. Container disks are ephemeral, and `data/live/serp/` is a cache of SERP
+path — **`/data`, not `/app/data`.** Railway puts the checkout in `/app`, so a
+volume mounted on `/app/data` would hide `data/raw/` and the committed demo
+trees with it.
+
+Container disks are ephemeral, and `data/live/serp/` is a cache of SERP
 responses that cost money — without a volume every deploy buys them again, and
 the append-only label log starts over. `data/raw/` is unaffected: it ships in
 the repository and is only ever read.

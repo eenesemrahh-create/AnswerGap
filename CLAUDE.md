@@ -522,10 +522,24 @@ netstat -ano | grep ':8000' | grep LISTENING   # then taskkill //PID <pid> //F
 Added 2026-08-31. Config-as-code, so the platform is described in the repository
 rather than in a dashboard nobody can diff.
 
-| Service | Root dir | Config | Builder |
+| Service | Root dir | Config-as-code path | Build |
 |---|---|---|---|
-| api | `/` | `railway.json` | Nixpacks → Python (`requirements.txt`, `.python-version` = 3.13) |
-| web | `web` | `web/railway.json` | Nixpacks → Node (`package.json`) |
+| api | `/` | `/railway.json` | Railpack → Python (`requirements.txt`, `.python-version` = 3.13) |
+| web | `/web` | `/web/railway.json` | Railpack → Node (`package.json`, `.nvmrc` = 22) |
+
+Two Railway details that are easy to get wrong, both checked against the docs
+rather than assumed:
+
+- **The config file does not follow the root directory.** Railway looks for
+  `railway.json` at an absolute repo path, so the web service needs its config
+  path set to `/web/railway.json` by hand — leaving it at the default silently
+  applies the *api's* config to the web service.
+- **Do not pin `builder`.** `NIXPACKS` is no longer a documented value; new
+  services default to Railpack, which detects Python from `requirements.txt`
+  and Node from `package.json` on its own. Both files omit the key.
+
+`watchPatterns` lives in each config, so one push does not rebuild both
+services — a `web/**` change leaves the api deployment alone.
 
 Three things had to change for the two halves to survive being separated:
 
@@ -545,6 +559,12 @@ Three things had to change for the two halves to survive being separated:
   for both, so a volume cannot be wired to one and forgotten for the other.
   `data/raw/` does **not** follow it: the archive ships in the repo, is
   read-only, and is resolved from the source tree.
+
+  **Mount the volume at `/data`, never at `/app/data`.** Railway puts the
+  checkout in `/app`, so a volume on `/app/data` would cover `data/raw/` and the
+  three committed demo trees would vanish behind an empty disk. Railway's own
+  guide suggests `/app/data` — that advice is for apps writing to a *relative*
+  path, and the env var above exists precisely so this one does not have to.
 
 **A volume is not optional if any live crawling happens in production.** Without
 one, every deploy re-buys the same SERP responses. This is a stopgap for the
