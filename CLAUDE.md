@@ -691,6 +691,58 @@ number it fails at measures what embeddings bought.
 by luck rather than design (0.75). A tokenizer change could silently drop it,
 and the product would only notice as a wrong answer.
 
+## Phase 2, 2026-08-31: the Standard-queue deviation closes
+
+CLAUDE.md recorded the deviation honestly — *"a webhook cannot reach a laptop"*.
+That was a fact about the laptop and it expired the day this moved onto a
+server. What replaces it is a **split, not a compromise**:
+
+| | Queue | Why |
+|---|---|---|
+| Seed search | **Live** | a person is waiting. Minutes of latency to save a tenth of a cent is the wrong trade — CLAUDE.md's own reasoning, unchanged |
+| Batch scoring | **Standard** | nobody watches a batch. Ten questions is where 3.3x stops being a rounding error |
+
+**Measured in production, first real run:** five questions, **$0.003** against
+**$0.010** on Live. Each task reported exactly **$0.0006** — the Standard price,
+matching the estimate to the cent. The tree went 19 → **34 nodes** and related
+searches 8 → **44**, because scoring harvests the response it already bought:
+18 of those nodes cost nothing.
+
+**The money is spent at `task_post`, not at fetch.** Every design decision here
+follows from that one fact:
+
+- `serp_task` rows are written the instant a post succeeds. A task id that was
+  not recorded is money with nothing attached to it.
+- `task_get` is free and results live **30 days**, so a lost callback is a
+  re-fetch, not a re-purchase — but only if someone goes and looks, which is
+  what `sweep_pending` is for. It runs on `/jobs`, which the UI polls.
+- Ingest is idempotent. A task already out of `posted` state is ignored, so a
+  redelivered callback cannot double-count a harvest.
+
+**The callback endpoint fails closed.** With no `CALLBACK_TOKEN`, every callback
+is rejected. It is a public URL that writes gap scores; without the token anyone
+could POST a fabricated SERP response and the product would present it as
+measured evidence. With `PUBLIC_BASE_URL` unset the batch still works — tasks
+post without a callback and the sweep collects them — so the degraded mode is
+**slower, never wrong**.
+
+`apply_response` is shared by both routes. A question scored in a batch and the
+same one scored by clicking must produce the same row, or the two paths would
+quietly disagree about the same page.
+
+**Two faults the first real run exposed, neither visible by reading:**
+
+- **`/jobs` returned a number where the task list belonged.** `task_spend`
+  returned `{"tasks": n}` and the endpoint spread it alongside its own `tasks`
+  list — the count silently replaced the list. It type-checks and it
+  serialises. Renamed to `task_count`.
+- **The sweep timed out the request it ran inside.** Ten tasks per poll, each a
+  fetch plus scoring plus a tree write, blew a 60s timeout on the fourth poll.
+  Lowered to three: the sweep only has to make *progress* per poll, not finish.
+
+Still to do: the **interface** half. Backend is complete and proven; there is no
+button yet.
+
 ## Spend to date
 
 **~$0.118** total ($0.107 before Phase B, $0.0112 of live crawling on
@@ -746,8 +798,9 @@ Four things do have to change, in this order: **storage**, **tests**,
    the threshold and the embedding evaluation, and it is worthless if collection
    starts later. Writes to `data/labels/labels.jsonl`; the storage step moves it
    to the `label` table with no shape change.
-5. **Job runner + Standard queue.** Scheduled crawls, async crawling, and the
-   ~3.3x unit-cost drop when the webhook deviation above can be closed.
+5. ~~**Standard queue.**~~ **DONE 2026-08-31** for batch scoring — see above.
+   Still open: a real **job runner**, for scheduled crawls and so the fallback
+   sweep stops piggybacking on a polled GET.
 6. **Auth, tenancy, credits, Stripe.** Last, because its schema sits on the
    storage layer and the thing to validate before revenue is the product.
 
