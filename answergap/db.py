@@ -1014,3 +1014,57 @@ def task_spend(tree_slug: str | None = None) -> dict:
         # NOT "tasks": the jobs endpoint spreads this alongside the task LIST,
         # and a count silently replacing that list is a bug that type-checks.
         return {"task_count": row["n"], "spend": float(row["total"])}
+
+
+def spend_summary() -> dict:
+    """Everything that has been paid for, split by how it was bought.
+
+    Both halves are REPORTED figures, not estimates: `crawl.spend` comes from
+    the cost DataForSEO put on the live response, and `serp_task.cost` from what
+    it put on each queued task. CLAUDE.md's rule is that the flat estimate is
+    never trusted, and the developer view is the one place that would be most
+    tempting to fill with a plausible-looking guess.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT count(*) AS n, COALESCE(sum(spend), 0) AS total FROM crawl"
+        )
+        crawls = cur.fetchone()
+        cur.execute(
+            """
+            SELECT count(*) AS n,
+                   COALESCE(sum(cost), 0) AS total,
+                   count(*) FILTER (WHERE status = 'posted') AS pending,
+                   count(*) FILTER (WHERE status = 'failed') AS failed
+              FROM serp_task
+            """
+        )
+        tasks = cur.fetchone()
+        cur.execute("SELECT count(*) AS n FROM serp_snapshot")
+        snapshots = cur.fetchone()
+        cur.execute("SELECT count(*) AS n FROM question")
+        questions = cur.fetchone()
+        cur.execute("SELECT count(*) AS n FROM gap_score")
+        scores = cur.fetchone()
+
+    live_total = float(crawls["total"])
+    task_total = float(tasks["total"])
+    return {
+        "live": {"crawls": crawls["n"], "spend": round(live_total, 6)},
+        "standard": {
+            "tasks": tasks["n"],
+            "spend": round(task_total, 6),
+            "pending": tasks["pending"],
+            "failed": tasks["failed"],
+            # What the same queued work would have cost on Live. The saving is
+            # the whole argument for the Standard queue, so it is shown rather
+            # than asserted.
+            "if_live": round(tasks["n"] * 0.0020, 6),
+        },
+        "total": round(live_total + task_total, 6),
+        "rows": {
+            "questions": questions["n"],
+            "gap_scores": scores["n"],
+            "serp_snapshots": snapshots["n"],
+        },
+    }

@@ -29,7 +29,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from answergap import db, labels, live
-from answergap.dataforseo import BudgetExceeded, DataForSEOError
+from answergap.dataforseo import (
+    LIVE_COST_PER_REQUEST,
+    STANDARD_COST_PER_REQUEST,
+    BudgetExceeded,
+    DataForSEOError,
+)
 from answergap.languages import DEFAULT_LOCATION_CODE, LANGUAGES
 from answergap.tree import STRATEGY, THRESHOLD, all_trees
 
@@ -138,6 +143,23 @@ def meta() -> dict:
         # disk, which is a setup problem the UI should say out loud rather than
         # letting the user click into a 503.
         "live_crawl_available": live.available(),
+        # There is one role today and it is hard-coded. That is deliberate
+        # rather than lazy: the developer surface is built behind this flag now,
+        # so when sign-in arrives the ONLY change is where the value comes from -
+        # a session instead of a constant - and nothing built today is thrown
+        # away. A UI that has never had to ask "who is looking?" is much harder
+        # to retrofit than one that always asked and always got the same answer.
+        "role": "developer",
+        # Real per-request prices, measured and reported - not credits. CLAUDE.md
+        # prices in credits for customers; a developer needs the underlying cost,
+        # because the whole point of the Standard queue is a comparison you can
+        # only make in the currency actually being spent.
+        "pricing": {
+            "live_per_request": round(LIVE_COST_PER_REQUEST, 6),
+            "standard_per_request": round(STANDARD_COST_PER_REQUEST, 6),
+            "click_surcharge": live.CLICK_SURCHARGE,
+            "click_depth": live.CLICK_DEPTH,
+        },
         # Storage state. `configured` says whether a DATABASE_URL reached the
         # service at all, which is the difference between "no database yet" and
         # "database present but broken" - two problems with different fixes.
@@ -559,3 +581,23 @@ async def dataforseo_callback(http_request: Request) -> dict:
         "ingested": bool(result),
         "discovered": len(result["discovered"]) if result else 0,
     }
+
+
+# --------------------------------------------------------- developer view
+
+
+@app.get("/api/dev/spend")
+def dev_spend() -> dict:
+    """Everything spent, and what the queue choice saved.
+
+    Reported figures only. The estimate exists to price a dry run BEFORE a
+    request; once one has been made, the number DataForSEO put on it is the
+    only honest one, and a developer view filled with plausible guesses would be
+    worse than no view at all.
+    """
+    if not db.available():
+        raise HTTPException(503, "No database configured.")
+    summary = db.spend_summary()
+    summary["storage"] = _DB
+    summary["callback_configured"] = bool(_postback_url())
+    return summary
