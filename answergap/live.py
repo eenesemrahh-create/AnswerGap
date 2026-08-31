@@ -247,22 +247,40 @@ def save_tree(tree: dict, *, new_crawl: bool = False) -> None:
     )
 
 
-def _slugged(tree: dict | None) -> dict | None:
-    """Slugs are derived, not stored - regenerate and de-collide them here.
+def _hydrate(tree: dict | None) -> dict | None:
+    """Put back everything that is derived rather than stored.
+
+    None of these belong in a column. Slugs are a function of the question text,
+    the status counts are a function of the nodes, and the threshold, strategy
+    and language name are properties of the code that is reading - not of the
+    crawl that was written. Persisting any of them would mean keeping a copy in
+    sync with its source, which is the same class of mistake as storing the tree
+    as a document.
+
+    Note what `threshold` here does NOT do: it does not reinterpret old scores.
+    Each `gap_score` row carries the threshold it was measured under, so this
+    value describes the current setting, not the ones already recorded.
 
     `_dedupe_slugs` has to run over the whole tree at once: a slug is only
     unique relative to the others, and slugify() truncates at 60 characters, so
     two long questions sharing a prefix would otherwise route to each other.
     """
-    if tree is not None:
-        _dedupe_slugs(tree["nodes"])
+    if tree is None:
+        return None
+    _dedupe_slugs(tree["nodes"])
+    lang = languages.get(tree["language_code"])
+    tree["language_name"] = lang.name if lang else tree["language_code"]
+    tree["threshold"] = THRESHOLD
+    tree["strategy"] = STRATEGY
+    tree["threshold_validated"] = False  # the UI turns this into a warning badge
+    _recount(tree)
     return tree
 
 
 def load_tree(slug: str) -> dict | None:
     """One live tree by slug."""
     if db.available():
-        return _slugged(db.load_tree(slug, slugify))
+        return _hydrate(db.load_tree(slug, slugify))
     path = _tree_path(slug)
     if not path.exists():
         return None
@@ -275,7 +293,7 @@ def load_tree(slug: str) -> dict | None:
 def load_trees() -> list[dict]:
     """Every live tree. Survives a restart, and now a redeploy."""
     if db.available():
-        return [_slugged(t) for t in db.load_trees(slugify)]
+        return [_hydrate(t) for t in db.load_trees(slugify)]
     if not TREES_DIR.exists():
         return []
     trees = []
