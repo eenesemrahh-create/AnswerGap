@@ -808,6 +808,52 @@ does not exist cannot leak.
 Still to do: the **interface** half is now done. Batch button, price confirm,
 progress polling, developer panel, five locales.
 
+## Phase 3, 2026-08-31: the diff surface
+
+*"Three questions appeared under your keyword this week"* is only answerable by
+someone who kept last week's answer. Google publishes no PAA history and no
+competitor stores it — this is what CLAUDE.md meant by *"our most defensible
+asset"*, and **edge rows made it a `SELECT` rather than a project.**
+
+**What it deliberately does not show is the design:**
+
+- **Reordering never appears.** PAA ordering moves for an identical query, so an
+  alert on it fires every run and the surface is ignored inside a week.
+  `compare_questions` is pure and compares SETS, which makes that structurally
+  impossible rather than merely intended — and there is a test for exactly it,
+  which a sequence-based implementation would fail while passing every other one.
+- **Harvested questions never appear.** They arrive when *we* pay to score
+  something. Showing our own spending back as a market signal would be
+  indistinguishable from the real thing.
+- **A single crawl reads "nothing to compare yet", never "no changes."** A
+  measurement never made must not be reported as a result — the same rule the
+  badges follow between `Not checked` and `Unanswered`.
+
+**The design proved itself on the first real comparison.** Crawl #1 held 16
+questions and crawl #2 held 36; the diff correctly reported **zero changes**,
+because the extra 20 were harvest. Comparing all edges would have announced
+*"20 new questions"* — pure noise, and indistinguishable from a real change.
+
+### The ledger bug it exposed
+
+Crawl #2 recorded **$0.002 spend for a crawl served entirely from cache**, which
+this file says must be $0. `_spend` was right; `db.save_tree` was not — it wrote
+the tree's current `estimated_spend` over the crawl row on every save, and
+`score()` saves after every question. So a crawl that cost $0.0026 to discover
+ended up recording whatever the **last score** happened to cost.
+
+Spend now **accumulates**: `spend = spend + delta`, delta passed explicitly, a
+cache hit passing zero. The developer panel counts **requests**, not crawls,
+because that total covers single question checks too.
+
+### Already built, not rebuilt
+
+Related searches were already clickable end to end (chip → `/?seed=` → landing
+prefills), and AI Overview sources already render in the question detail. Real
+data is flowing: **4 of 8 scored questions carry 7–12 citations each.** The open
+question — *should AI Overview become a product surface?* — now has data behind
+it whenever it is answered.
+
 ## Spend to date
 
 **~$0.118** total ($0.107 before Phase B, $0.0112 of live crawling on
