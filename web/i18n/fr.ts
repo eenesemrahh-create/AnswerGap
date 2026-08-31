@@ -147,7 +147,7 @@ export const fr: Messages = {
     loading: "Lecture…",
     liveQueue: "Live",
     standardQueue: "Standard",
-    crawls: "{count} recherches",
+    requests: "{count} requêtes · {crawls} recherches",
     tasks: "{count} questions",
     saved: "Économisé",
     savedNote: "le même travail en Live aurait coûté {ifLive}",
@@ -162,6 +162,19 @@ export const fr: Messages = {
     offSweep: "inactif — repli sur le sondage",
     pending: "{count} encore en file",
     failedTasks: "{count} tâches en échec",
+  },
+
+  diff: {
+    first: "Premier crawl · {at}",
+    firstNote: "Rien à comparer pour l'instant. Relancez cette recherche plus tard et les changements apparaîtront ici.",
+    stable: "Aucun changement depuis {since} · {count} questions identiques",
+    changed: "{added} nouvelles · {removed} disparues · depuis {since}",
+    scope: "Compare ce que Google a renvoyé, pas ce que le scoring a découvert ensuite. Un réordonnancement n'est pas un changement.",
+    addedHeading: "Nouvelles questions",
+    removedHeading: "Plus posées",
+    removedNote: "Une page écrite pour celles-ci ne vise plus rien.",
+    historyHeading: "Historique des crawls",
+    questionCount: "{count} questions",
   },
 
   notice: {

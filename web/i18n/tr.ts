@@ -147,7 +147,7 @@ export const tr: Messages = {
     loading: "Okunuyor…",
     liveQueue: "Live",
     standardQueue: "Standard",
-    crawls: "{count} arama",
+    requests: "{count} istek · {crawls} arama",
     tasks: "{count} soru",
     saved: "Tasarruf",
     savedNote: "aynı iş Live'da {ifLive} tutardı",
@@ -162,6 +162,19 @@ export const tr: Messages = {
     offSweep: "kapalı — yoklamaya düşülüyor",
     pending: "{count} tanesi hâlâ kuyrukta",
     failedTasks: "{count} iş başarısız",
+  },
+
+  diff: {
+    first: "İlk tarama · {at}",
+    firstNote: "Henüz karşılaştırılacak bir şey yok. Bu aramayı sonra tekrar çalıştır, değişiklikler burada görünecek.",
+    stable: "{since} tarihinden beri değişiklik yok · {count} soru aynı",
+    changed: "{added} yeni · {removed} kayboldu · {since} tarihinden beri",
+    scope: "Google'ın döndürdüğünü karşılaştırır, skorlamanın sonradan bulduğunu değil. Sıra değişmesi bir değişiklik değildir.",
+    addedHeading: "Yeni sorular",
+    removedHeading: "Artık sorulmuyor",
+    removedNote: "Bunlar için yazılmış bir sayfa artık hiçbir şeyi hedeflemiyor.",
+    historyHeading: "Tarama geçmişi",
+    questionCount: "{count} soru",
   },
 
   notice: {

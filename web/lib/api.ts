@@ -2,6 +2,7 @@ import type {
   BatchPlan,
   Country,
   DevSpend,
+  DiffResult,
   JobsStatus,
   LabelResult,
   Meta,
@@ -145,6 +146,10 @@ export const fetchJobs = (slug: string) =>
 
 /** Everything spent, reported rather than estimated. Developer view only. */
 export const fetchDevSpend = () => get<DevSpend>("/api/dev/spend");
+
+/** What Google changed between this seed's two most recent crawls. */
+export const fetchDiff = (slug: string) =>
+  get<DiffResult>(`/api/tree/${slug}/diff`);
 
 export const fetchMeta = () => get<Meta>("/api/meta");
 export const fetchTrees = () => get<TreeSummary[]>("/api/trees");

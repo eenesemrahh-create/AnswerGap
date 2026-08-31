@@ -229,7 +229,7 @@ export interface JobsStatus {
 
 /** Everything spent so far, split by how it was bought. Reported, not estimated. */
 export interface DevSpend {
-  live: { crawls: number; spend: number };
+  live: { crawls: number; requests: number; spend: number };
   standard: {
     tasks: number;
     spend: number;
@@ -254,4 +254,40 @@ export interface Country {
 export interface SearchLanguage {
   code: string;
   name: string;
+}
+
+/** One question that appeared or disappeared between two crawls. */
+export interface DiffQuestion {
+  question: string;
+  normalized: string;
+  depth: number;
+}
+
+/**
+ * What Google changed between the two most recent crawls of a seed.
+ *
+ * Order changes never appear here - CLAUDE.md: PAA ordering moves for an
+ * identical query, and notifying on it would drown users in false alarms.
+ */
+export interface CrawlDiff {
+  current: { crawl_id: number; at: string };
+  previous: { crawl_id: number; at: string };
+  added: DiffQuestion[];
+  removed: DiffQuestion[];
+  unchanged: number;
+  crawl_count: number;
+}
+
+export interface CrawlRun {
+  crawl_id: number;
+  at: string;
+  questions: number;
+  spend: number;
+  billable_calls: number;
+}
+
+export interface DiffResult {
+  /** `null` when there is only one crawl: nothing to compare is not "no change". */
+  diff: CrawlDiff | null;
+  history: CrawlRun[];
 }

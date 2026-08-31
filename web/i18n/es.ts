@@ -146,7 +146,7 @@ export const es: Messages = {
     loading: "Leyendo…",
     liveQueue: "Live",
     standardQueue: "Standard",
-    crawls: "{count} búsquedas",
+    requests: "{count} peticiones · {crawls} búsquedas",
     tasks: "{count} preguntas",
     saved: "Ahorrado",
     savedNote: "el mismo trabajo en Live habría costado {ifLive}",
@@ -161,6 +161,19 @@ export const es: Messages = {
     offSweep: "inactivo — recurriendo al sondeo",
     pending: "{count} aún en cola",
     failedTasks: "{count} tareas fallidas",
+  },
+
+  diff: {
+    first: "Primer rastreo · {at}",
+    firstNote: "Todavía no hay nada con qué comparar. Repite esta búsqueda más adelante y los cambios aparecerán aquí.",
+    stable: "Sin cambios desde {since} · {count} preguntas iguales",
+    changed: "{added} nuevas · {removed} desaparecidas · desde {since}",
+    scope: "Compara lo que devolvió Google, no lo que la puntuación descubrió después. Reordenar no es un cambio.",
+    addedHeading: "Preguntas nuevas",
+    removedHeading: "Ya no se preguntan",
+    removedNote: "Una página escrita para estas ya no apunta a nada.",
+    historyHeading: "Historial de rastreos",
+    questionCount: "{count} preguntas",
   },
 
   notice: {

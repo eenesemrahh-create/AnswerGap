@@ -182,7 +182,7 @@ export const en = {
     loading: "Reading…",
     liveQueue: "Live",
     standardQueue: "Standard",
-    crawls: "{count} searches",
+    requests: "{count} requests · {crawls} searches",
     tasks: "{count} questions",
     saved: "Saved",
     savedNote: "the same work on Live would have been {ifLive}",
@@ -197,6 +197,23 @@ export const en = {
     offSweep: "off — falling back to polling",
     pending: "{count} still queued",
     failedTasks: "{count} tasks failed",
+  },
+
+  // What Google changed since the last crawl. The wording carries two of
+  // CLAUDE.md's rules: `scope` says out loud that ordering is excluded, and
+  // `first` says "nothing to compare" rather than "no changes" - a measurement
+  // that was never made must not be reported as a result.
+  diff: {
+    first: "First crawl · {at}",
+    firstNote: "Nothing to compare against yet. Run this search again later and the changes will appear here.",
+    stable: "No change since {since} · {count} questions the same",
+    changed: "{added} new · {removed} gone · since {since}",
+    scope: "Compares what Google returned, not what scoring later uncovered. Reordering is not a change.",
+    addedHeading: "New questions",
+    removedHeading: "No longer asked",
+    removedNote: "A page written for these is now aimed at nothing.",
+    historyHeading: "Crawl history",
+    questionCount: "{count} questions",
   },
 
   notice: {

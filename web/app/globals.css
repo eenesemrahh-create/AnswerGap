@@ -1012,3 +1012,79 @@ table.table {
   color: var(--text-faint);
   line-height: 1.5;
 }
+
+/* ----------------------------------------------------------------- diff
+   Deliberately quiet when nothing changed. This surface only earns attention
+   when it has something to say, and an alert that fires every time is one
+   nobody reads. */
+.diff { position: relative; font-size: 11.5px; }
+.diff-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.diff-toggle:hover { background: var(--surface-2); }
+.diff.changed .diff-toggle {
+  border-color: var(--gap-border);
+  background: var(--gap-bg);
+  color: var(--gap);
+  font-weight: 600;
+}
+.diff.none { color: var(--text-faint); padding: 3px 4px; }
+
+.diff-body {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 40;
+  width: 420px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 12px 14px;
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: var(--shadow-panel);
+}
+.diff-scope { font-size: 11px; line-height: 1.5; margin: 0 0 8px; }
+.diff-h {
+  margin: 10px 0 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--text-faint);
+}
+.diff-h.added { color: var(--covered); }
+.diff-h.removed { color: var(--gap); }
+.diff-list { margin: 0; padding: 0; list-style: none; }
+.diff-list li {
+  padding: 3px 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text);
+}
+.diff-depth {
+  display: inline-block;
+  min-width: 18px;
+  font-style: normal;
+  font-size: 10px;
+  color: var(--text-faint);
+}
+.diff-history { margin: 0; padding: 0; list-style: none; }
+.diff-history li {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding: 3px 0;
+  font-size: 11.5px;
+  color: var(--text-soft);
+  border-top: 1px solid var(--border);
+}
+.diff-history li b { margin-left: auto; color: var(--text); font-variant-numeric: tabular-nums; }

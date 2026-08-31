@@ -56,7 +56,7 @@ export function DevPanel({ meta }: { meta: Meta }) {
                 <tbody>
                   <tr>
                     <th>{t("dev.liveQueue")}</th>
-                    <td>{t("dev.crawls", { count: spend.live.crawls })}</td>
+                    <td>{t("dev.requests", { count: spend.live.requests, crawls: spend.live.crawls })}</td>
                     <td className="num">{money(spend.live.spend)}</td>
                   </tr>
                   <tr>

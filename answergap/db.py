@@ -535,13 +535,26 @@ def _question_ids(cur, language_code: str, questions: dict[str, str]) -> dict[st
     return ids
 
 
-def save_tree(tree: dict, *, new_crawl: bool = False) -> int:
+def save_tree(
+    tree: dict,
+    *,
+    new_crawl: bool = False,
+    add_spend: float = 0.0,
+    add_calls: int = 0,
+) -> int:
     """Persist a tree as rows. Returns the crawl id it belongs to.
 
     `new_crawl=True` is a fresh search and always opens a new crawl row - that
     is what makes a re-crawl an INSERT instead of an overwrite. Scoring reuses
     the crawl it is scoring inside, because a harvested node belongs to the
     crawl that discovered it rather than to a new one.
+
+    `add_spend` ACCUMULATES; it does not replace. An earlier version wrote the
+    tree's current `estimated_spend` over the crawl row on every save, so a
+    crawl that cost $0.0026 to discover and then had five questions scored under
+    it ended up recording whatever the LAST score happened to cost. The money
+    ledger is the one number a developer view exists to be trusted about, so it
+    adds what was just spent and nothing else.
     """
     rows = decompose(tree)
     crawl = rows["crawl"]
@@ -571,10 +584,15 @@ def save_tree(tree: dict, *, new_crawl: bool = False) -> int:
                 ),
             )
             crawl_id = cur.fetchone()["id"]
-        else:
+        elif add_spend or add_calls:
             cur.execute(
-                "UPDATE crawl SET billable_calls = %s, spend = %s WHERE id = %s",
-                (crawl["billable_calls"], crawl["spend"], crawl_id),
+                """
+                UPDATE crawl
+                   SET billable_calls = billable_calls + %s,
+                       spend          = spend + %s
+                 WHERE id = %s
+                """,
+                (add_calls, add_spend, crawl_id),
             )
 
         for edge in rows["edges"]:
@@ -1027,7 +1045,12 @@ def spend_summary() -> dict:
     """
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
-            "SELECT count(*) AS n, COALESCE(sum(spend), 0) AS total FROM crawl"
+            """
+            SELECT count(*) AS n,
+                   COALESCE(sum(spend), 0) AS total,
+                   COALESCE(sum(billable_calls), 0) AS requests
+              FROM crawl
+            """
         )
         crawls = cur.fetchone()
         cur.execute(
@@ -1050,7 +1073,15 @@ def spend_summary() -> dict:
     live_total = float(crawls["total"])
     task_total = float(tasks["total"])
     return {
-        "live": {"crawls": crawls["n"], "spend": round(live_total, 6)},
+        # `requests` rather than `crawls`, because this total is not only
+        # discovery: a question checked one at a time is also a Live request and
+        # its cost accumulates onto the crawl it was checked under. Labelling
+        # the figure "searches" would understate what it covers.
+        "live": {
+            "crawls": crawls["n"],
+            "requests": crawls["requests"],
+            "spend": round(live_total, 6),
+        },
         "standard": {
             "tasks": tasks["n"],
             "spend": round(task_total, 6),

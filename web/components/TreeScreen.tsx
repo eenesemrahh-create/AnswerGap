@@ -22,6 +22,7 @@ import { Notice } from "./Badge";
 import { LocalePicker } from "./LocalePicker";
 import { BatchScore } from "./BatchScore";
 import { DevPanel } from "./DevPanel";
+import { CrawlDiff } from "./CrawlDiff";
 
 type View = "tree" | "table" | "seeds";
 
@@ -186,6 +187,7 @@ export function TreeScreen({ slug }: { slug: string }) {
             <b>{t("notice.provisionalThreshold")}</b> {tree.threshold.toFixed(2)}
           </Notice>
         )}
+        {tree.source === "live" && <CrawlDiff slug={slug} />}
         {meta && <DevPanel meta={meta} />}
         <LocalePicker />
       </header>

@@ -243,7 +243,13 @@ def _tree_path(slug: str) -> Path:
     return TREES_DIR / f"{slug}.json"
 
 
-def save_tree(tree: dict, *, new_crawl: bool = False) -> None:
+def save_tree(
+    tree: dict,
+    *,
+    new_crawl: bool = False,
+    add_spend: float = 0.0,
+    add_calls: int = 0,
+) -> None:
     """Persist a tree, to Postgres when one is configured and to disk when not.
 
     `new_crawl` distinguishes a fresh search from a scoring pass. In the row
@@ -252,7 +258,9 @@ def save_tree(tree: dict, *, new_crawl: bool = False) -> None:
     which is precisely the failure CLAUDE.md records for 2026-08-27.
     """
     if db.available():
-        db.save_tree(tree, new_crawl=new_crawl)
+        db.save_tree(
+            tree, new_crawl=new_crawl, add_spend=add_spend, add_calls=add_calls
+        )
         return
     TREES_DIR.mkdir(parents=True, exist_ok=True)
     _tree_path(tree["slug"]).write_text(
@@ -819,9 +827,12 @@ def score(tree: dict, question_slug: str, *, refresh: bool = False) -> dict:
     )
 
     result = apply_response(tree, node, response, key)
+    spent = _spend(response, client)
     tree["billable_calls"] = client.billable_calls
-    tree["estimated_spend"] = _spend(response, client)
-    save_tree(tree)
+    tree["estimated_spend"] = spent
+    # Added to the crawl's running total, not written over it. A cache hit
+    # spends nothing and therefore adds nothing.
+    save_tree(tree, add_spend=spent, add_calls=client.billable_calls)
     return result
 
 
