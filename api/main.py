@@ -27,7 +27,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from answergap import labels, live
+from answergap import db, labels, live
 from answergap.dataforseo import BudgetExceeded, DataForSEOError
 from answergap.languages import DEFAULT_LOCATION_CODE, LANGUAGES
 from answergap.tree import STRATEGY, THRESHOLD, all_trees
@@ -57,6 +57,33 @@ _BY_SLUG: dict[str, dict] = {}
 _LIVE: dict[str, dict] = {}
 _COUNTRIES: list[dict] = []
 
+# What the storage layer actually did at boot. Reported by /api/meta so the
+# schema can be verified from outside without anyone handling the database
+# password - the migration runs inside Railway, over the private DATABASE_URL.
+_DB: dict = {"configured": False, "ok": False, "tables": [], "applied": [], "error": None}
+
+
+def _migrate() -> None:
+    """Bring the schema up to date, if a database is configured at all.
+
+    Idempotent: every statement is CREATE ... IF NOT EXISTS and each migration
+    is recorded once in `schema_migration`, so a redeploy re-running this is a
+    no-op. A failure here must NOT take the API down - without Postgres the
+    filesystem backend still serves the archive and the demo trees, and a
+    storage outage that blanks the whole product would be a worse failure than
+    the one it is reporting.
+    """
+    global _DB
+    _DB = {"configured": bool(db.url()), "ok": False, "tables": [], "applied": [], "error": None}
+    if not db.available():
+        return
+    try:
+        _DB["applied"] = db.migrate()
+        _DB["tables"] = db.tables()
+        _DB["ok"] = True
+    except Exception as exc:  # noqa: BLE001 - reported, never fatal
+        _DB["error"] = f"{type(exc).__name__}: {exc}"[:300]
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -68,6 +95,7 @@ async def lifespan(_: FastAPI):
     _LIVE = {t["slug"]: t for t in live.load_trees()}
     if COUNTRIES_PATH.exists():
         _COUNTRIES = json.loads(COUNTRIES_PATH.read_text(encoding="utf-8"))
+    _migrate()
     yield
 
 
@@ -109,6 +137,10 @@ def meta() -> dict:
         # disk, which is a setup problem the UI should say out loud rather than
         # letting the user click into a 503.
         "live_crawl_available": live.available(),
+        # Storage state. `configured` says whether a DATABASE_URL reached the
+        # service at all, which is the difference between "no database yet" and
+        # "database present but broken" - two problems with different fixes.
+        "storage": _DB,
         "tree_count": len(_TREES) + len(_LIVE),
         # How much labelled data the threshold question has to work with.
         # Phase 0.5 settled it with 14 rows and could not separate the one

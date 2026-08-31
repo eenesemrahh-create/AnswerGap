@@ -1,0 +1,429 @@
+{
+  "seed": "answer engine optimization",
+  "slug": "answer-engine-optimization-en-2840",
+  "language_code": "en",
+  "language_name": "English",
+  "location_code": 2840,
+  "node_count": 16,
+  "status_counts": {
+    "gap": 0,
+    "weak": 0,
+    "covered": 1,
+    "no_data": 15
+  },
+  "threshold": 0.6,
+  "strategy": "synonyms",
+  "threshold_validated": false,
+  "updated_at": "2026-08-31T11:52:54+00:00",
+  "source": "live",
+  "related_searches": [
+    "Answer Engine Optimization course",
+    "Answer engine optimization examples",
+    "Answer engine optimization HubSpot",
+    "Answer Engine Optimization jobs",
+    "Answer engine optimization reddit",
+    "Answer engine optimization review",
+    "Answer Engine optimization tool",
+    "Answer Engine Optimization vs Generative Engine Optimization"
+  ],
+  "nodes": [
+    {
+      "id": "answer engine optimization",
+      "slug": "answer-engine-optimization",
+      "question": "answer engine optimization",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 0,
+      "parent_id": null,
+      "parents": [],
+      "repeat_count": 0,
+      "status": "covered",
+      "matching_pages": 8,
+      "results_checked": 8,
+      "results": [
+        {
+          "title": "Answer Engine Optimization — What Brands Need To Know",
+          "url": "https://www.forbes.com/sites/lutzfinger/2025/06/19/answer-engine-optimization-aeo--what-brands-need-to-know/",
+          "domain": "www.forbes.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "What is AEO ? (Answer Engine Optimization) : r/localseo",
+          "url": "https://www.reddit.com/r/localseo/comments/1ii2oo1/what_is_aeo_answer_engine_optimization/",
+          "domain": "www.reddit.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Show Up in AI Search with Answer Engine Optimization ...",
+          "url": "https://www.hubspot.com/products/marketing/aeo-guide",
+          "domain": "www.hubspot.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "What Is Answer Engine Optimization?",
+          "url": "https://www.coursera.org/articles/what-is-answer-engine-optimization",
+          "domain": "www.coursera.org",
+          "overlap": 1.0
+        },
+        {
+          "title": "What is answer engine optimization (AEO)? Understanding ...",
+          "url": "https://www.tryprofound.com/articles/what-is-answer-engine-optimization",
+          "domain": "www.tryprofound.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "What is Answer Engine Optimisation?",
+          "url": "https://www.pwc.com/gx/en/1/issues/tech-data-ai/next-tech-agenda/answer-engine-optimisation.html",
+          "domain": "www.pwc.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Introduction to Answer Engine Optimization",
+          "url": "https://university.webflow.com/videos/introduction-to-answer-engine-optimization",
+          "domain": "university.webflow.com",
+          "overlap": 1.0
+        },
+        {
+          "title": "Answer Engine Optimization (AEO): The Complete Guide ...",
+          "url": "https://cxl.com/blog/answer-engine-optimization-aeo-the-comprehensive-guide/",
+          "domain": "cxl.com",
+          "overlap": 1.0
+        }
+      ],
+      "ai_sources": [
+        "www.forbes.com",
+        "www.tryprofound.com",
+        "www.hubspot.com",
+        "www.youtube.com",
+        "www.siteimprove.com",
+        "www.evergreen.media",
+        "www.youtube.com",
+        "www.youtube.com"
+      ],
+      "source_file": null,
+      "updated_at": "2026-08-31T11:52:54+00:00"
+    },
+    {
+      "id": "how to answer engine optimization",
+      "slug": "how-to-answer-engine-optimization",
+      "question": "How to Answer Engine Optimization?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "answer engine optimization",
+      "parents": [
+        "answer engine optimization"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what are the four types of seo",
+      "slug": "what-are-the-four-types-of-seo",
+      "question": "What are the four types of SEO?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "answer engine optimization",
+      "parents": [
+        "answer engine optimization",
+        "will aeo replace seo"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what are the top 5 seo tools",
+      "slug": "what-are-the-top-5-seo-tools",
+      "question": "What are the top 5 SEO tools?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "answer engine optimization",
+      "parents": [
+        "answer engine optimization",
+        "what are the four types of seo"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is aeo vs seo",
+      "slug": "what-is-aeo-vs-seo",
+      "question": "What is AEO vs SEO?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "answer engine optimization",
+      "parents": [
+        "answer engine optimization"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is an example of aeo",
+      "slug": "what-is-an-example-of-aeo",
+      "question": "What is an example of AEO?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "answer engine optimization",
+      "parents": [
+        "answer engine optimization"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what s the best answer engine optimization tool",
+      "slug": "what-s-the-best-answer-engine-optimization-tool",
+      "question": "What's the best Answer Engine Optimization tool?",
+      "relevance": 1.0,
+      "reach": 1.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "answer engine optimization",
+      "parents": [
+        "answer engine optimization"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "will aeo replace seo",
+      "slug": "will-aeo-replace-seo",
+      "question": "Will AEO replace SEO?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 1,
+      "parent_id": "answer engine optimization",
+      "parents": [
+        "answer engine optimization",
+        "what is an example of aeo"
+      ],
+      "repeat_count": 2,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "can chatgpt do seo",
+      "slug": "can-chatgpt-do-seo",
+      "question": "Can ChatGPT do SEO?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "will aeo replace seo",
+      "parents": [
+        "will aeo replace seo"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "can i do seo myself",
+      "slug": "can-i-do-seo-myself",
+      "question": "Can I do SEO myself?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "what are the four types of seo",
+      "parents": [
+        "what are the four types of seo"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "is seo dead now with ai",
+      "slug": "is-seo-dead-now-with-ai",
+      "question": "Is SEO dead now with AI?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "will aeo replace seo",
+      "parents": [
+        "will aeo replace seo"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "is there a free course on answer engine optimization",
+      "slug": "is-there-a-free-course-on-answer-engine-optimization",
+      "question": "Is there a free course on Answer Engine Optimization?",
+      "relevance": 1.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "what is an example of aeo",
+      "parents": [
+        "what is an example of aeo"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what are the 3 c s of seo",
+      "slug": "what-are-the-3-c-s-of-seo",
+      "question": "What are the 3 C's of SEO?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "what are the four types of seo",
+      "parents": [
+        "what are the four types of seo"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the best seo tool in 2026",
+      "slug": "what-is-the-best-seo-tool-in-2026",
+      "question": "What is the best SEO tool in 2026?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "what are the top 5 seo tools",
+      "parents": [
+        "what are the top 5 seo tools"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "what is the simplest seo tool",
+      "slug": "what-is-the-simplest-seo-tool",
+      "question": "What is the simplest SEO tool?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "what are the top 5 seo tools",
+      "parents": [
+        "what are the top 5 seo tools"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    },
+    {
+      "id": "which google tool is used for seo",
+      "slug": "which-google-tool-is-used-for-seo",
+      "question": "Which Google tool is used for SEO?",
+      "relevance": 0.0,
+      "reach": 0.0,
+      "discovered_by": "paa",
+      "depth": 2,
+      "parent_id": "what are the top 5 seo tools",
+      "parents": [
+        "what are the top 5 seo tools"
+      ],
+      "repeat_count": 1,
+      "status": "no_data",
+      "matching_pages": 0,
+      "results_checked": 0,
+      "results": [],
+      "ai_sources": [],
+      "source_file": null,
+      "updated_at": null
+    }
+  ],
+  "billable_calls": 1,
+  "estimated_spend": 0.0026,
+  "from_cache": false
+}

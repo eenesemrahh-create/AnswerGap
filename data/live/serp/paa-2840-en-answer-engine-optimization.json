@@ -1,0 +1,989 @@
+{
+  "version": "0.1.20260831",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "4.0631 sec.",
+  "cost": 0.0026,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "08311152-2374-0139-0000-ec57988e5fc9",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "3.8141 sec.",
+      "cost": 0.0026,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "serp",
+        "google",
+        "organic",
+        "live",
+        "advanced"
+      ],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "organic",
+        "keyword": "answer engine optimization",
+        "location_code": 2840,
+        "language_code": "en",
+        "device": "desktop",
+        "os": "windows",
+        "depth": 10,
+        "people_also_ask_click_depth": 4
+      },
+      "result": [
+        {
+          "keyword": "answer engine optimization",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "check_url": "https://www.google.com/search?q=answer%20engine%20optimization&hl=en&gl=US&ie=UTF-8&uule=w+CAIQIFISCQs2MuSEtepUEUK33kOSuTsc",
+          "datetime": "2026-08-31 11:52:53 +00:00",
+          "spell": null,
+          "refinement_chips": null,
+          "item_types": [
+            "ai_overview",
+            "organic",
+            "people_also_ask",
+            "perspectives",
+            "related_searches"
+          ],
+          "se_results_count": 134,
+          "pages_count": 1,
+          "items_count": 12,
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+              "asynchronous_ai_overview": false,
+              "markdown": "![What Is Answer Engine Optimization? Answers, Tools, &amp; Tips](https://api.dataforseo.com/cdn/i/08311152-2374-0139-0000-ec57988e5fc9:4)\nAnswer engine optimization (AEO) is `the practice of structuring content so that AI-powered tools and large language models (LLMs) select and cite your brand as a direct answer`.[](https://www.forbes.com/sites/lutzfinger/2025/06/19/answer-engine-optimization-aeo--what-brands-need-to-know/) [[1]](https://www.forbes.com/sites/lutzfinger/2025/06/19/answer-engine-optimization-aeo--what-brands-need-to-know/)[[2]](https://www.tryprofound.com/articles/what-is-answer-engine-optimization)\n\nUnlike traditional search engine optimization (SEO), which aims to rank web pages in a list of links, AEO focuses on getting your business mentioned inside conversational AI responses. These answers appear on platforms like ChatGPT, Google AI Overviews, Gemini, and Perplexity.[](https://www.tryprofound.com/articles/what-is-answer-engine-optimization) [[1]](https://www.tryprofound.com/articles/what-is-answer-engine-optimization)[[2]](https://www.siteimprove.com/blog/what-is-answer-engine-optimization/)\n\nKey Differences from Traditional SEO\n\n- **Direct Answers:** Traditional SEO drives clicks to a website. AEO delivers the final answer directly inside the chat interface, often without a click.[](https://www.siteimprove.com/blog/what-is-answer-engine-optimization/) [[1]](https://www.siteimprove.com/blog/what-is-answer-engine-optimization/)[[2]](https://www.tryprofound.com/articles/what-is-answer-engine-optimization)\n- **Citations over Rankings:** Success is measured by whether an AI model names, references, or links to your brand as a trusted source.[](https://www.tryprofound.com/articles/what-is-answer-engine-optimization) [[1]](https://www.tryprofound.com/articles/what-is-answer-engine-optimization)\n- **Consensus Across Channels:** AI models look beyond your main website. They check user-generated content, video platforms, and review sites to build brand consensus.[](https://www.hubspot.com/products/marketing/aeo-guide) [[1]](https://www.hubspot.com/products/marketing/aeo-guide)[[2]](https://www.youtube.com/watch?v=HXcEDHl4D-4)\n\nTo understand how AEO builds on traditional search fundamentals and why brand mentions matter more than domain ratings, watch this helpful video:Core Strategies for AEO\n\n- **Clear Content Structure:** Use concise answers, logical headings, and clear formatting so AI models can easily extract your information.[](https://www.evergreen.media/en/guide/answer-engine-optimization/) [[1]](https://www.evergreen.media/en/guide/answer-engine-optimization/)\n- **Technical Readability:** Ensure your server renders HTML content immediately so automated AI fetchers do not run into empty JavaScript pages.\n- **Multi-Platform Presence:** Build authority across third-party networks like Reddit, YouTube, and LinkedIn where AI engines gather real-world data.[](https://www.hubspot.com/products/marketing/aeo-guide) [[1]](https://www.hubspot.com/products/marketing/aeo-guide)\n\nIf you want, tell me:\n\n- What **type of business or website** do you run?\n- Are you currently focusing on **traditional SEO**?\n\nI can give you a custom checklist to start optimizing for AI search engines.",
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Answer engine optimization (AEO) is the practice of structuring content so that AI-powered tools and large language models (LLMs) select and cite your brand as a direct answer.",
+                  "markdown": "![What Is Answer Engine Optimization? Answers, Tools, &amp; Tips](https://api.dataforseo.com/cdn/i/08311152-2374-0139-0000-ec57988e5fc9:2)\nAnswer engine optimization (AEO) is `the practice of structuring content so that AI-powered tools and large language models (LLMs) select and cite your brand as a direct answer`.[](https://www.forbes.com/sites/lutzfinger/2025/06/19/answer-engine-optimization-aeo--what-brands-need-to-know/) [[1]](https://www.forbes.com/sites/lutzfinger/2025/06/19/answer-engine-optimization-aeo--what-brands-need-to-know/)[[2]](https://www.tryprofound.com/articles/what-is-answer-engine-optimization)",
+                  "links": null,
+                  "images": [
+                    {
+                      "type": "images_element",
+                      "alt": "What Is Answer Engine Optimization? Answers, Tools, & Tips",
+                      "url": null,
+                      "image_url": "https://api.dataforseo.com/cdn/i/08311152-2374-0139-0000-ec57988e5fc9:3"
+                    }
+                  ],
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Forbes",
+                      "domain": "www.forbes.com",
+                      "url": "https://www.forbes.com/sites/lutzfinger/2025/06/19/answer-engine-optimization-aeo--what-brands-need-to-know/",
+                      "title": "Answer Engine Optimization — What Brands Need To Know - Forbes",
+                      "text": "Answer Engine Optimization — What Does This Mean for Brands? AEO is the practice of structuring content so that LLMs like ChatGPT ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Profound",
+                      "domain": "www.tryprofound.com",
+                      "url": "https://www.tryprofound.com/articles/what-is-answer-engine-optimization",
+                      "title": "What is answer engine optimization (AEO)? Understanding AEO for the ...",
+                      "text": "Answer engine optimization is the discipline of engineering content to become the cited source in AI-generated responses. Where tr..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "Unlike traditional search engine optimization (SEO), which aims to rank web pages in a list of links, AEO focuses on getting your business mentioned inside conversational AI responses. These answers appear on platforms like ChatGPT, Google AI Overviews, Gemini, and Perplexity.",
+                  "markdown": "Unlike traditional search engine optimization (SEO), which aims to rank web pages in a list of links, AEO focuses on getting your business mentioned inside conversational AI responses. These answers appear on platforms like ChatGPT, Google AI Overviews, Gemini, and Perplexity.[](https://www.tryprofound.com/articles/what-is-answer-engine-optimization) [[1]](https://www.tryprofound.com/articles/what-is-answer-engine-optimization)[[2]](https://www.siteimprove.com/blog/what-is-answer-engine-optimization/)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Profound",
+                      "domain": "www.tryprofound.com",
+                      "url": "https://www.tryprofound.com/articles/what-is-answer-engine-optimization",
+                      "title": "What is answer engine optimization (AEO)? Understanding AEO for the ...",
+                      "text": "Answer engine optimization is the discipline of engineering content to become the cited source in AI-generated responses. Where tr..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Siteimprove",
+                      "domain": "www.siteimprove.com",
+                      "url": "https://www.siteimprove.com/blog/what-is-answer-engine-optimization/",
+                      "title": "What is Answer Engine Optimization, and Why Should Enterprise ...",
+                      "text": "AEO is the practice of optimizing content, technical structure, and brand signals so that AI-powered answer engines (such as Googl..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Key Differences from Traditional SEO",
+                  "text": "Direct Answers: Traditional SEO drives clicks to a website. AEO delivers the final answer directly inside the chat interface, often without a click. Citations over Rankings: Success is measured by whether an AI model names, references, or links to your brand as a trusted source. Consensus Across Channels: AI models look beyond your main website. They check user-generated content, video platforms, and review sites to build brand consensus.",
+                  "markdown": "- **Direct Answers:** Traditional SEO drives clicks to a website. AEO delivers the final answer directly inside the chat interface, often without a click.[](https://www.siteimprove.com/blog/what-is-answer-engine-optimization/) [[1]](https://www.siteimprove.com/blog/what-is-answer-engine-optimization/)[[2]](https://www.tryprofound.com/articles/what-is-answer-engine-optimization)\n- **Citations over Rankings:** Success is measured by whether an AI model names, references, or links to your brand as a trusted source.[](https://www.tryprofound.com/articles/what-is-answer-engine-optimization) [[1]](https://www.tryprofound.com/articles/what-is-answer-engine-optimization)\n- **Consensus Across Channels:** AI models look beyond your main website. They check user-generated content, video platforms, and review sites to build brand consensus.[](https://www.hubspot.com/products/marketing/aeo-guide) [[1]](https://www.hubspot.com/products/marketing/aeo-guide)[[2]](https://www.youtube.com/watch?v=HXcEDHl4D-4)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Siteimprove",
+                      "domain": "www.siteimprove.com",
+                      "url": "https://www.siteimprove.com/blog/what-is-answer-engine-optimization/",
+                      "title": "What is Answer Engine Optimization, and Why Should Enterprise ...",
+                      "text": "AEO is the practice of optimizing content, technical structure, and brand signals so that AI-powered answer engines (such as Googl..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Profound",
+                      "domain": "www.tryprofound.com",
+                      "url": "https://www.tryprofound.com/articles/what-is-answer-engine-optimization",
+                      "title": "What is answer engine optimization (AEO)? Understanding AEO for the ...",
+                      "text": "Answer engine optimization is the discipline of engineering content to become the cited source in AI-generated responses. Where tr..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "HubSpot",
+                      "domain": "www.hubspot.com",
+                      "url": "https://www.hubspot.com/products/marketing/aeo-guide",
+                      "title": "Show Up in AI Search with Answer Engine Optimization (AEO) - HubSpot",
+                      "text": "AEO (answer engine optimization) is the practice of improving how often and how accurately your business appears in AI-generated a..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "YouTube",
+                      "domain": "www.youtube.com",
+                      "url": "https://www.youtube.com/watch?v=HXcEDHl4D-4",
+                      "title": "How To Win at Answer Engine Optimization (AEO) with Ethan Smith",
+                      "text": "all right well we're a few minutes past the hour we got a fully packed room and we have Ethan here to give us the latest and great..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "To understand how AEO builds on traditional search fundamentals and why brand mentions matter more than domain ratings, watch this helpful video:",
+                  "markdown": "To understand how AEO builds on traditional search fundamentals and why brand mentions matter more than domain ratings, watch this helpful video:",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": "Core Strategies for AEO",
+                  "text": "Clear Content Structure: Use concise answers, logical headings, and clear formatting so AI models can easily extract your information. Technical Readability: Ensure your server renders HTML content immediately so automated AI fetchers do not run into empty JavaScript pages. Multi-Platform Presence: Build authority across third-party networks like Reddit, YouTube, and LinkedIn where AI engines gather real-world data.",
+                  "markdown": "- **Clear Content Structure:** Use concise answers, logical headings, and clear formatting so AI models can easily extract your information.[](https://www.evergreen.media/en/guide/answer-engine-optimization/) [[1]](https://www.evergreen.media/en/guide/answer-engine-optimization/)\n- **Technical Readability:** Ensure your server renders HTML content immediately so automated AI fetchers do not run into empty JavaScript pages.\n- **Multi-Platform Presence:** Build authority across third-party networks like Reddit, YouTube, and LinkedIn where AI engines gather real-world data.[](https://www.hubspot.com/products/marketing/aeo-guide) [[1]](https://www.hubspot.com/products/marketing/aeo-guide)",
+                  "links": null,
+                  "images": null,
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "Evergreen Media",
+                      "domain": "www.evergreen.media",
+                      "url": "https://www.evergreen.media/en/guide/answer-engine-optimization/",
+                      "title": "Answer Engine Optimization (AEO): AI visibility in 2026",
+                      "text": "Answer Engine Optimization (AEO): AI visibility in 2026. ... Key Takeaways: AEO isn't the same as SEO: Answer Engine Optimization ..."
+                    },
+                    {
+                      "type": "ai_overview_reference",
+                      "position": "left",
+                      "source": "HubSpot",
+                      "domain": "www.hubspot.com",
+                      "url": "https://www.hubspot.com/products/marketing/aeo-guide",
+                      "title": "Show Up in AI Search with Answer Engine Optimization (AEO) - HubSpot",
+                      "text": "AEO (answer engine optimization) is the practice of improving how often and how accurately your business appears in AI-generated a..."
+                    }
+                  ]
+                },
+                {
+                  "type": "ai_overview_element",
+                  "position": "left",
+                  "title": null,
+                  "text": "If you want, tell me:What type of business or website do you run?\nAre you currently focusing on traditional SEO ?\nI can give you a custom checklist to start optimizing for AI search engines.",
+                  "markdown": "If you want, tell me:\n\n- What **type of business or website** do you run?\n- Are you currently focusing on **traditional SEO**?\n\nI can give you a custom checklist to start optimizing for AI search engines.",
+                  "links": null,
+                  "images": null,
+                  "references": null
+                }
+              ],
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Forbes",
+                  "domain": "www.forbes.com",
+                  "url": "https://www.forbes.com/sites/lutzfinger/2025/06/19/answer-engine-optimization-aeo--what-brands-need-to-know/",
+                  "title": "Answer Engine Optimization — What Brands Need To Know - Forbes",
+                  "text": "Answer Engine Optimization — What Does This Mean for Brands? AEO is the practice of structuring content so that LLMs like ChatGPT ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Profound",
+                  "domain": "www.tryprofound.com",
+                  "url": "https://www.tryprofound.com/articles/what-is-answer-engine-optimization",
+                  "title": "What is answer engine optimization (AEO)? Understanding AEO for the ...",
+                  "text": "Answer engine optimization is the discipline of engineering content to become the cited source in AI-generated responses. Where tr..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "HubSpot",
+                  "domain": "www.hubspot.com",
+                  "url": "https://www.hubspot.com/products/marketing/aeo-guide",
+                  "title": "Show Up in AI Search with Answer Engine Optimization (AEO) - HubSpot",
+                  "text": "AEO (answer engine optimization) is the practice of improving how often and how accurately your business appears in AI-generated a..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "YouTube",
+                  "domain": "www.youtube.com",
+                  "url": "https://www.youtube.com/watch?v=HXcEDHl4D-4",
+                  "title": "How To Win at Answer Engine Optimization (AEO) with Ethan Smith",
+                  "text": "all right well we're a few minutes past the hour we got a fully packed room and we have Ethan here to give us the latest and great..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Siteimprove",
+                  "domain": "www.siteimprove.com",
+                  "url": "https://www.siteimprove.com/blog/what-is-answer-engine-optimization/",
+                  "title": "What is Answer Engine Optimization, and Why Should Enterprise ...",
+                  "text": "AEO is the practice of optimizing content, technical structure, and brand signals so that AI-powered answer engines (such as Googl..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "Evergreen Media",
+                  "domain": "www.evergreen.media",
+                  "url": "https://www.evergreen.media/en/guide/answer-engine-optimization/",
+                  "title": "Answer Engine Optimization (AEO): AI visibility in 2026",
+                  "text": "Answer Engine Optimization (AEO): AI visibility in 2026. ... Key Takeaways: AEO isn't the same as SEO: Answer Engine Optimization ..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.youtube.com",
+                  "domain": "www.youtube.com",
+                  "url": "https://www.youtube.com/watch?v=MLKgbeDeCxU",
+                  "title": "Answer Engine Optimization (AEO) Course by Ahrefs: What is AEO?",
+                  "text": "of our traffic. but it drove 12.1%. of our signups That's a 23 times higher conversion rate than organic. search Search has change..."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "position": "right",
+                  "source": "www.youtube.com",
+                  "domain": "www.youtube.com",
+                  "url": "https://www.youtube.com/watch?v=Krse87iYvpE",
+                  "title": "Learn Answer Engine Optimization: 30-Minute AEO Tutorial for Beginners",
+                  "text": "remember someone is waiting for ChatGpt to provide an answer. so it can't wait indefinitely for your content to load. so the logic..."
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 2,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]",
+              "domain": "www.forbes.com",
+              "title": "Answer Engine Optimization — What Brands Need To Know",
+              "url": "https://www.forbes.com/sites/lutzfinger/2025/06/19/answer-engine-optimization-aeo--what-brands-need-to-know/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.forbes.com › Innovation › AI",
+              "website_name": "Forbes",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Jun 19, 2025 — AEO is the practice of structuring content so that LLMs like ChatGPT can understand, reference and recommend your brand in response to user ...",
+              "pre_snippet": "06/19/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "AEO is the practice of structuring content"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-06-19 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "people_also_ask",
+              "rank_group": 1,
+              "rank_absolute": 3,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]",
+              "items": [
+                {
+                  "type": "people_also_ask_element",
+                  "title": "How to Answer Engine Optimization?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is AEO vs SEO?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What's the best Answer Engine Optimization tool?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is an example of AEO?",
+                  "seed_question": null,
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is there a free course on Answer Engine Optimization?",
+                  "seed_question": "What is an example of AEO?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[5]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Will AEO replace SEO?",
+                  "seed_question": "What is an example of AEO?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[6]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Is SEO dead now with AI?",
+                  "seed_question": "Will AEO replace SEO?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[7]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can ChatGPT do SEO?",
+                  "seed_question": "Will AEO replace SEO?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[8]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are the four types of SEO?",
+                  "seed_question": "Will AEO replace SEO?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[9]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are the 3 C's of SEO?",
+                  "seed_question": "What are the four types of SEO?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[10]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Can I do SEO myself?",
+                  "seed_question": "What are the four types of SEO?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[11]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What are the top 5 SEO tools?",
+                  "seed_question": "What are the four types of SEO?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[12]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the simplest SEO tool?",
+                  "seed_question": "What are the top 5 SEO tools?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[13]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "What is the best SEO tool in 2026?",
+                  "seed_question": "What are the top 5 SEO tools?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[14]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                },
+                {
+                  "type": "people_also_ask_element",
+                  "title": "Which Google tool is used for SEO?",
+                  "seed_question": "What are the top 5 SEO tools?",
+                  "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[15]",
+                  "expanded_element": [
+                    {
+                      "type": "people_also_ask_ai_overview_expanded_element",
+                      "items": null,
+                      "references": null,
+                      "asynchronous_ai_overview": true
+                    }
+                  ]
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 2,
+              "rank_absolute": 4,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[6]/div[1]/div[1]",
+              "domain": "www.reddit.com",
+              "title": "What is AEO ? (Answer Engine Optimization) : r/localseo",
+              "url": "https://www.reddit.com/r/localseo/comments/1ii2oo1/what_is_aeo_answer_engine_optimization/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "120+ comments  ·  1 year ago",
+              "website_name": "Reddit · r/localseo",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "I want to understand that what is AEO and how it is works, and how to helps in Local SEO and what strategy need to implement please guide me.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": null,
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 3,
+              "rank_absolute": 5,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[8]/div[1]/div[1]",
+              "domain": "www.hubspot.com",
+              "title": "Show Up in AI Search with Answer Engine Optimization ...",
+              "url": "https://www.hubspot.com/products/marketing/aeo-guide",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.hubspot.com › marketing › aeo-guide",
+              "website_name": "HubSpot",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "AEO (answer engine optimization) is the practice of improving how often and how accurately your business appears in AI-generated answers on AI engines like ... Read more",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "improving how often and how accurately your business appears in AI-generated answers"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": null,
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 4,
+              "rank_absolute": 6,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[10]/div[1]/div[1]",
+              "domain": "www.coursera.org",
+              "title": "What Is Answer Engine Optimization?",
+              "url": "https://www.coursera.org/articles/what-is-answer-engine-optimization",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.coursera.org › ... › Business › Marketing",
+              "website_name": "Coursera",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Dec 9, 2025 — Answer engine optimization is the practice of optimizing content for search queries. These queries often take the form of questions like “How ... Read more",
+              "pre_snippet": "12/09/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Answer engine optimization"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-12-09 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 5,
+              "rank_absolute": 7,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[12]/div[1]/div[1]",
+              "domain": "www.tryprofound.com",
+              "title": "What is answer engine optimization (AEO)? Understanding ...",
+              "url": "https://www.tryprofound.com/articles/what-is-answer-engine-optimization",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.tryprofound.com › articles › what-is-answe...",
+              "website_name": "Profound",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Jan 29, 2026 — Answer Engine Optimization (AEO) is the process of ensuring that a brand, product, or service is accurately represented in AI-generated ...",
+              "pre_snippet": "01/29/2026 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Answer Engine Optimization (AEO"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2026-01-29 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 6,
+              "rank_absolute": 8,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[14]/div[1]/div[1]",
+              "domain": "www.pwc.com",
+              "title": "What is Answer Engine Optimisation?",
+              "url": "https://www.pwc.com/gx/en/1/issues/tech-data-ai/next-tech-agenda/answer-engine-optimisation.html",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://www.pwc.com › tech-data-ai › next-tech-agenda",
+              "website_name": "PwC",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "Nov 28, 2025 — AEO is the practice of making your content easy for AI to find, understand, and reuse. Unlike classic SEO, where users click links, AI agents ... Read more",
+              "pre_snippet": "11/28/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "making your content easy for AI to find, understand, and reuse"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-11-28 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 7,
+              "rank_absolute": 9,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[15]/div[1]/div[1]/div[1]",
+              "domain": "university.webflow.com",
+              "title": "Introduction to Answer Engine Optimization",
+              "url": "https://university.webflow.com/videos/introduction-to-answer-engine-optimization",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://university.webflow.com · Sep 26, 2025",
+              "website_name": "Webflow University · Webflow",
+              "is_image": false,
+              "is_video": true,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": [
+                "is_video"
+              ],
+              "description": "Answer Engine Optimization — or AEO — is about making sure that when people ask AI tools questions, your content is the one they find and reference.",
+              "pre_snippet": null,
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "Answer Engine Optimization"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-09-26 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "organic",
+              "rank_group": 8,
+              "rank_absolute": 10,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[17]/div[1]/div[1]",
+              "domain": "cxl.com",
+              "title": "Answer Engine Optimization (AEO): The Complete Guide ...",
+              "url": "https://cxl.com/blog/answer-engine-optimization-aeo-the-comprehensive-guide/",
+              "cache_url": null,
+              "related_search_url": null,
+              "breadcrumb": "https://cxl.com › All Things Growth and Marketing",
+              "website_name": "CXL",
+              "is_image": false,
+              "is_video": false,
+              "is_featured_snippet": false,
+              "is_malicious": false,
+              "is_web_story": false,
+              "checks": null,
+              "description": "May 15, 2025 — AEO is the practice of optimizing your content so that search platforms can directly provide answers to user queries, rather than just listing ...",
+              "pre_snippet": "05/15/2025 00:00:00",
+              "extended_snippet": null,
+              "images": null,
+              "amp_version": false,
+              "rating": null,
+              "price": null,
+              "highlighted": [
+                "answers"
+              ],
+              "links": null,
+              "faq": null,
+              "extended_people_also_search": null,
+              "about_this_result": null,
+              "related_result": null,
+              "timestamp": "2025-05-15 00:00:00 +00:00",
+              "rectangle": null
+            },
+            {
+              "type": "perspectives",
+              "rank_group": 1,
+              "rank_absolute": 11,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[1]/div[2]/div[1]/div[1]/div[19]/div[1]",
+              "title": "What people are saying",
+              "items": [
+                {
+                  "type": "perspectives_element",
+                  "title": "The New SEO: How To Get AI To Recommend You",
+                  "description": null,
+                  "url": "https://www.youtube.com/watch?v=vd6w_qia-tc",
+                  "domain": "www.youtube.com",
+                  "date": "4 days ago",
+                  "source": "Alex Cattoni",
+                  "timestamp": "2026-08-27 11:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Answer Engine Optimization (AEO): The comprehensive guide for 2026",
+                  "description": null,
+                  "url": "https://www.linkedin.com/posts/sawin-fernando_answer-engine-optimization-aeo-the-comprehensive-activity-7500067071242919936-SosN",
+                  "domain": "www.linkedin.com",
+                  "date": "6 hours ago",
+                  "source": "Sawin Fernando",
+                  "timestamp": "2026-08-31 05:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Is Answer Engine Optimization actually different from SEO or is it just rebranded?",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/DigitalMarketing/comments/1vf0qlh/is_answer_engine_optimization_actually_different/",
+                  "domain": "www.reddit.com",
+                  "date": "4 weeks ago",
+                  "source": "r/DigitalMarketing",
+                  "timestamp": "2026-08-03 11:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "𝗪𝗵𝗮𝘁 𝗜𝘀 𝗔𝗻𝘀𝘄𝗲𝗿 𝗘𝗻𝗴𝗶𝗻𝗲 𝗢𝗽𝘁𝗶𝗺𝗶𝘇𝗮𝘁𝗶𝗼𝗻 (𝗔𝗘𝗢)? 𝗛𝗼𝘄 𝘁𝗼 𝗕𝗲𝗰𝗼𝗺𝗲 𝘁𝗵𝗲 𝗔𝗻𝘀𝘄𝗲𝗿 𝗶𝗻 𝗔𝗜 𝗦𝗲𝗮𝗿𝗰𝗵 Learn about answer engine optimization, how AEO differs from SEO and GEO, how to structure your content for Google AI Overviews, and other",
+                  "description": null,
+                  "url": "https://www.linkedin.com/posts/einternetmarketingservices_%F0%9D%97%AA%F0%9D%97%B5%F0%9D%97%AE%F0%9D%98%81-%F0%9D%97%9C%F0%9D%98%80-%F0%9D%97%94%F0%9D%97%BB%F0%9D%98%80%F0%9D%98%84%F0%9D%97%B2%F0%9D%97%BF-%F0%9D%97%98%F0%9D%97%BB%F0%9D%97%B4%F0%9D%97%B6%F0%9D%97%BB%F0%9D%97%B2-%F0%9D%97%A2%F0%9D%97%BD%F0%9D%98%81%F0%9D%97%B6%F0%9D%97%BA%F0%9D%97%B6%F0%9D%98%87%F0%9D%97%AE%F0%9D%98%81%F0%9D%97%B6%F0%9D%97%BC%F0%9D%97%BB-activity-7495169663438614528-FEbq",
+                  "domain": "www.linkedin.com",
+                  "date": "2 weeks ago",
+                  "source": "Richard (Rick) Samara",
+                  "timestamp": "2026-08-17 11:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "400 rows. Two weeks of work. That used to be the badge of a serious marketer. Now a tool handles your SEO, AEO, and GEO while you focus on getting your brand recommended by AI. Backlinks alone don't build trust anymore. Mentions do. Reddit, forums, Y",
+                  "description": null,
+                  "url": "https://www.facebook.com/neilkpatel/posts/400-rows-two-weeks-of-work-that-used-to-be-the-badge-of-a-serious-marketer-now-a/1681684989986269/",
+                  "domain": "www.facebook.com",
+                  "date": "1 day ago",
+                  "source": "neilkpatel",
+                  "timestamp": "2026-08-30 11:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Five Truths About Answer Engine Optimization",
+                  "description": null,
+                  "url": "https://www.linkedin.com/posts/consumergeneratedmedia_five-truths-about-answer-engine-optimization-activity-7487490359359524864-7V1H",
+                  "domain": "www.linkedin.com",
+                  "date": "1 month ago",
+                  "source": "Pete Blackshaw",
+                  "timestamp": "2026-07-31 11:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "AEO and GEO are still just SEO💪",
+                  "description": null,
+                  "url": "https://www.instagram.com/p/DcqPz-2mZR0/",
+                  "domain": "www.instagram.com",
+                  "date": "2 days ago",
+                  "source": "heytony.agency",
+                  "timestamp": "2026-08-29 11:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "What is Answer Engine Optimization and is it actually different from SEO?",
+                  "description": null,
+                  "url": "https://www.reddit.com/r/digital_marketing/comments/1varyjt/what_is_answer_engine_optimization_and_is_it/",
+                  "domain": "www.reddit.com",
+                  "date": "1 month ago",
+                  "source": "r/digital_marketing",
+                  "timestamp": "2026-07-31 11:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "82% of what AI tools cite as sources is earned media (via Muck Rack). None of it brand-owned. None of it paid. Think about how you actually research a purchase now. It's probably ChatGPT before it's ten Google links. What comes back is a finished answer, b",
+                  "description": null,
+                  "url": "https://www.linkedin.com/posts/monicakhan_creatormarketing-aeo-aianswerengine-activity-7495864666477346816-Eyk9",
+                  "domain": "www.linkedin.com",
+                  "date": "2 weeks ago",
+                  "source": "Monica Khan",
+                  "timestamp": "2026-08-17 11:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Google Is Quietly Rewriting SEO — Here’s Why GEO and AEO Matter More Than Ever",
+                  "description": null,
+                  "url": "https://medium.com/illumination/google-is-quietly-rewriting-seo-heres-why-geo-and-aeo-matter-more-than-ever-573c4efd07d6",
+                  "domain": "medium.com",
+                  "date": "Jul 4, 2026",
+                  "source": "Nishant Nischal",
+                  "timestamp": "2026-07-04 00:00:00 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Answer Engine Optimization (AEO): How to Answer Questions So You Show Up in AI Search Results",
+                  "description": null,
+                  "url": "https://www.youtube.com/watch?v=T0OEpSL5Tes",
+                  "domain": "www.youtube.com",
+                  "date": "1 month ago",
+                  "source": "bcjr Podcast",
+                  "timestamp": "2026-07-31 11:52:52 +00:00"
+                },
+                {
+                  "type": "perspectives_element",
+                  "title": "Most brands treat SEO and AEO as the same thing. That's why they're failing at both... Here's how they actually differ, and where they overlap: SEO (Search Engine Optimisation): → Optimises for rankings on search results pages → Focuses on backlinks and d",
+                  "description": null,
+                  "url": "https://www.linkedin.com/posts/trysearchable_most-brands-treat-seo-and-aeo-as-the-same-activity-7486397490603171840-Eg-5",
+                  "domain": "www.linkedin.com",
+                  "date": "1 month ago",
+                  "source": "Searchable",
+                  "timestamp": "2026-07-31 11:52:52 +00:00"
+                }
+              ],
+              "rectangle": null
+            },
+            {
+              "type": "related_searches",
+              "rank_group": 1,
+              "rank_absolute": 12,
+              "page": 1,
+              "position": "left",
+              "xpath": "/html[1]/body[1]/div[3]/div[1]/div[13]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[2]",
+              "items": [
+                "Answer engine optimization reddit",
+                "Answer Engine Optimization course",
+                "Answer engine optimization examples",
+                "Answer Engine optimization tool",
+                "Answer engine optimization HubSpot",
+                "Answer Engine Optimization vs Generative Engine Optimization",
+                "Answer Engine Optimization jobs",
+                "Answer engine optimization review"
+              ],
+              "rectangle": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
