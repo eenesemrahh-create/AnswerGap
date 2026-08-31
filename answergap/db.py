@@ -176,9 +176,10 @@ MIGRATIONS: list[tuple[str, str]] = [
             fetched_at    TIMESTAMPTZ NOT NULL DEFAULT now()
         );
 
-        -- The verdict log. Same fields as data/labels/labels.jsonl, so the move
-        -- is a copy with no shape change. Changing your mind writes a NEW row;
-        -- retracting writes the verdict '?'. Nothing is ever rewritten.
+        -- The verdict log. Fields match data/labels/labels.jsonl one for one,
+        -- with a single forced rename (see `overlap_vector` below). Changing
+        -- your mind writes a NEW row; retracting writes the verdict '?'.
+        -- Nothing is ever rewritten.
         CREATE TABLE IF NOT EXISTS label (
             id             BIGSERIAL PRIMARY KEY,
             question_key   TEXT NOT NULL,
@@ -189,7 +190,12 @@ MIGRATIONS: list[tuple[str, str]] = [
             threshold      REAL,
             strategy       TEXT,
             matching_pages INTEGER,
-            overlaps       JSONB,
+            -- The JSONL field is called `overlaps`, but OVERLAPS is a reserved
+            -- word in Postgres and will not parse as a column name. Renaming it
+            -- here is safer than quoting it forever: a permanently quoted
+            -- identifier only has to be forgotten once. `labels.py` maps the
+            -- two names, so the JSONL shape is unchanged.
+            overlap_vector JSONB,
             tree_slug      TEXT,
             created_at     TIMESTAMPTZ NOT NULL DEFAULT now()
         );
