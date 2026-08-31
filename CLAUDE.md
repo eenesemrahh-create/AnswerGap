@@ -576,6 +576,64 @@ foreign origin is refused (400) and an allowed one gets its header; with a fresh
 `ANSWERGAP_DATA_DIR` the tree count falls from 11 to 3 — the three committed
 archive demos, live trees and labels correctly gone; `npm run build` is clean.
 
+## Storage: Postgres, shipped 2026-08-31
+
+The tree is edge rows. `crawl` + `paa_edge` + `question`, with `gap_score`,
+`serp_snapshot`, `label` and `related_search` beside them. Eight tables, three
+migrations, applied at API startup over Railway's private `DATABASE_URL` so the
+schema is created and verified without the password leaving the platform.
+
+**The 2026-08-27 bug is closed, and it was demonstrated rather than argued.**
+Running the same search twice in production returned `crawl_id: 1` then
+`crawl_id: 2`, `spend: 0.0`, `from_cache: true`. The second crawl did not touch
+the first one's rows. There is no statement in the schema that overwrites a
+tree, so the failure cannot recur.
+
+What that changed in the code:
+
+- **`repeat_count`, `parents` and `depth` are no longer stored.** They fall out
+  of the edges: a node's parents are the edges pointing at it, its depth is the
+  shallowest. Storing a derived count is how it drifts from what it counts.
+- **`gap_score` is keyed by question and market, not by tree.** A score is
+  *found*, not carried, and the same verdict surfaces under every tree the
+  question appears in — already how the label log is keyed.
+- **`_carry_previous` survives but its job shrank.** The previous crawl keeps
+  its own edges, so nothing is at risk of destruction. The carry now preserves
+  the current *view* of harvested nodes. Data loss → cosmetics.
+
+`decompose` / `recompose` are **pure** — no connection, no SQL, no clock. That
+split is why the riskiest half of the migration could be tested before anything
+was deleted: all nine live trees on disk round-tripped identically, including
+`knight-online-en-2840` at 28 nodes / 32 edges where harvested questions sit
+under several parents. Keep them pure.
+
+Derived fields are rebuilt on read by `live._hydrate`: slugs, `status_counts`,
+`threshold`, `strategy`, `language_name`. None belong in a column. Note the
+`threshold` there is the *current* setting for the UI badge — every `gap_score`
+row still carries the threshold it was measured under, so old scores cannot be
+retroactively reinterpreted.
+
+**Two things bit, both worth remembering:**
+
+- **`OVERLAPS` is a reserved word in Postgres.** The label column is
+  `overlap_vector`; `db.label_rows()` maps it back and is the only place that
+  knows. All 41 column names were then scanned; it was the only collision.
+- **Fields missing on the read path do not fail loudly.** `status_counts` came
+  back absent and the API happily returned a tree the UI could not summarise.
+  Caught by fetching a crawl back out of production, not by reasoning.
+
+`data/live/` and `data/labels/` are **deleted** — 9 trees, 26 cached responses,
+6 verdicts, all recoverable from git history. `data/raw/` stays: read-only
+Phase 0 evidence, and the three demo trees are still built from it at startup.
+
+The filesystem backend is still there and still works with no `DATABASE_URL`,
+which is what keeps local development running without Postgres installed.
+
+Still open: **R2 for the raw payloads.** They are gzipped `bytea` today (~30 KB
+→ ~5 KB) which was a deliberate call to stay on one system; CLAUDE.md's original
+position — they belong in no query and therefore in object storage — has not
+changed, only been deferred.
+
 ## Spend to date
 
 **~$0.118** total ($0.107 before Phase B, $0.0112 of live crawling on
@@ -614,7 +672,10 @@ Four things do have to change, in this order: **storage**, **tests**,
    column on `question`, and an embedding-model field on `gap_score`.
 2. **Tests.** `matching.py` and `tree.py` are pure functions and `data/raw/`
    is a ready fixture set. Moving untested code is moving it blind.
-3. **Storage: Postgres + object storage.** Tables: `question`, `serp_snapshot`,
+3. ~~**Storage: Postgres.**~~ **DONE 2026-08-31** — see the section above.
+   Object storage (R2) for the raw payloads is the remaining half.
+   Original plan, kept for the reasoning:
+   **Storage: Postgres + object storage.** Tables: `question`, `serp_snapshot`,
    `paa_edge`, `gap_score`, `crawl`, `label`, then `workspace`/`user`/
    `credit_ledger`. Raw SERP payloads go to a blob store (R2), gzipped, keyed by
    the same cache key — 30 KB each, they belong in no query. **The tree is edge
