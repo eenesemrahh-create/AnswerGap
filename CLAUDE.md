@@ -759,8 +759,54 @@ tasks went `done`. The sweep never saw them.
 `CALLBACK_TOKEN` and `PUBLIC_BASE_URL` live on the api service. Rotating the
 token is a one-variable change; nothing else reads it.
 
-Still to do: the **interface** half. Backend is complete and proven; there is no
-button yet.
+## Developer mode, 2026-08-31
+
+There is one role, `developer`, it is hard-coded in `/api/meta`, and `DevPanel`
+checks it anyway. **That check is the whole point.** When sign-in arrives the
+only change is where the value comes from — a session instead of a constant —
+and nothing built now is thrown away. A screen that has never had to ask *"who
+is looking?"* is far harder to retrofit than one that always asked and always
+got the same answer.
+
+**Dollars, not credits.** Customers will be priced in credits; a developer needs
+the underlying cost, because the argument for the Standard queue is a *ratio*
+and a ratio cannot be checked in a currency that hides one side of it. Live on
+the deployed data:
+
+| | | |
+|---|---:|---|
+| Live | $0.0178 | 8 searches |
+| Standard | $0.0042 | 7 questions — **$0.0140 if they had gone through Live** |
+| **Saved** | **$0.0098** | more than the Standard spend itself |
+
+Every figure is **reported**: `crawl.spend` from the live response,
+`serp_task.cost` from each queued task. A transparency panel filled with
+plausible estimates would be worse than no panel — it looks like evidence.
+
+**The batch button shows the price before spending it.** Clicking queues
+nothing; it runs a dry run and puts the plan on screen, and confirming is a
+second deliberate act. One click is ten charges, so the cost cannot be somewhere
+the reader has to go looking for it. The Live figure sits *beside* the Standard
+one, not in a tooltip.
+
+## Never commit a dashboard screenshot
+
+Two Railway screenshots arrived in the project root on 2026-08-31. They showed,
+in plain text: the DataForSEO password, `DATABASE_URL` with its password inline,
+and `CALLBACK_TOKEN`. Untracked — and the next `git add -A` would have swept
+them into a commit. **A secret in git history outlives the file it arrived in;**
+deleting the image later does not remove it from the objects.
+
+`.gitignore` now blocks `Screenshot*` / `Ekran görüntüsü*` at the root.
+
+Checked at the same time, and worth knowing the answer: the `web` service had
+`DATAFORSEO_LOGIN` / `DATAFORSEO_PASSWORD` set, which it has no use for.
+**They did not reach the browser** — Next.js only inlines `NEXT_PUBLIC_*` — but
+they were removed anyway. The exposure was one rename away, and a secret that
+does not exist cannot leak.
+
+Still to do: the **interface** half is now done. Batch button, price confirm,
+progress polling, developer panel, five locales.
 
 ## Spend to date
 
