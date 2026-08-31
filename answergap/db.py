@@ -211,6 +211,40 @@ MIGRATIONS: list[tuple[str, str]] = [
         );
         """,
     ),
+    (
+        "0002_gap_score_ai_sources",
+        """
+        -- A scored node also carries whatever the AI Overview cited. It is not
+        -- part of the gap metric, so it does not belong inside `results`, but
+        -- it is bought with the same request and CLAUDE.md keeps it as an open
+        -- product question ("does Google's AI answer this, and who does it
+        -- cite?"). Discarding it would mean re-buying it to answer that later.
+        ALTER TABLE gap_score ADD COLUMN IF NOT EXISTS ai_sources JSONB;
+
+        -- Which `serp_snapshot` this score was read out of. The node used to
+        -- carry a `data/live/serp/*.json` path; with the payload in the
+        -- database the equivalent is the cache key, and keeping it is what lets
+        -- a score be traced back to the exact response that produced it.
+        ALTER TABLE gap_score ADD COLUMN IF NOT EXISTS source_key TEXT;
+        """,
+    ),
+    (
+        "0003_label_full_row",
+        """
+        -- CLAUDE.md's claim about the label log is that its JSONL fields ARE
+        -- the label table's columns. Three were missing, so the claim was not
+        -- yet true: the routing slug, the market the verdict was given in, and
+        -- how many results the human actually had in front of them.
+        --
+        -- `location_code` matters more than it looks. A verdict is a judgement
+        -- about a question against ITS results, and the results differ by
+        -- market - so a label without one cannot be replayed against the score
+        -- it was reacting to.
+        ALTER TABLE label ADD COLUMN IF NOT EXISTS question_slug   TEXT;
+        ALTER TABLE label ADD COLUMN IF NOT EXISTS location_code   INTEGER;
+        ALTER TABLE label ADD COLUMN IF NOT EXISTS results_checked INTEGER;
+        """,
+    ),
 ]
 
 
@@ -263,3 +297,550 @@ def pack(payload: dict) -> bytes:
 
 def unpack(blob: bytes) -> dict:
     return json.loads(gzip.decompress(bytes(blob)).decode("utf-8"))
+
+
+# ----------------------------------------------------- tree <-> rows
+
+# These two are PURE. No connection, no SQL, no clock - just the translation
+# between the tree dict the API and the web layer speak and the rows the schema
+# stores. That split is deliberate: the risky half of a storage migration is
+# this mapping, and keeping it free of I/O is what lets it be tested against the
+# tree files already on disk instead of against a live database.
+#
+# `slug` is NOT stored. It is a routing key derived from the question text and
+# deduplicated within a tree, so persisting it would mean keeping a derived
+# value in sync with its source for no gain. `recompose` takes the slug
+# function as an argument rather than importing it, which also keeps this
+# module free of a cycle through dataforseo.py.
+
+# A node counts as scored once results were actually fetched for it. Status
+# alone is not the test: CLAUDE.md is explicit that a question with no fetched
+# results is `no_data` and must never be read as a gap.
+def _is_scored(node: dict) -> bool:
+    return bool(node.get("results_checked"))
+
+
+def decompose(tree: dict) -> dict:
+    """Split a tree dict into the rows that represent it.
+
+    Questions are keyed by normalized text, which is the same key CLAUDE.md
+    already uses for the SERP cache and the label log. The SQL layer turns those
+    into ids; nothing here needs to know about them.
+    """
+    questions: dict[str, str] = {}
+    edges: list[dict] = []
+    scores: list[dict] = []
+
+    for node in tree.get("nodes", []):
+        normalized = node["id"]
+        questions.setdefault(normalized, node["question"])
+
+        # A node with several parents is several edges and ONE question. That
+        # is what makes repeat_count a count rather than a stored number.
+        parents = node.get("parents") or [None]
+        for parent in parents:
+            edges.append(
+                {
+                    "parent": parent,
+                    "child": normalized,
+                    "depth": node["depth"],
+                    "relevance": node.get("relevance"),
+                    "reach": node.get("reach"),
+                    "discovered_by": node.get("discovered_by"),
+                }
+            )
+
+        if _is_scored(node):
+            scores.append(
+                {
+                    "question": normalized,
+                    "status": node["status"],
+                    "matching_pages": node.get("matching_pages") or 0,
+                    "results_checked": node.get("results_checked") or 0,
+                    "results": node.get("results") or [],
+                    "ai_sources": node.get("ai_sources") or [],
+                    "source_key": node.get("source_file"),
+                    "scored_at": node.get("updated_at"),
+                }
+            )
+
+    return {
+        "crawl": {
+            "slug": tree["slug"],
+            "seed": tree["seed"],
+            "seed_question": tree["nodes"][0]["id"] if tree.get("nodes") else None,
+            "language_code": tree["language_code"],
+            "location_code": tree["location_code"],
+            "source": tree.get("source", "live"),
+            "billable_calls": tree.get("billable_calls") or 0,
+            "spend": tree.get("estimated_spend") or 0,
+        },
+        "questions": questions,
+        "edges": edges,
+        "scores": scores,
+        "related": list(tree.get("related_searches") or []),
+    }
+
+
+def recompose(
+    crawl: dict,
+    questions: dict[str, str],
+    edges: list[dict],
+    scores: dict[str, dict],
+    related: list[str],
+    slug_for,
+) -> dict:
+    """Rebuild the tree dict from its rows.
+
+    Edge rows are the tree. A node's parents are every edge pointing at it, its
+    depth is the shallowest one, and `repeat_count` - CLAUDE.md's strongest
+    fallback signal when search volume is missing - is simply how many distinct
+    parents it turned up under. None of those are stored; all three fall out of
+    the edges, which is the point of storing edges at all.
+    """
+    nodes: dict[str, dict] = {}
+    order: list[str] = []
+
+    for edge in edges:
+        child = edge["child"]
+        if child not in nodes:
+            order.append(child)
+            nodes[child] = {
+                "id": child,
+                "question": questions.get(child, child),
+                "relevance": edge.get("relevance"),
+                "reach": edge.get("reach"),
+                "discovered_by": edge.get("discovered_by"),
+                "depth": edge["depth"],
+                "parent_id": edge.get("parent"),
+                "parents": [],
+                "repeat_count": 0,
+                "status": "no_data",
+                "matching_pages": 0,
+                "results_checked": 0,
+                "results": [],
+                "ai_sources": [],
+                "source_file": None,
+                "updated_at": None,
+            }
+        node = nodes[child]
+        if edge.get("parent"):
+            if edge["parent"] not in node["parents"]:
+                node["parents"].append(edge["parent"])
+            # The shallowest appearance is the node's depth: CLAUDE.md scores
+            # shallow nodes as more central, so a deeper repeat must not demote
+            # a question that also sits near the seed.
+            if edge["depth"] < node["depth"]:
+                node["depth"] = edge["depth"]
+                node["parent_id"] = edge["parent"]
+
+    for normalized, node in nodes.items():
+        node["repeat_count"] = len(node["parents"])
+        score = scores.get(normalized)
+        if score:
+            node.update(
+                {
+                    "status": score["status"],
+                    "matching_pages": score["matching_pages"],
+                    "results_checked": score["results_checked"],
+                    "results": score.get("results") or [],
+                    "ai_sources": score.get("ai_sources") or [],
+                    "source_file": score.get("source_key"),
+                    "updated_at": score.get("scored_at"),
+                }
+            )
+        node["slug"] = slug_for(node["question"])
+
+    ordered = [nodes[k] for k in order]
+    ordered.sort(key=lambda n: (n["depth"], order.index(n["id"])))
+
+    return {
+        "seed": crawl["seed"],
+        "slug": crawl["slug"],
+        "language_code": crawl["language_code"],
+        "location_code": crawl["location_code"],
+        "node_count": len(ordered),
+        "source": crawl.get("source", "live"),
+        "billable_calls": crawl.get("billable_calls") or 0,
+        "estimated_spend": float(crawl.get("spend") or 0),
+        "related_searches": list(related),
+        "nodes": ordered,
+    }
+
+
+# ----------------------------------------------------------- operations
+
+# Everything below talks to Postgres. The translation above is pure; this is the
+# thin layer that moves those rows in and out, and it is deliberately the only
+# place where a SQL string meets the tree.
+
+
+def _question_ids(cur, language_code: str, questions: dict[str, str]) -> dict[str, int]:
+    """Upsert questions, return normalized -> id.
+
+    ON CONFLICT DO UPDATE rather than DO NOTHING: the surface form can change
+    between crawls (Google re-cases a question), and RETURNING gives nothing
+    back for a row that was skipped, which would leave the id map incomplete.
+    """
+    ids: dict[str, int] = {}
+    for normalized, text in questions.items():
+        cur.execute(
+            """
+            INSERT INTO question (language_code, normalized, text)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (language_code, normalized)
+              DO UPDATE SET text = EXCLUDED.text
+            RETURNING id
+            """,
+            (language_code, normalized, text),
+        )
+        ids[normalized] = cur.fetchone()["id"]
+    return ids
+
+
+def save_tree(tree: dict, *, new_crawl: bool = False) -> int:
+    """Persist a tree as rows. Returns the crawl id it belongs to.
+
+    `new_crawl=True` is a fresh search and always opens a new crawl row - that
+    is what makes a re-crawl an INSERT instead of an overwrite. Scoring reuses
+    the crawl it is scoring inside, because a harvested node belongs to the
+    crawl that discovered it rather than to a new one.
+    """
+    rows = decompose(tree)
+    crawl = rows["crawl"]
+    language = crawl["language_code"]
+
+    with connect() as conn, conn.cursor() as cur:
+        ids = _question_ids(cur, language, rows["questions"])
+
+        crawl_id = None if new_crawl else tree.get("crawl_id")
+        if crawl_id is None:
+            cur.execute(
+                """
+                INSERT INTO crawl (slug, seed, seed_question, language_code,
+                                   location_code, source, billable_calls, spend)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
+                """,
+                (
+                    crawl["slug"],
+                    crawl["seed"],
+                    ids[crawl["seed_question"]],
+                    language,
+                    crawl["location_code"],
+                    crawl["source"],
+                    crawl["billable_calls"],
+                    crawl["spend"],
+                ),
+            )
+            crawl_id = cur.fetchone()["id"]
+        else:
+            cur.execute(
+                "UPDATE crawl SET billable_calls = %s, spend = %s WHERE id = %s",
+                (crawl["billable_calls"], crawl["spend"], crawl_id),
+            )
+
+        for edge in rows["edges"]:
+            cur.execute(
+                """
+                INSERT INTO paa_edge (crawl_id, parent_id, child_id, depth,
+                                      relevance, reach, discovered_by)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (crawl_id, child_id, COALESCE(parent_id, 0))
+                  DO NOTHING
+                """,
+                (
+                    crawl_id,
+                    ids.get(edge["parent"]) if edge["parent"] else None,
+                    ids[edge["child"]],
+                    edge["depth"],
+                    edge["relevance"],
+                    edge["reach"],
+                    edge["discovered_by"],
+                ),
+            )
+
+        for phrase in rows["related"]:
+            cur.execute(
+                "INSERT INTO related_search (crawl_id, phrase) VALUES (%s, %s)"
+                " ON CONFLICT DO NOTHING",
+                (crawl_id, phrase),
+            )
+
+        conn.commit()
+
+    tree["crawl_id"] = crawl_id
+    return crawl_id
+
+
+def save_score(
+    *,
+    normalized: str,
+    question: str,
+    language_code: str,
+    location_code: int,
+    status: str,
+    matching_pages: int,
+    results_checked: int,
+    results: list,
+    ai_sources: list,
+    threshold: float,
+    strategy: str,
+    source_key: str | None = None,
+    embedding_model: str | None = None,
+) -> None:
+    """Append a gap score. Never an UPDATE.
+
+    The threshold, strategy and model travel with the row. CLAUDE.md's rule: a
+    threshold change or a model swap must not silently rewrite what an older
+    score claimed, and storing what it was measured under is the only way to
+    keep that true.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        ids = _question_ids(cur, language_code, {normalized: question})
+        cur.execute(
+            """
+            INSERT INTO gap_score (question_id, location_code, status,
+                                   matching_pages, results_checked, threshold,
+                                   strategy, embedding_model, results,
+                                   ai_sources, source_key)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """,
+            (
+                ids[normalized],
+                location_code,
+                status,
+                matching_pages,
+                results_checked,
+                threshold,
+                strategy,
+                embedding_model,
+                json.dumps(results, ensure_ascii=False),
+                json.dumps(ai_sources, ensure_ascii=False),
+                source_key,
+            ),
+        )
+        conn.commit()
+
+
+def _latest_scores(cur, location_code: int, question_ids: list[int]) -> dict[int, dict]:
+    """The newest gap score per question. Older rows stay; they just lose.
+
+    DISTINCT ON is how "latest wins" is expressed against an append-only table
+    without deleting the history that makes it append-only in the first place.
+    """
+    if not question_ids:
+        return {}
+    cur.execute(
+        """
+        SELECT DISTINCT ON (question_id)
+               question_id, status, matching_pages, results_checked,
+               results, ai_sources, source_key, scored_at
+        FROM gap_score
+        WHERE location_code = %s AND question_id = ANY(%s)
+        ORDER BY question_id, scored_at DESC, id DESC
+        """,
+        (location_code, question_ids),
+    )
+    return {r["question_id"]: r for r in cur.fetchall()}
+
+
+def load_tree(slug: str, slug_for) -> dict | None:
+    """Rebuild one tree from its most recent crawl."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT * FROM crawl WHERE slug = %s ORDER BY created_at DESC, id DESC"
+            " LIMIT 1",
+            (slug,),
+        )
+        crawl = cur.fetchone()
+        if not crawl:
+            return None
+        return _assemble(cur, crawl, slug_for)
+
+
+def load_trees(slug_for) -> list[dict]:
+    """Every live tree: the most recent crawl of each slug.
+
+    Older crawls stay - they are the diff engine's raw material - but the
+    product shows the current state, so the read path takes the latest.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT DISTINCT ON (slug) *
+            FROM crawl
+            ORDER BY slug, created_at DESC, id DESC
+            """
+        )
+        crawls = cur.fetchall()
+        return [_assemble(cur, c, slug_for) for c in crawls]
+
+
+def _assemble(cur, crawl: dict, slug_for) -> dict:
+    cur.execute(
+        """
+        SELECT e.depth, e.relevance, e.reach, e.discovered_by,
+               child.normalized AS child, child.text AS child_text,
+               child.id AS child_id, parent.normalized AS parent
+        FROM paa_edge e
+        JOIN question child ON child.id = e.child_id
+        LEFT JOIN question parent ON parent.id = e.parent_id
+        WHERE e.crawl_id = %s
+        ORDER BY e.depth, e.id
+        """,
+        (crawl["id"],),
+    )
+    edge_rows = cur.fetchall()
+
+    questions = {r["child"]: r["child_text"] for r in edge_rows}
+    by_id = {r["child_id"]: r["child"] for r in edge_rows}
+    edges = [
+        {
+            "parent": r["parent"],
+            "child": r["child"],
+            "depth": r["depth"],
+            "relevance": r["relevance"],
+            "reach": r["reach"],
+            "discovered_by": r["discovered_by"],
+        }
+        for r in edge_rows
+    ]
+
+    found = _latest_scores(cur, crawl["location_code"], list(by_id))
+    scores = {
+        by_id[qid]: {
+            "status": s["status"],
+            "matching_pages": s["matching_pages"],
+            "results_checked": s["results_checked"],
+            "results": s["results"] or [],
+            "ai_sources": s["ai_sources"] or [],
+            "source_key": s["source_key"],
+            "scored_at": (
+                s["scored_at"].isoformat(timespec="seconds") if s["scored_at"] else None
+            ),
+        }
+        for qid, s in found.items()
+    }
+
+    cur.execute(
+        "SELECT phrase FROM related_search WHERE crawl_id = %s ORDER BY phrase",
+        (crawl["id"],),
+    )
+    related = [r["phrase"] for r in cur.fetchall()]
+
+    tree = recompose(dict(crawl), questions, edges, scores, related, slug_for)
+    tree["crawl_id"] = crawl["id"]
+    tree["updated_at"] = (
+        crawl["created_at"].isoformat(timespec="seconds")
+        if crawl["created_at"]
+        else None
+    )
+    return tree
+
+
+# ------------------------------------------------------------ serp cache
+
+
+def snapshot_get(cache_key: str) -> dict | None:
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT payload_gz FROM serp_snapshot WHERE cache_key = %s",
+            (cache_key,),
+        )
+        row = cur.fetchone()
+        return unpack(row["payload_gz"]) if row else None
+
+
+def snapshot_put(
+    cache_key: str,
+    payload: dict,
+    *,
+    language_code: str = "",
+    location_code: int = 0,
+    cost: float | None = None,
+) -> None:
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO serp_snapshot (cache_key, language_code, location_code,
+                                       cost, payload_gz)
+            VALUES (%s, %s, %s, %s, %s)
+            ON CONFLICT (cache_key) DO UPDATE
+              SET payload_gz = EXCLUDED.payload_gz, fetched_at = now()
+            """,
+            (cache_key, language_code, location_code, cost, pack(payload)),
+        )
+        conn.commit()
+
+
+# ---------------------------------------------------------------- labels
+
+
+def label_append(record: dict) -> None:
+    """Append one verdict, in the exact shape `labels.record` produces.
+
+    Two names differ from the JSONL and nowhere else in the codebase should have
+    to know it: the row's `label` is the column `verdict` (VERDICT is not
+    reserved, LABEL as a column would have been fine either way, but `verdict`
+    says what it holds), and `overlaps` is the column `overlap_vector` because
+    OVERLAPS is reserved in Postgres.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO label (question_key, language_code, question, verdict,
+                               predicted, threshold, strategy, matching_pages,
+                               results_checked, overlap_vector, tree_slug,
+                               question_slug, location_code, created_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                    COALESCE(%s::timestamptz, now()))
+            """,
+            (
+                record.get("key"),
+                record.get("language_code"),
+                record.get("question"),
+                record.get("label"),
+                record.get("predicted"),
+                record.get("threshold"),
+                record.get("strategy"),
+                record.get("matching_pages"),
+                record.get("results_checked"),
+                json.dumps(record.get("overlaps") or [], ensure_ascii=False),
+                record.get("tree_slug"),
+                record.get("question_slug"),
+                record.get("location_code"),
+                record.get("created_at"),
+            ),
+        )
+        conn.commit()
+
+
+def label_rows() -> list[dict]:
+    """Every verdict ever given, oldest first - the same order as the JSONL.
+
+    Returns rows shaped exactly like the JSONL, so `labels.current()`,
+    `labels.counts()` and `scripts/phase05_evaluate.py` read them unchanged.
+    The two renamed columns are mapped back here and nowhere else.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT * FROM label ORDER BY created_at, id")
+        return [
+            {
+                "key": r["question_key"],
+                "question": r["question"],
+                "language_code": r["language_code"],
+                "location_code": r["location_code"],
+                "label": r["verdict"],
+                "tree_slug": r["tree_slug"],
+                "question_slug": r["question_slug"],
+                "predicted": r["predicted"],
+                "threshold": r["threshold"],
+                "strategy": r["strategy"],
+                "matching_pages": r["matching_pages"],
+                "results_checked": r["results_checked"],
+                "overlaps": r["overlap_vector"] or [],
+                "created_at": r["created_at"].isoformat(timespec="seconds"),
+            }
+            for r in cur.fetchall()
+        ]

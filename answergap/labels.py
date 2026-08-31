@@ -42,7 +42,7 @@ import tempfile
 from pathlib import Path
 from typing import Literal
 
-from answergap import paths
+from answergap import db, paths
 from answergap.text import normalize
 
 ROOT = paths.ROOT
@@ -122,6 +122,14 @@ def record(
         or datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
 
+    # Postgres when it is configured, the JSONL when it is not. The row is the
+    # same shape either way - CLAUDE.md's point that the JSONL's fields are
+    # already the table's columns is what makes this a backend swap rather than
+    # a format change, and it is why phase05_evaluate.py needs no edit.
+    if db.available():
+        db.label_append(row)
+        return row
+
     LABELS_DIR.mkdir(parents=True, exist_ok=True)
     with LABELS_PATH.open("a", encoding="utf-8", newline="\n") as f:
         f.write(_line(row) + "\n")
@@ -135,6 +143,8 @@ def rows() -> list[dict]:
     a half-written final line is the one failure mode it has; losing the whole
     history to it would be the wrong trade.
     """
+    if db.available():
+        return db.label_rows()
     if not LABELS_PATH.exists():
         return []
     out: list[dict] = []

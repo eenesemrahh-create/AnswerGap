@@ -25,6 +25,8 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from . import db
+
 BASE_URL = "https://api.dataforseo.com"
 
 # CLAUDE.md: Standard is $0.60/1000 = $0.0006/request. Live is ~3.3x.
@@ -179,6 +181,22 @@ class Client:
             raise DataForSEOError(message)
 
     def _cached(self, key: str) -> dict | None:
+        """A hit costs $0 whatever the stored response once cost.
+
+        Postgres first when it is configured: on a container the filesystem is
+        ephemeral, so a disk-only cache would re-buy every response after each
+        redeploy. The cache key is identical in both, so a laptop and a
+        deployment address the same responses by the same name.
+        """
+        if db.available():
+            try:
+                found = db.snapshot_get(key)
+            except Exception:  # noqa: BLE001 - a cache is never load-bearing
+                found = None
+            if found is not None:
+                self.cache_hits += 1
+                return found
+            return None
         path = self.cache_dir / f"{key}.json"
         if path.exists():
             self.cache_hits += 1
@@ -186,6 +204,9 @@ class Client:
         return None
 
     def _store(self, key: str, data: dict) -> None:
+        if db.available():
+            db.snapshot_put(key, data)
+            return
         (self.cache_dir / f"{key}.json").write_text(
             json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
         )

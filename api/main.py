@@ -141,7 +141,7 @@ def meta() -> dict:
         # service at all, which is the difference between "no database yet" and
         # "database present but broken" - two problems with different fixes.
         "storage": _DB,
-        "tree_count": len(_TREES) + len(_LIVE),
+        "tree_count": len(_TREES) + len(_live_all()),
         # How much labelled data the threshold question has to work with.
         # Phase 0.5 settled it with 14 rows and could not separate the one
         # real gap from four false ones; the UI says so out loud, and this
@@ -175,8 +175,35 @@ def countries() -> list[dict]:
     return _COUNTRIES
 
 
+def _live_all() -> list[dict]:
+    """Live trees, read fresh from the database when there is one.
+
+    The in-memory `_LIVE` dict is the filesystem backend's cache and it quietly
+    assumes a single process. Once the rows are in Postgres the truth is shared,
+    so reading per request is both correct and cheap - and it is what stops a
+    second replica from serving a stale tree it happens to remember.
+    """
+    if db.available():
+        try:
+            return live.load_trees()
+        except Exception:  # noqa: BLE001 - reported via /api/meta, never fatal
+            pass
+    return list(_LIVE.values())
+
+
+def _live_one(slug: str) -> dict | None:
+    if db.available():
+        try:
+            found = live.load_tree(slug)
+            if found:
+                return found
+        except Exception:  # noqa: BLE001
+            pass
+    return _LIVE.get(slug)
+
+
 def _lookup(slug: str) -> dict:
-    found = _LIVE.get(slug) or _BY_SLUG.get(slug)
+    found = _live_one(slug) or _BY_SLUG.get(slug)
     if not found:
         raise HTTPException(404, f"No tree: {slug}")
     return found
@@ -190,7 +217,7 @@ def trees() -> list[dict]:
     fixtures they did not create.
     """
     live_trees = sorted(
-        _LIVE.values(), key=lambda t: t.get("updated_at") or "", reverse=True
+        _live_all(), key=lambda t: t.get("updated_at") or "", reverse=True
     )
     return [_summary(t) for t in live_trees] + [_summary(t) for t in _TREES]
 

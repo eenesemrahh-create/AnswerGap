@@ -75,7 +75,7 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import languages, paths
+from . import db, languages, paths
 from .dataforseo import (
     LIVE_COST_PER_REQUEST,
     Client,
@@ -230,15 +230,52 @@ def _tree_path(slug: str) -> Path:
     return TREES_DIR / f"{slug}.json"
 
 
-def save_tree(tree: dict) -> None:
+def save_tree(tree: dict, *, new_crawl: bool = False) -> None:
+    """Persist a tree, to Postgres when one is configured and to disk when not.
+
+    `new_crawl` distinguishes a fresh search from a scoring pass. In the row
+    backend it decides whether a new `crawl` row is opened; on disk it means
+    nothing, because a file has no way to keep the previous version anyway -
+    which is precisely the failure CLAUDE.md records for 2026-08-27.
+    """
+    if db.available():
+        db.save_tree(tree, new_crawl=new_crawl)
+        return
     TREES_DIR.mkdir(parents=True, exist_ok=True)
     _tree_path(tree["slug"]).write_text(
         json.dumps(tree, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
 
+def _slugged(tree: dict | None) -> dict | None:
+    """Slugs are derived, not stored - regenerate and de-collide them here.
+
+    `_dedupe_slugs` has to run over the whole tree at once: a slug is only
+    unique relative to the others, and slugify() truncates at 60 characters, so
+    two long questions sharing a prefix would otherwise route to each other.
+    """
+    if tree is not None:
+        _dedupe_slugs(tree["nodes"])
+    return tree
+
+
+def load_tree(slug: str) -> dict | None:
+    """One live tree by slug."""
+    if db.available():
+        return _slugged(db.load_tree(slug, slugify))
+    path = _tree_path(slug)
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+
+
 def load_trees() -> list[dict]:
-    """Every live tree on disk. Survives a `--reload` of the API."""
+    """Every live tree. Survives a restart, and now a redeploy."""
+    if db.available():
+        return [_slugged(t) for t in db.load_trees(slugify)]
     if not TREES_DIR.exists():
         return []
     trees = []
@@ -699,20 +736,20 @@ def crawl(
 
     tree = build_from_response(response, seed, location_code, language_code)
 
-    # A re-crawl must not discard scores the user already bought.
-    previous_path = _tree_path(tree["slug"])
-    previous = None
-    if previous_path.exists():
-        try:
-            previous = json.loads(previous_path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            previous = None
+    # A re-crawl must not discard what the user already bought. On the row
+    # backend the old data is not at risk - the previous crawl keeps its own
+    # rows - so this carry has shrunk from preventing data LOSS to preserving
+    # the current VIEW: harvested nodes live under the crawl that discovered
+    # them, and a fresh crawl built from the seed response alone would not show
+    # them again. Gap scores need no carry at all now; they are keyed by
+    # question and market, so they are simply found.
+    previous = load_tree(tree["slug"])
     tree = _carry_previous(tree, previous)
 
     tree["billable_calls"] = client.billable_calls
     tree["estimated_spend"] = _spend(response, client)
     tree["from_cache"] = client.cache_hits > 0
-    save_tree(tree)
+    save_tree(tree, new_crawl=True)
     return tree
 
 
@@ -752,17 +789,41 @@ def score(tree: dict, question_slug: str, *, refresh: bool = False) -> dict:
 
     results = _organic_results(response)
     scored, matching, status = score_question(node["question"], results, language_code)
+    ai_sources = _ai_sources(response)
     node.update(
         {
             "status": status,
             "matching_pages": matching,
             "results_checked": len(results),
             "results": scored,
-            "ai_sources": _ai_sources(response),
-            "source_file": f"data/live/serp/{key}.json",
+            "ai_sources": ai_sources,
+            # Where this score can be traced back to. On the row backend the
+            # response is a `serp_snapshot`, addressed by the same cache key the
+            # filesystem used as a filename.
+            "source_file": key if db.available() else f"data/live/serp/{key}.json",
             "updated_at": _now(),
         }
     )
+
+    # The score is its own row, keyed by question and market rather than by
+    # tree. That is what makes a re-crawl unable to lose it - and what lets the
+    # same verdict show up under every tree the question appears in, which is
+    # already how CLAUDE.md keys the label log.
+    if db.available():
+        db.save_score(
+            normalized=node["id"],
+            question=node["question"],
+            language_code=tree["language_code"],
+            location_code=tree["location_code"],
+            status=status,
+            matching_pages=matching,
+            results_checked=len(results),
+            results=scored,
+            ai_sources=ai_sources,
+            threshold=THRESHOLD,
+            strategy=STRATEGY,
+            source_key=key,
+        )
 
     # The same response, mined for everything else it carries. Free: it is
     # already bought and, on a cache hit, already on disk.
