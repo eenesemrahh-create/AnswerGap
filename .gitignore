@@ -19,3 +19,15 @@ Thumbs.db
 # reproducible at any time, and locations-US.json alone is ~15 MB. They stay on
 # disk as a local cache but do not belong in the repository.
 data/raw/locations-*.json
+
+# Screenshots of dashboards. Kept out of the repository on purpose: a Railway
+# or DataForSEO panel screenshot shows live environment variables - API
+# passwords, the database URL with its password, the callback token - in
+# plain text. `git add -A` would sweep one straight into a commit, and a
+# secret in git history outlives the file it arrived in.
+#
+# Look at them locally, then delete them. Do not commit them.
+Ekran görüntüsü*.png
+Ekran goruntusu*.png
+Screenshot*.png
+screenshot*.png
