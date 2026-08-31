@@ -634,6 +634,63 @@ Still open: **R2 for the raw payloads.** They are gzipped `bytea` today (~30 KB
 position — they belong in no query and therefore in object storage — has not
 changed, only been deferred.
 
+## Phase 1, 2026-08-31: name the conclusion, not the measurement
+
+The badges read `Gap / Weak / Covered / No data`. They now read
+**`Unanswered / Barely answered / Well answered / Not checked`**, with the count
+beside them — `1 of 8 pages`.
+
+This is not a copy tidy-up. Two problems were being fixed:
+
+- **"Weak" never said weak *what*** — the question, the competition, the
+  evidence? Four words that describe our *measurement* rather than the reader's
+  *decision*.
+- **"Gap" is a verdict, and the verdict is not settled.** The SETTLED block
+  above puts the best lexical rule at **precision 0.20**. A badge asserting it in
+  one confident word claims more than the data supports. That is the accuracy
+  rule — the same one behind "never show a question with no fetched results as a
+  gap" — not a matter of taste.
+
+So the label names what was found and `status.evidence` carries the count
+beside it. **The count is defensible on its own; the category is a threshold
+judgement that is still open.** `Gap` survives as the product's *idea* — the
+name, the promise on the landing page — and disappears as a per-row verdict.
+
+The labelling buttons moved with it, to the phrasing CLAUDE.md had already
+written for them: *"Do these pages answer the question?"* → *"No, none of them"*
+/ *"Yes, at least one does"*. Asking "is this really a gap?" made the reader
+translate our vocabulary before they could answer — a tax on the exact data the
+threshold question depends on.
+
+**Why this came before the metric work.** Labels are the input to embeddings,
+and labels come from people using the interface. Nobody gives a verdict on a
+badge they had to decode. The wording was the tap, not the paint.
+
+`en.ts` gained one key (`status.evidence`), which broke the other four locales
+until translated — the build gate working as designed.
+
+## Tests, finally
+
+`tests/`, 24 of them, run with `pytest -q`. `requirements-dev.txt` keeps the
+runner out of the Railway image.
+
+Fixtures are `data/raw/`. That is deliberate: the archive ships in the repo and
+is read-only, so unlike the live trees these tests cannot be invalidated by a
+crawl — or by a decision to clear the data, which is exactly what happened to
+the earlier ad-hoc fixtures the same day.
+
+Two of them deserve to be read before being "fixed":
+
+**`test_open_class_paraphrase_is_missed`** asserts that `60 year old` ↔ `senior`
+scores **0.5** and therefore *fails* the 0.60 threshold. The page answers the
+question; the metric says it does not. That assertion is a **baseline, not an
+aspiration** — when the embedding layer lands it should start failing, and the
+number it fails at measures what embeddings bought.
+
+**`test_multi_word_paraphrase_currently_clears_the_bar`** pins a case that works
+by luck rather than design (0.75). A tokenizer change could silently drop it,
+and the product would only notice as a wrong answer.
+
 ## Spend to date
 
 **~$0.118** total ($0.107 before Phase B, $0.0112 of live crawling on
@@ -670,8 +727,8 @@ Four things do have to change, in this order: **storage**, **tests**,
 1. ~~**Label the 14 rows first.**~~ **DONE 2026-08-28. Answer: embeddings.**
    See the SETTLED block above. The schema now knows what it needs: a vector
    column on `question`, and an embedding-model field on `gap_score`.
-2. **Tests.** `matching.py` and `tree.py` are pure functions and `data/raw/`
-   is a ready fixture set. Moving untested code is moving it blind.
+2. ~~**Tests.**~~ **DONE 2026-08-31** — 24 tests over the storage translation,
+   the status rules and the metric's known failures. See the section above.
 3. ~~**Storage: Postgres.**~~ **DONE 2026-08-31** — see the section above.
    Object storage (R2) for the raw payloads is the remaining half.
    Original plan, kept for the reasoning:

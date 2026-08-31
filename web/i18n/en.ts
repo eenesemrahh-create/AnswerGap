@@ -37,11 +37,27 @@ export const en = {
       "Gap scoring only runs in languages we have a matching pack for.",
   },
 
+  // Names the reader's conclusion, not our measurement.
+  //
+  // These used to read Gap / Weak / Covered / No data. Two problems with that.
+  // "Weak" never said weak WHAT - the question, the competition, the evidence?
+  // And "Gap" is a verdict, while CLAUDE.md's own measurement puts the best
+  // lexical rule at precision 0.20: one real gap against four false alarms. A
+  // badge asserting it in one confident word claims more than the data
+  // supports, which is the accuracy rule, not a matter of taste.
+  //
+  // So the label says what was found and `evidence` carries the count beside
+  // it. The count is defensible on its own; the category is a threshold
+  // judgement that is still open. "Gap" survives as the product's idea - the
+  // name, the promise - and disappears as a per-row verdict.
   status: {
-    gap: "Gap",
-    weak: "Weak",
-    covered: "Covered",
-    no_data: "No data",
+    gap: "Unanswered",
+    weak: "Barely answered",
+    covered: "Well answered",
+    no_data: "Not checked",
+    // Shown next to the label wherever a single question is on screen. This is
+    // the honest half of the claim, so it leads rather than hides in a tooltip.
+    evidence: "{matching} of {checked} pages",
     gapExplained:
       "No search result targets this question directly. The answer has to be " +
       "dug out of a page written about something else.",
@@ -51,8 +67,8 @@ export const en = {
     coveredExplained:
       "Three or more pages target this question. Ranking for it would be hard.",
     no_dataExplained:
-      "Search results have not been fetched for this question, so whether it " +
-      "is a gap is UNKNOWN. It is not counted as a gap.",
+      "Search results have not been fetched for this question, so nobody " +
+      "knows whether anyone answers it. Unknown is not the same as unanswered.",
   },
 
   toolbar: {
@@ -70,9 +86,9 @@ export const en = {
     question: "Question",
     status: "Status",
     matchingPages: "Pages targeting it",
-    matchingPagesHint: "Organic results clearing the overlap threshold",
+    matchingPagesHint: "Search results that actually target this question",
     checked: "Checked",
-    checkedHint: "Organic results examined",
+    checkedHint: "Search results we looked at",
     branches: "Branches",
     branchesHint: "How many different parents this question appeared under",
     depth: "Depth",
@@ -90,16 +106,19 @@ export const en = {
 
   detail: {
     empty:
-      "Select a question to see which pages target it, which don't, and why it " +
-      "counts as a gap.",
+      "Select a question to see which pages target it, which don't, and how " +
+      "many of them actually answer it.",
     depth: "Depth {depth}",
     branches: "in {count} branches",
     matchingPages: "Pages targeting it",
     checked: "Results checked",
     volume: "Search volume",
-    resultsHeading: "Search results · overlap ≥ {threshold} counts as a match",
-    noResults: "Search results were <b>never fetched</b> for this question, so whether it is a gap is unknown - that is why it is drawn with a dashed outline. This is an archived analysis; run a live search for the same seed to score it.",
-    notScoredYet: "This question has <b>not been scored yet</b>. Checking it costs one search request, so it never happens automatically — and until it does, whether it is a gap is unknown.",
+    // The number stays - it is the evidence - but the heading now says what
+    // it means instead of naming the variable it came from.
+    resultsHeading:
+      "Search results · a page counts as an answer at {threshold} or higher",
+    noResults: "Search results were <b>never fetched</b> for this question, so nobody knows whether anyone answers it - that is why it is drawn with a dashed outline. This is an archived analysis; run a live search for the same seed to score it.",
+    notScoredYet: "This question has <b>not been checked yet</b>. Checking it costs one search request, so it never happens automatically — and until it does, nobody knows whether anyone answers it.",
     scoreButton: "Check this question",
     scoring: "Checking…",
     scoreCost: "One SERP request. A question already fetched costs nothing.",
@@ -118,17 +137,23 @@ export const en = {
     relevance: "Seed relevance {value}",
   },
 
+  // CLAUDE.md already wrote this question in plain words - "do these page
+  // titles answer it?" - and explains why the buttons sit BELOW the results:
+  // it can only be asked once the titles have been read. Asking it as "is this
+  // really a gap?" made the reader translate our vocabulary before they could
+  // answer, and both buttons must stay equally weighted or the set this is
+  // collecting is biased before it exists.
   verdict: {
-    heading: "Is this really a gap?",
+    heading: "Do these pages answer the question?",
     ask: "The threshold is not settled yet. Your answer is what settles it — it costs nothing and no search is run.",
-    gap: "Yes, a gap",
-    notGap: "No, it's covered",
+    gap: "No, none of them",
+    notGap: "Yes, at least one does",
     gapHint: "No page here was written to answer this question.",
     notGapHint: "At least one page here answers it directly.",
     recorded: "Recorded. Click the same button again to withdraw it.",
     retracted: "Verdict withdrawn.",
     saving: "Saving…",
-    tally: "{questions} questions judged so far ({gap} gaps, {notGap} not).",
+    tally: "{questions} questions judged so far ({gap} unanswered, {notGap} answered).",
     disagrees: "This disagrees with the metric — which is the useful case.",
   },
 

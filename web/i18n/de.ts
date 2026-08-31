@@ -28,10 +28,11 @@ export const de: Messages = {
   },
 
   status: {
-    gap: "Lücke",
-    weak: "Schwach",
-    covered: "Abgedeckt",
-    no_data: "Keine Daten",
+    gap: "Unbeantwortet",
+    weak: "Kaum beantwortet",
+    covered: "Gut beantwortet",
+    no_data: "Nicht geprüft",
+    evidence: "{matching} von {checked} Seiten",
     gapExplained:
       "Kein Suchergebnis adressiert diese Frage direkt. Die Antwort muss aus " +
       "einer Seite herausgeklaubt werden, die über etwas anderes geschrieben wurde.",
@@ -41,8 +42,9 @@ export const de: Messages = {
     coveredExplained:
       "Drei oder mehr Seiten adressieren diese Frage. Hier zu ranken wäre schwer.",
     no_dataExplained:
-      "Für diese Frage wurden keine Suchergebnisse abgerufen, daher ist " +
-      "UNBEKANNT, ob es eine Lücke ist. Sie zählt nicht als Lücke.",
+      "Für diese Frage wurden keine Suchergebnisse abgerufen, daher " +
+      "weiß niemand, ob sie jemand beantwortet. Unbekannt ist nicht " +
+      "dasselbe wie unbeantwortet.",
   },
 
   toolbar: {
@@ -60,9 +62,9 @@ export const de: Messages = {
     question: "Frage",
     status: "Status",
     matchingPages: "Passende Seiten",
-    matchingPagesHint: "Organische Treffer über der Überschneidungsschwelle",
+    matchingPagesHint: "Suchergebnisse, die diese Frage tatsächlich adressieren",
     checked: "Geprüft",
-    checkedHint: "Untersuchte organische Treffer",
+    checkedHint: "Geprüfte Suchergebnisse",
     branches: "Zweige",
     branchesHint: "Unter wie vielen verschiedenen Elternfragen sie auftauchte",
     depth: "Ebene",
@@ -80,16 +82,17 @@ export const de: Messages = {
 
   detail: {
     empty:
-      "Wähle eine Frage, um zu sehen, welche Seiten sie adressieren, welche " +
-      "nicht, und warum sie als Lücke gilt.",
+      "Wählen Sie eine Frage, um zu sehen, welche Seiten sie adressieren, " +
+      "welche nicht, und wie viele davon sie wirklich beantworten.",
     depth: "Ebene {depth}",
     branches: "in {count} Zweigen",
     matchingPages: "Passende Seiten",
     checked: "Geprüfte Treffer",
     volume: "Suchvolumen",
-    resultsHeading: "Suchergebnisse · Überschneidung ≥ {threshold} zählt als Treffer",
-    noResults: "Für diese Frage wurden <b>nie Suchergebnisse abgerufen</b>, daher ist unbekannt, ob es eine Lücke ist - deshalb die gestrichelte Umrandung. Dies ist eine archivierte Analyse; für eine Bewertung eine Live-Suche mit demselben Begriff ausführen.",
-    notScoredYet: "Diese Frage wurde <b>noch nicht bewertet</b>. Die Prüfung kostet eine Suchanfrage und läuft deshalb nie automatisch — bis dahin ist unbekannt, ob es eine Lücke ist.",
+    resultsHeading:
+      "Suchergebnisse · eine Seite gilt ab {threshold} als Antwort",
+    noResults: "Für diese Frage wurden <b>nie Suchergebnisse abgerufen</b>, daher weiß niemand, ob sie jemand beantwortet - deshalb ist sie gestrichelt umrandet. Dies ist eine archivierte Analyse; führen Sie eine Live-Suche mit demselben Begriff aus, um sie zu bewerten.",
+    notScoredYet: "Diese Frage wurde <b>noch nicht geprüft</b>. Die Prüfung kostet eine Suchanfrage und passiert deshalb nie automatisch — und bis dahin weiß niemand, ob sie jemand beantwortet.",
     scoreButton: "Diese Frage prüfen",
     scoring: "Wird geprüft…",
     scoreCost: "Eine SERP-Anfrage. Eine bereits abgerufene Frage kostet nichts.",
@@ -109,16 +112,16 @@ export const de: Messages = {
   },
 
   verdict: {
-    heading: "Ist das wirklich eine Lücke?",
+    heading: "Beantworten diese Seiten die Frage?",
     ask: "Der Schwellenwert steht noch nicht fest. Ihre Antwort entscheidet ihn — kostenlos, es wird keine Suche ausgeführt.",
-    gap: "Ja, eine Lücke",
-    notGap: "Nein, abgedeckt",
+    gap: "Nein, keine davon",
+    notGap: "Ja, mindestens eine",
     gapHint: "Keine der Seiten hier wurde geschrieben, um diese Frage zu beantworten.",
     notGapHint: "Mindestens eine Seite hier beantwortet sie direkt.",
     recorded: "Gespeichert. Zum Zurückziehen dieselbe Schaltfläche erneut anklicken.",
     retracted: "Urteil zurückgezogen.",
     saving: "Wird gespeichert…",
-    tally: "Bisher {questions} Fragen beurteilt ({gap} Lücken, {notGap} nicht).",
+    tally: "Bisher {questions} Fragen beurteilt ({gap} unbeantwortet, {notGap} beantwortet).",
     disagrees: "Das widerspricht der Metrik — genau das ist der nützliche Fall.",
   },
 

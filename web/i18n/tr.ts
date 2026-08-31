@@ -28,10 +28,11 @@ export const tr: Messages = {
   },
 
   status: {
-    gap: "Boşluk",
-    weak: "Zayıf",
-    covered: "Cevaplanmış",
-    no_data: "Veri yok",
+    gap: "Cevapsız",
+    weak: "Az cevaplanmış",
+    covered: "İyi cevaplanmış",
+    no_data: "Bakılmadı",
+    evidence: "{checked} sayfadan {matching} tanesi",
     gapExplained:
       "Hiçbir arama sonucu bu soruyu doğrudan hedeflemiyor. Cevap, başka bir " +
       "konu için yazılmış sayfaların içinden çıkarılmak zorunda.",
@@ -41,8 +42,9 @@ export const tr: Messages = {
     coveredExplained:
       "Üç veya daha fazla sayfa bu soruyu hedefliyor. Bu soruda öne çıkmak zor.",
     no_dataExplained:
-      "Bu soru için arama sonuçları çekilmedi, dolayısıyla boşluk olup olmadığı " +
-      "BİLİNMİYOR. Boşluk olarak sayılmaz.",
+      "Bu soru için arama sonuçları çekilmedi, dolayısıyla kimsenin " +
+      "cevaplayıp cevaplamadığı bilinmiyor. Bilinmiyor ile cevapsız " +
+      "aynı şey değil.",
   },
 
   toolbar: {
@@ -60,9 +62,9 @@ export const tr: Messages = {
     question: "Soru",
     status: "Durum",
     matchingPages: "Hedefleyen sayfa",
-    matchingPagesHint: "Örtüşme eşiğini geçen organik sonuçlar",
+    matchingPagesHint: "Bu soruyu gerçekten hedefleyen arama sonuçları",
     checked: "Bakılan",
-    checkedHint: "İncelenen organik sonuç sayısı",
+    checkedHint: "Bakılan arama sonuçları",
     branches: "Dal",
     branchesHint: "Bu soru kaç farklı ebeveynin altında çıktı",
     depth: "Derinlik",
@@ -80,16 +82,18 @@ export const tr: Messages = {
 
   detail: {
     empty:
-      "Bir soru seç — hangi sayfaların onu hedeflediğini, hedeflemediğini ve " +
-      "neden boşluk sayıldığını gör.",
+      "Hangi sayfaların bu soruyu hedeflediğini, hangilerinin " +
+      "hedeflemediğini ve kaçının onu gerçekten cevapladığını görmek " +
+      "için bir soru seçin.",
     depth: "Seviye {depth}",
     branches: "{count} dalda",
     matchingPages: "Hedefleyen sayfa",
     checked: "Bakılan sonuç",
     volume: "Arama hacmi",
-    resultsHeading: "Arama sonuçları · örtüşme ≥ {threshold} geçer sayılır",
-    noResults: "Bu soru için arama sonuçları <b>hiç çekilmedi</b>, dolayısıyla boşluk olup olmadığı bilinmiyor - kesikli çerçeveyle çizilmesinin sebebi bu. Bu arşivlenmiş bir analiz; skorlamak için aynı kelimeyle canlı bir arama çalıştırın.",
-    notScoredYet: "Bu soru <b>henüz skorlanmadı</b>. Kontrol etmek bir arama isteğine mal olduğu için hiçbir zaman kendiliğinden yapılmaz — yapılana kadar boşluk olup olmadığı bilinmiyor.",
+    resultsHeading:
+      "Arama sonuçları · bir sayfa {threshold} ve üzerinde cevap sayılıyor",
+    noResults: "Bu soru için arama sonuçları <b>hiç çekilmedi</b>, dolayısıyla kimsenin cevaplayıp cevaplamadığı bilinmiyor - kesik çizgiyle çizilmesinin sebebi bu. Bu arşivlenmiş bir analiz; puanlamak için aynı kelimeyle canlı arama çalıştır.",
+    notScoredYet: "Bu soru <b>henüz kontrol edilmedi</b>. Kontrol etmek bir arama isteğine mal oluyor, bu yüzden asla kendiliğinden olmuyor — ve o zamana kadar kimsenin cevaplayıp cevaplamadığı bilinmiyor.",
     scoreButton: "Bu soruyu kontrol et",
     scoring: "Kontrol ediliyor…",
     scoreCost: "Bir SERP isteği. Daha önce çekilmiş bir soru hiçbir şeye mal olmaz.",
@@ -109,16 +113,16 @@ export const tr: Messages = {
   },
 
   verdict: {
-    heading: "Bu gerçekten bir boşluk mu?",
+    heading: "Bu sayfalar soruyu cevaplıyor mu?",
     ask: "Eşik henüz oturmadı. Onu oturtacak olan senin cevabın — bedava, hiçbir arama yapılmıyor.",
-    gap: "Evet, boşluk",
-    notGap: "Hayır, kapsanmış",
+    gap: "Hayır, hiçbiri",
+    notGap: "Evet, en az biri",
     gapHint: "Buradaki hiçbir sayfa bu soruyu cevaplamak için yazılmamış.",
     notGapHint: "Buradaki en az bir sayfa bunu doğrudan cevaplıyor.",
     recorded: "Kaydedildi. Geri almak için aynı düğmeye tekrar bas.",
     retracted: "Karar geri alındı.",
     saving: "Kaydediliyor…",
-    tally: "Şu ana kadar {questions} soru değerlendirildi ({gap} boşluk, {notGap} değil).",
+    tally: "Şu ana kadar {questions} soru değerlendirildi ({gap} cevapsız, {notGap} cevaplanmış).",
     disagrees: "Bu, metriğin dediğiyle çelişiyor — asıl işe yarayan durum bu.",
   },
 

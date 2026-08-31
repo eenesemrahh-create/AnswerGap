@@ -129,7 +129,11 @@ export function QuestionDetail({
     <aside className="panel">
       <h2>{node.question}</h2>
       <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8 }}>
-        <Badge status={node.status} />
+        <Badge
+          status={node.status}
+          matching={node.matching_pages}
+          checked={node.results_checked}
+        />
         <span className="muted" style={{ fontSize: 12 }}>
           {t("detail.depth", { depth: node.depth })}
           {node.repeat_count > 1 &&

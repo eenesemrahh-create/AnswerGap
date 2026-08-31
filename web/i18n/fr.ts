@@ -29,10 +29,11 @@ export const fr: Messages = {
   },
 
   status: {
-    gap: "Lacune",
-    weak: "Faible",
-    covered: "Couverte",
-    no_data: "Aucune donnée",
+    gap: "Sans réponse",
+    weak: "À peine traitée",
+    covered: "Bien traitée",
+    no_data: "Non vérifiée",
+    evidence: "{matching} pages sur {checked}",
     gapExplained:
       "Aucun résultat de recherche ne cible directement cette question. La " +
       "réponse doit être extraite d'une page écrite sur un autre sujet.",
@@ -42,8 +43,9 @@ export const fr: Messages = {
     coveredExplained:
       "Trois pages ou plus ciblent cette question. S'y positionner serait difficile.",
     no_dataExplained:
-      "Les résultats de recherche n'ont pas été récupérés pour cette question ; " +
-      "on IGNORE donc s'il s'agit d'une lacune. Elle n'est pas comptée comme telle.",
+      "Les résultats de recherche n'ont pas été récupérés pour cette " +
+      "question ; personne ne sait donc si quelqu'un y répond. Inconnu " +
+      "n'est pas synonyme de sans réponse.",
   },
 
   toolbar: {
@@ -61,9 +63,9 @@ export const fr: Messages = {
     question: "Question",
     status: "Statut",
     matchingPages: "Pages qui la ciblent",
-    matchingPagesHint: "Résultats organiques dépassant le seuil de recouvrement",
+    matchingPagesHint: "Résultats qui ciblent réellement cette question",
     checked: "Examinés",
-    checkedHint: "Résultats organiques examinés",
+    checkedHint: "Résultats examinés",
     branches: "Branches",
     branchesHint: "Sous combien de questions parentes différentes elle est apparue",
     depth: "Niveau",
@@ -81,17 +83,17 @@ export const fr: Messages = {
 
   detail: {
     empty:
-      "Sélectionnez une question pour voir quelles pages la ciblent, lesquelles " +
-      "non, et pourquoi elle compte comme une lacune.",
+      "Sélectionnez une question pour voir quelles pages la ciblent, " +
+      "lesquelles non, et combien y répondent vraiment.",
     depth: "Niveau {depth}",
     branches: "dans {count} branches",
     matchingPages: "Pages qui la ciblent",
     checked: "Résultats examinés",
     volume: "Volume de recherche",
     resultsHeading:
-      "Résultats de recherche · recouvrement ≥ {threshold} compte comme succès",
-    noResults: "Les résultats de recherche <b>n’ont jamais été récupérés</b> pour cette question, on ignore donc s’il s’agit d’une lacune - d’où le contour en pointillés. Ceci est une analyse archivée ; lancez une recherche en direct sur le même terme pour l’évaluer.",
-    notScoredYet: "Cette question <b>n’a pas encore été évaluée</b>. La vérifier coûte une requête de recherche, elle n’est donc jamais lancée automatiquement — et d’ici là, on ignore s’il s’agit d’une lacune.",
+      "Résultats de recherche · une page compte comme réponse à partir de {threshold}",
+    noResults: "Les résultats de recherche n'ont <b>jamais été récupérés</b> pour cette question, personne ne sait donc si quelqu'un y répond - d'où le contour en pointillés. Il s'agit d'une analyse archivée ; lancez une recherche en direct sur le même terme pour l'évaluer.",
+    notScoredYet: "Cette question n'a <b>pas encore été vérifiée</b>. La vérifier coûte une requête de recherche, cela ne se produit donc jamais automatiquement — et d'ici là, personne ne sait si quelqu'un y répond.",
     scoreButton: "Vérifier cette question",
     scoring: "Vérification…",
     scoreCost: "Une requête SERP. Une question déjà récupérée ne coûte rien.",
@@ -111,16 +113,16 @@ export const fr: Messages = {
   },
 
   verdict: {
-    heading: "Est-ce vraiment une lacune ?",
+    heading: "Ces pages répondent-elles à la question ?",
     ask: "Le seuil n’est pas encore fixé. C’est votre réponse qui le fixe — gratuit, aucune recherche n’est lancée.",
-    gap: "Oui, une lacune",
-    notGap: "Non, c’est couvert",
+    gap: "Non, aucune",
+    notGap: "Oui, au moins une",
     gapHint: "Aucune page ici n’a été écrite pour répondre à cette question.",
     notGapHint: "Au moins une page ici y répond directement.",
     recorded: "Enregistré. Cliquez à nouveau sur le même bouton pour le retirer.",
     retracted: "Verdict retiré.",
     saving: "Enregistrement…",
-    tally: "{questions} questions jugées à ce jour ({gap} lacunes, {notGap} non).",
+    tally: "{questions} questions jugées à ce jour ({gap} sans réponse, {notGap} avec réponse).",
     disagrees: "Cela contredit la métrique — c’est précisément le cas utile.",
   },
 

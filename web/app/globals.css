@@ -419,6 +419,19 @@ table.table {
   white-space: nowrap;
   border: 1px solid transparent;
 }
+/* The count beside the label. Same colour, lighter weight: it is the evidence
+   behind the word, not a second claim competing with it. */
+.badge-evidence {
+  font-style: normal;
+  font-weight: 500;
+  opacity: 0.72;
+  font-variant-numeric: tabular-nums;
+}
+.badge-evidence::before {
+  content: "·";
+  margin-right: 5px;
+  opacity: 0.55;
+}
 .badge.gap { background: var(--gap-bg); color: var(--gap); border-color: var(--gap-border); }
 .badge.weak  { background: var(--weak-bg);  color: var(--weak);  border-color: var(--weak-border); }
 .badge.covered { background: var(--covered-bg); color: var(--covered); border-color: var(--covered-border); }

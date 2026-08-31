@@ -1,0 +1,9 @@
+# Development only. Not installed on Railway - the API does not import pytest,
+# and shipping a test runner into a production image buys nothing.
+#
+#     pip install -r requirements.txt -r requirements-dev.txt
+#     python -m pytest tests/ -q
+
+-r requirements.txt
+
+pytest==9.1.1

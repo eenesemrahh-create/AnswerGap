@@ -28,10 +28,11 @@ export const es: Messages = {
   },
 
   status: {
-    gap: "Brecha",
-    weak: "Débil",
-    covered: "Cubierta",
-    no_data: "Sin datos",
+    gap: "Sin responder",
+    weak: "Apenas respondida",
+    covered: "Bien respondida",
+    no_data: "Sin comprobar",
+    evidence: "{matching} de {checked} páginas",
     gapExplained:
       "Ningún resultado de búsqueda aborda esta pregunta directamente. La " +
       "respuesta hay que extraerla de una página escrita sobre otro tema.",
@@ -41,8 +42,9 @@ export const es: Messages = {
     coveredExplained:
       "Tres o más páginas abordan esta pregunta. Posicionarse aquí sería difícil.",
     no_dataExplained:
-      "No se han recuperado resultados para esta pregunta, así que se " +
-      "DESCONOCE si es una brecha. No cuenta como brecha.",
+      "No se han recuperado resultados para esta pregunta, así que " +
+      "nadie sabe si alguien la responde. Desconocido no es lo mismo " +
+      "que sin responder.",
   },
 
   toolbar: {
@@ -60,9 +62,9 @@ export const es: Messages = {
     question: "Pregunta",
     status: "Estado",
     matchingPages: "Páginas que la abordan",
-    matchingPagesHint: "Resultados orgánicos que superan el umbral de coincidencia",
+    matchingPagesHint: "Resultados que abordan realmente esta pregunta",
     checked: "Revisados",
-    checkedHint: "Resultados orgánicos examinados",
+    checkedHint: "Resultados examinados",
     branches: "Ramas",
     branchesHint: "Bajo cuántas preguntas padre distintas apareció",
     depth: "Nivel",
@@ -80,17 +82,17 @@ export const es: Messages = {
 
   detail: {
     empty:
-      "Selecciona una pregunta para ver qué páginas la abordan, cuáles no y " +
-      "por qué cuenta como brecha.",
+      "Selecciona una pregunta para ver qué páginas la abordan, cuáles " +
+      "no, y cuántas la responden de verdad.",
     depth: "Nivel {depth}",
     branches: "en {count} ramas",
     matchingPages: "Páginas que la abordan",
     checked: "Resultados revisados",
     volume: "Volumen de búsqueda",
     resultsHeading:
-      "Resultados de búsqueda · coincidencia ≥ {threshold} cuenta como acierto",
-    noResults: "Para esta pregunta <b>nunca se descargaron</b> resultados de búsqueda, así que se desconoce si es un hueco - por eso se dibuja con borde discontinuo. Este es un análisis archivado; ejecuta una búsqueda en vivo con el mismo término para puntuarla.",
-    notScoredYet: "Esta pregunta <b>aún no se ha puntuado</b>. Comprobarla cuesta una petición de búsqueda, así que nunca ocurre automáticamente — y hasta entonces se desconoce si es un hueco.",
+      "Resultados de búsqueda · una página cuenta como respuesta a partir de {threshold}",
+    noResults: "<b>Nunca se recuperaron</b> resultados de búsqueda para esta pregunta, así que nadie sabe si alguien la responde - por eso se dibuja con borde discontinuo. Es un análisis archivado; ejecuta una búsqueda en vivo con el mismo término para evaluarla.",
+    notScoredYet: "Esta pregunta <b>aún no se ha comprobado</b>. Comprobarla cuesta una petición de búsqueda, así que nunca ocurre automáticamente — y hasta entonces nadie sabe si alguien la responde.",
     scoreButton: "Comprobar esta pregunta",
     scoring: "Comprobando…",
     scoreCost: "Una petición SERP. Una pregunta ya descargada no cuesta nada.",
@@ -110,16 +112,16 @@ export const es: Messages = {
   },
 
   verdict: {
-    heading: "¿Esto es realmente un hueco?",
+    heading: "¿Estas páginas responden a la pregunta?",
     ask: "El umbral todavía no está fijado. Tu respuesta es lo que lo fija — no cuesta nada y no se ejecuta ninguna búsqueda.",
-    gap: "Sí, es un hueco",
-    notGap: "No, está cubierto",
+    gap: "No, ninguna",
+    notGap: "Sí, al menos una",
     gapHint: "Ninguna página de aquí se escribió para responder a esta pregunta.",
     notGapHint: "Al menos una página de aquí la responde directamente.",
     recorded: "Registrado. Pulsa el mismo botón otra vez para retirarlo.",
     retracted: "Veredicto retirado.",
     saving: "Guardando…",
-    tally: "{questions} preguntas evaluadas hasta ahora ({gap} huecos, {notGap} no).",
+    tally: "{questions} preguntas evaluadas hasta ahora ({gap} sin responder, {notGap} respondidas).",
     disagrees: "Esto contradice a la métrica, que es justo el caso útil.",
   },
 

@@ -105,7 +105,11 @@ export function GapTable({
             >
               <td>{node.question}</td>
               <td>
-                <Badge status={node.status} />
+                <Badge
+                  status={node.status}
+                  matching={node.matching_pages}
+                  checked={node.results_checked}
+                />
               </td>
               <td className="right">
                 {node.status === "no_data" ? (
