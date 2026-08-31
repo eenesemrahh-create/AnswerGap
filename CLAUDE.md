@@ -740,6 +740,25 @@ quietly disagree about the same page.
   fetch plus scoring plus a tree write, blew a 60s timeout on the fourth poll.
   Lowered to three: the sweep only has to make *progress* per poll, not finish.
 
+**Callback vs sweep, measured the same afternoon** — same queue, same
+DataForSEO processing, only the delivery differs:
+
+| Delivery | Posted → done |
+|---|---|
+| **Postback callback** | **28 s**, **55 s** |
+| Fallback sweep | 2 m 26 s → 4 m 12 s |
+
+The gap is not DataForSEO being slower; it is that the sweep only runs when
+`/jobs` is polled, only for tasks older than 120 s, and only three at a time.
+Push beats poll by an order of magnitude here, and the sweep's job is to be
+*correct* when the callback is missed, not to be fast.
+
+Proof the callback actually did it: `swept: {checked: 0, ingested: 0}` while both
+tasks went `done`. The sweep never saw them.
+
+`CALLBACK_TOKEN` and `PUBLIC_BASE_URL` live on the api service. Rotating the
+token is a one-variable change; nothing else reads it.
+
 Still to do: the **interface** half. Backend is complete and proven; there is no
 button yet.
 
