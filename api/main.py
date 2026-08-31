@@ -18,12 +18,13 @@ Run:
 
 from __future__ import annotations
 
+import gzip
 import json
 import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -408,4 +409,149 @@ def label_question(slug: str, question_slug: str, request: LabelRequest) -> dict
     return {
         "labels": labels.for_tree(found),
         "counts": labels.counts(),
+    }
+
+
+# ------------------------------------------------------- batch scoring
+#
+# CLAUDE.md's Standard-queue deviation closes here. It was recorded as a
+# deliberate trade - "a webhook cannot reach a laptop" - and the laptop is now a
+# deployed service, so the reason expired rather than the rule changing.
+#
+# The seed search stays on Live. Someone is waiting in front of it, and minutes
+# of latency to save a tenth of a cent is the wrong trade by CLAUDE.md's own
+# reasoning. A batch is the opposite case: nobody watches it, and ten questions
+# is where 3.3x stops being a rounding error.
+
+# Where DataForSEO should send finished tasks. Both halves are required, and if
+# either is missing the batch falls back to polling rather than silently posting
+# tasks with a callback that goes nowhere.
+PUBLIC_BASE_URL = os.environ.get("PUBLIC_BASE_URL", "").rstrip("/")
+CALLBACK_TOKEN = os.environ.get("CALLBACK_TOKEN", "")
+
+
+def _postback_url() -> str | None:
+    if not (PUBLIC_BASE_URL and CALLBACK_TOKEN):
+        return None
+    return (
+        f"{PUBLIC_BASE_URL}/api/callback/dataforseo"
+        f"?token={CALLBACK_TOKEN}&id=$id&tag=$tag"
+    )
+
+
+class BatchScoreRequest(BaseModel):
+    """Either an explicit list of questions, or the top N by ranking signal."""
+
+    questions: list[str] | None = None
+    # Capped deliberately. This endpoint spends money per item, and an
+    # unbounded top_n behind one click is how a batch becomes a bill.
+    top_n: int | None = Field(default=None, ge=1, le=50)
+    dry_run: bool = False
+
+
+@app.post("/api/tree/{slug}/score-batch")
+def score_batch(slug: str, request: BatchScoreRequest) -> dict:
+    """Queue gap scoring for several questions at once, on the Standard queue.
+
+    The reply always carries `estimated_spend`, dry run or not. CLAUDE.md's
+    operating rule is that the price is visible before anything is spent, and a
+    batch is exactly where a surprise would be expensive.
+
+    Results do NOT come back in this response. Tasks are queued and arrive
+    minutes later by postback; poll `/api/tree/{slug}/jobs` for progress.
+    """
+    found = _lookup(slug)
+    if found.get("source") != "live":
+        raise HTTPException(
+            409,
+            "Archived Phase 0 trees are fixed evidence and are not re-scored. "
+            "Run a live search for this seed instead.",
+        )
+    if not db.available():
+        raise HTTPException(
+            503,
+            "Batch scoring needs the database: a queued task is paid for at "
+            "post time, so its id has to be written down before the result "
+            "can go missing.",
+        )
+    try:
+        result = _run(
+            lambda: live.queue_scores(
+                found,
+                question_slugs=request.questions,
+                top_n=request.top_n,
+                dry_run=request.dry_run,
+                postback_url=_postback_url(),
+            )
+        )
+    except KeyError as e:
+        raise HTTPException(404, f"No question: {e}") from e
+    result["callback"] = bool(_postback_url())
+    return result
+
+
+@app.get("/api/tree/{slug}/jobs")
+def tree_jobs(slug: str) -> dict:
+    """Queued scoring for this tree, and what it has cost.
+
+    Sweeps stranded tasks on the way past. There is no job runner yet, and a
+    postback can be lost to a deploy landing mid-flight - so the recovery runs
+    where something is already polling. `task_get` is free and results live for
+    30 days, which makes a lost callback a re-fetch rather than a re-purchase,
+    but only if somebody actually goes and looks.
+    """
+    if not db.available():
+        return {"tasks": [], "spend": 0.0, "swept": None}
+    swept = live.sweep_pending(older_than_seconds=120, limit=10)
+    tasks = db.tasks_for_tree(slug)
+    return {
+        "tasks": tasks,
+        "pending": sum(1 for t in tasks if t["status"] == "posted"),
+        "done": sum(1 for t in tasks if t["status"] == "done"),
+        "failed": sum(1 for t in tasks if t["status"] == "failed"),
+        **db.task_spend(slug),
+        "swept": swept,
+    }
+
+
+@app.post("/api/callback/dataforseo")
+async def dataforseo_callback(http_request: Request) -> dict:
+    """Where finished Standard-queue tasks land.
+
+    This endpoint is public, so it is guarded by a shared token and FAILS
+    CLOSED: with no CALLBACK_TOKEN configured every callback is rejected rather
+    than trusted. Without that, anyone could POST a fabricated SERP response and
+    write a gap score the product would then present as measured evidence.
+
+    DataForSEO sends the payload gzipped. A body that will not decompress is
+    answered 400 rather than 500 - it is a malformed request, not our fault, and
+    a 500 invites a redelivery that will fail identically.
+
+    Ingestion is idempotent: a task already out of `posted` state is ignored, so
+    a redelivered callback cannot double-count a harvest.
+    """
+    token = http_request.query_params.get("token", "")
+    if not CALLBACK_TOKEN or token != CALLBACK_TOKEN:
+        raise HTTPException(403, "Bad callback token.")
+
+    raw = await http_request.body()
+    try:
+        if raw[:2] == b"\x1f\x8b":
+            raw = gzip.decompress(raw)
+        payload = json.loads(raw.decode("utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as e:
+        raise HTTPException(400, f"Undecodable callback body: {e}") from e
+
+    task_id = http_request.query_params.get("id") or ""
+    tasks = payload.get("tasks") or []
+    if tasks and tasks[0].get("id"):
+        task_id = tasks[0]["id"]  # the body is more trustworthy than the URL
+    if not task_id:
+        raise HTTPException(400, "Callback carried no task id.")
+
+    result = live.ingest_task(task_id, payload)
+    return {
+        "task_id": task_id,
+        "ingested": bool(result),
+        "discovered": len(result["discovered"]) if result else 0,
     }

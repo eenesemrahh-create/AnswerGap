@@ -51,14 +51,26 @@ answer to the seed itself is the primary data; filtering that would be
 second-guessing the source and would shrink the very tree this is meant to
 widen. Harvest is our own expansion decision, and drift compounds there.
 
-WHY THE LIVE ENDPOINT, NOT THE STANDARD QUEUE
----------------------------------------------
-CLAUDE.md mandates the Standard queue for product code and that stays right:
-Standard is ~3.3x cheaper. But Standard is async - you post a task, poll
-`tasks_ready`, then fetch. Results arrive in minutes, and a webhook cannot reach
-a laptop. Behind an interactive search box that is the wrong trade at a
-difference of about a tenth of a cent per search. When this moves off a
-developer machine, the swap belongs here and nowhere else.
+LIVE FOR THE SEARCH BOX, STANDARD FOR THE BATCH
+-----------------------------------------------
+CLAUDE.md mandates the Standard queue for product code - it is ~3.3x cheaper -
+and recorded the deviation honestly: Standard is async, results arrive in
+minutes, and "a webhook cannot reach a laptop". That was a fact about the
+laptop, and it expired the day this moved onto a server.
+
+What remains is a split rather than a compromise:
+
+  seed search   Live       one request, and a PERSON IS WAITING for it. Minutes
+                           of latency to save a tenth of a cent is the wrong
+                           trade - CLAUDE.md's own reasoning, unchanged.
+  batch scoring Standard   nobody watches a batch. Ten questions is where 3.3x
+                           stops being a rounding error: $0.020 becomes $0.006.
+
+The money is spent at task_post, not at fetch, so a queued task is paid for
+whether or not the result ever reaches us. That is why `serp_task` rows are
+written before anything else can fail, and why `sweep_pending` exists at all -
+results stay retrievable for 30 days, which makes a lost callback a re-fetch
+instead of a re-purchase, but only if the id was recorded.
 
 THE ARCHIVE IS EVIDENCE - LIVE DATA STAYS OUT OF IT
 ---------------------------------------------------
@@ -78,6 +90,7 @@ from pathlib import Path
 from . import db, languages, paths
 from .dataforseo import (
     LIVE_COST_PER_REQUEST,
+    STANDARD_COST_PER_REQUEST,
     Client,
     extract_paa,
     load_dotenv,
@@ -805,6 +818,27 @@ def score(tree: dict, question_slug: str, *, refresh: bool = False) -> dict:
         node["question"], location_code, language_code, cache_key=key
     )
 
+    result = apply_response(tree, node, response, key)
+    tree["billable_calls"] = client.billable_calls
+    tree["estimated_spend"] = _spend(response, client)
+    save_tree(tree)
+    return result
+
+
+def apply_response(tree: dict, node: dict, response: dict | None, key: str) -> dict:
+    """Turn one SERP response into a scored node, and mine the rest of it.
+
+    Shared by both routes into scoring: the Live call behind "check this
+    question", and a Standard-queue task arriving by postback minutes later.
+    They differ only in how the response was obtained and what it cost - what it
+    MEANS has to be identical, or a batch-scored question and a click-scored one
+    would disagree about the same page.
+
+    The caller is responsible for persisting the tree afterwards. Batch ingest
+    applies several responses to one tree and saving once is both cheaper and
+    the only way the harvest counts come out right.
+    """
+    language_code = tree["language_code"]
     results = _organic_results(response)
     scored, matching, status = score_question(node["question"], results, language_code)
     ai_sources = _ai_sources(response)
@@ -831,7 +865,7 @@ def score(tree: dict, question_slug: str, *, refresh: bool = False) -> dict:
         db.save_score(
             normalized=node["id"],
             question=node["question"],
-            language_code=tree["language_code"],
+            language_code=language_code,
             location_code=tree["location_code"],
             status=status,
             matching_pages=matching,
@@ -844,18 +878,231 @@ def score(tree: dict, question_slug: str, *, refresh: bool = False) -> dict:
         )
 
     # The same response, mined for everything else it carries. Free: it is
-    # already bought and, on a cache hit, already on disk.
+    # already bought and, on a cache hit, already stored.
     harvest = _attach_harvest(tree, node, _paa_titles(response))
     related_added = _merge_related(tree, _related_searches(response))
 
     _recount(tree)
     tree["updated_at"] = _now()
-    tree["billable_calls"] = client.billable_calls
-    tree["estimated_spend"] = _spend(response, client)
-    save_tree(tree)
     return {
         "node": node,
         "discovered": harvest["added"],
         "dropped": harvest["dropped"],
         "related_searches_added": related_added,
     }
+
+
+# ------------------------------------------------------- batch scoring
+#
+# Scoring one question at a time is correct and it is also nineteen clicks. The
+# batch route exists because CLAUDE.md's credit model already describes it -
+# discovery is one credit, gap analysis is priced separately - and because a
+# batch is the case where the Standard queue's 3.3x is real money rather than a
+# rounding error.
+#
+# Nothing here changes what a score MEANS. `apply_response` is shared with the
+# Live path, so a question scored in a batch and the same question scored by
+# clicking it produce the same row.
+
+
+def scoring_candidates(
+    tree: dict, limit: int | None = None, *, include_scored: bool = False
+) -> list[dict]:
+    """Which questions are worth spending on first.
+
+    CLAUDE.md's ranking signals, in the order it gives them: repeat count is
+    the strongest fallback when search volume is missing, shallow nodes are
+    more central, and reach is how much of the seed a node still carries. This
+    is also the rule "collect ~70 questions to show 10, then cut from the top" -
+    the cut has to be made on something, and these are the three signals that
+    cost nothing to compute.
+    """
+    nodes = [
+        n
+        for n in tree["nodes"]
+        if include_scored or not n.get("results_checked")
+    ]
+    nodes.sort(
+        key=lambda n: (
+            -(n.get("repeat_count") or 0),
+            n.get("depth", 0),
+            -(n.get("reach") or 0),
+        )
+    )
+    return nodes[:limit] if limit else nodes
+
+
+def queue_scores(
+    tree: dict,
+    *,
+    question_slugs: list[str] | None = None,
+    top_n: int | None = None,
+    dry_run: bool = False,
+    postback_url: str | None = None,
+) -> dict:
+    """Queue gap scoring for several questions on the Standard queue.
+
+    Returns the plan and its price when `dry_run`, otherwise what was posted.
+    The price is ALWAYS returned, dry run or not: CLAUDE.md's operating rule is
+    that the cost is visible before anything is spent, and a batch is precisely
+    where a surprise would be expensive.
+
+    A question already scored is skipped rather than re-bought. So is one with a
+    task still in flight - without that check, clicking the button twice pays
+    twice for the same answer.
+    """
+    language_code = tree["language_code"]
+    location_code = tree["location_code"]
+
+    if question_slugs:
+        by_slug = {n["slug"]: n for n in tree["nodes"]}
+        missing = [s for s in question_slugs if s not in by_slug]
+        if missing:
+            raise KeyError(", ".join(missing))
+        chosen = [by_slug[s] for s in question_slugs]
+    else:
+        chosen = scoring_candidates(tree, top_n or 10)
+
+    in_flight = {
+        t["cache_key"]
+        for t in db.tasks_for_tree(tree["slug"])
+        if t["status"] == "posted"
+    } if db.available() else set()
+
+    items: list[dict] = []
+    skipped: list[dict] = []
+    for node in chosen:
+        key = cache_key(node["question"], location_code, language_code)
+        if node.get("results_checked"):
+            skipped.append({"slug": node["slug"], "reason": "already_scored"})
+            continue
+        if key in in_flight:
+            skipped.append({"slug": node["slug"], "reason": "in_flight"})
+            continue
+        items.append(
+            {
+                "keyword": node["question"],
+                "location_code": location_code,
+                "language_code": language_code,
+                "cache_key": key,
+                "slug": node["slug"],
+                "normalized": node["id"],
+            }
+        )
+
+    # Estimated, and labelled as such. The real figure is whatever DataForSEO
+    # reports per task, and that is what gets recorded - CLAUDE.md: read the
+    # cost from the response, never trust the flat estimate.
+    estimate = round(len(items) * STANDARD_COST_PER_REQUEST, 6)
+    plan = {
+        "queued": [i["slug"] for i in items],
+        "skipped": skipped,
+        "count": len(items),
+        "estimated_spend": estimate,
+        "queue": "standard",
+    }
+
+    if dry_run or not items:
+        return {**plan, "dry_run": True} if dry_run else {**plan, "posted": []}
+
+    client = _client(max_requests=len(items), dry_run=False)
+    posted = client.serp_task_post(
+        [
+            {k: v for k, v in item.items() if k not in ("slug", "normalized")}
+            for item in items
+        ],
+        postback_url=postback_url,
+    )
+
+    # Write the receipts down BEFORE anything else can fail. The charge happens
+    # at post time, so an id that is not recorded is money with nothing
+    # attached to it.
+    by_key = {i["cache_key"]: i for i in items}
+    for row in posted:
+        item = by_key.get(row["cache_key"], {})
+        db.task_insert(
+            task_id=row["task_id"],
+            cache_key=row["cache_key"],
+            keyword=row["keyword"],
+            tree_slug=tree["slug"],
+            language_code=language_code,
+            location_code=location_code,
+            crawl_id=tree.get("crawl_id"),
+            normalized=item.get("normalized"),
+            cost=row.get("cost"),
+            status="posted" if row["task_id"] else "failed",
+            error=None if row["task_id"] else row.get("status_message"),
+        )
+
+    plan["posted"] = [
+        {"slug": by_key.get(r["cache_key"], {}).get("slug"), "task_id": r["task_id"],
+         "cost": r.get("cost"), "error": None if r["task_id"] else r.get("status_message")}
+        for r in posted
+    ]
+    plan["spend"] = round(sum(r.get("cost") or 0 for r in posted), 6)
+    return plan
+
+
+def ingest_task(task_id: str, response: dict) -> dict | None:
+    """Apply a finished Standard-queue task to its tree.
+
+    Idempotent by design: a postback that arrives twice - or arrives after the
+    sweep already fetched the same task - must not double-count the harvest or
+    write a second gap score. A task not in `posted` state is therefore ignored.
+    """
+    row = db.task_get(task_id)
+    if row is None or row["status"] != "posted":
+        return None
+
+    tree = load_tree(row["tree_slug"])
+    if tree is None:
+        db.task_finish(task_id, error=f"tree gone: {row['tree_slug']}")
+        return None
+
+    node = next((n for n in tree["nodes"] if n["id"] == normalize(
+        row["keyword"], row["language_code"])), None)
+    if node is None:
+        db.task_finish(task_id, error="question no longer in the tree")
+        return None
+
+    # The response was paid for at post time; store it before scoring so a
+    # failure in the metric does not cost the data.
+    db.snapshot_put(
+        row["cache_key"],
+        response,
+        language_code=row["language_code"],
+        location_code=row["location_code"],
+    )
+
+    result = apply_response(tree, node, response, row["cache_key"])
+    save_tree(tree)
+    db.task_finish(task_id)
+    return result
+
+
+def sweep_pending(*, older_than_seconds: int = 300, limit: int = 50) -> dict:
+    """Fetch tasks whose postback never arrived.
+
+    A callback can be lost to a deploy landing mid-flight or a transient error
+    on our side, and the task is already paid for. `task_get` is free and
+    results live for 30 days, so the recovery costs nothing but has to actually
+    be run - a stranded task is a charge with no answer attached.
+    """
+    if not db.available():
+        return {"checked": 0, "ingested": 0, "errors": []}
+
+    pending = db.tasks_pending(older_than_seconds, limit)
+    client = _client(max_requests=0, dry_run=False)
+    ingested = 0
+    errors: list[str] = []
+    for row in pending:
+        try:
+            response = client.serp_task_get(row["task_id"])
+            status = (response.get("tasks") or [{}])[0].get("status_code")
+            if status != 20000:
+                continue  # not finished yet; leave it pending
+            if ingest_task(row["task_id"], response):
+                ingested += 1
+        except Exception as exc:  # noqa: BLE001 - one bad task must not stop the sweep
+            errors.append(f"{row['task_id']}: {type(exc).__name__}")
+    return {"checked": len(pending), "ingested": ingested, "errors": errors}

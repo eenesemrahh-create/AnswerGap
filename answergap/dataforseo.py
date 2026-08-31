@@ -30,7 +30,11 @@ from . import db
 BASE_URL = "https://api.dataforseo.com"
 
 # CLAUDE.md: Standard is $0.60/1000 = $0.0006/request. Live is ~3.3x.
-LIVE_COST_PER_REQUEST = 0.0006 * 3.3
+STANDARD_COST_PER_REQUEST = 0.0006
+LIVE_COST_PER_REQUEST = STANDARD_COST_PER_REQUEST * 3.3
+
+# DataForSEO's ceiling: more than this in one task_post is error 40006.
+TASKS_PER_POST = 100
 
 # Live Advanced responses can take 30-60 seconds.
 TIMEOUT_SECONDS = 180
@@ -305,6 +309,106 @@ class Client:
         self._store(key, data)
         time.sleep(1.0)  # be polite between requests
         return data
+
+    # ------------------------------------------------- standard queue
+    #
+    # CLAUDE.md mandates the Standard queue for product code and records why it
+    # was not used: "Standard means post, poll tasks_ready, fetch - minutes, and
+    # a webhook CANNOT REACH A LAPTOP." That was true of a laptop. It is not
+    # true of a deployed service, so the deviation closes here.
+    #
+    # The split that remains is deliberate rather than a compromise. The seed
+    # search stays on Live because a person is sitting in front of it waiting,
+    # and minutes of latency to save a tenth of a cent is the wrong trade -
+    # exactly CLAUDE.md's own reasoning. Batch scoring goes Standard because
+    # nobody watches a batch, and ten questions is where the 3.3x starts to be
+    # real money.
+
+    def serp_task_post(
+        self,
+        items: list[dict],
+        *,
+        postback_url: str | None = None,
+    ) -> list[dict]:
+        """Queue SERP tasks on the Standard queue. BILLABLE at POST time.
+
+        `items` carry a `cache_key`, which rides along as the task's `tag` so a
+        postback identifies itself without a second lookup. DataForSEO accepts
+        at most 100 tasks per call; more than that is error 40006, so the caller
+        must chunk rather than discover it in production.
+
+        Returns one row per item with the assigned `task_id`, or the failure if
+        that single task was rejected - one bad keyword must not sink the batch.
+        """
+        if len(items) > TASKS_PER_POST:
+            raise ValueError(
+                f"{len(items)} tasks in one post; DataForSEO allows "
+                f"{TASKS_PER_POST}. Chunk before calling."
+            )
+
+        payload = []
+        for item in items:
+            task = {
+                "keyword": item["keyword"],
+                "location_code": item["location_code"],
+                "language_code": item["language_code"],
+                "device": "desktop",
+                "os": "windows",
+                "depth": item.get("depth", 10),
+                "tag": item["cache_key"][:255],
+                "priority": 1,  # normal. Priority 2 is 2x for speed we do not need.
+            }
+            if postback_url:
+                task["postback_url"] = postback_url
+                task["postback_data"] = "advanced"
+            payload.append(task)
+
+        if self.dry_run:
+            for item in items:
+                self.planned.append(
+                    f'POST task_post  "{item["keyword"]}"  '
+                    f'loc={item["location_code"]} lang={item["language_code"]}'
+                )
+            return []
+
+        data = self._http("POST", "/v3/serp/google/organic/task_post", payload)
+
+        out: list[dict] = []
+        for item, task in zip(items, data.get("tasks") or []):
+            ok = task.get("status_code") == 20100  # "Task Created."
+            if ok:
+                self.billable_calls += 1
+            out.append(
+                {
+                    "cache_key": item["cache_key"],
+                    "keyword": item["keyword"],
+                    "task_id": task.get("id") if ok else None,
+                    "status_code": task.get("status_code"),
+                    "status_message": task.get("status_message"),
+                    # CLAUDE.md: read the cost from the response, never estimate.
+                    "cost": task.get("cost"),
+                }
+            )
+        return out
+
+    def serp_task_get(self, task_id: str) -> dict:
+        """Fetch a completed task. FREE - the charge happened at post time.
+
+        Results stay retrievable for 30 days, which is what makes the postback
+        safe to lose: a missed callback is a re-fetch, not a re-purchase.
+        """
+        return self._http(
+            "GET", f"/v3/serp/google/organic/task_get/advanced/{task_id}", None
+        )
+
+    def serp_tasks_ready(self) -> dict:
+        """Which posted tasks have finished. FREE.
+
+        The fallback for a postback that never arrived - a deploy mid-flight, a
+        transient 500 on our side. Without it a lost callback would strand a
+        task that has already been paid for.
+        """
+        return self._http("GET", "/v3/serp/google/organic/tasks_ready", None)
 
     @property
     def estimated_spend(self) -> float:

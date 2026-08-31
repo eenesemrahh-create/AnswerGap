@@ -245,6 +245,43 @@ MIGRATIONS: list[tuple[str, str]] = [
         ALTER TABLE label ADD COLUMN IF NOT EXISTS results_checked INTEGER;
         """,
     ),
+    (
+        "0004_serp_task",
+        """
+        -- A question queued on DataForSEO's Standard queue and not yet back.
+        --
+        -- This table exists because the money is spent at POST time, not at
+        -- fetch time. Once a task is created it is paid for whether or not the
+        -- result ever reaches us, so the id has to be written down before the
+        -- callback can go missing - a deploy mid-flight, a 500 on our side, a
+        -- postback that simply never arrives. Results stay retrievable for 30
+        -- days, which turns every one of those into a re-fetch instead of a
+        -- re-purchase, but only if the id was recorded.
+        CREATE TABLE IF NOT EXISTS serp_task (
+            id            BIGSERIAL PRIMARY KEY,
+            task_id       TEXT UNIQUE,
+            cache_key     TEXT NOT NULL,
+            keyword       TEXT NOT NULL,
+            question_id   BIGINT REFERENCES question(id),
+            crawl_id      BIGINT REFERENCES crawl(id) ON DELETE SET NULL,
+            tree_slug     TEXT NOT NULL,
+            language_code TEXT NOT NULL,
+            location_code INTEGER NOT NULL,
+            -- posted -> done | failed. Never deleted: a finished task is the
+            -- receipt for a charge, and CLAUDE.md's spend figures have to trace
+            -- back to something.
+            status        TEXT NOT NULL DEFAULT 'posted',
+            cost          NUMERIC(12, 6),
+            error         TEXT,
+            posted_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
+            completed_at  TIMESTAMPTZ
+        );
+        CREATE INDEX IF NOT EXISTS serp_task_pending_idx
+            ON serp_task (status, posted_at);
+        CREATE INDEX IF NOT EXISTS serp_task_tree_idx
+            ON serp_task (tree_slug, posted_at DESC);
+        """,
+    ),
 ]
 
 
@@ -844,3 +881,134 @@ def label_rows() -> list[dict]:
             }
             for r in cur.fetchall()
         ]
+
+
+# ------------------------------------------------------- queued tasks
+
+
+def task_insert(
+    *,
+    task_id: str | None,
+    cache_key: str,
+    keyword: str,
+    tree_slug: str,
+    language_code: str,
+    location_code: int,
+    crawl_id: int | None = None,
+    normalized: str | None = None,
+    cost: float | None = None,
+    status: str = "posted",
+    error: str | None = None,
+) -> None:
+    """Write down a queued task. Called immediately after the POST succeeds.
+
+    The row is the receipt for a charge that has already happened, so it is
+    written before anything else can go wrong. ON CONFLICT DO NOTHING because a
+    retried post must not create a second receipt for the same task.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        question_id = None
+        if normalized:
+            question_id = _question_ids(cur, language_code, {normalized: keyword})[
+                normalized
+            ]
+        cur.execute(
+            """
+            INSERT INTO serp_task (task_id, cache_key, keyword, question_id,
+                                   crawl_id, tree_slug, language_code,
+                                   location_code, status, cost, error)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (task_id) DO NOTHING
+            """,
+            (
+                task_id, cache_key, keyword, question_id, crawl_id, tree_slug,
+                language_code, location_code, status, cost, error,
+            ),
+        )
+        conn.commit()
+
+
+def task_get(task_id: str) -> dict | None:
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT * FROM serp_task WHERE task_id = %s", (task_id,))
+        return cur.fetchone()
+
+
+def task_finish(task_id: str, *, error: str | None = None) -> None:
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE serp_task
+               SET status = %s, error = %s, completed_at = now()
+             WHERE task_id = %s
+            """,
+            ("failed" if error else "done", error, task_id),
+        )
+        conn.commit()
+
+
+def tasks_for_tree(tree_slug: str, limit: int = 200) -> list[dict]:
+    """Every task ever queued for a tree, newest first. Drives the progress UI."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT task_id, cache_key, keyword, status, cost, error,
+                   posted_at, completed_at
+              FROM serp_task
+             WHERE tree_slug = %s
+             ORDER BY posted_at DESC, id DESC
+             LIMIT %s
+            """,
+            (tree_slug, limit),
+        )
+        return [
+            {
+                **row,
+                "posted_at": row["posted_at"].isoformat(timespec="seconds"),
+                "completed_at": (
+                    row["completed_at"].isoformat(timespec="seconds")
+                    if row["completed_at"]
+                    else None
+                ),
+                "cost": float(row["cost"]) if row["cost"] is not None else None,
+            }
+            for row in cur.fetchall()
+        ]
+
+
+def tasks_pending(older_than_seconds: int = 0, limit: int = 100) -> list[dict]:
+    """Tasks posted but never completed - the sweep for a lost postback.
+
+    `older_than_seconds` avoids racing a callback that is simply still in
+    flight; a task posted ten seconds ago is not stranded, it is working.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT * FROM serp_task
+             WHERE status = 'posted'
+               AND task_id IS NOT NULL
+               AND posted_at < now() - (%s * interval '1 second')
+             ORDER BY posted_at
+             LIMIT %s
+            """,
+            (older_than_seconds, limit),
+        )
+        return cur.fetchall()
+
+
+def task_spend(tree_slug: str | None = None) -> dict:
+    """What the queue has actually cost. Reported, never estimated."""
+    with connect() as conn, conn.cursor() as cur:
+        if tree_slug:
+            cur.execute(
+                "SELECT count(*) AS n, COALESCE(sum(cost), 0) AS total"
+                " FROM serp_task WHERE tree_slug = %s",
+                (tree_slug,),
+            )
+        else:
+            cur.execute(
+                "SELECT count(*) AS n, COALESCE(sum(cost), 0) AS total FROM serp_task"
+            )
+        row = cur.fetchone()
+        return {"tasks": row["n"], "spend": float(row["total"])}
