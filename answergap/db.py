@@ -1011,4 +1011,6 @@ def task_spend(tree_slug: str | None = None) -> dict:
                 "SELECT count(*) AS n, COALESCE(sum(cost), 0) AS total FROM serp_task"
             )
         row = cur.fetchone()
-        return {"tasks": row["n"], "spend": float(row["total"])}
+        # NOT "tasks": the jobs endpoint spreads this alongside the task LIST,
+        # and a count silently replacing that list is a bug that type-checks.
+        return {"task_count": row["n"], "spend": float(row["total"])}

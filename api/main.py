@@ -502,7 +502,11 @@ def tree_jobs(slug: str) -> dict:
     """
     if not db.available():
         return {"tasks": [], "spend": 0.0, "swept": None}
-    swept = live.sweep_pending(older_than_seconds=120, limit=10)
+    # Three, not ten. Each one is a fetch plus scoring plus a tree write, and
+    # ten of them inside a GET timed the request out the first time this ran for
+    # real. The sweep is the FALLBACK path - with a callback configured it has
+    # nothing to do - so it only has to make progress on each poll, not finish.
+    swept = live.sweep_pending(older_than_seconds=120, limit=3)
     tasks = db.tasks_for_tree(slug)
     return {
         "tasks": tasks,
