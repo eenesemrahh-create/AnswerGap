@@ -913,6 +913,57 @@ is far away"* from *"we are doing something stupid"*, and those have opposite
 fixes. Both rounds of this work were aimed correctly only because the server-side
 numbers said which one it was.
 
+## Embeddings: researched 2026-09-01, DEFERRED
+
+Not built. The research is recorded so it does not have to be repeated.
+
+**Anthropic has no embeddings endpoint.** The official doc is explicit: *"Anthropic
+does not offer its own embedding model."* Its recommendation is **Voyage AI** —
+`voyage-4-lite` $0.02/1M, `voyage-4` $0.06/1M, `voyage-4-large` $0.12/1M, all
+1024-dim and explicitly multilingual. OpenAI `text-embedding-3-small` is the same
+$0.02/1M but sits behind Voyage on multilingual retrieval benchmarks, which
+matters here because the tr/de/es/fr trees are real.
+
+**Cost is a non-issue.** One scoring = 1 question + ~9 titles ≈ 200 tokens. A
+thousand scorings is **$0.012 of embeddings against $0.60 of SERP** — 2% of the
+bill it rides along with.
+
+### A measurement that corrected an assumption
+
+Turkish was expected to be the weak case — agglutinative, suffix-heavy. **It is
+not.** The language pack stems correctly and `beyazlatma` / `beyazlatmanın` /
+`beyazlatılır` all score **1.00**.
+
+The failure is **paraphrase**, in both languages, and Turkish is the *worse* of
+the two for it:
+
+```
+0.50  MISSED   Can 60 year old teeth be whitened?  <-  Can Senior Teeth be Whitened?
+0.25  MISSED   Kredi notu nasıl yükseltilir?       <-  Kredi puanını artırmanın yolları
+```
+
+`kredi notu` ↔ `kredi puanı`, `yükseltilir` ↔ `artırmanın`: same meaning, no
+shared words, 0.25. Both pages answer their question; the metric says they do
+not, and the product reports a gap that is not there.
+
+**Concrete consequence, in the archive:** `kredi-notu-nasil-yukseltilir` scores
+**gap=5 of 9 scored**. With a metric that cannot match `kredi notu` to `kredi
+puanı`, that ratio is not credible. How many of those five are real is currently
+unknown — and it is exactly the number the product sells.
+
+### What it will and will not settle
+
+It will **not** settle the threshold. That still needs ~200 labels; there is 1.
+
+What it *can* settle, and cheaply, is the claim in the SETTLED block: the 14
+Phase 0.5 labels and all 58 archive responses survive, so the four rows lexical
+could not separate — one real gap and three false, all scoring identically — can
+be re-scored under embeddings and checked. Precision is unmeasurable at n=14
+with one positive; **whether the collision breaks is not.**
+
+Ships behind the same seam as everything else: no key -> falls back to lexical,
+exactly as no `DATABASE_URL` falls back to files.
+
 ## Spend to date
 
 **~$0.118** total ($0.107 before Phase B, $0.0112 of live crawling on
