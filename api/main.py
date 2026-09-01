@@ -633,3 +633,41 @@ def tree_diff(slug: str) -> dict:
     if not db.available():
         raise HTTPException(503, "No database configured.")
     return db.diff_and_history(slug)
+
+
+@app.get("/api/dev/timing")
+def dev_timing() -> dict:
+    """Where a request's time actually goes, measured on the server.
+
+    Added because a client-side stopwatch cannot tell "the database is far away"
+    from "we are doing something stupid", and the two have opposite fixes. The
+    first round of optimisation was aimed correctly only because the numbers
+    said the Atlantic was innocent; this endpoint is what makes the next round
+    equally cheap to aim.
+    """
+    import time
+
+    marks: dict[str, float] = {}
+
+    def timed(name: str, fn):
+        start = time.perf_counter()
+        try:
+            value = fn()
+        except Exception as exc:  # noqa: BLE001 - a probe must not fail the probe
+            value = f"{type(exc).__name__}"
+        marks[name] = round((time.perf_counter() - start) * 1000, 1)
+        return value
+
+    timed("credentials_env_read", live.available)
+    timed("db_roundtrip_select1", lambda: _select_one())
+    timed("live_tree_count", db.live_tree_count)
+    timed("label_counts", labels.counts)
+    timed("archive_trees_len", lambda: len(_TREES))
+    return {"ms": marks, "note": "server-side only; excludes network"}
+
+
+def _select_one() -> int:
+    """The cheapest possible query. Measures one pooled round trip and nothing else."""
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT 1 AS n")
+        return cur.fetchone()["n"]
