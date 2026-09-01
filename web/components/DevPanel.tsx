@@ -22,15 +22,15 @@ import { useI18n } from "@/i18n";
  * The point is that the check exists, so sign-in changes where the role comes
  * from and nothing else.
  */
-export function DevPanel({ meta }: { meta: Meta }) {
+export function DevPanel({ meta, slug }: { meta: Meta; slug?: string }) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [spend, setSpend] = useState<DevSpend | null>(null);
 
   useEffect(() => {
     if (!open) return;
-    fetchDevSpend().then(setSpend).catch(() => setSpend(null));
-  }, [open]);
+    fetchDevSpend(slug).then(setSpend).catch(() => setSpend(null));
+  }, [open, slug]);
 
   if (meta.role !== "developer") return null;
 
@@ -52,6 +52,9 @@ export function DevPanel({ meta }: { meta: Meta }) {
             <p className="muted">{t("dev.loading")}</p>
           ) : (
             <>
+              <p className="muted devscope">
+                {spend.slug ? t("dev.scopeTree") : t("dev.scopeAll")}
+              </p>
               <table className="devtable">
                 <tbody>
                   <tr>
@@ -82,6 +85,11 @@ export function DevPanel({ meta }: { meta: Meta }) {
               </table>
 
               <div className="devgrid">
+                {spend.slug && (
+                  <span>
+                    {t("dev.grandTotal", { total: money(spend.grand_total) })}
+                  </span>
+                )}
                 <span>
                   {t("dev.perRequest", {
                     live: money(meta.pricing.live_per_request),
@@ -89,11 +97,16 @@ export function DevPanel({ meta }: { meta: Meta }) {
                   })}
                 </span>
                 <span>
-                  {t("dev.rows", {
-                    questions: spend.rows.questions,
-                    scores: spend.rows.gap_scores,
-                    snapshots: spend.rows.serp_snapshots,
-                  })}
+                  {spend.slug
+                    ? t("dev.rowsTree", {
+                        questions: spend.rows.questions,
+                        tasks: spend.rows.serp_snapshots,
+                      })
+                    : t("dev.rows", {
+                        questions: spend.rows.questions,
+                        scores: spend.rows.gap_scores ?? 0,
+                        snapshots: spend.rows.serp_snapshots,
+                      })}
                 </span>
                 <span>
                   {t("dev.storage", {

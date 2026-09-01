@@ -239,7 +239,16 @@ export interface DevSpend {
     if_live: number;
   };
   total: number;
-  rows: { questions: number; gap_scores: number; serp_snapshots: number };
+  rows: {
+    questions: number;
+    /** Null when scoped to one tree - a per-tree score count is not meaningful. */
+    gap_scores: number | null;
+    serp_snapshots: number;
+  };
+  /** Which tree this is scoped to, or null for everything. */
+  slug: string | null;
+  /** Spent across the whole project, whatever the scope above. */
+  grand_total: number;
   storage: StorageState;
   callback_configured: boolean;
 }

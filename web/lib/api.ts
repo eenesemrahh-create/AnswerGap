@@ -144,8 +144,15 @@ export const scoreBatch = (
 export const fetchJobs = (slug: string) =>
   get<JobsStatus>(`/api/tree/${slug}/jobs`);
 
-/** Everything spent, reported rather than estimated. Developer view only. */
-export const fetchDevSpend = () => get<DevSpend>("/api/dev/spend");
+/**
+ * What has been spent, reported rather than estimated. Developer view only.
+ *
+ * Pass a slug to scope it to one tree - "what did THIS analysis cost" is the
+ * question a developer looking at a tree is actually asking. The grand total
+ * comes back either way.
+ */
+export const fetchDevSpend = (slug?: string) =>
+  get<DevSpend>(`/api/dev/spend${slug ? `?slug=${encodeURIComponent(slug)}` : ""}`);
 
 /** What Google changed between this seed's two most recent crawls. */
 export const fetchDiff = (slug: string) =>

@@ -188,7 +188,7 @@ export function TreeScreen({ slug }: { slug: string }) {
           </Notice>
         )}
         {tree.source === "live" && <CrawlDiff slug={slug} />}
-        {meta && <DevPanel meta={meta} />}
+        {meta && <DevPanel meta={meta} slug={slug} />}
         <LocalePicker />
       </header>
 

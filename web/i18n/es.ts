@@ -143,6 +143,10 @@ export const es: Messages = {
 
   dev: {
     role: "desarrollador",
+    scopeTree: "Solo este análisis.",
+    scopeAll: "Todo, todos los árboles.",
+    grandTotal: "Todos los árboles: {total}",
+    rowsTree: "{questions} preguntas · {tasks} comprobaciones en cola",
     loading: "Leyendo…",
     liveQueue: "Live",
     standardQueue: "Standard",

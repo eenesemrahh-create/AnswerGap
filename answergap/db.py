@@ -49,6 +49,11 @@ except ImportError:  # the filesystem backend is still a supported way to run
     psycopg = None  # type: ignore[assignment]
     dict_row = None  # type: ignore[assignment]
 
+try:
+    from psycopg_pool import ConnectionPool
+except ImportError:  # pooling is an optimisation, not a requirement
+    ConnectionPool = None  # type: ignore[assignment]
+
 
 class NotConfigured(RuntimeError):
     """No DATABASE_URL. The caller should fall back to the filesystem."""
@@ -69,6 +74,33 @@ def available() -> bool:
     return bool(url()) and psycopg is not None
 
 
+# One pool for the process. Opening a connection per call is a TCP handshake, a
+# TLS handshake and an auth round trip EVERY TIME, and this codebase calls
+# `connect()` once per operation - so /api/meta was paying for two of them plus
+# twenty-odd queries to return a number. Measured before pooling: 8.9s.
+#
+# max_size is small on purpose. Railway's Postgres has a modest connection
+# ceiling and one API process does not need more; a pool that exhausts the
+# server is worse than no pool.
+_POOL: Any = None
+
+
+def _pool() -> Any:
+    global _POOL
+    if _POOL is None:
+        _POOL = ConnectionPool(
+            url(),
+            min_size=1,
+            max_size=5,
+            kwargs={"row_factory": dict_row},
+            # Reconnect rather than hand out a socket the database closed while
+            # the service was idle - which on a container it regularly does.
+            check=ConnectionPool.check_connection,
+            open=True,
+        )
+    return _POOL
+
+
 @contextmanager
 def connect() -> Iterator[Any]:
     dsn = url()
@@ -76,7 +108,11 @@ def connect() -> Iterator[Any]:
         raise NotConfigured("DATABASE_URL is not set.")
     if psycopg is None:
         raise NotConfigured("psycopg is not installed.")
-    with psycopg.connect(dsn, row_factory=dict_row) as conn:
+    if ConnectionPool is None:
+        with psycopg.connect(dsn, row_factory=dict_row) as conn:
+            yield conn
+        return
+    with _pool().connection() as conn:
         yield conn
 
 
@@ -714,11 +750,28 @@ def load_tree(slug: str, slug_for) -> dict | None:
         return _assemble(cur, crawl, slug_for)
 
 
+def live_tree_count() -> int:
+    """How many live trees there are. A COUNT, not a rebuild.
+
+    /api/meta used to answer this with `len(load_trees())`, which built every
+    tree in full - seven trees, twenty-odd queries and two connections - to
+    return one number. Measured at 8.9 seconds for a 612-byte response.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT count(DISTINCT slug) AS n FROM crawl")
+        return cur.fetchone()["n"]
+
+
 def load_trees(slug_for) -> list[dict]:
     """Every live tree: the most recent crawl of each slug.
 
     Older crawls stay - they are the diff engine's raw material - but the
     product shows the current state, so the read path takes the latest.
+
+    BATCHED. The obvious implementation calls `_assemble` per crawl, which is
+    three queries each: with seven trees that is twenty-two round trips on one
+    page load. This issues four queries total regardless of how many trees there
+    are, then does the joining in Python where it costs nothing.
     """
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
@@ -729,25 +782,85 @@ def load_trees(slug_for) -> list[dict]:
             """
         )
         crawls = cur.fetchall()
-        return [_assemble(cur, c, slug_for) for c in crawls]
+        if not crawls:
+            return []
+
+        crawl_ids = [c["id"] for c in crawls]
+
+        cur.execute(
+            """
+            SELECT e.crawl_id, e.depth, e.relevance, e.reach, e.discovered_by,
+                   child.normalized AS child, child.text AS child_text,
+                   child.id AS child_id, parent.normalized AS parent
+              FROM paa_edge e
+              JOIN question child ON child.id = e.child_id
+              LEFT JOIN question parent ON parent.id = e.parent_id
+             WHERE e.crawl_id = ANY(%s)
+             ORDER BY e.crawl_id, e.depth, e.id
+            """,
+            (crawl_ids,),
+        )
+        edges_by_crawl: dict[int, list[dict]] = {}
+        for row in cur.fetchall():
+            edges_by_crawl.setdefault(row["crawl_id"], []).append(row)
+
+        cur.execute(
+            "SELECT crawl_id, phrase FROM related_search"
+            " WHERE crawl_id = ANY(%s) ORDER BY phrase",
+            (crawl_ids,),
+        )
+        related_by_crawl: dict[int, list[str]] = {}
+        for row in cur.fetchall():
+            related_by_crawl.setdefault(row["crawl_id"], []).append(row["phrase"])
+
+        # Scores are keyed by question AND market, so one query covers every
+        # tree at once - which is only true because gap_score is not keyed by
+        # tree. The storage shape pays for itself again here.
+        question_ids = sorted(
+            {r["child_id"] for rows in edges_by_crawl.values() for r in rows}
+        )
+        markets = sorted({c["location_code"] for c in crawls})
+        scores_by_market = _latest_scores_bulk(cur, markets, question_ids)
+
+        trees = []
+        for crawl in crawls:
+            trees.append(
+                _build(
+                    crawl,
+                    edges_by_crawl.get(crawl["id"], []),
+                    related_by_crawl.get(crawl["id"], []),
+                    scores_by_market.get(crawl["location_code"], {}),
+                    slug_for,
+                )
+            )
+        return trees
 
 
-def _assemble(cur, crawl: dict, slug_for) -> dict:
+def _latest_scores_bulk(
+    cur, markets: list[int], question_ids: list[int]
+) -> dict[int, dict[int, dict]]:
+    """Newest gap score per (market, question), for every tree in one query."""
+    if not question_ids or not markets:
+        return {}
     cur.execute(
         """
-        SELECT e.depth, e.relevance, e.reach, e.discovered_by,
-               child.normalized AS child, child.text AS child_text,
-               child.id AS child_id, parent.normalized AS parent
-        FROM paa_edge e
-        JOIN question child ON child.id = e.child_id
-        LEFT JOIN question parent ON parent.id = e.parent_id
-        WHERE e.crawl_id = %s
-        ORDER BY e.depth, e.id
+        SELECT DISTINCT ON (location_code, question_id)
+               location_code, question_id, status, matching_pages,
+               results_checked, results, ai_sources, source_key, scored_at
+          FROM gap_score
+         WHERE location_code = ANY(%s) AND question_id = ANY(%s)
+         ORDER BY location_code, question_id, scored_at DESC, id DESC
         """,
-        (crawl["id"],),
+        (markets, question_ids),
     )
-    edge_rows = cur.fetchall()
+    out: dict[int, dict[int, dict]] = {}
+    for row in cur.fetchall():
+        out.setdefault(row["location_code"], {})[row["question_id"]] = row
+    return out
 
+
+def _build(crawl, edge_rows, related, scores_by_qid, slug_for) -> dict:
+    """Shape one crawl's rows into a tree. Shared by the batched and single paths."""
     questions = {r["child"]: r["child_text"] for r in edge_rows}
     by_id = {r["child_id"]: r["child"] for r in edge_rows}
     edges = [
@@ -761,8 +874,6 @@ def _assemble(cur, crawl: dict, slug_for) -> dict:
         }
         for r in edge_rows
     ]
-
-    found = _latest_scores(cur, crawl["location_code"], list(by_id))
     scores = {
         by_id[qid]: {
             "status": s["status"],
@@ -775,15 +886,9 @@ def _assemble(cur, crawl: dict, slug_for) -> dict:
                 s["scored_at"].isoformat(timespec="seconds") if s["scored_at"] else None
             ),
         }
-        for qid, s in found.items()
+        for qid, s in scores_by_qid.items()
+        if qid in by_id
     }
-
-    cur.execute(
-        "SELECT phrase FROM related_search WHERE crawl_id = %s ORDER BY phrase",
-        (crawl["id"],),
-    )
-    related = [r["phrase"] for r in cur.fetchall()]
-
     tree = recompose(dict(crawl), questions, edges, scores, related, slug_for)
     tree["crawl_id"] = crawl["id"]
     tree["updated_at"] = (
@@ -792,6 +897,35 @@ def _assemble(cur, crawl: dict, slug_for) -> dict:
         else None
     )
     return tree
+
+
+def _assemble(cur, crawl: dict, slug_for) -> dict:
+    """One crawl, three queries. Used by `load_tree`; `load_trees` batches instead."""
+    cur.execute(
+        """
+        SELECT e.depth, e.relevance, e.reach, e.discovered_by,
+               child.normalized AS child, child.text AS child_text,
+               child.id AS child_id, parent.normalized AS parent
+          FROM paa_edge e
+          JOIN question child ON child.id = e.child_id
+          LEFT JOIN question parent ON parent.id = e.parent_id
+         WHERE e.crawl_id = %s
+         ORDER BY e.depth, e.id
+        """,
+        (crawl["id"],),
+    )
+    edge_rows = cur.fetchall()
+
+    cur.execute(
+        "SELECT phrase FROM related_search WHERE crawl_id = %s ORDER BY phrase",
+        (crawl["id"],),
+    )
+    related = [r["phrase"] for r in cur.fetchall()]
+
+    found = _latest_scores(
+        cur, crawl["location_code"], [r["child_id"] for r in edge_rows]
+    )
+    return _build(crawl, edge_rows, related, found, slug_for)
 
 
 # ------------------------------------------------------------ serp cache
@@ -1034,8 +1168,14 @@ def task_spend(tree_slug: str | None = None) -> dict:
         return {"task_count": row["n"], "spend": float(row["total"])}
 
 
-def spend_summary() -> dict:
-    """Everything that has been paid for, split by how it was bought.
+def spend_summary(slug: str | None = None) -> dict:
+    """What has been paid for, split by how it was bought.
+
+    Scoped to one tree when `slug` is given. That is the figure a developer
+    actually wants while looking at a tree - "what did THIS analysis cost" - and
+    a panel showing the same global number on every page answers a question
+    nobody was asking. The global total is still returned alongside it, because
+    the point of the panel is that nothing is hidden.
 
     Both halves are REPORTED figures, not estimates: `crawl.spend` comes from
     the cost DataForSEO put on the live response, and `serp_task.cost` from what
@@ -1043,32 +1183,64 @@ def spend_summary() -> dict:
     never trusted, and the developer view is the one place that would be most
     tempting to fill with a plausible-looking guess.
     """
+    where_crawl = "WHERE slug = %s" if slug else ""
+    where_task = "WHERE tree_slug = %s" if slug else ""
+    args = (slug,) if slug else ()
+
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
-            """
+            f"""
             SELECT count(*) AS n,
                    COALESCE(sum(spend), 0) AS total,
                    COALESCE(sum(billable_calls), 0) AS requests
-              FROM crawl
-            """
+              FROM crawl {where_crawl}
+            """,
+            args,
         )
         crawls = cur.fetchone()
         cur.execute(
-            """
+            f"""
             SELECT count(*) AS n,
                    COALESCE(sum(cost), 0) AS total,
                    count(*) FILTER (WHERE status = 'posted') AS pending,
                    count(*) FILTER (WHERE status = 'failed') AS failed
-              FROM serp_task
-            """
+              FROM serp_task {where_task}
+            """,
+            args,
         )
         tasks = cur.fetchone()
-        cur.execute("SELECT count(*) AS n FROM serp_snapshot")
-        snapshots = cur.fetchone()
-        cur.execute("SELECT count(*) AS n FROM question")
-        questions = cur.fetchone()
-        cur.execute("SELECT count(*) AS n FROM gap_score")
-        scores = cur.fetchone()
+
+        if slug:
+            # Row counts for one tree: the questions its latest crawl reaches.
+            cur.execute(
+                """
+                WITH latest AS (
+                    SELECT id FROM crawl WHERE slug = %s
+                     ORDER BY created_at DESC, id DESC LIMIT 1
+                )
+                SELECT count(DISTINCT e.child_id) AS n
+                  FROM paa_edge e JOIN latest l ON l.id = e.crawl_id
+                """,
+                (slug,),
+            )
+            questions = cur.fetchone()
+            cur.execute(
+                "SELECT count(*) AS n FROM serp_task WHERE tree_slug = %s", (slug,)
+            )
+            snapshots = cur.fetchone()
+            scores = {"n": None}
+        else:
+            cur.execute("SELECT count(*) AS n FROM serp_snapshot")
+            snapshots = cur.fetchone()
+            cur.execute("SELECT count(*) AS n FROM question")
+            questions = cur.fetchone()
+            cur.execute("SELECT count(*) AS n FROM gap_score")
+            scores = cur.fetchone()
+
+        cur.execute("SELECT COALESCE(sum(spend), 0) AS c FROM crawl")
+        all_crawls = float(cur.fetchone()["c"])
+        cur.execute("SELECT COALESCE(sum(cost), 0) AS c FROM serp_task")
+        all_tasks = float(cur.fetchone()["c"])
 
     live_total = float(crawls["total"])
     task_total = float(tasks["total"])
@@ -1098,6 +1270,10 @@ def spend_summary() -> dict:
             "gap_scores": scores["n"],
             "serp_snapshots": snapshots["n"],
         },
+        "slug": slug,
+        # Always present, whatever the scope. A transparency panel that can only
+        # show you one slice is not transparent.
+        "grand_total": round(all_crawls + all_tasks, 6),
     }
 
 
@@ -1246,3 +1422,65 @@ def crawl_history(slug: str, limit: int = 20) -> list[dict]:
             }
             for r in cur.fetchall()
         ]
+
+
+def diff_and_history(slug: str) -> dict:
+    """The diff and the crawl history, in ONE connection.
+
+    Three separate helpers meant three pooled checkouts and three round trips
+    for a 387-byte response. They are still separate functions because they are
+    separately meaningful; this is the call the endpoint makes.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT id, created_at FROM crawl
+             WHERE slug = %s ORDER BY created_at DESC, id DESC LIMIT 2
+            """,
+            (slug,),
+        )
+        crawls = cur.fetchall()
+
+        cur.execute(
+            """
+            SELECT c.id, c.created_at, c.spend, c.billable_calls,
+                   count(DISTINCT e.child_id) AS questions
+              FROM crawl c
+              LEFT JOIN paa_edge e ON e.crawl_id = c.id
+             WHERE c.slug = %s
+             GROUP BY c.id
+             ORDER BY c.created_at DESC, c.id DESC
+             LIMIT 20
+            """,
+            (slug,),
+        )
+        history = [
+            {
+                "crawl_id": r["id"],
+                "at": r["created_at"].isoformat(timespec="seconds"),
+                "questions": r["questions"],
+                "spend": float(r["spend"] or 0),
+                "billable_calls": r["billable_calls"],
+            }
+            for r in cur.fetchall()
+        ]
+
+        diff = None
+        if len(crawls) >= 2:
+            current, previous = crawls[0], crawls[1]
+            now = _paa_questions(cur, current["id"])
+            before = _paa_questions(cur, previous["id"])
+            diff = {
+                "current": {
+                    "crawl_id": current["id"],
+                    "at": current["created_at"].isoformat(timespec="seconds"),
+                },
+                "previous": {
+                    "crawl_id": previous["id"],
+                    "at": previous["created_at"].isoformat(timespec="seconds"),
+                },
+                **compare_questions(now, before),
+                "crawl_count": len(history),
+            }
+
+    return {"diff": diff, "history": history}

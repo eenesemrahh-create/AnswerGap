@@ -179,6 +179,10 @@ export const en = {
   // The developer role's surface. Dollars, not credits - see DevPanel.
   dev: {
     role: "developer",
+    scopeTree: "This analysis only.",
+    scopeAll: "Everything, all trees.",
+    grandTotal: "All trees: {total}",
+    rowsTree: "{questions} questions · {tasks} queued checks",
     loading: "Reading…",
     liveQueue: "Live",
     standardQueue: "Standard",

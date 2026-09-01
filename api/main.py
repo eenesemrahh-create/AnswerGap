@@ -164,7 +164,10 @@ def meta() -> dict:
         # service at all, which is the difference between "no database yet" and
         # "database present but broken" - two problems with different fixes.
         "storage": _DB,
-        "tree_count": len(_TREES) + len(_live_all()),
+        # A COUNT, not a rebuild. This used to be `len(_live_all())`, which
+        # built every live tree in full to return one number - measured at 8.9
+        # seconds for a 612-byte response.
+        "tree_count": len(_TREES) + _live_count(),
         # How much labelled data the threshold question has to work with.
         # Phase 0.5 settled it with 14 rows and could not separate the one
         # real gap from four false ones; the UI says so out loud, and this
@@ -212,6 +215,15 @@ def _live_all() -> list[dict]:
         except Exception:  # noqa: BLE001 - reported via /api/meta, never fatal
             pass
     return list(_LIVE.values())
+
+
+def _live_count() -> int:
+    if db.available():
+        try:
+            return db.live_tree_count()
+        except Exception:  # noqa: BLE001
+            pass
+    return len(_LIVE)
 
 
 def _live_one(slug: str) -> dict | None:
@@ -587,7 +599,7 @@ async def dataforseo_callback(http_request: Request) -> dict:
 
 
 @app.get("/api/dev/spend")
-def dev_spend() -> dict:
+def dev_spend(slug: str | None = None) -> dict:
     """Everything spent, and what the queue choice saved.
 
     Reported figures only. The estimate exists to price a dry run BEFORE a
@@ -597,7 +609,7 @@ def dev_spend() -> dict:
     """
     if not db.available():
         raise HTTPException(503, "No database configured.")
-    summary = db.spend_summary()
+    summary = db.spend_summary(slug)
     summary["storage"] = _DB
     summary["callback_configured"] = bool(_postback_url())
     return summary
@@ -620,7 +632,4 @@ def tree_diff(slug: str) -> dict:
     """
     if not db.available():
         raise HTTPException(503, "No database configured.")
-    return {
-        "diff": db.diff_crawls(slug),
-        "history": db.crawl_history(slug),
-    }
+    return db.diff_and_history(slug)

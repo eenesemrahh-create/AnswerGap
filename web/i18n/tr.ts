@@ -144,6 +144,10 @@ export const tr: Messages = {
 
   dev: {
     role: "geliştirici",
+    scopeTree: "Yalnızca bu analiz.",
+    scopeAll: "Her şey, bütün ağaçlar.",
+    grandTotal: "Bütün ağaçlar: {total}",
+    rowsTree: "{questions} soru · {tasks} kuyruğa alınmış kontrol",
     loading: "Okunuyor…",
     liveQueue: "Live",
     standardQueue: "Standard",

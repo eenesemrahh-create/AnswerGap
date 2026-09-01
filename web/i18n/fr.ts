@@ -144,6 +144,10 @@ export const fr: Messages = {
 
   dev: {
     role: "développeur",
+    scopeTree: "Cette analyse uniquement.",
+    scopeAll: "Tout, tous les arbres.",
+    grandTotal: "Tous les arbres : {total}",
+    rowsTree: "{questions} questions · {tasks} vérifications en file",
     loading: "Lecture…",
     liveQueue: "Live",
     standardQueue: "Standard",

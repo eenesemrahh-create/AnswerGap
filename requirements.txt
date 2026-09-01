@@ -14,3 +14,8 @@ pydantic==2.13.4
 # Postgres. `[binary]` ships the compiled libpq, so no system package and no
 # build step is needed on Railway or on a laptop.
 psycopg[binary]==3.3.4
+
+# Connection pooling. Without it every database call pays a fresh TCP + TLS +
+# auth round trip, which measured as seconds per request rather than
+# milliseconds - see the performance note in CLAUDE.md.
+psycopg-pool==3.3.1
