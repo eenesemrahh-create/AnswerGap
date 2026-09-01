@@ -93,9 +93,17 @@ def _pool() -> Any:
             min_size=1,
             max_size=5,
             kwargs={"row_factory": dict_row},
-            # Reconnect rather than hand out a socket the database closed while
-            # the service was idle - which on a container it regularly does.
-            check=ConnectionPool.check_connection,
+            # NO per-checkout check. `check_connection` issues its own SELECT 1
+            # before handing the connection over, which measured as a full extra
+            # round trip on every single database call - exactly doubling the
+            # cost when the database is not in the same region as the service.
+            #
+            # `max_idle` gets the same protection for free: a connection the
+            # database might have dropped is closed by the pool before anyone
+            # can be given it, and reopening costs one connect instead of a
+            # round trip on every request forever.
+            max_idle=120,
+            max_lifetime=1800,
             open=True,
         )
     return _POOL

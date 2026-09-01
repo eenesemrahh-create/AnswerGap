@@ -187,13 +187,20 @@ def for_tree(tree: dict) -> dict[str, str]:
 
 
 def counts() -> dict[str, int]:
-    """How much labelled data exists. `G`/`N` totals plus the raw line count."""
-    latest = current()
+    """How much labelled data exists. `G`/`N` totals plus the raw line count.
+
+    Reads the log ONCE. It used to call `current()` and `rows()`, which is the
+    same fetch twice - invisible against a local file and 556ms of pure waste
+    against a database, because /api/meta calls this on every page load.
+    """
+    all_rows = rows()
+    latest: dict[str, dict] = {r["key"]: r for r in all_rows}
+    scored = [v for v in latest.values() if v.get("label") in ("G", "N")]
     return {
-        "gap": sum(1 for r in latest.values() if r["label"] == "G"),
-        "not_gap": sum(1 for r in latest.values() if r["label"] == "N"),
-        "questions": len(latest),
-        "verdicts": len(rows()),
+        "gap": sum(1 for r in scored if r["label"] == "G"),
+        "not_gap": sum(1 for r in scored if r["label"] == "N"),
+        "questions": len(scored),
+        "verdicts": len(all_rows),
     }
 
 

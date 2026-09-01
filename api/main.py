@@ -659,11 +659,24 @@ def dev_timing() -> dict:
         return value
 
     timed("credentials_env_read", live.available)
-    timed("db_roundtrip_select1", lambda: _select_one())
+    timed("checkout_plus_one_query", lambda: _select_one())
+    # Five queries inside ONE checkout. The difference between this and the
+    # line above is what a pooled checkout costs; this divided by five is the
+    # raw round trip to the database, which is the number that says whether the
+    # database is in the same region as the service.
+    timed("five_queries_one_connection", lambda: _select_many(5))
     timed("live_tree_count", db.live_tree_count)
     timed("label_counts", labels.counts)
     timed("archive_trees_len", lambda: len(_TREES))
     return {"ms": marks, "note": "server-side only; excludes network"}
+
+
+def _select_many(n: int) -> int:
+    with db.connect() as conn, conn.cursor() as cur:
+        for _ in range(n):
+            cur.execute("SELECT 1 AS n")
+            cur.fetchone()
+    return n
 
 
 def _select_one() -> int:
