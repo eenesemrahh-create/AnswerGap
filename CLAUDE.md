@@ -854,6 +854,65 @@ data is flowing: **4 of 8 scored questions carry 7–12 citations each.** The op
 question — *should AI Overview become a product surface?* — now has data behind
 it whenever it is answered.
 
+## Performance, 2026-09-01: measure before optimising
+
+`/api/meta` took **8.9 s to return 612 bytes**. The obvious suspect — a US
+server answering a user in Türkiye — was **innocent**, and only measuring said
+so: connect time was 0.19 s and TTFB was 8.94 s, so essentially all of it was
+our own compute. `/api/countries`, answered from memory, came back in 0.33 s.
+**That is what the network actually costs.**
+
+| endpoint | before | after |
+|---|---:|---:|
+| `/api/meta` | 8.94 s | **1.51 s** |
+| `/api/trees` | 6.06 s | **1.49 s** |
+| `/api/tree/{slug}` | 2.25 s | **1.33 s** |
+| `/diff` | 4.83 s | **1.42 s** |
+| `/jobs` | 4.55 s | **2.13 s** |
+
+**Four causes, all ours:**
+
+1. **No connection pooling.** Every `db.*` call opened a fresh TCP + TLS + auth
+   round trip, and this codebase calls `connect()` once per operation.
+2. **`/api/meta` answered "how many trees?" by building all of them.**
+   `len(load_trees())` — seven trees, twenty-odd queries — for one number.
+3. **`load_trees` was N+1**: three queries per crawl. Now four queries total
+   regardless of tree count, which is only possible because `gap_score` is keyed
+   by question and market rather than by tree. The storage shape paying off again.
+4. **`labels.counts()` fetched the log twice.** `current()` and `rows()` are the
+   same read. Invisible against a file, 500 ms of waste against a database — and
+   `/api/meta` calls it on every page load.
+
+Also removed: the pool's per-checkout `check_connection`, which issues its own
+`SELECT 1` before handing over the connection — a full extra round trip on
+*every* database call. `max_idle` gives the same protection for free.
+
+### The finding no code change can fix
+
+`/api/dev/timing` runs one query in one checkout, then five queries in one
+checkout. The difference isolates the round trip:
+
+```
+checkout + 1 query    : 430 ms
+1 checkout + 5 queries: 1006-1152 ms
+  -> raw round trip   : ~150 ms per query
+  -> checkout overhead: ~260 ms
+```
+
+**150 ms per query is a transatlantic round trip.** A same-region Postgres is
+1–5 ms. The `api` service was moved to California — because DataForSEO blocked
+the Zurich egress IP — and **Postgres stayed in the region it was created in.**
+Every query crosses the Atlantic.
+
+The api cannot move back: the US egress is what unblocked DataForSEO. So the
+database has to move to the api, and until it does, ~150 ms per query is the
+floor under every endpoint here.
+
+**Keep `/api/dev/timing`.** A client-side stopwatch cannot tell *"the database
+is far away"* from *"we are doing something stupid"*, and those have opposite
+fixes. Both rounds of this work were aimed correctly only because the server-side
+numbers said which one it was.
+
 ## Spend to date
 
 **~$0.118** total ($0.107 before Phase B, $0.0112 of live crawling on
