@@ -420,12 +420,14 @@ defensible asset over time.
 
 # Current state — resume here
 
-Last worked: **2026-08-28**. The threshold question is settled (embeddings,
-not a dictionary) and the in-product feedback layer that will settle the
-threshold *number* is shipped. Phase B (live crawl) shipped 2026-08-27.
+Last worked: **2026-09-08**. Accounts, credits and an admin panel shipped —
+Google sign-in, per-user credit enforcement, and a third Railway service for
+the operator. Verified end to end against production; see the section below.
 
 **First commit: `cdd581a`** — "Initial commit: validated prototype, US-first,
-five languages". 113 files. No remote configured yet; nothing has been pushed.
+five languages". 113 files. `origin` is now configured
+(`github.com/eenesemrahh-create/AnswerGap`) and everything is pushed; Railway
+deploys from it.
 
 Two things stayed out of it on purpose:
 
@@ -517,7 +519,7 @@ stays stdlib-only; those three exist for `api/main.py` alone.
 netstat -ano | grep ':8000' | grep LISTENING   # then taskkill //PID <pid> //F
 ```
 
-## Deployment — Railway, two services from one repo
+## Deployment — Railway, THREE services from one repo
 
 Added 2026-08-31. Config-as-code, so the platform is described in the repository
 rather than in a dashboard nobody can diff.
@@ -526,6 +528,7 @@ rather than in a dashboard nobody can diff.
 |---|---|---|---|
 | api | `/` | `/railway.json` | Railpack → Python (`requirements.txt`, `.python-version` = 3.13) |
 | web | `/web` | `/web/railway.json` | Railpack → Node (`package.json`, `.nvmrc` = 22) |
+| admin | `/admin` | `/admin/railway.json` | Railpack → Node. Added 2026-09-08; see the accounts section |
 
 Two Railway details that are easy to get wrong, both checked against the docs
 rather than assumed:
@@ -671,7 +674,9 @@ until translated — the build gate working as designed.
 
 ## Tests, finally
 
-`tests/`, 24 of them, run with `pytest -q`. `requirements-dev.txt` keeps the
+`tests/`, **116** of them, run with `pytest -q`. (24 at first; the accounts
+work added 92, and 76 of those reach `answergap/gate.py` — the whole spending
+decision — without a database, a clock or a network.) `requirements-dev.txt` keeps the
 runner out of the Railway image.
 
 Fixtures are `data/raw/`. That is deliberate: the archive ships in the repo and
@@ -964,11 +969,285 @@ with one positive; **whether the collision breaks is not.**
 Ships behind the same seam as everything else: no key -> falls back to lexical,
 exactly as no `DATABASE_URL` falls back to files.
 
+## Accounts, credits and the admin panel, 2026-09-08
+
+Google sign-in, an enforced credit balance, a free daily allowance for
+signed-out visitors, and a **third Railway service** for the operator. Zero new
+dependencies: `hmac`, `hashlib`, `secrets` and `urllib` are stdlib, so
+`answergap/` stays stdlib-only and `requirements.txt` did not move.
+
+### The admin role is not in the database, and that is the whole design
+
+`ADMIN_EMAILS` is a comma-separated environment variable on the **api** service.
+There is no role column and no endpoint that writes one, so **no SQL statement
+in this schema can grant admin** — only a deploy can. That is the same kind of
+guarantee as "there is no statement that overwrites a tree": structural, not a
+rule somebody has to remember. An empty list refuses everyone.
+
+`gate.is_admin` is the single function the whole panel rests on, and its first
+line is `if not admin_emails: return False`.
+
+### The shape, and why each half differs
+
+|  | Customer web | Admin service |
+|---|---|---|
+| Session | `localStorage` + `Authorization: Bearer` | first-party `httpOnly` cookie, server-side only |
+| Hand-off | token in a URL **fragment** | one-time **code**, redeemed server-to-server |
+| Reads the API | from the visitor's browser (CORS) | from its own server (no CORS at all) |
+
+Both halves are forced by one fact: `up.railway.app` is on the Public Suffix
+List, so `answergap-api` and `answergap-web` are **different sites** and a
+cookie set by the api would never come back. The customer app therefore takes
+the `localStorage` trade and its cost is written down in `web/lib/auth.ts` — an
+XSS becomes a stolen session, and the real fix is a custom domain, at which
+point that file collapses into an httpOnly cookie.
+
+The admin does not take that trade. A server route handler cannot read a
+fragment and a query parameter would land in Railway's access log, so the api
+issues a one-time code instead (`auth_code`, 60 seconds, single-use by
+construction: `UPDATE ... WHERE used_at IS NULL RETURNING`, so two concurrent
+redemptions cannot both win). `import "server-only"` in `admin/lib/api.ts` turns
+"somebody imported the API client into a client component" into a **build
+error** — verified by deliberately doing it and watching the build fail.
+
+Google needs **one** redirect URI, on the api service only:
+`${PUBLIC_BASE_URL}/api/auth/google/callback`. Both apps return through it and
+bounce to their own `return_to`, so **the admin service never sees the Google
+secret**. `return_allowed` demands an exact origin match — `startswith` would
+wave through `admin.up.railway.app.evil.com`, and what is being redirected is
+the session.
+
+**ID token signatures are not verified**, deliberately. The token arrives in the
+response body of a direct TLS connection to Google's token endpoint, which OIDC
+Core section 3.1.3.7 explicitly permits skipping validation for — and it is why
+no crypto dependency is needed. It stops being safe the moment an ID token is
+accepted from anywhere else. Do not add such a path. `iss`, `aud`, `exp` and
+**`email_verified`** are still checked; that last one is one line and it is the
+difference between "admin is an allowlist" and "admin is a claim".
+
+### `/api/meta` must never query
+
+It is Railway's healthcheck path. A per-request `SELECT` there costs ~150 ms on
+every page load in the good case and a **restart loop** in the bad one. So
+`role` is derived from the token's own email claim with no query, and the
+balance lives on `GET /api/me`, called only when a token exists. A test makes
+any query from `identity()` an immediate failure.
+
+That boundary is safe and deliberate: a revoked admin token still *reports*
+`admin` to the UI until it expires, but can DO nothing — every admin endpoint
+reloads the row and re-checks the epoch, the status and the address.
+
+The old hard-coded `"role": "developer"` predicted this in August: *"when
+sign-in arrives the ONLY change is where the value comes from."* **It held.**
+`DevPanel.tsx:35` was the only line in that component that moved.
+
+### What the schema learned
+
+`0005_accounts` adds `app_user`, `auth_code`, `credit_ledger`, `usage_event`,
+`app_setting` and `admin_action`, plus a nullable `user_id` on `crawl` and
+`serp_task`.
+
+- **`app_user`, not `user`** — `USER` is reserved in Postgres. Same lesson as
+  `label.overlaps` becoming `overlap_vector`. `AUTHORIZATION` is reserved too.
+- **Keyed on `google_sub`, not email.** A Google account can change its primary
+  address; keying on the address would silently split one person into two
+  accounts and two balances.
+- **Three columns, three different questions.** `crawl.user_id` is
+  **ownership** and is set on INSERT only — `live.score` updates an *existing*
+  crawl row, so an owner written there would let user B's score rewrite whose
+  search it was. `usage_event.spend_usd` is **attribution** ("who caused this
+  $0.0026"). `credit_ledger` is **what they owe**.
+- **`credit_ledger` is append-only and the balance is `SUM(delta)`**, never
+  stored. The debit is unconditional and balances may go negative: the money is
+  already spent upstream by then, and clamping at zero would erase the record of
+  an overspend — precisely the mistake this file records against `crawl.spend`.
+- **`status` is an UPDATEd column**, the one exception to the append-only
+  discipline, because it is read on every spending request and a `DISTINCT ON`
+  there would be a second query on a path that is 150 ms away. No history is
+  lost: every change writes an `admin_action` row in the same statement.
+- **`token_epoch`** is the only revocation there is, since there is no session
+  table. Bumping it invalidates every token already issued — the "sign out
+  everywhere" button.
+- `decompose`/`recompose` stay **pure**: `user_id` travels as a keyword
+  argument, and the 24 storage tests were untouched.
+
+### Three bugs this work uncovered, none of which a test would have caught
+
+**1. `refresh` was a no-op in production.** `Client._cached` reads Postgres
+first whenever `db.available()` and returns without ever consulting the
+filesystem — but `live.crawl`/`live.score` implemented refresh by unlinking a
+FILE. On a container that file does not exist, so the snapshot came back,
+`billable_calls` stayed 0, and the user was handed the old answer as a fresh
+one. This is not just a correctness bug: after a seed's first crawl almost
+everything is a cache hit, and *"refresh now costs 1 credit"* was the one
+billable action left. **A credit model on top of a refresh that cannot spend
+has almost nothing to charge for.** `db.snapshot_delete` + `live._invalidate`
+now clear both backends.
+
+**2. Data-modifying CTEs share the main query's snapshot.** `admin_credit`
+returned the balance from BEFORE the grant — off by exactly the amount granted,
+on the one number the endpoint exists to change — and `user_upsert` reported 0
+for a brand-new account in the very response that created its credits. Both now
+add the delta back out of the CTE's own `RETURNING`. The audit row is
+unaffected: an unreferenced data-modifying CTE still executes exactly once and
+to completion.
+
+**3. The anonymous counters were counting signed-in usage.** Every request
+carries an ip_hash and a browser id whether or not there is a session, and the
+counter query lacked `user_id IS NULL`. One person signing in and searching at
+an office would have spent the free allowance of every signed-out visitor
+behind that address — and signing out would have locked out even themselves,
+since their own browser id had already been counted. Wrong in principle too: a
+signed-in user already paid for that search with a credit.
+
+### Verified end to end against production, 2026-09-08 — cost $0.0026
+
+The whole verification cost **one paid search**. Everything else — dry runs,
+refusals, cache hits — is free, which is itself the point.
+
+| Rule | Evidence |
+|---|---|
+| A dry run is free and burns nothing | two in a row, both returned a price |
+| Anonymous scoring and batch are closed | **401** `signedOut` |
+| A batch **dry run** is open | price visible without spending — load-bearing, see below |
+| **A cache hit is free** | four searches, all `spend=0.0, calls=0, cache=True` |
+| **A cache hit does not burn the allowance** | those same four left `by_ip` at 1 |
+| **A paid search does burn it** | one search, `spend=0.0026, calls=1`, `by_ip` 1 to 2 |
+| Reported is not estimated | estimate `0.00258`, reported **`0.0026`** |
+| Either counter refuses alone | refused on `by_ip=1` while `by_browser=0` |
+| A re-crawl inserts, never overwrites | `knight-online`: crawl 3 (31 Aug) **and** crawl 17 (8 Sep) |
+| The diff stays quiet | zero added / zero removed across that re-crawl |
+| **`X-Forwarded-For` is not spoofable** | two forged headers, both still refused — Railway writes its own |
+
+With `ADMIN_EMAILS` empty, every admin, dev and auth endpoint fails closed.
+With no `DATABASE_URL` at all the product behaves exactly as it did before
+accounts existed — which is what keeps a laptop with no Postgres working.
+
+**The batch dry run is deliberately ungated, and that is load-bearing**: the
+confirm dialog is built from one, so gating it would mean a user with three
+credits could never see the price of a batch of ten.
+
+**A short balance TRIMS a batch rather than refusing it.** The exact billable
+count is only known after `queue_scores` filters out questions already scored
+or in flight, so a pre-check can only work from an upper bound — and refusing on
+an upper bound refuses batches that would have fitted. The remainder is reported
+through the `skipped` list the UI already renders.
+
+### Known limitation: the gate runs before the cache
+
+*"Cached results are free"* holds for the **charge** but not for the **gate**.
+An anonymous visitor who has used their allowance is refused even for a search
+that would have been served from cache, because the gate cannot know that in
+advance without an extra query on every anonymous request. Measured, not
+theorised: a repeat of an already-cached seed returned 429.
+
+Softened by the fact that their result does not disappear — `/api/tree/{slug}`
+stays public, and it returned 200 for exactly that tree after the refusal. Left
+unfixed on purpose; revisit if it ever confuses a real user.
+
+The allowance is also **best-effort in both directions**, and the UI must never
+claim otherwise: a VPN or cleared site data defeats it, and an office behind one
+NAT shares a single counter. It stops accidents and cheap abuse, not a
+determined person. The real backstop is that a search costs $0.0026.
+
+### Refusals carry their own numbers
+
+`anonLimit` returns `used`, `limit`, `by_browser` and `by_ip`; `noCredits`
+returns `balance` and `needed`. These are facts about the caller's **own**
+requests, so they reveal nothing an attacker could not have counted by making
+the same requests — and without them a 429 is a support ticket. Chasing one
+refusal without the numbers cost an afternoon of probing production.
+
+**402 `noCredits`, 429 `anonLimit`, 403 `suspended`, 401 `signedOut`**, each
+with a machine-readable `code` in the body. The code matters because **429 was
+already taken** by the DataForSEO ceiling, and telling someone out of credits to
+wait for a budget window is advice for a different problem. A 429 *without* a
+code still maps to `budget`, exactly as before.
+
+`web/lib/api.ts` carries the invariant nothing else enforces: every member of
+`ErrorKind` needs an `error.<kind>` key in **all five locales**, because errors
+render through a dotted lookup and i18n falls back to the raw key — a missing
+translation would show a customer the literal text `error.noCredits` at the
+worst possible moment.
+
+### The admin service
+
+`admin/`, six screens (overview, users, user detail, settings, audit, sign-in)
+plus `/no-access` and `/api-error`. **English only** — one operator, and putting
+it through the five-locale build gate would cost four broken builds per label
+change and buy nothing. Its own ~200-line stylesheet rather than a copy of the
+customer app's 1092; same token names, no dead rules to drift.
+
+**One screen = one API call = one SQL statement.** Three hops separate the
+admin's browser from Postgres and only the last is the 150 ms one, but a page
+issuing four calls pays 600 ms before rendering. `admin_users` pages FIRST and
+then joins laterally — writing the laterals straight against `app_user` runs
+both subqueries for every user before the `LIMIT`, which is the same trap that
+made `/api/meta` take 8.9 seconds.
+
+**Never let an admin page answer "a server error occurred".** Next strips error
+messages in production, so an uncaught throw loses the status, the path and the
+body — a 403 spent an afternoon looking like a crash. `call()` now redirects:
+403 to `/no-access` (which names the address that is actually signed in, since
+`ADMIN_EMAILS` matches on exactly that), 401 to sign-in, anything else to
+`/api-error` naming the status, with the body going to the server log.
+
+The audit log is empty until an admin actually does something — granting
+credits, suspending, revoking tokens, changing a setting. Signing in and
+browsing write nothing, deliberately: a log of every click loses the three rows
+that matter in the noise.
+
+### Environment variables
+
+On **api**: `SESSION_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`,
+`ADMIN_EMAILS`, `AUTH_RETURN_ORIGINS`, and `ANON_IP_SALT` (optional, derived
+from the secret if unset — a missing salt must not disable rate limiting).
+`PUBLIC_BASE_URL` now also builds the OAuth `redirect_uri`, **which widens what
+an unset value costs**: it used to only degrade batch scoring to polling.
+
+On **admin**: `API_URL` and `PUBLIC_ADMIN_URL`. `API_URL` is deliberately NOT
+`NEXT_PUBLIC_` — it is read server-side only, which is the entire point.
+
+Missing any of the first four means **accounts are switched off** and the
+product behaves exactly as it did before this feature. That is not a weaker rule
+than failing closed: local development has no Postgres, and a gate that refused
+everything without a database would make the laptop the one place the product is
+broken. `ADMIN_EMAILS` alone fails closed, because there an empty value has a
+meaning.
+
+`anonymous_daily_searches` (default 1) and `signup_credits` (default 10) are
+**not** environment variables — they are `app_setting` rows, changed from the
+panel, append-only so "what was the limit last Tuesday" stays answerable.
+
+**Both URLs must carry a scheme.** Railway's Networking panel shows domains
+WITHOUT `https://`, a copy-paste drops it, and the failure then surfaces three
+redirects later as someone else's 400. Cost one debugging round trip; the admin
+service now refuses to start a sign-in and names the variable. Checked, not
+silently repaired — prepending `https://` would hide the same typo in
+`AUTH_RETURN_ORIGINS`, where nothing in the admin app can reach it.
+
+### Deployment note — a THIRD service
+
+| Service | Root dir | Config-as-code path |
+|---|---|---|
+| admin | `/admin` | `/admin/railway.json` |
+
+**The config path does not follow the root directory** — third service, third
+time this trap applies. Left at the default, the root config applies and Railway
+runs `python -m uvicorn` inside a Next service; the symptom is a Next service
+failing with a Python error, which looks like nothing to do with configuration.
+
+`admin/.gitignore` had to be added: without it `git add admin/` sweeps 344
+packages and `.next` into the commit. The **root `.gitignore` does not cover
+`node_modules`** — `web/` is only safe because it carries its own.
+
 ## Spend to date
 
-**~$0.118** total ($0.107 before Phase B, $0.0112 of live crawling on
+**~$0.121** total ($0.107 before Phase B, $0.0112 of live crawling on
 2026-08-27). **2026-08-28 spent $0.00** — labelling, evaluation and the
-feedback layer all run against data already on disk. Cache files mean re-running anything costs nothing — a repeated
+feedback layer all run against data already on disk. **2026-09-08 spent
+$0.0026** — the entire end-to-end credit verification cost one paid search;
+everything else was dry runs, refusals and cache hits, all free. Cache files mean re-running anything costs nothing — a repeated
 search returns in 20 ms and bills $0. Always run `--dry-run` first; the search
 endpoint accepts `"dry_run": true` and returns the request plan and its price
 without touching the network.
@@ -1022,8 +1301,20 @@ Four things do have to change, in this order: **storage**, **tests**,
 5. ~~**Standard queue.**~~ **DONE 2026-08-31** for batch scoring — see above.
    Still open: a real **job runner**, for scheduled crawls and so the fallback
    sweep stops piggybacking on a polled GET.
-6. **Auth, tenancy, credits, Stripe.** Last, because its schema sits on the
-   storage layer and the thing to validate before revenue is the product.
+6. ~~**Auth, credits.**~~ **DONE 2026-09-08** — Google sign-in, an enforced
+   credit balance, an anonymous daily allowance and the admin panel that runs
+   them. See the section below. **Still open: tenancy and Stripe.** There is
+   no per-user data isolation and no checkout; credits are granted by hand.
+7. **Decide whether searches are private.** `/api/trees` and `/api/tree/{slug}`
+   are public and unfiltered, so every signed-in user's searches are visible to
+   everyone. That is arguably right — "historical PAA data is our most
+   defensible asset" argues for one shared corpus — but it is a decision NOT
+   YET MADE, and it is the one most likely to surprise a paying customer.
+   Settle it explicitly before charging anybody.
+8. **Rate limiting.** Nothing has any. `GET /api/tree/{slug}/jobs` is still an
+   unauthenticated GET that triggers up to three outbound DataForSEO calls via
+   `sweep_pending`. Those calls are free, so it is not a credit problem — it is
+   request amplification, and it is the obvious next hardening target.
 
 ## Immediately actionable, no new code needed
 
