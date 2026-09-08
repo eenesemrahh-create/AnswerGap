@@ -94,13 +94,27 @@ async function call<T>(path: string, init?: RequestInit): Promise<T> {
     cache: "no-store",
   });
 
-  // 401 means the token expired or was revoked from this very panel. Send the
-  // admin back to sign in rather than rendering an empty page they cannot
-  // explain. 403 does NOT redirect: it means signed in but not an admin, and
-  // bouncing them into a sign-in loop would hide that.
+  // 401: the token expired, or was revoked from this very panel. Back to
+  // sign-in rather than an empty page nobody can explain.
   if (response.status === 401) redirect("/signin?expired=1");
+
+  // 403: signed in, but not an admin. This gets its OWN page rather than a
+  // bounce back to sign-in, because signing in again is precisely what will
+  // not help - and it must never surface as a bare 500, which is what it did
+  // the first time somebody hit it. An admin panel that answers "a server
+  // error occurred" when the real answer is "your address is not on the list"
+  // sends its operator hunting through logs for a configuration line.
+  if (response.status === 403) redirect("/no-access");
+
+  // Anything else becomes a page that NAMES the status, rather than a thrown
+  // error. Next strips error messages in production - an uncaught throw here
+  // renders "A server error occurred" with nothing but a digest, which is how
+  // a 403 spent an afternoon looking like a crash. The body goes to the
+  // server log, where it is safe to be specific.
   if (!response.ok) {
-    throw new ApiError(response.status, await response.text().catch(() => ""));
+    const body = await response.text().catch(() => "");
+    console.error(`[admin] ${path} -> ${response.status} ${body.slice(0, 500)}`);
+    redirect(`/api-error?status=${response.status}&path=${encodeURIComponent(path)}`);
   }
   return (await response.json()) as T;
 }
