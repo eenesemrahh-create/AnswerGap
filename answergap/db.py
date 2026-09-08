@@ -1766,11 +1766,17 @@ def user_upsert(
                 INSERT INTO credit_ledger (user_id, delta, reason)
                 SELECT id, %(credits)s, 'signup' FROM up
                  WHERE created AND %(credits)s > 0
-                RETURNING 1
+                RETURNING delta
             )
+            -- The signup grant is added on rather than summed from the table,
+            -- for the same snapshot reason as admin_credit: `granted` and this
+            -- SELECT run on one snapshot, so the row it just wrote is not
+            -- visible here. Without this a brand-new account would report a
+            -- balance of 0 in the very response that created its credits.
             SELECT up.id, up.email, up.status, up.token_epoch, up.created,
                    COALESCE((SELECT sum(delta) FROM credit_ledger
-                              WHERE user_id = up.id), 0) AS balance
+                              WHERE user_id = up.id), 0)
+                   + COALESCE((SELECT sum(delta) FROM granted), 0) AS balance
               FROM up
             """,
             {
@@ -2136,7 +2142,18 @@ def admin_actions(limit: int = 100) -> list[dict]:
 def admin_credit(
     *, user_id: int, delta: int, note: str | None, actor: str
 ) -> int:
-    """Grant or revoke credits. Returns the new balance."""
+    """Grant or revoke credits. Returns the new balance.
+
+    THE BALANCE IS SUMMED FROM THE TABLE AND THEN THE NEW DELTA IS ADDED. That
+    is not a long way round: data-modifying CTEs and the main query run on the
+    SAME SNAPSHOT, so a plain `sum(delta) FROM credit_ledger` here cannot see
+    the row `led` just inserted and would return the balance from BEFORE the
+    grant. The reply would be off by exactly the amount that was granted -
+    right on the one number this endpoint exists to change.
+
+    Taking the delta back out of `led` rather than passing the parameter again
+    keeps the arithmetic tied to the row that was actually written.
+    """
     reason = "admin_grant" if delta > 0 else "admin_revoke"
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
@@ -2144,7 +2161,7 @@ def admin_credit(
             WITH led AS (
                 INSERT INTO credit_ledger (user_id, delta, reason, ref, note)
                 VALUES (%(uid)s, %(delta)s, %(reason)s, %(actor)s, %(note)s)
-                RETURNING user_id
+                RETURNING delta
             ), audit AS (
                 INSERT INTO admin_action (actor, action, target_user, detail)
                 SELECT %(actor)s, %(reason)s, %(uid)s,
@@ -2152,8 +2169,9 @@ def admin_credit(
                   FROM led
                 RETURNING 1
             )
-            SELECT COALESCE(sum(delta), 0) AS balance
-              FROM credit_ledger WHERE user_id = %(uid)s
+            SELECT COALESCE((SELECT sum(delta) FROM credit_ledger
+                              WHERE user_id = %(uid)s), 0)
+                   + (SELECT delta FROM led) AS balance
             """,
             {
                 "uid": user_id,
