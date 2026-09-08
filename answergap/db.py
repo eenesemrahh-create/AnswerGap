@@ -1827,6 +1827,15 @@ def anon_counters(*, anon_id: str | None, ip_hash: str | None) -> dict:
     is the same rule as "cached results are free" and costs nothing to honour.
     Note also that `anon_id = NULL` matches no rows, so a client that omits the
     header simply has no browser counter - the IP counter is what catches it.
+
+    `user_id IS NULL` counts ONLY signed-out usage, and leaving it out was a
+    bug. Every request carries an ip_hash and a browser id, signed in or not,
+    because both are worth having when investigating abuse - but a signed-in
+    user has already paid for their search with a credit, and counting it here
+    spent the free allowance of every signed-out visitor behind the same
+    address. One person signing in at an office would have locked out the
+    office; signing out would have locked out even themselves, since their own
+    browser id had already been counted.
     """
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
@@ -1836,11 +1845,11 @@ def anon_counters(*, anon_id: str | None, ip_hash: str | None) -> dict:
                 WHERE setting_key = 'anonymous_daily_searches'
                 ORDER BY created_at DESC, id DESC LIMIT 1) AS anon_limit,
               (SELECT count(*) FROM usage_event
-                WHERE anon_id = %(anon)s
+                WHERE anon_id = %(anon)s AND user_id IS NULL
                   AND day_utc = (now() AT TIME ZONE 'utc')::date
                   AND outcome = 'allowed' AND spend_usd > 0) AS by_browser,
               (SELECT count(*) FROM usage_event
-                WHERE ip_hash = %(ip)s
+                WHERE ip_hash = %(ip)s AND user_id IS NULL
                   AND day_utc = (now() AT TIME ZONE 'utc')::date
                   AND outcome = 'allowed' AND spend_usd > 0) AS by_ip
             """,
