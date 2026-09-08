@@ -28,7 +28,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from answergap import db, labels, live
+from answergap import db, gate, labels, live
 from answergap.dataforseo import (
     LIVE_COST_PER_REQUEST,
     STANDARD_COST_PER_REQUEST,
@@ -37,6 +37,8 @@ from answergap.dataforseo import (
 )
 from answergap.languages import DEFAULT_LOCATION_CODE, LANGUAGES
 from answergap.tree import STRATEGY, THRESHOLD, all_trees
+
+from . import admin, auth
 
 ROOT = Path(__file__).resolve().parent.parent
 COUNTRIES_PATH = ROOT / "data" / "locations" / "countries.json"
@@ -119,18 +121,29 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Two routers, and the split is an AUTH boundary rather than a filing decision:
+# everything in `admin` requires ADMIN_EMAILS, nothing in this file does.
+app.include_router(auth.router)
+app.include_router(admin.router)
+
 
 def _summary(tree: dict) -> dict:
     return {k: v for k, v in tree.items() if k != "nodes"}
 
 
 @app.get("/api/meta")
-def meta() -> dict:
+def meta(http_request: Request) -> dict:
     """State flags the UI turns into localized warnings.
 
     CLAUDE.md accuracy rules: never claim live data, always show when the data
     was last updated, never render an empty cell for missing search volume.
     These flags are how those rules reach the interface.
+
+    THIS ENDPOINT MUST NOT QUERY THE DATABASE. It is Railway's healthcheck path
+    (see railway.json), so a per-request SELECT would cost ~150 ms on every page
+    load in the good case and a restart loop in the bad one. `auth.identity`
+    reads headers only, and the balance deliberately lives on `/api/me`, which
+    is called only when a token exists.
     """
     return {
         "source": "archive",
@@ -143,13 +156,22 @@ def meta() -> dict:
         # disk, which is a setup problem the UI should say out loud rather than
         # letting the user click into a 503.
         "live_crawl_available": live.available(),
-        # There is one role today and it is hard-coded. That is deliberate
-        # rather than lazy: the developer surface is built behind this flag now,
-        # so when sign-in arrives the ONLY change is where the value comes from -
-        # a session instead of a constant - and nothing built today is thrown
-        # away. A UI that has never had to ask "who is looking?" is much harder
-        # to retrofit than one that always asked and always got the same answer.
-        "role": "developer",
+        # The role now comes from the session, exactly as the hard-coded
+        # version predicted it would: "when sign-in arrives the ONLY change is
+        # where the value comes from". It was right - DevPanel's check moved
+        # from "developer" to "admin" and nothing else in that component moved
+        # at all.
+        #
+        # Derived from the token's own email claim against ADMIN_EMAILS, with NO
+        # query. It grants nothing: a revoked admin token still reports "admin"
+        # to the UI until it expires, but every admin endpoint loads the row and
+        # re-checks the epoch, the status and the address.
+        "role": auth.role_of(auth.identity(http_request)),
+        # Whether sign-in is configured at all. False means the product behaves
+        # exactly as it did before accounts existed, which is what a laptop with
+        # no Postgres looks like - the UI hides the account menu rather than
+        # offering a button that cannot work.
+        "accounts_enabled": auth.accounts_enabled(),
         # Real per-request prices, measured and reported - not credits. CLAUDE.md
         # prices in credits for customers; a developer needs the underlying cost,
         # because the whole point of the Standard queue is a comparison you can
@@ -312,14 +334,23 @@ def _run(action):
 
 
 @app.post("/api/search")
-def search(request: SearchRequest) -> dict:
+def search(request: SearchRequest, http_request: Request) -> dict:
     """Discover a question tree for one seed. ONE billable request, or zero.
 
     Gap scoring is NOT run here. Discovery is cheap and scoring is per-question,
     so they are priced and triggered separately; every question comes back
     `no_data` until the user asks for it to be scored.
+
+    This is the one paid endpoint anonymous visitors may reach, and the daily
+    allowance is set from the admin panel. A dry run never passes the gate: the
+    price has to be visible BEFORE anything is spent, and refusing to quote a
+    price to someone with no credits would be user-hostile for no gain, since a
+    dry run cannot be turned into a purchase.
     """
     _guard(request.language_code)
+    who = auth.identity(http_request)
+    if not request.dry_run:
+        auth.check(who, action="search", units=1)
     result = _run(
         lambda: live.crawl(
             request.seed,
@@ -327,16 +358,27 @@ def search(request: SearchRequest) -> dict:
             request.language_code,
             refresh=request.refresh,
             dry_run=request.dry_run,
+            user_id=who.user_id,
         )
     )
     if not result.get("dry_run"):
         _LIVE[result["slug"]] = result
+        # Charged on what was ACTUALLY bought. A cache hit reports zero billable
+        # calls and therefore costs no credit - CLAUDE.md's pricing rule falling
+        # out of the measurement rather than being asserted separately.
+        auth.record(
+            who,
+            action="search",
+            billable_calls=result.get("billable_calls", 0),
+            spend=result.get("estimated_spend", 0.0),
+            tree_slug=result.get("slug"),
+        )
     return result
 
 
 @app.post("/api/tree/{slug}/question/{question_slug}/score")
 def score_question_endpoint(
-    slug: str, question_slug: str, refresh: bool = False
+    slug: str, question_slug: str, http_request: Request, refresh: bool = False
 ) -> dict:
     """Gap-score one question. ONE billable request, or zero if cached.
 
@@ -359,11 +401,27 @@ def score_question_endpoint(
             "Archived Phase 0 trees are fixed evidence and are not re-scored. "
             "Run a live search for this seed instead.",
         )
+    # 404 BEFORE the gate. The node list is already in memory, so the check is
+    # free, and it keeps the errors honest: someone with no credits asking about
+    # a question that does not exist should be told it does not exist.
+    if not any(n.get("slug") == question_slug for n in found.get("nodes", [])):
+        raise HTTPException(404, f"No question: {question_slug}")
+
+    who = auth.identity(http_request)
+    auth.check(who, action="score", units=1)
     try:
         result = _run(lambda: live.score(found, question_slug, refresh=refresh))
     except KeyError as e:
         raise HTTPException(404, f"No question: {question_slug}") from e
     _LIVE[found["slug"]] = found
+    auth.record(
+        who,
+        action="score",
+        billable_calls=result.get("billable_calls", 0),
+        spend=result.get("spent", 0.0),
+        tree_slug=slug,
+        question_slug=question_slug,
+    )
     return {
         "node": result["node"],
         "nodes": found["nodes"],
@@ -484,7 +542,7 @@ class BatchScoreRequest(BaseModel):
 
 
 @app.post("/api/tree/{slug}/score-batch")
-def score_batch(slug: str, request: BatchScoreRequest) -> dict:
+def score_batch(slug: str, request: BatchScoreRequest, http_request: Request) -> dict:
     """Queue gap scoring for several questions at once, on the Standard queue.
 
     The reply always carries `estimated_spend`, dry run or not. CLAUDE.md's
@@ -493,6 +551,20 @@ def score_batch(slug: str, request: BatchScoreRequest) -> dict:
 
     Results do NOT come back in this response. Tasks are queued and arrive
     minutes later by postback; poll `/api/tree/{slug}/jobs` for progress.
+
+    COSTS N CREDITS, NOT ONE - one per task actually posted.
+
+    The dry run is deliberately ungated, and that is load-bearing rather than an
+    oversight: the confirm dialog is built from a dry run, so gating it would
+    mean a user with three credits could never see the price of a batch of ten
+    and could not reach the confirm step at all.
+
+    A short balance TRIMS the batch instead of refusing it. The exact billable
+    count is only known after `queue_scores` filters out questions already
+    scored or already in flight, so the pre-check can only work from an upper
+    bound - and refusing on an upper bound would refuse batches that would have
+    fitted. What it cannot afford is reported through the `skipped` list the UI
+    already renders.
     """
     found = _lookup(slug)
     if found.get("source") != "live":
@@ -508,6 +580,12 @@ def score_batch(slug: str, request: BatchScoreRequest) -> dict:
             "post time, so its id has to be written down before the result "
             "can go missing.",
         )
+    who = auth.identity(http_request)
+    budget: int | None = None
+    if not request.dry_run:
+        ceiling = len(request.questions) if request.questions else (request.top_n or 10)
+        budget = auth.check(who, action="batch", units=ceiling).affordable_units
+
     try:
         result = _run(
             lambda: live.queue_scores(
@@ -516,11 +594,25 @@ def score_batch(slug: str, request: BatchScoreRequest) -> dict:
                 top_n=request.top_n,
                 dry_run=request.dry_run,
                 postback_url=_postback_url(),
+                max_items=budget,
+                user_id=who.user_id,
             )
         )
     except KeyError as e:
         raise HTTPException(404, f"No question: {e}") from e
     result["callback"] = bool(_postback_url())
+    if not request.dry_run:
+        # Only tasks DataForSEO actually accepted. A rejected post comes back
+        # with a null task_id and was never charged upstream, so charging a
+        # credit for it would be billing for nothing.
+        posted = sum(1 for p in (result.get("posted") or []) if p.get("task_id"))
+        auth.record(
+            who,
+            action="batch",
+            billable_calls=posted,
+            spend=result.get("spend", 0.0),
+            tree_slug=slug,
+        )
     return result
 
 
@@ -599,14 +691,18 @@ async def dataforseo_callback(http_request: Request) -> dict:
 
 
 @app.get("/api/dev/spend")
-def dev_spend(slug: str | None = None) -> dict:
-    """Everything spent, and what the queue choice saved.
+def dev_spend(http_request: Request, slug: str | None = None) -> dict:
+    """Everything spent, and what the queue choice saved. ADMIN ONLY.
 
     Reported figures only. The estimate exists to price a dry run BEFORE a
     request; once one has been made, the number DataForSEO put on it is the
     only honest one, and a developer view filled with plausible guesses would be
     worse than no view at all.
+
+    Nothing breaks by locking this down: DevPanel is the only caller and it
+    already returns null before fetching when the role does not match.
     """
+    auth.require_admin(http_request)
     if not db.available():
         raise HTTPException(503, "No database configured.")
     summary = db.spend_summary(slug)
@@ -636,8 +732,8 @@ def tree_diff(slug: str) -> dict:
 
 
 @app.get("/api/dev/timing")
-def dev_timing() -> dict:
-    """Where a request's time actually goes, measured on the server.
+def dev_timing(http_request: Request) -> dict:
+    """Where a request's time actually goes, measured on the server. ADMIN ONLY.
 
     Added because a client-side stopwatch cannot tell "the database is far away"
     from "we are doing something stupid", and the two have opposite fixes. The
@@ -645,6 +741,7 @@ def dev_timing() -> dict:
     said the Atlantic was innocent; this endpoint is what makes the next round
     equally cheap to aim.
     """
+    auth.require_admin(http_request)
     import time
 
     marks: dict[str, float] = {}

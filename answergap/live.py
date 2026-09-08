@@ -249,6 +249,7 @@ def save_tree(
     new_crawl: bool = False,
     add_spend: float = 0.0,
     add_calls: int = 0,
+    user_id: int | None = None,
 ) -> None:
     """Persist a tree, to Postgres when one is configured and to disk when not.
 
@@ -259,7 +260,11 @@ def save_tree(
     """
     if db.available():
         db.save_tree(
-            tree, new_crawl=new_crawl, add_spend=add_spend, add_calls=add_calls
+            tree,
+            new_crawl=new_crawl,
+            add_spend=add_spend,
+            add_calls=add_calls,
+            user_id=user_id,
         )
         return
     TREES_DIR.mkdir(parents=True, exist_ok=True)
@@ -350,6 +355,28 @@ def _spend(response: dict | None, client: Client) -> float:
         if isinstance(reported, (int, float)):
             return round(float(reported), 6)
     return round(client.estimated_spend, 6)
+
+
+def _invalidate(key: str) -> None:
+    """Make `refresh` actually refresh, in BOTH cache backends.
+
+    `Client._cached` reads Postgres first whenever `db.available()` and returns
+    without ever consulting the filesystem. Deleting only the file therefore did
+    nothing on the deployed service: the snapshot came back, `billable_calls`
+    stayed 0, and the caller was handed the old answer as a fresh one.
+
+    Both are cleared, unconditionally and in that order, because which backend
+    is live is not this function's business - and a stale row left behind in the
+    one that happens to be inactive today is a trap for the day it is not.
+    """
+    if db.available():
+        try:
+            db.snapshot_delete(key)
+        except Exception:  # noqa: BLE001 - a failed purge must not kill the crawl
+            pass
+    cached = SERP_DIR / f"{key}.json"
+    if cached.exists():
+        cached.unlink()
 
 
 def _carry_previous(fresh: dict, previous: dict | None) -> dict:
@@ -735,6 +762,7 @@ def crawl(
     *,
     refresh: bool = False,
     dry_run: bool = False,
+    user_id: int | None = None,
 ) -> dict:
     """Discover a question tree for `seed`. ONE billable request, or zero.
 
@@ -747,9 +775,7 @@ def crawl(
 
     key = cache_key(seed, location_code, language_code)
     if refresh:
-        cached = SERP_DIR / f"{key}.json"
-        if cached.exists():
-            cached.unlink()
+        _invalidate(key)
 
     client = _client(max_requests=1, dry_run=dry_run)
     response = client.serp(
@@ -788,7 +814,11 @@ def crawl(
     tree["billable_calls"] = client.billable_calls
     tree["estimated_spend"] = _spend(response, client)
     tree["from_cache"] = client.cache_hits > 0
-    save_tree(tree, new_crawl=True)
+    # OWNERSHIP, not attribution - "list this user's searches". Set here, on the
+    # insert, and never on the scoring path: live.score updates an EXISTING
+    # crawl row, so writing an owner there would let user B's score rewrite
+    # whose search it was. Who spent which dollar is `usage_event`'s job.
+    save_tree(tree, new_crawl=True, user_id=user_id)
     return tree
 
 
@@ -817,9 +847,7 @@ def score(tree: dict, question_slug: str, *, refresh: bool = False) -> dict:
     location_code = tree["location_code"]
     key = cache_key(node["question"], location_code, language_code)
     if refresh:
-        cached = SERP_DIR / f"{key}.json"
-        if cached.exists():
-            cached.unlink()
+        _invalidate(key)
 
     client = _client(max_requests=1, dry_run=False)
     response = client.serp(
@@ -833,6 +861,12 @@ def score(tree: dict, question_slug: str, *, refresh: bool = False) -> dict:
     # Added to the crawl's running total, not written over it. A cache hit
     # spends nothing and therefore adds nothing.
     save_tree(tree, add_spend=spent, add_calls=client.billable_calls)
+    # Reported, not inferred. The caller has to charge a credit for this request
+    # and it must charge for what was ACTUALLY bought - a cache hit bills
+    # nothing. Reading `tree["estimated_spend"]` afterwards would work but would
+    # be reading a side effect, and the tree is shared mutable state.
+    result["spent"] = spent
+    result["billable_calls"] = client.billable_calls
     return result
 
 
@@ -950,6 +984,8 @@ def queue_scores(
     top_n: int | None = None,
     dry_run: bool = False,
     postback_url: str | None = None,
+    max_items: int | None = None,
+    user_id: int | None = None,
 ) -> dict:
     """Queue gap scoring for several questions on the Standard queue.
 
@@ -961,6 +997,12 @@ def queue_scores(
     A question already scored is skipped rather than re-bought. So is one with a
     task still in flight - without that check, clicking the button twice pays
     twice for the same answer.
+
+    `max_items` is a hard cap on how many tasks may be posted, applied AFTER
+    those two filters so nothing is dropped for a question that was going to be
+    free anyway. It is an int in the same class as `top_n`, deliberately: the
+    caller's reason for capping - a short credit balance - stays in the API
+    layer, and this module keeps knowing nothing about accounts.
     """
     language_code = tree["language_code"]
     location_code = tree["location_code"]
@@ -1000,6 +1042,13 @@ def queue_scores(
                 "normalized": node["id"],
             }
         )
+
+    # Trim to what the caller can pay for, reporting the remainder through the
+    # `skipped` list the UI already renders rather than by refusing the batch.
+    if max_items is not None and len(items) > max_items:
+        for dropped in items[max(0, max_items) :]:
+            skipped.append({"slug": dropped["slug"], "reason": "no_credits"})
+        items = items[: max(0, max_items)]
 
     # Estimated, and labelled as such. The real figure is whatever DataForSEO
     # reports per task, and that is what gets recorded - CLAUDE.md: read the
@@ -1043,6 +1092,7 @@ def queue_scores(
             cost=row.get("cost"),
             status="posted" if row["task_id"] else "failed",
             error=None if row["task_id"] else row.get("status_message"),
+            user_id=user_id,
         )
 
     plan["posted"] = [

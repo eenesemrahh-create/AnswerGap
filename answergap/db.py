@@ -326,6 +326,181 @@ MIGRATIONS: list[tuple[str, str]] = [
             ON serp_task (tree_slug, posted_at DESC);
         """,
     ),
+    (
+        "0005_accounts",
+        """
+        -- NOT `user`: USER is reserved in Postgres and the table would have to
+        -- be quoted forever. This schema already learned that lesson once, when
+        -- label.overlaps had to become overlap_vector. A permanently quoted
+        -- identifier only has to be forgotten once.
+        --
+        -- THERE IS NO ROLE COLUMN, DELIBERATELY. Admin is ADMIN_EMAILS, an
+        -- environment variable on the api service, so no statement anywhere in
+        -- this schema is capable of granting it. A row cannot make someone an
+        -- admin; only a deploy can. That is the same kind of guarantee as
+        -- "there is no statement that overwrites a tree" - structural, not a
+        -- rule somebody has to remember.
+        CREATE TABLE IF NOT EXISTS app_user (
+            id           BIGSERIAL PRIMARY KEY,
+            -- Google's stable subject id, NOT the email. A Google account can
+            -- change its primary address; keying on the address would silently
+            -- split one person into two accounts and two balances.
+            google_sub   TEXT NOT NULL UNIQUE,
+            email        TEXT NOT NULL,
+            name         TEXT,
+            picture_url  TEXT,
+            -- active | suspended. Read on EVERY spending request, which is why
+            -- this is an UPDATEd column rather than an append-only log: a
+            -- DISTINCT ON here would be a second query on the hot path, and the
+            -- database is ~150 ms away. No history is lost - every change
+            -- writes an admin_action row beside it.
+            status       TEXT NOT NULL DEFAULT 'active',
+            -- Bumping this invalidates every token already issued to this user.
+            -- It is the ONLY revocation there is, because there is no session
+            -- table; a token carries the epoch it was signed under.
+            token_epoch  INTEGER NOT NULL DEFAULT 1,
+            created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+            last_seen_at TIMESTAMPTZ
+        );
+        -- Non-unique on purpose: google_sub is the identity. This exists so the
+        -- admin panel can search by address without a sequential scan.
+        CREATE INDEX IF NOT EXISTS app_user_email_idx ON app_user (lower(email));
+
+        -- One-time codes, for handing a session to the admin service.
+        --
+        -- The customer web receives its token in a URL fragment, which never
+        -- leaves the browser. A server-side route handler cannot read a
+        -- fragment, and a query parameter would land in Railway's access log -
+        -- so the admin gets a code instead, redeemed server-to-server within a
+        -- minute and single-use by construction.
+        CREATE TABLE IF NOT EXISTS auth_code (
+            code_hash  TEXT PRIMARY KEY,
+            user_id    BIGINT NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
+            expires_at TIMESTAMPTZ NOT NULL,
+            used_at    TIMESTAMPTZ,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+
+        -- Append-only, the same discipline as gap_score and label. The balance
+        -- is SUM(delta) and is NEVER stored: a stored balance is a number that
+        -- can disagree with its own history, and this one is money. What
+        -- happened the last time a running total was written over instead of
+        -- accumulated is recorded against crawl.spend in CLAUDE.md.
+        CREATE TABLE IF NOT EXISTS credit_ledger (
+            id         BIGSERIAL PRIMARY KEY,
+            -- RESTRICT, not CASCADE. Deleting a user must not be able to
+            -- destroy the money history; erasure blanks the profile fields and
+            -- leaves the ledger standing.
+            user_id    BIGINT NOT NULL REFERENCES app_user(id) ON DELETE RESTRICT,
+            delta      INTEGER NOT NULL,
+            -- signup | admin_grant | admin_revoke | search | score | batch
+            reason     TEXT NOT NULL,
+            -- Traces a debit back to a receipt: a tree slug, a question slug,
+            -- or the granting admin's email.
+            ref        TEXT,
+            note       TEXT,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+        -- INCLUDE (delta) makes the balance an index-only scan; one index
+        -- serves both the balance sum and the panel's ledger listing.
+        CREATE INDEX IF NOT EXISTS credit_ledger_user_idx
+            ON credit_ledger (user_id, created_at DESC) INCLUDE (delta);
+
+        -- Who did what, including the refusals.
+        --
+        -- This is the ONLY table that can answer "who spent this $0.0026".
+        -- crawl.user_id cannot: live.score adds its spend to an EXISTING crawl
+        -- row (see the UPDATE in save_tree), so a question scored by user B on
+        -- user A's tree accumulates onto A's crawl. crawl.user_id is ownership;
+        -- this is attribution; credit_ledger is what they owe. Three columns,
+        -- three different questions.
+        CREATE TABLE IF NOT EXISTS usage_event (
+            id            BIGSERIAL PRIMARY KEY,
+            user_id       BIGINT REFERENCES app_user(id) ON DELETE RESTRICT,
+            -- HMAC of the client address with a server-side salt. The raw IP is
+            -- never stored: it is only ever needed as a counter key, and five
+            -- of this product's locales are European.
+            ip_hash       TEXT,
+            -- Opaque id the browser generates and keeps in localStorage. NOT a
+            -- cookie - api and web are separate sites under the Public Suffix
+            -- List, so a cookie set by the api would never come back.
+            anon_id       TEXT,
+            action        TEXT NOT NULL,
+            -- allowed | refused_no_credits | refused_anon_limit |
+            -- refused_suspended | refused_signed_out. Refusals are recorded
+            -- too: "how often do we turn people away, and why" cannot be
+            -- answered later from rows that were never inserted.
+            outcome       TEXT NOT NULL,
+            credits       INTEGER NOT NULL DEFAULT 0,
+            spend_usd     NUMERIC(12, 6) NOT NULL DEFAULT 0,
+            tree_slug     TEXT,
+            question_slug TEXT,
+            -- Written at insert so the anonymous daily limit is a point lookup
+            -- on (key, day) rather than a range scan over created_at. This will
+            -- be the busiest table in the schema.
+            day_utc       DATE NOT NULL DEFAULT (now() AT TIME ZONE 'utc')::date,
+            created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+        CREATE INDEX IF NOT EXISTS usage_event_anon_day_idx
+            ON usage_event (anon_id, day_utc) WHERE anon_id IS NOT NULL;
+        CREATE INDEX IF NOT EXISTS usage_event_ip_day_idx
+            ON usage_event (ip_hash, day_utc) WHERE ip_hash IS NOT NULL;
+        CREATE INDEX IF NOT EXISTS usage_event_user_idx
+            ON usage_event (user_id, created_at DESC) WHERE user_id IS NOT NULL;
+        CREATE INDEX IF NOT EXISTS usage_event_day_idx ON usage_event (day_utc);
+
+        -- Runtime configuration an admin changes without a deploy. Append-only,
+        -- latest wins by DISTINCT ON - the same shape as gap_score, for the
+        -- same reason: "what was the anonymous limit last Tuesday" is a real
+        -- question once someone disputes a bill.
+        --
+        -- NO SEED ROWS. The defaults live in answergap/gate.py, so re-running
+        -- this migration cannot double-insert and a default cannot end up
+        -- recorded in two places that disagree.
+        CREATE TABLE IF NOT EXISTS app_setting (
+            id            BIGSERIAL PRIMARY KEY,
+            -- Prefixed because `key`/`value` as a pair reads like a hash rather
+            -- than like a setting. VALUES is also reserved, and the near-miss
+            -- is not worth leaving in place.
+            setting_key   TEXT NOT NULL,
+            setting_value TEXT NOT NULL,
+            set_by        TEXT,
+            created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+        CREATE INDEX IF NOT EXISTS app_setting_latest_idx
+            ON app_setting (setting_key, created_at DESC, id DESC);
+
+        -- Every privileged act, append-only. The actor is an EMAIL, not a user
+        -- id: an admin is an entry in an environment variable rather than a
+        -- row, and the audit has to keep making sense after that entry is
+        -- removed. This does not make admin mistakes impossible; it makes them
+        -- visible, which is the only guarantee available here.
+        CREATE TABLE IF NOT EXISTS admin_action (
+            id          BIGSERIAL PRIMARY KEY,
+            actor       TEXT NOT NULL,
+            action      TEXT NOT NULL,
+            target_user BIGINT REFERENCES app_user(id) ON DELETE RESTRICT,
+            detail      JSONB,
+            created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+        CREATE INDEX IF NOT EXISTS admin_action_recent_idx
+            ON admin_action (created_at DESC);
+
+        -- Ownership, not attribution - see the usage_event comment above. Set
+        -- on INSERT only. NULL means "anonymous, or written before accounts
+        -- existed"; those two are indistinguishable here, and deliberately so,
+        -- because pretending to know which would be inventing a measurement
+        -- that was never made.
+        ALTER TABLE crawl     ADD COLUMN IF NOT EXISTS user_id BIGINT
+            REFERENCES app_user(id) ON DELETE RESTRICT;
+        ALTER TABLE serp_task ADD COLUMN IF NOT EXISTS user_id BIGINT
+            REFERENCES app_user(id) ON DELETE RESTRICT;
+        CREATE INDEX IF NOT EXISTS crawl_user_idx
+            ON crawl (user_id, created_at DESC) WHERE user_id IS NOT NULL;
+        CREATE INDEX IF NOT EXISTS serp_task_user_idx
+            ON serp_task (user_id, posted_at DESC) WHERE user_id IS NOT NULL;
+        """,
+    ),
 ]
 
 
@@ -585,6 +760,7 @@ def save_tree(
     new_crawl: bool = False,
     add_spend: float = 0.0,
     add_calls: int = 0,
+    user_id: int | None = None,
 ) -> int:
     """Persist a tree as rows. Returns the crawl id it belongs to.
 
@@ -599,6 +775,15 @@ def save_tree(
     it ended up recording whatever the LAST score happened to cost. The money
     ledger is the one number a developer view exists to be trusted about, so it
     adds what was just spent and nothing else.
+
+    `user_id` is written on the INSERT branch ONLY. Scoring takes the UPDATE
+    branch against an existing crawl, so setting an owner there would let a
+    question scored by user B rewrite whose search it was. This column is
+    ownership; attribution lives on `usage_event`.
+
+    It is also NOT part of `decompose`. That function is pure and its output is
+    pinned by tests/test_storage.py; an auth concept has no business in the
+    translation layer, so it travels as a keyword argument instead.
     """
     rows = decompose(tree)
     crawl = rows["crawl"]
@@ -612,8 +797,9 @@ def save_tree(
             cur.execute(
                 """
                 INSERT INTO crawl (slug, seed, seed_question, language_code,
-                                   location_code, source, billable_calls, spend)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                                   location_code, source, billable_calls, spend,
+                                   user_id)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING id
                 """,
                 (
@@ -625,6 +811,7 @@ def save_tree(
                     crawl["source"],
                     crawl["billable_calls"],
                     crawl["spend"],
+                    user_id,
                 ),
             )
             crawl_id = cur.fetchone()["id"]
@@ -971,6 +1158,30 @@ def snapshot_put(
         conn.commit()
 
 
+def snapshot_delete(cache_key: str) -> bool:
+    """Drop one cached response so the next call re-buys it. Returns whether
+    a row was actually removed.
+
+    This exists because `refresh` was silently a no-op on the deployed service.
+    `Client._cached` reads Postgres FIRST whenever `db.available()` and returns
+    without ever looking at the filesystem, but `live.crawl`/`live.score`
+    implemented refresh by unlinking a FILE. On a container that file does not
+    exist, so the snapshot was returned anyway: `billable_calls` stayed 0, the
+    spend stayed $0, and the user got the old answer while being told it was
+    refreshed.
+
+    That matters beyond correctness. CLAUDE.md prices the product as "cached
+    results are free; refresh now costs 1 credit" - and after a seed's first
+    crawl, refresh is very nearly the only billable action left. A credit model
+    on top of a refresh that cannot spend has almost nothing to charge for.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute("DELETE FROM serp_snapshot WHERE cache_key = %s", (cache_key,))
+        removed = cur.rowcount > 0
+        conn.commit()
+        return removed
+
+
 # ---------------------------------------------------------------- labels
 
 
@@ -1059,6 +1270,7 @@ def task_insert(
     cost: float | None = None,
     status: str = "posted",
     error: str | None = None,
+    user_id: int | None = None,
 ) -> None:
     """Write down a queued task. Called immediately after the POST succeeds.
 
@@ -1076,13 +1288,14 @@ def task_insert(
             """
             INSERT INTO serp_task (task_id, cache_key, keyword, question_id,
                                    crawl_id, tree_slug, language_code,
-                                   location_code, status, cost, error)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                   location_code, status, cost, error,
+                                   user_id)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (task_id) DO NOTHING
             """,
             (
                 task_id, cache_key, keyword, question_id, crawl_id, tree_slug,
-                language_code, location_code, status, cost, error,
+                language_code, location_code, status, cost, error, user_id,
             ),
         )
         conn.commit()
@@ -1492,3 +1705,538 @@ def diff_and_history(slug: str) -> dict:
             }
 
     return {"diff": diff, "history": history}
+
+
+# ============================================================== accounts
+#
+# Every function below opens ONE connection and issues ONE statement. That is
+# not a style preference: the api service runs in California and Postgres did
+# not move with it, so each round trip measures ~150 ms (see the performance
+# note in CLAUDE.md). A helper that "just" ran two queries would put a third of
+# a second on the spending path, and the gate runs on every paid request.
+#
+# The decision logic itself is NOT here. It lives in answergap/gate.py, pure and
+# testable without a database; these functions only gather what it needs.
+
+
+def accounts_ready() -> bool:
+    """Whether the accounts tables exist yet."""
+    if not available():
+        return False
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT to_regclass('public.app_user') IS NOT NULL AS ok")
+        row = cur.fetchone()
+        return bool(row and row["ok"])
+
+
+def user_upsert(
+    *,
+    google_sub: str,
+    email: str,
+    name: str | None,
+    picture_url: str | None,
+    signup_credits: int,
+) -> dict:
+    """Find or create the account behind a Google identity, in one statement.
+
+    The signup grant is written by the SAME statement that creates the row, and
+    only when the insert actually happened - `xmax = 0` is the standard way to
+    tell an INSERT from an ON CONFLICT UPDATE. Doing it in a second statement
+    would leave a window where a crash produces an account with no credits, and
+    the ledger is the one place in this schema where "fix it later" is not
+    available: it is money, and it is append-only.
+
+    The email is refreshed on every sign-in because a Google account can change
+    its address, and ADMIN_EMAILS matches on the address.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH up AS (
+                INSERT INTO app_user (google_sub, email, name, picture_url,
+                                      last_seen_at)
+                VALUES (%(sub)s, %(email)s, %(name)s, %(pic)s, now())
+                ON CONFLICT (google_sub) DO UPDATE
+                   SET email        = EXCLUDED.email,
+                       name         = EXCLUDED.name,
+                       picture_url  = EXCLUDED.picture_url,
+                       last_seen_at = now()
+                RETURNING id, email, status, token_epoch, (xmax = 0) AS created
+            ), granted AS (
+                INSERT INTO credit_ledger (user_id, delta, reason)
+                SELECT id, %(credits)s, 'signup' FROM up
+                 WHERE created AND %(credits)s > 0
+                RETURNING 1
+            )
+            SELECT up.id, up.email, up.status, up.token_epoch, up.created,
+                   COALESCE((SELECT sum(delta) FROM credit_ledger
+                              WHERE user_id = up.id), 0) AS balance
+              FROM up
+            """,
+            {
+                "sub": google_sub,
+                "email": email,
+                "name": name,
+                "pic": picture_url,
+                "credits": int(signup_credits),
+            },
+        )
+        row = cur.fetchone()
+        conn.commit()
+        return dict(row) if row else {}
+
+
+def user_for_gate(user_id: int) -> dict | None:
+    """The row plus its balance, in one round trip.
+
+    Status is read live on every spending request, which is what makes a
+    suspension take effect immediately rather than whenever a token happens to
+    expire. token_epoch comes back for the same reason - it is the only
+    revocation there is, since there is no session table.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT u.id, u.email, u.name, u.picture_url, u.status, u.token_epoch,
+                   COALESCE((SELECT sum(delta) FROM credit_ledger
+                              WHERE user_id = u.id), 0) AS balance
+              FROM app_user u
+             WHERE u.id = %s
+            """,
+            (user_id,),
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+
+def anon_counters(*, anon_id: str | None, ip_hash: str | None) -> dict:
+    """The anonymous limit and both of the day's counters, in one round trip.
+
+    The runtime setting is folded into this query rather than cached in the
+    process. An in-process cache would be per-replica, would diverge between
+    them, and would hand the admin an "it has not taken effect yet" mystery -
+    for a saving of zero, since it rides along with a query already being made.
+
+    Note `spend_usd > 0`: a cache hit does not burn the free daily search, which
+    is the same rule as "cached results are free" and costs nothing to honour.
+    Note also that `anon_id = NULL` matches no rows, so a client that omits the
+    header simply has no browser counter - the IP counter is what catches it.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT
+              (SELECT setting_value FROM app_setting
+                WHERE setting_key = 'anonymous_daily_searches'
+                ORDER BY created_at DESC, id DESC LIMIT 1) AS anon_limit,
+              (SELECT count(*) FROM usage_event
+                WHERE anon_id = %(anon)s
+                  AND day_utc = (now() AT TIME ZONE 'utc')::date
+                  AND outcome = 'allowed' AND spend_usd > 0) AS by_browser,
+              (SELECT count(*) FROM usage_event
+                WHERE ip_hash = %(ip)s
+                  AND day_utc = (now() AT TIME ZONE 'utc')::date
+                  AND outcome = 'allowed' AND spend_usd > 0) AS by_ip
+            """,
+            {"anon": anon_id, "ip": ip_hash},
+        )
+        row = cur.fetchone() or {}
+        return {
+            "anon_limit": row.get("anon_limit"),
+            "by_browser": int(row.get("by_browser") or 0),
+            "by_ip": int(row.get("by_ip") or 0),
+        }
+
+
+def record_usage(
+    *,
+    user_id: int | None,
+    ip_hash: str | None,
+    anon_id: str | None,
+    action: str,
+    outcome: str,
+    credits: int,
+    spend_usd: float,
+    tree_slug: str | None = None,
+    question_slug: str | None = None,
+    is_admin: bool = False,
+) -> None:
+    """Write the event and its debit together, in one statement.
+
+    A data-modifying CTE, so the two cannot half-happen: an event with no debit
+    is a search nobody was billed for, and a debit with no event is a charge
+    with no receipt behind it.
+
+    A zero-credit action writes NO ledger row - a zero delta is noise in an
+    append-only money log. An admin writes a usage_event carrying real dollars
+    but no ledger row either, so admin spend stays attributed without inventing
+    a balance for someone who never bought credits.
+
+    The debit is UNCONDITIONAL and the balance may go negative. By the time this
+    runs the money is already spent upstream; clamping at zero would erase the
+    record of an overspend, which is exactly the mistake this file documents
+    against crawl.spend. Two tabs racing can cost one extra $0.0026, and it will
+    be visible rather than silently absorbed.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH ev AS (
+                INSERT INTO usage_event (user_id, ip_hash, anon_id, action,
+                                         outcome, credits, spend_usd,
+                                         tree_slug, question_slug)
+                VALUES (%(uid)s, %(ip)s, %(anon)s, %(action)s, %(outcome)s,
+                        %(credits)s, %(spend)s, %(slug)s, %(qslug)s)
+                RETURNING id
+            )
+            INSERT INTO credit_ledger (user_id, delta, reason, ref)
+            SELECT %(uid)s, -%(credits)s, %(action)s, %(slug)s
+             WHERE %(uid)s IS NOT NULL
+               AND %(credits)s > 0
+               AND %(admin)s = false
+            """,
+            {
+                "uid": user_id,
+                "ip": ip_hash,
+                "anon": anon_id,
+                "action": action,
+                "outcome": outcome,
+                "credits": int(credits),
+                "spend": spend_usd,
+                "slug": tree_slug,
+                "qslug": question_slug,
+                "admin": bool(is_admin),
+            },
+        )
+        conn.commit()
+
+
+def settings_all() -> dict[str, str]:
+    """Every runtime setting at its latest value. Latest wins, gap_score shape."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT DISTINCT ON (setting_key) setting_key, setting_value
+              FROM app_setting
+             ORDER BY setting_key, created_at DESC, id DESC
+            """
+        )
+        return {r["setting_key"]: r["setting_value"] for r in cur.fetchall()}
+
+
+# ------------------------------------------------------------ one-time codes
+
+
+def auth_code_put(*, code_hash: str, user_id: int, ttl_seconds: int = 60) -> None:
+    """Store a single-use login code for the admin service to redeem."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO auth_code (code_hash, user_id, expires_at)
+            VALUES (%s, %s, now() + make_interval(secs => %s))
+            """,
+            (code_hash, user_id, ttl_seconds),
+        )
+        conn.commit()
+
+
+def auth_code_redeem(code_hash: str) -> int | None:
+    """Burn a code and return its user, or None.
+
+    Single-use by construction rather than by convention: `WHERE used_at IS
+    NULL ... RETURNING` means two concurrent redemptions cannot both succeed,
+    because only one UPDATE can match the row.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE auth_code SET used_at = now()
+             WHERE code_hash = %s AND used_at IS NULL AND expires_at > now()
+            RETURNING user_id
+            """,
+            (code_hash,),
+        )
+        row = cur.fetchone()
+        conn.commit()
+        return int(row["user_id"]) if row else None
+
+
+# ---------------------------------------------------------------- admin reads
+#
+# The rule for this whole surface: one screen = one API call = one statement.
+# Three hops separate the admin's browser from Postgres (browser -> admin
+# service -> api service -> database) and only the last one is the 150 ms hop,
+# but a page that issues four API calls still pays 600 ms before it renders.
+
+
+def admin_overview() -> dict:
+    """Every counter on the dashboard, in ONE statement.
+
+    The obvious implementation is eight SELECT count(*) calls. spend_summary
+    already shows what that costs - it issues seven queries in one connection,
+    which is roughly a second from here. Scalar subqueries collapse it to a
+    single round trip.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT
+              (SELECT count(*) FROM app_user) AS users_total,
+              (SELECT count(*) FROM app_user WHERE status = 'active') AS users_active,
+              (SELECT count(*) FROM app_user WHERE status = 'suspended') AS users_suspended,
+              (SELECT count(*) FROM app_user
+                WHERE created_at > now() - interval '7 days') AS users_new_7d,
+              (SELECT COALESCE(sum(delta) FILTER (WHERE delta > 0), 0)
+                 FROM credit_ledger) AS credits_granted,
+              (SELECT COALESCE(-sum(delta) FILTER (WHERE delta < 0), 0)
+                 FROM credit_ledger) AS credits_spent,
+              (SELECT count(*) FROM usage_event
+                WHERE day_utc = (now() AT TIME ZONE 'utc')::date
+                  AND outcome = 'allowed') AS allowed_today,
+              (SELECT count(*) FROM usage_event
+                WHERE day_utc = (now() AT TIME ZONE 'utc')::date
+                  AND user_id IS NULL AND outcome = 'allowed') AS anonymous_today,
+              (SELECT count(*) FROM usage_event
+                WHERE day_utc = (now() AT TIME ZONE 'utc')::date
+                  AND outcome <> 'allowed') AS refused_today,
+              (SELECT COALESCE(sum(spend_usd), 0) FROM usage_event) AS spend_attributed,
+              (SELECT COALESCE(sum(spend), 0) FROM crawl) AS spend_live,
+              (SELECT COALESCE(sum(cost), 0) FROM serp_task) AS spend_standard
+            """
+        )
+        row = cur.fetchone() or {}
+        granted = int(row.get("credits_granted") or 0)
+        spent = int(row.get("credits_spent") or 0)
+        return {
+            "users": {
+                "total": int(row.get("users_total") or 0),
+                "active": int(row.get("users_active") or 0),
+                "suspended": int(row.get("users_suspended") or 0),
+                "new_7d": int(row.get("users_new_7d") or 0),
+            },
+            "credits": {
+                "granted": granted,
+                "spent": spent,
+                "outstanding": granted - spent,
+            },
+            "usage": {
+                "allowed_today": int(row.get("allowed_today") or 0),
+                "anonymous_today": int(row.get("anonymous_today") or 0),
+                "refused_today": int(row.get("refused_today") or 0),
+            },
+            "spend": {
+                "attributed_usd": float(row.get("spend_attributed") or 0),
+                "live_usd": float(row.get("spend_live") or 0),
+                "standard_usd": float(row.get("spend_standard") or 0),
+            },
+        }
+
+
+def admin_users(
+    *, q: str = "", status: str = "", limit: int = 50, offset: int = 0
+) -> list[dict]:
+    """The user list with balance and spend, in ONE statement.
+
+    PAGE FIRST, THEN JOIN. Writing the laterals directly against app_user would
+    run both subqueries for EVERY user before the LIMIT applies - that is the
+    trap, and it is the same trap that made /api/meta take 8.9 seconds by
+    answering "how many trees" with all of them.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH page AS (
+                SELECT id, email, name, picture_url, status, created_at, last_seen_at
+                  FROM app_user
+                 WHERE (%(q)s = '' OR email ILIKE '%%' || %(q)s || '%%')
+                   AND (%(status)s = '' OR status = %(status)s)
+                 ORDER BY created_at DESC, id DESC
+                 LIMIT %(limit)s OFFSET %(offset)s
+            )
+            SELECT p.*,
+                   COALESCE(l.balance, 0)  AS balance,
+                   COALESCE(v.searches, 0) AS searches,
+                   COALESCE(v.spend_usd, 0) AS spend_usd
+              FROM page p
+              LEFT JOIN LATERAL (
+                    SELECT sum(delta) AS balance
+                      FROM credit_ledger WHERE user_id = p.id
+              ) l ON true
+              LEFT JOIN LATERAL (
+                    SELECT count(*) AS searches, sum(spend_usd) AS spend_usd
+                      FROM usage_event
+                     WHERE user_id = p.id AND outcome = 'allowed'
+              ) v ON true
+             ORDER BY p.created_at DESC, p.id DESC
+            """,
+            {"q": q or "", "status": status or "", "limit": limit, "offset": offset},
+        )
+        return [dict(r) for r in cur.fetchall()]
+
+
+def admin_user_detail(user_id: int) -> dict | None:
+    """Profile, ledger, usage and crawls in ONE statement via json_agg.
+
+    Four separate queries in one connection is the shape diff_and_history uses
+    and it costs ~600 ms from here. This is the same data for ~150 ms.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT u.id, u.email, u.name, u.picture_url, u.status, u.token_epoch,
+                   u.created_at, u.last_seen_at,
+                   COALESCE((SELECT sum(delta) FROM credit_ledger
+                              WHERE user_id = u.id), 0) AS balance,
+                   COALESCE((SELECT json_agg(x) FROM (
+                        SELECT delta, reason, ref, note, created_at
+                          FROM credit_ledger WHERE user_id = u.id
+                         ORDER BY created_at DESC, id DESC LIMIT 50) x), '[]') AS ledger,
+                   COALESCE((SELECT json_agg(x) FROM (
+                        SELECT action, outcome, credits, spend_usd, tree_slug,
+                               question_slug, created_at
+                          FROM usage_event WHERE user_id = u.id
+                         ORDER BY created_at DESC, id DESC LIMIT 50) x), '[]') AS usage,
+                   COALESCE((SELECT json_agg(x) FROM (
+                        SELECT id, slug, seed, language_code, location_code,
+                               spend, created_at
+                          FROM crawl WHERE user_id = u.id
+                         ORDER BY created_at DESC LIMIT 50) x), '[]') AS crawls
+              FROM app_user u
+             WHERE u.id = %s
+            """,
+            (user_id,),
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+
+def admin_actions(limit: int = 100) -> list[dict]:
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT a.id, a.actor, a.action, a.target_user, a.detail, a.created_at,
+                   u.email AS target_email
+              FROM admin_action a
+              LEFT JOIN app_user u ON u.id = a.target_user
+             ORDER BY a.created_at DESC, a.id DESC
+             LIMIT %s
+            """,
+            (limit,),
+        )
+        return [dict(r) for r in cur.fetchall()]
+
+
+# --------------------------------------------------------------- admin writes
+#
+# Every one of these writes an admin_action row in the SAME statement as the
+# change it audits. An audit that can be skipped by a failure halfway through is
+# not an audit.
+
+
+def admin_credit(
+    *, user_id: int, delta: int, note: str | None, actor: str
+) -> int:
+    """Grant or revoke credits. Returns the new balance."""
+    reason = "admin_grant" if delta > 0 else "admin_revoke"
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH led AS (
+                INSERT INTO credit_ledger (user_id, delta, reason, ref, note)
+                VALUES (%(uid)s, %(delta)s, %(reason)s, %(actor)s, %(note)s)
+                RETURNING user_id
+            ), audit AS (
+                INSERT INTO admin_action (actor, action, target_user, detail)
+                SELECT %(actor)s, %(reason)s, %(uid)s,
+                       jsonb_build_object('delta', %(delta)s, 'note', %(note)s)
+                  FROM led
+                RETURNING 1
+            )
+            SELECT COALESCE(sum(delta), 0) AS balance
+              FROM credit_ledger WHERE user_id = %(uid)s
+            """,
+            {
+                "uid": user_id,
+                "delta": int(delta),
+                "reason": reason,
+                "actor": actor,
+                "note": note,
+            },
+        )
+        row = cur.fetchone()
+        conn.commit()
+        return int(row["balance"]) if row else 0
+
+
+def admin_set_status(*, user_id: int, status: str, actor: str) -> bool:
+    """Suspend or reactivate. The one UPDATE in an append-only design.
+
+    Justified because status is read on every spending request and a DISTINCT ON
+    there would be a second query on the hot path. The history is not lost - the
+    admin_action row written by the same statement is the log.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH upd AS (
+                UPDATE app_user SET status = %(status)s
+                 WHERE id = %(uid)s AND status <> %(status)s
+                RETURNING id
+            )
+            INSERT INTO admin_action (actor, action, target_user, detail)
+            SELECT %(actor)s,
+                   CASE WHEN %(status)s = 'suspended' THEN 'suspend'
+                        ELSE 'reactivate' END,
+                   id, jsonb_build_object('status', %(status)s)
+              FROM upd
+            """,
+            {"uid": user_id, "status": status, "actor": actor},
+        )
+        changed = cur.rowcount > 0
+        conn.commit()
+        return changed
+
+
+def admin_revoke_tokens(*, user_id: int, actor: str) -> int:
+    """Sign this user out everywhere. Returns the new token_epoch."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH upd AS (
+                UPDATE app_user SET token_epoch = token_epoch + 1
+                 WHERE id = %(uid)s
+                RETURNING id, token_epoch
+            ), audit AS (
+                INSERT INTO admin_action (actor, action, target_user, detail)
+                SELECT %(actor)s, 'revoke_tokens', id,
+                       jsonb_build_object('token_epoch', token_epoch)
+                  FROM upd
+                RETURNING 1
+            )
+            SELECT token_epoch FROM upd
+            """,
+            {"uid": user_id, "actor": actor},
+        )
+        row = cur.fetchone()
+        conn.commit()
+        return int(row["token_epoch"]) if row else 0
+
+
+def setting_put(*, key: str, value: str, actor: str) -> None:
+    """Append a new setting value. Never an UPDATE - the old value stays."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH s AS (
+                INSERT INTO app_setting (setting_key, setting_value, set_by)
+                VALUES (%(key)s, %(value)s, %(actor)s)
+                RETURNING setting_key
+            )
+            INSERT INTO admin_action (actor, action, detail)
+            SELECT %(actor)s, 'set_setting',
+                   jsonb_build_object('key', %(key)s, 'value', %(value)s)
+              FROM s
+            """,
+            {"key": key, "value": str(value), "actor": actor},
+        )
+        conn.commit()
