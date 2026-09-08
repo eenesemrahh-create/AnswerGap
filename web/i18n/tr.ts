@@ -132,7 +132,9 @@ export const tr: Messages = {
     pricing: "Fiyat hesaplanıyor…",
     confirmCount: "{count} soru",
     vsLive: "{queue} kuyruğunda · Live'da {live}",
-    skipped: "{count} tanesi atlandı — zaten kontrol edilmiş ya da zaten kuyrukta.",
+    skipped:
+      "{count} tanesi atlandı — zaten kontrol edilmiş, zaten kuyrukta ya da " +
+      "kalan kredinizin ötesinde.",
     noCallback: "Callback kurulu değil: sonuçlar yoklamayla toplanacak, bu da saniyeler yerine dakikalar sürer.",
     confirm: "Kuyruğa al",
     cancel: "Vazgeç",
@@ -143,7 +145,7 @@ export const tr: Messages = {
   },
 
   dev: {
-    role: "geliştirici",
+    role: "yönetici",
     scopeTree: "Yalnızca bu analiz.",
     scopeAll: "Her şey, bütün ağaçlar.",
     grandTotal: "Bütün ağaçlar: {total}",
@@ -195,6 +197,23 @@ export const tr: Messages = {
     dataNote: "Faz 0 doğrulama arşivinden okunuyor, canlı Google verisi değil.",
   },
 
+  auth: {
+    signIn: "Google ile giriş yap",
+    signOut: "Çıkış yap",
+    signedInAs: "{email} olarak girildi",
+    account: "Hesap",
+    failed: "Giriş tamamlanmadı. Tekrar deneyin.",
+    why: "Aramalarınız ve krediniz sizde kalsın diye giriş yapın.",
+  },
+
+  credits: {
+    label: "Kredi",
+    balance: "{count} kredi",
+    empty: "Kredi kalmadı",
+    free: "Önbellekten gelen sonuçlar ücretsizdir — kredi harcamaz.",
+    manualNote: "Krediler şimdilik elle ekleniyor; henüz ödeme adımı yok.",
+  },
+
   error: {
     unreachable: "API'ye ulaşılamadı ({url}). Backend çalışıyor mu?",
     http: "{status} {statusText} — {path}",
@@ -202,6 +221,14 @@ export const tr: Messages = {
     budget: "İstek tavanına ulaşıldı; tarama daha fazla harcamak yerine durdu.",
     upstream: "DataForSEO’ya ulaşılamadı ya da hata döndü. Başarısız istek ücretlendirilmez.",
     badRequest: "Bu istek, istendiği şekliyle çalıştırılamaz.",
+    signedOut: "Çıkış yapılmış durumdasınız. Devam etmek için giriş yapın.",
+    noCredits:
+      "Krediniz kalmadı. Bir arama bir kredi harcar; önbellekten gelen " +
+      "sonuçlar ücretsizdir.",
+    anonLimit:
+      "Bugünkü ücretsiz arama bu bağlantıda kullanıldı. Devam etmek için " +
+      "giriş yapın.",
+    suspended: "Bu hesap askıya alınmış. Bizimle iletişime geçin, çözelim.",
     backToAnalyses: "Analizlere dön",
     startBackend: "Backend'i başlatmak için proje kökünde:",
     loading: "Yükleniyor…",

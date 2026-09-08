@@ -1090,3 +1090,58 @@ table.table {
 .diff-history li b { margin-left: auto; color: var(--text); font-variant-numeric: tabular-nums; }
 
 .devscope { font-size: 11px; margin: 0 0 8px; }
+
+/* ------------------------------------------------------------- account menu
+   Sign-in state and the credit balance. Built from the same tokens as
+   .devpanel so the two sit together in a header without either shouting. */
+.account {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+}
+.account-signin,
+.account-signout {
+  padding: 3px 9px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.account-signin { border-color: var(--focus); color: var(--focus); }
+.account-signin:hover,
+.account-signout:hover { background: var(--surface-2); }
+.account-who {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-soft);
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.account-avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.account-avatar-blank { background: var(--border-strong); display: inline-block; }
+.account-credits {
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+/* Empty and negative balances read the same way a gap badge does - the state
+   the reader has to act on, not a number they have to interpret. */
+.account-credits.empty { color: var(--gap); }
+.account-failed { color: var(--gap); }
+
+@media (max-width: 720px) {
+  /* The address is the first thing to go: the balance and the buttons are
+     what the reader acts on. */
+  .account-who { max-width: 12ch; }
+}

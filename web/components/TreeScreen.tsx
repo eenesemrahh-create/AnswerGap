@@ -21,6 +21,7 @@ import { RelatedSeeds } from "./RelatedSeeds";
 import { Notice } from "./Badge";
 import { LocalePicker } from "./LocalePicker";
 import { BatchScore } from "./BatchScore";
+import { AccountMenu } from "./AccountMenu";
 import { DevPanel } from "./DevPanel";
 import { CrawlDiff } from "./CrawlDiff";
 
@@ -189,6 +190,7 @@ export function TreeScreen({ slug }: { slug: string }) {
         )}
         {tree.source === "live" && <CrawlDiff slug={slug} />}
         {meta && <DevPanel meta={meta} slug={slug} />}
+        {meta && <AccountMenu meta={meta} />}
         <LocalePicker />
       </header>
 

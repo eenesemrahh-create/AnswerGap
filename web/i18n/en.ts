@@ -166,7 +166,9 @@ export const en = {
     pricing: "Pricing…",
     confirmCount: "{count} questions",
     vsLive: "on the {queue} queue · {live} on Live",
-    skipped: "{count} skipped — already checked, or already queued.",
+    skipped:
+      "{count} skipped — already checked, already queued, or beyond your " +
+      "remaining credits.",
     noCallback: "No callback configured: results will be collected by polling, which takes minutes rather than seconds.",
     confirm: "Queue them",
     cancel: "Cancel",
@@ -178,7 +180,7 @@ export const en = {
 
   // The developer role's surface. Dollars, not credits - see DevPanel.
   dev: {
-    role: "developer",
+    role: "admin",
     scopeTree: "This analysis only.",
     scopeAll: "Everything, all trees.",
     grandTotal: "All trees: {total}",
@@ -234,6 +236,25 @@ export const en = {
     dataNote: "Read from the Phase 0 validation archive, not live Google data.",
   },
 
+  // Sign-in and credits. Wording rule, same as the status badges: name what
+  // the reader has to DECIDE, not what we measured.
+  auth: {
+    signIn: "Sign in with Google",
+    signOut: "Sign out",
+    signedInAs: "Signed in as {email}",
+    account: "Account",
+    failed: "Sign-in did not finish. Try again.",
+    why: "Sign in to keep your searches and your credits.",
+  },
+
+  credits: {
+    label: "Credits",
+    balance: "{count} credits",
+    empty: "No credits left",
+    free: "Cached results are free — they do not use a credit.",
+    manualNote: "Credits are added by hand for now; there is no checkout yet.",
+  },
+
   error: {
     unreachable: "Could not reach the API ({url}). Is the backend running?",
     http: "{status} {statusText} — {path}",
@@ -241,6 +262,15 @@ export const en = {
     budget: "The request ceiling was reached, so the crawl stopped rather than spend more.",
     upstream: "DataForSEO could not be reached, or returned an error. A failed request is not charged.",
     badRequest: "That request cannot be run as asked.",
+    // One key per ErrorKind, in all five locales. Errors render as
+    // t(`error.${kind}`) and a missing key would print its own name to a
+    // customer at the worst possible moment.
+    signedOut: "You are signed out. Sign in to continue.",
+    noCredits:
+      "No credits left. A search costs one credit; cached results are free.",
+    anonLimit:
+      "Today's free search has been used on this connection. Sign in to keep going.",
+    suspended: "This account is suspended. Get in touch and we will sort it out.",
     backToAnalyses: "Back to analyses",
     startBackend: "To start the backend, from the project root:",
     loading: "Loading…",

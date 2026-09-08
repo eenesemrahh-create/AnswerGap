@@ -152,16 +152,46 @@ export interface Meta {
   /** Size of the labelled set the threshold question has to work with. */
   labels: LabelCounts;
   /**
-   * Who is looking. One value today, and the whole point is that the UI asks.
-   * When sign-in arrives this comes from a session instead of a constant and
-   * nothing else changes - a screen that has never had to ask is far harder to
-   * retrofit than one that always asked and always got the same answer.
+   * Who is looking. This now comes from the session, exactly as the hard-coded
+   * `"developer"` version predicted it would - and the prediction held: the
+   * only change in DevPanel was the value it compares against.
+   *
+   * Derived server-side from the token's own email claim against ADMIN_EMAILS,
+   * with no database query, because `/api/meta` is the deployment healthcheck.
+   * It grants nothing on its own: every admin endpoint reloads the row.
    */
-  role: "developer";
+  role: Role;
+  /**
+   * Whether sign-in is configured at all. False on a machine with no
+   * SESSION_SECRET or no database - the product then behaves exactly as it did
+   * before accounts existed, and the UI hides the account menu rather than
+   * offering a button that cannot work.
+   */
+  accounts_enabled: boolean;
   /** Real per-request cost in USD. Not credits - see `Pricing`. */
   pricing: Pricing;
   /** What the storage layer did at boot. Null when no database is configured. */
   storage?: StorageState;
+}
+
+export type Role = "anonymous" | "user" | "admin";
+
+/**
+ * The signed-in user. Fetched from `/api/me`, never from `/api/meta`.
+ *
+ * The balance can only come from a query, and `/api/meta` is the healthcheck
+ * path - a SELECT there would cost ~150 ms on every page load and a restart
+ * loop whenever the database hiccuped.
+ */
+export interface Me {
+  email: string;
+  name: string | null;
+  picture_url: string | null;
+  status: "active" | "suspended";
+  /** May be negative: a debit is unconditional because the money is already
+   * spent upstream by the time it is written. Shown as-is rather than clamped. */
+  credits: number;
+  role: Role;
 }
 
 /**

@@ -132,7 +132,9 @@ export const fr: Messages = {
     pricing: "Calcul du prix…",
     confirmCount: "{count} questions",
     vsLive: "dans la file {queue} · {live} en Live",
-    skipped: "{count} ignorées — déjà vérifiées, ou déjà en file.",
+    skipped:
+      "{count} ignorées — déjà vérifiées, déjà en file, ou au-delà des " +
+      "crédits qu'il vous reste.",
     noCallback: "Aucun callback configuré : les résultats seront récupérés par sondage, ce qui prend des minutes plutôt que des secondes.",
     confirm: "Les mettre en file",
     cancel: "Annuler",
@@ -143,7 +145,7 @@ export const fr: Messages = {
   },
 
   dev: {
-    role: "développeur",
+    role: "administrateur",
     scopeTree: "Cette analyse uniquement.",
     scopeAll: "Tout, tous les arbres.",
     grandTotal: "Tous les arbres : {total}",
@@ -198,6 +200,23 @@ export const fr: Messages = {
       "Google en direct.",
   },
 
+  auth: {
+    signIn: "Se connecter avec Google",
+    signOut: "Se déconnecter",
+    signedInAs: "Connecté en tant que {email}",
+    account: "Compte",
+    failed: "La connexion n'a pas abouti. Réessayez.",
+    why: "Connectez-vous pour conserver vos recherches et vos crédits.",
+  },
+
+  credits: {
+    label: "Crédits",
+    balance: "{count} crédits",
+    empty: "Plus de crédits",
+    free: "Les résultats en cache sont gratuits : ils ne consomment aucun crédit.",
+    manualNote: "Les crédits sont ajoutés à la main pour l'instant ; il n'y a pas encore de paiement.",
+  },
+
   error: {
     unreachable: "API injoignable ({url}). Le backend est-il démarré ?",
     http: "{status} {statusText} — {path}",
@@ -205,6 +224,14 @@ export const fr: Messages = {
     budget: "Le plafond de requêtes a été atteint ; l’exploration s’est arrêtée plutôt que de dépenser davantage.",
     upstream: "DataForSEO est injoignable, ou a renvoyé une erreur. Une requête échouée n’est pas facturée.",
     badRequest: "Cette requête ne peut pas être exécutée telle quelle.",
+    signedOut: "Vous êtes déconnecté. Connectez-vous pour continuer.",
+    noCredits:
+      "Plus de crédits. Une recherche coûte un crédit ; les résultats en " +
+      "cache sont gratuits.",
+    anonLimit:
+      "La recherche gratuite du jour a déjà été utilisée sur cette connexion. " +
+      "Connectez-vous pour continuer.",
+    suspended: "Ce compte est suspendu. Contactez-nous, nous réglerons cela.",
     backToAnalyses: "Retour aux analyses",
     startBackend: "Pour démarrer le backend, à la racine du projet :",
     loading: "Chargement…",

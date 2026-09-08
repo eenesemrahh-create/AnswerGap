@@ -18,9 +18,13 @@ import { useI18n } from "@/i18n";
  * transparency view filled with plausible guesses is worse than no view: it
  * looks like evidence.
  *
- * Rendered only when `meta.role === "developer"`. Today that is always true.
- * The point is that the check exists, so sign-in changes where the role comes
- * from and nothing else.
+ * Rendered only when `meta.role === "admin"`.
+ *
+ * That check used to compare against a hard-coded `"developer"`, and the note
+ * here said sign-in would change where the role came from and nothing else.
+ * It held: this line is the ONLY line in this file that moved when accounts
+ * landed. A screen that had never had to ask "who is looking?" would have been
+ * far harder to retrofit.
  */
 export function DevPanel({ meta, slug }: { meta: Meta; slug?: string }) {
   const { t } = useI18n();
@@ -32,7 +36,7 @@ export function DevPanel({ meta, slug }: { meta: Meta; slug?: string }) {
     fetchDevSpend(slug).then(setSpend).catch(() => setSpend(null));
   }, [open, slug]);
 
-  if (meta.role !== "developer") return null;
+  if (meta.role !== "admin") return null;
 
   const money = (value: number) => `$${value.toFixed(4)}`;
   const saved = spend ? spend.standard.if_live - spend.standard.spend : 0;

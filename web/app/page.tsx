@@ -23,6 +23,7 @@ import {
 } from "@/lib/types";
 import { useDateFormat, useI18n } from "@/i18n";
 import { Notice, Rich } from "@/components/Badge";
+import { AccountMenu } from "@/components/AccountMenu";
 import { LocalePicker } from "@/components/LocalePicker";
 
 const MARKET_KEY = "answergap.market";
@@ -126,6 +127,7 @@ export default function Landing() {
         <span className="brand">
           Answer<span>Gap</span> <small>{t("brand.prototype")}</small>
         </span>
+        {meta && <AccountMenu meta={meta} />}
         <LocalePicker />
       </div>
 

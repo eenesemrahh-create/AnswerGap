@@ -131,7 +131,9 @@ export const es: Messages = {
     pricing: "Calculando precio…",
     confirmCount: "{count} preguntas",
     vsLive: "en la cola {queue} · {live} en Live",
-    skipped: "{count} omitidas — ya comprobadas, o ya en cola.",
+    skipped:
+      "{count} omitidas — ya comprobadas, ya en cola, o más allá de los " +
+      "créditos que te quedan.",
     noCallback: "Sin callback configurado: los resultados se recogerán por sondeo, lo que tarda minutos en vez de segundos.",
     confirm: "Ponerlas en cola",
     cancel: "Cancelar",
@@ -142,7 +144,7 @@ export const es: Messages = {
   },
 
   dev: {
-    role: "desarrollador",
+    role: "administrador",
     scopeTree: "Solo este análisis.",
     scopeAll: "Todo, todos los árboles.",
     grandTotal: "Todos los árboles: {total}",
@@ -196,6 +198,23 @@ export const es: Messages = {
       "Leído del archivo de validación de la Fase 0, no de datos en vivo de Google.",
   },
 
+  auth: {
+    signIn: "Iniciar sesión con Google",
+    signOut: "Cerrar sesión",
+    signedInAs: "Sesión iniciada como {email}",
+    account: "Cuenta",
+    failed: "El inicio de sesión no se completó. Inténtalo de nuevo.",
+    why: "Inicia sesión para conservar tus búsquedas y tus créditos.",
+  },
+
+  credits: {
+    label: "Créditos",
+    balance: "{count} créditos",
+    empty: "No quedan créditos",
+    free: "Los resultados en caché son gratuitos: no gastan crédito.",
+    manualNote: "Por ahora los créditos se añaden a mano; todavía no hay pago.",
+  },
+
   error: {
     unreachable: "No se pudo conectar con la API ({url}). ¿Está el backend en marcha?",
     http: "{status} {statusText} — {path}",
@@ -203,6 +222,14 @@ export const es: Messages = {
     budget: "Se alcanzó el límite de peticiones; el rastreo se detuvo en lugar de gastar más.",
     upstream: "No se pudo contactar con DataForSEO, o devolvió un error. Una petición fallida no se cobra.",
     badRequest: "Esa petición no se puede ejecutar tal como se ha pedido.",
+    signedOut: "Has cerrado sesión. Inicia sesión para continuar.",
+    noCredits:
+      "No te quedan créditos. Una búsqueda cuesta un crédito; los resultados " +
+      "en caché son gratuitos.",
+    anonLimit:
+      "La búsqueda gratuita de hoy ya se ha usado en esta conexión. Inicia " +
+      "sesión para seguir.",
+    suspended: "Esta cuenta está suspendida. Escríbenos y lo resolvemos.",
     backToAnalyses: "Volver a los análisis",
     startBackend: "Para iniciar el backend, desde la raíz del proyecto:",
     loading: "Cargando…",

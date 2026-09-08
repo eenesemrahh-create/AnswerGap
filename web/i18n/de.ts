@@ -131,7 +131,9 @@ export const de: Messages = {
     pricing: "Preis wird ermittelt…",
     confirmCount: "{count} Fragen",
     vsLive: "in der {queue}-Warteschlange · {live} über Live",
-    skipped: "{count} übersprungen — bereits geprüft oder bereits in der Warteschlange.",
+    skipped:
+      "{count} übersprungen — bereits geprüft, bereits in der Warteschlange " +
+      "oder jenseits Ihres verbleibenden Guthabens.",
     noCallback: "Kein Callback konfiguriert: Ergebnisse werden per Abfrage eingesammelt, was Minuten statt Sekunden dauert.",
     confirm: "In die Warteschlange",
     cancel: "Abbrechen",
@@ -142,7 +144,7 @@ export const de: Messages = {
   },
 
   dev: {
-    role: "Entwickler",
+    role: "Administrator",
     scopeTree: "Nur diese Analyse.",
     scopeAll: "Alles, alle Bäume.",
     grandTotal: "Alle Bäume: {total}",
@@ -195,6 +197,23 @@ export const de: Messages = {
       "Gelesen aus dem Validierungsarchiv von Phase 0, nicht aus Live-Google-Daten.",
   },
 
+  auth: {
+    signIn: "Mit Google anmelden",
+    signOut: "Abmelden",
+    signedInAs: "Angemeldet als {email}",
+    account: "Konto",
+    failed: "Die Anmeldung wurde nicht abgeschlossen. Versuchen Sie es erneut.",
+    why: "Melden Sie sich an, damit Ihre Suchen und Ihr Guthaben erhalten bleiben.",
+  },
+
+  credits: {
+    label: "Guthaben",
+    balance: "{count} Credits",
+    empty: "Kein Guthaben mehr",
+    free: "Ergebnisse aus dem Cache sind kostenlos — sie verbrauchen kein Guthaben.",
+    manualNote: "Guthaben wird vorerst von Hand vergeben; es gibt noch keine Kasse.",
+  },
+
   error: {
     unreachable: "API nicht erreichbar ({url}). Läuft das Backend?",
     http: "{status} {statusText} — {path}",
@@ -202,6 +221,14 @@ export const de: Messages = {
     budget: "Das Anfragelimit wurde erreicht; der Crawl wurde gestoppt, statt mehr auszugeben.",
     upstream: "DataForSEO war nicht erreichbar oder hat einen Fehler geliefert. Eine fehlgeschlagene Anfrage wird nicht berechnet.",
     badRequest: "Diese Anfrage kann so nicht ausgeführt werden.",
+    signedOut: "Sie sind abgemeldet. Melden Sie sich an, um fortzufahren.",
+    noCredits:
+      "Kein Guthaben mehr. Eine Suche kostet ein Credit; Ergebnisse aus dem " +
+      "Cache sind kostenlos.",
+    anonLimit:
+      "Die kostenlose Suche für heute wurde über diese Verbindung bereits " +
+      "genutzt. Melden Sie sich an, um weiterzumachen.",
+    suspended: "Dieses Konto ist gesperrt. Melden Sie sich bei uns, wir klären das.",
     backToAnalyses: "Zurück zu den Analysen",
     startBackend: "Zum Starten des Backends, im Projektverzeichnis:",
     loading: "Wird geladen…",
