@@ -146,7 +146,6 @@ export interface Meta {
   threshold_validated: boolean;
   search_volume_available: boolean;
   live_crawl_available: boolean;
-  tree_count: number;
   default_location_code: number;
   default_language_code: string;
   /** Size of the labelled set the threshold question has to work with. */

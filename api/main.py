@@ -139,11 +139,17 @@ def meta(http_request: Request) -> dict:
     was last updated, never render an empty cell for missing search volume.
     These flags are how those rules reach the interface.
 
-    THIS ENDPOINT MUST NOT QUERY THE DATABASE. It is Railway's healthcheck path
-    (see railway.json), so a per-request SELECT would cost ~150 ms on every page
+    THIS ENDPOINT MUST NOT QUERY THE DATABASE, and as of 2026-09-08 it does not
+    - `tree_count` was the last one and it is gone. It is Railway's healthcheck
+    path (see railway.json), so a per-request SELECT costs ~150 ms on every page
     load in the good case and a restart loop in the bad one. `auth.identity`
     reads headers only, and the balance deliberately lives on `/api/me`, which
     is called only when a token exists.
+
+    `tree_count` was removed rather than made per-user: nothing in `web/` ever
+    read it, and once the tree list became private it would have been a count of
+    OTHER PEOPLE'S searches sitting in the payload of every page load. The
+    landing page counts the list it already fetches.
     """
     return {
         "source": "archive",
@@ -186,10 +192,6 @@ def meta(http_request: Request) -> dict:
         # service at all, which is the difference between "no database yet" and
         # "database present but broken" - two problems with different fixes.
         "storage": _DB,
-        # A COUNT, not a rebuild. This used to be `len(_live_all())`, which
-        # built every live tree in full to return one number - measured at 8.9
-        # seconds for a 612-byte response.
-        "tree_count": len(_TREES) + _live_count(),
         # How much labelled data the threshold question has to work with.
         # Phase 0.5 settled it with 14 rows and could not separate the one
         # real gap from four false ones; the UI says so out loud, and this
@@ -223,7 +225,7 @@ def countries() -> list[dict]:
     return _COUNTRIES
 
 
-def _live_all() -> list[dict]:
+def _live_all(user_id: int | None = None) -> list[dict]:
     """Live trees, read fresh from the database when there is one.
 
     The in-memory `_LIVE` dict is the filesystem backend's cache and it quietly
@@ -233,19 +235,10 @@ def _live_all() -> list[dict]:
     """
     if db.available():
         try:
-            return live.load_trees()
+            return live.load_trees(user_id)
         except Exception:  # noqa: BLE001 - reported via /api/meta, never fatal
             pass
     return list(_LIVE.values())
-
-
-def _live_count() -> int:
-    if db.available():
-        try:
-            return db.live_tree_count()
-        except Exception:  # noqa: BLE001
-            pass
-    return len(_LIVE)
 
 
 def _live_one(slug: str) -> dict | None:
@@ -267,20 +260,39 @@ def _lookup(slug: str) -> dict:
 
 
 @app.get("/api/trees")
-def trees() -> list[dict]:
-    """Live crawls first, then the Phase 0 demos.
+def trees(http_request: Request) -> list[dict]:
+    """YOUR live crawls first, then the three public Phase 0 demos.
+
+    Private as of 2026-09-08. A slug is listed only if this person has a crawl
+    row for it, so what stays hidden is WHO SEARCHED WHAT - the part that is
+    actually sensitive about competitor research. The tree itself is still one
+    shared corpus and one shared cache: two people searching the same seed get
+    the same tree, and the second one gets it free.
+
+    Signed out, this is the three demos and nothing else. Not "everything" - an
+    unauthenticated caller must never be the widest audience.
 
     A user who just ran a search expects to find it at the top, not below three
     fixtures they did not create.
     """
+    who = auth.identity(http_request)
     live_trees = sorted(
-        _live_all(), key=lambda t: t.get("updated_at") or "", reverse=True
+        _live_all(who.user_id), key=lambda t: t.get("updated_at") or "", reverse=True
     )
     return [_summary(t) for t in live_trees] + [_summary(t) for t in _TREES]
 
 
 @app.get("/api/tree/{slug}")
 def tree(slug: str) -> dict:
+    """One tree, by slug. NOT gated, deliberately - see `/api/trees`.
+
+    Privacy here is list-level. A slug is built from the seed, so anyone who
+    could guess it already knows the keyword, which is the sensitive half; what
+    the tree adds is Google's own public results for it, obtainable for
+    $0.0026 by anybody. Gating it would also strand the anonymous visitor who
+    just spent their free search, since an anonymous crawl has no owner to
+    match against.
+    """
     return _lookup(slug)
 
 

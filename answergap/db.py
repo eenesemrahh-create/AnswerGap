@@ -957,11 +957,23 @@ def live_tree_count() -> int:
         return cur.fetchone()["n"]
 
 
-def load_trees(slug_for) -> list[dict]:
-    """Every live tree: the most recent crawl of each slug.
+def load_trees(slug_for, *, user_id: int | None = None) -> list[dict]:
+    """Live trees: the most recent crawl of each slug.
 
     Older crawls stay - they are the diff engine's raw material - but the
     product shows the current state, so the read path takes the latest.
+
+    `user_id` makes the LIST private: a slug appears only if that person has a
+    crawl row for it. Two people searching the same seed still share one tree
+    and one cache - the second gets it for free - so what is private is WHO
+    SEARCHED WHAT, which is the part that is actually sensitive. A signed-out
+    caller gets nothing here; the three archive demos are served separately and
+    are public on purpose.
+
+    Note the subquery rather than a WHERE on the outer DISTINCT ON: the tree
+    shown is still the LATEST crawl of that slug, whoever ran it, because the
+    edges are one shared corpus. Filtering the outer query would show a
+    returning user their own stale version of a tree somebody else refreshed.
 
     BATCHED. The obvious implementation calls `_assemble` per crawl, which is
     three queries each: with seven trees that is twenty-two round trips on one
@@ -969,12 +981,18 @@ def load_trees(slug_for) -> list[dict]:
     are, then does the joining in Python where it costs nothing.
     """
     with connect() as conn, conn.cursor() as cur:
+        if user_id is None:
+            # Nobody signed in: no personal list at all. NOT "everything" -
+            # an unauthenticated caller must never be the widest audience.
+            return []
         cur.execute(
             """
             SELECT DISTINCT ON (slug) *
-            FROM crawl
-            ORDER BY slug, created_at DESC, id DESC
-            """
+              FROM crawl
+             WHERE slug IN (SELECT slug FROM crawl WHERE user_id = %s)
+             ORDER BY slug, created_at DESC, id DESC
+            """,
+            (user_id,),
         )
         crawls = cur.fetchall()
         if not crawls:
