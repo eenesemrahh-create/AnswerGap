@@ -278,6 +278,20 @@ def google_start(return_to: str = "", mode: str = "token") -> RedirectResponse:
     if not accounts_enabled():
         raise HTTPException(503, {"code": "accountsOff"})
     if not oauth.return_allowed(return_to, AUTH_RETURN_ORIGINS):
+        # Logged, not returned. The reply stays a bare code - echoing the
+        # allowlist back would hand an attacker the list of places a session
+        # can be sent - but "which value was rejected" is the only thing
+        # anyone needs to fix this, and without it the failure is a 400 with
+        # no way in. It has already cost one debugging round trip.
+        #
+        # The usual cause is a missing scheme: Railway's Networking panel
+        # shows a domain WITHOUT https://, so a copy-paste drops it and
+        # urlsplit then finds no netloc at all.
+        print(
+            f"[auth] rejected return_to={return_to!r}; "
+            f"AUTH_RETURN_ORIGINS={sorted(AUTH_RETURN_ORIGINS)}",
+            flush=True,
+        )
         raise HTTPException(400, {"code": "badReturn"})
 
     verifier = oauth.new_verifier()
@@ -316,6 +330,20 @@ def google_callback(
     # may have changed while the user sat on the consent screen, and this is the
     # last point at which a session could be sent somewhere it should not go.
     if not oauth.return_allowed(return_to, AUTH_RETURN_ORIGINS):
+        # Logged, not returned. The reply stays a bare code - echoing the
+        # allowlist back would hand an attacker the list of places a session
+        # can be sent - but "which value was rejected" is the only thing
+        # anyone needs to fix this, and without it the failure is a 400 with
+        # no way in. It has already cost one debugging round trip.
+        #
+        # The usual cause is a missing scheme: Railway's Networking panel
+        # shows a domain WITHOUT https://, so a copy-paste drops it and
+        # urlsplit then finds no netloc at all.
+        print(
+            f"[auth] rejected return_to={return_to!r}; "
+            f"AUTH_RETURN_ORIGINS={sorted(AUTH_RETURN_ORIGINS)}",
+            flush=True,
+        )
         raise HTTPException(400, {"code": "badReturn"})
     if error or not code:
         return RedirectResponse(f"{return_to}?auth=denied", status_code=302)

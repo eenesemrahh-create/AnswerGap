@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiUrl, configured } from "@/lib/api";
+import { apiUrl, configured, schemeProblem } from "@/lib/api";
 
 /**
  * Begin sign-in. Hands off to the API, which owns the Google credentials.
@@ -14,6 +14,10 @@ export async function GET() {
   if (!configured()) {
     return NextResponse.json({ error: "not configured" }, { status: 503 });
   }
+  // Caught here rather than three redirects later as someone else's 400.
+  const problem = schemeProblem();
+  if (problem) return NextResponse.json({ error: problem }, { status: 503 });
+
   const back = `${process.env.PUBLIC_ADMIN_URL!.replace(/\/$/, "")}/api/auth/land`;
   return NextResponse.redirect(
     `${apiUrl()}/api/auth/google/start?mode=code&return_to=${encodeURIComponent(back)}`

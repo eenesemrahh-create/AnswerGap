@@ -43,6 +43,32 @@ export function configured(): boolean {
   return Boolean(API_URL && process.env.PUBLIC_ADMIN_URL);
 }
 
+/**
+ * Both URLs must carry a scheme, and this is checked rather than assumed.
+ *
+ * Railway's Networking panel shows a domain WITHOUT `https://`, so a
+ * copy-paste drops it. The API then rejects the return target — correctly,
+ * since it demands an exact origin match — and the admin sees a bare
+ * `{"code":"badReturn"}` from a different service, with nothing pointing at
+ * the variable that actually caused it. It cost a debugging round trip once.
+ *
+ * Checked, not silently repaired: quietly prepending `https://` would hide a
+ * misconfiguration that also affects AUTH_RETURN_ORIGINS on the api service,
+ * where nothing here can reach it.
+ */
+export function schemeProblem(): string | null {
+  const bad = (["API_URL", "PUBLIC_ADMIN_URL"] as const).filter((name) => {
+    const value = process.env[name];
+    // Case-insensitive, because the api's own check is: urlsplit lowercases
+    // the scheme, so HTTPS:// is accepted there. A stricter test here would
+    // block a configuration that actually works, which is worse than
+    // missing one that does not.
+    return value && !/^https?:\/\//i.test(value);
+  });
+  if (bad.length === 0) return null;
+  return `${bad.join(" and ")} must start with https:// — Railway shows domains without it.`;
+}
+
 export async function sessionToken(): Promise<string | null> {
   const jar = await cookies();
   return jar.get(SESSION_COOKIE)?.value ?? null;
