@@ -18,6 +18,11 @@ export const en = {
   },
 
   landing: {
+    treeCount: "{count} saved",
+    emptyTitle: "No searches yet.",
+    emptyBody:
+      "Search a keyword above and it appears here. Your searches are private " +
+      "to your account.",
     headline: "Find the questions your competitors never answered.",
     intro:
       "AnswerGap expands Google's “People also ask” into a question tree, checks " +
@@ -239,6 +244,12 @@ export const en = {
   // Sign-in and credits. Wording rule, same as the status badges: name what
   // the reader has to DECIDE, not what we measured.
   auth: {
+    close: "Close",
+    dialogTitle: "Sign in to AnswerGap",
+    benefitCredits: "Credits to run searches and check questions",
+    benefitPrivate: "Your searches stay yours — nobody else sees them",
+    benefitScore: "Check any question against the pages that rank for it",
+    noCard: "No card. Credits are added by hand while we are in preview.",
     signIn: "Sign in with Google",
     signOut: "Sign out",
     signedInAs: "Signed in as {email}",
@@ -274,6 +285,12 @@ export const en = {
     backToAnalyses: "Back to analyses",
     startBackend: "To start the backend, from the project root:",
     loading: "Loading…",
+  },
+
+  theme: {
+    light: "Switch to dark",
+    dark: "Follow the system",
+    system: "Switch to light",
   },
 
   language: {

@@ -8,6 +8,11 @@ export const es: Messages = {
   },
 
   landing: {
+    treeCount: "{count} guardadas",
+    emptyTitle: "Aún no hay búsquedas.",
+    emptyBody:
+      "Busca una palabra clave arriba y aparecerá aquí. Tus búsquedas son " +
+      "privadas y pertenecen a tu cuenta.",
     headline: "Encuentra las preguntas que tus competidores nunca respondieron.",
     intro:
       "AnswerGap despliega «Otras preguntas de los usuarios» de Google en un " +
@@ -199,6 +204,12 @@ export const es: Messages = {
   },
 
   auth: {
+    close: "Cerrar",
+    dialogTitle: "Inicia sesión en AnswerGap",
+    benefitCredits: "Créditos para buscar y comprobar preguntas",
+    benefitPrivate: "Tus búsquedas son tuyas: nadie más las ve",
+    benefitScore: "Comprueba cualquier pregunta contra las páginas que posicionan",
+    noCard: "Sin tarjeta. Durante la vista previa los créditos se añaden a mano.",
     signIn: "Iniciar sesión con Google",
     signOut: "Cerrar sesión",
     signedInAs: "Sesión iniciada como {email}",
@@ -233,6 +244,12 @@ export const es: Messages = {
     backToAnalyses: "Volver a los análisis",
     startBackend: "Para iniciar el backend, desde la raíz del proyecto:",
     loading: "Cargando…",
+  },
+
+  theme: {
+    light: "Cambiar a oscuro",
+    dark: "Seguir al sistema",
+    system: "Cambiar a claro",
   },
 
   language: {

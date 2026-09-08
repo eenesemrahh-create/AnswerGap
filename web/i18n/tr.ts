@@ -8,6 +8,11 @@ export const tr: Messages = {
   },
 
   landing: {
+    treeCount: "{count} kayıtlı",
+    emptyTitle: "Henüz arama yok.",
+    emptyBody:
+      "Yukarıdan bir anahtar kelime arayın, burada görünsün. Aramalarınız " +
+      "yalnızca sizin hesabınıza aittir.",
     headline: "Rakiplerinin hiç cevaplamadığı soruları bul.",
     intro:
       "AnswerGap, Google'ın “Bunlar da sorulmuş” verisini bir soru ağacına " +
@@ -198,6 +203,12 @@ export const tr: Messages = {
   },
 
   auth: {
+    close: "Kapat",
+    dialogTitle: "AnswerGap'e giriş yap",
+    benefitCredits: "Arama yapmak ve soru kontrol etmek için kredi",
+    benefitPrivate: "Aramalarınız size ait kalır — kimse göremez",
+    benefitScore: "Her soruyu, o soruda çıkan sayfalara karşı kontrol edin",
+    noCard: "Kart yok. Önizleme sürecinde krediler elle ekleniyor.",
     signIn: "Google ile giriş yap",
     signOut: "Çıkış yap",
     signedInAs: "{email} olarak girildi",
@@ -232,6 +243,12 @@ export const tr: Messages = {
     backToAnalyses: "Analizlere dön",
     startBackend: "Backend'i başlatmak için proje kökünde:",
     loading: "Yükleniyor…",
+  },
+
+  theme: {
+    light: "Koyu temaya geç",
+    dark: "Sistemi izle",
+    system: "Açık temaya geç",
   },
 
   language: {

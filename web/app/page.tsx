@@ -25,6 +25,7 @@ import { useDateFormat, useI18n } from "@/i18n";
 import { Notice, Rich } from "@/components/Badge";
 import { AccountMenu } from "@/components/AccountMenu";
 import { LocalePicker } from "@/components/LocalePicker";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const MARKET_KEY = "answergap.market";
 
@@ -128,37 +129,44 @@ export default function Landing() {
           Answer<span>Gap</span> <small>{t("brand.prototype")}</small>
         </span>
         {meta && <AccountMenu meta={meta} />}
+        <ThemeToggle />
         <LocalePicker />
       </div>
 
-      <h1>{t("landing.headline")}</h1>
-      <p className="tagline">{t("landing.intro")}</p>
+      {/* One panel: the promise and the way to act on it. The search field is
+          the only thing on this page a first-time visitor needs to find, so
+          nothing else competes with it above the fold. */}
+      <section className="hero">
+        <h1>{t("landing.headline")}</h1>
+        <p className="tagline">{t("landing.intro")}</p>
 
-      {/* The button is disabled only when a crawl genuinely cannot run — no
-          credentials on disk. That is a setup problem, and saying so beats
-          letting the user click into a 503. */}
-      <form className="form-row" onSubmit={submit}>
-        <input
-          value={seed}
-          onChange={(e) => setSeed(e.target.value)}
-          placeholder={t("landing.searchPlaceholder")}
-          aria-label={t("landing.searchPlaceholder")}
-          disabled={busy}
-        />
-        <button
-          type="submit"
-          disabled={busy || !seed.trim() || meta?.live_crawl_available === false}
-          title={
-            meta?.live_crawl_available === false
-              ? t("landing.searchDisabledHint")
-              : undefined
-          }
-        >
-          {busy ? t("landing.searching") : t("landing.searchButton")}
-        </button>
-      </form>
+        {/* The button is disabled only when a crawl genuinely cannot run — no
+            credentials on disk. That is a setup problem, and saying so beats
+            letting the user click into a 503. */}
+        <form className="searchbar" onSubmit={submit}>
+          <input
+            value={seed}
+            onChange={(e) => setSeed(e.target.value)}
+            placeholder={t("landing.searchPlaceholder")}
+            aria-label={t("landing.searchPlaceholder")}
+            disabled={busy}
+          />
+          <button
+            className="btn btn-primary"
+            type="submit"
+            disabled={busy || !seed.trim() || meta?.live_crawl_available === false}
+            title={
+              meta?.live_crawl_available === false
+                ? t("landing.searchDisabledHint")
+                : undefined
+            }
+          >
+            {busy ? t("landing.searching") : t("landing.searchButton")}
+          </button>
+        </form>
 
-      {busy && <p className="field-hint">{t("landing.searchingHint")}</p>}
+        {busy && <p className="field-hint">{t("landing.searchingHint")}</p>}
+      </section>
 
       {searchError && (
         <div className="error" style={{ marginTop: 16 }}>
@@ -229,7 +237,21 @@ export default function Landing() {
 
       {trees && (
         <>
-          <h3 className="section-label">{t("landing.savedAnalyses")}</h3>
+          <div className="section-head">
+            <h2>{t("landing.savedAnalyses")}</h2>
+            {trees.length > 0 && (
+              <span>{t("landing.treeCount", { count: trees.length })}</span>
+            )}
+          </div>
+          {/* An empty list is the normal state for a new account, not a
+              failure. Saying so — and saying it is private — is the whole
+              difference between "nothing here" and "something is broken". */}
+          {trees.length === 0 && (
+            <div className="empty-state">
+              <b>{t("landing.emptyTitle")}</b>
+              {t("landing.emptyBody")}
+            </div>
+          )}
           <div className="card-list">
             {trees.map((tree) => (
               <Link key={tree.slug} href={`/tree/${tree.slug}`} className="card">

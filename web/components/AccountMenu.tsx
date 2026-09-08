@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchMe, signIn, signOut } from "@/lib/api";
+import { fetchMe, signOut } from "@/lib/api";
+import { SignInDialog } from "./SignInDialog";
 import { captureTokenFromHash, token } from "@/lib/auth";
 import type { Me, Meta } from "@/lib/types";
 import { useI18n } from "@/i18n";
@@ -21,6 +22,7 @@ export function AccountMenu({ meta }: { meta: Meta }) {
   const { t } = useI18n();
   const [me, setMe] = useState<Me | null>(null);
   const [failed, setFailed] = useState(false);
+  const [dialog, setDialog] = useState(false);
 
   useEffect(() => {
     if (!meta.accounts_enabled) return;
@@ -46,9 +48,14 @@ export function AccountMenu({ meta }: { meta: Meta }) {
     return (
       <div className="account">
         {failed && <span className="account-failed">{t("auth.failed")}</span>}
-        <button className="account-signin" onClick={signIn}>
+        {/* Opens the dialog rather than jumping straight to Google. A bare
+            button never says what signing in gets you, and the redirect is a
+            full page navigation - a heavy thing to trigger from a click whose
+            consequences the reader has not been told. */}
+        <button className="btn btn-primary account-signin" onClick={() => setDialog(true)}>
           {t("auth.signIn")}
         </button>
+        <SignInDialog open={dialog} onClose={() => setDialog(false)} />
       </div>
     );
   }

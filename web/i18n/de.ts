@@ -8,6 +8,11 @@ export const de: Messages = {
   },
 
   landing: {
+    treeCount: "{count} gespeichert",
+    emptyTitle: "Noch keine Suchen.",
+    emptyBody:
+      "Suchen Sie oben nach einem Keyword, dann erscheint es hier. Ihre " +
+      "Suchen bleiben privat und gehören zu Ihrem Konto.",
     headline: "Finde die Fragen, die deine Wettbewerber nie beantwortet haben.",
     intro:
       "AnswerGap entfaltet Googles „Ähnliche Fragen“ zu einem Fragenbaum, prüft " +
@@ -198,6 +203,12 @@ export const de: Messages = {
   },
 
   auth: {
+    close: "Schließen",
+    dialogTitle: "Bei AnswerGap anmelden",
+    benefitCredits: "Guthaben für Suchen und Fragenprüfungen",
+    benefitPrivate: "Ihre Suchen bleiben Ihre — niemand sonst sieht sie",
+    benefitScore: "Jede Frage gegen die Seiten prüfen, die dafür ranken",
+    noCard: "Keine Karte. In der Vorschau wird Guthaben von Hand vergeben.",
     signIn: "Mit Google anmelden",
     signOut: "Abmelden",
     signedInAs: "Angemeldet als {email}",
@@ -232,6 +243,12 @@ export const de: Messages = {
     backToAnalyses: "Zurück zu den Analysen",
     startBackend: "Zum Starten des Backends, im Projektverzeichnis:",
     loading: "Wird geladen…",
+  },
+
+  theme: {
+    light: "Zu Dunkel wechseln",
+    dark: "Dem System folgen",
+    system: "Zu Hell wechseln",
   },
 
   language: {

@@ -20,6 +20,7 @@ import { QuestionDetail } from "./QuestionDetail";
 import { RelatedSeeds } from "./RelatedSeeds";
 import { Notice } from "./Badge";
 import { LocalePicker } from "./LocalePicker";
+import { ThemeToggle } from "./ThemeToggle";
 import { BatchScore } from "./BatchScore";
 import { AccountMenu } from "./AccountMenu";
 import { DevPanel } from "./DevPanel";
@@ -191,6 +192,7 @@ export function TreeScreen({ slug }: { slug: string }) {
         {tree.source === "live" && <CrawlDiff slug={slug} />}
         {meta && <DevPanel meta={meta} slug={slug} />}
         {meta && <AccountMenu meta={meta} />}
+        <ThemeToggle />
         <LocalePicker />
       </header>
 
