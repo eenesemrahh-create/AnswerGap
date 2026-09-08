@@ -1,0 +1,138 @@
+/* Small and self-contained. Deliberately NOT a copy of the customer app's
+   1092-line stylesheet: this panel shares none of its screens, and a copy would
+   be 1000 lines of dead rules that drift out of sync. The token names match so
+   the two look like one product. */
+
+:root {
+  --bg: #fbfaf8;
+  --surface: #ffffff;
+  --surface-2: #f5f3f0;
+  --border: #e7e2db;
+  --border-strong: #d6cfc5;
+  --text: #1c1917;
+  --text-soft: #57534e;
+  --text-faint: #8a827a;
+  --focus: #2563eb;
+  --warn: #b45309;
+  --warn-bg: #fdf0d5;
+  --ok: #15803d;
+  --r: 8px;
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131210;
+    --surface: #1c1a17;
+    --surface-2: #232019;
+    --border: #332e27;
+    --border-strong: #464036;
+    --text: #f5f3f0;
+    --text-soft: #b8b1a7;
+    --text-faint: #8a827a;
+    --warn: #e9b872;
+    --warn-bg: #2a2013;
+    --ok: #6ee7a8;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+}
+a { color: var(--focus); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.topbar nav { display: flex; gap: 14px; margin-right: auto; }
+.brand { font-weight: 700; }
+.brand span { color: var(--focus); }
+.brand small { color: var(--text-faint); font-weight: 400; }
+.linkish {
+  background: none;
+  border: 0;
+  color: var(--text-soft);
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+.linkish:hover { text-decoration: underline; }
+
+main { padding: 24px 20px; max-width: 1100px; margin: 0 auto; }
+h1 { font-size: 20px; margin: 0 0 4px; }
+h2 { font-size: 15px; margin: 28px 0 8px; }
+.sub { color: var(--text-soft); margin: 0 0 20px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px;
+}
+.card b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+.card span { color: var(--text-soft); font-size: 12px; }
+.card em { display: block; color: var(--text-faint); font-size: 11.5px; font-style: normal; margin-top: 4px; }
+
+/* Wide tables scroll inside their own box; the page never scrolls sideways. */
+.tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r); background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th { color: var(--text-soft); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11.5px; border: 1px solid var(--border-strong); }
+.pill.active { color: var(--ok); border-color: currentColor; }
+.pill.suspended { color: var(--warn); border-color: currentColor; background: var(--warn-bg); }
+.pill.admin { color: var(--focus); border-color: currentColor; }
+/* A negative balance is shown, not hidden: a debit is unconditional because
+   the money is already spent upstream, and clamping would make the number
+   disagree with the ledger behind it. */
+.neg { color: var(--warn); }
+
+form.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 10px 0; }
+input, select {
+  padding: 6px 9px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+}
+button.act {
+  padding: 6px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+button.act:hover { background: var(--surface-2); }
+button.act.warn { color: var(--warn); border-color: currentColor; }
+
+.notice {
+  border: 1px solid var(--border-strong);
+  background: var(--warn-bg);
+  color: var(--warn);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  margin: 0 0 16px;
+}
+.empty { color: var(--text-faint); padding: 14px; }
+.signin { max-width: 420px; margin: 12vh auto; text-align: center; }
+.signin button { margin-top: 14px; }
