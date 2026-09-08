@@ -230,3 +230,35 @@ def test_settings_are_clamped_but_zero_survives() -> None:
     assert gate.setting_int({"k": "-5"}, "k", default=1, lo=0, hi=100) == 0
     assert gate.setting_int({"k": "999999"}, "k", default=1, lo=0, hi=100) == 100
     assert gate.setting_int({"k": "0"}, "k", default=1, lo=0, hi=100) == 0
+
+
+# ------------------------------------------------- what a refusal explains
+
+
+def test_the_anonymous_refusal_carries_both_counters() -> None:
+    """A refusal has to say WHY, or it is a support ticket.
+
+    Which counter tripped is the whole diagnosis - a browser id that has been
+    used up behaves nothing like a shared office address that has - and it is a
+    fact about the caller's own requests, so returning it reveals nothing they
+    could not have counted themselves.
+    """
+    decision = gate.decide(
+        _anon(),
+        State(True, anon_limit=1, anon_used_ip=1, anon_used_browser=0),
+        action="search",
+        units=1,
+    )
+    assert decision.info == {"used": 1, "limit": 1, "by_browser": 0, "by_ip": 1}
+
+
+def test_an_empty_balance_refusal_says_what_was_needed() -> None:
+    decision = gate.decide(
+        _user(), State(True, "active", balance=0), action="batch", units=10
+    )
+    assert decision.info == {"balance": 0, "needed": 10}
+
+
+def test_an_allowed_decision_carries_no_explanation() -> None:
+    """Nothing to explain when nothing was refused."""
+    assert gate.decide(_anon(), State(True), action="search", units=1).info is None

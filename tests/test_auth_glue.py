@@ -219,7 +219,10 @@ def test_a_refusal_is_recorded_before_it_is_raised(monkeypatch, signed_in) -> No
         auth.check(who, action="search", units=1)
 
     assert e.value.status_code == 402
-    assert e.value.detail == {"code": "noCredits"}
+    # The refusal carries the numbers behind it. Only ever facts about the
+    # person asking - their own balance - so it reveals nothing they could not
+    # count themselves, and it is what lets the UI say WHY rather than just no.
+    assert e.value.detail == {"code": "noCredits", "balance": 0, "needed": 1}
     assert written and written[0]["outcome"] == gate.REFUSED_NO_CREDITS
     assert written[0]["credits"] == 0
 

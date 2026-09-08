@@ -171,7 +171,14 @@ def check(who: gate.Identity, *, action: str, units: int) -> gate.Decision:
 
     decision = gate.decide(who, state, action=action, units=units)
     if not decision.allowed:
-        raise _refuse(who, action, decision.outcome, decision.http_status, decision.code)
+        raise _refuse(
+            who,
+            action,
+            decision.outcome,
+            decision.http_status,
+            decision.code,
+            info=decision.info,
+        )
     return decision
 
 
@@ -209,7 +216,12 @@ def record(
 
 
 def _refuse(
-    who: gate.Identity, action: str, outcome: str, status: int | None, code: str | None
+    who: gate.Identity,
+    action: str,
+    outcome: str,
+    status: int | None,
+    code: str | None,
+    info: dict | None = None,
 ) -> HTTPException:
     if accounts_enabled():
         try:
@@ -229,7 +241,7 @@ def _refuse(
     # words - see the module docstring in main.py. Without a code the frontend
     # could not tell "out of credits" from the DataForSEO ceiling, which already
     # owns 429.
-    return HTTPException(status or 403, {"code": code or "forbidden"})
+    return HTTPException(status or 403, {"code": code or "forbidden", **(info or {})})
 
 
 def require_admin(request: Request) -> gate.Identity:

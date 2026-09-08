@@ -84,6 +84,11 @@ class Decision:
     # How many units the caller may actually buy. Equals the requested count on
     # a plain allow; smaller when a batch was trimmed to what the balance covers.
     affordable_units: int = 0
+    # The numbers behind a refusal, for the caller's own reply. Only ever facts
+    # about the person asking - their own counter, their own balance - so it
+    # tells an attacker nothing they could not already count themselves, and it
+    # turns "why was I refused" from a support question into a readable answer.
+    info: dict | None = None
 
 
 def decide(identity: Identity, state: State, *, action: str, units: int) -> Decision:
@@ -117,7 +122,10 @@ def decide(identity: Identity, state: State, *, action: str, units: int) -> Deci
             # only if we knew the exact billable count up front, and we do not -
             # queue_scores filters already-scored questions after this check.
             return Decision(True, ALLOWED, affordable_units=state.balance)
-        return Decision(False, REFUSED_NO_CREDITS, "noCredits", 402)
+        return Decision(
+            False, REFUSED_NO_CREDITS, "noCredits", 402,
+            info={"balance": state.balance, "needed": units},
+        )
 
     if action not in ANONYMOUS_ACTIONS:
         return Decision(False, REFUSED_SIGNED_OUT, "signedOut", 401)
@@ -127,7 +135,18 @@ def decide(identity: Identity, state: State, *, action: str, units: int) -> Deci
     # cheap bypasses cost something.
     used = max(state.anon_used_browser, state.anon_used_ip)
     if used >= state.anon_limit:
-        return Decision(False, REFUSED_ANON_LIMIT, "anonLimit", 429)
+        return Decision(
+            False,
+            REFUSED_ANON_LIMIT,
+            "anonLimit",
+            429,
+            info={
+                "used": used,
+                "limit": state.anon_limit,
+                "by_browser": state.anon_used_browser,
+                "by_ip": state.anon_used_ip,
+            },
+        )
     return Decision(True, ALLOWED, affordable_units=units)
 
 
