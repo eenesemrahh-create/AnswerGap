@@ -420,9 +420,14 @@ defensible asset over time.
 
 # Current state — resume here
 
-Last worked: **2026-09-08**. Accounts, credits and an admin panel shipped —
-Google sign-in, per-user credit enforcement, and a third Railway service for
-the operator. Verified end to end against production; see the section below.
+Last worked: **2026-09-08**. Two things shipped and one is half done.
+Accounts, credits and the admin panel (verified end to end against production),
+then searches became private and the interface began a redesign.
+
+**WARNING: the last two commits are NOT PUSHED.** Production runs the code from
+`f2f4b4c`, so the deployed site shows neither the privacy change nor the new
+interface. That is deliberate — they were left for review — but it will look
+like the work vanished if you check the live site first.
 
 **First commit: `cdd581a`** — "Initial commit: validated prototype, US-first,
 five languages". 113 files. `origin` is now configured
@@ -1241,6 +1246,105 @@ failing with a Python error, which looks like nothing to do with configuration.
 packages and `.next` into the commit. The **root `.gitignore` does not cover
 `node_modules`** — `web/` is only safe because it carries its own.
 
+## Privacy and the interface, 2026-09-08 (second half)
+
+**Two commits from this section are COMMITTED BUT NOT PUSHED**, on purpose —
+they were left for review. Production is still running the code from
+`f2f4b4c`, so anyone comparing the deployed site against this file will not see
+the interface work. Push when the review is done; Railway deploys from `main`.
+
+### Searches are private now — and the scope is the decision
+
+`/api/trees` was unfiltered: every signed-in user's searches were visible to
+everyone. This was on the "never actually decided" list and it is now decided.
+
+**List-level.** A slug appears in your list only if you have a crawl row for it.
+The tree itself stays ONE SHARED CORPUS and ONE SHARED CACHE, so two people
+searching the same seed still get the same tree and the second one still gets it
+free. Splitting the cache per user would multiply the bill for nothing.
+
+**`/api/tree/{slug}` stays open, deliberately.** A slug is built from the seed,
+so anyone able to guess it already knows the keyword — the sensitive half — and
+what the tree adds is Google's own public results, obtainable by anyone for
+$0.0026. Gating it would also strand the anonymous visitor who has just spent
+their one free search, because an anonymous crawl has no owner to match on.
+
+Note the subquery rather than a `WHERE` on the outer `DISTINCT ON`: the tree
+shown is still the LATEST crawl of that slug whoever ran it, because the edges
+are one corpus. Filtering the outer query would have shown a returning user
+their own stale copy of a tree somebody else had since refreshed.
+
+Consequence worth keeping: **`/api/meta` is now query-free for the first time.**
+`tree_count` was its last query and was removed rather than made per-user —
+nothing in `web/` ever read it, and under privacy it would have been a count of
+other people's searches riding along in every page load.
+
+### The interface: first half done, second half not
+
+Done: design tokens, light/dark/system, the sign-in dialog, the landing page.
+Still wearing the old skin: the tree canvas, the gap table, related searches and
+the question detail panel.
+
+**TWO PALETTES, AND THEY MUST NOT MIX.** Colour here is not decoration — it is
+the entire claim, since `gap/weak/covered/no_data` have nothing but hue to tell
+them apart. The brand therefore sits on violet, chosen because it is nowhere
+near the amber/teal axis the statuses use. The rule is written at the top of
+`globals.css`: never style a node, a badge or a row with a brand token, and
+never use a status token for decoration.
+
+It caught its first violation immediately, and the violation was ours: the
+wordmark was painted with `--gap`, the colour that means *"no page answers
+this"*, in the most prominent position on the page.
+
+**One definition per token, via `light-dark()`.** The old file defined dark
+ONLY inside `@media (prefers-color-scheme: dark)` and nowhere else, so a manual
+"dark" choice did nothing on a machine set to light — the toggle would have
+appeared broken in exactly the case where somebody bothers to use it. Verified
+that lightningcss downlevels `light-dark()` into its own custom-property
+polyfill and that both themes render correctly through it.
+
+**The theme is applied by a blocking inline script in `<head>`, before first
+paint.** Without it every load flashes white for a dark-mode reader while React
+hydrates. Three states, not two: "system" is a destination, and a two-state
+switch can never offer the way back to following the machine.
+
+**Sign-in is a native `<dialog>`** — focus trap, Esc, inert background and
+top-layer stacking come free, and a div-with-a-backdrop reimplements all four
+badly. It exists because a lone "Sign in with Google" button never says what you
+get, and it is where a refusal can land, so the explanation and the button that
+resolves it sit in one place.
+
+An empty search list is now an explicit empty state that says the list is
+private. That matters as of today: a new account legitimately starts with
+nothing, and a blank gap reads as breakage.
+
+### Two mistakes that only a screenshot caught
+
+Both passed `npm run build`. Neither would have been found by reading.
+
+1. **`--brand-*/--grad` inside a CSS comment terminates the comment** at the
+   `*/`, and the rest parses as CSS. The whole stylesheet fails.
+2. **`light-dark()` resolves a COLOR, not a whole `box-shadow` list.** Shadow
+   colours are now separate tokens and the geometry is written once.
+
+A third was a specificity trap rather than a syntax one: a `.landing h1` reset
+appended below `.hero h1` matches the SAME element at the SAME specificity and
+silently flattened the display headline. Removed rather than fought.
+
+**Screenshot the result.** The project has headless Chrome already (it renders
+the architecture PDF) and it is the only thing that found any of the above:
+
+```bash
+"/c/Program Files/Google/Chrome/Application/chrome.exe" --headless=new \
+  --disable-gpu --hide-scrollbars --virtual-time-budget=9000 \
+  --window-size=1280,700 --blink-settings=preferredColorScheme=1 \
+  --screenshot=out.png "http://127.0.0.1:3000/"
+```
+
+`preferredColorScheme=1` is light, `0` is dark. Kill the old `next start` first
+— a stale server on the same port serves the previous build and produces a
+screenshot that looks like a catastrophic CSS failure when nothing is wrong.
+
 ## Spend to date
 
 **~$0.121** total ($0.107 before Phase B, $0.0112 of live crawling on
@@ -1305,12 +1409,10 @@ Four things do have to change, in this order: **storage**, **tests**,
    credit balance, an anonymous daily allowance and the admin panel that runs
    them. See the section below. **Still open: tenancy and Stripe.** There is
    no per-user data isolation and no checkout; credits are granted by hand.
-7. **Decide whether searches are private.** `/api/trees` and `/api/tree/{slug}`
-   are public and unfiltered, so every signed-in user's searches are visible to
-   everyone. That is arguably right — "historical PAA data is our most
-   defensible asset" argues for one shared corpus — but it is a decision NOT
-   YET MADE, and it is the one most likely to surprise a paying customer.
-   Settle it explicitly before charging anybody.
+7. ~~**Decide whether searches are private.**~~ **DONE 2026-09-08 — private,
+   at list level.** See the section above for what that does and does not
+   cover. Still open, and smaller: the tree, table, related-searches and
+   question-detail screens have not been moved to the new visual language yet.
 8. **Rate limiting.** Nothing has any. `GET /api/tree/{slug}/jobs` is still an
    unauthenticated GET that triggers up to three outbound DataForSEO calls via
    `sweep_pending`. Those calls are free, so it is not a credit problem — it is
