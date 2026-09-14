@@ -26,7 +26,7 @@ from __future__ import annotations
 import json
 
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 from answergap import db, gate
 
@@ -83,17 +83,55 @@ class Plan(BaseModel):
     "which card is highlighted in dark" and "which card has a Most Popular
     label". A plan can be featured without a badge (visually emphasised) or
     carry a badge without being featured (a New tag on the Starter, say).
+
+    `enabled` is the publish switch. The admin keeps four card slots on
+    screen at once so a draft never has to be re-created from a template;
+    only cards with `enabled=true` reach the marketing landing, and the rest
+    are drafts the admin can polish without shipping them. That is why the
+    text fields below are `min_length=0`: a disabled card can hold WIP
+    content while a sibling ships. The model_validator makes sure a card
+    the admin actually enables is complete, so an empty card cannot slip
+    onto production by ticking a checkbox.
     """
 
     id: str = Field(min_length=1, max_length=32, pattern=r"^[a-z0-9-]+$")
-    name: str = Field(min_length=1, max_length=40)
-    desc: str = Field(min_length=1, max_length=200)
-    price: str = Field(min_length=1, max_length=20)
-    per: str = Field(min_length=1, max_length=20)
-    features: list[str] = Field(min_length=0, max_length=PRICING_MAX_FEATURES)
-    cta: str = Field(min_length=1, max_length=40)
+    enabled: bool = False
+    name: str = Field(min_length=0, max_length=40, default="")
+    desc: str = Field(min_length=0, max_length=200, default="")
+    price: str = Field(min_length=0, max_length=20, default="")
+    per: str = Field(min_length=0, max_length=20, default="")
+    features: list[str] = Field(min_length=0, max_length=PRICING_MAX_FEATURES, default_factory=list)
+    cta: str = Field(min_length=0, max_length=40, default="")
     featured: bool = False
     badge: str | None = Field(default=None, max_length=30)
+
+    @model_validator(mode="after")
+    def _enabled_requires_content(self) -> "Plan":
+        """A card the admin chose to ship must actually be renderable.
+
+        The frontend already blocks the obvious cases (empty name, empty
+        cta), but the API is the security boundary and the check runs here
+        too. A "featureless" enabled plan is allowed - a plan can legitimately
+        say "one price, no bullets" - but a nameless or priceless one is not.
+        """
+        if not self.enabled:
+            return self
+        missing = [
+            field for field in ("name", "desc", "price", "per", "cta")
+            if not getattr(self, field).strip()
+        ]
+        if missing:
+            raise ValueError(
+                f"Plan '{self.id}' is enabled but missing: {', '.join(missing)}. "
+                "Fill these fields or disable the card before publishing."
+            )
+        empty_features = [i for i, f in enumerate(self.features) if not f.strip()]
+        if empty_features:
+            raise ValueError(
+                f"Plan '{self.id}' has empty feature(s) at position "
+                f"{empty_features}. Fill them or remove them before publishing."
+            )
+        return self
 
 
 class PricingRequest(BaseModel):

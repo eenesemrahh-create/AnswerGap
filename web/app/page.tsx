@@ -547,6 +547,7 @@ function PricingSection({
   const fallback: Plan[] = [
     {
       id: "starter",
+      enabled: true,
       name: t("market.pricing.starter.name"),
       desc: t("market.pricing.starter.desc"),
       price: t("market.pricing.starter.price"),
@@ -563,6 +564,7 @@ function PricingSection({
     },
     {
       id: "pro",
+      enabled: true,
       name: t("market.pricing.pro.name"),
       desc: t("market.pricing.pro.desc"),
       price: t("market.pricing.pro.price"),
@@ -580,7 +582,12 @@ function PricingSection({
     },
   ];
 
-  const list = plans && plans.length > 0 ? plans : fallback;
+  // The publish switch: only cards the admin explicitly enabled travel to the
+  // landing. Nothing enabled -> use the localised fallback. This is what lets
+  // the admin edit four drafts at once without any of them going live until
+  // they are ready.
+  const published = plans?.filter((p) => p.enabled) ?? [];
+  const list = published.length > 0 ? published : fallback;
   // The grid class carries the count so CSS can pick the right layout without
   // an inline style. `plans-1` centers, `plans-2` matches the current design,
   // `plans-3` fits three across, `plans-4` wraps 2x2 on narrow screens.

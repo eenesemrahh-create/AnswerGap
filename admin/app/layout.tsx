@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { sessionToken } from "@/lib/api";
 import "./globals.css";
+
+// The pricing editor renders the marketing landing's card design inside the
+// admin so the operator sees exactly what will ship. Plus Jakarta Sans is
+// the landing's font; scoping it here means the rest of the admin stays on
+// system fonts and only the pricing preview picks it up (via .pricing-preview
+// in globals.css, which reads the variable).
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-landing",
+});
 
 /**
  * The operator's console. ENGLISH ONLY, deliberately.
@@ -33,7 +46,7 @@ export default async function RootLayout({
   const signedIn = Boolean(await sessionToken());
 
   return (
-    <html lang="en">
+    <html lang="en" className={jakarta.variable}>
       <body>
         <header className="topbar">
           <span className="brand">

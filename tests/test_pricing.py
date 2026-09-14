@@ -122,3 +122,108 @@ def test_pricing_whitespace_only_falls_back_to_empty(monkeypatch) -> None:
         lambda: {gate.SETTING_PRICING_PLANS: "   \n\t  "},
     )
     assert main.pricing() == {"plans": []}
+
+
+# ------------------------------------------------ Draft/publish validation
+#
+# The Plan model has `enabled` as a per-card publish switch. Disabled cards
+# can hold half-written drafts; enabled cards must be complete. This is the
+# rule the admin editor relies on to let all four slots stay editable while
+# only a subset ships to production.
+
+
+from api import admin  # noqa: E402 - after monkeypatch fixtures above
+
+
+def _complete_plan(**overrides) -> dict:
+    base = {
+        "id": "starter",
+        "enabled": True,
+        "name": "Starter",
+        "desc": "Small plan for individuals.",
+        "price": "$49",
+        "per": "/month",
+        "features": ["Feature one", "Feature two"],
+        "cta": "Get started",
+        "featured": False,
+        "badge": None,
+    }
+    base.update(overrides)
+    return base
+
+
+def test_disabled_plan_can_have_blank_content() -> None:
+    """The whole point of `enabled` is to let a draft breathe.
+
+    An admin who templated four slots and only wants two to ship must be
+    able to save the other two as drafts without filling them out first.
+    Blank required fields are refused only on `enabled=True`.
+    """
+    plan = admin.Plan(
+        id="draft-slot",
+        enabled=False,
+        name="",
+        desc="",
+        price="",
+        per="",
+        features=[],
+        cta="",
+        featured=False,
+        badge=None,
+    )
+    assert plan.enabled is False
+    assert plan.name == ""
+
+
+def test_enabled_plan_rejects_missing_name() -> None:
+    """A card the admin ticked to ship must actually be renderable.
+
+    The validator names EVERY missing field so the admin does not have to
+    save-fail-fix-save-fail three times to find them all.
+    """
+    with pytest.raises(Exception) as exc:
+        admin.Plan(**_complete_plan(name="   "))
+    assert "name" in str(exc.value).lower()
+
+
+def test_enabled_plan_rejects_empty_feature_string() -> None:
+    """A blank bullet publishes as a blank line - refuse."""
+    with pytest.raises(Exception) as exc:
+        admin.Plan(**_complete_plan(features=["Real feature", "   ", "Another"]))
+    assert "empty feature" in str(exc.value).lower() or "position" in str(exc.value).lower()
+
+
+def test_enabled_plan_can_have_no_features() -> None:
+    """Zero bullets is a legitimate design - some plans just say 'one price'.
+
+    The model_validator only refuses features that are ENABLED and blank; an
+    empty list is fine.
+    """
+    plan = admin.Plan(**_complete_plan(features=[]))
+    assert plan.enabled is True
+    assert plan.features == []
+
+
+def test_pricing_request_accepts_zero_to_four_plans() -> None:
+    """The bound is written in one place - PRICING_MAX_PLANS - and enforced
+    by Pydantic. Testing both boundaries makes an accidental change to the
+    max visible as a broken test."""
+    empty = admin.PricingRequest(plans=[])
+    assert empty.plans == []
+
+    four = admin.PricingRequest(
+        plans=[
+            admin.Plan(**_complete_plan(id="a", enabled=False)),
+            admin.Plan(**_complete_plan(id="b", enabled=False)),
+            admin.Plan(**_complete_plan(id="c", enabled=False)),
+            admin.Plan(**_complete_plan(id="d", enabled=False)),
+        ]
+    )
+    assert len(four.plans) == 4
+
+
+def test_pricing_request_rejects_five_plans() -> None:
+    """One over the ceiling."""
+    plans = [admin.Plan(**_complete_plan(id=f"p{i}", enabled=False)) for i in range(5)]
+    with pytest.raises(Exception):
+        admin.PricingRequest(plans=plans)

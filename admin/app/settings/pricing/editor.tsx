@@ -1,49 +1,64 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { PRICING_MAX_FEATURES, PRICING_MAX_PLANS, type Plan } from "@/lib/types";
+import {
+  PRICING_MAX_FEATURES,
+  PRICING_MAX_PLANS,
+  PRICING_TEMPLATES,
+  type Plan,
+} from "@/lib/types";
 import { savePricing } from "./actions";
 
 /**
- * The pricing plan editor. Client component because add / remove / reorder
- * are state operations that only make sense with local memory - a
- * server-round-trip per keystroke would be absurd for a form this dense.
+ * The pricing plan editor. Client component because the whole point is to
+ * edit text on the cards - a server round trip per keystroke would be absurd
+ * for a form this dense.
  *
- * The server action `savePricing` is what carries the token; nothing here
- * talks to the api directly, and there is no fetch to leak an admin session.
- * That is the split the whole admin service exists to enforce (see
- * lib/api.ts's `server-only` note).
+ * FOUR CARD SLOTS, ALWAYS. Unlike a form where the admin adds and removes
+ * rows, this presents exactly four cards at once. Ones the admin has saved
+ * fill in first; empty slots show the pre-made templates from `lib/types`
+ * so a first-time visitor sees something to react to, not four blank cards
+ * to write from zero. The user edits text in place - the "input" IS the
+ * card, the same shape the landing will render.
  *
- * Validation lives in TWO places: this component prevents the obvious errors
- * (empty required fields, over-length ids) so save is not clicked into an
- * error, and the API re-validates on receive. Neither is enough on its own -
- * the api one is the security boundary; this one is the UX boundary.
+ * PUBLISH IS A PER-CARD TOGGLE. Only cards with `enabled=true` reach the
+ * landing. Nothing enabled -> the landing renders its localised fallback,
+ * which is what the user sees on any fresh install. That is the switch that
+ * lets four drafts live on this screen while zero of them ship.
+ *
+ * TWO-LEVEL VALIDATION. The API is the security boundary: it re-checks the
+ * shape and refuses an `enabled` card with empty required fields. This
+ * client-side check catches the obvious mistakes BEFORE save so the operator
+ * gets the message here rather than as a 400. Neither is enough on its own.
+ *
+ * The server action `savePricing` carries the token; nothing here talks to
+ * the api directly, and there is no fetch to leak a session. Same split the
+ * whole admin service exists to enforce (see `lib/api.ts`'s `server-only`
+ * note).
  */
 export function PricingEditor({ initial }: { initial: Plan[] }) {
-  const [plans, setPlans] = useState<Plan[]>(initial);
+  const [plans, setPlans] = useState<Plan[]>(() => makeSlots(initial));
   const [status, setStatus] = useState<"idle" | "saved" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
-  const updatePlan = (index: number, patch: Partial<Plan>) => {
+  const patch = (index: number, changes: Partial<Plan>) => {
     setStatus("idle");
     setPlans((current) =>
-      current.map((plan, i) => (i === index ? { ...plan, ...patch } : plan))
+      current.map((p, i) => (i === index ? { ...p, ...changes } : p))
     );
   };
 
-  const updateFeature = (planIndex: number, featureIndex: number, value: string) => {
+  const patchFeature = (planIndex: number, featureIndex: number, value: string) => {
     setStatus("idle");
     setPlans((current) =>
-      current.map((plan, i) =>
+      current.map((p, i) =>
         i === planIndex
           ? {
-              ...plan,
-              features: plan.features.map((feat, j) =>
-                j === featureIndex ? value : feat
-              ),
+              ...p,
+              features: p.features.map((f, j) => (j === featureIndex ? value : f)),
             }
-          : plan
+          : p
       )
     );
   };
@@ -51,10 +66,8 @@ export function PricingEditor({ initial }: { initial: Plan[] }) {
   const addFeature = (planIndex: number) => {
     setStatus("idle");
     setPlans((current) =>
-      current.map((plan, i) =>
-        i === planIndex
-          ? { ...plan, features: [...plan.features, ""] }
-          : plan
+      current.map((p, i) =>
+        i === planIndex ? { ...p, features: [...p.features, ""] } : p
       )
     );
   };
@@ -62,70 +75,40 @@ export function PricingEditor({ initial }: { initial: Plan[] }) {
   const removeFeature = (planIndex: number, featureIndex: number) => {
     setStatus("idle");
     setPlans((current) =>
-      current.map((plan, i) =>
+      current.map((p, i) =>
         i === planIndex
-          ? {
-              ...plan,
-              features: plan.features.filter((_, j) => j !== featureIndex),
-            }
-          : plan
+          ? { ...p, features: p.features.filter((_, j) => j !== featureIndex) }
+          : p
       )
     );
   };
 
-  const addPlan = () => {
+  const resetSlot = (index: number) => {
+    if (!confirm(`Reset card ${index + 1} to its template? Unsaved edits are lost.`)) return;
     setStatus("idle");
-    setPlans((current) => [
-      ...current,
-      {
-        id: newPlanId(current),
-        name: "",
-        desc: "",
-        price: "",
-        per: "/month",
-        features: [""],
-        cta: "Get started",
-        featured: false,
-        badge: null,
-      },
-    ]);
-  };
-
-  const removePlan = (index: number) => {
-    if (!confirm("Remove this plan? Save applies the change.")) return;
-    setStatus("idle");
-    setPlans((current) => current.filter((_, i) => i !== index));
-  };
-
-  const movePlan = (from: number, direction: -1 | 1) => {
-    const to = from + direction;
-    if (to < 0 || to >= plans.length) return;
-    setStatus("idle");
-    setPlans((current) => {
-      const next = [...current];
-      const [item] = next.splice(from, 1);
-      next.splice(to, 0, item);
-      return next;
-    });
+    setPlans((current) =>
+      current.map((p, i) => (i === index ? PRICING_TEMPLATES[i] : p))
+    );
   };
 
   const validationError = validate(plans);
+  const publishedCount = plans.filter((p) => p.enabled).length;
 
   const save = () => {
     if (validationError) return;
-    // Trim leading/trailing whitespace on every field before shipping - the
-    // API's `min_length=1` refuses an all-spaces value, which is a user error
-    // the admin shouldn't be forced to hunt for.
-    const clean = plans.map((plan) => ({
-      ...plan,
-      id: plan.id.trim(),
-      name: plan.name.trim(),
-      desc: plan.desc.trim(),
-      price: plan.price.trim(),
-      per: plan.per.trim(),
-      cta: plan.cta.trim(),
-      badge: plan.badge?.trim() || null,
-      features: plan.features.map((f) => f.trim()).filter(Boolean),
+    // Trim every text field before shipping - the API rejects `enabled` cards
+    // with empty required fields, and an all-spaces name shouldn't slip past
+    // the check on the operator side either.
+    const clean = plans.map((p) => ({
+      ...p,
+      id: p.id.trim(),
+      name: p.name.trim(),
+      desc: p.desc.trim(),
+      price: p.price.trim(),
+      per: p.per.trim(),
+      cta: p.cta.trim(),
+      badge: p.badge?.trim() || null,
+      features: p.features.map((f) => f.trim()).filter(Boolean),
     }));
     startTransition(async () => {
       try {
@@ -134,64 +117,55 @@ export function PricingEditor({ initial }: { initial: Plan[] }) {
         setPlans(clean);
       } catch (err) {
         setStatus("error");
-        setErrorMessage(
-          err instanceof Error ? err.message : "Save failed."
-        );
+        setErrorMessage(err instanceof Error ? err.message : "Save failed.");
       }
     });
   };
 
   return (
-    <div style={{ marginTop: 20 }}>
-      {plans.length === 0 && (
-        <div className="empty" style={{ marginBottom: 16 }}>
-          No plans saved. The landing is rendering its hardcoded fallback.
-          Click <em>Add plan</em> to start editing.
+    <>
+      <div className="pricing-legend">
+        <div>
+          <b>
+            {publishedCount === 0
+              ? "Nothing published"
+              : publishedCount === 1
+              ? "1 card published"
+              : `${publishedCount} cards published`}
+          </b>
+          {publishedCount === 0 && (
+            <span className="sub" style={{ marginLeft: 8 }}>
+              — the landing shows its default cards in each visitor&apos;s language.
+            </span>
+          )}
         </div>
-      )}
+      </div>
 
-      {plans.map((plan, i) => (
-        <PlanEditor
-          key={i}
-          plan={plan}
-          index={i}
-          total={plans.length}
-          onChange={(patch) => updatePlan(i, patch)}
-          onFeatureChange={(fi, v) => updateFeature(i, fi, v)}
-          onFeatureAdd={() => addFeature(i)}
-          onFeatureRemove={(fi) => removeFeature(i, fi)}
-          onRemove={() => removePlan(i)}
-          onMoveUp={() => movePlan(i, -1)}
-          onMoveDown={() => movePlan(i, 1)}
-        />
-      ))}
+      <div className="pricing-preview">
+        {plans.map((plan, i) => (
+          <PlanCard
+            key={i}
+            plan={plan}
+            index={i}
+            onChange={(changes) => patch(i, changes)}
+            onFeatureChange={(fi, v) => patchFeature(i, fi, v)}
+            onFeatureAdd={() => addFeature(i)}
+            onFeatureRemove={(fi) => removeFeature(i, fi)}
+            onReset={() => resetSlot(i)}
+          />
+        ))}
+      </div>
 
-      <div style={{ display: "flex", gap: 10, marginTop: 20, alignItems: "center", flexWrap: "wrap" }}>
-        <button
-          type="button"
-          className="act"
-          onClick={addPlan}
-          disabled={plans.length >= PRICING_MAX_PLANS}
-        >
-          + Add plan
-        </button>
+      <div className="pricing-actions">
         <button
           type="button"
           className="act"
           onClick={save}
           disabled={pending || Boolean(validationError)}
-          style={{
-            fontWeight: 600,
-            borderColor: validationError ? undefined : "var(--focus, currentColor)",
-          }}
+          style={{ fontWeight: 600 }}
         >
-          {pending ? "Saving…" : "Save"}
+          {pending ? "Saving…" : "Save all cards"}
         </button>
-        {plans.length >= PRICING_MAX_PLANS && (
-          <span className="empty" style={{ padding: 0 }}>
-            Maximum {PRICING_MAX_PLANS} plans.
-          </span>
-        )}
         {validationError && (
           <span className="neg" style={{ fontSize: 13 }}>{validationError}</span>
         )}
@@ -204,230 +178,199 @@ export function PricingEditor({ initial }: { initial: Plan[] }) {
           <span className="neg" style={{ fontSize: 13 }}>{errorMessage}</span>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
-function PlanEditor({
+/* -------------------------------------------------------- One card */
+
+function PlanCard({
   plan,
   index,
-  total,
   onChange,
   onFeatureChange,
   onFeatureAdd,
   onFeatureRemove,
-  onRemove,
-  onMoveUp,
-  onMoveDown,
+  onReset,
 }: {
   plan: Plan;
   index: number;
-  total: number;
-  onChange: (patch: Partial<Plan>) => void;
+  onChange: (changes: Partial<Plan>) => void;
   onFeatureChange: (featureIndex: number, value: string) => void;
   onFeatureAdd: () => void;
   onFeatureRemove: (featureIndex: number) => void;
-  onRemove: () => void;
-  onMoveUp: () => void;
-  onMoveDown: () => void;
+  onReset: () => void;
 }) {
-  return (
-    <div className="plan-editor">
-      <div className="plan-editor-head">
-        <b>Plan {index + 1}</b>
-        <span style={{ display: "inline-flex", gap: 6, marginLeft: "auto" }}>
-          <button
-            type="button"
-            className="act"
-            onClick={onMoveUp}
-            disabled={index === 0}
-            title="Move up"
-          >
-            &uarr;
-          </button>
-          <button
-            type="button"
-            className="act"
-            onClick={onMoveDown}
-            disabled={index === total - 1}
-            title="Move down"
-          >
-            &darr;
-          </button>
-          <button
-            type="button"
-            className="act warn"
-            onClick={onRemove}
-            title="Remove plan"
-          >
-            Remove
-          </button>
-        </span>
-      </div>
+  const cls = [
+    "mkt-plan",
+    plan.featured ? "featured" : "",
+    plan.enabled ? "is-enabled" : "is-draft",
+  ].filter(Boolean).join(" ");
 
-      <div className="plan-editor-grid">
-        <Field label="ID (slug)" hint="lowercase, digits, hyphens">
+  return (
+    <div className={cls}>
+      {/* Publish toggle sits above the card content so the operator can flip a
+          card on/off without scrolling to a save section far away. */}
+      <div className="card-toolbar">
+        <label className="publish-toggle">
           <input
-            value={plan.id}
-            maxLength={32}
-            onChange={(e) => onChange({ id: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "") })}
+            type="checkbox"
+            checked={plan.enabled}
+            onChange={(e) => onChange({ enabled: e.target.checked })}
           />
-        </Field>
-        <Field label="Name" hint="e.g. Starter">
-          <input
-            value={plan.name}
-            maxLength={40}
-            onChange={(e) => onChange({ name: e.target.value })}
-          />
-        </Field>
-        <Field label="Description" hint="one line">
-          <input
-            value={plan.desc}
-            maxLength={200}
-            onChange={(e) => onChange({ desc: e.target.value })}
-          />
-        </Field>
-        <Field label="Price" hint="text — e.g. $49 or Custom">
-          <input
-            value={plan.price}
-            maxLength={20}
-            onChange={(e) => onChange({ price: e.target.value })}
-          />
-        </Field>
-        <Field label="Period" hint="e.g. /month, /year">
-          <input
-            value={plan.per}
-            maxLength={20}
-            onChange={(e) => onChange({ per: e.target.value })}
-          />
-        </Field>
-        <Field label="CTA text" hint="button label">
-          <input
-            value={plan.cta}
-            maxLength={40}
-            onChange={(e) => onChange({ cta: e.target.value })}
-          />
-        </Field>
-        <Field label="Badge" hint="optional — e.g. Most Popular">
-          <input
-            value={plan.badge ?? ""}
-            maxLength={30}
-            onChange={(e) => onChange({ badge: e.target.value || null })}
-          />
-        </Field>
-        <Field label="Featured" hint="dark card + brighter checks">
-          <label style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          <span>{plan.enabled ? "Published" : "Draft"}</span>
+        </label>
+        <span className="card-tools">
+          <label className="feature-toggle" title="Featured (dark card, brighter checks)">
             <input
               type="checkbox"
               checked={plan.featured}
               onChange={(e) => onChange({ featured: e.target.checked })}
-              style={{ width: "auto", padding: 0, margin: 0 }}
             />
-            <span style={{ fontSize: 13 }}>Featured</span>
+            <span>Featured</span>
           </label>
-        </Field>
+          <button
+            type="button"
+            className="act tiny"
+            onClick={onReset}
+            title="Reset this slot to its template"
+          >
+            Reset
+          </button>
+        </span>
       </div>
 
-      <div style={{ marginTop: 14 }}>
-        <label style={{ display: "block", fontSize: 13, marginBottom: 6 }}>
-          Features
-          <span className="sub" style={{ marginLeft: 8, fontSize: 12 }}>
-            up to {PRICING_MAX_FEATURES} bullet points
-          </span>
-        </label>
-        {plan.features.length === 0 && (
-          <div className="empty" style={{ padding: "6px 0" }}>
-            No features. Add one below.
-          </div>
-        )}
+      {/* Badge is edit-in-place; if empty the badge line disappears just like
+          on the landing (which only renders `plan.badge && ...`). */}
+      <input
+        className="mkt-plan-badge edit-inline"
+        placeholder="+ Add badge (optional)"
+        maxLength={30}
+        value={plan.badge ?? ""}
+        onChange={(e) => onChange({ badge: e.target.value || null })}
+      />
+      <input
+        className="mkt-plan-name edit-inline"
+        placeholder="Plan name"
+        maxLength={40}
+        value={plan.name}
+        onChange={(e) => onChange({ name: e.target.value })}
+      />
+      <input
+        className="mkt-plan-desc edit-inline"
+        placeholder="One-line description"
+        maxLength={200}
+        value={plan.desc}
+        onChange={(e) => onChange({ desc: e.target.value })}
+      />
+      <div className="mkt-plan-price">
+        <input
+          className="edit-inline price"
+          placeholder="$0"
+          maxLength={20}
+          value={plan.price}
+          onChange={(e) => onChange({ price: e.target.value })}
+        />
+        <input
+          className="edit-inline per"
+          placeholder="/month"
+          maxLength={20}
+          value={plan.per}
+          onChange={(e) => onChange({ per: e.target.value })}
+        />
+      </div>
+
+      <ul className="mkt-plan-features">
         {plan.features.map((feat, i) => (
-          <div key={i} style={{ display: "flex", gap: 8, marginBottom: 6 }}>
+          <li key={i}>
             <input
-              value={feat}
-              maxLength={100}
+              className="edit-inline"
               placeholder="Feature description"
+              maxLength={100}
+              value={feat}
               onChange={(e) => onFeatureChange(i, e.target.value)}
-              style={{ flex: 1 }}
             />
             <button
               type="button"
-              className="act warn"
+              className="feature-remove"
               onClick={() => onFeatureRemove(i)}
               title="Remove feature"
             >
               &times;
             </button>
-          </div>
+          </li>
         ))}
-        <button
-          type="button"
-          className="act"
-          onClick={onFeatureAdd}
-          disabled={plan.features.length >= PRICING_MAX_FEATURES}
-          style={{ marginTop: 4 }}
-        >
-          + Feature
-        </button>
-      </div>
+        {plan.features.length < PRICING_MAX_FEATURES && (
+          <li>
+            <button
+              type="button"
+              className="feature-add"
+              onClick={onFeatureAdd}
+            >
+              + Add feature
+            </button>
+          </li>
+        )}
+      </ul>
+
+      <input
+        className="mkt-plan-cta edit-inline"
+        placeholder="CTA button label"
+        maxLength={40}
+        value={plan.cta}
+        onChange={(e) => onChange({ cta: e.target.value })}
+      />
     </div>
   );
 }
 
-function Field({
-  label,
-  hint,
-  children,
-}: {
-  label: string;
-  hint?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label style={{ display: "block", fontSize: 13 }}>
-      <span style={{ display: "block", marginBottom: 4 }}>
-        {label}
-        {hint && (
-          <span className="sub" style={{ marginLeft: 6, fontSize: 11.5 }}>
-            {hint}
-          </span>
-        )}
-      </span>
-      {children}
-    </label>
-  );
-}
+/* ---------------------------------------------------------- Helpers */
 
-/* ------------------------------------------------------- helpers */
-
-function newPlanId(existing: Plan[]): string {
-  const taken = new Set(existing.map((p) => p.id));
-  for (let i = 1; i <= PRICING_MAX_PLANS + 1; i++) {
-    const candidate = `plan-${i}`;
-    if (!taken.has(candidate)) return candidate;
+/**
+ * Always return exactly PRICING_MAX_PLANS slots. Ones the admin has saved
+ * come first; empty slots are backfilled from the pre-made templates so the
+ * screen shows the same four positions every time.
+ *
+ * The templates ARE the empty state - not a blank slot. That is what
+ * "hazır güzel görünüşlü 4 kartlık" resolves to: the admin never faces a
+ * blank slate, only material to react to.
+ */
+function makeSlots(saved: Plan[]): Plan[] {
+  const out: Plan[] = saved.slice(0, PRICING_MAX_PLANS);
+  for (let i = out.length; i < PRICING_MAX_PLANS; i++) {
+    out.push({ ...PRICING_TEMPLATES[i], features: [...PRICING_TEMPLATES[i].features] });
   }
-  return `plan-${Date.now()}`;
+  return out;
 }
 
-/** Returns a human-readable reason the save button should stay disabled, or
- *  `null` if the current plan set is submittable. Kept as pure text so the
- *  editor can render it beside the save button without more state. */
+/**
+ * Returns a human-readable reason `Save` should stay disabled, or `null` when
+ * the current set is submittable. Only ENABLED cards need to be complete: a
+ * draft with a half-written feature is fine and travels to the DB verbatim.
+ */
 function validate(plans: Plan[]): string | null {
-  const ids = new Set<string>();
+  const enabledIds = new Set<string>();
   for (const [i, plan] of plans.entries()) {
-    const n = i + 1;
-    if (!plan.id.trim()) return `Plan ${n}: ID is required.`;
+    const label = `Card ${i + 1}`;
+    if (!plan.id.trim()) return `${label}: ID is required.`;
     if (!/^[a-z0-9-]+$/.test(plan.id)) {
-      return `Plan ${n}: ID must be lowercase letters, digits, hyphens.`;
+      return `${label}: ID must be lowercase letters, digits, hyphens.`;
     }
-    if (ids.has(plan.id)) return `Plan ${n}: ID "${plan.id}" is used twice.`;
-    ids.add(plan.id);
-    if (!plan.name.trim()) return `Plan ${n}: Name is required.`;
-    if (!plan.desc.trim()) return `Plan ${n}: Description is required.`;
-    if (!plan.price.trim()) return `Plan ${n}: Price is required.`;
-    if (!plan.per.trim()) return `Plan ${n}: Period is required.`;
-    if (!plan.cta.trim()) return `Plan ${n}: CTA text is required.`;
-    const emptyFeature = plan.features.some((f) => !f.trim());
-    if (emptyFeature) return `Plan ${n}: A feature is empty. Fill it or remove.`;
+    if (plan.enabled) {
+      if (enabledIds.has(plan.id)) {
+        return `${label}: ID "${plan.id}" is used twice among published cards.`;
+      }
+      enabledIds.add(plan.id);
+      const missing = (["name", "desc", "price", "per", "cta"] as const).find(
+        (k) => !plan[k].trim()
+      );
+      if (missing) {
+        return `${label}: "${missing}" is required to publish. Fill it or turn Draft on.`;
+      }
+      if (plan.features.some((f) => !f.trim())) {
+        return `${label}: An empty feature will publish blank. Fill it or remove.`;
+      }
+    }
   }
   return null;
 }

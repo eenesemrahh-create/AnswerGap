@@ -338,12 +338,15 @@ export interface DiffResult {
  * highlighted (dark card, brighter checks) without a badge, or carry a badge
  * without the highlight. The landing reads both independently.
  *
- * When the API returns an empty `plans` array the landing falls back to the
- * i18n defaults in `market.pricing.*` — that way a fresh install with no
- * admin write still renders a pricing section in every supported locale.
+ * `enabled` is the publish switch. The admin keeps four card slots on
+ * screen and only enabled cards reach the landing. When NO cards are enabled
+ * (or the whole array is empty) the landing renders the hardcoded i18n
+ * defaults in `market.pricing.*` — that way a fresh install with no admin
+ * write still shows a pricing section in every supported locale.
  */
 export interface Plan {
   id: string;
+  enabled: boolean;
   name: string;
   desc: string;
   price: string;

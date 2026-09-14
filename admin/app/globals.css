@@ -138,36 +138,314 @@ button.act.warn { color: var(--warn); border-color: currentColor; }
 .signin button { margin-top: 14px; }
 
 /* --- Pricing plan editor -------------------------------------------
- * One card per plan, laid out as a grid of labelled inputs. Structural CSS
- * only; the individual field spacing lives inline on the component because
- * three of the fields have their own quirks (checkbox, features list) that
- * a single class would fight harder than it would help. */
-.plan-editor {
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  background: var(--surface);
-  padding: 16px;
-  margin-bottom: 14px;
-}
-.plan-editor-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
+ *
+ * Two moving parts on this screen:
+ *
+ *   (1) `.pricing-preview` is a self-contained visual environment that
+ *       mirrors the marketing landing's card design. It re-declares the
+ *       tokens the landing uses (--brand, --accent, --grad, cream --bg,
+ *       Plus Jakarta Sans), so the cards inside look identical to what
+ *       will render on `/`. Nothing outside this scope inherits any of it.
+ *
+ *   (2) The `.mkt-plan` classes below are LIFTED from web/app/globals.css
+ *       so the same DOM produces the same visual. Kept in sync by copying,
+ *       not by importing, because the two projects deploy separately and a
+ *       shared source would need a build step neither has today. The lift
+ *       is deliberate; if either file drifts, the pricing preview drifts.
+ */
+
+.pricing-legend {
+  margin: 20px 0 12px;
+  color: var(--text-soft);
   font-size: 14px;
 }
-.plan-editor-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px 16px;
+.pricing-legend b { color: var(--text); }
+
+.pricing-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
-.plan-editor-grid input[type="text"],
-.plan-editor-grid input:not([type]) {
+
+/* -------- Preview environment -------- */
+
+.pricing-preview {
+  /* Landing tokens, scoped. `light-dark()` picks up the admin's color-scheme
+     so the preview follows the admin theme; the two are close enough that a
+     dark admin with a light landing would jar without this. */
+  --bg-preview: light-dark(#fbfaf8, #100f14);
+  --surface-preview: light-dark(#ffffff, #191822);
+  --surface2-preview: light-dark(#f5f3f8, #201f2b);
+  --border-preview: light-dark(#e7e4ee, #2d2b3a);
+  --text-preview: light-dark(#17151f, #f2f0f7);
+  --text-soft-preview: light-dark(#5f5a70, #a49fb5);
+  --text-faint-preview: light-dark(#8e8899, #7b7590);
+  --brand-preview: light-dark(hsl(270 70% 50%), hsl(270 70% 68%));
+  --brand-contrast-preview: #ffffff;
+  --brand-soft-preview: light-dark(hsl(270 70% 96%), hsl(270 30% 20%));
+  --accent-preview: light-dark(hsl(320 80% 55%), hsl(320 80% 68%));
+  --grad-preview: linear-gradient(120deg, #6d4aff 0%, #9333ea 45%, #d946ef 100%);
+  --r-xl-preview: 24px;
+  --r-preview: 12px;
+  --r-pill-preview: 999px;
+
+  font-family: var(--font-landing), system-ui, -apple-system, sans-serif;
+  background: var(--bg-preview);
+  color: var(--text-preview);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 32px 24px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 1200px) { .pricing-preview { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 720px)  { .pricing-preview { grid-template-columns: 1fr; } }
+
+/* -------- One card -------- */
+
+.pricing-preview .mkt-plan {
+  padding: 24px;
+  border-radius: var(--r-xl-preview);
+  border: 1px solid var(--border-preview);
+  background: var(--surface-preview);
+  color: var(--text-preview);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  opacity: 1;
+  transition: opacity 150ms, filter 150ms;
+}
+.pricing-preview .mkt-plan.is-draft {
+  opacity: .78;
+  filter: saturate(.6);
+}
+.pricing-preview .mkt-plan.featured {
+  background: #16151d;
+  color: #f6f4fb;
+  border-color: #2a2837;
+}
+.pricing-preview .mkt-plan.featured.is-draft {
+  opacity: .78;
+}
+
+/* Publish toolbar sits above the card content. Not a landing element -
+   admin chrome only. */
+.pricing-preview .card-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed var(--border-preview);
+  flex-wrap: wrap;
+}
+.pricing-preview .publish-toggle,
+.pricing-preview .feature-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-soft-preview);
+  cursor: pointer;
+  user-select: none;
+}
+.pricing-preview .publish-toggle input,
+.pricing-preview .feature-toggle input {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  accent-color: var(--brand-preview);
+}
+.pricing-preview .mkt-plan.is-enabled .publish-toggle span {
+  color: var(--brand-preview);
+  font-weight: 600;
+}
+.pricing-preview .mkt-plan.featured .publish-toggle span,
+.pricing-preview .mkt-plan.featured .feature-toggle span {
+  color: #a49fb5;
+}
+.pricing-preview .mkt-plan.featured.is-enabled .publish-toggle span {
+  color: var(--accent-preview);
+}
+.pricing-preview .card-tools { display: inline-flex; gap: 8px; align-items: center; }
+.pricing-preview .act.tiny {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-preview);
+  background: transparent;
+  color: var(--text-soft-preview);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Inline-editable fields. Look like the final text; behave like an input. */
+.pricing-preview .edit-inline {
+  width: 100%;
+  background: transparent;
+  border: 1px dashed transparent;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  font-family: inherit;
+  outline: none;
+  transition: background 120ms, border-color 120ms;
+}
+.pricing-preview .edit-inline:hover:not(:focus) {
+  border-color: color-mix(in oklab, currentColor 25%, transparent);
+}
+.pricing-preview .edit-inline:focus {
+  background: color-mix(in oklab, currentColor 5%, transparent);
+  border-color: var(--brand-preview);
+}
+.pricing-preview .mkt-plan.featured .edit-inline:focus {
+  border-color: var(--accent-preview);
+  background: color-mix(in oklab, #ffffff 8%, transparent);
+}
+.pricing-preview .edit-inline::placeholder {
+  color: color-mix(in oklab, currentColor 40%, transparent);
+  font-style: italic;
+}
+
+.pricing-preview .mkt-plan-badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 4px 12px;
+  border-radius: var(--r-pill-preview);
+  background: color-mix(in oklab, var(--brand-preview) 25%, transparent);
+  color: color-mix(in oklab, var(--brand-preview) 45%, #ffffff);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  width: auto;
+  min-width: 100px;
+}
+.pricing-preview .mkt-plan-badge:placeholder-shown {
+  background: transparent;
+  color: var(--text-faint-preview);
+  font-weight: 400;
+  letter-spacing: 0;
+  border-color: color-mix(in oklab, currentColor 20%, transparent) !important;
+}
+.pricing-preview .mkt-plan-name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin: 8px 0 0;
+}
+.pricing-preview .mkt-plan-desc {
+  color: var(--text-soft-preview);
+  font-size: 14px;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+.pricing-preview .mkt-plan.featured .mkt-plan-desc { color: #a49fb5; }
+
+.pricing-preview .mkt-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.pricing-preview .mkt-plan-price .price {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1;
+  width: auto;
+  max-width: 55%;
+}
+.pricing-preview .mkt-plan-price .per {
+  color: var(--text-soft-preview);
+  font-size: 14px;
+  width: auto;
+  max-width: 45%;
+}
+.pricing-preview .mkt-plan.featured .mkt-plan-price .per { color: #a49fb5; }
+
+.pricing-preview .mkt-plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: grid;
+  gap: 10px;
+  flex: 1;
+}
+.pricing-preview .mkt-plan-features li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.pricing-preview .mkt-plan-features li::before {
+  content: "";
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--brand-preview);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10l3.5 3.5L15 6.5' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 78% no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10l3.5 3.5L15 6.5' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 78% no-repeat;
+}
+.pricing-preview .mkt-plan.featured .mkt-plan-features li::before {
+  background: var(--accent-preview);
+}
+.pricing-preview .mkt-plan-features li input { flex: 1; }
+.pricing-preview .feature-remove {
+  border: 0;
+  background: transparent;
+  color: var(--text-faint-preview);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0;
+  transition: opacity 120ms;
+}
+.pricing-preview .mkt-plan-features li:hover .feature-remove { opacity: 1; }
+.pricing-preview .feature-remove:hover { color: var(--brand-preview); }
+.pricing-preview .feature-add {
+  border: 1px dashed color-mix(in oklab, currentColor 30%, transparent);
+  background: transparent;
+  color: var(--text-soft-preview);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+.pricing-preview .feature-add:hover {
+  border-style: solid;
+  color: var(--brand-preview);
+  border-color: var(--brand-preview);
+}
+
+.pricing-preview .mkt-plan-cta {
+  margin-top: auto;
+  padding: 12px 20px;
+  border-radius: var(--r-pill-preview);
+  border: 1px solid var(--border-preview);
+  background: var(--surface-preview);
+  color: var(--text-preview);
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  cursor: text;
+  font-family: inherit;
   width: 100%;
 }
-@media (max-width: 640px) {
-  .plan-editor-grid { grid-template-columns: 1fr; }
+.pricing-preview .mkt-plan.featured .mkt-plan-cta {
+  background: var(--brand-preview);
+  color: var(--brand-contrast-preview);
+  border-color: transparent;
 }

@@ -1262,6 +1262,67 @@ what the operator meant.
   vertically, so the same feature should live at the same index in every
   plan. Not enforced; a UI hint could show mismatches later.
 
+### Second pass, same day: WYSIWYG + draft/publish
+
+The first shape said "start empty, add cards, save". The operator's ask was
+different: **four ready-made cards on screen at all times, edit any of them
+in place, tick which ones ship**. Shipped that afternoon.
+
+**Four card slots, always.** The editor renders exactly `PRICING_MAX_PLANS`
+slots. Ones the admin has saved fill in first; empty slots are backfilled
+from `PRICING_TEMPLATES` in `admin/lib/types.ts` — Starter, Pro, Business,
+Enterprise, following the product's AI Search Visibility positioning. The
+templates ARE the empty state, not a blank slate. That is what "hazır güzel
+görünüşlü 4 kartlık" resolves to: the admin never faces four blank
+rectangles, only material to react to.
+
+**Publish is per-card, not per-save.** A new `enabled: bool` on `Plan`. Only
+cards with `enabled=true` reach the landing; the rest are drafts. The whole
+save button now writes ALL FOUR slots to the DB, and the landing filters
+`plans.filter(p => p.enabled)`. If nothing is enabled, the landing renders
+the localised i18n fallback exactly as before — so "nothing published" and
+"nothing saved" look identical to the visitor, which was the whole
+requirement.
+
+**Validation is enabled-aware.** A draft may hold half-written content; an
+enabled card may not. `min_length` on the Pydantic fields is `0`, and the
+`_enabled_requires_content` model_validator refuses `enabled=True` with a
+blank required field. Both directions have their tests
+(`test_disabled_plan_can_have_blank_content`,
+`test_enabled_plan_rejects_missing_name`). The editor's client-side check
+does the same in the browser so save is not clicked into a 400.
+
+**Admin IS the landing.** The editor renders the same DOM the landing does —
+`.mkt-plan`, `.mkt-plan-badge`, `.mkt-plan-features` — inside a scoped
+`.pricing-preview` container that re-declares the landing tokens (cream
+`--bg`, purple `--brand`, magenta `--accent`, 24px `--r-xl`) and loads Plus
+Jakarta Sans via `next/font/google`. The text fields ARE the card headings
+and bullets; no separate form. This is the "Dynamik halde ekranda nasıl
+gözükücekse admin panelinde de o şekilde görebileyim" ask - what an admin
+sees while editing IS what a landing visitor will see.
+
+**The lift, not the import.** The card CSS is copied from
+`web/app/globals.css` to `admin/app/globals.css` rather than shared. The
+two projects deploy separately; a shared source would need a build step
+neither has today. If either file drifts, the pricing preview drifts —
+which is a real risk on a design change, and the reason the copy note
+lives at the top of the block in `admin/app/globals.css`.
+
+**Draft cards visually muted.** `opacity: .78; filter: saturate(.6)` on
+`.is-draft` in the preview. Cards that will not ship look secondary, so
+the operator at a glance sees which slots are going out and which are not
+without reading the toggle label.
+
+**What was NOT rebuilt.** Reorder, remove-plan, add-plan — gone. There
+are always four slots. If the admin wants a plan gone from production,
+they untick `enabled`; the slot stays, holding the template content in
+case they want it back. The ability to shuffle order is a follow-up if
+someone actually needs it; a fixed layout with a fixed order is simpler
+and hasn't been asked for beyond this iteration.
+
+Test count moves from `159 -> 166 -> 172` on the same day: `+7 from
+pricing plumbing`, `+6 from draft/publish semantics`.
+
 ## Accounts, credits and the admin panel, 2026-09-08
 
 Google sign-in, an enforced credit balance, a free daily allowance for
