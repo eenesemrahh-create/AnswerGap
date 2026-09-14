@@ -329,3 +329,27 @@ export interface DiffResult {
   diff: CrawlDiff | null;
   history: CrawlRun[];
 }
+
+/**
+ * A row in the marketing landing's pricing section. Stored as a JSON array in
+ * `app_setting.pricing_plans` and edited from the admin panel.
+ *
+ * `featured` and `badge` decouple deliberately: a plan can be visually
+ * highlighted (dark card, brighter checks) without a badge, or carry a badge
+ * without the highlight. The landing reads both independently.
+ *
+ * When the API returns an empty `plans` array the landing falls back to the
+ * i18n defaults in `market.pricing.*` — that way a fresh install with no
+ * admin write still renders a pricing section in every supported locale.
+ */
+export interface Plan {
+  id: string;
+  name: string;
+  desc: string;
+  price: string;
+  per: string;
+  features: string[];
+  cta: string;
+  featured: boolean;
+  badge: string | null;
+}

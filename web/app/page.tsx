@@ -8,6 +8,7 @@ import {
   fetchCountries,
   fetchLanguages,
   fetchMeta,
+  fetchPricing,
   fetchTrees,
   search as runSearch,
 } from "@/lib/api";
@@ -17,6 +18,7 @@ import {
   isDryRun,
   type Country,
   type Meta,
+  type Plan,
   type SearchLanguage,
   type Status,
   type TreeSummary,
@@ -52,6 +54,9 @@ export default function Landing() {
   const [languages, setLanguages] = useState<SearchLanguage[]>([]);
   const [error, setError] = useState<ApiError | null>(null);
   const [seed, setSeed] = useState("");
+  // `null` while loading, `[]` when no admin has set plans (falls back to
+  // i18n defaults below), non-empty array when the admin has saved something.
+  const [plans, setPlans] = useState<Plan[] | null>(null);
 
   // Search state is kept apart from `error`: a failed crawl must not blank
   // out the saved analyses that are already on screen.
@@ -96,6 +101,13 @@ export default function Landing() {
 
     fetchCountries().then(setCountries).catch(() => setCountries([]));
     fetchLanguages().then(setLanguages).catch(() => setLanguages([]));
+    // Pricing is best-effort marketing content. A failed fetch keeps `plans`
+    // at `null`, which the section renders as the i18n fallback below - never
+    // as an empty section or a broken card. See `fetchPricing`'s docstring
+    // for the same guarantee at the API layer.
+    fetchPricing()
+      .then(({ plans: fetched }) => setPlans(fetched))
+      .catch(() => setPlans([]));
   }, []);
 
   const submit = async (event: React.FormEvent) => {
@@ -434,69 +446,12 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* --- Pricing ------------------------------------------------- */}
-      <section id="pricing" className="mkt-section">
-        <div className="mkt-section-head">
-          <h2 className="mkt-section-title">{t("market.pricing.title")}</h2>
-          <p className="mkt-section-sub">{t("market.pricing.sub")}</p>
-        </div>
-        <div className="mkt-plans">
-          <div className="mkt-plan">
-            <h3 className="mkt-plan-name">{t("market.pricing.starter.name")}</h3>
-            <p className="mkt-plan-desc">{t("market.pricing.starter.desc")}</p>
-            <div className="mkt-plan-price">
-              <b>{t("market.pricing.starter.price")}</b>
-              <span>{t("market.pricing.starter.per")}</span>
-            </div>
-            <ul className="mkt-plan-features">
-              <li>{t("market.pricing.starter.feat1")}</li>
-              <li>{t("market.pricing.starter.feat2")}</li>
-              <li>{t("market.pricing.starter.feat3")}</li>
-              <li>{t("market.pricing.starter.feat4")}</li>
-            </ul>
-            <button
-              type="button"
-              className="mkt-plan-cta"
-              onClick={scrollToTop}
-            >
-              {t("market.pricing.starter.cta")}
-            </button>
-          </div>
-          <div className="mkt-plan featured">
-            <span className="mkt-plan-badge">{t("market.pricing.pro.badge")}</span>
-            <h3 className="mkt-plan-name">{t("market.pricing.pro.name")}</h3>
-            <p className="mkt-plan-desc">{t("market.pricing.pro.desc")}</p>
-            <div className="mkt-plan-price">
-              <b>{t("market.pricing.pro.price")}</b>
-              <span>{t("market.pricing.pro.per")}</span>
-            </div>
-            <ul className="mkt-plan-features">
-              <li>{t("market.pricing.pro.feat1")}</li>
-              <li>{t("market.pricing.pro.feat2")}</li>
-              <li>{t("market.pricing.pro.feat3")}</li>
-              <li>{t("market.pricing.pro.feat4")}</li>
-              <li>{t("market.pricing.pro.feat5")}</li>
-            </ul>
-            <button
-              type="button"
-              className="mkt-plan-cta"
-              onClick={scrollToTop}
-            >
-              {t("market.pricing.pro.cta")}
-            </button>
-          </div>
-        </div>
-        <p
-          style={{
-            textAlign: "center",
-            marginTop: 32,
-            fontSize: 13,
-            color: "var(--text-faint)",
-          }}
-        >
-          {t("market.pricing.note")}
-        </p>
-      </section>
+      {/* --- Pricing ------------------------------------------------- *
+       * Dynamic when `plans` is a non-empty array (admin has saved), otherwise
+       * renders the two hardcoded i18n defaults so a fresh install with no
+       * admin write still has a pricing section in every locale. */}
+      <PricingSection plans={plans} onCta={scrollToTop} />
+
 
       {/* --- CTA card ------------------------------------------------ */}
       <div className="mkt-cta">
@@ -562,6 +517,129 @@ export default function Landing() {
 }
 
 /* --------------------------------------------------------- Sub-components */
+
+/**
+ * The pricing section, dynamic when the admin has saved plans and falling
+ * back to the two i18n-provided defaults otherwise.
+ *
+ * A NULL `plans` prop means "still loading" - the fallback renders while the
+ * fetch is in flight, so a slow API call is visually indistinguishable from
+ * an empty setting. An EMPTY `plans` array means "admin has no plans saved
+ * yet" - same fallback. A NON-EMPTY array is what the admin last saved and
+ * takes precedence over every i18n key.
+ *
+ * Only ONE of the four items in `market.pricing.*` is used from i18n when
+ * the fallback runs - the section title and subtitle. Card contents come
+ * from either the fallback definition here (English) or the DB (whatever
+ * the admin typed). This is the point where the multi-language landing
+ * becomes single-language: once the admin saves plans, all locales render
+ * those plans as-typed. Documented in CLAUDE.md.
+ */
+function PricingSection({
+  plans,
+  onCta,
+}: {
+  plans: Plan[] | null;
+  onCta: (event: React.MouseEvent) => void;
+}) {
+  const { t } = useI18n();
+
+  const fallback: Plan[] = [
+    {
+      id: "starter",
+      name: t("market.pricing.starter.name"),
+      desc: t("market.pricing.starter.desc"),
+      price: t("market.pricing.starter.price"),
+      per: t("market.pricing.starter.per"),
+      features: [
+        t("market.pricing.starter.feat1"),
+        t("market.pricing.starter.feat2"),
+        t("market.pricing.starter.feat3"),
+        t("market.pricing.starter.feat4"),
+      ],
+      cta: t("market.pricing.starter.cta"),
+      featured: false,
+      badge: null,
+    },
+    {
+      id: "pro",
+      name: t("market.pricing.pro.name"),
+      desc: t("market.pricing.pro.desc"),
+      price: t("market.pricing.pro.price"),
+      per: t("market.pricing.pro.per"),
+      features: [
+        t("market.pricing.pro.feat1"),
+        t("market.pricing.pro.feat2"),
+        t("market.pricing.pro.feat3"),
+        t("market.pricing.pro.feat4"),
+        t("market.pricing.pro.feat5"),
+      ],
+      cta: t("market.pricing.pro.cta"),
+      featured: true,
+      badge: t("market.pricing.pro.badge"),
+    },
+  ];
+
+  const list = plans && plans.length > 0 ? plans : fallback;
+  // The grid class carries the count so CSS can pick the right layout without
+  // an inline style. `plans-1` centers, `plans-2` matches the current design,
+  // `plans-3` fits three across, `plans-4` wraps 2x2 on narrow screens.
+  const gridClass = `mkt-plans plans-${list.length}`;
+
+  return (
+    <section id="pricing" className="mkt-section">
+      <div className="mkt-section-head">
+        <h2 className="mkt-section-title">{t("market.pricing.title")}</h2>
+        <p className="mkt-section-sub">{t("market.pricing.sub")}</p>
+      </div>
+      <div className={gridClass}>
+        {list.map((plan) => (
+          <PlanCard key={plan.id} plan={plan} onCta={onCta} />
+        ))}
+      </div>
+      {(!plans || plans.length === 0) && (
+        <p
+          style={{
+            textAlign: "center",
+            marginTop: 32,
+            fontSize: 13,
+            color: "var(--text-faint)",
+          }}
+        >
+          {t("market.pricing.note")}
+        </p>
+      )}
+    </section>
+  );
+}
+
+function PlanCard({
+  plan,
+  onCta,
+}: {
+  plan: Plan;
+  onCta: (event: React.MouseEvent) => void;
+}) {
+  return (
+    <div className={plan.featured ? "mkt-plan featured" : "mkt-plan"}>
+      {plan.badge && <span className="mkt-plan-badge">{plan.badge}</span>}
+      <h3 className="mkt-plan-name">{plan.name}</h3>
+      <p className="mkt-plan-desc">{plan.desc}</p>
+      <div className="mkt-plan-price">
+        <b>{plan.price}</b>
+        <span>{plan.per}</span>
+      </div>
+      <ul className="mkt-plan-features">
+        {plan.features.map((feat, i) => (
+          <li key={i}>{feat}</li>
+        ))}
+      </ul>
+      <button type="button" className="mkt-plan-cta" onClick={onCta}>
+        {plan.cta}
+      </button>
+    </div>
+  );
+}
 
 function FeatureCard({
   label,

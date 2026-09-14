@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { get } from "@/lib/api";
 import type { Settings } from "@/lib/types";
 import { saveSettings } from "./actions";
@@ -61,6 +62,17 @@ export default async function SettingsPage() {
       <p className="sub">
         There is no checkout yet — credits are added by hand from a user&apos;s
         page.
+      </p>
+
+      <h2>Marketing landing</h2>
+      <p className="sub">
+        The pricing section on the marketing landing reads from a separate
+        setting — plan cards with name, price and features.
+      </p>
+      <p>
+        <Link href="/settings/pricing" className="linkish">
+          Edit pricing plans &rarr;
+        </Link>
       </p>
     </>
   );

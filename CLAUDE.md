@@ -1197,6 +1197,71 @@ different tier of hardening (throttle per identity, not per slug) and
 would want a DB-backed counter shared across replicas. Not open unless
 someone actually does it.
 
+## Pricing plans, dynamic from the admin panel — 2026-09-15
+
+The marketing landing shipped 2026-09-14 with two hardcoded plans in the
+i18n catalogue. Every price change was a code change, a locale sweep and a
+deploy. **Fixed by moving the plans behind an app_setting the admin panel
+edits.**
+
+**Storage.** One `app_setting` key — `pricing_plans` — carrying a JSON array.
+No dedicated `plan` table: plans are a small ordered list of maybe-four items,
+and the append-only history the `app_setting` table already gives us is more
+useful here than a proper row-per-plan model would be. "What did the pricing
+look like six weeks ago" is an audit question, not a query the product runs.
+
+**Fallback matters more than the data.** `GET /api/pricing` NEVER breaks the
+landing - bad JSON, missing setting, database down, `settings_all` throws,
+all answered `{"plans": []}`. The landing reads empty as "use the hardcoded
+i18n plans in the current locale" and renders normally. The seven pricing
+tests each pin one of those failure modes, because a marketing endpoint that
+500s during an outage takes the marketing site down over the section it
+decorates.
+
+**Multi-language becomes single-language on first save. Deliberately.**
+Before any admin edit, the landing shows the fallback plans in the reader's
+locale. The moment an admin saves, ALL locales render the admin-typed text
+verbatim - because the DB holds one canonical version. This is a real
+tradeoff: multi-language plan copy would need a `Record<Locale, Plan>`
+shape in the admin editor (five inputs per field per plan) and a
+locale-aware fallback ladder in the API. Both are worth doing when the
+localisation matters more than the operator's editing speed, and neither
+does yet.
+
+**Admin editor is a client component that owns local state.** Add plan,
+remove plan, add feature, remove feature, reorder - each is a state
+operation. A server-round-trip per keystroke would be absurd. The token
+still never reaches the browser: the client calls a server action
+(`savePricing`) that goes through `lib/api.ts` with `import "server-only"`,
+same seam the rest of the admin uses. Two-level validation - editor blocks
+the obvious errors (empty required fields, duplicate ids) so save is not
+clicked into a 400, and `PricingRequest` in `api/admin.py` re-validates
+because the client is not the security boundary.
+
+**0-4 plans, chosen not measured.** Between 0 and 4 plans fit the layouts
+the CSS grid supports; more than four cards makes the section read as a
+comparison chart rather than a pricing pitch. The bound is written in one
+place (`PRICING_MAX_PLANS`) and enforced in three: the Pydantic model, the
+editor's Add button, and the frontend's `.plans-N` CSS class that selects
+the right grid template.
+
+**Featured and badge decouple.** Replit's reference coupled "dark card" with
+"Most Popular label". Here they are separate fields. A plan can be featured
+without a badge (visual emphasis) or carry a badge without the highlight (a
+New tag on a Starter, say). That is one extra checkbox on the form and one
+extra render branch on the landing; both are cheap enough to not conflate
+what the operator meant.
+
+**What was not built.**
+- **Checkout.** Prices are strings ("$49") because we do not process them
+  yet. When Stripe lands, `price` becomes a number in a currency the plan
+  already carries, and the string becomes a computed rendering.
+- **Enterprise "Contact us" flow.** A plan with no button target - the
+  landing scrolls to top on click today, which for now is fine.
+- **Feature bullet ordering across plans.** The reader compares columns
+  vertically, so the same feature should live at the same index in every
+  plan. Not enforced; a UI hint could show mismatches later.
+
 ## Accounts, credits and the admin panel, 2026-09-08
 
 Google sign-in, an enforced credit balance, a free daily allowance for

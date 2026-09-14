@@ -1959,14 +1959,40 @@ table.table {
 
 /* --- Pricing --------------------------------------------------------- */
 
+/* The default grid targets the 2-plan layout - what the CSS was built around
+   and what the Replit reference shows. `.plans-N` classes below adapt to any
+   number the admin saves; the CSS carries all four cases so the admin does
+   not need to add or trim anything to reshape the section. */
 .mkt-plans {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 24px;
-  max-width: 900px;
   margin: 0 auto;
 }
-@media (max-width: 720px) { .mkt-plans { grid-template-columns: 1fr; } }
+.mkt-plans.plans-1 {
+  grid-template-columns: 1fr;
+  max-width: 440px;
+}
+.mkt-plans.plans-2 {
+  grid-template-columns: 1fr 1fr;
+  max-width: 900px;
+}
+.mkt-plans.plans-3 {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1200px;
+}
+.mkt-plans.plans-4 {
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1400px;
+}
+@media (max-width: 1100px) {
+  .mkt-plans.plans-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .mkt-plans.plans-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .mkt-plans { grid-template-columns: 1fr !important; }
+}
 .mkt-plan {
   padding: 40px;
   border-radius: var(--r-xl);

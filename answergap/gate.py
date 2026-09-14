@@ -35,6 +35,11 @@ STATUS_SUSPENDED = "suspended"
 # with itself.
 SETTING_ANON_DAILY = "anonymous_daily_searches"
 SETTING_SIGNUP_CREDITS = "signup_credits"
+# JSON array of pricing plans shown on the marketing landing. Blank/missing
+# means "no admin has set it yet" and the landing renders the hardcoded i18n
+# defaults for its locale - a fresh install without a manual seed still shows
+# a pricing section. See `api/admin.py` for the shape and validation.
+SETTING_PRICING_PLANS = "pricing_plans"
 DEFAULT_ANON_DAILY = 1
 DEFAULT_SIGNUP_CREDITS = 10
 

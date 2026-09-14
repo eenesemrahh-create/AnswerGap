@@ -7,6 +7,7 @@ import type {
   LabelResult,
   Me,
   Meta,
+  Plan,
   ScoreResult,
   SearchLanguage,
   SearchResult,
@@ -219,6 +220,9 @@ export const fetchTrees = () => get<TreeSummary[]>("/api/trees");
 export const fetchTree = (slug: string) => get<Tree>(`/api/tree/${slug}`);
 export const fetchCountries = () => get<Country[]>("/api/countries");
 export const fetchLanguages = () => get<SearchLanguage[]>("/api/languages");
+
+/** Pricing plans shown on the landing. Empty list -> use i18n fallback. */
+export const fetchPricing = () => get<{ plans: Plan[] }>("/api/pricing");
 
 /** Verdicts already recorded on this tree's questions, by question slug. */
 export const fetchLabels = (slug: string) =>

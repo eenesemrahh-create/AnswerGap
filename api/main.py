@@ -226,6 +226,46 @@ def countries() -> list[dict]:
     return _COUNTRIES
 
 
+@app.get("/api/pricing")
+def pricing() -> dict:
+    """The pricing plans shown on the marketing landing. Public.
+
+    Reads `app_setting.pricing_plans` (a JSON array) and returns it. Empty
+    list when no admin has set it yet OR the value fails to parse - the
+    landing knows to fall back to its hardcoded i18n defaults in that case,
+    which means a fresh install with no database still renders a pricing
+    section in five languages.
+
+    NOT gated behind auth: this is marketing content. Nothing here reveals
+    anything a signed-out visitor could not learn from the landing page
+    itself. Rate limiting is not applied either - it is a single settings
+    read (~150ms) that is cached at every hop between here and the browser.
+
+    A missing plan array is answered with `{"plans": []}`, never a 404 or
+    503. The whole point of the fallback design is that this endpoint
+    NEVER breaks the landing - the worst it does is return an empty list
+    the frontend already handles.
+    """
+    if not db.available():
+        return {"plans": []}
+    try:
+        rows = db.settings_all()
+    except Exception:  # noqa: BLE001 - never fatal to marketing content
+        return {"plans": []}
+    raw = rows.get(gate.SETTING_PRICING_PLANS, "").strip()
+    if not raw:
+        return {"plans": []}
+    try:
+        plans = json.loads(raw)
+    except json.JSONDecodeError:
+        # Bad JSON should not blank a marketing page. The admin panel is where
+        # invalid input is meant to be surfaced; the reader gets the fallback.
+        return {"plans": []}
+    if not isinstance(plans, list):
+        return {"plans": []}
+    return {"plans": plans}
+
+
 def _live_all(user_id: int | None = None) -> list[dict]:
     """Live trees, read fresh from the database when there is one.
 

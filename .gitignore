@@ -31,3 +31,9 @@ Ekran görüntüsü*.png
 Ekran goruntusu*.png
 Screenshot*.png
 screenshot*.png
+
+# Local preview renders from the headless-Chrome workflow described in
+# CLAUDE.md. Written to the repo root because that is where the Chrome
+# invocation runs, and easy to `git add -A` by accident. Nothing here needs
+# to travel with the code.
+_preview*.png

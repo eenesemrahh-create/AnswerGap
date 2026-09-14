@@ -23,6 +23,8 @@ structurally absent rather than forbidden by a check somebody could remove.
 
 from __future__ import annotations
 
+import json
+
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
 
@@ -31,6 +33,17 @@ from answergap import db, gate
 from .auth import ADMIN_EMAILS, require_admin
 
 router = APIRouter(prefix="/api/admin")
+
+# The marketing landing shows a pricing card per plan. Between 0 and 4 plans
+# fit the layouts the CSS grid supports; the wider constraint is really the
+# reader - after four cards the section becomes a comparison chart, not a
+# pricing pitch. Set here rather than in the payload's `max_length` so the
+# limit is written once and audited from one place.
+PRICING_MAX_PLANS = 4
+# A plan carries at most this many bullet points. The card visual starts to
+# read as an itemised invoice past six, and Replit's reference sits at five;
+# the ceiling is generous but not decorative.
+PRICING_MAX_FEATURES = 8
 
 # Bounds for the two runtime settings. Clamped here as well as in
 # `gate.setting_int` - rejecting a bad value at the door gives the admin an
@@ -56,6 +69,44 @@ class StatusRequest(BaseModel):
 class SettingsRequest(BaseModel):
     anonymous_daily_searches: int | None = None
     signup_credits: int | None = None
+
+
+class Plan(BaseModel):
+    """One row of the pricing landing section.
+
+    `id` is what the frontend keys its React list on and what an admin can use
+    to spot the same plan across an audit log entry. Lower-case ASCII plus
+    hyphens keeps it slug-safe; anything more permissive would let a plan id
+    end up in a query string looking like garbage.
+
+    `featured` and `badge` decouple the two things Replit's design coupled:
+    "which card is highlighted in dark" and "which card has a Most Popular
+    label". A plan can be featured without a badge (visually emphasised) or
+    carry a badge without being featured (a New tag on the Starter, say).
+    """
+
+    id: str = Field(min_length=1, max_length=32, pattern=r"^[a-z0-9-]+$")
+    name: str = Field(min_length=1, max_length=40)
+    desc: str = Field(min_length=1, max_length=200)
+    price: str = Field(min_length=1, max_length=20)
+    per: str = Field(min_length=1, max_length=20)
+    features: list[str] = Field(min_length=0, max_length=PRICING_MAX_FEATURES)
+    cta: str = Field(min_length=1, max_length=40)
+    featured: bool = False
+    badge: str | None = Field(default=None, max_length=30)
+
+
+class PricingRequest(BaseModel):
+    """The list saved by the admin as a whole - no partial edits.
+
+    Sent as one write rather than per-plan endpoints because the sort order
+    IS the array order (index 0 is the leftmost card on the landing). A
+    per-plan endpoint would need a separate 'move up / move down' route or
+    an explicit `position` field, both of which are extra surface for a
+    setting an operator touches once a month at most.
+    """
+
+    plans: list[Plan] = Field(max_length=PRICING_MAX_PLANS)
 
 
 @router.get("/overview")
@@ -178,6 +229,64 @@ def put_settings(request: Request, payload: SettingsRequest) -> dict:
             raise HTTPException(400, {"code": "outOfRange"})
         db.setting_put(key=gate.SETTING_SIGNUP_CREDITS, value=str(value), actor=actor)
     return _settings()
+
+
+@router.get("/pricing")
+def get_pricing(request: Request) -> dict:
+    """The current pricing plans, for the admin editor.
+
+    Reads the same setting the public `GET /api/pricing` reads, and returns
+    the SAME shape. Where the two diverge is in what they do with bad data:
+    the public endpoint silently returns [], the admin endpoint returns
+    what is stored verbatim - a syntax error the admin needs to see is not
+    made invisible by our fallback.
+    """
+    require_admin(request)
+    rows = db.settings_all()
+    raw = rows.get(gate.SETTING_PRICING_PLANS, "").strip()
+    if not raw:
+        return {"plans": []}
+    try:
+        plans = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        # An earlier admin saved something the schema now rejects. Surface it -
+        # do not paper over it with []; the operator needs to see the syntax
+        # error to fix it.
+        raise HTTPException(500, {
+            "code": "corruptSetting",
+            "detail": f"pricing_plans is not valid JSON: {exc.msg}",
+        }) from exc
+    return {"plans": plans}
+
+
+@router.post("/pricing")
+def put_pricing(request: Request, payload: PricingRequest) -> dict:
+    """Save the pricing plans. Append-only, per `app_setting`'s history rule.
+
+    Duplicate `id`s are refused - the frontend renders a list keyed by id and
+    two rows with the same key silently swallow one of them. Better to fail
+    with a message than to save something that reads correctly to the API
+    and wrong to the browser.
+
+    The saved value is the JSON serialisation of the validated model. Pydantic
+    already normalised the input by the time it lands here (trimmed nothing
+    silently - `min_length=1` fails an all-spaces value at the door), so what
+    hits the database is what a future GET will hand back, byte for byte.
+    """
+    who = require_admin(request)
+    ids = [p.id for p in payload.plans]
+    if len(ids) != len(set(ids)):
+        raise HTTPException(400, {
+            "code": "duplicateId",
+            "detail": "Two plans share the same id. Ids must be unique.",
+        })
+    value = json.dumps([p.model_dump() for p in payload.plans], ensure_ascii=False)
+    db.setting_put(
+        key=gate.SETTING_PRICING_PLANS,
+        value=value,
+        actor=who.email or "",
+    )
+    return {"plans": [p.model_dump() for p in payload.plans]}
 
 
 @router.get("/actions")

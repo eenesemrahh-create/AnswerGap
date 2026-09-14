@@ -71,3 +71,25 @@ export interface AdminAction {
   detail: Record<string, unknown> | null;
   created_at: string;
 }
+
+/** A row on the marketing landing's pricing section. Mirrors the Plan model
+ *  in api/admin.py; the CTA on the landing renders each one as a card. */
+export interface Plan {
+  id: string;
+  name: string;
+  desc: string;
+  price: string;
+  per: string;
+  features: string[];
+  cta: string;
+  featured: boolean;
+  badge: string | null;
+}
+
+export interface Pricing {
+  plans: Plan[];
+}
+
+/** Set once and read in both the client editor and the server action. */
+export const PRICING_MAX_PLANS = 4;
+export const PRICING_MAX_FEATURES = 8;
