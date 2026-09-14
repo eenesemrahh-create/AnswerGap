@@ -21,6 +21,7 @@ from __future__ import annotations
 import gzip
 import json
 import os
+import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -697,15 +698,63 @@ def score_batch(slug: str, request: BatchScoreRequest, http_request: Request) ->
     return result
 
 
+# Per-slug cooldown for the fallback sweep. Ownership gating (2026-09-14)
+# already keeps strangers off `/jobs`, but a legitimate owner polling hard is
+# still request amplification: every call runs `sweep_pending(limit=3)`, and
+# each swept task is a `task_get` on DataForSEO. Free per call but the ratio
+# is 3-to-1, so a per-second poll on a stuck tree pushes 180 upstream calls
+# per minute per slug. The cooldown breaks the ratio: at most one sweep per
+# slug per SWEEP_COOLDOWN_SECONDS, regardless of who is polling.
+#
+# The endpoint STILL SERVES on cooldown - it just returns `swept: null` and
+# reads the current task status from Postgres, which is what the UI actually
+# needs to render progress. The sweep is the FALLBACK path; with callbacks
+# configured it has nothing to do anyway, and cooldown is a stronger cap for
+# the callback-less case than "3 not 10" ever was.
+#
+# In-memory. Process-local state resets on redeploy, which is a burst of
+# sweeps right after restart at worst - much less than the alternative of
+# a DB round trip per poll to answer "when did we last sweep this slug".
+SWEEP_COOLDOWN_SECONDS = 30
+_last_sweep_at: dict[str, float] = {}
+
+
+def _should_sweep(slug: str, *, now: float | None = None) -> bool:
+    """Return True if this slug is due for a sweep, and mark it swept.
+
+    Optimistic: if this returns True, the caller MUST call `sweep_pending` -
+    or the cooldown holds against a sweep that never ran. Failing the sweep
+    afterwards is fine (the next call will simply see no progress), which is
+    why the mark-first-then-sweep order beats rollback-on-failure.
+
+    `now` is injectable for tests, so a cooldown boundary can be walked
+    without touching `time.time` (and without threading a fake clock through
+    the whole module).
+
+    "Never swept" is None, not 0.0. A `.get(slug, 0.0)` default would collide
+    with a real `now=0.0` in tests - and, less obviously, with a genuine
+    epoch-zero clock reading on a broken machine. None means "no timestamp",
+    which is what "first time this slug is seen" actually is.
+    """
+    t = now if now is not None else time.time()
+    last = _last_sweep_at.get(slug)
+    if last is not None and t - last < SWEEP_COOLDOWN_SECONDS:
+        return False
+    _last_sweep_at[slug] = t
+    return True
+
+
 @app.get("/api/tree/{slug}/jobs")
 def tree_jobs(slug: str, http_request: Request) -> dict:
     """Queued scoring for this tree, and what it has cost.
 
-    Sweeps stranded tasks on the way past. There is no job runner yet, and a
-    postback can be lost to a deploy landing mid-flight - so the recovery runs
-    where something is already polling. `task_get` is free and results live for
-    30 days, which makes a lost callback a re-fetch rather than a re-purchase,
-    but only if somebody actually goes and looks.
+    Sweeps stranded tasks on the way past, at most once per
+    SWEEP_COOLDOWN_SECONDS per slug (see `_should_sweep`). There is no job
+    runner yet, and a postback can be lost to a deploy landing mid-flight -
+    so the recovery runs where something is already polling. `task_get` is
+    free and results live for 30 days, which makes a lost callback a
+    re-fetch rather than a re-purchase, but only if somebody actually goes
+    and looks.
 
     Gated as of 2026-09-14. Queued tasks are the caller's paid work - the ids
     and spend numbers here are the same evidence a stranger should not see on
@@ -720,7 +769,8 @@ def tree_jobs(slug: str, http_request: Request) -> dict:
     # ten of them inside a GET timed the request out the first time this ran for
     # real. The sweep is the FALLBACK path - with a callback configured it has
     # nothing to do - so it only has to make progress on each poll, not finish.
-    swept = live.sweep_pending(older_than_seconds=120, limit=3)
+    # Cooldown further caps the fallback: at most one sweep per slug per window.
+    swept = live.sweep_pending(older_than_seconds=120, limit=3) if _should_sweep(slug) else None
     tasks = db.tasks_for_tree(slug)
     return {
         "tasks": tasks,

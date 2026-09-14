@@ -1140,6 +1140,63 @@ fixtures.
 They were world-readable before the gate; blank memory is more honest
 than a guess about which anon cookie once wrote them.
 
+## Rate limit: sweep cooldown on /jobs, 2026-09-14
+
+The "Next" list said this outright: *"`GET /api/tree/{slug}/jobs` is still an
+unauthenticated GET that triggers up to three outbound DataForSEO calls via
+`sweep_pending`. Those calls are free, so it is not a credit problem — it is
+request amplification, and it is the obvious next hardening target."* Half of
+it closed today with the ownership gate (strangers no longer reach the sweep
+at all). The other half - a legitimate owner polling hard, or a compromised
+token, or runaway client-side polling - would still fire the 3-to-1 ratio
+between one inbound GET and three outbound `task_get` calls. **Fixed with a
+per-slug cooldown on the sweep, not the endpoint.**
+
+`api/main.SWEEP_COOLDOWN_SECONDS = 30`, `_should_sweep(slug)` is an in-memory
+mark-first, return-second helper. If the same slug has been swept in the
+last 30 seconds, the endpoint STILL SERVES - it just reads `tasks_for_tree`
+and `task_spend` from Postgres and returns `swept: null`. The UI already
+handles that shape (the no-db path has been returning it since day one).
+
+**Why the cap is per-slug, not per-caller.** Amplification is about outbound
+calls to DataForSEO, and DataForSEO's rate limit is applied to us (the
+account), not to the visitor whose request triggered it. So the natural
+axis is the tree, which is the granularity of the outbound work. Per-caller
+would let one user with five stuck trees still generate 5x the calls; per-
+slug caps the worst case regardless.
+
+**Why in-memory.** A DB round trip per poll to answer "when did we last
+sweep this slug" would add ~150ms to a call whose whole job is to be
+cheap. Process-local state resets on redeploy - one burst of catch-up
+sweeps right after restart is much less than the alternative of persisting
+state that already exists implicitly.
+
+**One subtle bug the tests caught.** The first draft defaulted "never
+swept" to `0.0`, which collided with a real `now=0.0` in the test's
+injected clock: first call on a slug at time 0 looked like "swept at 0,
+now 0, difference 0, INSIDE cooldown, skip". Under real `time.time()` the
+same collision would appear on an epoch-zero broken clock - unlikely in
+production but not impossible. `None` is now the sentinel for "never
+swept", and the branch checks `last is not None` before the arithmetic.
+
+**Boundary semantics, pinned.** `< threshold` blocks and `>= threshold`
+allows. At exactly 30 seconds the sweep resumes; at 29.9 it stays
+blocked. Two tests protect this against a `<=` refactor that would
+silently shift the whole ratio.
+
+**Tests.** `tests/test_rate_limit.py`, 7 tests. First call sweeps,
+back-to-back is skipped, cooldown expires, boundary allows, independent
+slugs are independent, and mark-first order is pinned. Pure timing logic
+- no clock, no DB, no HTTP - because that is what `_should_sweep`
+actually is.
+
+**What is NOT rate-limited yet.** The endpoint itself. A caller polling
+`/jobs` 100 times per second would still hit Postgres 100 times for the
+task/spend reads, which the ownership gate lets through. That is a
+different tier of hardening (throttle per identity, not per slug) and
+would want a DB-backed counter shared across replicas. Not open unless
+someone actually does it.
+
 ## Accounts, credits and the admin panel, 2026-09-08
 
 Google sign-in, an enforced credit balance, a free daily allowance for
@@ -1579,10 +1636,10 @@ Four things do have to change, in this order: **storage**, **tests**,
    at list level.** See the section above for what that does and does not
    cover. Still open, and smaller: the tree, table, related-searches and
    question-detail screens have not been moved to the new visual language yet.
-8. **Rate limiting.** Nothing has any. `GET /api/tree/{slug}/jobs` is still an
-   unauthenticated GET that triggers up to three outbound DataForSEO calls via
-   `sweep_pending`. Those calls are free, so it is not a credit problem — it is
-   request amplification, and it is the obvious next hardening target.
+8. ~~**Rate limiting on `/jobs`.**~~ **DONE 2026-09-14** — ownership gate
+   plus a per-slug sweep cooldown; see the "Rate limit: sweep cooldown on
+   /jobs" section. Broader per-identity rate limiting on other endpoints
+   stays open, but not open unless it becomes a real concern.
 
 ## Immediately actionable, no new code needed
 
