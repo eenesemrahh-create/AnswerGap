@@ -32,7 +32,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from answergap import labels as label_store  # noqa: E402
+from answergap import embeddings, labels as label_store  # noqa: E402
 from answergap.matching import STRATEGIES, score_results  # noqa: E402
 from answergap.text import normalize  # noqa: E402
 from answergap.tree import index_raw  # noqa: E402
@@ -130,6 +130,17 @@ def main() -> int:
         for key, entry in index_raw(LIVE_SERP_DIR).items():
             index.setdefault(key, entry)
 
+    # Skip strategies whose backends are not configured. `embeddings` needs a
+    # VOYAGE_API_KEY, and running it without one would raise on the first row
+    # instead of showing the lexical numbers that ARE available. Reported so a
+    # comparison read later is not surprised by the absent column.
+    active_strategies = [s for s in STRATEGIES if s != "embeddings" or embeddings.available()]
+    if "embeddings" not in active_strategies:
+        log("Note: `embeddings` skipped - VOYAGE_API_KEY is not set. Add it to .env")
+        log("      to include the strategy that CLAUDE.md's SETTLED block predicts")
+        log("      will separate the collision rows.")
+        log("")
+
     records = []
     unmatched = []
     for row in labeled:
@@ -151,7 +162,7 @@ def main() -> int:
                 "actual": row["label"].strip().upper() == "G",
                 "results": results,
                 "scores": {
-                    s: score_results(question, results, language, s) for s in STRATEGIES
+                    s: score_results(question, results, language, s) for s in active_strategies
                 },
             }
         )
@@ -175,7 +186,7 @@ def main() -> int:
     log("")
 
     scored_rules = []
-    for strategy in STRATEGIES:
+    for strategy in active_strategies:
         for threshold in THRESHOLDS:
             for k in K_VALUES:
                 predicted = [
@@ -245,7 +256,7 @@ def main() -> int:
     add("")
     add("| Strategy | Best F1 | Its precision | Rule |")
     add("|---|---:|---:|---|")
-    for strategy in STRATEGIES:
+    for strategy in active_strategies:
         subset = [m for m in scored_rules if m["strategy"] == strategy]
         b = max(subset, key=lambda m: (m["f1"], m["precision"]))
         add(f"| `{strategy}` | {b['f1']:.2f} | {b['precision']:.2f} | {b['name']} |")

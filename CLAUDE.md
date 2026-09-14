@@ -974,6 +974,92 @@ with one positive; **whether the collision breaks is not.**
 Ships behind the same seam as everything else: no key -> falls back to lexical,
 exactly as no `DATABASE_URL` falls back to files.
 
+## Embeddings: built and measured 2026-09-14, gated behind a flag
+
+Built exactly as the 2026-09-01 section predicted. `answergap/embeddings.py` is
+the Voyage client (stdlib-only, `available()` seam matching `db.available()`),
+`matching.py` carries `embeddings` as a fourth strategy with a batched scoring
+path — one HTTP call per direction rather than one per page — and `live.crawl`
++ `live.score` both resolve the strategy at call time so `gap_score.strategy`
+and `gap_score.embedding_model` travel with the row. 29 tests.
+
+**Then measured. All three Voyage tiers came in below lexical, and none
+resolved the 4 collision rows the SETTLED block called out.** Rerun of
+`scripts/phase05_evaluate.py`:
+
+| Strategy | Best F1 | Its precision |
+|---|---:|---:|
+| `words` | **0.33** | 0.20 |
+| `stems` | 0.22 | 0.12 |
+| `synonyms` | 0.22 | 0.12 |
+| `embeddings` (voyage-4-lite) | 0.18 | 0.10 |
+
+The 4 collision rows across the three Voyage tiers — one real gap (G) plus
+three false positives that all scored identically under lexical:
+
+| | G · dentists recommend | N · best treatment | N · 60 year old | N · yellow teeth |
+|---|---:|---:|---:|---:|
+| `words` max | 0.50 | 0.50 | 0.50 | 0.50 |
+| `voyage-4-lite` max | 0.65 | **0.71** | 0.63 | 0.68 |
+| `voyage-4` max | 0.62 | **0.66** | 0.63 | **0.66** |
+| `voyage-4-large` max | 0.60 | **0.60** | 0.59 | 0.56 |
+
+**Ordering is wrong in every tier.** The real gap sits in the middle of the
+false positives, sometimes below one of them, never clearly above. No
+page-count-with-threshold rule separates 1G from 3N when 2 of the 3 N pages
+land above G. `voyage-4-large` collapses everything to ~0.60 — the tightest
+band and the least separable. Bigger model, less signal.
+
+**Why the failure is structural, not tunable.** These aren't paraphrase
+failures. All four questions live under the same seed ("teeth whitening"), and
+every SERP page IS about teeth whitening — retrieval embeddings are trained to
+score topic proximity and they say so, correctly. The gap metric needs a
+different question: *does this page ANSWER what was asked*. That is entailment
+/ QA / reranking, not general-purpose embedding. Voyage's `rerank-2` is trained
+on exactly this task and would be the right thing to try next — but not on
+n=14, or the same measurement fog swallows it.
+
+**Same honest caveat as before.** n=14, 1 positive. This CAN diagnose a
+structural failure (ordering wrong across every tier, visible in all 4 cases
+rather than statistical) and it does. It CANNOT measure precision or set a
+threshold. The plumbing verdict is settled; the "should embeddings be default"
+verdict has to wait for ~200 labels, same as lexical.
+
+**Consequence in code: two gates, not one.** `matching.active_strategy()` now
+returns `embeddings` only when BOTH `VOYAGE_API_KEY` is present AND
+`ANSWERGAP_USE_EMBEDDINGS` is truthy. The KEY says "the layer is configured
+enough for tests, batching and one-off scripts"; the FLAG says "we've decided
+to use it as the default scoring strategy". Splitting them means:
+
+- Local dev with a real `.env` doesn't silently ship a metric that lost the
+  measurement.
+- Rescoring the archive under embeddings for the next round of measurement is
+  still a one-env-var flip.
+- The `2026-09-14` decision is reversible without a code change - drop the
+  flag, restart, back to `synonyms`.
+
+The 2026-09-01 section's line - *"no key -> falls back to lexical, exactly as
+no `DATABASE_URL` falls back to files"* - now reads: *"no key OR no flag -> falls
+back to lexical."* Same shape, one more gate.
+
+**Spend on this measurement.** About **$0.002** in Voyage tokens for three
+model tiers on the 14 rows. Re-running is $0 - the archive labels + SERP
+responses are on disk and the model swap is one env var. `phase05_evaluate.py`
+already reports which tier is being used.
+
+**What is NOT next.**
+- Snippet-enriched documents. Would give the embedding more text but not
+  change what it measures. Unlikely to fix topic-vs-answer.
+- Larger embedding models. `voyage-4-large` is Voyage's top general embedding
+  and it was the worst tier here.
+
+**What IS next, when labels arrive.**
+- `rerank-2` integration. About 2-3 hours behind the existing seam; same auth,
+  different endpoint. Do NOT try it on n=14.
+- Re-run `phase05_evaluate.py` with `embeddings` as more labels accumulate
+  from the UI feedback buttons. Look for the collision rows to *split*, not
+  the numbers to move a bit.
+
 ## Accounts, credits and the admin panel, 2026-09-08
 
 Google sign-in, an enforced credit balance, a free daily allowance for

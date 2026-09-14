@@ -87,7 +87,7 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import db, languages, paths
+from . import db, embeddings, languages, paths
 from .dataforseo import (
     LIVE_COST_PER_REQUEST,
     STANDARD_COST_PER_REQUEST,
@@ -97,12 +97,11 @@ from .dataforseo import (
     slugify,
     walk,
 )
-from .matching import seed_relevance
+from .matching import active_strategy, seed_relevance
 from .text import normalize
 from .tree import (
     STATUS_NO_DATA,
     STATUSES,
-    STRATEGY,
     THRESHOLD,
     _ai_sources,
     _organic_results,
@@ -297,7 +296,10 @@ def _hydrate(tree: dict | None) -> dict | None:
     lang = languages.get(tree["language_code"])
     tree["language_name"] = lang.name if lang else tree["language_code"]
     tree["threshold"] = THRESHOLD
-    tree["strategy"] = STRATEGY
+    # The CURRENT default, not what any particular score was measured under.
+    # Per-row authority stays on `gap_score.strategy` / `embedding_model`; this
+    # is the badge the UI shows for "what would a new score use right now".
+    tree["strategy"] = active_strategy()
     tree["threshold_validated"] = False  # the UI turns this into a warning badge
     _recount(tree)
     return tree
@@ -689,11 +691,16 @@ def build_from_response(
         return key
 
     # The root is the seed, and its organic results are already in this same
-    # response - so the root scores for free.
+    # response - so the root scores for free. Same strategy as `apply_response`
+    # uses for the per-question path: otherwise the root would be lexical while
+    # scored children were embeddings, and the same node's status would depend
+    # on which route last touched it.
     root_results = _organic_results(response)
     root_id = add(seed, 0, None)
     root = nodes[root_id]
-    scored, matching, status = score_question(seed, root_results, language_code)
+    scored, matching, status = score_question(
+        seed, root_results, language_code, strategy=active_strategy()
+    )
     root.update(
         {
             "status": status,
@@ -744,7 +751,7 @@ def build_from_response(
         "node_count": len(node_list),
         "status_counts": {},
         "threshold": THRESHOLD,
-        "strategy": STRATEGY,
+        "strategy": active_strategy(),
         "threshold_validated": False,  # the UI turns this into a warning badge
         "updated_at": _now(),
         "source": "live",
@@ -890,7 +897,16 @@ def apply_response(tree: dict, node: dict, response: dict | None, key: str) -> d
     """
     language_code = tree["language_code"]
     results = _organic_results(response)
-    scored, matching, status = score_question(node["question"], results, language_code)
+    # Resolved HERE, not read from a module constant, so a `VOYAGE_API_KEY`
+    # added mid-run picks up on the next scored question rather than at the
+    # next process boot. `active_strategy()` returns "embeddings" when Voyage
+    # is configured and the lexical baseline otherwise; either way the value
+    # that was in effect travels to `save_score` below, so a later swap cannot
+    # silently rewrite what this row claimed.
+    strategy = active_strategy()
+    scored, matching, status = score_question(
+        node["question"], results, language_code, strategy=strategy
+    )
     ai_sources = _ai_sources(response)
     node.update(
         {
@@ -923,7 +939,13 @@ def apply_response(tree: dict, node: dict, response: dict | None, key: str) -> d
             results=scored,
             ai_sources=ai_sources,
             threshold=THRESHOLD,
-            strategy=STRATEGY,
+            strategy=strategy,
+            # Only meaningful under the embeddings strategy - a lexical row has
+            # no model to record, and NULL is how the schema says so. Reading
+            # this back later distinguishes "scored under lexical" from
+            # "scored under an embedding model we no longer trust" without
+            # having to guess from the strategy name.
+            embedding_model=embeddings.model() if strategy == "embeddings" else None,
             source_key=key,
         )
 
