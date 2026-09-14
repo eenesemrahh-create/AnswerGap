@@ -1060,6 +1060,86 @@ already reports which tier is being used.
   from the UI feedback buttons. Look for the collision rows to *split*, not
   the numbers to move a bit.
 
+## Privacy: extended to tree detail, 2026-09-14
+
+The 2026-09-08 privacy section left this unclosed: `/api/trees` was gated but
+`/api/tree/{slug}` and its children were open, on the reading that "a slug
+reveals the seed and the seed is the sensitive half". That reading missed what
+the shared corpus ACCUMULATES on top of the SERP once you have used it -
+labels you gave, questions you paid to harvest, gap scores measured under
+your credit. All private judgements a stranger with only the slug should not
+see. **Extended today: every endpoint under `/api/tree/{slug}/...` requires
+ownership.**
+
+**Rule.** `_authorize_tree(slug, who)` sits in front of the eight tree-detail
+endpoints. Archive trees are public (they are Phase 0 evidence, not user
+data); live trees are gated by `db.can_access`, which returns True when ANY
+crawl row on the slug matches either `user_id` (signed-in caller) or
+`anon_id` (signed-out cookie). Same rule as `load_trees`'s list filter, one
+scale up.
+
+**404, not 403.** Existence itself is metadata - a 403 would say "someone
+did search this slug", which is exactly what the gate exists to hide. The
+list endpoint returns [] for a signed-out caller for the same reason.
+
+**Anonymous visitors keep access to their OWN tree.** The `anon_id` header
+already existed for rate limiting; the crawl row now writes it on INSERT
+too (see migration `0006_crawl_anon_owner`). A signed-out visitor who just
+finished a search hits `/api/tree/{slug}` on the follow-up render and gets
+back in by the same cookie the crawl was written under. Lose the cookie,
+lose access. That is the honest strength of the guarantee - not
+cryptographic, just "not visible to strangers".
+
+**Shared corpus intact.** Two people searching the same seed both get a
+crawl row (`INSERT` on every `live.crawl`, even on a cache hit - see the
+2026-08-31 storage section). The second person's SERP call is $0, and their
+crawl row is what lets them see the same tree. Splitting the cache per
+user would have doubled the bill for no privacy benefit; splitting the
+VIEW by crawl-row-ownership does the same job for free.
+
+**Where the gate does NOT run.**
+- Filesystem backend (no `DATABASE_URL`). Local dev has no ownership
+  concept and a gate that refused everything without Postgres would put
+  the laptop in the "broken" column. `_authorize_tree` returns early
+  before calling `can_access`.
+- Archive trees (`source != "live"`). Public by design.
+- `POST /api/search`. This is where crawl rows are CREATED; there is
+  nothing to gate against yet.
+- `POST /api/callback/dataforseo` (Standard queue postback). Its gate is
+  the shared token, not user identity - DataForSEO does not have one.
+
+**Eight endpoints threaded through the gate.**
+`GET /api/tree/{slug}` · `GET /api/tree/{slug}/question/{qslug}` ·
+`POST /api/tree/{slug}/question/{qslug}/score` ·
+`GET /api/tree/{slug}/labels` ·
+`POST /api/tree/{slug}/question/{qslug}/label` ·
+`POST /api/tree/{slug}/score-batch` · `GET /api/tree/{slug}/jobs` ·
+`GET /api/tree/{slug}/diff`. The batch endpoint's ownership check is
+stronger than the reads: even if a tree were public evidence, spending
+someone else's next ten credits on it would be a different kind of leak.
+
+**Tests.** `tests/test_privacy.py`, seven tests. Archive stays public,
+filesystem stays open, owner gets in, stranger gets 404, anon cookie
+travels to SQL, missing slug is 404 before the gate, and `can_access` with
+no identity returns False without opening a connection. Signature and
+branching, not the SQL - the far end has `test_storage.py` and its
+fixtures.
+
+**Two bugs the code review caught before ship.**
+- The score endpoint had `who = auth.identity(...)` in two places. Not a
+  correctness bug (both returned the same identity) but a readability
+  smell; ran once, up front.
+- The batch dry-run reasoning was preserved verbatim: **the dry run is
+  still ungated** because the confirm dialog is built from one, and gating
+  it would mean a user with three credits could never see the price of a
+  batch of ten. Ownership DOES apply to the dry run's tree lookup, which
+  is the right layer for the check anyway.
+
+**Backfill.** None. Crawls written before this migration have
+`anon_id = NULL, user_id = NULL` and become inaccessible via anon match.
+They were world-readable before the gate; blank memory is more honest
+than a guess about which anon cookie once wrote them.
+
 ## Accounts, credits and the admin panel, 2026-09-08
 
 Google sign-in, an enforced credit balance, a free daily allowance for

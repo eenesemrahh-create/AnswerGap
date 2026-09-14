@@ -259,6 +259,37 @@ def _lookup(slug: str) -> dict:
     return found
 
 
+def _authorize_tree(slug: str, who: gate.Identity) -> dict:
+    """Fetch a tree and confirm this caller may see it.
+
+    The three Phase 0 archive demos are public by design - they carry no
+    user data and exist to show what the product does before anyone signs
+    in. Everything else - live crawls, whether signed-in or anonymous - is
+    gated by ownership: `db.can_access` says whether ANY crawl row on this
+    slug matches the caller's identity, and the shared-corpus rule (two
+    people searching the same seed both get a crawl row, second person for
+    free) is what makes that a workable rule rather than a punishment.
+
+    404, not 403, for an unauthorised access. Existence itself is metadata
+    ("someone searched this seed"); a 403 would leak it and 404 does not.
+    Aligned with `/api/trees`, which returns an empty list for a signed-out
+    caller rather than "you can't see this".
+
+    Filesystem backend (no Postgres) has no ownership concept - `can_access`
+    is not called there, and the endpoint behaves as before. Local dev
+    without a database was the case that made the whole gate optional at
+    the schema level, and it stays optional here for the same reason.
+    """
+    found = _lookup(slug)
+    if found.get("source") != "live":
+        return found
+    if not db.available():
+        return found
+    if db.can_access(slug, user_id=who.user_id, anon_id=who.anon_id):
+        return found
+    raise HTTPException(404, f"No tree: {slug}")
+
+
 @app.get("/api/trees")
 def trees(http_request: Request) -> list[dict]:
     """YOUR live crawls first, then the three public Phase 0 demos.
@@ -283,22 +314,32 @@ def trees(http_request: Request) -> list[dict]:
 
 
 @app.get("/api/tree/{slug}")
-def tree(slug: str) -> dict:
-    """One tree, by slug. NOT gated, deliberately - see `/api/trees`.
+def tree(slug: str, http_request: Request) -> dict:
+    """One tree, by slug. Gated as of 2026-09-14.
 
-    Privacy here is list-level. A slug is built from the seed, so anyone who
-    could guess it already knows the keyword, which is the sensitive half; what
-    the tree adds is Google's own public results for it, obtainable for
-    $0.0026 by anybody. Gating it would also strand the anonymous visitor who
-    just spent their free search, since an anonymous crawl has no owner to
-    match against.
+    The 2026-09-08 design left this endpoint open on the reading that a slug
+    reveals the seed, and the seed is the sensitive half; anyone able to
+    guess the slug already knew the query, and what the tree added was
+    public SERP data. That reading missed what accumulates on top of the
+    SERP over time - harvested questions the user paid to reveal, labels
+    they gave, gap scores measured under their credit - all private
+    judgements that a stranger with only the slug should not see.
+
+    Gate: `db.can_access` matches on `user_id` for signed-in callers and
+    `anon_id` for signed-out ones. The shared-corpus rule survives - two
+    people searching the same seed both get a crawl row, and the second
+    one gets in for free. The anonymous visitor who just completed a
+    search gets back in by the same cookie their POST /api/search wrote
+    the row under.
     """
-    return _lookup(slug)
+    who = auth.identity(http_request)
+    return _authorize_tree(slug, who)
 
 
 @app.get("/api/tree/{slug}/question/{question_slug}")
-def question(slug: str, question_slug: str) -> dict:
-    found = _lookup(slug)
+def question(slug: str, question_slug: str, http_request: Request) -> dict:
+    who = auth.identity(http_request)
+    found = _authorize_tree(slug, who)
     for node in found["nodes"]:
         if node["slug"] == question_slug:
             return node
@@ -371,6 +412,10 @@ def search(request: SearchRequest, http_request: Request) -> dict:
             refresh=request.refresh,
             dry_run=request.dry_run,
             user_id=who.user_id,
+            # The anon cookie is how a signed-out visitor gets back into their
+            # own tree after the POST returns. Written on the crawl row here so
+            # `_authorize_tree` can recognise them on the follow-up GET.
+            anon_id=who.anon_id,
         )
     )
     if not result.get("dry_run"):
@@ -406,20 +451,23 @@ def score_question_endpoint(
     `dropped` is part of the contract, not debug output. A crawl that bounds its
     own coverage has to say so, or it reads as complete when it is not.
     """
-    found = _lookup(slug)
+    who = auth.identity(http_request)
+    found = _authorize_tree(slug, who)
     if found.get("source") != "live":
         raise HTTPException(
             409,
             "Archived Phase 0 trees are fixed evidence and are not re-scored. "
             "Run a live search for this seed instead.",
         )
-    # 404 BEFORE the gate. The node list is already in memory, so the check is
-    # free, and it keeps the errors honest: someone with no credits asking about
-    # a question that does not exist should be told it does not exist.
+    # 404 BEFORE the credit gate. The node list is already in memory, so the
+    # check is free, and it keeps the errors honest: someone with no credits
+    # asking about a question that does not exist should be told it does not
+    # exist. Note the ownership gate ran first (via `_authorize_tree`) - a
+    # stranger gets the same 404 as "no such tree" and never learns whether
+    # this specific question exists on someone else's slug.
     if not any(n.get("slug") == question_slug for n in found.get("nodes", [])):
         raise HTTPException(404, f"No question: {question_slug}")
 
-    who = auth.identity(http_request)
     auth.check(who, action="score", units=1)
     try:
         result = _run(lambda: live.score(found, question_slug, refresh=refresh))
@@ -455,19 +503,30 @@ class LabelRequest(BaseModel):
 
 
 @app.get("/api/tree/{slug}/labels")
-def tree_labels(slug: str) -> dict[str, str]:
+def tree_labels(slug: str, http_request: Request) -> dict[str, str]:
     """Verdicts already given on this tree's questions, by question slug.
 
     Resolved through the question text, not the tree, so a verdict given on the
     same question in another tree shows up here too. The judgement is about the
     question against its results; which branch it was reached through is not
     part of it.
+
+    Gated as of 2026-09-14: labels are private judgements the owner gave on
+    their own SERP data. Even though the labels themselves are keyed by
+    question text globally, exposing the LIST of a tree's labels reveals
+    what verdicts the owner gave on it.
     """
-    return labels.for_tree(_lookup(slug))
+    who = auth.identity(http_request)
+    return labels.for_tree(_authorize_tree(slug, who))
 
 
 @app.post("/api/tree/{slug}/question/{question_slug}/label")
-def label_question(slug: str, question_slug: str, request: LabelRequest) -> dict:
+def label_question(
+    slug: str,
+    question_slug: str,
+    request: LabelRequest,
+    http_request: Request,
+) -> dict:
     """Record a human verdict on one gap score. Free, and never billable.
 
     Allowed on archived trees as well as live ones. Scoring is refused on the
@@ -478,8 +537,13 @@ def label_question(slug: str, question_slug: str, request: LabelRequest) -> dict
     Refused on an unscored question: with no fetched results there is no claim
     to agree or disagree with, and CLAUDE.md is explicit that unknown must stay
     unknown rather than being recorded as a judgement.
+
+    Gated as of 2026-09-14. Verdicts belong to the owner of the crawl they
+    were given on; a stranger cannot label someone else's tree even though
+    the underlying label store is keyed by question text and not by tree.
     """
-    found = _lookup(slug)
+    who = auth.identity(http_request)
+    found = _authorize_tree(slug, who)
     node = next(
         (n for n in found["nodes"] if n["slug"] == question_slug), None
     )
@@ -577,8 +641,14 @@ def score_batch(slug: str, request: BatchScoreRequest, http_request: Request) ->
     bound - and refusing on an upper bound would refuse batches that would have
     fitted. What it cannot afford is reported through the `skipped` list the UI
     already renders.
+
+    Gated as of 2026-09-14. A batch spends the caller's OWN credits, so
+    refusing an unowned tree here is stronger than the read side: even if
+    the tree is public evidence, spending someone else's next 10 credits on
+    it would be a different kind of leak.
     """
-    found = _lookup(slug)
+    who = auth.identity(http_request)
+    found = _authorize_tree(slug, who)
     if found.get("source") != "live":
         raise HTTPException(
             409,
@@ -592,7 +662,6 @@ def score_batch(slug: str, request: BatchScoreRequest, http_request: Request) ->
             "post time, so its id has to be written down before the result "
             "can go missing.",
         )
-    who = auth.identity(http_request)
     budget: int | None = None
     if not request.dry_run:
         ceiling = len(request.questions) if request.questions else (request.top_n or 10)
@@ -629,7 +698,7 @@ def score_batch(slug: str, request: BatchScoreRequest, http_request: Request) ->
 
 
 @app.get("/api/tree/{slug}/jobs")
-def tree_jobs(slug: str) -> dict:
+def tree_jobs(slug: str, http_request: Request) -> dict:
     """Queued scoring for this tree, and what it has cost.
 
     Sweeps stranded tasks on the way past. There is no job runner yet, and a
@@ -637,9 +706,16 @@ def tree_jobs(slug: str) -> dict:
     where something is already polling. `task_get` is free and results live for
     30 days, which makes a lost callback a re-fetch rather than a re-purchase,
     but only if somebody actually goes and looks.
+
+    Gated as of 2026-09-14. Queued tasks are the caller's paid work - the ids
+    and spend numbers here are the same evidence a stranger should not see on
+    the read side. Ownership check is up front, so `sweep_pending` never runs
+    for someone who has no business polling this tree.
     """
     if not db.available():
         return {"tasks": [], "spend": 0.0, "swept": None}
+    who = auth.identity(http_request)
+    _authorize_tree(slug, who)
     # Three, not ten. Each one is a fetch plus scoring plus a tree write, and
     # ten of them inside a GET timed the request out the first time this ran for
     # real. The sweep is the FALLBACK path - with a callback configured it has
@@ -727,7 +803,7 @@ def dev_spend(http_request: Request, slug: str | None = None) -> dict:
 
 
 @app.get("/api/tree/{slug}/diff")
-def tree_diff(slug: str) -> dict:
+def tree_diff(slug: str, http_request: Request) -> dict:
     """What Google changed between the two most recent crawls of this seed.
 
     `null` rather than an empty diff when there is only one crawl. Nothing to
@@ -737,9 +813,16 @@ def tree_diff(slug: str) -> dict:
 
     Order changes never appear here. CLAUDE.md: PAA ordering moves for an
     identical query, and notifying on it would drown users in false alarms.
+
+    Gated as of 2026-09-14. A diff describes CHANGES someone else may have
+    caused to the shared corpus - a stranger reading it would learn when the
+    seed was last re-crawled by anyone. That is exactly the metadata leak
+    `/api/tree/{slug}` was closed to stop.
     """
     if not db.available():
         raise HTTPException(503, "No database configured.")
+    who = auth.identity(http_request)
+    _authorize_tree(slug, who)
     return db.diff_and_history(slug)
 
 

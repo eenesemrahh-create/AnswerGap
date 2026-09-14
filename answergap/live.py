@@ -775,11 +775,17 @@ def crawl(
     refresh: bool = False,
     dry_run: bool = False,
     user_id: int | None = None,
+    anon_id: str | None = None,
 ) -> dict:
     """Discover a question tree for `seed`. ONE billable request, or zero.
 
     `refresh` is CLAUDE.md's paid refresh: it drops the cached response so the
     next call re-fetches. Cached results are free; refreshing costs a credit.
+
+    `user_id` and `anon_id` are ownership - see `db.save_tree`. One of them is
+    typically set (the signed-in id for a logged-in caller, the browser
+    cookie for a signed-out one); both being None means an unattributed
+    crawl, which the detail-level privacy gate will refuse to serve back.
     """
     seed = seed.strip()
     if not seed:
@@ -826,11 +832,12 @@ def crawl(
     tree["billable_calls"] = client.billable_calls
     tree["estimated_spend"] = _spend(response, client)
     tree["from_cache"] = client.cache_hits > 0
-    # OWNERSHIP, not attribution - "list this user's searches". Set here, on the
-    # insert, and never on the scoring path: live.score updates an EXISTING
-    # crawl row, so writing an owner there would let user B's score rewrite
-    # whose search it was. Who spent which dollar is `usage_event`'s job.
-    save_tree(tree, new_crawl=True, user_id=user_id)
+    # OWNERSHIP, not attribution - "list this user's searches" and "let them
+    # back into their own tree by slug". Set here, on the insert, and never on
+    # the scoring path: live.score updates an EXISTING crawl row, so writing
+    # an owner there would let user B's score rewrite whose search it was.
+    # Who spent which dollar is `usage_event`'s job.
+    save_tree(tree, new_crawl=True, user_id=user_id, anon_id=anon_id)
     return tree
 
 

@@ -501,6 +501,33 @@ MIGRATIONS: list[tuple[str, str]] = [
             ON serp_task (user_id, posted_at DESC) WHERE user_id IS NOT NULL;
         """,
     ),
+    (
+        "0006_crawl_anon_owner",
+        """
+        -- The signed-out counterpart of `crawl.user_id`. An anonymous visitor
+        -- has an `anon_id` (a random browser-scoped cookie via ANON_HEADER),
+        -- and this column lets their own crawl be recognised as theirs so the
+        -- detail-level privacy gate can let them back into `/api/tree/{slug}`
+        -- after a page reload. Two people with the same anon cookie is a
+        -- collision they had to engineer; the guarantee is "not visible to
+        -- strangers", not "cryptographic".
+        --
+        -- Set on INSERT only. Same reason `user_id` is: `live.score` UPDATEs
+        -- an existing crawl row, and rewriting the owner there would let a
+        -- score by user B rewrite whose search it was. NULL means "written
+        -- before this column existed"; those old crawls are inaccessible via
+        -- anon match by design - they were world-readable before the gate,
+        -- and blank memory is more honest than a guess.
+        --
+        -- A crawl carries EITHER `user_id` OR `anon_id`, not both. The gate
+        -- checks each in turn; there is no need to combine them into one
+        -- ownership token, and doing so would make it harder to answer "was
+        -- this a signed-in crawl" from a single row.
+        ALTER TABLE crawl ADD COLUMN IF NOT EXISTS anon_id TEXT;
+        CREATE INDEX IF NOT EXISTS crawl_anon_idx
+            ON crawl (anon_id, created_at DESC) WHERE anon_id IS NOT NULL;
+        """,
+    ),
 ]
 
 
@@ -761,6 +788,7 @@ def save_tree(
     add_spend: float = 0.0,
     add_calls: int = 0,
     user_id: int | None = None,
+    anon_id: str | None = None,
 ) -> int:
     """Persist a tree as rows. Returns the crawl id it belongs to.
 
@@ -776,14 +804,15 @@ def save_tree(
     ledger is the one number a developer view exists to be trusted about, so it
     adds what was just spent and nothing else.
 
-    `user_id` is written on the INSERT branch ONLY. Scoring takes the UPDATE
-    branch against an existing crawl, so setting an owner there would let a
-    question scored by user B rewrite whose search it was. This column is
-    ownership; attribution lives on `usage_event`.
+    `user_id` and `anon_id` are ownership - one or the other, both nullable,
+    written on the INSERT branch ONLY. Scoring takes the UPDATE branch against
+    an existing crawl, so setting an owner there would let a question scored
+    by user B rewrite whose search it was. Attribution ("who spent this
+    $0.0026") lives on `usage_event`, which is a separate concern.
 
-    It is also NOT part of `decompose`. That function is pure and its output is
-    pinned by tests/test_storage.py; an auth concept has no business in the
-    translation layer, so it travels as a keyword argument instead.
+    Neither is part of `decompose`. That function is pure and its output is
+    pinned by tests/test_storage.py; auth concepts have no business in the
+    translation layer, so they travel as keyword arguments instead.
     """
     rows = decompose(tree)
     crawl = rows["crawl"]
@@ -798,8 +827,8 @@ def save_tree(
                 """
                 INSERT INTO crawl (slug, seed, seed_question, language_code,
                                    location_code, source, billable_calls, spend,
-                                   user_id)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                   user_id, anon_id)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING id
                 """,
                 (
@@ -812,6 +841,7 @@ def save_tree(
                     crawl["billable_calls"],
                     crawl["spend"],
                     user_id,
+                    anon_id,
                 ),
             )
             crawl_id = cur.fetchone()["id"]
@@ -943,6 +973,42 @@ def load_tree(slug: str, slug_for) -> dict | None:
         if not crawl:
             return None
         return _assemble(cur, crawl, slug_for)
+
+
+def can_access(slug: str, *, user_id: int | None, anon_id: str | None) -> bool:
+    """Does this caller have an ownership claim on the slug?
+
+    The detail-level counterpart of `load_trees`'s WHERE clause. Returns True
+    if ANY crawl row exists for this slug where either identity matches - so
+    the shared-corpus rule holds (User B searching the same seed as User A
+    creates their own crawl row and gets in the same way), but a STRANGER
+    with only the slug cannot enter. Same shape as `load_trees`; the whole
+    point of writing it as one function is that "how do I check access"
+    stops being a per-endpoint decision.
+
+    Neither id present -> no claim, no access. That is the anonymous-with-
+    no-cookie case; they get 404 for the same reason `load_trees(None)`
+    returns []. The three archive demos live outside this gate - they are
+    fixed evidence, not user trees, and callers of this function are
+    expected to have already filtered them out.
+
+    A single `EXISTS` query with `LIMIT 1` on the outer plan; the partial
+    indexes on `user_id`/`anon_id` make it index-only.
+    """
+    if user_id is None and anon_id is None:
+        return False
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT 1 FROM crawl
+             WHERE slug = %s
+               AND (   (user_id IS NOT NULL AND user_id = %s)
+                    OR (anon_id IS NOT NULL AND anon_id = %s))
+             LIMIT 1
+            """,
+            (slug, user_id, anon_id),
+        )
+        return cur.fetchone() is not None
 
 
 def live_tree_count() -> int:
