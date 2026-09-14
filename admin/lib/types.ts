@@ -72,19 +72,39 @@ export interface AdminAction {
   created_at: string;
 }
 
+/** Four discrete colour themes. Chosen as an enum, not a free colour, so the
+ *  landing renders coherent - discrete choices from the brand family sit
+ *  tidy; a hex picker would ship rainbows. */
+export type PlanTheme = "light" | "violet" | "pink" | "dark";
+
+/** Presented in this order in the editor's theme picker. `light` first so it
+ *  is the natural default; `dark` last so featured-style cards read as an
+ *  emphasis rather than the starting point. */
+export const THEME_OPTIONS: readonly {
+  value: PlanTheme;
+  label: string;
+  swatch: string;
+}[] = [
+  { value: "light", label: "Light", swatch: "#ffffff" },
+  { value: "violet", label: "Violet", swatch: "hsl(270 70% 92%)" },
+  { value: "pink", label: "Pink", swatch: "hsl(320 80% 93%)" },
+  { value: "dark", label: "Dark", swatch: "#16151d" },
+] as const;
+
 /** A row on the marketing landing's pricing section. Mirrors the Plan model
  *  in api/admin.py; the CTA on the landing renders each one as a card. */
 export interface Plan {
   id: string;
   /** The publish switch. Only enabled plans reach the landing. */
   enabled: boolean;
+  /** The card's colour identity. See THEME_OPTIONS. */
+  theme: PlanTheme;
   name: string;
   desc: string;
   price: string;
   per: string;
   features: string[];
   cta: string;
-  featured: boolean;
   badge: string | null;
 }
 
@@ -115,6 +135,7 @@ export const PRICING_TEMPLATES: Plan[] = [
   {
     id: "starter",
     enabled: false,
+    theme: "light",
     name: "Starter",
     desc: "For creators building visibility in AI search.",
     price: "$49",
@@ -126,12 +147,12 @@ export const PRICING_TEMPLATES: Plan[] = [
       "Opportunity export",
     ],
     cta: "Get Started",
-    featured: false,
     badge: null,
   },
   {
     id: "pro",
     enabled: false,
+    theme: "dark",
     name: "Pro",
     desc: "For teams scaling AI search authority.",
     price: "$149",
@@ -144,12 +165,12 @@ export const PRICING_TEMPLATES: Plan[] = [
       "Priority support",
     ],
     cta: "Go Pro",
-    featured: true,
     badge: "Most Popular",
   },
   {
     id: "business",
     enabled: false,
+    theme: "violet",
     name: "Business",
     desc: "For agencies running many brands at once.",
     price: "$299",
@@ -162,12 +183,12 @@ export const PRICING_TEMPLATES: Plan[] = [
       "Team collaboration",
     ],
     cta: "Choose Business",
-    featured: false,
     badge: null,
   },
   {
     id: "enterprise",
     enabled: false,
+    theme: "pink",
     name: "Enterprise",
     desc: "For large organizations with custom needs.",
     price: "Custom",
@@ -180,7 +201,6 @@ export const PRICING_TEMPLATES: Plan[] = [
       "Dedicated support",
     ],
     cta: "Contact Sales",
-    featured: false,
     badge: null,
   },
 ];

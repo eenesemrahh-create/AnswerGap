@@ -227,3 +227,51 @@ def test_pricing_request_rejects_five_plans() -> None:
     plans = [admin.Plan(**_complete_plan(id=f"p{i}", enabled=False)) for i in range(5)]
     with pytest.raises(Exception):
         admin.PricingRequest(plans=plans)
+
+
+# ------------------------------------------------ Theme migration + accept
+#
+# Themes came in on top of the earlier `featured: bool`. Legacy rows in the
+# database still carry the boolean; the model translates it in on the way
+# through and drops the old field. New rows carry `theme` directly.
+
+
+def test_legacy_featured_true_maps_to_dark_theme() -> None:
+    """Backward compat for rows saved before `theme` existed.
+
+    Migration on the way in means no one-shot conversion job and no
+    reversible-migration script: the mapping happens at every read.
+    """
+    plan = admin.Plan(**{**_complete_plan(id="pro"), "featured": True})
+    assert plan.theme == "dark"
+
+
+def test_legacy_featured_false_falls_to_light() -> None:
+    """An old non-featured card stays light by default."""
+    plan = admin.Plan(**{**_complete_plan(id="starter"), "featured": False})
+    assert plan.theme == "light"
+
+
+def test_theme_wins_over_legacy_featured() -> None:
+    """If both fields arrive (hypothetically), the newer field is authoritative.
+
+    Pins the direction of the migration: theme is the source of truth going
+    forward, and the legacy field is ignored on any row where the new one
+    is present.
+    """
+    plan = admin.Plan(**{**_complete_plan(id="p"), "theme": "violet", "featured": True})
+    assert plan.theme == "violet"
+
+
+@pytest.mark.parametrize("theme", ["light", "violet", "pink", "dark"])
+def test_all_four_themes_are_accepted(theme) -> None:
+    plan = admin.Plan(**{**_complete_plan(id=f"p-{theme}"), "theme": theme})
+    assert plan.theme == theme
+
+
+def test_unknown_theme_is_rejected() -> None:
+    """The Literal enum is the whole point - a hex value smuggled in the theme
+    field would ship rainbow cards on the landing.
+    """
+    with pytest.raises(Exception):
+        admin.Plan(**{**_complete_plan(id="p"), "theme": "#ff00ff"})

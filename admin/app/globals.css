@@ -223,13 +223,65 @@ button.act.warn { color: var(--warn); border-color: currentColor; }
   opacity: .78;
   filter: saturate(.6);
 }
-.pricing-preview .mkt-plan.featured {
+/* Four theme classes. Each declares a background, a border and the accent
+   colour the features / CTA pick up. Same shape as the landing file, so a
+   card in the preview looks like the same card would on `/`. Any change to
+   the landing themes must be mirrored here or the preview drifts (this is
+   what the copy note at the top of this block warns about). */
+
+.pricing-preview .mkt-plan.theme-light { /* base */ }
+
+.pricing-preview .mkt-plan.theme-violet {
+  background: color-mix(in oklab, var(--brand-preview) 6%, var(--surface-preview));
+  border-color: color-mix(in oklab, var(--brand-preview) 22%, var(--border-preview));
+}
+
+.pricing-preview .mkt-plan.theme-pink {
+  background: color-mix(in oklab, var(--accent-preview) 7%, var(--surface-preview));
+  border-color: color-mix(in oklab, var(--accent-preview) 24%, var(--border-preview));
+}
+
+.pricing-preview .mkt-plan.theme-dark {
   background: #16151d;
   color: #f6f4fb;
   border-color: #2a2837;
 }
-.pricing-preview .mkt-plan.featured.is-draft {
+.pricing-preview .mkt-plan.theme-dark.is-draft {
   opacity: .78;
+}
+
+/* Feature checkmarks pick up the theme's accent. Landing does the same. */
+.pricing-preview .mkt-plan.theme-violet .mkt-plan-features li::before,
+.pricing-preview .mkt-plan.theme-pink .mkt-plan-features li::before {
+  /* handled below by the shared theme colour rules */
+}
+.pricing-preview .mkt-plan.theme-pink .mkt-plan-features li::before {
+  background: var(--accent-preview);
+}
+
+/* CTA fills with the theme colour on violet / pink / dark so the button
+   feels part of the card. */
+.pricing-preview .mkt-plan.theme-violet .mkt-plan-cta {
+  background: var(--brand-preview);
+  color: var(--brand-contrast-preview);
+  border-color: transparent;
+}
+.pricing-preview .mkt-plan.theme-pink .mkt-plan-cta {
+  background: var(--accent-preview);
+  color: var(--brand-contrast-preview);
+  border-color: transparent;
+}
+
+/* Badge inherits the theme's chip treatment. Landing default is brand-tinted
+   for the badge; we deepen it slightly on violet / pink so it does not
+   disappear against the tinted card. */
+.pricing-preview .mkt-plan.theme-violet .mkt-plan-badge:not(:placeholder-shown) {
+  background: color-mix(in oklab, var(--brand-preview) 18%, var(--surface-preview));
+  color: var(--brand-preview);
+}
+.pricing-preview .mkt-plan.theme-pink .mkt-plan-badge:not(:placeholder-shown) {
+  background: color-mix(in oklab, var(--accent-preview) 20%, var(--surface-preview));
+  color: var(--accent-preview);
 }
 
 /* Publish toolbar sits above the card content. Not a landing element -
@@ -283,6 +335,47 @@ button.act.warn { color: var(--warn); border-color: currentColor; }
   color: var(--text-soft-preview);
   cursor: pointer;
   font-family: inherit;
+}
+
+/* Theme picker: four small swatches, one per available theme. Chosen swatch
+   shows a brand-coloured ring so the current identity of the card is
+   readable at a glance without needing text labels. */
+.pricing-preview .theme-picker {
+  display: inline-flex;
+  gap: 6px;
+  margin: 0 0 12px;
+  padding: 4px 6px;
+  border-radius: var(--r-pill-preview);
+  background: color-mix(in oklab, currentColor 5%, transparent);
+  align-self: flex-start;
+}
+.pricing-preview .theme-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1.5px solid color-mix(in oklab, currentColor 25%, transparent);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 100ms, box-shadow 100ms;
+}
+.pricing-preview .theme-swatch:hover { transform: scale(1.1); }
+.pricing-preview .theme-swatch.is-selected {
+  border-color: var(--brand-preview);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--brand-preview) 30%, transparent);
+}
+.pricing-preview .mkt-plan.theme-dark .theme-swatch.is-selected {
+  border-color: var(--accent-preview);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent-preview) 40%, transparent);
+}
+.pricing-preview .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Inline-editable fields. Look like the final text; behave like an input. */

@@ -1993,15 +1993,64 @@ table.table {
 @media (max-width: 720px) {
   .mkt-plans { grid-template-columns: 1fr !important; }
 }
+/* Base card. Theme classes below override colours only; padding, radius and
+   the internal layout stay the same across all four so a switch changes
+   personality without shifting geometry. */
 .mkt-plan {
   padding: 40px;
   border-radius: var(--r-xl);
   border: 1px solid var(--border);
   background: var(--surface);
+  color: var(--text);
   display: flex;
   flex-direction: column;
 }
-.mkt-plan.featured {
+
+/* theme-light is the fallback and matches the base rule above. Declared as
+   its own class so `theme-${plan.theme}` in TSX always resolves. */
+.mkt-plan.theme-light { /* base */ }
+
+/* theme-violet — brand-tinted surface. The tint is 6% of the brand hue over
+   the surface, which reads as "premium light" rather than "coloured". Border
+   picks up the same hue at a stronger mix; checks and CTA use the full
+   brand colour, so the card announces itself without shouting. */
+.mkt-plan.theme-violet {
+  background: color-mix(in oklab, var(--brand) 6%, var(--surface));
+  border-color: color-mix(in oklab, var(--brand) 22%, var(--border));
+}
+.mkt-plan.theme-violet .mkt-plan-badge {
+  background: color-mix(in oklab, var(--brand) 18%, var(--surface));
+  color: var(--brand-strong);
+}
+.mkt-plan.theme-violet .mkt-plan-features li::before { background: var(--brand); }
+.mkt-plan.theme-violet .mkt-plan-cta {
+  background: var(--brand);
+  color: var(--brand-contrast);
+  border-color: transparent;
+}
+.mkt-plan.theme-violet .mkt-plan-cta:hover { filter: brightness(1.08); }
+
+/* theme-pink — accent-tinted surface. Same pattern as violet, one hue over. */
+.mkt-plan.theme-pink {
+  background: color-mix(in oklab, var(--accent) 7%, var(--surface));
+  border-color: color-mix(in oklab, var(--accent) 24%, var(--border));
+}
+.mkt-plan.theme-pink .mkt-plan-badge {
+  background: color-mix(in oklab, var(--accent) 20%, var(--surface));
+  color: var(--accent-strong);
+}
+.mkt-plan.theme-pink .mkt-plan-features li::before { background: var(--accent); }
+.mkt-plan.theme-pink .mkt-plan-cta {
+  background: var(--accent);
+  color: var(--brand-contrast);
+  border-color: transparent;
+}
+.mkt-plan.theme-pink .mkt-plan-cta:hover { filter: brightness(1.08); }
+
+/* theme-dark — what the old `featured` boolean produced. Kept identical so
+   an existing landing with a Pro card in featured state renders unchanged
+   after migration. */
+.mkt-plan.theme-dark {
   background: #16151d;
   color: #f6f4fb;
   border-color: #2a2837;
@@ -2030,7 +2079,7 @@ table.table {
   margin: 0 0 28px;
   line-height: 1.5;
 }
-.mkt-plan.featured .mkt-plan-desc { color: #a49fb5; }
+.mkt-plan.theme-dark .mkt-plan-desc { color: #a49fb5; }
 .mkt-plan-price {
   display: flex;
   align-items: baseline;
@@ -2047,7 +2096,7 @@ table.table {
   color: var(--text-soft);
   font-size: 15px;
 }
-.mkt-plan.featured .mkt-plan-price span { color: #a49fb5; }
+.mkt-plan.theme-dark .mkt-plan-price span { color: #a49fb5; }
 .mkt-plan-features {
   list-style: none;
   padding: 0;
@@ -2074,7 +2123,7 @@ table.table {
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10l3.5 3.5L15 6.5' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 78% no-repeat;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10l3.5 3.5L15 6.5' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 78% no-repeat;
 }
-.mkt-plan.featured .mkt-plan-features li::before { background: var(--accent); }
+.mkt-plan.theme-dark .mkt-plan-features li::before { background: var(--accent); }
 .mkt-plan-cta {
   margin-top: auto;
   padding: 14px 24px;
@@ -2090,12 +2139,12 @@ table.table {
   font-family: inherit;
 }
 .mkt-plan-cta:hover { border-color: var(--text); }
-.mkt-plan.featured .mkt-plan-cta {
+.mkt-plan.theme-dark .mkt-plan-cta {
   background: var(--brand);
   color: var(--brand-contrast);
   border-color: transparent;
 }
-.mkt-plan.featured .mkt-plan-cta:hover {
+.mkt-plan.theme-dark .mkt-plan-cta:hover {
   filter: brightness(1.08);
 }
 

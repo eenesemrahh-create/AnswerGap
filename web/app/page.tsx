@@ -548,6 +548,7 @@ function PricingSection({
     {
       id: "starter",
       enabled: true,
+      theme: "light",
       name: t("market.pricing.starter.name"),
       desc: t("market.pricing.starter.desc"),
       price: t("market.pricing.starter.price"),
@@ -559,12 +560,12 @@ function PricingSection({
         t("market.pricing.starter.feat4"),
       ],
       cta: t("market.pricing.starter.cta"),
-      featured: false,
       badge: null,
     },
     {
       id: "pro",
       enabled: true,
+      theme: "dark",
       name: t("market.pricing.pro.name"),
       desc: t("market.pricing.pro.desc"),
       price: t("market.pricing.pro.price"),
@@ -577,7 +578,6 @@ function PricingSection({
         t("market.pricing.pro.feat5"),
       ],
       cta: t("market.pricing.pro.cta"),
-      featured: true,
       badge: t("market.pricing.pro.badge"),
     },
   ];
@@ -628,7 +628,7 @@ function PlanCard({
   onCta: (event: React.MouseEvent) => void;
 }) {
   return (
-    <div className={plan.featured ? "mkt-plan featured" : "mkt-plan"}>
+    <div className={`mkt-plan theme-${plan.theme}`}>
       {plan.badge && <span className="mkt-plan-badge">{plan.badge}</span>}
       <h3 className="mkt-plan-name">{plan.name}</h3>
       <p className="mkt-plan-desc">{plan.desc}</p>

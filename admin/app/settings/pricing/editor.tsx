@@ -5,7 +5,9 @@ import {
   PRICING_MAX_FEATURES,
   PRICING_MAX_PLANS,
   PRICING_TEMPLATES,
+  THEME_OPTIONS,
   type Plan,
+  type PlanTheme,
 } from "@/lib/types";
 import { savePricing } from "./actions";
 
@@ -203,7 +205,7 @@ function PlanCard({
 }) {
   const cls = [
     "mkt-plan",
-    plan.featured ? "featured" : "",
+    `theme-${plan.theme}`,
     plan.enabled ? "is-enabled" : "is-draft",
   ].filter(Boolean).join(" ");
 
@@ -220,24 +222,38 @@ function PlanCard({
           />
           <span>{plan.enabled ? "Published" : "Draft"}</span>
         </label>
-        <span className="card-tools">
-          <label className="feature-toggle" title="Featured (dark card, brighter checks)">
-            <input
-              type="checkbox"
-              checked={plan.featured}
-              onChange={(e) => onChange({ featured: e.target.checked })}
-            />
-            <span>Featured</span>
-          </label>
+        <button
+          type="button"
+          className="act tiny"
+          onClick={onReset}
+          title="Reset this slot to its template"
+        >
+          Reset
+        </button>
+      </div>
+
+      {/* Colour picker. Four swatches - light / violet / pink / dark - clicked
+          to switch the card's identity in place. Keeping this compact enough
+          to sit above the badge input so the operator picks the colour first,
+          then edits within it. */}
+      <div className="theme-picker" role="radiogroup" aria-label="Card colour">
+        {THEME_OPTIONS.map((opt) => (
           <button
+            key={opt.value}
             type="button"
-            className="act tiny"
-            onClick={onReset}
-            title="Reset this slot to its template"
+            role="radio"
+            aria-checked={plan.theme === opt.value}
+            className={
+              "theme-swatch" +
+              (plan.theme === opt.value ? " is-selected" : "")
+            }
+            style={{ background: opt.swatch }}
+            onClick={() => onChange({ theme: opt.value as PlanTheme })}
+            title={opt.label}
           >
-            Reset
+            <span className="sr-only">{opt.label}</span>
           </button>
-        </span>
+        ))}
       </div>
 
       {/* Badge is edit-in-place; if empty the badge line disappears just like

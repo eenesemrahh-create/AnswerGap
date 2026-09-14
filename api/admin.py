@@ -24,6 +24,7 @@ structurally absent rather than forbidden by a check somebody could remove.
 from __future__ import annotations
 
 import json
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field, model_validator
@@ -79,31 +80,55 @@ class Plan(BaseModel):
     hyphens keeps it slug-safe; anything more permissive would let a plan id
     end up in a query string looking like garbage.
 
-    `featured` and `badge` decouple the two things Replit's design coupled:
-    "which card is highlighted in dark" and "which card has a Most Popular
-    label". A plan can be featured without a badge (visually emphasised) or
-    carry a badge without being featured (a New tag on the Starter, say).
+    `theme` picks the card's visual identity. Four values so the operator
+    picks one per card rather than mixing arbitrary colours - discrete
+    choices produce visually coherent landings; a free hex-picker would
+    ship rainbows and undermine the brand. `dark` is what the old
+    `featured` boolean produced; `light` is the default surface; `violet`
+    and `pink` tint the surface with the brand and accent hues, so a set of
+    four cards can look distinct without any of them fighting the palette.
+    Palette rule from globals.css still stands: NONE of these are status
+    tokens - amber/teal never appear.
 
-    `enabled` is the publish switch. The admin keeps four card slots on
-    screen at once so a draft never has to be re-created from a template;
-    only cards with `enabled=true` reach the marketing landing, and the rest
-    are drafts the admin can polish without shipping them. That is why the
-    text fields below are `min_length=0`: a disabled card can hold WIP
-    content while a sibling ships. The model_validator makes sure a card
-    the admin actually enables is complete, so an empty card cannot slip
-    onto production by ticking a checkbox.
+    `badge` is independent of theme (an admin can flag any card as Most
+    Popular regardless of colour) and `enabled` is the publish switch: only
+    cards with `enabled=true` reach the marketing landing. Text fields are
+    `min_length=0` so a draft can hold WIP content; the model_validator
+    below refuses `enabled` with a blank required field so an empty card
+    cannot ship by ticking a checkbox.
     """
 
     id: str = Field(min_length=1, max_length=32, pattern=r"^[a-z0-9-]+$")
     enabled: bool = False
+    theme: Literal["light", "violet", "pink", "dark"] = "light"
     name: str = Field(min_length=0, max_length=40, default="")
     desc: str = Field(min_length=0, max_length=200, default="")
     price: str = Field(min_length=0, max_length=20, default="")
     per: str = Field(min_length=0, max_length=20, default="")
     features: list[str] = Field(min_length=0, max_length=PRICING_MAX_FEATURES, default_factory=list)
     cta: str = Field(min_length=0, max_length=40, default="")
-    featured: bool = False
     badge: str | None = Field(default=None, max_length=30)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _from_legacy_featured(cls, data):
+        """Backward compat for rows saved before `theme` existed.
+
+        The first pricing shape carried `featured: bool`. Legacy rows in the
+        database still have it; translating on the way in means no migration
+        script and no one-shot conversion job - the mapping is stable and
+        deterministic. `featured=true` was visually a dark card, so it maps
+        to `theme=dark`; everything else falls to the default `light`.
+        """
+        if not isinstance(data, dict) or "theme" in data:
+            return data
+        featured = data.get("featured")
+        if featured is True:
+            data["theme"] = "dark"
+        # `featured` field is ignored otherwise; the Literal above enforces
+        # the new vocabulary and the old flag is not re-emitted.
+        data.pop("featured", None)
+        return data
 
     @model_validator(mode="after")
     def _enabled_requires_content(self) -> "Plan":

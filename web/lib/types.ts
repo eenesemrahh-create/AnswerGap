@@ -344,15 +344,21 @@ export interface DiffResult {
  * defaults in `market.pricing.*` — that way a fresh install with no admin
  * write still shows a pricing section in every supported locale.
  */
+/** Four discrete colour themes for a pricing card. Chosen as an enum, not a
+ *  free colour, because a landing renders best when its cards look coherent -
+ *  four preset choices from the brand family sit tidy; a hex picker would
+ *  ship rainbows. */
+export type PlanTheme = "light" | "violet" | "pink" | "dark";
+
 export interface Plan {
   id: string;
   enabled: boolean;
+  theme: PlanTheme;
   name: string;
   desc: string;
   price: string;
   per: string;
   features: string[];
   cta: string;
-  featured: boolean;
   badge: string | null;
 }
