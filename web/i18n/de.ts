@@ -254,4 +254,152 @@ export const de: Messages = {
   language: {
     label: "Oberflächensprache",
   },
+
+  market: {
+    nav: {
+      pricing: "Preise",
+      solutions: "Lösungen",
+      aiSeo: "AI-SEO",
+      blog: "Blog",
+      contact: "Kontakt",
+      signIn: "Anmelden",
+      signUp: "Registrieren",
+    },
+    hero: {
+      eyebrow: "Sichtbarkeit in KI-Suche beginnt hier",
+      headlinePre: "Ranken und erscheinen in",
+      headlineHighlight: "KI-gestützter Suche",
+      sub:
+        "Entdecke, was Menschen fragen, identifiziere die Antworten, die " +
+        "KI-Engines brauchen, und erstelle Inhalte, die gefunden, zitiert " +
+        "und empfohlen werden.",
+      searchPlaceholder: "Thema eingeben — z. B. Zahnaufhellung",
+      searchCta: "Analysieren",
+      searching: "Suche…",
+      tryLabel: "Beispielsuchen:",
+      try1: "bestes CRM für Startups",
+      try2: "AI-SEO-Tools",
+    },
+    howItWorks: {
+      eyebrow: "So funktioniert es",
+      title: "Werde die Antwort, die KI-Suche empfiehlt.",
+      sub:
+        "AnswerGap zeigt dir die Fragen hinter KI-gesteuerter Entdeckung, " +
+        "damit du nützliche, strukturierte Inhalte veröffentlichst, bevor " +
+        "Wettbewerber es tun.",
+      card1: {
+        label: "Nachfrage-Intelligenz",
+        title: "KI-Suchnachfrage kartieren",
+        body:
+          "Verwandle ein einzelnes Thema in eine vollständige Karte der " +
+          "Fragen, die Menschen in jeder Phase der Entscheidung stellen.",
+      },
+      card2: {
+        label: "KI-Sichtbarkeit",
+        title: "Zitierungsmöglichkeiten finden",
+        body:
+          "Erkenne Fragen mit schwachen, unvollständigen oder fehlenden " +
+          "Antworten — genau dort, wo klarere Inhalte die besten Chancen " +
+          "haben, von KI hervorgehoben zu werden.",
+      },
+      card3: {
+        label: "Autorität",
+        title: "Thematische Autorität aufbauen",
+        body:
+          "Priorisiere verbundene Fragen und veröffentliche umfassende " +
+          "Antworten, denen Suchmaschinen und KI-Assistenten vertrauen können.",
+      },
+    },
+    builtFor: {
+      eyebrow: "Für KI-Suche gebaut",
+      title: "Beantworte echte Fragen. Werde von KI entdeckt.",
+      body:
+        "Suche wird zu einem Gespräch. AnswerGap zeigt, was dein Publikum " +
+        "fragt und wo aktuelle Antworten unzureichend sind — damit deine " +
+        "Marke Sichtbarkeit in AI Overviews, Assistenten und klassischer " +
+        "Suche gewinnt.",
+      point1: "Klare Antworten, die KI extrahieren und zitieren kann",
+      point2: "Inhalte um echte Konversationsfragen strukturieren",
+      point3: "Verbundene Fragen abdecken, um thematische Autorität zu stärken",
+      demoUrl: "answergap.com/suche",
+      demo1Q: "Welches CRM ist das beste für kleine Unternehmen?",
+      demo1Meta: "Vollständige Antwort · Hohe Sichtbarkeitschance",
+      demo2Q: "Brauche ich ein CRM, wenn ich Google Workspace nutze?",
+      demo2Meta: "Keine vollständige Antwort · Hohe Sichtbarkeitschance",
+      demo3Q: "Wie migriert man von Tabellen zu einem CRM?",
+      demo3Meta: "Teilantworten · Mittlere Sichtbarkeitschance",
+    },
+    pricing: {
+      title: "Einfache, transparente Preise",
+      sub:
+        "Finde die Fragen, die deine Sichtbarkeit in KI und Suche wachsen " +
+        "lassen. Jederzeit kündbar.",
+      starter: {
+        name: "Starter",
+        desc: "Für Creator, die Sichtbarkeit in KI-Suche aufbauen.",
+        price: "$49",
+        per: "/Monat",
+        feat1: "100 Themensuchen pro Monat",
+        feat2: "KI-Suchfragenkarten",
+        feat3: "Klassifikation der Suchabsicht",
+        feat4: "Export von Möglichkeiten",
+        cta: "Loslegen",
+      },
+      pro: {
+        name: "Pro",
+        badge: "Am Beliebtesten",
+        desc: "Für Teams, die KI-Suchautorität skalieren.",
+        price: "$149",
+        per: "/Monat",
+        feat1: "Unbegrenzte Themensuchen",
+        feat2: "Bewertung von KI-Sichtbarkeitschancen",
+        feat3: "Antwort- und Zitierlückenanalyse",
+        feat4: "API-Zugang",
+        feat5: "Priority-Support",
+        cta: "Pro werden",
+      },
+      note:
+        "Statische Preise — Checkout ist noch nicht angebunden. Guthaben " +
+        "wird manuell vergeben, solange das Produkt in der Preview ist.",
+    },
+    cta: {
+      title: "Bereit, die Antwort zu werden?",
+      sub:
+        "Finde die relevanten Fragen, veröffentliche Antworten, die KI " +
+        "versteht, und baue Sichtbarkeit, wo auch immer dein Publikum sucht.",
+      primary: "Kostenlos starten",
+      secondary: "Preise ansehen",
+    },
+    footer: {
+      tagline:
+        "Finde die Fragen, auf die KI-Suche Antworten braucht — und mach " +
+        "deine Marke zur vertrauenswürdigen Quelle, die sie empfiehlt.",
+      product: {
+        heading: "Produkt",
+        features: "Funktionen",
+        pricing: "Preise",
+        api: "API",
+        changelog: "Changelog",
+      },
+      resources: {
+        heading: "Ressourcen",
+        blog: "Blog",
+        seoGuides: "SEO-Guides",
+        helpCenter: "Hilfezentrum",
+        community: "Community",
+      },
+      company: {
+        heading: "Unternehmen",
+        about: "Über uns",
+        contact: "Kontakt",
+        privacy: "Datenschutz",
+        terms: "Nutzungsbedingungen",
+      },
+      copyright: "© {year} AnswerGap. Alle Rechte vorbehalten.",
+    },
+    saved: {
+      heading: "Deine letzten Analysen",
+      count: "{count} gespeichert",
+    },
+  },
 };

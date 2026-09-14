@@ -22,13 +22,25 @@ import {
   type TreeSummary,
 } from "@/lib/types";
 import { useDateFormat, useI18n } from "@/i18n";
-import { Notice, Rich } from "@/components/Badge";
 import { AccountMenu } from "@/components/AccountMenu";
 import { LocalePicker } from "@/components/LocalePicker";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 const MARKET_KEY = "answergap.market";
 
+/**
+ * Marketing landing page.
+ *
+ * Two things share this screen: MARKETING copy (nav, hero pitch, how it works,
+ * built for AI search, pricing, CTA, footer) and REAL PRODUCT FEATURES (the
+ * search box, the saved-analyses list, the account menu, theme toggle, locale
+ * picker). The rule is CLAUDE.md's: never present static data as if it were
+ * measured. Everything the reader can act on is wired to the API; everything
+ * that is purely landing content is static copy from `market.*`.
+ *
+ * Layout uses `.mkt-*` classes from globals.css so the old product-shell
+ * classes stay untouched - a redesign of `/tree/[slug]` picks its own moment.
+ */
 export default function Landing() {
   const { t } = useI18n();
   const formatDate = useDateFormat();
@@ -41,8 +53,8 @@ export default function Landing() {
   const [error, setError] = useState<ApiError | null>(null);
   const [seed, setSeed] = useState("");
 
-  // Search state is kept apart from `error` above: a failed crawl must not
-  // blank out the saved analyses that are already on screen.
+  // Search state is kept apart from `error`: a failed crawl must not blank
+  // out the saved analyses that are already on screen.
   const [busy, setBusy] = useState(false);
   const [searchError, setSearchError] = useState<ApiError | null>(null);
 
@@ -54,7 +66,7 @@ export default function Landing() {
     /* A related-search chip on a tree page links here with the phrase attached.
      * Read straight off `location` rather than through useSearchParams, which
      * would force a Suspense boundary around the whole landing page for what is
-     * an optional prefill. This component is client-side either way. */
+     * an optional prefill. */
     const prefill = new URLSearchParams(window.location.search).get("seed");
     if (prefill) setSeed(prefill);
 
@@ -82,8 +94,6 @@ export default function Landing() {
         setError(e instanceof ApiError ? e : new ApiError("http", {}))
       );
 
-    // The country list is optional — it needs scripts/fetch_countries.py to
-    // have run. Its absence must not blank the whole page.
     fetchCountries().then(setCountries).catch(() => setCountries([]));
     fetchLanguages().then(setLanguages).catch(() => setLanguages([]));
   }, []);
@@ -101,8 +111,6 @@ export default function Landing() {
         location_code: locationCode,
         language_code: languageCode,
       });
-      // dry_run is not requested from the UI, so this is defensive only — but
-      // narrowing it here is what lets the tree branch stay type-safe.
       if (isDryRun(result)) return;
       router.push(`/tree/${encodeURIComponent(result.slug)}`);
     } catch (e) {
@@ -122,37 +130,88 @@ export default function Landing() {
     }
   };
 
+  const tryChip = (phrase: string) => {
+    setSeed(phrase);
+    // Focus the input so the reader can immediately edit or submit.
+    const input = document.querySelector<HTMLInputElement>(".mkt-search input");
+    input?.focus();
+  };
+
+  const scrollToTop = (event: React.MouseEvent) => {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    const input = document.querySelector<HTMLInputElement>(".mkt-search input");
+    input?.focus();
+  };
+
   return (
-    <div className="landing">
-      <div className="landing-head">
-        <span className="brand">
-          Answer<span>Gap</span> <small>{t("brand.prototype")}</small>
-        </span>
-        {meta && <AccountMenu meta={meta} />}
-        <ThemeToggle />
-        <LocalePicker />
-      </div>
+    <div className="mkt-page">
+      {/* --- Nav ----------------------------------------------------- */}
+      <nav className="mkt-nav">
+        <div className="mkt-nav-inner">
+          <Link href="/" className="mkt-brand">
+            <span className="mkt-brand-tile" aria-hidden>A</span>
+            AnswerGap
+          </Link>
+          <div className="mkt-nav-links">
+            <a href="#pricing" className="mkt-nav-link">
+              {t("market.nav.pricing")}
+            </a>
+            <a href="#how-it-works" className="mkt-nav-link">
+              {t("market.nav.solutions")}
+            </a>
+            <a href="#built-for" className="mkt-nav-link">
+              {t("market.nav.aiSeo")}
+            </a>
+            <a href="#" className="mkt-nav-link" aria-disabled>
+              {t("market.nav.blog")}
+            </a>
+            <a href="#" className="mkt-nav-link" aria-disabled>
+              {t("market.nav.contact")}
+            </a>
+          </div>
+          <div className="mkt-nav-tools">
+            {meta && <AccountMenu meta={meta} />}
+            <ThemeToggle />
+            <LocalePicker />
+          </div>
+        </div>
+      </nav>
 
-      {/* One panel: the promise and the way to act on it. The search field is
-          the only thing on this page a first-time visitor needs to find, so
-          nothing else competes with it above the fold. */}
-      <section className="hero">
-        <h1>{t("landing.headline")}</h1>
-        <p className="tagline">{t("landing.intro")}</p>
+      {/* --- Hero ---------------------------------------------------- */}
+      <section className="mkt-hero">
+        <span className="mkt-pill">{t("market.hero.eyebrow")}</span>
+        <h1 className="mkt-hero-title">
+          {t("market.hero.headlinePre")}
+          <br />
+          <span>{t("market.hero.headlineHighlight")}</span>
+        </h1>
+        <p className="mkt-hero-sub">{t("market.hero.sub")}</p>
 
-        {/* The button is disabled only when a crawl genuinely cannot run — no
-            credentials on disk. That is a setup problem, and saying so beats
-            letting the user click into a 503. */}
-        <form className="searchbar" onSubmit={submit}>
+        <form className="mkt-search" onSubmit={submit}>
+          <svg
+            className="mkt-search-icon"
+            aria-hidden
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
           <input
             value={seed}
             onChange={(e) => setSeed(e.target.value)}
-            placeholder={t("landing.searchPlaceholder")}
-            aria-label={t("landing.searchPlaceholder")}
+            placeholder={t("market.hero.searchPlaceholder")}
+            aria-label={t("market.hero.searchPlaceholder")}
             disabled={busy}
           />
           <button
-            className="btn btn-primary"
             type="submit"
             disabled={busy || !seed.trim() || meta?.live_crawl_available === false}
             title={
@@ -161,98 +220,92 @@ export default function Landing() {
                 : undefined
             }
           >
-            {busy ? t("landing.searching") : t("landing.searchButton")}
+            {busy ? t("market.hero.searching") : t("market.hero.searchCta")}
           </button>
         </form>
 
-        {busy && <p className="field-hint">{t("landing.searchingHint")}</p>}
-      </section>
-
-      {searchError && (
-        <div className="error" style={{ marginTop: 16 }}>
-          <strong>{t(`error.${searchError.kind}`, searchError.values)}</strong>
-          {searchError.detail && (
-            <div style={{ marginTop: 8 }}>
-              <code>{searchError.detail}</code>
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="market-row">
-        <label>
-          <span className="field-label">{t("landing.country")}</span>
-          <select
-            value={locationCode}
-            onChange={(e) => {
-              const next = Number(e.target.value);
-              setLocationCode(next);
-              rememberMarket(next, languageCode);
-            }}
+        <div className="mkt-try">
+          <span>{t("market.hero.tryLabel")}</span>
+          <button
+            type="button"
+            className="mkt-try-chip"
+            onClick={() => tryChip(t("market.hero.try1"))}
           >
-            {countries.length === 0 && <option value={2840}>United States</option>}
-            {countries.map((country) => (
-              <option key={country.code} value={country.code}>
-                {country.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span className="field-label">{t("landing.language")}</span>
-          <select
-            value={languageCode}
-            onChange={(e) => {
-              setLanguageCode(e.target.value);
-              rememberMarket(locationCode, e.target.value);
-            }}
+            &ldquo;{t("market.hero.try1")}&rdquo;
+          </button>
+          <button
+            type="button"
+            className="mkt-try-chip"
+            onClick={() => tryChip(t("market.hero.try2"))}
           >
-            {languages.length === 0 && <option value="en">English</option>}
-            {languages.map((language) => (
-              <option key={language.code} value={language.code}>
-                {language.name}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-      <p className="field-hint">{t("landing.languageHint")}</p>
-
-      <Notice>
-        <Rich html={t("landing.liveNotice")} />
-      </Notice>
-
-      {error && (
-        <div className="error" style={{ marginTop: 24 }}>
-          <strong>{t(`error.${error.kind}`, error.values)}</strong>
-          <div style={{ marginTop: 8 }}>
-            {t("error.startBackend")}
-            <br />
-            <code>python -m uvicorn api.main:app --reload --port 8000</code>
-          </div>
+            &ldquo;{t("market.hero.try2")}&rdquo;
+          </button>
         </div>
-      )}
 
-      {!error && !trees && <div className="status-text">{t("error.loading")}</div>}
+        {/* Market selectors live below the try-chips - real users need them
+            to change country / language, but they should not compete with the
+            search bar for above-the-fold attention. */}
+        <div className="mkt-hero-market">
+          <label>
+            <span>{t("landing.country")}:</span>
+            <select
+              value={locationCode}
+              onChange={(e) => {
+                const next = Number(e.target.value);
+                setLocationCode(next);
+                rememberMarket(next, languageCode);
+              }}
+            >
+              {countries.length === 0 && <option value={2840}>United States</option>}
+              {countries.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>{t("landing.language")}:</span>
+            <select
+              value={languageCode}
+              onChange={(e) => {
+                setLanguageCode(e.target.value);
+                rememberMarket(locationCode, e.target.value);
+              }}
+            >
+              {languages.length === 0 && <option value="en">English</option>}
+              {languages.map((language) => (
+                <option key={language.code} value={language.code}>
+                  {language.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
-      {trees && (
-        <>
-          <div className="section-head">
-            <h2>{t("landing.savedAnalyses")}</h2>
-            {trees.length > 0 && (
-              <span>{t("landing.treeCount", { count: trees.length })}</span>
+        {searchError && (
+          <div
+            className="error"
+            style={{ marginTop: 24, maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}
+          >
+            <strong>{t(`error.${searchError.kind}`, searchError.values)}</strong>
+            {searchError.detail && (
+              <div style={{ marginTop: 8 }}>
+                <code>{searchError.detail}</code>
+              </div>
             )}
           </div>
-          {/* An empty list is the normal state for a new account, not a
-              failure. Saying so — and saying it is private — is the whole
-              difference between "nothing here" and "something is broken". */}
-          {trees.length === 0 && (
-            <div className="empty-state">
-              <b>{t("landing.emptyTitle")}</b>
-              {t("landing.emptyBody")}
-            </div>
-          )}
-          <div className="card-list">
+        )}
+      </section>
+
+      {/* --- Saved analyses (returning users only) ------------------ */}
+      {trees && trees.length > 0 && (
+        <section className="mkt-saved">
+          <div className="mkt-saved-head">
+            <h3>{t("market.saved.heading")}</h3>
+            <span>{t("market.saved.count", { count: trees.length })}</span>
+          </div>
+          <div className="mkt-saved-grid">
             {trees.map((tree) => (
               <Link key={tree.slug} href={`/tree/${tree.slug}`} className="card">
                 <div className="card-head">
@@ -280,19 +333,286 @@ export default function Landing() {
               </Link>
             ))}
           </div>
-
-          {meta && (
-            <p className="note" style={{ marginTop: 22 }}>
-              {t("notice.dataNote")}
-              <br />
-              {t("notice.thresholdNote")}
-              <br />
-              {t("notice.volumeNote")}
-            </p>
-          )}
-        </>
+        </section>
       )}
+
+      {/* An empty state is only meaningful when we know the API answered but
+          returned no rows - `trees` is `null` while loading. */}
+      {trees && trees.length === 0 && (
+        <section className="mkt-saved">
+          <div className="empty-state" style={{ maxWidth: 640, margin: "0 auto" }}>
+            <b>{t("landing.emptyTitle")}</b>
+            {t("landing.emptyBody")}
+          </div>
+        </section>
+      )}
+
+      {error && (
+        <section className="mkt-saved">
+          <div className="error" style={{ maxWidth: 720, margin: "0 auto" }}>
+            <strong>{t(`error.${error.kind}`, error.values)}</strong>
+            <div style={{ marginTop: 8 }}>
+              {t("error.startBackend")}
+              <br />
+              <code>python -m uvicorn api.main:app --reload --port 8000</code>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* --- How it works ------------------------------------------- */}
+      <section id="how-it-works" className="mkt-section">
+        <div className="mkt-section-head">
+          <span className="mkt-pill accent">{t("market.howItWorks.eyebrow")}</span>
+          <h2 className="mkt-section-title">{t("market.howItWorks.title")}</h2>
+          <p className="mkt-section-sub">{t("market.howItWorks.sub")}</p>
+        </div>
+        <div className="mkt-cards">
+          <FeatureCard
+            label={t("market.howItWorks.card1.label")}
+            title={t("market.howItWorks.card1.title")}
+            body={t("market.howItWorks.card1.body")}
+            icon={<GraphIcon />}
+          />
+          <FeatureCard
+            label={t("market.howItWorks.card2.label")}
+            title={t("market.howItWorks.card2.title")}
+            body={t("market.howItWorks.card2.body")}
+            icon={<ShieldIcon />}
+          />
+          <FeatureCard
+            label={t("market.howItWorks.card3.label")}
+            title={t("market.howItWorks.card3.title")}
+            body={t("market.howItWorks.card3.body")}
+            icon={<TargetIcon />}
+          />
+        </div>
+      </section>
+
+      {/* --- Built for AI Search ------------------------------------ */}
+      <section id="built-for" className="mkt-section">
+        <div className="mkt-split">
+          <div>
+            <span className="mkt-pill accent">{t("market.builtFor.eyebrow")}</span>
+            <h2>{t("market.builtFor.title")}</h2>
+            <p>{t("market.builtFor.body")}</p>
+            <ul className="mkt-checks">
+              <li>{t("market.builtFor.point1")}</li>
+              <li>{t("market.builtFor.point2")}</li>
+              <li>{t("market.builtFor.point3")}</li>
+            </ul>
+          </div>
+          <div className="mkt-demo" aria-label="Demo">
+            <div className="mkt-demo-head">
+              <span className="mkt-demo-dots" aria-hidden>
+                <i /><i /><i />
+              </span>
+              {t("market.builtFor.demoUrl")}
+            </div>
+            <div className="mkt-demo-row covered">
+              <span className="mkt-demo-status" aria-hidden />
+              <div className="mkt-demo-q">
+                <b>{t("market.builtFor.demo1Q")}</b>
+                <span>{t("market.builtFor.demo1Meta")}</span>
+              </div>
+            </div>
+            <div className="mkt-demo-row gap">
+              <span className="mkt-demo-status" aria-hidden />
+              <div className="mkt-demo-q">
+                <b>{t("market.builtFor.demo2Q")}</b>
+                <span>{t("market.builtFor.demo2Meta")}</span>
+              </div>
+            </div>
+            <div className="mkt-demo-row weak">
+              <span className="mkt-demo-status" aria-hidden />
+              <div className="mkt-demo-q">
+                <b>{t("market.builtFor.demo3Q")}</b>
+                <span>{t("market.builtFor.demo3Meta")}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- Pricing ------------------------------------------------- */}
+      <section id="pricing" className="mkt-section">
+        <div className="mkt-section-head">
+          <h2 className="mkt-section-title">{t("market.pricing.title")}</h2>
+          <p className="mkt-section-sub">{t("market.pricing.sub")}</p>
+        </div>
+        <div className="mkt-plans">
+          <div className="mkt-plan">
+            <h3 className="mkt-plan-name">{t("market.pricing.starter.name")}</h3>
+            <p className="mkt-plan-desc">{t("market.pricing.starter.desc")}</p>
+            <div className="mkt-plan-price">
+              <b>{t("market.pricing.starter.price")}</b>
+              <span>{t("market.pricing.starter.per")}</span>
+            </div>
+            <ul className="mkt-plan-features">
+              <li>{t("market.pricing.starter.feat1")}</li>
+              <li>{t("market.pricing.starter.feat2")}</li>
+              <li>{t("market.pricing.starter.feat3")}</li>
+              <li>{t("market.pricing.starter.feat4")}</li>
+            </ul>
+            <button
+              type="button"
+              className="mkt-plan-cta"
+              onClick={scrollToTop}
+            >
+              {t("market.pricing.starter.cta")}
+            </button>
+          </div>
+          <div className="mkt-plan featured">
+            <span className="mkt-plan-badge">{t("market.pricing.pro.badge")}</span>
+            <h3 className="mkt-plan-name">{t("market.pricing.pro.name")}</h3>
+            <p className="mkt-plan-desc">{t("market.pricing.pro.desc")}</p>
+            <div className="mkt-plan-price">
+              <b>{t("market.pricing.pro.price")}</b>
+              <span>{t("market.pricing.pro.per")}</span>
+            </div>
+            <ul className="mkt-plan-features">
+              <li>{t("market.pricing.pro.feat1")}</li>
+              <li>{t("market.pricing.pro.feat2")}</li>
+              <li>{t("market.pricing.pro.feat3")}</li>
+              <li>{t("market.pricing.pro.feat4")}</li>
+              <li>{t("market.pricing.pro.feat5")}</li>
+            </ul>
+            <button
+              type="button"
+              className="mkt-plan-cta"
+              onClick={scrollToTop}
+            >
+              {t("market.pricing.pro.cta")}
+            </button>
+          </div>
+        </div>
+        <p
+          style={{
+            textAlign: "center",
+            marginTop: 32,
+            fontSize: 13,
+            color: "var(--text-faint)",
+          }}
+        >
+          {t("market.pricing.note")}
+        </p>
+      </section>
+
+      {/* --- CTA card ------------------------------------------------ */}
+      <div className="mkt-cta">
+        <h2 className="mkt-cta-title">{t("market.cta.title")}</h2>
+        <p className="mkt-cta-sub">{t("market.cta.sub")}</p>
+        <div className="mkt-cta-actions">
+          <a href="#top" className="mkt-cta-primary" onClick={scrollToTop}>
+            {t("market.cta.primary")}
+          </a>
+          <a href="#pricing" className="mkt-cta-secondary">
+            {t("market.cta.secondary")}
+          </a>
+        </div>
+      </div>
+
+      {/* --- Footer -------------------------------------------------- */}
+      <footer className="mkt-footer">
+        <div className="mkt-footer-inner">
+          <div className="mkt-footer-brand">
+            <span className="mkt-brand">
+              <span className="mkt-brand-tile" aria-hidden>A</span>
+              AnswerGap
+            </span>
+            <p>{t("market.footer.tagline")}</p>
+          </div>
+          <div className="mkt-footer-col">
+            <h4>{t("market.footer.product.heading")}</h4>
+            <ul>
+              <li><a href="#how-it-works">{t("market.footer.product.features")}</a></li>
+              <li><a href="#pricing">{t("market.footer.product.pricing")}</a></li>
+              <li><a href="#">{t("market.footer.product.api")}</a></li>
+              <li><a href="#">{t("market.footer.product.changelog")}</a></li>
+            </ul>
+          </div>
+          <div className="mkt-footer-col">
+            <h4>{t("market.footer.resources.heading")}</h4>
+            <ul>
+              <li><a href="#">{t("market.footer.resources.blog")}</a></li>
+              <li><a href="#">{t("market.footer.resources.seoGuides")}</a></li>
+              <li><a href="#">{t("market.footer.resources.helpCenter")}</a></li>
+              <li><a href="#">{t("market.footer.resources.community")}</a></li>
+            </ul>
+          </div>
+          <div className="mkt-footer-col">
+            <h4>{t("market.footer.company.heading")}</h4>
+            <ul>
+              <li><a href="#">{t("market.footer.company.about")}</a></li>
+              <li><a href="#">{t("market.footer.company.contact")}</a></li>
+              <li><a href="#">{t("market.footer.company.privacy")}</a></li>
+              <li><a href="#">{t("market.footer.company.terms")}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="mkt-footer-bottom">
+          <span>
+            {t("market.footer.copyright", { year: new Date().getFullYear() })}
+          </span>
+          <span>{t("landing.languageHint")}</span>
+        </div>
+      </footer>
     </div>
+  );
+}
+
+/* --------------------------------------------------------- Sub-components */
+
+function FeatureCard({
+  label,
+  title,
+  body,
+  icon,
+}: {
+  label: string;
+  title: string;
+  body: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <article className="mkt-card">
+      <div className="mkt-card-icon">{icon}</div>
+      <span className="mkt-card-label">{label}</span>
+      <h3 className="mkt-card-title">{title}</h3>
+      <p className="mkt-card-body">{body}</p>
+    </article>
+  );
+}
+
+function GraphIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="6" r="3" />
+      <circle cx="18" cy="18" r="3" />
+      <path d="M9 6h5a3 3 0 0 1 3 3v6" />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
+
+function TargetIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+    </svg>
   );
 }
 

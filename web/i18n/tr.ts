@@ -254,4 +254,158 @@ export const tr: Messages = {
   language: {
     label: "Arayüz dili",
   },
+
+  market: {
+    nav: {
+      pricing: "Fiyatlandırma",
+      solutions: "Çözümler",
+      aiSeo: "AI SEO",
+      blog: "Blog",
+      contact: "İletişim",
+      signIn: "Giriş yap",
+      signUp: "Kaydol",
+    },
+
+    hero: {
+      eyebrow: "AI arama görünürlüğü buradan başlar",
+      headlinePre: "AI destekli aramada",
+      headlineHighlight: "sıralan ve görün",
+      sub:
+        "İnsanların ne sorduğunu keşfet, AI motorlarının ihtiyaç duyduğu " +
+        "cevapları belirle ve bulunup, kaynak gösterilip, önerilen içerik üret.",
+      searchPlaceholder: "Bir konu girin — örn. diş beyazlatma",
+      searchCta: "Analiz et",
+      searching: "Aranıyor…",
+      tryLabel: "Örnek aramalar:",
+      try1: "yeni başlayanlar için en iyi CRM",
+      try2: "AI SEO araçları",
+    },
+
+    howItWorks: {
+      eyebrow: "Nasıl çalışır",
+      title: "AI aramanın önerdiği cevap ol.",
+      sub:
+        "AnswerGap, AI destekli keşfin arkasındaki soruları ortaya çıkarır — " +
+        "böylece yararlı, iyi yapılandırılmış içeriği rakiplerinden önce " +
+        "oluşturursun.",
+      card1: {
+        label: "Talep Zekası",
+        title: "AI Arama Talebini Haritala",
+        body:
+          "Tek bir konuyu; keşif ve karar sürecinin her aşamasında insanların " +
+          "sorduğu soruların tamamıyla dolu bir haritaya çevir.",
+      },
+      card2: {
+        label: "AI Görünürlüğü",
+        title: "Alıntılanma Fırsatlarını Bul",
+        body:
+          "Zayıf, eksik ya da hiç cevaplanmamış soruları belirle — daha net " +
+          "bir içeriğin AI tarafından öne çıkarılma şansının en yüksek olduğu " +
+          "yerler tam olarak buralar.",
+      },
+      card3: {
+        label: "Otorite",
+        title: "Konu Otoritesi İnşa Et",
+        body:
+          "Birbirine bağlı soruları önceliklendir ve arama motorlarının ve " +
+          "AI asistanlarının anlayıp güvenebileceği kapsamlı cevaplar yayınla.",
+      },
+    },
+
+    builtFor: {
+      eyebrow: "AI Arama için tasarlandı",
+      title: "Gerçek sorulara cevap ver. AI seni bulsun.",
+      body:
+        "Arama artık bir sohbete dönüşüyor. AnswerGap; kitlenin ne " +
+        "sorduğunu ve mevcut cevapların nerede yetersiz kaldığını gösterir. " +
+        "Böylece markan AI Overview'larda, asistanlarda ve klasik aramada " +
+        "görünürlük kazanır.",
+      point1: "AI sistemlerinin çıkarıp alıntılayabileceği net cevaplar üret",
+      point2: "İçeriği gerçek konuşma diline uygun sorular etrafında yapılandır",
+      point3: "Bağlantılı soruları kapsayarak konu otoritesini güçlendir",
+      demoUrl: "answergap.com/arama",
+      demo1Q: "Küçük işletme için en iyi CRM hangisi?",
+      demo1Meta: "Tam cevap · Yüksek görünürlük fırsatı",
+      demo2Q: "Google Workspace kullanıyorsam CRM'e ihtiyacım var mı?",
+      demo2Meta: "Tam cevap yok · Yüksek görünürlük fırsatı",
+      demo3Q: "Excel'den CRM'e nasıl geçilir?",
+      demo3Meta: "Kısmi cevaplar · Orta görünürlük fırsatı",
+    },
+
+    pricing: {
+      title: "Basit, şeffaf fiyatlandırma",
+      sub:
+        "AI ve arama tarafında görünürlüğünü büyütecek soruları bul. " +
+        "İstediğin zaman iptal et.",
+      starter: {
+        name: "Başlangıç",
+        desc: "AI aramada görünürlük kuran içerik üreticileri için.",
+        price: "$49",
+        per: "/ay",
+        feat1: "Ayda 100 konu araması",
+        feat2: "AI arama soru haritaları",
+        feat3: "Arama niyeti sınıflandırması",
+        feat4: "Fırsat dışa aktarımı",
+        cta: "Başla",
+      },
+      pro: {
+        name: "Pro",
+        badge: "En Popüler",
+        desc: "AI arama otoritesini ölçekleyen ekipler için.",
+        price: "$149",
+        per: "/ay",
+        feat1: "Sınırsız konu araması",
+        feat2: "AI görünürlük fırsat skoru",
+        feat3: "Cevap ve alıntı boşluk analizi",
+        feat4: "API erişimi",
+        feat5: "Öncelikli destek",
+        cta: "Pro'ya Geç",
+      },
+      note:
+        "Statik fiyatlandırma — ödeme henüz bağlanmadı. Ürün önizleme " +
+        "aşamasındayken krediler elle veriliyor.",
+    },
+
+    cta: {
+      title: "Cevap olmaya hazır mısın?",
+      sub:
+        "Önemli soruları bul, AI'ın anlayabileceği cevaplar yayınla ve " +
+        "kitlenin aradığı her yerde görünürlük kur.",
+      primary: "Ücretsiz başla",
+      secondary: "Fiyatları gör",
+    },
+
+    footer: {
+      tagline:
+        "AI aramanın cevap beklediği soruları bul — ve markanın onun önerdiği " +
+        "güvenilir kaynak olmasını sağla.",
+      product: {
+        heading: "Ürün",
+        features: "Özellikler",
+        pricing: "Fiyatlandırma",
+        api: "API",
+        changelog: "Değişiklikler",
+      },
+      resources: {
+        heading: "Kaynaklar",
+        blog: "Blog",
+        seoGuides: "SEO Rehberleri",
+        helpCenter: "Yardım Merkezi",
+        community: "Topluluk",
+      },
+      company: {
+        heading: "Şirket",
+        about: "Hakkımızda",
+        contact: "İletişim",
+        privacy: "Gizlilik Politikası",
+        terms: "Kullanım Koşulları",
+      },
+      copyright: "© {year} AnswerGap. Tüm hakları saklıdır.",
+    },
+
+    saved: {
+      heading: "Son analizlerin",
+      count: "{count} kayıtlı",
+    },
+  },
 };

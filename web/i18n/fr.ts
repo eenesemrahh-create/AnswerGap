@@ -257,4 +257,155 @@ export const fr: Messages = {
   language: {
     label: "Langue de l'interface",
   },
+
+  market: {
+    nav: {
+      pricing: "Tarifs",
+      solutions: "Solutions",
+      aiSeo: "SEO pour l'IA",
+      blog: "Blog",
+      contact: "Contact",
+      signIn: "Se connecter",
+      signUp: "S'inscrire",
+    },
+    hero: {
+      eyebrow: "La visibilité dans la recherche IA commence ici",
+      headlinePre: "Classe-toi et apparais dans",
+      headlineHighlight: "la recherche propulsée par l'IA",
+      sub:
+        "Découvre ce que les gens demandent, identifie les réponses dont " +
+        "les moteurs IA ont besoin, et crée du contenu qui est trouvé, cité " +
+        "et recommandé.",
+      searchPlaceholder: "Entre un sujet — ex. blanchiment dentaire",
+      searchCta: "Analyser",
+      searching: "Recherche…",
+      tryLabel: "Essaie :",
+      try1: "meilleur CRM pour startups",
+      try2: "outils SEO pour l'IA",
+    },
+    howItWorks: {
+      eyebrow: "Comment ça marche",
+      title: "Deviens la réponse que la recherche IA recommande.",
+      sub:
+        "AnswerGap révèle les questions derrière la découverte pilotée par " +
+        "l'IA pour que tu crées du contenu utile et structuré avant tes " +
+        "concurrents.",
+      card1: {
+        label: "Intelligence de la demande",
+        title: "Cartographie la demande de recherche IA",
+        body:
+          "Transforme un seul sujet en une carte complète des questions " +
+          "que les gens posent à chaque étape de la découverte et de la " +
+          "décision.",
+      },
+      card2: {
+        label: "Visibilité IA",
+        title: "Trouve des opportunités de citation",
+        body:
+          "Identifie les questions dont les réponses sont faibles, " +
+          "incomplètes ou manquantes — exactement là où un contenu plus " +
+          "clair a le plus de chances d'être mis en avant par l'IA.",
+      },
+      card3: {
+        label: "Autorité",
+        title: "Construis une autorité thématique",
+        body:
+          "Priorise les questions connectées et publie des réponses " +
+          "complètes que les moteurs de recherche et les assistants IA " +
+          "peuvent comprendre et en qui ils peuvent avoir confiance.",
+      },
+    },
+    builtFor: {
+      eyebrow: "Conçu pour la recherche IA",
+      title: "Réponds à de vraies questions. Fais-toi découvrir par l'IA.",
+      body:
+        "La recherche devient une conversation. AnswerGap te montre ce " +
+        "que ton public demande et où les réponses actuelles sont " +
+        "insuffisantes — pour que ta marque gagne en visibilité dans les " +
+        "AI Overviews, les assistants et la recherche classique.",
+      point1: "Crée des réponses claires que l'IA peut extraire et citer",
+      point2: "Structure le contenu autour de vraies recherches conversationnelles",
+      point3: "Couvre les questions liées pour renforcer l'autorité thématique",
+      demoUrl: "answergap.com/recherche",
+      demo1Q: "Quel est le meilleur CRM pour une petite entreprise ?",
+      demo1Meta: "Réponse complète · Forte opportunité de visibilité",
+      demo2Q: "Ai-je besoin d'un CRM si j'utilise Google Workspace ?",
+      demo2Meta: "Pas de réponse complète · Forte opportunité de visibilité",
+      demo3Q: "Comment migrer d'un tableur à un CRM ?",
+      demo3Meta: "Réponses partielles · Opportunité de visibilité moyenne",
+    },
+    pricing: {
+      title: "Des tarifs simples et transparents",
+      sub:
+        "Trouve les questions qui peuvent développer ta visibilité dans " +
+        "l'IA et la recherche. Annule quand tu veux.",
+      starter: {
+        name: "Starter",
+        desc: "Pour les créateurs qui construisent leur visibilité en recherche IA.",
+        price: "49 $",
+        per: "/mois",
+        feat1: "100 recherches de sujets par mois",
+        feat2: "Cartes de questions de recherche IA",
+        feat3: "Classification de l'intention de recherche",
+        feat4: "Export des opportunités",
+        cta: "Commencer",
+      },
+      pro: {
+        name: "Pro",
+        badge: "Le plus populaire",
+        desc: "Pour les équipes qui scale leur autorité en recherche IA.",
+        price: "149 $",
+        per: "/mois",
+        feat1: "Recherches de sujets illimitées",
+        feat2: "Score d'opportunités de visibilité IA",
+        feat3: "Analyse des lacunes de réponse et de citation",
+        feat4: "Accès à l'API",
+        feat5: "Support prioritaire",
+        cta: "Passer à Pro",
+      },
+      note:
+        "Tarifs statiques — le checkout n'est pas encore branché. Les " +
+        "crédits sont attribués à la main tant que le produit est en preview.",
+    },
+    cta: {
+      title: "Prêt·e à devenir la réponse ?",
+      sub:
+        "Trouve les questions qui comptent, publie des réponses que l'IA " +
+        "comprend et bâtis ta visibilité là où ton public cherche.",
+      primary: "Commencer gratuitement",
+      secondary: "Voir les tarifs",
+    },
+    footer: {
+      tagline:
+        "Trouve les questions auxquelles la recherche IA a besoin de " +
+        "réponses — et aide ta marque à devenir la source de confiance " +
+        "qu'elle recommande.",
+      product: {
+        heading: "Produit",
+        features: "Fonctionnalités",
+        pricing: "Tarifs",
+        api: "API",
+        changelog: "Changelog",
+      },
+      resources: {
+        heading: "Ressources",
+        blog: "Blog",
+        seoGuides: "Guides SEO",
+        helpCenter: "Centre d'aide",
+        community: "Communauté",
+      },
+      company: {
+        heading: "Entreprise",
+        about: "À propos",
+        contact: "Contact",
+        privacy: "Politique de confidentialité",
+        terms: "Conditions d'utilisation",
+      },
+      copyright: "© {year} AnswerGap. Tous droits réservés.",
+    },
+    saved: {
+      heading: "Tes analyses récentes",
+      count: "{count} enregistrés",
+    },
+  },
 };

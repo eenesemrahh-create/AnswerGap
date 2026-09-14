@@ -296,4 +296,167 @@ export const en = {
   language: {
     label: "Interface language",
   },
+
+  // Marketing surface. Grouped under `market` so the product-side landing
+  // keys stay untouched - `landing.headline` is still what the search screen
+  // reads. When these two ever diverge (a hosted marketing site separate from
+  // the product page), the keys are already segregated by their prefix.
+  //
+  // FUTURE CONTENT is deliberately static here (pricing amounts, blog links,
+  // solutions copy). CLAUDE.md's rule holds: never present static data as if
+  // it were measured - so anything the user can ACT on (the search box, the
+  // saved analyses, the sign-in) stays wired to the real API, and everything
+  // that is purely marketing copy is what these strings describe.
+  market: {
+    nav: {
+      pricing: "Pricing",
+      solutions: "Solutions",
+      aiSeo: "AI SEO",
+      blog: "Blog",
+      contact: "Contact",
+      signIn: "Sign In",
+      signUp: "Sign Up",
+    },
+
+    hero: {
+      eyebrow: "AI search visibility starts here",
+      headlinePre: "Rank and appear in",
+      headlineHighlight: "AI-powered search",
+      sub:
+        "Discover what people ask, identify the answers AI engines need, " +
+        "and create content that gets found, cited, and recommended.",
+      searchPlaceholder: "Enter a topic — e.g. teeth whitening",
+      searchCta: "Analyze",
+      searching: "Searching…",
+      tryLabel: "Try searching:",
+      try1: "best CRM for startups",
+      try2: "AI SEO tools",
+    },
+
+    howItWorks: {
+      eyebrow: "How it works",
+      title: "Become the answer AI search recommends.",
+      sub:
+        "AnswerGap reveals the questions behind AI-driven discovery so you " +
+        "can create useful, structured content before competitors do.",
+      card1: {
+        label: "Demand Intelligence",
+        title: "Map AI Search Demand",
+        body:
+          "Turn a single topic into a complete map of the questions people " +
+          "ask across every stage of discovery and decision-making.",
+      },
+      card2: {
+        label: "AI Visibility",
+        title: "Find Citation Opportunities",
+        body:
+          "Identify questions with weak, incomplete, or missing answers — " +
+          "exactly where clearer content has the best chance to be surfaced " +
+          "by AI.",
+      },
+      card3: {
+        label: "Authority",
+        title: "Build Topical Authority",
+        body:
+          "Prioritize connected questions and publish comprehensive answers " +
+          "that search engines and AI assistants can understand and trust.",
+      },
+    },
+
+    builtFor: {
+      eyebrow: "Built for AI Search",
+      title: "Answer real questions. Get discovered by AI.",
+      body:
+        "Search is becoming a conversation. AnswerGap shows you what your " +
+        "audience asks and where current answers fall short, helping your " +
+        "brand earn visibility in AI Overviews, assistants, and traditional " +
+        "search.",
+      point1: "Create clear answers AI systems can extract and cite",
+      point2: "Structure content around real conversational searches",
+      point3: "Cover connected questions to strengthen topical authority",
+      demoUrl: "answergap.com/search",
+      demo1Q: "What is the best CRM for small business?",
+      demo1Meta: "Complete answer · High visibility opportunity",
+      demo2Q: "Do I need a CRM if I use Google Workspace?",
+      demo2Meta: "No complete answer · High visibility opportunity",
+      demo3Q: "How to migrate from spreadsheet to CRM?",
+      demo3Meta: "Partial answers · Medium visibility opportunity",
+    },
+
+    pricing: {
+      title: "Simple, transparent pricing",
+      sub:
+        "Find the questions that can grow your visibility across AI and " +
+        "search. Cancel anytime.",
+      starter: {
+        name: "Starter",
+        desc: "For creators building visibility in AI search.",
+        price: "$49",
+        per: "/month",
+        feat1: "100 topic searches per month",
+        feat2: "AI search question maps",
+        feat3: "Search intent classification",
+        feat4: "Opportunity export",
+        cta: "Get Started",
+      },
+      pro: {
+        name: "Pro",
+        badge: "Most Popular",
+        desc: "For teams scaling AI search authority.",
+        price: "$149",
+        per: "/month",
+        feat1: "Unlimited topic searches",
+        feat2: "AI visibility opportunity scoring",
+        feat3: "Answer and citation gap analysis",
+        feat4: "API access",
+        feat5: "Priority support",
+        cta: "Go Pro",
+      },
+      note:
+        "Static pricing — checkout is not wired up yet. Credits are granted " +
+        "by hand while the product is in preview.",
+    },
+
+    cta: {
+      title: "Ready to become the answer?",
+      sub:
+        "Find the questions that matter, publish answers AI can understand, " +
+        "and build visibility wherever your audience searches.",
+      primary: "Start for free",
+      secondary: "View pricing",
+    },
+
+    footer: {
+      tagline:
+        "Find the questions AI search needs answered — and help your brand " +
+        "become the trusted source it recommends.",
+      product: {
+        heading: "Product",
+        features: "Features",
+        pricing: "Pricing",
+        api: "API",
+        changelog: "Changelog",
+      },
+      resources: {
+        heading: "Resources",
+        blog: "Blog",
+        seoGuides: "SEO Guides",
+        helpCenter: "Help Center",
+        community: "Community",
+      },
+      company: {
+        heading: "Company",
+        about: "About",
+        contact: "Contact",
+        privacy: "Privacy Policy",
+        terms: "Terms of Service",
+      },
+      copyright: "© {year} AnswerGap. All rights reserved.",
+    },
+
+    saved: {
+      heading: "Your recent analyses",
+      count: "{count} saved",
+    },
+  },
 } as const;
