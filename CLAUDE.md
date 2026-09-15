@@ -420,10 +420,19 @@ defensible asset over time.
 
 # Current state — resume here
 
-Last worked: **2026-09-15**. Seven commits over one long session, all pushed
+Last worked: **2026-09-15**, across TWO sessions. Eleven commits, all pushed
 to `origin/main`. `git clone` on another machine gets everything; only `.env`
 (DataForSEO + Voyage credentials) has to be recreated. `.env.example` names
 every variable it holds.
+
+**Where it stopped, in one line:** email + password sign-in is built and live,
+Google sign-in was broken by it and is fixed, and the ONE step never executed
+is clicking a verification link — see "Pick up here" below, which is the
+shortest path back in.
+
+Session 1 was embeddings / privacy / rate-limit / landing / pricing (items
+1-7 below). Session 2 was email sign-in and the bug it shipped with (items
+8-11).
 
 ## Today's arc, in order
 
@@ -478,13 +487,49 @@ every variable it holds.
    `_from_legacy_featured` Pydantic validator maps old `featured: true` to
    `theme: dark`, so rows saved before this commit still parse.
 
-**Tests: 116 -> 180.** Full backend suite clean, admin build clean, web
-build clean.
+8. `f1ae414` — **Email + password sign-in, verification and reset.** A
+   second door beside Google, zero new dependencies (`hashlib.scrypt`,
+   `secrets`, `urllib`). Migration `0007_password_accounts`, two new
+   modules (`passwords.py`, `mailer.py`), six endpoints, 66 tests. The
+   design decision that matters: **signup credits are granted at
+   VERIFICATION, not at signup** — 10 free searches per throwaway mailbox
+   is a free-search farm, and every search costs $0.0026 of real money.
+   Full reasoning in the 2026-09-15 email sign-in section.
 
-**Today's spend: ~$0.005** — one paid search for privacy verification
-($0.0026), a handful of Voyage requests across three model tiers on the
-14-row archive (~$0.002). Everything else was dry runs, refusals, cache
-hits and local builds.
+9. `dc3dbc2` — **Fixed the Google sign-in this broke.** `user_upsert` had
+   been rewritten as one statement of chained data-modifying CTEs to save
+   a round trip; it failed, and `google_callback` turned that into a
+   characterless `?auth=failed` for every user. Rewritten as four small
+   statements in one transaction. Also: all three of the callback's
+   failure branches now LOG their reason, which is why the cause had to be
+   guessed the first time.
+
+10. `fe56b56` — **Retired the stale 150 ms figure.** Railway's own
+    `upstreamRqDuration` now reads `/api/me` at **4 ms**, and that
+    endpoint runs a real query. Postgres is same-region; the performance
+    section's transatlantic claim is marked RESOLVED. It had been quoted
+    the same day to justify the CTE that broke sign-in.
+
+11. `c170bfe` — **Narrowed the resume point** to the single step that has
+    never run.
+
+**Tests: 116 -> 180 -> 248.** Full backend suite clean, admin build clean,
+web build clean. The 68 added on 2026-09-15 are all pure — no database, no
+network, no clock — because the hashing, the mail templates, the gate branch
+and the identity derivation are all pure.
+
+**One of them is a mutation-checked security test.**
+`test_an_unverified_admin_address_is_NOT_an_admin` was verified by removing
+the guard and watching it go red. `ADMIN_EMAILS` matches on the address and a
+password signup may type any address it likes, so without
+`is_admin = verified and ...`, signing up as the operator's address and never
+opening the inbox would have been an admin session.
+
+**Today's spend: ~$0.005**, all of it in session 1 — one paid search for
+privacy verification ($0.0026), a handful of Voyage requests across three
+model tiers on the 14-row archive (~$0.002). **Session 2 spent $0.00**:
+email sign-in touches no paid API at all, and the production debugging was
+done by reading `/api/meta` and the Railway log.
 
 ## Pick up here
 
@@ -542,6 +587,16 @@ hits and local builds.
   endpoint, reproducible). Run `python scripts/fetch_countries.py` if you
   want the country selector populated locally.
 - Everything else - migrations, demo trees, tests - comes with the clone.
+- **Mail needs nothing locally.** With no `RESEND_API_KEY` / `MAIL_FROM`,
+  `mailer` uses the console backend and prints verification and reset links
+  to the terminal running uvicorn. That is the intended development mode,
+  not a degraded one - `/api/meta` reports which backend is live in
+  `mail_backend`.
+- **Accounts need `DATABASE_URL` + `SESSION_SECRET` + `PUBLIC_BASE_URL`.**
+  Without them `accounts_enabled()` is false and the product behaves exactly
+  as it did before accounts existed, which is what keeps a laptop with no
+  Postgres a working environment. Google additionally needs its client pair;
+  `google_enabled()` is a separate check so email sign-in works without it.
 
 **First commit history reference: `cdd581a`** — "Initial commit: validated
 prototype, US-first, five languages". 113 files. Railway auto-deploys from
@@ -2202,6 +2257,126 @@ the architecture PDF) and it is the only thing that found any of the above:
 — a stale server on the same port serves the previous build and produces a
 screenshot that looks like a catastrophic CSS failure when nothing is wrong.
 
+## Codebase review, 2026-09-15 — open findings not yet acted on
+
+A full read of the repo, the tests and both builds. Recorded here because none
+of it is derivable from the code: every item below is something that is
+MISSING, and absence leaves no trace to trip over later. Ordered by
+return-on-effort, not severity.
+
+Health at the time of the review: **248 tests green, `web` and `admin` builds
+clean, three routes, 49 labelable archive questions.**
+
+### P0 — cheap, and the effect is large
+
+**1. There is no CI, and Railway auto-deploys `main`.**
+`.github/` does not exist. The 248-test suite is the project's best asset and
+nothing runs it automatically, so a broken commit deploys straight to
+production. This is not theoretical — it is exactly what happened later the
+same day: `f1ae414` shipped SQL that took Google sign-in down, and nothing
+between `git push` and real users would have caught it. A workflow running
+`pytest -q` plus the two `npm run build`s is about 25 lines.
+
+Note that CI would NOT have caught that particular bug (the SQL needs a
+Postgres, and there is none in the suite). Which is the second half of the
+lesson: **a CI worth having for this repo needs a Postgres service container**,
+so `tests/test_storage.py` and the account queries can run against a real
+database instead of being reasoned about.
+
+**2. ~~Postgres is in the wrong region.~~ RETRACTED, same day.** The review
+listed this as the biggest zero-code win, quoting the performance section's
+~150 ms per query. That figure is stale — measured at 4 ms in production later
+the same day. See the RESOLVED note in the performance section. Left here
+rather than deleted, because the mistake is instructive: a measurement written
+down without a date gets quoted as current state forever.
+
+### P1 — product credibility
+
+**3. Eleven dead links on the landing, two of which are load-bearing.**
+`web/app/page.tsx` — the nav's Solutions/AI SEO and the whole footer are
+`href="#"`. Two of them block work that is already on the Next list:
+
+- **Privacy Policy** — Google OAuth verification requires a published privacy
+  policy URL. The app is in "testing" mode today, which caps it at 100 users
+  and shows an unverified-app warning at the one moment trust matters most.
+- **Terms of Service** — Stripe onboarding requires ToS, a refund policy and a
+  contact route.
+
+**4. The landing promises features that do not exist.** In `en.ts`:
+*"Search intent classification"*, *"Opportunity export"*, *"API access"*,
+*"Priority support"*. None are built. This is the same family as the accuracy
+rules this file already enforces ("never claim live data", "must be labelled
+estimated") — applied to marketing copy rather than to data.
+
+Worse in kind: **"Unlimited topic searches"** on the Pro plan. Every search is
+$0.0026 of real money and the product's own implemented model is credit-based.
+That line has no ceiling and contradicts the gate.
+
+**5. The AI-search-visibility product has no SEO of its own.**
+`layout.tsx` carries `title` and `description` and nothing else. Missing:
+`metadataBase`, OpenGraph/Twitter cards, canonical, `sitemap.ts`, `robots.ts`,
+an OG image (`web/public/` still holds Next's scaffold `vercel.svg` etc).
+
+The sharper problem: `<html lang="en">` is hard-coded and the locale is applied
+client-side only, so **Google sees exactly one of the five languages**. The
+translation work currently has zero search value. The marketing copy IS in the
+prerendered HTML (verified in `.next/server/app/index.html`), so this is a
+metadata fix rather than a rendering rewrite.
+
+### P2 — architectural debt, in dependency order
+
+**6. `live.py` is effectively untested.** 1203 lines, the heart of the product,
+and the suite imports exactly one function from it (`scoring_candidates`). Not
+covered: `_carry_previous`, the reach gate (`EXPANSION_FLOOR`), the harvest,
+spend accumulation — i.e. every place this file warns that money or data was
+lost before. The 248 tests are weighted toward `gate`/`auth`, which is the
+layer least likely to lose anything.
+
+**7. A real job runner.** The fallback sweep still piggybacks on a polled GET,
+and **scheduled crawls do not exist** — which is the Agency plan's ($99-199)
+main selling point.
+
+**8. Stripe and tenancy.** No `plan` / `subscription` / `stripe_customer_id`
+anywhere in the schema and no recurring credit grant, so "100 topic searches
+per month" is granted by hand. `credit_ledger` is append-only and correctly
+shaped for this; what is missing is the renewal, not the ledger.
+
+### P3 — small
+
+- `BatchScoreRequest.questions` has no `max_length` and no per-item bound,
+  while `top_n` is correctly capped at 50. The dry run is deliberately
+  ungated, so an anonymous visitor who has spent their free search can still
+  post an unbounded body.
+- ~14 dead CSS classes left from the pre-marketing landing (`.landing-head`,
+  `.market-row`, `.tree-card*`, `.searchbar`, `.form-row`, `.section-head`,
+  `.w3`, `.org`).
+- Two tracked leftovers in the repo: `karsılastırma.jpg` and `test/test.txt`.
+- The root `.gitignore` does not cover `.pytest_cache/`.
+- `web/public/` still ships Next's scaffold SVGs.
+
+### The finding that matters most: the label deadlock
+
+The product's one selling number — "gap" — rests on a metric measured at
+**precision 0.20** on 14 rows with one positive. The plan is for users to
+label through the UI. But there are no users, because the metric is not
+validated. **That loop does not break on its own.**
+
+The numbers say breaking it is cheap:
+
+| | |
+|---|---:|
+| Labelable in the archive TODAY, at $0 | **49 questions** (14 already done → 35 free) |
+| To reach ~200 labels | ~150 × $0.0020 = **$0.30** |
+
+Thirty cents removes the only genuine blocker in the project — and it is also
+the precondition for the `rerank-2` experiment the embeddings section
+correctly refuses to run at n=14. Total spend to date is ~$0.13, so this does
+not even double it.
+
+`scripts/phase05_collect.py` / `phase05_evaluate.py` already exist and the
+archive responses are cached, so iterating costs nothing.
+
+
 ## Spend to date
 
 **~$0.126** total ($0.107 before Phase B, $0.0112 of live crawling on
@@ -2282,6 +2457,27 @@ Four things do have to change, in this order: **storage**, **tests**,
    plus a per-slug sweep cooldown; see the "Rate limit: sweep cooldown on
    /jobs" section. Broader per-identity rate limiting on other endpoints
    stays open, but not open unless it becomes a real concern.
+9. **CI, with a Postgres service container.** Nothing runs the 248 tests
+   automatically and Railway deploys `main` on push. Proven necessary the
+   same day it was noticed: `f1ae414` took Google sign-in down in
+   production. The Postgres container is the point rather than a detail -
+   the bug that got through was SQL, which the current suite cannot reach.
+10. **Legal pages, then Stripe.** Privacy Policy and Terms of Service are
+    `href="#"` on the landing today, and they gate two things already on
+    this list: Google OAuth verification (the app is capped at 100 users in
+    "testing" mode until a privacy URL is published) and Stripe onboarding.
+11. **Own SEO.** Five locales are invisible to crawlers - `<html lang>` is
+    hard-coded `en` and the locale is client-side only - plus no OG image,
+    canonical, sitemap or robots. For a product that sells AI-search
+    visibility this is both a credibility problem and a free channel.
+12. **Break the label deadlock: 35 labels free today, ~200 for $0.30.**
+    The one number this product sells sits at precision 0.20 on 14 rows,
+    and the plan to collect labels FROM users cannot start until the metric
+    is credible enough to have users. See the review section for the
+    arithmetic.
+
+Items 9-12 come from the 2026-09-15 review; the reasoning for each is in
+"Codebase review, 2026-09-15 — open findings not yet acted on".
 
 ## Immediately actionable, no new code needed
 
