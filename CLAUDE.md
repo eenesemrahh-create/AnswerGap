@@ -488,14 +488,35 @@ hits and local builds.
 
 ## Pick up here
 
-- **Email sign-up and verification are still UNTESTED end to end.** Google
-  sign-in is confirmed working again as of `dc3dbc2`, and `0007` applied
-  cleanly - but nobody has yet completed an email signup. `mail_backend` is
-  `console` in production, so the verification link is printed to the api
-  service's deploy log rather than mailed: sign up, copy the link out of the
-  log, and check that it signs you in, grants the credits ONCE, and that a
-  second click grants nothing. Then set `RESEND_API_KEY` + `MAIL_FROM` for
-  real delivery. Full checklist at the end of the email sign-in section.
+- **Email sign-in: everything up to the verification CLICK is confirmed.
+  The click itself is not.** Stopped here deliberately on 2026-09-15, waiting
+  on a domain mailbox.
+
+  What production has already demonstrated: `0007` applied cleanly; Google
+  sign-in works (`dc3dbc2`); an email signup CREATES the account and mints a
+  verification token; and `POST /api/auth/login` answers **403** for it. That
+  403 is the whole design working - the password was checked and accepted,
+  and the refusal is `emailUnverified` rather than `noCredits`, because the
+  signup grant waits for the address to be proven. An unverified account
+  cannot hold a session at all.
+
+  What is NOT yet exercised: `GET /api/auth/verify`. That means
+  `db.user_verify_email` - the grant, and the `signup_granted_at` guard that
+  makes a SECOND click a no-op - has never run. It is the same function shape
+  that broke sign-in, rewritten but unexecuted, so treat it as unproven.
+
+  **No DNS is needed to finish this.** `mail_backend` is `console`, so the
+  link is already being printed to the api service's DEPLOY log (search
+  `[mail:console]` - not the HTTP request log, which is where it is not).
+  Paste the link, confirm it signs you in and grants the credits, then click
+  it a SECOND time and confirm the balance does not move. That last step is
+  the real test.
+
+  Only after that does mail delivery matter: `RESEND_API_KEY` + `MAIL_FROM`
+  on the api service, with the From domain verified at the provider.
+  `onboarding@resend.dev` works with no DNS at all but delivers only to the
+  Resend account's own address. Full checklist at the end of the email
+  sign-in section.
 - **Product screens still on the old visual language.** Landing / sign-in
   dialog / theme + locale pickers got the new look on 2026-09-08 and
   2026-09-14; `tree/[slug]` (canvas, gap table, related searches,
