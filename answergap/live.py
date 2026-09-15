@@ -249,6 +249,7 @@ def save_tree(
     add_spend: float = 0.0,
     add_calls: int = 0,
     user_id: int | None = None,
+    anon_id: str | None = None,
 ) -> None:
     """Persist a tree, to Postgres when one is configured and to disk when not.
 
@@ -264,6 +265,7 @@ def save_tree(
             add_spend=add_spend,
             add_calls=add_calls,
             user_id=user_id,
+            anon_id=anon_id,
         )
         return
     TREES_DIR.mkdir(parents=True, exist_ok=True)

@@ -167,3 +167,28 @@ def test_can_access_with_no_identity_short_circuits(monkeypatch) -> None:
 
     monkeypatch.setattr(db, "connect", _explode)
     assert db.can_access("any-slug", user_id=None, anon_id=None) is False
+
+
+# ---------------------------------------------------------- anon_id reaches the row
+
+
+def test_live_save_tree_forwards_anon_id_to_db(monkeypatch) -> None:
+    """`live.save_tree` is a thin wrapper, and 77fc0e7 threaded `anon_id`
+    through `live.crawl` and `db.save_tree` but not through the wrapper
+    between them. Every signed-out search in production then died with
+    `TypeError: save_tree() got an unexpected keyword argument 'anon_id'`.
+
+    Nothing caught it because no test crossed that seam. This one does: the
+    anonymous owner the gate matches on has to arrive at the INSERT, or the
+    visitor who just searched is a stranger to their own tree.
+    """
+    from answergap import live
+
+    seen: dict = {}
+    monkeypatch.setattr(db, "available", lambda: True)
+    monkeypatch.setattr(db, "save_tree", lambda tree, **kw: seen.update(kw) or 1)
+
+    live.save_tree({"slug": "s"}, new_crawl=True, user_id=None, anon_id="browser-1")
+
+    assert seen["anon_id"] == "browser-1"
+    assert seen["new_crawl"] is True
