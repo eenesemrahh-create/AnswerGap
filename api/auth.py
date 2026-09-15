@@ -408,13 +408,37 @@ def google_callback(
             redirect_uri=redirect_uri(),
             verifier=payload.get("cv", ""),
         )
-    except oauth.OAuthError:
+    except oauth.OAuthError as exc:
+        # LOGGED, not swallowed. `oauth.exchange_code` already builds a message
+        # naming Google's own reason - redirect_uri_mismatch, invalid_client, a
+        # bad PKCE verifier - and its docstring says that reason "has to reach
+        # the log". It did not: this handler caught the exception and discarded
+        # it, so every one of those distinct causes arrived as the same
+        # characterless `?auth=failed` and the only way to tell them apart was
+        # to guess.
+        #
+        # That cost a debugging round trip on 2026-09-15, which is the same
+        # price `return_allowed` paid before IT was given a log line below.
+        # The detail must not reach the USER - it names our client id and our
+        # redirect configuration - but it must reach us.
+        print(f"[auth] google token exchange failed: {exc}", flush=True)
         return RedirectResponse(f"{return_to}?auth=failed", status_code=302)
 
     claims = oauth.claims_from_id_token(
         granted.get("id_token") or "", client_id=GOOGLE_CLIENT_ID, now=now
     )
     if not claims:
+        # The other silent path. `claims_from_id_token` returns None for a bad
+        # issuer, an audience that is not our client id, an expired token, or
+        # `email_verified: false` - four different problems with four different
+        # fixes, previously indistinguishable from each other AND from the
+        # exchange failure above.
+        print(
+            "[auth] google id_token rejected: "
+            f"id_token_present={bool(granted.get('id_token'))} "
+            f"client_id_set={bool(GOOGLE_CLIENT_ID)}",
+            flush=True,
+        )
         return RedirectResponse(f"{return_to}?auth=failed", status_code=302)
 
     settings = {}
@@ -436,6 +460,10 @@ def google_callback(
         ),
     )
     if not user:
+        # `db.user_upsert` has already logged the exception behind this. The
+        # line here is what says WHICH of the three failure paths was taken,
+        # since all three end at the same redirect.
+        print("[auth] user_upsert returned nothing; sign-in abandoned", flush=True)
         return RedirectResponse(f"{return_to}?auth=failed", status_code=302)
 
     if payload.get("md") == "code":

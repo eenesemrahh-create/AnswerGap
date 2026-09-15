@@ -1935,7 +1935,7 @@ def user_upsert(
     picture_url: str | None,
     signup_credits: int,
 ) -> dict:
-    """Find, LINK or create the account behind a Google identity, in one statement.
+    """Find, LINK or create the account behind a Google identity.
 
     Three outcomes, and the middle one is what 0007 added:
 
@@ -1944,110 +1944,160 @@ def user_upsert(
        asserts `email_verified` and `oauth.claims_from_id_token` checks it, so
        Google has proven exactly what our own verification mail proves: control
        of the mailbox. Creating a second account here instead would split one
-       person into two balances, which is the failure `app_user_email_key`
-       now makes impossible anyway - the insert would simply fail.
+       person into two balances, which `app_user_email_key` now refuses anyway.
     3. Neither -> a new account, verified on the spot.
 
-    `google_sub` is still looked up FIRST and the address is only ever the
-    fallback. That preserves 0005's reasoning intact: a Google account that
-    changes its primary address is still recognised as the same person,
-    because the subject id has not moved.
+    `google_sub` is looked up FIRST and the address is only ever the fallback.
+    That preserves 0005's reasoning intact: a Google account that changes its
+    primary address is still recognised as the same person, because the subject
+    id has not moved.
 
-    THE SIGNUP GRANT IS GUARDED BY `signup_granted_at`, NOT BY `xmax = 0`.
-    The old trick fired the grant only when the INSERT actually happened,
-    which stops working the moment the grant can also belong to a verification
-    that happens later. A column recording that it has been given is the only
-    version of this that survives the grant moving - and `did_grant` is read
-    from the PRE-update row carried in `candidate`, because RETURNING hands
-    back the new value and would always say "already granted".
+    FOUR SMALL STATEMENTS IN ONE TRANSACTION, NOT ONE CLEVER ONE.
 
-    Returns `{}` if the address collides with a DIFFERENT Google account, which
-    the unique index refuses. A silent merge of two balances is not a decision
-    a sign-in handler gets to make.
+    This was a single statement built out of chained data-modifying CTEs, for
+    the one-round-trip reason that governs the rest of this file. It was WRONG,
+    and it broke Google sign-in in production on 2026-09-15: `google_callback`
+    turns a falsy return into `?auth=failed`, so the failure surfaced to users
+    as "Sign-in did not finish" with the real error visible only in the logs.
+
+    The trade was mis-made. The ~150 ms this saves is real on the SPENDING path,
+    which runs on every search - but sign-in happens ONCE PER SESSION, and no
+    human notices 300 ms inside an OAuth redirect that already crossed the
+    network to Google and back. What the clever version cost instead was
+    testability: it could not be verified by reading, and there is no Postgres
+    on the development machine to run it against.
+
+    CLAUDE.md already records two bugs against exactly this construct (see
+    "Data-modifying CTEs share the main query's snapshot", 2026-09-08). That is
+    now three. Chained data-modifying CTEs are not worth one round trip on a
+    cold path - keep them for the hot ones, where the measurement justifies the
+    risk.
+
+    The multi-statement form also DELETES the snapshot trap rather than working
+    around it: statements in one transaction see each other's writes, so the
+    closing SELECT reads the ledger row this function just inserted. No adding
+    the delta back on by hand, which is what the CTE version had to do.
+
+    Returns `{}` on any failure, having logged it. A falsy return is already
+    the caller's "sign-in did not finish" signal.
     """
+    credits = max(0, int(signup_credits))
     try:
         with connect() as conn, conn.cursor() as cur:
+            # 1. WHO IS THIS? Subject id first, address second.
             cur.execute(
-                """
-                WITH candidate AS (
-                    -- Priority, not preference: the subject id is the
-                    -- identity and the address is only a fallback. The
-                    -- second branch is restricted to accounts with NO
-                    -- google_sub so that linking can only ever absorb a
-                    -- password account, never re-point somebody else's
-                    -- Google row at a new subject id.
-                    SELECT id, signup_granted_at, 1 AS pref
-                      FROM app_user WHERE google_sub = %(sub)s
-                    UNION ALL
-                    SELECT id, signup_granted_at, 2 AS pref
-                      FROM app_user
-                     WHERE google_sub IS NULL
-                       AND lower(email) = lower(%(email)s)
-                     ORDER BY pref
-                     LIMIT 1
-                ), updated AS (
-                    UPDATE app_user u
+                "SELECT id, signup_granted_at FROM app_user WHERE google_sub = %s",
+                (google_sub,),
+            )
+            found = cur.fetchone()
+            if not found:
+                # Restricted to accounts with NO google_sub, so linking can
+                # only ever absorb a password account - never re-point someone
+                # else's Google row at a new subject id.
+                cur.execute(
+                    """
+                    SELECT id, signup_granted_at FROM app_user
+                     WHERE google_sub IS NULL AND lower(email) = lower(%s)
+                    """,
+                    (email,),
+                )
+                found = cur.fetchone()
+
+            # 2. REFRESH OR CREATE. `grant` is decided from the row as it was
+            #    BEFORE this write, which is the whole point of reading first.
+            if found:
+                user_id = int(found["id"])
+                grant = credits > 0 and found["signup_granted_at"] is None
+                cur.execute(
+                    """
+                    UPDATE app_user
                        SET google_sub        = %(sub)s,
                            email             = %(email)s,
-                           -- COALESCE, not assignment: a password account
-                           -- being linked may already carry a name and a
-                           -- picture, and Google sending null for either
-                           -- must not blank what the person set.
-                           name              = COALESCE(%(name)s, u.name),
-                           picture_url       = COALESCE(%(pic)s, u.picture_url),
-                           email_verified_at = COALESCE(u.email_verified_at, now()),
-                           signup_granted_at = CASE WHEN %(credits)s > 0
-                               THEN COALESCE(u.signup_granted_at, now())
-                               ELSE u.signup_granted_at END,
+                           -- COALESCE, not assignment: a password account being
+                           -- linked may already carry a name and a picture, and
+                           -- Google sending null for either must not blank what
+                           -- the person set.
+                           name              = COALESCE(%(name)s, name),
+                           picture_url       = COALESCE(%(pic)s, picture_url),
+                           email_verified_at = COALESCE(email_verified_at, now()),
+                           signup_granted_at = CASE WHEN %(grant)s THEN now()
+                                                    ELSE signup_granted_at END,
                            last_seen_at      = now()
-                      FROM candidate c
-                     WHERE u.id = c.id
-                    RETURNING u.id, u.email, u.status, u.token_epoch,
-                              (c.signup_granted_at IS NULL
-                               AND %(credits)s > 0) AS did_grant
-                ), inserted AS (
+                     WHERE id = %(id)s
+                    """,
+                    {
+                        "sub": google_sub,
+                        "email": email,
+                        "name": name,
+                        "pic": picture_url,
+                        "grant": grant,
+                        "id": user_id,
+                    },
+                )
+            else:
+                grant = credits > 0
+                cur.execute(
+                    """
                     INSERT INTO app_user (google_sub, email, name, picture_url,
                                           email_verified_at, signup_granted_at,
                                           last_seen_at)
-                    SELECT %(sub)s, %(email)s, %(name)s, %(pic)s, now(),
-                           CASE WHEN %(credits)s > 0 THEN now() END, now()
-                     WHERE NOT EXISTS (SELECT 1 FROM candidate)
-                    RETURNING id, email, status, token_epoch,
-                              (%(credits)s > 0) AS did_grant
-                ), both AS (
-                    SELECT * FROM updated
-                    UNION ALL
-                    SELECT * FROM inserted
-                ), ledger AS (
-                    INSERT INTO credit_ledger (user_id, delta, reason)
-                    SELECT id, %(credits)s, 'signup' FROM both WHERE did_grant
-                    RETURNING delta
+                    VALUES (%(sub)s, %(email)s, %(name)s, %(pic)s, now(),
+                            CASE WHEN %(grant)s THEN now() END, now())
+                    RETURNING id
+                    """,
+                    {
+                        "sub": google_sub,
+                        "email": email,
+                        "name": name,
+                        "pic": picture_url,
+                        "grant": grant,
+                    },
                 )
-                -- The grant is added on rather than summed from the table,
-                -- for the same snapshot reason as admin_credit: `ledger` and
-                -- this SELECT run on one snapshot, so the row just written is
-                -- not visible here. Without it a brand-new account reports a
-                -- balance of 0 in the very response that created its credits.
-                SELECT b.id, b.email, b.status, b.token_epoch,
+                created = cur.fetchone()
+                if not created:
+                    return {}
+                user_id = int(created["id"])
+
+            # 3. PAY THE SIGNUP GRANT, at most once ever. Guarded by
+            #    `signup_granted_at`, which step 2 has just claimed in the same
+            #    transaction - so a concurrent second sign-in blocks on that
+            #    row's lock and then reads it as already granted.
+            if grant:
+                cur.execute(
+                    """
+                    INSERT INTO credit_ledger (user_id, delta, reason)
+                    VALUES (%s, %s, 'signup')
+                    """,
+                    (user_id, credits),
+                )
+
+            # 4. READ BACK. Same transaction, so this sees the insert above -
+            #    which is exactly what the CTE version could NOT do.
+            cur.execute(
+                """
+                SELECT u.id, u.email, u.status, u.token_epoch,
                        TRUE AS email_verified,
                        COALESCE((SELECT sum(delta) FROM credit_ledger
-                                  WHERE user_id = b.id), 0)
-                       + COALESCE((SELECT sum(delta) FROM ledger), 0) AS balance
-                  FROM both b
+                                  WHERE user_id = u.id), 0) AS balance
+                  FROM app_user u
+                 WHERE u.id = %s
                 """,
-                {
-                    "sub": google_sub,
-                    "email": email,
-                    "name": name,
-                    "pic": picture_url,
-                    "credits": int(signup_credits),
-                },
+                (user_id,),
             )
             row = cur.fetchone()
             conn.commit()
             return dict(row) if row else {}
     except Exception as exc:  # noqa: BLE001 - reported as a failed sign-in
-        print(f"[auth] user_upsert failed: {type(exc).__name__}: {exc}", flush=True)
+        # The address colliding with a DIFFERENT Google account is the one
+        # failure that is a real situation rather than a bug: the unique index
+        # refuses, and a silent merge of two balances is not a decision a
+        # sign-in handler gets to make. Everything else is ours and the log is
+        # the only place it can be seen, so it is printed with its type.
+        print(
+            f"[auth] user_upsert failed for {google_sub[:8]}...: "
+            f"{type(exc).__name__}: {exc}",
+            flush=True,
+        )
         return {}
 
 
@@ -2353,50 +2403,83 @@ def user_set_password(*, user_id: int, password_hash: str, revoke: bool) -> bool
 def user_verify_email(*, user_id: int, signup_credits: int) -> dict | None:
     """Mark an address proven and pay the signup grant - at most once, ever.
 
-    Both halves in ONE statement. Split across two, a crash between them
-    leaves either a verified account that never got its credits or a grant
-    with nothing to show for it, and the ledger is append-only: there is no
-    "fix it later" available for money.
+    THE GUARD IS `signup_granted_at`, READ BEFORE IT IS WRITTEN. A second click
+    on the same link - or a mail client prefetching it, or a replayed request -
+    must be a no-op, not a second helping of free searches. Reading the column
+    first and deciding from that value is what makes it one.
 
-    `signup_granted_at IS NULL` in the `granted` CTE reads the row as it was
-    BEFORE this statement's own update, because every data-modifying CTE sees
-    the same snapshot. That is what makes a second click on the same link -
-    or a replayed request - a no-op rather than a second helping of credits.
+    Statements, not chained data-modifying CTEs, for the reason written at
+    length on `user_upsert`: the clever version of that function broke Google
+    sign-in in production on 2026-09-15, and this one had the same shape. One
+    transaction still makes it atomic - a crash between marking the address
+    verified and paying the grant rolls back both, which matters because the
+    ledger is append-only and there is no "fix it later" for money.
+
+    The closing SELECT runs inside the same transaction, so it SEES the ledger
+    row just written. The CTE version could not, and had to add the delta back
+    on by hand.
     """
-    with connect() as conn, conn.cursor() as cur:
-        cur.execute(
-            """
-            WITH before AS (
-                SELECT id, signup_granted_at FROM app_user WHERE id = %(id)s
-            ), marked AS (
-                UPDATE app_user u
-                   SET email_verified_at = COALESCE(u.email_verified_at, now()),
-                       signup_granted_at = CASE WHEN %(credits)s > 0
-                           THEN COALESCE(u.signup_granted_at, now())
-                           ELSE u.signup_granted_at END,
-                       last_seen_at      = now()
-                  FROM before b
-                 WHERE u.id = b.id
-                RETURNING u.id, u.email, u.status, u.token_epoch,
-                          (b.signup_granted_at IS NULL
-                           AND %(credits)s > 0) AS did_grant
-            ), ledger AS (
-                INSERT INTO credit_ledger (user_id, delta, reason)
-                SELECT id, %(credits)s, 'signup' FROM marked WHERE did_grant
-                RETURNING delta
+    credits = max(0, int(signup_credits))
+    try:
+        with connect() as conn, conn.cursor() as cur:
+            # FOR UPDATE, and it is the concurrency half of "at most once".
+            # Two requests redeeming at the same moment would otherwise both
+            # read `signup_granted_at IS NULL` and both insert a grant. The
+            # row lock makes the second one wait and then read the truth.
+            cur.execute(
+                "SELECT id, signup_granted_at FROM app_user WHERE id = %s FOR UPDATE",
+                (int(user_id),),
             )
-            SELECT m.id, m.email, m.status, m.token_epoch, m.did_grant,
-                   TRUE AS email_verified,
-                   COALESCE((SELECT sum(delta) FROM credit_ledger
-                              WHERE user_id = m.id), 0)
-                   + COALESCE((SELECT sum(delta) FROM ledger), 0) AS balance
-              FROM marked m
-            """,
-            {"id": int(user_id), "credits": int(signup_credits)},
+            found = cur.fetchone()
+            if not found:
+                return None
+
+            grant = credits > 0 and found["signup_granted_at"] is None
+            cur.execute(
+                """
+                UPDATE app_user
+                   SET email_verified_at = COALESCE(email_verified_at, now()),
+                       signup_granted_at = CASE WHEN %(grant)s THEN now()
+                                                ELSE signup_granted_at END,
+                       last_seen_at      = now()
+                 WHERE id = %(id)s
+                """,
+                {"grant": grant, "id": int(user_id)},
+            )
+            if grant:
+                cur.execute(
+                    """
+                    INSERT INTO credit_ledger (user_id, delta, reason)
+                    VALUES (%s, %s, 'signup')
+                    """,
+                    (int(user_id), credits),
+                )
+
+            cur.execute(
+                """
+                SELECT u.id, u.email, u.status, u.token_epoch,
+                       TRUE AS email_verified,
+                       COALESCE((SELECT sum(delta) FROM credit_ledger
+                                  WHERE user_id = u.id), 0) AS balance
+                  FROM app_user u
+                 WHERE u.id = %s
+                """,
+                (int(user_id),),
+            )
+            row = cur.fetchone()
+            conn.commit()
+            if not row:
+                return None
+            out = dict(row)
+            out["did_grant"] = grant
+            return out
+    except Exception as exc:  # noqa: BLE001 - reported as a failed verification
+        print(
+            f"[auth] user_verify_email failed for {user_id}: "
+            f"{type(exc).__name__}: {exc}",
+            flush=True,
         )
-        row = cur.fetchone()
-        conn.commit()
-        return dict(row) if row else None
+        return None
 
 
 def email_token_put(
