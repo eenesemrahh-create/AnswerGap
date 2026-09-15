@@ -488,12 +488,14 @@ hits and local builds.
 
 ## Pick up here
 
-- **Email sign-in needs ONE production pass before it is real.** The SQL in
-  `0007_password_accounts` and the five new account queries were written and
-  structurally checked on a machine with no Postgres - they have never been
-  executed. Run the migration against a scratch copy, set `RESEND_API_KEY` +
-  `MAIL_FROM`, then sign up with a real address end to end. The full
-  checklist is at the end of the 2026-09-15 email sign-in section.
+- **Email sign-up and verification are still UNTESTED end to end.** Google
+  sign-in is confirmed working again as of `dc3dbc2`, and `0007` applied
+  cleanly - but nobody has yet completed an email signup. `mail_backend` is
+  `console` in production, so the verification link is printed to the api
+  service's deploy log rather than mailed: sign up, copy the link out of the
+  log, and check that it signs you in, grants the credits ONCE, and that a
+  second click grants nothing. Then set `RESEND_API_KEY` + `MAIL_FROM` for
+  real delivery. Full checklist at the end of the email sign-in section.
 - **Product screens still on the old visual language.** Landing / sign-in
   dialog / theme + locale pickers got the new look on 2026-09-08 and
   2026-09-14; `tree/[slug]` (canvas, gap table, related searches,
@@ -1007,6 +1009,23 @@ Every query crosses the Atlantic.
 The api cannot move back: the US egress is what unblocked DataForSEO. So the
 database has to move to the api, and until it does, ~150 ms per query is the
 floor under every endpoint here.
+
+> **RESOLVED, observed 2026-09-15.** The database is no longer transatlantic.
+> Railway's own HTTP log reports `upstreamRqDuration` — server time, with the
+> client's network excluded — and it now reads **`/api/me` 4 ms**, `/api/trees`
+> 2–3 ms, `/api/meta` 3–4 ms. `/api/me` is the decisive one: it runs
+> `db.user_for_gate`, a real query, and returned real user data in those 4 ms.
+> That is a same-region Postgres, so the ~150 ms floor above is **history, not
+> current state**.
+>
+> Everything in this section still stands as the *method* — the four causes
+> were ours and the fixes are still in the code — and `/api/dev/timing` is
+> still worth keeping for the reason given below. But **do not quote the
+> 150 ms figure as a live constraint**, and do not use it to justify a design.
+> It was used exactly that way on 2026-09-15 to argue for the chained
+> data-modifying CTE in `user_upsert`, and that argument was wrong twice over:
+> the number was stale, and sign-in is a cold path where it would not have
+> mattered anyway. See the sign-in bug recorded below.
 
 **Keep `/api/dev/timing`.** A client-side stopwatch cannot tell *"the database
 is far away"* from *"we are doing something stupid"*, and those have opposite
@@ -1691,14 +1710,89 @@ five-locale i18n gate passed, which is what proves no locale is missing a key),
 API boots, `/api/meta` reports the new fields, and every new endpoint
 fails closed with a coded refusal when accounts are off.
 
-**NOT verified: the SQL.** There is no Postgres on this machine, so
-`0007_password_accounts` and the five new queries — including two
-data-modifying-CTE statements, the shape CLAUDE.md already records one bug
-against — have been reasoned about and structurally checked but **never
-executed**. Run the migration on a scratch database before deploying, and see
-the checklist at the end of this section.
+**NOT verified: the SQL** — and this is where it went wrong. There is no
+Postgres on this machine, so `0007_password_accounts` and the five new queries
+were reasoned about and structurally checked but never executed. The migration
+applied cleanly in production. **The two data-modifying-CTE statements did
+not**, and they took Google sign-in down with them; see the bug section below.
+The caveat was stated honestly and was not enough — the fix for untestable code
+is to write testable code, not to label it.
 
 **Spend: $0.00.** Nothing here touches DataForSEO.
+
+### The sign-in bug this shipped with, and what it cost — 2026-09-15
+
+`f1ae414` broke **Google sign-in in production**. Users got *"Sign-in did not
+finish. Try again."* on every attempt, existing accounts included. Fixed by
+`dc3dbc2`; confirmed working from the Railway log (`/api/auth/google/callback`
+302, immediately followed by `GET /api/me` 200 with a real body — `AccountMenu`
+calls `/api/me` only when a token exists, so that line IS the proof a session
+was issued).
+
+**The cause.** `user_upsert` had been rewritten as ONE statement of chained
+data-modifying CTEs — `candidate → updated / inserted → both → ledger` — to
+save a round trip. `google_callback` turns a falsy return into `?auth=failed`,
+and a `try/except` around the statement swallowed the exception, so the failure
+reached users as a characterless "try again".
+
+**Three separate mistakes, and the interesting one is not the SQL.**
+
+1. **An optimisation applied to the wrong path.** The one-round-trip rule in
+   this file was measured on the SPENDING path, which runs on every search.
+   Sign-in runs ONCE PER SESSION, inside an OAuth redirect that has already
+   crossed the network to Google and back. Nobody notices 300 ms there. The
+   rule was followed without checking whether its reason applied.
+
+2. **The number behind the rule was stale.** ~150 ms per query was true when it
+   was measured; it is not true now (see the RESOLVED note in the performance
+   section). So the optimisation was bought at a price that no longer existed.
+
+3. **Untestable code was shipped as "structurally checked".** There is no
+   Postgres on the development machine. The summary said plainly that the SQL
+   had never been executed — which was honest and *not sufficient*. The right
+   response to "I cannot test this" is not a louder caveat, it is **writing the
+   version that does not need testing**: four small statements in one
+   transaction, each verifiable by reading.
+
+**What the fix also removed.** Statements in one transaction see each other's
+writes, so the closing `SELECT` reads the ledger row it just inserted. The CTE
+version could not — every data-modifying CTE shares the main query's snapshot —
+and had to add the delta back on by hand, which is the same trap recorded
+against `admin_credit` and `user_upsert` on 2026-09-08. **That is three bugs
+against this one construct.** Keep chained data-modifying CTEs for hot paths
+where a measurement justifies them, and nowhere else.
+
+`user_verify_email` had the identical shape and was rewritten the same way
+before it could fail the same way. It also takes `FOR UPDATE` on the row, so
+two concurrent redemptions of one verification link cannot both pay the signup
+grant.
+
+### The reason it took a deploy to diagnose: the errors were never logged
+
+This is the part worth remembering, because it is not about SQL.
+
+`oauth.exchange_code` builds an error message naming Google's OWN reason —
+`redirect_uri_mismatch`, `invalid_client`, a bad PKCE verifier — and its
+docstring says that reason *"must not reach the user, but it has to reach the
+log"*. **The caller caught the exception and discarded it.** The intent was
+written down and the code did the opposite, three lines away.
+
+`claims_from_id_token` returning `None` logged nothing either, and it covers
+four distinct problems: bad issuer, wrong audience, expired token,
+`email_verified: false`.
+
+So six different causes — three in the exchange, two in the claims, one in SQL
+— all arrived at the same `?auth=failed`, and the only way to tell them apart
+was to guess. The first guess (from a 153 ms callback timing, reasoned against
+the stale 150 ms figure) pointed at the exchange. It was wrong; the primary
+hypothesis was right for a different reason.
+
+**All three paths now print their reason.** None of it reaches the user — it
+names our client id and our redirect configuration — but it reaches us. This is
+the same fix `return_allowed` was given after IT cost a debugging round trip,
+and the lesson repeats: on a redirect-based flow, an unlogged failure branch is
+a failure you cannot diagnose at all, because there is no response body to
+inspect and the user sees only a generic message.
 
 ### Before this goes live
 
