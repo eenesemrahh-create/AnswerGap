@@ -420,19 +420,103 @@ defensible asset over time.
 
 # Current state — resume here
 
-Last worked: **2026-09-08**. Two things shipped and one is half done.
-Accounts, credits and the admin panel (verified end to end against production),
-then searches became private and the interface began a redesign.
+Last worked: **2026-09-15**. Seven commits over one long session, all pushed
+to `origin/main`. `git clone` on another machine gets everything; only `.env`
+(DataForSEO + Voyage credentials) has to be recreated. `.env.example` names
+every variable it holds.
 
-**WARNING: the last two commits are NOT PUSHED.** Production runs the code from
-`f2f4b4c`, so the deployed site shows neither the privacy change nor the new
-interface. That is deliberate — they were left for review — but it will look
-like the work vanished if you check the live site first.
+## Today's arc, in order
 
-**First commit: `cdd581a`** — "Initial commit: validated prototype, US-first,
-five languages". 113 files. `origin` is now configured
-(`github.com/eenesemrahh-create/AnswerGap`) and everything is pushed; Railway
-deploys from it.
+1. `caf4b02` — **Voyage embeddings, gated behind a flag.** Client, batching,
+   in-process cache, `gap_score.embedding_model`, 29 tests. Measured all
+   three Voyage tiers (voyage-4-lite / voyage-4 / voyage-4-large) on the 14
+   Phase 0.5 labels and every one landed BELOW lexical (F1 0.33 vs 0.18 at
+   best); the four collision rows the SETTLED block called out stayed
+   inseparable across every tier. Kept the plumbing, kept lexical as the
+   default: `matching.active_strategy()` returns `embeddings` only when
+   BOTH `VOYAGE_API_KEY` and `ANSWERGAP_USE_EMBEDDINGS` are set. Full
+   reasoning in "Embeddings: built and measured 2026-09-14".
+
+2. `77fc0e7` — **Detail-level privacy.** The 2026-09-08 work gated the LIST
+   endpoint; the eight `/api/tree/{slug}/...` endpoints were still open.
+   Closed. Migration `0006_crawl_anon_owner` adds `crawl.anon_id` so a
+   signed-out visitor gets back into their own tree by cookie. 404 not 403 —
+   existence is the metadata leak the gate exists to stop. Verified on
+   production: seven live-tree endpoints all 404 to a stranger.
+
+3. `410eb50` — **`/jobs` sweep cooldown.** Per-slug, 30 seconds, in-memory.
+   Closes the 3-to-1 amplification (one HTTP GET, up to three DataForSEO
+   `task_get` calls) that item 8 of the Next list called out.
+
+4. `17f3e04` — **Marketing landing rebuilt.** Replit prototype was the
+   reference: Plus Jakarta Sans, cream background, purple-to-magenta
+   gradient headline, nav + hero + how-it-works + built-for-ai-search +
+   pricing + CTA + footer. Search box, sign-in, saved analyses stay wired
+   to the real API; marketing copy static per CLAUDE.md's rule. Five
+   locales; en/tr full quality, de/es/fr a decent first pass a reviewer
+   will want to sharpen.
+
+5. `9a734b6` — **Pricing plans dynamic.** New `app_setting.pricing_plans`
+   key holding a JSON array. Public `GET /api/pricing` NEVER breaks the
+   landing (bad JSON, no setting, DB down, exception - all answered
+   `{plans: []}`); admin `POST /api/admin/pricing` writes with Pydantic
+   validation. Fallback to the i18n copy on the landing when nothing is
+   saved. First shape: form-based editor.
+
+6. `b4ef71e` — **Pricing v2, WYSIWYG.** Rebuilt after the ask changed:
+   four ready-made template cards on screen at all times, edit text in
+   place (not a separate form), tick which cards ship. Per-card `enabled`
+   is the publish switch. Admin IS the landing - the editor renders the
+   same `.mkt-plan` DOM inside a scoped `.pricing-preview` container that
+   mirrors the landing tokens (Plus Jakarta Sans loaded via `next/font`,
+   cream `--bg`, purple `--brand`, magenta `--accent`).
+
+7. `a0afbf6` — **Colourful cards.** Four themes (light / violet / pink /
+   dark) each changing background + border + checks + CTA + badge while
+   padding and typography stay constant. Admin picks a theme per card
+   from a swatch row above the badge line. `featured` replaced; a
+   `_from_legacy_featured` Pydantic validator maps old `featured: true` to
+   `theme: dark`, so rows saved before this commit still parse.
+
+**Tests: 116 -> 180.** Full backend suite clean, admin build clean, web
+build clean.
+
+**Today's spend: ~$0.005** — one paid search for privacy verification
+($0.0026), a handful of Voyage requests across three model tiers on the
+14-row archive (~$0.002). Everything else was dry runs, refusals, cache
+hits and local builds.
+
+## Pick up here
+
+- **Product screens still on the old visual language.** Landing / sign-in
+  dialog / theme + locale pickers got the new look on 2026-09-08 and
+  2026-09-14; `tree/[slug]` (canvas, gap table, related searches,
+  question detail) still on the old skin. Half of the interface migration
+  from 2026-09-08 remains.
+- **The admin pricing editor is untested against production.** Log in as
+  admin, open `/settings/pricing`, edit the four ready-made cards, tick
+  Publish on one or two, and compare against the landing. Try each theme
+  in light and dark modes.
+- **Next open items on the "Next" list below:** tenancy + Stripe (item 6),
+  R2 for raw payloads (item 3), a job runner (item 5), and rerank-2
+  integration when the label pool reaches ~100 (see the embeddings
+  2026-09-14 section for the follow-ups).
+
+## Repo pickup checklist for a fresh machine
+
+- `git clone git@github.com:eenesemrahh-create/AnswerGap.git`.
+- Copy `.env.example` -> `.env` and fill DataForSEO + optionally Voyage.
+  `.env` is gitignored - do not put a real value in `.env.example`.
+- `pip install -r requirements.txt` at the repo root for the API.
+- `cd web && npm install`, `cd admin && npm install` for the two Next apps.
+- `data/raw/locations-*.json` are NOT in the repo (~15 MB per country, free
+  endpoint, reproducible). Run `python scripts/fetch_countries.py` if you
+  want the country selector populated locally.
+- Everything else - migrations, demo trees, tests - comes with the clone.
+
+**First commit history reference: `cdd581a`** — "Initial commit: validated
+prototype, US-first, five languages". 113 files. Railway auto-deploys from
+`origin/main`.
 
 Two things stayed out of it on purpose:
 
@@ -1696,14 +1780,20 @@ screenshot that looks like a catastrophic CSS failure when nothing is wrong.
 
 ## Spend to date
 
-**~$0.121** total ($0.107 before Phase B, $0.0112 of live crawling on
+**~$0.126** total ($0.107 before Phase B, $0.0112 of live crawling on
 2026-08-27). **2026-08-28 spent $0.00** — labelling, evaluation and the
 feedback layer all run against data already on disk. **2026-09-08 spent
 $0.0026** — the entire end-to-end credit verification cost one paid search;
-everything else was dry runs, refusals and cache hits, all free. Cache files mean re-running anything costs nothing — a repeated
-search returns in 20 ms and bills $0. Always run `--dry-run` first; the search
-endpoint accepts `"dry_run": true` and returns the request plan and its price
-without touching the network.
+everything else was dry runs, refusals and cache hits, all free. **2026-09-14
+to 2026-09-15 spent ~$0.005** — the whole seven-commit session across
+embeddings / privacy / rate-limit / landing rebuild / pricing feature was
+one paid privacy-verification search ($0.0026) plus a handful of Voyage
+embedding requests across three model tiers on the 14-row archive (~$0.002);
+everything else was dry runs, cache hits and local builds. Cache files mean
+re-running anything costs nothing — a repeated search returns in 20 ms and
+bills $0. Always run `--dry-run` first; the search endpoint accepts
+`"dry_run": true` and returns the request plan and its price without touching
+the network.
 
 Real measured prices: a `click_depth=4` crawl is **$0.0026**, a plain scoring
 request is **$0.0020**. Do not trust the flat estimate — read `cost` from the
