@@ -203,6 +203,39 @@ export const de: Messages = {
   },
 
   auth: {
+    // --- Anmeldung mit E-Mail und Passwort ---------------------------
+    signUpTitle: "AnswerGap-Konto erstellen",
+    tabSignIn: "Anmelden",
+    tabSignUp: "Konto erstellen",
+    emailLabel: "E-Mail",
+    passwordLabel: "Passwort",
+    nameLabel: "Name (optional)",
+    newPassword: "Neues Passwort",
+    passwordHint:
+      "Mindestens 10 Zeichen. Auf die Länge kommt es an — ein kurzer Satz schlägt ein kurzes Passwort.",
+    or: "oder",
+    forgot: "Passwort vergessen?",
+    forgotTitle: "Passwort zurücksetzen",
+    forgotSub:
+      "Gib deine Adresse ein und wir senden dir einen Link für ein neues Passwort.",
+    forgotSubmit: "Link senden",
+    sentTitle: "Sieh in dein Postfach",
+    sentBody:
+      "Wir haben einen Link an {email} geschickt. Öffne ihn, um deine Adresse zu bestätigen und deine kostenlosen Credits zu erhalten.",
+    sentSpam: "Das kann eine Minute dauern. Falls nichts ankommt, sieh im Spam nach.",
+    sentResend: "Erneut senden",
+    sentAgain: "Gesendet. Sieh gleich noch einmal in dein Postfach.",
+    backToSignIn: "Zurück zur Anmeldung",
+    resetTitle: "Neues Passwort wählen",
+    resetSub:
+      "Damit wirst du überall sonst abgemeldet — genau darum geht es beim Zurücksetzen.",
+    resetSubmit: "Speichern und anmelden",
+    working: "Läuft…",
+    yourAddress: "deine Adresse",
+    verifyBanner:
+      "Bestätige deine E-Mail-Adresse, um deine Credits zu nutzen.",
+    verifyBannerAction: "Link erneut senden",
+    verifiedToast: "Deine E-Mail ist bestätigt. Deine Credits sind bereit.",
     close: "Schließen",
     dialogTitle: "Bei AnswerGap anmelden",
     benefitCredits: "Guthaben für Suchen und Fragenprüfungen",
@@ -226,6 +259,19 @@ export const de: Messages = {
   },
 
   error: {
+    invalidEmail: "Das sieht nicht nach einer E-Mail-Adresse aus.",
+    badCredentials: "E-Mail und Passwort passen zu keinem Konto.",
+    emailUnverified:
+      "Bestätige zuerst deine E-Mail-Adresse — der Link liegt in deinem Postfach.",
+    tooManyAttempts:
+      "Zu viele Versuche. Warte ein paar Minuten und versuche es erneut.",
+    passwordTooShort: "Passwörter brauchen mindestens {minLength} Zeichen.",
+    passwordTooCommon:
+      "Dieses Passwort steht in Leak-Listen. Wähle ein anderes.",
+    resetExpired:
+      "Dieser Link ist abgelaufen oder wurde bereits verwendet. Fordere einen neuen an.",
+    googleOff:
+      "Google-Anmeldung ist in dieser Installation nicht eingerichtet. Nutze E-Mail.",
     unreachable: "API nicht erreichbar ({url}). Läuft das Backend?",
     http: "{status} {statusText} — {path}",
     noCredentials: "DataForSEO-Zugangsdaten fehlen. .env.example nach .env kopieren, ausfüllen und das Backend neu starten.",

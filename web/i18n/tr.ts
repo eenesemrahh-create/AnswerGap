@@ -203,6 +203,39 @@ export const tr: Messages = {
   },
 
   auth: {
+    // --- e-posta + parola ile giriş -------------------------------
+    signUpTitle: "AnswerGap hesabını oluştur",
+    tabSignIn: "Giriş yap",
+    tabSignUp: "Hesap oluştur",
+    emailLabel: "E-posta",
+    passwordLabel: "Parola",
+    nameLabel: "Ad (isteğe bağlı)",
+    newPassword: "Yeni parola",
+    passwordHint:
+      "En az 10 karakter. Önemli olan uzunluk — kısa bir parola yerine kısa bir cümle daha iyidir.",
+    or: "veya",
+    forgot: "Parolanı mı unuttun?",
+    forgotTitle: "Parolanı sıfırla",
+    forgotSub:
+      "Adresini gir, yeni parola belirlemen için bir bağlantı gönderelim.",
+    forgotSubmit: "Bağlantıyı gönder",
+    sentTitle: "Gelen kutunu kontrol et",
+    sentBody:
+      "{email} adresine bir bağlantı gönderdik. Adresini doğrulamak ve ücretsiz kredilerini almak için aç.",
+    sentSpam: "Bir dakika sürebilir. Gelmezse spam klasörüne bak.",
+    sentResend: "Tekrar gönder",
+    sentAgain: "Gönderildi. Birazdan gelen kutunu yeniden kontrol et.",
+    backToSignIn: "Girişe dön",
+    resetTitle: "Yeni parola belirle",
+    resetSub:
+      "Bu işlem seni diğer tüm cihazlardan da çıkarır — sıfırlamanın amacı zaten bu.",
+    resetSubmit: "Kaydet ve giriş yap",
+    working: "Çalışıyor…",
+    yourAddress: "adresine",
+    verifyBanner:
+      "Kredilerini kullanmaya başlamak için e-posta adresini doğrula.",
+    verifyBannerAction: "Bağlantıyı yeniden gönder",
+    verifiedToast: "E-posta adresin doğrulandı. Kredilerin hazır.",
     close: "Kapat",
     dialogTitle: "AnswerGap'e giriş yap",
     benefitCredits: "Arama yapmak ve soru kontrol etmek için kredi",
@@ -226,6 +259,18 @@ export const tr: Messages = {
   },
 
   error: {
+    invalidEmail: "Bu bir e-posta adresine benzemiyor.",
+    badCredentials: "Bu e-posta ve parola bir hesapla eşleşmiyor.",
+    emailUnverified:
+      "Önce e-posta adresini doğrula — bağlantı gelen kutunda.",
+    tooManyAttempts: "Çok fazla deneme. Birkaç dakika bekleyip tekrar dene.",
+    passwordTooShort: "Parola en az {minLength} karakter olmalı.",
+    passwordTooCommon:
+      "Bu parola sızıntı listelerinde geçiyor. Başka bir tane seç.",
+    resetExpired:
+      "Bu bağlantının süresi dolmuş ya da zaten kullanılmış. Yenisini iste.",
+    googleOff:
+      "Bu kurulumda Google ile giriş yapılandırılmamış. E-posta ile devam et.",
     unreachable: "API'ye ulaşılamadı ({url}). Backend çalışıyor mu?",
     http: "{status} {statusText} — {path}",
     noCredentials: "DataForSEO kimlik bilgileri eksik. .env.example dosyasını .env olarak kopyalayıp doldurun, sonra arka ucu yeniden başlatın.",

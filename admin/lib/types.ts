@@ -19,6 +19,16 @@ export interface UserRow {
   name: string | null;
   picture_url: string | null;
   status: "active" | "suspended";
+  /**
+   * Whether the address was ever confirmed. An operator asked "why can this
+   * person not spend?" has exactly two answers - suspended, or never
+   * confirmed - and the second one is invisible without this.
+   */
+  email_verified: boolean;
+  /** Which doors the account can use. Both true once Google and a password
+   *  are linked to the same address. */
+  has_password: boolean;
+  has_google: boolean;
   created_at: string;
   last_seen_at: string | null;
   balance: number;

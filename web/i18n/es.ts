@@ -204,6 +204,39 @@ export const es: Messages = {
   },
 
   auth: {
+    // --- inicio de sesión con correo y contraseña ------------------
+    signUpTitle: "Crea tu cuenta de AnswerGap",
+    tabSignIn: "Iniciar sesión",
+    tabSignUp: "Crear cuenta",
+    emailLabel: "Correo electrónico",
+    passwordLabel: "Contraseña",
+    nameLabel: "Nombre (opcional)",
+    newPassword: "Nueva contraseña",
+    passwordHint:
+      "Al menos 10 caracteres. Lo que importa es la longitud: una frase corta supera a una contraseña corta.",
+    or: "o",
+    forgot: "¿Olvidaste tu contraseña?",
+    forgotTitle: "Restablece tu contraseña",
+    forgotSub:
+      "Escribe tu dirección y te enviaremos un enlace para elegir una nueva contraseña.",
+    forgotSubmit: "Enviar el enlace",
+    sentTitle: "Revisa tu bandeja de entrada",
+    sentBody:
+      "Enviamos un enlace a {email}. Ábrelo para confirmar tu dirección y recibir tus créditos gratuitos.",
+    sentSpam: "Puede tardar un minuto. Si no está, mira en spam.",
+    sentResend: "Enviar de nuevo",
+    sentAgain: "Enviado. Vuelve a mirar tu bandeja en un momento.",
+    backToSignIn: "Volver al inicio de sesión",
+    resetTitle: "Elige una nueva contraseña",
+    resetSub:
+      "Esto también cierra tu sesión en todos los demás sitios, que es el objetivo de un restablecimiento.",
+    resetSubmit: "Guardar e iniciar sesión",
+    working: "Procesando…",
+    yourAddress: "tu dirección",
+    verifyBanner:
+      "Confirma tu dirección de correo para empezar a usar tus créditos.",
+    verifyBannerAction: "Reenviar el enlace",
+    verifiedToast: "Tu correo está confirmado. Tus créditos están listos.",
     close: "Cerrar",
     dialogTitle: "Inicia sesión en AnswerGap",
     benefitCredits: "Créditos para buscar y comprobar preguntas",
@@ -227,6 +260,20 @@ export const es: Messages = {
   },
 
   error: {
+    invalidEmail: "Eso no parece una dirección de correo.",
+    badCredentials:
+      "Ese correo y esa contraseña no coinciden con ninguna cuenta.",
+    emailUnverified:
+      "Confirma primero tu dirección de correo: el enlace está en tu bandeja.",
+    tooManyAttempts:
+      "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+    passwordTooShort:
+      "Las contraseñas necesitan al menos {minLength} caracteres.",
+    passwordTooCommon:
+      "Esa contraseña aparece en listas de filtraciones. Elige otra.",
+    resetExpired: "Ese enlace ha caducado o ya se usó. Pide uno nuevo.",
+    googleOff:
+      "El inicio de sesión con Google no está configurado aquí. Usa el correo.",
     unreachable: "No se pudo conectar con la API ({url}). ¿Está el backend en marcha?",
     http: "{status} {statusText} — {path}",
     noCredentials: "Faltan las credenciales de DataForSEO. Copia .env.example a .env, complétalo y reinicia el backend.",

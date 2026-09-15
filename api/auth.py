@@ -29,11 +29,13 @@ import hashlib
 import os
 import secrets
 import time
+from urllib.parse import quote
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse
+from pydantic import BaseModel, Field, field_validator
 
-from answergap import db, gate, oauth, tokens
+from answergap import db, gate, mailer, oauth, passwords, tokens
 
 router = APIRouter()
 
@@ -73,16 +75,27 @@ ANON_HEADER = "x-ag-anon"
 def accounts_enabled() -> bool:
     """Are accounts configured at all?
 
-    Requires the secret, the Google client, a public URL to come back to, AND a
-    database - an account that cannot be stored is not an account.
+    Requires the secret, a public URL to come back to, AND a database - an
+    account that cannot be stored is not an account, and a verification link
+    that cannot name a host cannot be clicked.
+
+    GOOGLE IS NO LONGER PART OF THIS TEST. It was, until password accounts
+    existed and made the two questions genuinely different: a deployment with
+    no Google client can still run email sign-in perfectly well, and the old
+    combined check would have switched the whole account system off to report
+    the absence of one of its two doors.
     """
-    return bool(
-        SESSION_SECRET
-        and GOOGLE_CLIENT_ID
-        and GOOGLE_CLIENT_SECRET
-        and PUBLIC_BASE_URL
-        and db.available()
-    )
+    return bool(SESSION_SECRET and PUBLIC_BASE_URL and db.available())
+
+
+def google_enabled() -> bool:
+    """Whether the Google button should work - and be shown at all.
+
+    Reported through `/api/meta` so the sign-in dialog can hide a button that
+    would only ever produce a 503. A door that is visibly there and does not
+    open is worse than one that was never drawn.
+    """
+    return bool(accounts_enabled() and GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET)
 
 
 def redirect_uri() -> str:
@@ -114,10 +127,23 @@ def identity(request: Request) -> gate.Identity:
         return gate.Identity(anon_id=anon_id, ip_hash=ip_hash)
 
     email = gate.normalize_email(payload.get("em"))
+    # Absent `ev` means a token signed before password accounts existed. Those
+    # were all Google sign-ins, and Google had already asserted a verified
+    # address, so True is the correct reading rather than a lenient one - and
+    # the alternative would have signed out every live session on deploy.
+    verified = bool(payload.get("ev", True))
     return gate.Identity(
         user_id=payload.get("uid"),
         email=email,
-        is_admin=gate.is_admin(email, ADMIN_EMAILS),
+        # VERIFICATION IS PART OF BEING AN ADMIN, and this is the line that
+        # makes it so. `ADMIN_EMAILS` matches on the address; a password signup
+        # may type ANY address, the operator's included, and receives a session
+        # before the mail is opened. Without `and verified`, "sign up as the
+        # admin address and never check the inbox" would be an admin session.
+        # The claim is inside a token we signed, so reading it here costs no
+        # query - which is what `/api/meta` requires.
+        is_admin=verified and gate.is_admin(email, ADMIN_EMAILS),
+        email_verified=verified,
         anon_id=anon_id,
         ip_hash=ip_hash,
         token_epoch=payload.get("ep"),
@@ -152,6 +178,12 @@ def check(who: gate.Identity, *, action: str, units: int) -> gate.Decision:
         state = gate.State(
             accounts_enabled=True,
             status=row.get("status"),
+            # From the ROW, not from the token. The token's claim was true when
+            # it was signed; this is the spending path, where the current fact
+            # is the one that decides. It also means a session opened before
+            # verification starts spending the moment the link is clicked,
+            # without waiting for the token to be re-issued.
+            email_verified=bool(row.get("email_verified", True)),
             balance=int(row.get("balance") or 0),
         )
     else:
@@ -267,6 +299,11 @@ def require_admin(request: Request) -> gate.Identity:
     # the token: an address that changed at Google must not keep an old claim.
     if not gate.is_admin(row.get("email"), ADMIN_EMAILS):
         raise HTTPException(403, {"code": "notAdmin"})
+    # The same rule `identity` applies to the token, applied again to the row.
+    # Defence in depth on the one check that separates "admin is an allowlist"
+    # from "admin is a claim anybody can type into a signup form".
+    if not row.get("email_verified", True):
+        raise HTTPException(403, {"code": "emailUnverified"})
     return who
 
 
@@ -287,8 +324,11 @@ def google_start(return_to: str = "", mode: str = "token") -> RedirectResponse:
     a server-side route handler cannot read a fragment and a query parameter
     would land in Railway's access log.
     """
-    if not accounts_enabled():
-        raise HTTPException(503, {"code": "accountsOff"})
+    if not google_enabled():
+        # `googleOff`, not `accountsOff`. With password sign-in beside it,
+        # "Google is not configured here" and "accounts are switched off" are
+        # different facts, and the dialog reacts differently to each.
+        raise HTTPException(503, {"code": "googleOff"})
     if not oauth.return_allowed(return_to, AUTH_RETURN_ORIGINS):
         # Logged, not returned. The reply stays a bare code - echoing the
         # allowlist back would hand an attacker the list of places a session
@@ -330,8 +370,8 @@ def google_callback(
     code: str = "", state: str = "", error: str = ""
 ) -> RedirectResponse:
     """Google is done. Turn the code into an account and go home."""
-    if not accounts_enabled():
-        raise HTTPException(503, {"code": "accountsOff"})
+    if not google_enabled():
+        raise HTTPException(503, {"code": "googleOff"})
 
     now = int(time.time())
     payload = oauth.read_state(state, SESSION_SECRET, now=now)
@@ -447,22 +487,542 @@ def me(request: Request) -> dict:
     row = db.user_for_gate(who.user_id)
     if not row or row.get("token_epoch") != who.token_epoch:
         raise HTTPException(401, {"code": "signedOut"})
+    verified = bool(row.get("email_verified", True))
     return {
         "email": row.get("email"),
         "name": row.get("name"),
         "picture_url": row.get("picture_url"),
         "status": row.get("status"),
         "credits": int(row.get("balance") or 0),
-        "role": "admin" if gate.is_admin(row.get("email"), ADMIN_EMAILS) else "user",
+        # Drives the "confirm your address" banner and the resend button. Read
+        # from the ROW rather than from the token, so the banner disappears as
+        # soon as the link is clicked on another device - without waiting for
+        # this session's token to be re-issued.
+        "email_verified": verified,
+        # Which doors this account can use. The account screen needs both:
+        # offering "set a password" to somebody who has one, or "unlink
+        # Google" to somebody who never linked it, is how a settings page
+        # starts lying about the account it describes.
+        "has_password": bool(row.get("has_password", False)),
+        "has_google": bool(row.get("has_google", True)),
+        # Verification is part of being an admin - the same rule `identity`
+        # applies, restated here so the two cannot drift. `ADMIN_EMAILS`
+        # matches on the address, and a password signup may type any address
+        # it likes until a mail proves otherwise.
+        "role": (
+            "admin"
+            if verified and gate.is_admin(row.get("email"), ADMIN_EMAILS)
+            else "user"
+        ),
     }
 
 
+# ====================================================== email + password
+#
+# The second door. Everything below produces the SAME session token as the
+# Google path and nothing downstream can tell which door was used - that is
+# what keeps `gate`, `identity`, the ownership checks and the admin panel
+# untouched by this feature.
+#
+# THREE RULES SHAPE EVERY HANDLER HERE, and they are worth stating once
+# because each one looks like an oversight if you meet it alone.
+#
+# 1. NO ENDPOINT CONFIRMS WHETHER AN ADDRESS HAS AN ACCOUNT. Signup, resend
+#    and forgot-password all answer identically whatever they find. An
+#    endpoint that says "this address is already registered" is a membership
+#    oracle: point it at a list and it tells you who your users are. The cost
+#    is that a typo'd signup looks like it worked, which the mail then
+#    corrects - a fair trade against publishing the customer list.
+#
+# 2. FAILURE IS SLOW ON PURPOSE. A missing account still pays for one scrypt
+#    derivation, because returning early would make "no such user" measurably
+#    faster than "wrong password" and hand back the oracle rule 1 just closed.
+#
+# 3. SENDING MAIL IS CAPPED IN TWO PLACES. Per caller in memory, and per
+#    account in the database. These endpoints must be open - "I forgot my
+#    password" cannot require the password - so without a cap anyone could aim
+#    our sending reputation at an address as a weapon.
+
+# Where the browser lives, for links that go INTO an email. `PUBLIC_BASE_URL`
+# is the api; a person clicking a link in their inbox needs the app. Falls
+# back to the first allowed return origin so a correct deployment does not
+# need a fourth URL variable set to a value it could have worked out.
+WEB_BASE_URL = (
+    os.environ.get("WEB_BASE_URL", "").rstrip("/")
+    or (sorted(AUTH_RETURN_ORIGINS)[0] if AUTH_RETURN_ORIGINS else "")
+)
+
+# Sliding-window counters, in memory, per process. Same trade as the `/jobs`
+# sweep cooldown: a database round trip to answer "how many times lately" is
+# ~150 ms on a path whose whole job is to be cheap, and process-local state
+# resetting on redeploy costs one burst of allowance rather than a permanent
+# hole. The DB-backed per-account cap below is what makes that acceptable -
+# these two are not the same control counted twice, they close different
+# halves (one attacker many accounts / many attackers one account).
+_ATTEMPTS: dict[str, list[float]] = {}
+
+LOGIN_WINDOW_SECONDS = 15 * 60
+LOGIN_MAX_PER_EMAIL = 10
+LOGIN_MAX_PER_IP = 30
+
+MAIL_WINDOW_SECONDS = 60 * 60
+MAIL_MAX_PER_IP = 6
+# Per account, counted in Postgres so it holds across replicas and restarts.
+# Four an hour is generous for a person pressing "resend" and useless as a
+# weapon.
+MAIL_MAX_PER_ACCOUNT = 4
+
+# A real scrypt hash of a value nobody knows, derived once at import. Verifying
+# against it is how a sign-in for a non-existent account spends the same time
+# as a real one - see rule 2 above. Deriving it lazily would put the cost on
+# the first failed sign-in instead, which is the request that must not be
+# distinguishable.
+_DUMMY_HASH = passwords.hash_password(secrets.token_urlsafe(32))
+
+
+def _rate_ok(key: str, *, limit: int, window: int) -> bool:
+    """Record an attempt and say whether it is within the window's limit.
+
+    Mark-first, like `_should_sweep`: the attempt is counted even when it is
+    refused, so hammering the endpoint keeps the window full rather than
+    letting a refused attempt cost nothing.
+    """
+    now = time.time()
+    kept = [t for t in _ATTEMPTS.get(key, []) if now - t < window]
+    kept.append(now)
+    _ATTEMPTS[key] = kept
+    # `> limit` because this call's own attempt is already in the list; with
+    # `>=` a limit of 10 would refuse the 10th.
+    return len(kept) <= limit
+
+
+def _hash_token(raw: str) -> str:
+    """Emailed tokens are stored hashed, like auth codes and for one reason:
+    a leaked backup of `email_token` must not be a set of live links."""
+    return hashlib.sha256(raw.encode()).hexdigest()
+
+
+def _signup_credits() -> int:
+    try:
+        settings = db.settings_all()
+    except Exception:  # noqa: BLE001 - a missing setting is not a failed signup
+        settings = {}
+    return gate.setting_int(
+        settings,
+        gate.SETTING_SIGNUP_CREDITS,
+        default=gate.DEFAULT_SIGNUP_CREDITS,
+        lo=0,
+        hi=100000,
+    )
+
+
+def _send_link(*, user: dict, purpose: str, locale: str) -> bool:
+    """Mint a one-time token, store its hash, and mail the link.
+
+    The two TTLs come from `db`, beside the table they describe, so the
+    lifetime quoted in the email cannot drift from the one enforced in SQL.
+
+    The RESET link points at the web app because the next step needs a form;
+    the VERIFY link points at this api because the next step is a redirect
+    carrying a session, and a fragment cannot be read by a server.
+    """
+    raw = secrets.token_urlsafe(32)
+    ttl = db.VERIFY_TTL_SECONDS if purpose == db.PURPOSE_VERIFY else db.RESET_TTL_SECONDS
+    email = gate.normalize_email(user.get("email"))
+    try:
+        db.email_token_put(
+            token_hash=_hash_token(raw),
+            user_id=int(user["id"]),
+            purpose=purpose,
+            email=email,
+            ttl_seconds=ttl,
+        )
+    except Exception as exc:  # noqa: BLE001
+        print(f"[auth] could not store {purpose} token: {exc}", flush=True)
+        return False
+
+    if purpose == db.PURPOSE_VERIFY:
+        link = f"{PUBLIC_BASE_URL}/api/auth/verify?token={quote(raw)}"
+    else:
+        link = f"{WEB_BASE_URL}/?reset={quote(raw)}"
+
+    subject, text, html = mailer.render(purpose, link=link, locale=locale)
+    return mailer.send(to=email, subject=subject, text=text, html=html)
+
+
+def _locale_of(raw: str | None) -> str:
+    """The reader's language, for the email only. Unknown values fall to `en`."""
+    value = (raw or "").strip().lower()[:5]
+    return value if value in mailer.FALLBACK else "en"
+
+
+def _accounts_or_503() -> None:
+    if not accounts_enabled():
+        raise HTTPException(503, {"code": "accountsOff"})
+
+
+class _EmailField(BaseModel):
+    """Shared address field. NORMALISES here, REFUSES in the handler.
+
+    The split is deliberate. A `field_validator` that raised would make FastAPI
+    answer 422 with Pydantic's own English prose - and this API returns machine
+    codes precisely because it cannot know which of five languages to apologise
+    in (see the module docstring in main.py). So the shape check happens in the
+    handler via `_email_or_400`, which returns `{"code": "invalidEmail"}` like
+    every other refusal here.
+
+    `gate.looks_like_email` rather than `EmailStr`, so the requirements file
+    stays three lines long - see the note on that function.
+    """
+
+    email: str = Field(min_length=3, max_length=gate.EMAIL_MAX_LENGTH)
+
+    @field_validator("email")
+    @classmethod
+    def _normalize(cls, value: str) -> str:
+        return gate.normalize_email(value)
+
+
+def _email_or_400(raw: str) -> str:
+    """Normalised address, or a coded 400. Never leaks whether it has an account."""
+    email = gate.normalize_email(raw)
+    if not gate.looks_like_email(email):
+        raise HTTPException(400, {"code": "invalidEmail"})
+    return email
+
+
+class SignupRequest(_EmailField):
+    # Bounded here as well as in `passwords.check_policy`, because this bound
+    # is about the REQUEST: scrypt is memory-hard by design, so an unbounded
+    # password field is an unbounded amount of work per attempt chosen by the
+    # caller. The policy check is about the password; this is about the door.
+    password: str = Field(min_length=1, max_length=passwords.MAX_LENGTH)
+    name: str | None = Field(default=None, max_length=120)
+    locale: str | None = None
+
+
+class LoginRequest(_EmailField):
+    password: str = Field(min_length=1, max_length=passwords.MAX_LENGTH)
+
+
+class EmailOnlyRequest(_EmailField):
+    locale: str | None = None
+
+
+class ResetRequest(BaseModel):
+    token: str = Field(min_length=1, max_length=200)
+    password: str = Field(min_length=1, max_length=passwords.MAX_LENGTH)
+
+
+@router.post("/api/auth/signup")
+def signup(request: Request, payload: SignupRequest) -> JSONResponse:
+    """Create an unverified account and mail a link. NEVER returns a session.
+
+    Withholding the token is the gate, and it is stronger than any check a
+    handler could make afterwards: an account that has not proven its address
+    cannot be signed in at all until the link is clicked, so there is no
+    window in which an unverified session exists to be misused.
+
+    The reply is identical whether the address was free, already taken by a
+    password account, or already taken by a Google account. See rule 1.
+    """
+    _accounts_or_503()
+    who = identity(request)
+    if not _rate_ok(
+        f"mail:{who.ip_hash}", limit=MAIL_MAX_PER_IP, window=MAIL_WINDOW_SECONDS
+    ):
+        raise HTTPException(429, {"code": "tooManyRequests"})
+
+    # Policy BEFORE the lookup, and it is the one thing here that does answer
+    # honestly: "your password is too short" is a fact about what the caller
+    # just typed, not about who else has an account.
+    try:
+        passwords.check_policy(payload.password)
+    except passwords.WeakPassword as weak:
+        raise HTTPException(
+            400, {"code": weak.code, "minLength": passwords.MIN_LENGTH}
+        ) from weak
+
+    email = _email_or_400(payload.email)
+    locale = _locale_of(payload.locale)
+    name = (payload.name or "").strip() or None
+
+    existing = db.user_by_email(email)
+    if existing is None:
+        created = db.user_create_password(
+            email=email,
+            password_hash=passwords.hash_password(payload.password),
+            name=name,
+        )
+        # None here means the address was taken between the SELECT and the
+        # INSERT - two signups racing on one address. The unique index caught
+        # it, and the loser is told what everybody is told.
+        if created:
+            _send_link(user=created, purpose=db.PURPOSE_VERIFY, locale=locale)
+    elif not existing.get("email_verified"):
+        # An unverified account being signed up again is somebody who never got
+        # the first mail. Re-send, and take the new password: nobody has proven
+        # control of this address yet, so there is no account here to protect -
+        # the mail is what will decide who owns it.
+        db.user_set_password(
+            user_id=int(existing["id"]),
+            password_hash=passwords.hash_password(payload.password),
+            revoke=False,
+        )
+        if (
+            db.email_token_recent(
+                user_id=int(existing["id"]),
+                purpose=db.PURPOSE_VERIFY,
+                window_seconds=MAIL_WINDOW_SECONDS,
+            )
+            < MAIL_MAX_PER_ACCOUNT
+        ):
+            _send_link(user=existing, purpose=db.PURPOSE_VERIFY, locale=locale)
+    else:
+        # A VERIFIED account already owns this address. Setting the password
+        # here would be account takeover by signup form, so instead we mail the
+        # owner a password-reset link - which is the honest reading of "someone
+        # is trying to create this account": either they forgot, and this is
+        # what they needed, or it is not them and the link goes to the person
+        # it should. Either way the reply to the CALLER is unchanged.
+        if (
+            db.email_token_recent(
+                user_id=int(existing["id"]),
+                purpose=db.PURPOSE_RESET,
+                window_seconds=MAIL_WINDOW_SECONDS,
+            )
+            < MAIL_MAX_PER_ACCOUNT
+        ):
+            _send_link(user=existing, purpose=db.PURPOSE_RESET, locale=locale)
+
+    return JSONResponse({"status": "verificationSent", "email": email})
+
+
+@router.post("/api/auth/login")
+def login(request: Request, payload: LoginRequest) -> JSONResponse:
+    """Exchange an address and password for a session.
+
+    ONE refusal code for every way this can fail - no such account, no password
+    on it, wrong password. Three different codes would be three different
+    answers to "does this address have an account", which is rule 1 again.
+
+    An UNVERIFIED account is the single exception, and it is not a leak: the
+    caller just proved they know the password, so they are the account holder
+    and telling them to check their inbox is the only useful thing left to say.
+    """
+    _accounts_or_503()
+    who = identity(request)
+    email = _email_or_400(payload.email)
+    if not _rate_ok(
+        f"login:{email}", limit=LOGIN_MAX_PER_EMAIL, window=LOGIN_WINDOW_SECONDS
+    ) or not _rate_ok(
+        f"loginip:{who.ip_hash}", limit=LOGIN_MAX_PER_IP, window=LOGIN_WINDOW_SECONDS
+    ):
+        raise HTTPException(429, {"code": "tooManyAttempts"})
+
+    row = db.user_by_email(email)
+    stored = (row or {}).get("password_hash")
+    # The dummy derivation is the point: a missing account and a wrong password
+    # take the same time. Without it the endpoint answers "is this address
+    # registered" in milliseconds.
+    ok = passwords.verify_password(payload.password, stored or _DUMMY_HASH)
+    if not row or not stored or not ok:
+        # One code for all three. The address exists but arrived through Google
+        # and has no password? Same answer as a wrong password, deliberately.
+        raise HTTPException(401, {"code": "badCredentials"})
+    if row.get("status") != gate.STATUS_ACTIVE:
+        raise HTTPException(403, {"code": "suspended"})
+    if not row.get("email_verified"):
+        raise HTTPException(403, {"code": "emailUnverified", "email": email})
+
+    # The cost parameters can be raised later, and this is the only moment the
+    # plaintext exists to re-derive under them. `revoke=False`: the person is
+    # signing in successfully, and bumping the epoch here would sign them out
+    # of their other devices as a reward for a correct password.
+    if passwords.needs_rehash(stored):
+        try:
+            db.user_set_password(
+                user_id=int(row["id"]),
+                password_hash=passwords.hash_password(payload.password),
+                revoke=False,
+            )
+        except Exception:  # noqa: BLE001 - a failed upgrade is not a failed login
+            pass
+
+    return JSONResponse({"token": _issue(row), "email": row.get("email")})
+
+
+@router.get("/api/auth/verify")
+def verify_email(token: str = "") -> RedirectResponse:
+    """Redeem an emailed verification link, then sign the person straight in.
+
+    A GET, because it is reached by clicking a link in a mail client. That
+    makes it prefetchable - some clients and scanners fetch links to preview
+    them - which is exactly why redemption lands somewhere useful either way:
+    the token is single-use, and a second redemption finds the account already
+    verified and offers a fresh link rather than an error page.
+
+    Signing in here is what makes the flow one step instead of two. The session
+    travels in a FRAGMENT for the same reason the Google callback uses one:
+    fragments never reach a server, so the token stays out of access logs and
+    out of the `Referer` header.
+    """
+    _accounts_or_503()
+    home = WEB_BASE_URL or ""
+    if not token:
+        return RedirectResponse(f"{home}/?auth=verifyFailed", status_code=302)
+
+    user_id = db.email_token_redeem(
+        token_hash=_hash_token(token), purpose=db.PURPOSE_VERIFY
+    )
+    if not user_id:
+        # Expired, already spent, or never real. One destination for all three:
+        # the page offers "send me a new link", which is the answer to each.
+        return RedirectResponse(f"{home}/?auth=verifyExpired", status_code=302)
+
+    row = db.user_verify_email(user_id=user_id, signup_credits=_signup_credits())
+    if not row:
+        return RedirectResponse(f"{home}/?auth=verifyFailed", status_code=302)
+    if row.get("status") != gate.STATUS_ACTIVE:
+        return RedirectResponse(f"{home}/?auth=suspended", status_code=302)
+
+    session = _issue(row)
+    return RedirectResponse(f"{home}/?verified=1#token={session}", status_code=302)
+
+
+@router.post("/api/auth/resend")
+def resend_verification(request: Request, payload: EmailOnlyRequest) -> JSONResponse:
+    """Send the verification link again. Always answers the same way."""
+    _accounts_or_503()
+    who = identity(request)
+    if not _rate_ok(
+        f"mail:{who.ip_hash}", limit=MAIL_MAX_PER_IP, window=MAIL_WINDOW_SECONDS
+    ):
+        raise HTTPException(429, {"code": "tooManyRequests"})
+
+    email = _email_or_400(payload.email)
+    row = db.user_by_email(email)
+    # Nothing to do for an address with no account, or one already verified -
+    # and in both cases the reply is the one everybody gets.
+    if row and not row.get("email_verified"):
+        if (
+            db.email_token_recent(
+                user_id=int(row["id"]),
+                purpose=db.PURPOSE_VERIFY,
+                window_seconds=MAIL_WINDOW_SECONDS,
+            )
+            < MAIL_MAX_PER_ACCOUNT
+        ):
+            _send_link(
+                user=row, purpose=db.PURPOSE_VERIFY, locale=_locale_of(payload.locale)
+            )
+    return JSONResponse({"status": "verificationSent", "email": email})
+
+
+@router.post("/api/auth/forgot")
+def forgot_password(request: Request, payload: EmailOnlyRequest) -> JSONResponse:
+    """Mail a password-reset link. Always answers the same way.
+
+    A Google-only account gets a link too, and redeeming it SETS a password
+    rather than refusing. The person controls the mailbox, which is the same
+    proof Google gave us, so the outcome is an account with both doors - not
+    a dead end that says "you signed up with Google" to somebody who does not
+    remember doing so.
+    """
+    _accounts_or_503()
+    who = identity(request)
+    if not _rate_ok(
+        f"mail:{who.ip_hash}", limit=MAIL_MAX_PER_IP, window=MAIL_WINDOW_SECONDS
+    ):
+        raise HTTPException(429, {"code": "tooManyRequests"})
+
+    email = _email_or_400(payload.email)
+    row = db.user_by_email(email)
+    if row and row.get("status") == gate.STATUS_ACTIVE:
+        if (
+            db.email_token_recent(
+                user_id=int(row["id"]),
+                purpose=db.PURPOSE_RESET,
+                window_seconds=MAIL_WINDOW_SECONDS,
+            )
+            < MAIL_MAX_PER_ACCOUNT
+        ):
+            _send_link(
+                user=row, purpose=db.PURPOSE_RESET, locale=_locale_of(payload.locale)
+            )
+    return JSONResponse({"status": "resetSent", "email": email})
+
+
+@router.post("/api/auth/reset")
+def reset_password(request: Request, payload: ResetRequest) -> JSONResponse:
+    """Redeem a reset link, set the new password, and sign in.
+
+    `revoke=True` on the write, and that is the security half of this endpoint.
+    A reset exists because control of the account may have been lost; leaving
+    the old sessions alive would make it cosmetic - the attacker keeps their
+    token and the owner changes a password that protects nothing. Bumping
+    `token_epoch` invalidates every session ever issued, including the
+    attacker's, and the fresh one returned below is the only one left.
+
+    Redeeming also VERIFIES the address: the link proves the same mailbox
+    control the verification mail does, so refusing to count it would send
+    somebody a second mail asking for what they just demonstrated.
+    """
+    _accounts_or_503()
+    who = identity(request)
+    if not _rate_ok(
+        f"reset:{who.ip_hash}", limit=LOGIN_MAX_PER_IP, window=LOGIN_WINDOW_SECONDS
+    ):
+        raise HTTPException(429, {"code": "tooManyAttempts"})
+
+    try:
+        passwords.check_policy(payload.password)
+    except passwords.WeakPassword as weak:
+        raise HTTPException(
+            400, {"code": weak.code, "minLength": passwords.MIN_LENGTH}
+        ) from weak
+
+    user_id = db.email_token_redeem(
+        token_hash=_hash_token(payload.token), purpose=db.PURPOSE_RESET
+    )
+    if not user_id:
+        raise HTTPException(400, {"code": "resetExpired"})
+
+    if not db.user_set_password(
+        user_id=user_id,
+        password_hash=passwords.hash_password(payload.password),
+        revoke=True,
+    ):
+        raise HTTPException(400, {"code": "resetExpired"})
+
+    row = db.user_verify_email(user_id=user_id, signup_credits=_signup_credits())
+    if not row:
+        raise HTTPException(400, {"code": "resetExpired"})
+    if row.get("status") != gate.STATUS_ACTIVE:
+        raise HTTPException(403, {"code": "suspended"})
+    # Re-read so the token carries the BUMPED epoch. Signing the old one would
+    # hand back a session the revocation above had just invalidated.
+    fresh = db.user_for_gate(user_id) or row
+    return JSONResponse({"token": _issue(fresh), "email": fresh.get("email")})
+
+
 def _issue(user: dict) -> str:
+    """Sign a session token. ONE function, so both doors produce the same thing.
+
+    A password sign-in and a Google sign-in are indistinguishable downstream by
+    design: the gate, the admin panel, `/api/me` and every ownership check read
+    the same claims and never ask which door was used.
+    """
     return tokens.sign(
         {
             "uid": int(user["id"]),
             "em": gate.normalize_email(user.get("email")),
             "ep": int(user.get("token_epoch") or 1),
+            # Whether the address is proven. Read by `identity` with NO query,
+            # which is what lets the admin check stay off the healthcheck path.
+            # Defaults True because every caller that predates password
+            # accounts passes a Google row, where it always was.
+            "ev": bool(user.get("email_verified", True)),
         },
         SESSION_SECRET,
         now=int(time.time()),

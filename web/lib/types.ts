@@ -167,6 +167,19 @@ export interface Meta {
    * offering a button that cannot work.
    */
   accounts_enabled: boolean;
+  /**
+   * Whether the GOOGLE door specifically is configured. Split from
+   * `accounts_enabled` when password sign-in arrived: a deployment with no
+   * Google client still runs email accounts perfectly well, and the dialog
+   * must not draw a button whose only possible answer is 503.
+   */
+  google_enabled?: boolean;
+  /**
+   * `"resend"` (mail really goes out) or `"console"` (it is printed to the
+   * server log). Shown to a developer so that "no verification mail arrived"
+   * on a local machine reads as configuration rather than as a bug.
+   */
+  mail_backend?: "resend" | "console";
   /** Real per-request cost in USD. Not credits - see `Pricing`. */
   pricing: Pricing;
   /** What the storage layer did at boot. Null when no database is configured. */
@@ -190,6 +203,17 @@ export interface Me {
   /** May be negative: a debit is unconditional because the money is already
    * spent upstream by the time it is written. Shown as-is rather than clamped. */
   credits: number;
+  /**
+   * Whether the address has been proven. Drives the banner and the resend
+   * button. An unverified account can sign in and look around but cannot
+   * spend - its signup credits are not granted until this turns true, so the
+   * gate refuses it with `emailUnverified` rather than `noCredits`, which
+   * would be true and useless advice.
+   */
+  email_verified?: boolean;
+  /** Which doors this account can use. Both can be true once linked. */
+  has_password?: boolean;
+  has_google?: boolean;
   role: Role;
 }
 

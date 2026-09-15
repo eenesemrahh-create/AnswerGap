@@ -29,7 +29,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from answergap import db, gate, labels, live
+from answergap import db, gate, labels, live, mailer
 from answergap.dataforseo import (
     LIVE_COST_PER_REQUEST,
     STANDARD_COST_PER_REQUEST,
@@ -179,6 +179,18 @@ def meta(http_request: Request) -> dict:
         # no Postgres looks like - the UI hides the account menu rather than
         # offering a button that cannot work.
         "accounts_enabled": auth.accounts_enabled(),
+        # Which doors are actually open. Split from `accounts_enabled` when
+        # password sign-in arrived: a deployment with no Google client still
+        # runs email accounts perfectly well, and the dialog must not draw a
+        # Google button that can only ever answer 503. A door that is visibly
+        # there and does not open is worse than one that was never drawn.
+        "google_enabled": auth.google_enabled(),
+        # `resend` or `console`. NOT a secret - it says which transport is
+        # wired, never the key - and it is the one thing that distinguishes
+        # "the verification mail is in your inbox" from "the verification mail
+        # was printed to the server log", which is the single most confusing
+        # state a fresh deployment can be in.
+        "mail_backend": mailer.backend(),
         # Real per-request prices, measured and reported - not credits. CLAUDE.md
         # prices in credits for customers; a developer needs the underlying cost,
         # because the whole point of the Standard queue is a comparison you can

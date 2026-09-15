@@ -15,7 +15,7 @@ import type {
   TreeSummary,
   Verdict,
 } from "./types";
-import { anonId, clearToken, token } from "./auth";
+import { anonId, clearToken, setToken, token } from "./auth";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -45,7 +45,16 @@ export type ErrorKind =
   | "signedOut"
   | "noCredits"
   | "anonLimit"
-  | "suspended";
+  | "suspended"
+  // --- email + password sign-in ---------------------------------------
+  | "badCredentials"
+  | "emailUnverified"
+  | "tooManyAttempts"
+  | "passwordTooShort"
+  | "passwordTooCommon"
+  | "resetExpired"
+  | "invalidEmail"
+  | "googleOff";
 
 export class ApiError extends Error {
   constructor(
@@ -71,6 +80,21 @@ const CODES: Record<string, ErrorKind> = {
   anonLimit: "anonLimit",
   suspended: "suspended",
   accountsOff: "noCredentials",
+  // Sign-in refusals. `badCredentials` is deliberately the ONLY code the
+  // server returns for "no such account", "no password on it" and "wrong
+  // password" alike - three codes would be three answers to "does this
+  // address have an account", which the API refuses to answer.
+  badCredentials: "badCredentials",
+  emailUnverified: "emailUnverified",
+  tooManyAttempts: "tooManyAttempts",
+  // Mail-sending caps share the attempts message; both say "wait a moment".
+  tooManyRequests: "tooManyAttempts",
+  passwordTooShort: "passwordTooShort",
+  passwordTooLong: "passwordTooShort",
+  passwordTooCommon: "passwordTooCommon",
+  resetExpired: "resetExpired",
+  invalidEmail: "invalidEmail",
+  googleOff: "googleOff",
 };
 
 function kindFor(status: number, code?: string): ErrorKind {
@@ -272,4 +296,61 @@ export function signIn(): void {
 export function signOut(): void {
   clearToken();
   if (typeof window !== "undefined") window.location.reload();
+}
+
+/* ------------------------------------------------- email + password sign-in
+ *
+ * The second door. `login` and `resetPassword` return a session token exactly
+ * as the Google redirect does, and `setToken` is the only thing either of them
+ * does with it - nothing downstream can tell which door was used.
+ *
+ * `signUp` deliberately returns NO token. An account that has not proven its
+ * address cannot hold a session at all, which is a stronger guarantee than any
+ * check made after issuing one.
+ */
+
+/** What every non-session auth call answers with. Never says whether the
+ *  address had an account: see the enumeration note in `api/auth.py`. */
+export interface AuthStatus {
+  status: "verificationSent" | "resetSent";
+  email: string;
+}
+
+export const signUp = (input: {
+  email: string;
+  password: string;
+  name?: string;
+  locale?: string;
+}) => post<AuthStatus>("/api/auth/signup", input);
+
+export const resendVerification = (email: string, locale?: string) =>
+  post<AuthStatus>("/api/auth/resend", { email, locale });
+
+export const forgotPassword = (email: string, locale?: string) =>
+  post<AuthStatus>("/api/auth/forgot", { email, locale });
+
+/** Signs in on success - the token is stored before this resolves. */
+export async function logIn(email: string, password: string): Promise<void> {
+  const out = await post<{ token: string }>("/api/auth/login", {
+    email,
+    password,
+  });
+  if (out.token) setToken(out.token);
+}
+
+/** Redeems a reset link, sets the new password and signs in.
+ *
+ * Every OTHER session for this account dies here - the server bumps the token
+ * epoch, because a reset exists precisely because the account may have been
+ * reached by somebody else. The token stored below is the only one left alive.
+ */
+export async function resetPassword(
+  resetToken: string,
+  password: string
+): Promise<void> {
+  const out = await post<{ token: string }>("/api/auth/reset", {
+    token: resetToken,
+    password,
+  });
+  if (out.token) setToken(out.token);
 }

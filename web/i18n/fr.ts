@@ -206,6 +206,40 @@ export const fr: Messages = {
   },
 
   auth: {
+    // --- connexion par e-mail et mot de passe ------------------------
+    signUpTitle: "Créez votre compte AnswerGap",
+    tabSignIn: "Se connecter",
+    tabSignUp: "Créer un compte",
+    emailLabel: "E-mail",
+    passwordLabel: "Mot de passe",
+    nameLabel: "Nom (facultatif)",
+    newPassword: "Nouveau mot de passe",
+    passwordHint:
+      "Au moins 10 caractères. C'est la longueur qui compte : une phrase courte vaut mieux qu'un mot de passe court.",
+    or: "ou",
+    forgot: "Mot de passe oublié ?",
+    forgotTitle: "Réinitialisez votre mot de passe",
+    forgotSub:
+      "Indiquez votre adresse et nous vous enverrons un lien pour choisir un nouveau mot de passe.",
+    forgotSubmit: "Envoyer le lien",
+    sentTitle: "Consultez votre boîte de réception",
+    sentBody:
+      "Nous avons envoyé un lien à {email}. Ouvrez-le pour confirmer votre adresse et recevoir vos crédits gratuits.",
+    sentSpam:
+      "Cela peut prendre une minute. S'il n'arrive pas, regardez dans les spams.",
+    sentResend: "Renvoyer",
+    sentAgain: "Envoyé. Regardez de nouveau dans un instant.",
+    backToSignIn: "Retour à la connexion",
+    resetTitle: "Choisissez un nouveau mot de passe",
+    resetSub:
+      "Cela vous déconnecte aussi partout ailleurs — c'est tout l'intérêt d'une réinitialisation.",
+    resetSubmit: "Enregistrer et se connecter",
+    working: "En cours…",
+    yourAddress: "votre adresse",
+    verifyBanner:
+      "Confirmez votre adresse e-mail pour utiliser vos crédits.",
+    verifyBannerAction: "Renvoyer le lien",
+    verifiedToast: "Votre e-mail est confirmé. Vos crédits sont prêts.",
     close: "Fermer",
     dialogTitle: "Se connecter à AnswerGap",
     benefitCredits: "Des crédits pour lancer des recherches et vérifier des questions",
@@ -229,6 +263,21 @@ export const fr: Messages = {
   },
 
   error: {
+    invalidEmail: "Cela ne ressemble pas à une adresse e-mail.",
+    badCredentials:
+      "Cet e-mail et ce mot de passe ne correspondent à aucun compte.",
+    emailUnverified:
+      "Confirmez d'abord votre adresse e-mail — le lien est dans votre boîte.",
+    tooManyAttempts:
+      "Trop de tentatives. Attendez quelques minutes puis réessayez.",
+    passwordTooShort:
+      "Les mots de passe doivent faire au moins {minLength} caractères.",
+    passwordTooCommon:
+      "Ce mot de passe figure dans des fuites connues. Choisissez-en un autre.",
+    resetExpired:
+      "Ce lien a expiré ou a déjà été utilisé. Demandez-en un nouveau.",
+    googleOff:
+      "La connexion Google n'est pas configurée ici. Utilisez l'e-mail.",
     unreachable: "API injoignable ({url}). Le backend est-il démarré ?",
     http: "{status} {statusText} — {path}",
     noCredentials: "Les identifiants DataForSEO sont absents. Copiez .env.example vers .env, remplissez-le, puis redémarrez le backend.",

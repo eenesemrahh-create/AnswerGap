@@ -542,3 +542,9 @@ button.act.warn { color: var(--warn); border-color: currentColor; }
   color: var(--brand-contrast-preview);
   border-color: transparent;
 }
+
+/* Which sign-in doors an account has, in the users table. Deliberately quiet:
+   it is context for the row, not a state anyone acts on. The loud case is
+   "unverified", which reuses `.pill.suspended` because it is the same kind of
+   fact - this account cannot spend. */
+.doors { color: var(--muted, #6b7280); font-size: 12px; }

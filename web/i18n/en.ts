@@ -244,6 +244,38 @@ export const en = {
   // Sign-in and credits. Wording rule, same as the status badges: name what
   // the reader has to DECIDE, not what we measured.
   auth: {
+    // --- email + password sign-in ----------------------------------
+    signUpTitle: "Create your AnswerGap account",
+    tabSignIn: "Sign in",
+    tabSignUp: "Create account",
+    emailLabel: "Email",
+    passwordLabel: "Password",
+    nameLabel: "Name (optional)",
+    newPassword: "New password",
+    passwordHint:
+      "At least 10 characters. Length is what matters — a short phrase beats a short password.",
+    or: "or",
+    forgot: "Forgot your password?",
+    forgotTitle: "Reset your password",
+    forgotSub:
+      "Enter your address and we will send you a link to choose a new password.",
+    forgotSubmit: "Send the link",
+    sentTitle: "Check your inbox",
+    sentBody:
+      "We sent a link to {email}. Open it to confirm your address and collect your free credits.",
+    sentSpam: "It can take a minute. If it is not there, look in spam.",
+    sentResend: "Send it again",
+    sentAgain: "Sent. Check your inbox again in a moment.",
+    backToSignIn: "Back to sign in",
+    resetTitle: "Choose a new password",
+    resetSub:
+      "This also signs you out everywhere else, which is the point of a reset.",
+    resetSubmit: "Save and sign in",
+    working: "Working…",
+    yourAddress: "your address",
+    verifyBanner: "Confirm your email address to start using your credits.",
+    verifyBannerAction: "Resend the link",
+    verifiedToast: "Your email is confirmed. Your credits are ready.",
     close: "Close",
     dialogTitle: "Sign in to AnswerGap",
     benefitCredits: "Credits to run searches and check questions",
@@ -267,6 +299,17 @@ export const en = {
   },
 
   error: {
+    invalidEmail: "That does not look like an email address.",
+    badCredentials: "That email and password do not match an account.",
+    emailUnverified:
+      "Confirm your email address first — the link is in your inbox.",
+    tooManyAttempts: "Too many attempts. Wait a few minutes and try again.",
+    passwordTooShort: "Passwords need at least {minLength} characters.",
+    passwordTooCommon: "That password appears in breach lists. Pick another.",
+    resetExpired:
+      "That link has expired or was already used. Ask for a new one.",
+    googleOff:
+      "Google sign-in is not configured on this deployment. Use email instead.",
     unreachable: "Could not reach the API ({url}). Is the backend running?",
     http: "{status} {statusText} — {path}",
     noCredentials: "DataForSEO credentials are missing. Copy .env.example to .env, fill it in, then restart the backend.",

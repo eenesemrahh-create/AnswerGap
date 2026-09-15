@@ -488,6 +488,12 @@ hits and local builds.
 
 ## Pick up here
 
+- **Email sign-in needs ONE production pass before it is real.** The SQL in
+  `0007_password_accounts` and the five new account queries were written and
+  structurally checked on a machine with no Postgres - they have never been
+  executed. Run the migration against a scratch copy, set `RESEND_API_KEY` +
+  `MAIL_FROM`, then sign up with a real address end to end. The full
+  checklist is at the end of the 2026-09-15 email sign-in section.
 - **Product screens still on the old visual language.** Landing / sign-in
   dialog / theme + locale pickers got the new look on 2026-09-08 and
   2026-09-14; `tree/[slug]` (canvas, gap table, related searches,
@@ -1407,6 +1413,309 @@ and hasn't been asked for beyond this iteration.
 Test count moves from `159 -> 166 -> 172` on the same day: `+7 from
 pricing plumbing`, `+6 from draft/publish semantics`.
 
+## Email + password sign-in and verification, 2026-09-15
+
+A second door beside Google, an enforced verification mail, and password
+reset. **Still zero new runtime dependencies**: `hashlib.scrypt`, `secrets`,
+`hmac` and `urllib` are stdlib, so `answergap/` stays stdlib-only and
+`requirements.txt` did not move. `pydantic.EmailStr` was the one thing that
+would have added a fourth — see the address note below for why it was not
+worth it.
+
+### The whole design is one sentence: both doors produce the same token
+
+`_issue()` is the only place a session is minted, and a password sign-in and a
+Google sign-in are **indistinguishable downstream**. `gate`, `identity`, the
+ownership checks, `/api/me` and the admin panel were not taught that a second
+door exists, and none of them can tell which one was used. That is what kept
+this feature from touching the spending path at all.
+
+### Three schema facts, and the one that changed an old decision
+
+`0007_password_accounts` adds `password_hash`, `email_verified_at`,
+`signup_granted_at`, the `email_token` table, and makes `google_sub` nullable.
+
+- **The address is now UNIQUE** (`app_user_email_key` on `lower(email)`,
+  replacing 0005's non-unique index). This is the constraint that makes account
+  LINKING safe rather than a race: without it the same person could hold two
+  rows and two balances, and "which account did my credits go to" would have no
+  answer. 0005's reasoning is **not** reversed — `google_sub` is still looked up
+  FIRST and the address is only ever the fallback, so a Google account that
+  changes its primary address is still recognised as the same person.
+- **`google_sub` is nullable, not removed.** Postgres treats NULLs as distinct
+  in a UNIQUE index, so every password account coexists under the old
+  constraint without colliding.
+- **`signup_granted_at` replaces the `xmax = 0` trick.** 0005 fired the signup
+  grant from the same statement that created the row and told an INSERT from an
+  ON CONFLICT UPDATE with `xmax = 0`. That stops working the moment the grant
+  moves to a LATER statement — which is exactly what verification does. A
+  column recording that the grant has been paid is the only version that
+  survives, and `did_grant` is read from the **pre-update** row carried in a
+  CTE, because `RETURNING` hands back the new value and would always say
+  "already granted".
+
+**The migration names its own failure.** Each migration runs in one
+transaction, so a duplicate address would roll back all of 0007 —
+`email_token` included — and surface as a bare "could not create unique index".
+A `DO $$` block checks first and raises with the offending address in the
+message. Merging two balances is not a decision a migration gets to make.
+
+### Credits are granted at VERIFICATION, not at signup
+
+The security decision of the whole feature. `user_create_password` grants
+**nothing**; `user_verify_email` pays the signup grant, once, in the same
+statement that marks the address proven. A crash between the two would
+otherwise leave either a verified account with no credits or a grant with
+nothing to show for it, and the ledger is append-only — there is no "fix it
+later" for money.
+
+Without this, 10 free searches × every throwaway mailbox is a free-search farm,
+and **every one of those searches costs $0.0026 of real money**.
+
+Consequence: a new `emailUnverified` refusal (403), and it is checked **before
+the balance**. An unverified account has a balance of zero by construction, so
+a balance check running first would refuse all of them with "you are out of
+credits" — true, and useless. The action they need is in their inbox, not in a
+shop. `tests/test_email_auth.py::test_unverified_is_checked_BEFORE_the_balance`
+pins the order.
+
+### The privilege-escalation trap this introduced, and the line that closes it
+
+`ADMIN_EMAILS` matches on the **address**, and a password signup may type any
+address it likes — the operator's included — and receives a session. So:
+
+```python
+is_admin=verified and gate.is_admin(email, ADMIN_EMAILS)
+```
+
+Without `and verified`, *"sign up as the admin address and never open the
+inbox"* would have been an admin session. No mail, no proof, full panel.
+
+Two properties make this workable. The claim (`ev`) rides inside a token **we
+signed**, so reading it costs **no query** — which is what `/api/meta` requires,
+being Railway's healthcheck. And `require_admin` re-checks it against the row,
+so the token claim is a fast path rather than the authority.
+
+`ev` **absent** means a token signed before this feature. Those were all Google
+sign-ins, where Google had asserted a verified address, so the default is
+`True` — `False` would have signed out every live session on deploy.
+`test_an_unverified_admin_address_is_NOT_an_admin` was mutation-checked: remove
+the guard and it goes red.
+
+### Resend over SMTP, and the reason is the failure mode
+
+Raw SMTP from a container host is wrong twice: outbound mail ports are commonly
+blocked or throttled, and mail from a shared cloud IP with no SPF/DKIM
+alignment lands in spam. For a **verification** mail that is the worst failure
+available — the signup does not error, it silently never completes, and the
+user blames the product rather than their junk folder. A provider API is one
+HTTPS POST from `urllib`, with the domain authenticated by the provider.
+
+`mailer.available()` is the same seam as `db.available()` and
+`embeddings.available()`: **no key → the console backend**, which prints the
+message and its link to the server log and reports success. Reporting success
+there is correct rather than convenient — on a machine with no provider the log
+IS the outbox, and anything else would make every local signup look broken.
+`/api/meta` carries `mail_backend` so "no mail arrived" reads as configuration
+rather than as a bug.
+
+**`send()` returns a bool and never raises into a signup.** An account whose
+creation was rolled back because a third party had an outage is worse than an
+account that needs the resend button — and the resend button has to exist
+anyway.
+
+**Mail copy is in five locales**, like every other string a reader sees.
+Nothing can enforce that the way `en.ts` enforces the web catalogue, so the
+copy is kept deliberately small (subject, heading, one line, button, expiry,
+fallback) and a test asserts all five subjects differ.
+
+### Enumeration: no endpoint says whether an address has an account
+
+Signup, resend and forgot-password all answer identically whatever they find.
+An endpoint that says "already registered" is a membership oracle — point it at
+a list and it returns your customer list.
+
+- **Login has ONE refusal code** for no-such-account, no-password-on-it and
+  wrong-password alike. Three codes would be three answers to the same
+  question.
+- **Failure is slow on purpose.** A missing account still pays for one scrypt
+  derivation against `_DUMMY_HASH`, because returning early would make "no such
+  user" measurably faster and hand back the oracle by timing.
+- **Signup on a VERIFIED address mails the OWNER a reset link** rather than
+  setting the password. Either they forgot and that is what they needed, or it
+  is not them and the link goes to the right person. The reply to the caller is
+  unchanged either way.
+- **Signup on an UNVERIFIED address takes the new password.** Nobody has proven
+  control yet, so there is no account there to protect — the mail decides who
+  owns it.
+- The one honest answer is the password policy: "too short" is a fact about
+  what the caller just typed, not about who else has an account.
+
+### scrypt, and why the cost is inside the string
+
+`hashlib.scrypt` rather than pbkdf2: both are stdlib, but PBKDF2 is CPU-hard
+only and a GPU attacks it thousands of times faster than the server that made
+it. scrypt's cost is **memory**, which is what custom hardware cannot cheaply
+multiply — and a stolen hash table is exactly the asset cracked offline at
+leisure.
+
+The encoded form is `scrypt$n$r$p$salt$hash`. **The parameters travel with the
+hash**, which is what makes raising the cost later survivable: old hashes keep
+verifying under the numbers they were made with, and `needs_rehash` upgrades
+them at the only moment the plaintext exists — a successful sign-in. A verifier
+reading today's constant would reject every existing hash on the deploy that
+raised the cost, i.e. lock out every user.
+
+Policy is NIST SP 800-63B: **length, no composition rules**. 10 characters
+minimum, a 200 maximum that is a security control rather than a storage one
+(scrypt hashes whatever it is given, so an unbounded password is unbounded
+memory-hard work per attempt chosen by the attacker), and a short breach list.
+NFKC normalisation at **both** ends, or a Turkish or German passphrase set on
+one keyboard fails to verify on another with nothing on screen to explain why.
+
+### The address check is deliberately loose
+
+`gate.looks_like_email` rather than `pydantic.EmailStr`, which drags in
+`email-validator` for a product whose whole requirements file is three lines.
+It buys almost nothing here because **the verification mail IS the validation**:
+an address that does not exist never receives its link, never verifies and
+never gets credits. A check that accepts a superset is therefore free, while
+one that is too strict silently rejects real addresses — RFC 5321 permits far
+stranger local parts than most regexes allow.
+
+It refuses in the HANDLER, not in a `field_validator`, and that is the
+"codes, not prose" rule: a validator that raised would make FastAPI answer 422
+carrying Pydantic's own English sentence, which a five-language UI renders to a
+customer as *"422 Unprocessable Entity"*.
+
+### Rate limiting, in two places that close different halves
+
+Per caller in memory (`_rate_ok`, a sliding window, mark-first like
+`_should_sweep`) and per account in Postgres (`email_token_recent`). Not the
+same control counted twice: the first stops one attacker hitting many accounts,
+the second stops many attackers hitting one account — and the second holds
+across replicas and restarts, which is what makes the in-memory half
+acceptable.
+
+These endpoints **must** be open — "I forgot my password" cannot require the
+password — so without a cap anyone could aim our sending reputation at an
+address as a weapon and burn the provider quota doing it.
+
+`email_token_put` also **deletes any unused token of the same purpose** before
+inserting. Pressing resend three times must not leave three live links in a
+mailbox with nothing to invalidate them.
+
+### Reset revokes; verify does not
+
+`user_set_password(revoke=True)` on a reset bumps `token_epoch`, killing every
+session ever issued. A reset exists **because** control of the account may have
+been lost; leaving the attacker's session alive would make the reset cosmetic.
+A successful login passes `revoke=False` — signing someone out of their other
+devices as a reward for typing the right password would be a strange thing to
+ship.
+
+`email_token_redeem` takes `purpose` in the **WHERE clause**, not as a check
+afterwards. Without it a verification token — the weaker of the two, 24-hour
+TTL, mailed to an address nobody has proven — would be redeemable at the reset
+endpoint, which is the whole account. It also compares the token's stored
+address against the row's **current** one, so a link mailed to an address that
+has since changed is dead.
+
+### Where the links point, and why they differ
+
+- **Verify → the API** (`/api/auth/verify`), which redeems, grants, and
+  redirects to the app with the session in a **fragment** — same reason as the
+  Google callback: fragments never reach a server, so the token stays out of
+  access logs and out of `Referer`. One step instead of two.
+- **Reset → the web app** (`/?reset=…`), because the next step needs a form.
+
+`WEB_BASE_URL` is new and falls back to the first `AUTH_RETURN_ORIGINS` entry —
+`PUBLIC_BASE_URL` is the api, and a person clicking a link in their inbox needs
+the app.
+
+`AccountMenu` owns every return path (`#token=`, `?verified=1`, `?reset=`,
+`?auth=…`) because they all end in the same two actions — take a token out of
+the URL, refetch `/api/me` — and spread across pages, `/tree/[slug]` would
+quietly lack a copy. All four are **scrubbed from the address bar**: a reset
+token left in the URL survives in history and in anything the reader copies.
+
+### `accounts_enabled()` split from `google_enabled()`
+
+The two questions became genuinely different. A deployment with no Google
+client still runs email accounts perfectly well, and the old combined check
+would have switched the whole account system off to report the absence of one
+of its two doors. `/api/meta` reports both, and the dialog hides a Google
+button that could only ever answer 503 — a door that is visibly there and does
+not open is worse than one that was never drawn.
+
+### Interface
+
+One dialog, **five modes** — sign in, sign up, "check your inbox", "I forgot",
+"choose a new password". They are five steps of one errand, and a reader who
+lands on any of them may need another; splitting them across routes would mean
+a full navigation and a lost password field every time somebody guessed wrong.
+
+**Email first, Google second**, and that ordering is a decision: Google will
+stay the most-used door, but on top it makes the email form read as the
+fallback for people who could not manage the easy option.
+
+The unverified state is a **strip in the account row**, not a disabled button
+somewhere. Every paid action refuses until the link is clicked, so the reason
+has to be visible before the reader tries — and the fix has to be one click
+from the explanation.
+
+**A new `--danger` token, and it fixes an existing palette violation.**
+`.account-failed` was `color: var(--gap)` — a status token used for decoration,
+which the rule at the top of `globals.css` explicitly forbids, and amber there
+reads as "opportunity", the opposite of what a refused password means. Errors
+are a third role, declared once.
+
+### What is NOT built
+
+- **The admin panel still signs in with Google only.** The API would serve a
+  password login for it unchanged; the admin sign-in screen was not touched.
+- **No "change my password while signed in", no "unlink Google".** `/api/me`
+  now reports `has_password` / `has_google` so an account screen can be built
+  without another schema change, but there is no account screen yet.
+- **No email change.** `email_token` already keys on the address it was sent
+  to, which is the hard half.
+
+### Tests: 180 → 246
+
+`tests/test_passwords.py` (33) and `tests/test_email_auth.py` (33). All pure —
+no database, no network, no clock — which is possible because the hashing,
+the templates, the gate branch and the identity derivation are all pure.
+
+**Verified locally:** full suite green, `web` and `admin` builds clean (the
+five-locale i18n gate passed, which is what proves no locale is missing a key),
+API boots, `/api/meta` reports the new fields, and every new endpoint
+fails closed with a coded refusal when accounts are off.
+
+**NOT verified: the SQL.** There is no Postgres on this machine, so
+`0007_password_accounts` and the five new queries — including two
+data-modifying-CTE statements, the shape CLAUDE.md already records one bug
+against — have been reasoned about and structurally checked but **never
+executed**. Run the migration on a scratch database before deploying, and see
+the checklist at the end of this section.
+
+**Spend: $0.00.** Nothing here touches DataForSEO.
+
+### Before this goes live
+
+1. Apply `0007` against a copy of production first. `/api/meta` reports
+   `storage.applied` and `storage.error`, so the result is visible without
+   handling the database password.
+2. Set `RESEND_API_KEY` and `MAIL_FROM` on the **api** service, with the From
+   domain verified at the provider. Until both are set, `mail_backend` stays
+   `console` and no verification mail leaves the building.
+3. Set `WEB_BASE_URL` if `AUTH_RETURN_ORIGINS` does not already sort the web
+   origin first.
+4. Sign up with a real address end to end: mail arrives → link signs you in →
+   `/api/me` shows `email_verified: true` and the signup credits → a second
+   click on the same link does not grant them twice.
+5. Check the privacy claim still holds: an unverified account with an
+   `ADMIN_EMAILS` address must get `role: "user"` from `/api/meta`.
+
 ## Accounts, credits and the admin panel, 2026-09-08
 
 Google sign-in, an enforced credit balance, a free daily allowance for
@@ -1846,8 +2155,10 @@ Four things do have to change, in this order: **storage**, **tests**,
    sweep stops piggybacking on a polled GET.
 6. ~~**Auth, credits.**~~ **DONE 2026-09-08** — Google sign-in, an enforced
    credit balance, an anonymous daily allowance and the admin panel that runs
-   them. See the section below. **Still open: tenancy and Stripe.** There is
-   no per-user data isolation and no checkout; credits are granted by hand.
+   them. **Email + password and verification added 2026-09-15**, so the signup
+   funnel no longer depends on one external provider — see the section above.
+   **Still open: tenancy and Stripe.** There is no per-user data isolation and
+   no checkout; credits are granted by hand.
 7. ~~**Decide whether searches are private.**~~ **DONE 2026-09-08 — private,
    at list level.** See the section above for what that does and does not
    cover. Still open, and smaller: the tree, table, related-searches and

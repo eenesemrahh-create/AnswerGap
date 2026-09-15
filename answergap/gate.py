@@ -26,6 +26,13 @@ REFUSED_NO_CREDITS = "refused_no_credits"
 REFUSED_ANON_LIMIT = "refused_anon_limit"
 REFUSED_SUSPENDED = "refused_suspended"
 REFUSED_SIGNED_OUT = "refused_signed_out"
+# Added with password accounts. Distinct from REFUSED_NO_CREDITS on purpose:
+# an unverified account HAS no credits, because the signup grant waits for
+# verification, so the two would otherwise be indistinguishable - and telling
+# someone to buy credits when what they need is to click a link in their inbox
+# is advice for a different problem. Same reasoning that gave `noCredits` its
+# own code rather than reusing the DataForSEO budget 429.
+REFUSED_UNVERIFIED = "refused_unverified"
 
 STATUS_ACTIVE = "active"
 STATUS_SUSPENDED = "suspended"
@@ -55,7 +62,14 @@ class Identity:
 
     user_id: int | None = None
     email: str | None = None
+    # NOTE: derived from the token's own `ev` claim, NOT from a query - see
+    # `api.auth.identity`. An account that has not proven its address is never
+    # an admin, because `ADMIN_EMAILS` matches on the address and a password
+    # signup can claim ANY address it likes until a mail proves otherwise.
+    # Without that rule, signing up as the operator's address and never opening
+    # the inbox would be an admin session.
     is_admin: bool = False
+    email_verified: bool = True
     anon_id: str | None = None
     ip_hash: str | None = None
     # The epoch the token was signed under. Compared against the row's
@@ -74,6 +88,11 @@ class State:
 
     accounts_enabled: bool = False
     status: str | None = None
+    # Read LIVE from the row, like `status` and for the same reason: the token
+    # carries a claim that was true when it was signed, and this is the spending
+    # path where the current fact is what matters. Defaults True so that every
+    # caller written before password accounts existed keeps its old behaviour.
+    email_verified: bool = True
     balance: int = 0
     anon_limit: int = DEFAULT_ANON_DAILY
     anon_used_browser: int = 0
@@ -119,6 +138,20 @@ def decide(identity: Identity, state: State, *, action: str, units: int) -> Deci
         return Decision(True, ALLOWED, affordable_units=units)
 
     if identity.signed_in:
+        # BEFORE the balance check, and the order is the message. An unverified
+        # account has a balance of zero by construction - the signup grant is
+        # paid at verification - so checking the balance first would refuse
+        # every one of these with "you are out of credits", which is true and
+        # useless. The action they need is in their inbox.
+        #
+        # Deliberately NOT before the admin branch: `is_admin` already requires
+        # a verified address (see Identity), so an unverified admin cannot
+        # exist to be refused here.
+        if not state.email_verified:
+            return Decision(
+                False, REFUSED_UNVERIFIED, "emailUnverified", 403,
+                info={"email": identity.email},
+            )
         if state.balance >= units:
             return Decision(True, ALLOWED, affordable_units=units)
         if state.balance > 0:
@@ -170,6 +203,40 @@ def credits_for(billable_calls: int | None) -> int:
 
 def normalize_email(raw: str | None) -> str:
     return (raw or "").strip().lower()
+
+
+# Deliberately loose, and the looseness is the design rather than laziness.
+#
+# `pydantic.EmailStr` would be the obvious choice and it drags in
+# `email-validator` - a fourth runtime dependency for a product whose whole
+# requirements file is three lines. It buys almost nothing here, because THE
+# VERIFICATION MAIL IS THE VALIDATION: an address that does not exist never
+# receives its link, never verifies, and never gets credits. A syntactic check
+# that accepts a superset is therefore free, while one that is too strict
+# silently rejects real addresses - and RFC 5321 permits far stranger local
+# parts than most regexes allow, quoted strings and plus-tags included.
+#
+# So this rejects only what could not possibly be delivered or could break
+# something downstream: no `@`, more than one `@`, an empty half, whitespace,
+# a dotless domain, or a length no mail system would accept.
+EMAIL_MAX_LENGTH = 254  # RFC 5321 path limit.
+
+
+def looks_like_email(raw: str | None) -> bool:
+    """Cheap sanity check on an address. NOT a deliverability claim."""
+    value = (raw or "").strip()
+    if not value or len(value) > EMAIL_MAX_LENGTH:
+        return False
+    if any(ch.isspace() for ch in value):
+        return False
+    local, sep, domain = value.partition("@")
+    if not sep or not local or not domain or "@" in domain:
+        return False
+    # A domain with no dot is either a local hostname or a typo. Neither is an
+    # address a verification mail can reach from a third-party sender.
+    if "." not in domain or domain.startswith(".") or domain.endswith("."):
+        return False
+    return ".." not in domain
 
 
 def parse_admin_emails(raw: str | None) -> frozenset[str]:

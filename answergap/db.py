@@ -528,6 +528,120 @@ MIGRATIONS: list[tuple[str, str]] = [
             ON crawl (anon_id, created_at DESC) WHERE anon_id IS NOT NULL;
         """,
     ),
+    (
+        "0007_password_accounts",
+        """
+        -- Email + password sign-in, beside Google rather than instead of it.
+        --
+        -- WHY THE IDENTITY RULE HAD TO CHANGE. `google_sub` was NOT NULL
+        -- UNIQUE and was the identity, for the reason recorded against
+        -- 0005: a Google account can change its primary address, so keying
+        -- on the address would split one person into two accounts and two
+        -- balances. That reasoning is untouched and `google_sub` is still
+        -- looked up FIRST. What changes is that a password account has no
+        -- `sub` at all, so the column becomes nullable - and Postgres
+        -- treats NULLs as distinct in a UNIQUE index, so many password
+        -- accounts coexist under it without colliding.
+        ALTER TABLE app_user ALTER COLUMN google_sub DROP NOT NULL;
+
+        -- scrypt, encoded with its own cost parameters. NULL for an account
+        -- that only ever signed in with Google - which is why "does this
+        -- account have a password" is a real question the sign-in path asks
+        -- rather than an assumption.
+        ALTER TABLE app_user ADD COLUMN IF NOT EXISTS password_hash TEXT;
+
+        -- NULL until the address is proven. Google sign-in sets it
+        -- immediately (Google asserts `email_verified` and we check it);
+        -- a password signup sets it when the emailed link is redeemed.
+        ALTER TABLE app_user ADD COLUMN IF NOT EXISTS email_verified_at
+            TIMESTAMPTZ;
+
+        -- THE SIGNUP GRANT MOVES TO VERIFICATION, so this records whether
+        -- it has happened. 0005 wrote the grant in the same statement that
+        -- created the row and used `xmax = 0` to fire it exactly once; that
+        -- trick does not survive the grant moving to a LATER statement, and
+        -- "credits already given" has to be a fact in the row instead.
+        -- Without it, pressing the verification link twice - or a replayed
+        -- request - would mint a second helping of free searches.
+        ALTER TABLE app_user ADD COLUMN IF NOT EXISTS signup_granted_at
+            TIMESTAMPTZ;
+
+        -- Backfill: every account that exists when this migration runs
+        -- arrived through Google, which verified the address before we
+        -- accepted it, and was granted its credits at creation. Marking
+        -- them NULL instead would lock out every existing user behind a
+        -- verification mail they never asked for, and re-granting them
+        -- credits they already have would be inventing money.
+        UPDATE app_user
+           SET email_verified_at = COALESCE(email_verified_at, created_at),
+               signup_granted_at = COALESCE(signup_granted_at, created_at)
+         WHERE google_sub IS NOT NULL;
+
+        -- THE ADDRESS IS NOW UNIQUE, and this is the constraint that makes
+        -- account linking safe rather than a race. Without it, two people -
+        -- or one person twice - could hold the same address under two rows
+        -- and two balances, and the "which account did my credits go to"
+        -- question would have no answer. Built on lower(email) because
+        -- addresses are matched case-insensitively everywhere else here,
+        -- ADMIN_EMAILS included.
+        --
+        -- This REPLACES the non-unique index from 0005. Creating it will
+        -- fail loudly if duplicate addresses already exist, and that is the
+        -- correct outcome: silently merging two balances is not a migration
+        -- decision.
+        --
+        -- The check below exists only to make that failure READABLE. Each
+        -- migration runs in one transaction, so a bare unique violation here
+        -- rolls back all of 0007 - including `email_token` - and surfaces as
+        -- "could not create unique index" with no indication of which address
+        -- is at fault. This names it.
+        DO $$
+        DECLARE offending text;
+        BEGIN
+            SELECT lower(email) INTO offending
+              FROM app_user GROUP BY lower(email) HAVING count(*) > 1 LIMIT 1;
+            IF offending IS NOT NULL THEN
+                RAISE EXCEPTION
+                    'migration 0007: % is on more than one app_user row. '
+                    'Merge the accounts (and their credit_ledger rows) by '
+                    'hand, then redeploy.', offending;
+            END IF;
+        END $$;
+
+        DROP INDEX IF EXISTS app_user_email_idx;
+        CREATE UNIQUE INDEX IF NOT EXISTS app_user_email_key
+            ON app_user (lower(email));
+
+        -- One-time emailed tokens: verification and password reset.
+        --
+        -- Deliberately the same shape as `auth_code` rather than a signed
+        -- stateless token. A signed token cannot be revoked and cannot be
+        -- spent only once; this table gets both properties from the same
+        -- `UPDATE ... WHERE used_at IS NULL RETURNING` that makes auth_code
+        -- single-use by construction, so two concurrent redemptions cannot
+        -- both win.
+        --
+        -- Stored HASHED. A leaked backup of this table would otherwise be a
+        -- set of live password-reset links.
+        CREATE TABLE IF NOT EXISTS email_token (
+            token_hash TEXT PRIMARY KEY,
+            user_id    BIGINT NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
+            -- verify | reset
+            purpose    TEXT NOT NULL,
+            -- The address the token was SENT TO, which is not necessarily
+            -- the row's current address. A reset link mailed to an old
+            -- address must not be redeemable after the address changes.
+            email      TEXT NOT NULL,
+            expires_at TIMESTAMPTZ NOT NULL,
+            used_at    TIMESTAMPTZ,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+        -- Serves both the "how many did we send lately" rate-limit check and
+        -- the sweep that deletes spent tokens.
+        CREATE INDEX IF NOT EXISTS email_token_user_idx
+            ON email_token (user_id, purpose, created_at DESC);
+        """,
+    ),
 ]
 
 
@@ -1821,59 +1935,120 @@ def user_upsert(
     picture_url: str | None,
     signup_credits: int,
 ) -> dict:
-    """Find or create the account behind a Google identity, in one statement.
+    """Find, LINK or create the account behind a Google identity, in one statement.
 
-    The signup grant is written by the SAME statement that creates the row, and
-    only when the insert actually happened - `xmax = 0` is the standard way to
-    tell an INSERT from an ON CONFLICT UPDATE. Doing it in a second statement
-    would leave a window where a crash produces an account with no credits, and
-    the ledger is the one place in this schema where "fix it later" is not
-    available: it is money, and it is append-only.
+    Three outcomes, and the middle one is what 0007 added:
 
-    The email is refreshed on every sign-in because a Google account can change
-    its address, and ADMIN_EMAILS matches on the address.
+    1. `google_sub` already known  -> that account, refreshed.
+    2. The ADDRESS is known and belongs to a password account -> LINK. Google
+       asserts `email_verified` and `oauth.claims_from_id_token` checks it, so
+       Google has proven exactly what our own verification mail proves: control
+       of the mailbox. Creating a second account here instead would split one
+       person into two balances, which is the failure `app_user_email_key`
+       now makes impossible anyway - the insert would simply fail.
+    3. Neither -> a new account, verified on the spot.
+
+    `google_sub` is still looked up FIRST and the address is only ever the
+    fallback. That preserves 0005's reasoning intact: a Google account that
+    changes its primary address is still recognised as the same person,
+    because the subject id has not moved.
+
+    THE SIGNUP GRANT IS GUARDED BY `signup_granted_at`, NOT BY `xmax = 0`.
+    The old trick fired the grant only when the INSERT actually happened,
+    which stops working the moment the grant can also belong to a verification
+    that happens later. A column recording that it has been given is the only
+    version of this that survives the grant moving - and `did_grant` is read
+    from the PRE-update row carried in `candidate`, because RETURNING hands
+    back the new value and would always say "already granted".
+
+    Returns `{}` if the address collides with a DIFFERENT Google account, which
+    the unique index refuses. A silent merge of two balances is not a decision
+    a sign-in handler gets to make.
     """
-    with connect() as conn, conn.cursor() as cur:
-        cur.execute(
-            """
-            WITH up AS (
-                INSERT INTO app_user (google_sub, email, name, picture_url,
-                                      last_seen_at)
-                VALUES (%(sub)s, %(email)s, %(name)s, %(pic)s, now())
-                ON CONFLICT (google_sub) DO UPDATE
-                   SET email        = EXCLUDED.email,
-                       name         = EXCLUDED.name,
-                       picture_url  = EXCLUDED.picture_url,
-                       last_seen_at = now()
-                RETURNING id, email, status, token_epoch, (xmax = 0) AS created
-            ), granted AS (
-                INSERT INTO credit_ledger (user_id, delta, reason)
-                SELECT id, %(credits)s, 'signup' FROM up
-                 WHERE created AND %(credits)s > 0
-                RETURNING delta
+    try:
+        with connect() as conn, conn.cursor() as cur:
+            cur.execute(
+                """
+                WITH candidate AS (
+                    -- Priority, not preference: the subject id is the
+                    -- identity and the address is only a fallback. The
+                    -- second branch is restricted to accounts with NO
+                    -- google_sub so that linking can only ever absorb a
+                    -- password account, never re-point somebody else's
+                    -- Google row at a new subject id.
+                    SELECT id, signup_granted_at, 1 AS pref
+                      FROM app_user WHERE google_sub = %(sub)s
+                    UNION ALL
+                    SELECT id, signup_granted_at, 2 AS pref
+                      FROM app_user
+                     WHERE google_sub IS NULL
+                       AND lower(email) = lower(%(email)s)
+                     ORDER BY pref
+                     LIMIT 1
+                ), updated AS (
+                    UPDATE app_user u
+                       SET google_sub        = %(sub)s,
+                           email             = %(email)s,
+                           -- COALESCE, not assignment: a password account
+                           -- being linked may already carry a name and a
+                           -- picture, and Google sending null for either
+                           -- must not blank what the person set.
+                           name              = COALESCE(%(name)s, u.name),
+                           picture_url       = COALESCE(%(pic)s, u.picture_url),
+                           email_verified_at = COALESCE(u.email_verified_at, now()),
+                           signup_granted_at = CASE WHEN %(credits)s > 0
+                               THEN COALESCE(u.signup_granted_at, now())
+                               ELSE u.signup_granted_at END,
+                           last_seen_at      = now()
+                      FROM candidate c
+                     WHERE u.id = c.id
+                    RETURNING u.id, u.email, u.status, u.token_epoch,
+                              (c.signup_granted_at IS NULL
+                               AND %(credits)s > 0) AS did_grant
+                ), inserted AS (
+                    INSERT INTO app_user (google_sub, email, name, picture_url,
+                                          email_verified_at, signup_granted_at,
+                                          last_seen_at)
+                    SELECT %(sub)s, %(email)s, %(name)s, %(pic)s, now(),
+                           CASE WHEN %(credits)s > 0 THEN now() END, now()
+                     WHERE NOT EXISTS (SELECT 1 FROM candidate)
+                    RETURNING id, email, status, token_epoch,
+                              (%(credits)s > 0) AS did_grant
+                ), both AS (
+                    SELECT * FROM updated
+                    UNION ALL
+                    SELECT * FROM inserted
+                ), ledger AS (
+                    INSERT INTO credit_ledger (user_id, delta, reason)
+                    SELECT id, %(credits)s, 'signup' FROM both WHERE did_grant
+                    RETURNING delta
+                )
+                -- The grant is added on rather than summed from the table,
+                -- for the same snapshot reason as admin_credit: `ledger` and
+                -- this SELECT run on one snapshot, so the row just written is
+                -- not visible here. Without it a brand-new account reports a
+                -- balance of 0 in the very response that created its credits.
+                SELECT b.id, b.email, b.status, b.token_epoch,
+                       TRUE AS email_verified,
+                       COALESCE((SELECT sum(delta) FROM credit_ledger
+                                  WHERE user_id = b.id), 0)
+                       + COALESCE((SELECT sum(delta) FROM ledger), 0) AS balance
+                  FROM both b
+                """,
+                {
+                    "sub": google_sub,
+                    "email": email,
+                    "name": name,
+                    "pic": picture_url,
+                    "credits": int(signup_credits),
+                },
             )
-            -- The signup grant is added on rather than summed from the table,
-            -- for the same snapshot reason as admin_credit: `granted` and this
-            -- SELECT run on one snapshot, so the row it just wrote is not
-            -- visible here. Without this a brand-new account would report a
-            -- balance of 0 in the very response that created its credits.
-            SELECT up.id, up.email, up.status, up.token_epoch, up.created,
-                   COALESCE((SELECT sum(delta) FROM credit_ledger
-                              WHERE user_id = up.id), 0)
-                   + COALESCE((SELECT sum(delta) FROM granted), 0) AS balance
-              FROM up
-            """,
-            {
-                "sub": google_sub,
-                "email": email,
-                "name": name,
-                "pic": picture_url,
-                "credits": int(signup_credits),
-            },
-        )
-        row = cur.fetchone()
-        conn.commit()
-        return dict(row) if row else {}
+            row = cur.fetchone()
+            conn.commit()
+            return dict(row) if row else {}
+    except Exception as exc:  # noqa: BLE001 - reported as a failed sign-in
+        print(f"[auth] user_upsert failed: {type(exc).__name__}: {exc}", flush=True)
+        return {}
 
 
 def user_for_gate(user_id: int) -> dict | None:
@@ -1888,6 +2063,16 @@ def user_for_gate(user_id: int) -> dict | None:
         cur.execute(
             """
             SELECT u.id, u.email, u.name, u.picture_url, u.status, u.token_epoch,
+                   -- A boolean rather than the timestamp: the gate asks "may
+                   -- this person spend", not "when did they confirm". Anything
+                   -- reading the date would be reading it to re-derive this.
+                   (u.email_verified_at IS NOT NULL) AS email_verified,
+                   -- Whether a password is set at all, NEVER the hash. This
+                   -- row travels to /api/me and into the admin panel; a hash
+                   -- that is not fetched cannot be logged, serialised or
+                   -- leaked by a future caller who did not think about it.
+                   (u.password_hash IS NOT NULL) AS has_password,
+                   (u.google_sub IS NOT NULL) AS has_google,
                    COALESCE((SELECT sum(delta) FROM credit_ledger
                               WHERE user_id = u.id), 0) AS balance
               FROM app_user u
@@ -2060,6 +2245,250 @@ def auth_code_redeem(code_hash: str) -> int | None:
         return int(row["user_id"]) if row else None
 
 
+# ------------------------------------------------------- password accounts
+#
+# Added 0007. Everything here follows the same one-connection-one-statement
+# rule as the Google path above, for the same ~150 ms reason.
+#
+# TOKEN PURPOSES AND THEIR LIFETIMES. Both are written down here rather than
+# in the API layer because they describe `email_token`, and a TTL kept
+# somewhere else is a TTL that can disagree with the mail that quotes it.
+
+PURPOSE_VERIFY = "verify"
+PURPOSE_RESET = "reset"
+
+# 24 hours. Long enough to survive a mail that arrives while someone is
+# asleep, which is the common case and the one a short window punishes.
+VERIFY_TTL_SECONDS = 24 * 60 * 60
+
+# 1 hour, and deliberately far shorter. A reset link is a live credential for
+# an account someone else may be trying to reach; a verification link only
+# confirms an address the holder already gave us.
+RESET_TTL_SECONDS = 60 * 60
+
+
+def user_by_email(email: str) -> dict | None:
+    """The account behind an address, WITH its password hash.
+
+    The one function that fetches `password_hash`, because verifying a sign-in
+    is the one thing that needs it. Everything else goes through
+    `user_for_gate`, which returns only whether a password exists.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT u.id, u.email, u.name, u.status, u.token_epoch,
+                   u.password_hash, u.google_sub,
+                   (u.email_verified_at IS NOT NULL) AS email_verified,
+                   COALESCE((SELECT sum(delta) FROM credit_ledger
+                              WHERE user_id = u.id), 0) AS balance
+              FROM app_user u
+             WHERE lower(u.email) = lower(%s)
+            """,
+            (email,),
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+
+def user_create_password(
+    *, email: str, password_hash: str, name: str | None
+) -> dict | None:
+    """Create an UNVERIFIED password account. Grants NOTHING.
+
+    No credits here, and that is the security decision rather than an
+    omission: the signup grant is 10 free searches that cost real money, so
+    handing it out before the address is proven turns a throwaway mailbox
+    into a free-search farm. `user_verify_email` is where the grant happens,
+    once, guarded by `signup_granted_at`.
+
+    Returns None when the address is taken - the unique index refuses, and
+    the caller turns that into the SAME reply a fresh signup gets, because
+    a different reply would make this endpoint an account-enumeration oracle.
+    """
+    try:
+        with connect() as conn, conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO app_user (email, name, password_hash, last_seen_at)
+                VALUES (%(email)s, %(name)s, %(hash)s, now())
+                RETURNING id, email, status, token_epoch
+                """,
+                {"email": email, "name": name, "hash": password_hash},
+            )
+            row = cur.fetchone()
+            conn.commit()
+            return dict(row) if row else None
+    except Exception:  # noqa: BLE001 - a taken address is not an error here
+        return None
+
+
+def user_set_password(*, user_id: int, password_hash: str, revoke: bool) -> bool:
+    """Write a new password hash.
+
+    `revoke` bumps `token_epoch`, which invalidates every session already
+    issued to this account. A password RESET must pass True: the whole point
+    of the flow is that someone may have lost control of the account, and
+    leaving the attacker's existing session alive would make the reset
+    cosmetic. A voluntary change from inside a live session passes False, or
+    the user signs themselves out by changing their own password.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE app_user
+               SET password_hash = %(hash)s,
+                   token_epoch   = token_epoch + CASE WHEN %(revoke)s THEN 1
+                                                      ELSE 0 END
+             WHERE id = %(id)s
+            RETURNING id
+            """,
+            {"hash": password_hash, "id": int(user_id), "revoke": bool(revoke)},
+        )
+        row = cur.fetchone()
+        conn.commit()
+        return bool(row)
+
+
+def user_verify_email(*, user_id: int, signup_credits: int) -> dict | None:
+    """Mark an address proven and pay the signup grant - at most once, ever.
+
+    Both halves in ONE statement. Split across two, a crash between them
+    leaves either a verified account that never got its credits or a grant
+    with nothing to show for it, and the ledger is append-only: there is no
+    "fix it later" available for money.
+
+    `signup_granted_at IS NULL` in the `granted` CTE reads the row as it was
+    BEFORE this statement's own update, because every data-modifying CTE sees
+    the same snapshot. That is what makes a second click on the same link -
+    or a replayed request - a no-op rather than a second helping of credits.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH before AS (
+                SELECT id, signup_granted_at FROM app_user WHERE id = %(id)s
+            ), marked AS (
+                UPDATE app_user u
+                   SET email_verified_at = COALESCE(u.email_verified_at, now()),
+                       signup_granted_at = CASE WHEN %(credits)s > 0
+                           THEN COALESCE(u.signup_granted_at, now())
+                           ELSE u.signup_granted_at END,
+                       last_seen_at      = now()
+                  FROM before b
+                 WHERE u.id = b.id
+                RETURNING u.id, u.email, u.status, u.token_epoch,
+                          (b.signup_granted_at IS NULL
+                           AND %(credits)s > 0) AS did_grant
+            ), ledger AS (
+                INSERT INTO credit_ledger (user_id, delta, reason)
+                SELECT id, %(credits)s, 'signup' FROM marked WHERE did_grant
+                RETURNING delta
+            )
+            SELECT m.id, m.email, m.status, m.token_epoch, m.did_grant,
+                   TRUE AS email_verified,
+                   COALESCE((SELECT sum(delta) FROM credit_ledger
+                              WHERE user_id = m.id), 0)
+                   + COALESCE((SELECT sum(delta) FROM ledger), 0) AS balance
+              FROM marked m
+            """,
+            {"id": int(user_id), "credits": int(signup_credits)},
+        )
+        row = cur.fetchone()
+        conn.commit()
+        return dict(row) if row else None
+
+
+def email_token_put(
+    *, token_hash: str, user_id: int, purpose: str, email: str, ttl_seconds: int
+) -> None:
+    """Record an emailed one-time token, hashed.
+
+    Any UNUSED token of the same purpose for the same user is deleted first.
+    Pressing "resend" three times must not leave three live links: the newest
+    mail is the one the person is looking at, and the older ones are loose
+    credentials sitting in a mailbox with nothing to invalidate them.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "DELETE FROM email_token WHERE user_id = %s AND purpose = %s "
+            "AND used_at IS NULL",
+            (int(user_id), purpose),
+        )
+        cur.execute(
+            """
+            INSERT INTO email_token (token_hash, user_id, purpose, email,
+                                     expires_at)
+            VALUES (%(hash)s, %(id)s, %(purpose)s, %(email)s,
+                    now() + make_interval(secs => %(ttl)s))
+            """,
+            {
+                "hash": token_hash,
+                "id": int(user_id),
+                "purpose": purpose,
+                "email": email,
+                "ttl": int(ttl_seconds),
+            },
+        )
+        conn.commit()
+
+
+def email_token_redeem(*, token_hash: str, purpose: str) -> int | None:
+    """Burn a token and return its user, or None.
+
+    Single-use by construction, the same `WHERE used_at IS NULL ... RETURNING`
+    as `auth_code_redeem`: two concurrent redemptions cannot both match.
+
+    `purpose` is part of the WHERE rather than checked afterwards. Without it
+    a verification token - the weaker of the two, mailed on a 24-hour TTL to
+    an address nobody has proven yet - would be redeemable at the password
+    reset endpoint, which is the whole account.
+
+    The address is compared against the row's CURRENT one, so a link mailed
+    to an address that has since changed is dead.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE email_token t SET used_at = now()
+              FROM app_user u
+             WHERE t.token_hash = %(hash)s
+               AND t.purpose    = %(purpose)s
+               AND t.used_at IS NULL
+               AND t.expires_at > now()
+               AND u.id = t.user_id
+               AND lower(u.email) = lower(t.email)
+            RETURNING t.user_id
+            """,
+            {"hash": token_hash, "purpose": purpose},
+        )
+        row = cur.fetchone()
+        conn.commit()
+        return int(row["user_id"]) if row else None
+
+
+def email_token_recent(*, user_id: int, purpose: str, window_seconds: int) -> int:
+    """How many of these we have mailed this user lately.
+
+    The mail-bomb control. The endpoints that send are open by necessity -
+    "resend my verification" cannot require a session, and "I forgot my
+    password" cannot require the password - so without a cap here, anyone
+    could point our sending reputation at an address as a weapon and burn
+    the provider quota doing it.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT count(*) AS n FROM email_token
+             WHERE user_id = %(id)s AND purpose = %(purpose)s
+               AND created_at > now() - make_interval(secs => %(window)s)
+            """,
+            {"id": int(user_id), "purpose": purpose, "window": int(window_seconds)},
+        )
+        row = cur.fetchone()
+        return int(row["n"]) if row else 0
+
+
 # ---------------------------------------------------------------- admin reads
 #
 # The rule for this whole surface: one screen = one API call = one statement.
@@ -2145,7 +2574,15 @@ def admin_users(
         cur.execute(
             """
             WITH page AS (
-                SELECT id, email, name, picture_url, status, created_at, last_seen_at
+                SELECT id, email, name, picture_url, status, created_at,
+                       last_seen_at,
+                       -- Added with password accounts. An operator asked "why
+                       -- can this person not spend?" has exactly two answers -
+                       -- suspended, or never confirmed their address - and
+                       -- without this column the second one is invisible.
+                       (email_verified_at IS NOT NULL) AS email_verified,
+                       (password_hash IS NOT NULL) AS has_password,
+                       (google_sub IS NOT NULL) AS has_google
                   FROM app_user
                  WHERE (%(q)s = '' OR email ILIKE '%%' || %(q)s || '%%')
                    AND (%(status)s = '' OR status = %(status)s)
@@ -2184,6 +2621,13 @@ def admin_user_detail(user_id: int) -> dict | None:
             """
             SELECT u.id, u.email, u.name, u.picture_url, u.status, u.token_epoch,
                    u.created_at, u.last_seen_at,
+                   (u.email_verified_at IS NOT NULL) AS email_verified,
+                   -- Which doors this account has. NEVER the hash itself: this
+                   -- row travels to the admin browser, and a value that is not
+                   -- fetched cannot be logged or leaked by a later caller who
+                   -- did not think about it.
+                   (u.password_hash IS NOT NULL) AS has_password,
+                   (u.google_sub IS NOT NULL) AS has_google,
                    COALESCE((SELECT sum(delta) FROM credit_ledger
                               WHERE user_id = u.id), 0) AS balance,
                    COALESCE((SELECT json_agg(x) FROM (

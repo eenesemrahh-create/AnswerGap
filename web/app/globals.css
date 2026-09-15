@@ -2285,3 +2285,184 @@ table.table {
 
 /* The hero owns the headline, so the generic landing rules must not fight it. */
 .hero .tagline { margin: 0 auto; }
+
+/* =================================================================
+   Email + password sign-in — 2026-09-15
+
+   TWO PALETTES, AND THEY MUST NOT MIX (see the top of this file). The form
+   below is decoration and uses brand tokens only. Nothing here touches
+   --gap / --weak / --covered / --nodata.
+
+   THE ONE THING THAT NEEDED A NEW TOKEN IS THE ERROR COLOUR. A failed
+   sign-in is neither decoration nor a verdict about a question, and the
+   file's existing answer was `.account-failed { color: var(--gap) }` — a
+   status token used for decoration, which is exactly what the rule at the
+   top forbids. Amber there also reads as "opportunity", the opposite of
+   what a refused password means. Red is the third role, declared once.
+   ================================================================= */
+
+:root {
+  --danger:      light-dark(#b42318, #ff8781);
+  --danger-bg:   light-dark(#fdf1f0, #2c1615);
+  --danger-border: light-dark(#f0c6c2, #5c2a26);
+  --ok:          light-dark(#0f766e, #45c8b8);
+}
+
+/* Was var(--gap). See the block comment above. */
+.account-failed { color: var(--danger); }
+
+/* --- the form ------------------------------------------------------- */
+
+.auth-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  text-align: left;
+}
+
+.auth-field { display: grid; gap: 5px; }
+
+.auth-field > span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  /* 16px on small screens or iOS zooms the whole page on focus, which throws
+     the modal off centre and looks like a layout bug. */
+  font-size: 15px;
+  transition: border-color .12s ease, box-shadow .12s ease;
+}
+.auth-field input:hover { border-color: var(--brand); }
+.auth-field input:focus { border-color: var(--brand); }
+
+/* --- tabs ----------------------------------------------------------- */
+
+/* Equal weight for both, and that matters here the same way it matters on
+   the labelling buttons: the dialog must not push a reader who came to sign
+   in toward creating a second account, or the other way round. */
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-top: 16px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+}
+.auth-tabs button {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .12s ease, color .12s ease;
+}
+.auth-tabs button.is-on {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 2px var(--shade-1);
+}
+
+/* --- divider -------------------------------------------------------- */
+
+.auth-or {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 12px;
+  color: var(--text-faint);
+  font-size: 12px;
+}
+.auth-or::before,
+.auth-or::after {
+  content: "";
+  height: 1px;
+  background: var(--border);
+}
+
+/* --- messages ------------------------------------------------------- */
+
+.auth-error,
+.auth-ok {
+  margin: 4px 0 0;
+  padding: 9px 12px;
+  border: 1px solid;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  text-align: left;
+}
+.auth-error {
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.auth-ok {
+  border-color: var(--covered-border);
+  background: var(--covered-bg);
+  color: var(--ok);
+}
+
+/* A button that reads as a link: the secondary routes out of this dialog
+   ("forgot", "back to sign in") are not actions worth a filled button, but
+   they ARE buttons, because they change state rather than navigate. */
+.auth-link {
+  margin-top: 12px;
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: var(--brand);
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.auth-link:hover { color: var(--brand-strong); }
+
+/* --- unverified strip ----------------------------------------------- */
+
+/* Sits in the account row, before the balance, because the balance it
+   precedes is exactly what cannot be spent yet. */
+.account-unverified {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border: 1px solid var(--danger-border);
+  border-radius: var(--r-pill);
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 12px;
+}
+.account-unverified button {
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.account-unverified button:disabled { opacity: .6; cursor: not-allowed; }
+
+@media (max-width: 720px) {
+  /* The strip is the longest thing in the account row and wraps badly beside
+     an address and a balance. Full width keeps the row from collapsing. */
+  .account-unverified { width: 100%; justify-content: center; }
+}

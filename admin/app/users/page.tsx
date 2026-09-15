@@ -41,6 +41,7 @@ export default async function UsersPage({
             <tr>
               <th>Email</th>
               <th>Status</th>
+              <th>Sign-in</th>
               <th className="num">Credits</th>
               <th className="num">Searches</th>
               <th className="num">Spend</th>
@@ -53,6 +54,20 @@ export default async function UsersPage({
               <tr key={u.id}>
                 <td><Link href={`/users/${u.id}`}>{u.email}</Link></td>
                 <td><span className={`pill ${u.status}`}>{u.status}</span></td>
+                {/* Unverified is called out because it is a SPENDING block,
+                    not a profile detail: every paid action refuses with
+                    emailUnverified until the link is clicked. */}
+                <td>
+                  {u.email_verified ? (
+                    <span className="doors">
+                      {u.has_password ? "password" : ""}
+                      {u.has_password && u.has_google ? " + " : ""}
+                      {u.has_google ? "google" : ""}
+                    </span>
+                  ) : (
+                    <span className="pill suspended">unverified</span>
+                  )}
+                </td>
                 <td className={`num${u.balance < 0 ? " neg" : ""}`}>{u.balance}</td>
                 <td className="num">{u.searches}</td>
                 <td className="num">{money(u.spend_usd)}</td>
