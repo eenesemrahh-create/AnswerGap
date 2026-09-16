@@ -83,6 +83,10 @@ export const es: Messages = {
     note:
       "Google muestra estas frases junto a los resultados. Son consultas, no preguntas, así que nunca son nodos del árbol: son las siguientes semillas que buscar.",
     empty: "Aún no se han registrado búsquedas relacionadas para este árbol.",
+    noQuestionsTitle: "Google no muestra preguntas para esta búsqueda",
+    noQuestionsBody:
+      "Esta página de resultados no tiene el bloque «Otras preguntas de los usuarios», así que no hay árbol de preguntas que construir. Es normal en nombres de marca y búsquedas de una sola palabra, donde la gente busca un sitio web y no una respuesta. Las búsquedas en forma de pregunta funcionan mejor.",
+    noQuestionsTry: "En su lugar, Google sugiere estas búsquedas relacionadas:",
   },
 
   detail: {

@@ -83,6 +83,10 @@ export const de: Messages = {
     note:
       "Google zeigt diese Begriffe neben den Ergebnissen. Es sind Suchanfragen, keine Fragen — deshalb werden sie nie zu Knoten im Baum, sondern sind die nächsten Startbegriffe.",
     empty: "Für diesen Baum wurden noch keine ähnlichen Suchanfragen erfasst.",
+    noQuestionsTitle: "Google zeigt für diese Suche keine Fragen",
+    noQuestionsBody:
+      "Auf dieser Ergebnisseite gibt es keinen „Ähnliche Fragen“-Block, daher lässt sich kein Fragenbaum aufbauen. Bei Markennamen und Ein-Wort-Suchen ist das normal – dort suchen Menschen eine Website, keine Antwort. Suchanfragen in Frageform funktionieren am besten.",
+    noQuestionsTry: "Stattdessen schlägt Google diese ähnlichen Suchanfragen vor:",
   },
 
   detail: {

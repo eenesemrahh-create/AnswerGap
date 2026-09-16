@@ -84,6 +84,10 @@ export const fr: Messages = {
     note:
       "Google affiche ces expressions à côté des résultats. Ce sont des requêtes, pas des questions : elles ne deviennent donc jamais des nœuds de l'arbre, ce sont les prochains mots-clés à analyser.",
     empty: "Aucune recherche associée n'a encore été enregistrée pour cet arbre.",
+    noQuestionsTitle: "Google n’affiche aucune question pour cette recherche",
+    noQuestionsBody:
+      "Cette page de résultats ne contient pas de bloc « Autres questions posées », il n’y a donc pas d’arbre de questions à construire. C’est normal pour les noms de marque et les recherches d’un seul mot, où l’on cherche un site plutôt qu’une réponse. Les recherches formulées comme des questions fonctionnent le mieux.",
+    noQuestionsTry: "À la place, Google suggère ces recherches associées :",
   },
 
   detail: {

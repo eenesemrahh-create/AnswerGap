@@ -2466,3 +2466,11 @@ table.table {
      an address and a balance. Full width keeps the row from collapsing. */
   .account-unverified { width: 100%; justify-content: center; }
 }
+
+/* Seed with no PAA block: explain instead of drawing a lone node. */
+.no-questions h2 {
+  font-size: 16px;
+  font-weight: 650;
+  margin: 0 0 8px;
+  color: var(--text);
+}

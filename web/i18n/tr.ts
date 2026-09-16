@@ -83,6 +83,10 @@ export const tr: Messages = {
     note:
       "Google bu ifadeleri sonuçların yanında gösterir. Bunlar soru değil sorgudur, bu yüzden ağaçta düğüm olmazlar — aranacak bir sonraki tohumlardır.",
     empty: "Bu ağaç için henüz ilgili arama kaydedilmedi.",
+    noQuestionsTitle: "Google bu arama için soru göstermiyor",
+    noQuestionsBody:
+      "Bu sonuç sayfasında \"People Also Ask\" kutusu yok, bu yüzden kurulacak bir soru ağacı da yok. Marka adlarında ve tek kelimelik aramalarda bu normaldir; insanlar bir cevap değil bir site arar. En iyi sonucu soru niteliğindeki aramalar verir.",
+    noQuestionsTry: "Bunun yerine Google şu ilgili aramaları öneriyor:",
   },
 
   detail: {

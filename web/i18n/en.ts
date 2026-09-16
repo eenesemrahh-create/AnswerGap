@@ -107,6 +107,10 @@ export const en = {
     note:
       "Google shows these phrases beside the results. They are queries, not questions, so they are never nodes in the tree — they are the next seeds to search.",
     empty: "No related searches have been recorded for this tree yet.",
+    noQuestionsTitle: "Google shows no questions for this search",
+    noQuestionsBody:
+      "There is no \"People Also Ask\" block on this results page, so there is no question tree to build. That is normal for brand names and single-word searches, where people want a website rather than an answer. Question-shaped searches work best.",
+    noQuestionsTry: "Google suggests these related searches instead:",
   },
 
   detail: {

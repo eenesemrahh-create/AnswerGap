@@ -17,7 +17,7 @@ import { useDateFormat, useI18n } from "@/i18n";
 import { QuestionTree } from "./QuestionTree";
 import { GapTable } from "./GapTable";
 import { QuestionDetail } from "./QuestionDetail";
-import { RelatedSeeds } from "./RelatedSeeds";
+import { NoQuestions, RelatedSeeds } from "./RelatedSeeds";
 import { Notice } from "./Badge";
 import { LocalePicker } from "./LocalePicker";
 import { ThemeToggle } from "./ThemeToggle";
@@ -148,6 +148,10 @@ export function TreeScreen({ slug }: { slug: string }) {
 
   if (!tree) return <div className="status-text">{t("error.loading")}</div>;
 
+  // The seed is the only node: Google returned no PAA block at all.
+  const noQuestions =
+    tree.source === "live" && tree.nodes.every((n) => n.depth === 0);
+
   return (
     <div className="shell">
       <header className="header">
@@ -226,7 +230,7 @@ export function TreeScreen({ slug }: { slug: string }) {
           ))}
         </div>
 
-        {meta && tree.source === "live" && (
+        {meta && tree.source === "live" && !noQuestions && (
           <BatchScore
             slug={slug}
             pricing={meta.pricing}
@@ -256,7 +260,10 @@ export function TreeScreen({ slug }: { slug: string }) {
       <div className="body-row">
         <main className="main">
           <div className="canvas">
-            {view === "tree" && (
+            {noQuestions && view !== "seeds" && (
+              <NoQuestions phrases={tree.related_searches ?? []} />
+            )}
+            {!noQuestions && view === "tree" && (
               <QuestionTree
                 nodes={tree.nodes}
                 selectedId={selectedId}
@@ -264,7 +271,7 @@ export function TreeScreen({ slug }: { slug: string }) {
                 highlighted={highlighted}
               />
             )}
-            {view === "table" && (
+            {!noQuestions && view === "table" && (
               <GapTable
                 nodes={filtered}
                 selectedId={selectedId}
