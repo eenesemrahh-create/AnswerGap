@@ -420,6 +420,65 @@ defensible asset over time.
 
 # Current state — resume here
 
+## 2026-09-17 session — read this first
+
+Last worked: **2026-09-17**. Three commits, all pushed to `origin/main`
+(`8d9b255`, `0d9e199`, `2f250c2`). Web build clean, 249 tests green.
+
+**Where it stopped, in one line:** AI Overview citations are now a table
+column + summary box; the next step is the per-domain check ("your site is
+cited in these questions, not in those").
+
+What happened, in order:
+
+1. **Production search failed with HTTP 403 and an unreadable body.**
+   `dataforseo._http` gunzipped success bodies but decoded HTTPError bodies
+   raw, so the refusal reason rendered as binary. Fixed in `8d9b255`. The
+   first guess (Railway egress IP blocked, as with Zurich) was WRONG - once
+   readable the body said `40104 Please verify your account`.
+2. **The operator opened a NEW DataForSEO account** (`eenesemrahh@gmail.com`,
+   $1 trial) and set it on Railway + local `.env`. After verification it
+   worked from production, then a local request got **`40201` "unusual
+   activity ... temporarily paused"**. Status at end of session: UNKNOWN
+   whether support has lifted it. **Check before any paid work:** the free
+   `GET /v3/appendix/user_data` does NOT reveal either block (it answered 200
+   for both 40104 and 40201) - only a real SERP call shows it, and a refused
+   call costs $0. The old account still had ~$0.71.
+3. **"samsung" returned a tree of one node.** Not a bug: Google shows no PAA
+   block for brand / single-word navigational queries; the response still
+   carried 8 related searches. `0d9e199` replaces the lone node with an
+   explanation plus those related searches as next seeds, and hides "Check
+   top N" (it offered to pay to score the seed itself). Detected as
+   `source === "live"` and every node at depth 0.
+4. **AI Overview surface, first half** (`2f250c2`). `ai_sources` was already
+   stored on every scored node and only visible one question at a time.
+   New: `AI Overview` column in `GapTable` (distinct cited domains; `—` when
+   unchecked, sorting below "none") and `AiSummary` above the table
+   (N of M checked questions cite sources, top 5 domains). All counts are
+   over CHECKED questions only - unknown is not uncited. Five locales.
+   Demo data: teeth-whitening 13/16, diş beyazlatma 7/24, kredi notu 4/9.
+   **Not visually checked** - the Chrome extension did not respond; look at
+   the Table tab on production first thing.
+
+Spend: ~$0 (one refused SERP call at $0; the samsung crawl on production was
+~$0.0026 under the new account).
+
+**Next, proposed and agreed in direction:**
+- Per-domain check: user enters their domain -> which questions cite it.
+- Tree-view marker on nodes whose AI Overview has citations.
+- Wider list discussed with the operator (Google APIs), in suggested order:
+  labels to ~200 ($0.30) -> AI Overview surface (in progress) -> Privacy/ToS
+  pages -> Search Console API (own-site impressions per question; needs the
+  `webmasters.readonly` scope and likely Google app verification) -> search
+  volume (Ads API, or DataForSEO Keywords Data as a stopgap) -> Claude-based
+  intent classification + content brief. Custom Search JSON API and Trends
+  were ruled out.
+
+The 2026-09-15 state below is still accurate for everything it covers,
+including the unexecuted email-verification click.
+
+## 2026-09-15 state
+
 Last worked: **2026-09-15**, across TWO sessions. Eleven commits, all pushed
 to `origin/main`. `git clone` on another machine gets everything; only `.env`
 (DataForSEO + Voyage credentials) has to be recreated. `.env.example` names
