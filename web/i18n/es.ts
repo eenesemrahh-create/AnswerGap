@@ -77,6 +77,18 @@ export const es: Messages = {
     volumeHint: "Google Ads no está conectado",
     noVolume: "sin datos",
     empty: "Ninguna pregunta coincide con el filtro.",
+    aiSources: "AI Overview",
+    aiSourcesHint: "Sitios que el AI Overview de Google cita para esta pregunta. Solo se conoce en preguntas comprobadas.",
+    aiCount: "{count} sitios",
+    aiNone: "ninguno",
+  },
+
+  ai: {
+    heading: "AI Overview de Google en este árbol",
+    noneChecked: "Aún no se ha comprobado ninguna pregunta. Comprobar una pregunta también muestra, sin coste adicional, si el AI Overview de Google la responde y qué sitios cita.",
+    coverage: "El AI Overview de Google cita fuentes en {withAi} de las {checked} preguntas comprobadas.",
+    citedIn: "citado en {count} de {checked}",
+    note: "Solo se cuentan las preguntas comprobadas. Las no comprobadas son desconocidas, no sin citas.",
   },
 
   seeds: {

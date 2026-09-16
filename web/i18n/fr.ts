@@ -78,6 +78,18 @@ export const fr: Messages = {
     volumeHint: "Google Ads n'est pas connecté",
     noVolume: "aucune donnée",
     empty: "Aucune question ne correspond au filtre.",
+    aiSources: "AI Overview",
+    aiSourcesHint: "Sites que l’AI Overview de Google cite pour cette question. Connu uniquement pour les questions vérifiées.",
+    aiCount: "{count} sites",
+    aiNone: "aucun",
+  },
+
+  ai: {
+    heading: "AI Overview de Google dans cet arbre",
+    noneChecked: "Aucune question n’a encore été vérifiée. Vérifier une question indique aussi, sans coût supplémentaire, si l’AI Overview de Google y répond et quels sites il cite.",
+    coverage: "L’AI Overview de Google cite des sources pour {withAi} des {checked} questions vérifiées.",
+    citedIn: "cité dans {count} sur {checked}",
+    note: "Seules les questions vérifiées sont comptées. Les autres sont inconnues, pas non citées.",
   },
 
   seeds: {

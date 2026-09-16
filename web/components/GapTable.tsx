@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Badge } from "./Badge";
+import { AiSummary, citedDomains } from "./AiSummary";
 import { useI18n } from "@/i18n";
 import type { Node } from "@/lib/types";
 
@@ -15,7 +16,8 @@ type Column =
   | "matching_pages"
   | "results_checked"
   | "repeat_count"
-  | "depth";
+  | "depth"
+  | "ai_sources";
 
 const COLUMNS: { key: Column; label: string; hint?: string; right?: boolean }[] = [
   { key: "question", label: "table.question" },
@@ -24,15 +26,23 @@ const COLUMNS: { key: Column; label: string; hint?: string; right?: boolean }[] 
   { key: "results_checked", label: "table.checked", hint: "table.checkedHint", right: true },
   { key: "repeat_count", label: "table.branches", hint: "table.branchesHint", right: true },
   { key: "depth", label: "table.depth", right: true },
+  { key: "ai_sources", label: "table.aiSources", hint: "table.aiSourcesHint", right: true },
 ];
+
+/* Unchecked sorts below "none": unknown is not zero. */
+const aiRank = (node: Node) =>
+  node.results_checked > 0 ? citedDomains(node).length : -1;
 
 export function GapTable({
   nodes,
+  allNodes,
   selectedId,
   onSelect,
   localeTag,
 }: {
   nodes: Node[];
+  /** The unfiltered tree, so the AI summary does not move with the filter. */
+  allNodes: Node[];
   selectedId: string | null;
   onSelect: (id: string) => void;
   localeTag: string;
@@ -49,6 +59,8 @@ export function GapTable({
         diff = a.question.localeCompare(b.question, localeTag);
       } else if (column === "status") {
         diff = a.status.localeCompare(b.status);
+      } else if (column === "ai_sources") {
+        diff = aiRank(a) - aiRank(b);
       } else {
         diff = (a[column] as number) - (b[column] as number);
       }
@@ -68,6 +80,7 @@ export function GapTable({
 
   return (
     <div className="table-wrap">
+      <AiSummary nodes={allNodes} />
       <table className="table">
         <thead>
           <tr>
@@ -129,13 +142,22 @@ export function GapTable({
                 )}
               </td>
               <td className="right">{node.depth}</td>
+              <td className="right">
+                {node.results_checked === 0 ? (
+                  <span className="muted">—</span>
+                ) : citedDomains(node).length > 0 ? (
+                  t("table.aiCount", { count: citedDomains(node).length })
+                ) : (
+                  <span className="muted">{t("table.aiNone")}</span>
+                )}
+              </td>
               {/* CLAUDE.md: never render an empty cell for missing volume. */}
               <td className="right muted">{t("table.noVolume")}</td>
             </tr>
           ))}
           {sorted.length === 0 && (
             <tr>
-              <td colSpan={7} className="status-text">
+              <td colSpan={8} className="status-text">
                 {t("table.empty")}
               </td>
             </tr>

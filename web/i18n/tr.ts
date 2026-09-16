@@ -77,6 +77,18 @@ export const tr: Messages = {
     volumeHint: "Google Ads bağlı değil",
     noVolume: "veri yok",
     empty: "Filtreye uyan soru yok.",
+    aiSources: "AI Overview",
+    aiSourcesHint: "Google AI Overview'un bu soru için kaynak gösterdiği siteler. Yalnızca kontrol edilmiş sorularda bilinir.",
+    aiCount: "{count} site",
+    aiNone: "yok",
+  },
+
+  ai: {
+    heading: "Bu ağaçta Google AI Overview",
+    noneChecked: "Henüz hiçbir soru kontrol edilmedi. Bir soruyu kontrol etmek, Google AI Overview'un onu cevaplayıp cevaplamadığını ve hangi siteleri kaynak gösterdiğini de ek ücret olmadan gösterir.",
+    coverage: "Kontrol edilen {checked} sorunun {withAi} tanesinde Google AI Overview kaynak gösteriyor.",
+    citedIn: "{checked} sorunun {count} tanesinde kaynak",
+    note: "Yalnızca kontrol edilmiş sorular sayılır. Kontrol edilmemiş sorular bilinmiyor, kaynaksız değil.",
   },
 
   seeds: {

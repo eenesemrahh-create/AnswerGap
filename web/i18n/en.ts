@@ -101,6 +101,18 @@ export const en = {
     volumeHint: "Google Ads is not connected",
     noVolume: "no data",
     empty: "No question matches the filter.",
+    aiSources: "AI Overview",
+    aiSourcesHint: "Sites Google's AI Overview cites for this question. Known only for checked questions.",
+    aiCount: "{count} sites",
+    aiNone: "none",
+  },
+
+  ai: {
+    heading: "Google AI Overview in this tree",
+    noneChecked: "No question has been checked yet. Checking a question also shows whether Google's AI Overview answers it and which sites it cites, at no extra cost.",
+    coverage: "Google's AI Overview cites sources for {withAi} of the {checked} questions checked.",
+    citedIn: "cited in {count} of {checked}",
+    note: "Counted over checked questions only. Unchecked questions are unknown, not uncited.",
   },
 
   seeds: {

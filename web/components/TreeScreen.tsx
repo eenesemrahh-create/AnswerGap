@@ -274,6 +274,7 @@ export function TreeScreen({ slug }: { slug: string }) {
             {!noQuestions && view === "table" && (
               <GapTable
                 nodes={filtered}
+                allNodes={tree.nodes}
                 selectedId={selectedId}
                 onSelect={setSelectedId}
                 localeTag={tag}

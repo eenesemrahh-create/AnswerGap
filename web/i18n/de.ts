@@ -77,6 +77,18 @@ export const de: Messages = {
     volumeHint: "Google Ads ist nicht angebunden",
     noVolume: "keine Daten",
     empty: "Keine Frage passt zum Filter.",
+    aiSources: "AI Overview",
+    aiSourcesHint: "Websites, die Googles AI Overview für diese Frage als Quelle nennt. Nur für geprüfte Fragen bekannt.",
+    aiCount: "{count} Websites",
+    aiNone: "keine",
+  },
+
+  ai: {
+    heading: "Google AI Overview in diesem Baum",
+    noneChecked: "Es wurde noch keine Frage geprüft. Eine Prüfung zeigt ohne Zusatzkosten auch, ob Googles AI Overview die Frage beantwortet und welche Websites es zitiert.",
+    coverage: "Googles AI Overview nennt bei {withAi} von {checked} geprüften Fragen Quellen.",
+    citedIn: "zitiert bei {count} von {checked}",
+    note: "Nur geprüfte Fragen werden gezählt. Ungeprüfte Fragen sind unbekannt, nicht unzitiert.",
   },
 
   seeds: {

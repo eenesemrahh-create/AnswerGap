@@ -2474,3 +2474,29 @@ table.table {
   margin: 0 0 8px;
   color: var(--text);
 }
+
+/* AI Overview summary above the table. Neutral tokens only: this is not a
+   status, and brand colour would compete with the badges below it. */
+.ai-summary {
+  margin: 16px 16px 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--surface);
+}
+.ai-summary h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text);
+}
+.ai-summary-lead { margin: 0 0 10px; font-size: 13px; color: var(--text-soft); }
+.ai-domains {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.ai-domains li { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
