@@ -141,7 +141,13 @@ class Client:
             with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
                 raw = response.read()
         except urllib.error.HTTPError as e:
-            detail = e.read().decode("utf-8", "replace")[:800]
+            # Error bodies arrive gzipped too; undecoded, the reason is unreadable.
+            detail_raw = e.read()
+            if detail_raw[:2] == b"\x1f\x8b":
+                import gzip
+
+                detail_raw = gzip.decompress(detail_raw)
+            detail = detail_raw.decode("utf-8", "replace")[:800]
             raise DataForSEOError(f"HTTP {e.code} — {path}\n{detail}") from e
         except urllib.error.URLError as e:
             raise DataForSEOError(f"Network error — {path}: {e.reason}") from e
