@@ -292,6 +292,8 @@ export interface StripeStatus {
   test_amount_cents: number;
   test_currency: string;
   can_test_payment: boolean;
+  /** Live keys: the request must carry confirm_live, so the panel asks first. */
+  needs_confirm: boolean;
   account: StripeAccount | null;
   events: PaymentEvent[];
   error: string | null;
@@ -302,4 +304,5 @@ export interface StripeTestResult {
   error: string | null;
   url: string | null;
   id?: string;
+  mode?: string;
 }

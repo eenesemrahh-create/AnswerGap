@@ -6,8 +6,7 @@ import { loadStripe, startTestPayment } from "./actions";
 
 const ERRORS: Record<string, string> = {
   noKey: "STRIPE_SECRET_KEY is not set on the api service.",
-  liveKeyRefused:
-    "These are live keys. A payment made with them charges a real card and pays a real fee, which is a purchase rather than a test. Switch the Stripe dashboard to test mode, take the sk_test_ key, and this button works with card 4242 4242 4242 4242.",
+  liveNeedsConfirm: "A live charge has to be confirmed before it is started.",
   noReturnUrl: "WEB_BASE_URL is not set on the api service, so Checkout has nowhere to return to.",
   keyRefused: "Stripe refused the key. It may be revoked, or from a different account.",
   rateLimited: "Stripe is rate limiting us right now.",
@@ -25,6 +24,7 @@ const when = (iso: string) => new Date(iso).toLocaleString();
 export function StripePanel({ initial }: { initial: StripeStatus }) {
   const [data, setData] = useState(initial);
   const [message, setMessage] = useState<string | null>(null);
+  const [asking, setAsking] = useState(false);
   const [pending, startTransition] = useTransition();
   const busy = useRef(false);
 
@@ -50,15 +50,20 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
     return () => window.clearInterval(id);
   }, [refresh]);
 
-  const test = () =>
+  const test = (confirmLive: boolean) =>
     startTransition(async () => {
       setMessage(null);
-      const result = await startTestPayment();
+      setAsking(false);
+      const result = await startTestPayment(confirmLive);
       if (result.ok && result.url) {
         // A new tab, so this panel stays open behind Stripe's page and the
         // webhook row appears on it without a second navigation.
         window.open(result.url, "_blank", "noopener");
-        setMessage("Checkout opened in a new tab. Card 4242 4242 4242 4242, any future date, any CVC.");
+        setMessage(
+          result.mode === "live"
+            ? "Checkout opened in a new tab. This is a REAL charge on a real card; the row appears below once Stripe's webhook lands."
+            : "Checkout opened in a new tab. Card 4242 4242 4242 4242, any future date, any CVC."
+        );
       } else {
         setMessage(ERRORS[result.error ?? ""] ?? `Stripe refused (${result.error}).`);
       }
@@ -94,12 +99,13 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
 
       <div className="ci-bar" style={{ marginTop: 16 }}>
         <button
-          className="act"
+          className={live ? "act warn" : "act"}
           disabled={pending || !data.can_test_payment}
-          title={data.can_test_payment ? undefined : ERRORS[live ? "liveKeyRefused" : "noKey"]}
-          onClick={test}
+          title={data.can_test_payment ? undefined : ERRORS.noKey}
+          onClick={() => (data.needs_confirm ? setAsking(true) : test(false))}
         >
-          Start a test payment ({money(data.test_amount_cents, data.test_currency)})
+          {live ? "Start a LIVE payment" : "Start a test payment"} (
+          {money(data.test_amount_cents, data.test_currency)})
         </button>
         <button className="linkish" onClick={() => void refresh()} disabled={pending}>
           Refresh
@@ -114,7 +120,34 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
         </a>
       </div>
 
-      {live && <div className="notice">{ERRORS.liveKeyRefused}</div>}
+      {/* Two deliberate acts for real money. The first click only asks; the
+          confirmation names the amount, the fee and where the money lands, so
+          the reader is not agreeing to a number they have to go and look up. */}
+      {asking && (
+        <div className="notice">
+          <b>This charges a real card.</b> These are live keys, so{" "}
+          {money(data.test_amount_cents, data.test_currency)} is actually taken — Stripe
+          keeps its fee (about $0.33 on $1.00) and the rest lands in your own Stripe
+          account. A refund from the Stripe dashboard returns the amount but not the
+          fee. Nothing is charged until you complete Stripe&apos;s page.
+          <div className="ci-buttons" style={{ marginTop: 10 }}>
+            <button className="act warn" disabled={pending} onClick={() => test(true)}>
+              Yes, charge {money(data.test_amount_cents, data.test_currency)}
+            </button>
+            <button className="act" disabled={pending} onClick={() => setAsking(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {live && !asking && (
+        <p className="sub">
+          Live keys. A payment started here is real money, so the button asks once more
+          before anything is created. Test keys (<code>sk_test_</code>) make the same
+          button free and work with card 4242 4242 4242 4242.
+        </p>
+      )}
       {message && <div className="ci-message">{message}</div>}
 
       <h2>Payments received</h2>

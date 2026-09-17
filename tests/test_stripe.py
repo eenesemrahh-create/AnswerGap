@@ -160,20 +160,43 @@ def _no_calls(monkeypatch):
     monkeypatch.setattr(stripe, "_request", boom)
 
 
-def test_a_live_key_cannot_start_a_test_payment(monkeypatch, as_admin) -> None:
-    """A "test" that charges a real card is a purchase, not a test."""
+def test_a_live_key_alone_does_not_start_a_payment(monkeypatch, as_admin) -> None:
+    """One click must never become a real charge - the request has to say so."""
     monkeypatch.setenv("STRIPE_SECRET_KEY", "sk_live_abc")
     _no_calls(monkeypatch)
     assert admin.stripe_test_payment(None) == {
-        "ok": False, "error": "liveKeyRefused", "url": None
+        "ok": False, "error": "liveNeedsConfirm", "url": None
     }
     assert as_admin == [], "nothing was attempted, so nothing is on the record"
 
 
-def test_an_unknown_key_cannot_start_a_test_payment(monkeypatch, as_admin) -> None:
+def test_an_unknown_key_also_needs_the_confirmation(monkeypatch, as_admin) -> None:
+    """`unknown` is never treated as test, so it takes the careful path."""
     monkeypatch.setenv("STRIPE_SECRET_KEY", "sk_weird")
     _no_calls(monkeypatch)
-    assert admin.stripe_test_payment(None)["error"] == "liveKeyRefused"
+    assert admin.stripe_test_payment(None)["error"] == "liveNeedsConfirm"
+
+
+def test_a_confirmed_live_payment_is_allowed_and_recorded_as_live(monkeypatch, as_admin) -> None:
+    monkeypatch.setenv("STRIPE_SECRET_KEY", "sk_live_abc")
+    monkeypatch.setattr(stripe, "_request", lambda *a, **k: {"id": "cs_live_1",
+                                                             "url": "https://checkout.stripe.com/c/pay/cs_live_1"})
+    out = admin.stripe_test_payment(None, admin.StripeTestRequest(confirm_live=True))
+    assert out["ok"] is True and out["mode"] == "live"
+    assert as_admin == [{
+        "actor": "op@example.com",
+        "action": "stripe_test_payment",
+        "detail": {"amount_cents": 100, "mode": "live", "confirmed_live": True},
+    }]
+
+
+def test_confirming_changes_nothing_in_test_mode(monkeypatch, as_admin) -> None:
+    """The confirmation is about real money; test mode never needed it."""
+    monkeypatch.setenv("STRIPE_SECRET_KEY", "sk_test_abc")
+    monkeypatch.setattr(stripe, "_request", lambda *a, **k: {"id": "cs_1", "url": "https://x"})
+    out = admin.stripe_test_payment(None, admin.StripeTestRequest(confirm_live=True))
+    assert out["mode"] == "test"
+    assert as_admin[0]["detail"]["confirmed_live"] is False
 
 
 def test_no_key_at_all_says_so(monkeypatch, as_admin) -> None:
@@ -198,7 +221,7 @@ def test_a_test_key_opens_a_session_and_the_attempt_is_audited(monkeypatch, as_a
     assert as_admin == [{
         "actor": "op@example.com",
         "action": "stripe_test_payment",
-        "detail": {"amount_cents": 100, "mode": "test"},
+        "detail": {"amount_cents": 100, "mode": "test", "confirmed_live": False},
     }]
 
 

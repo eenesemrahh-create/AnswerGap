@@ -14,6 +14,10 @@ export async function loadStripe(): Promise<StripeStatus> {
   return get<StripeStatus>("/api/admin/stripe");
 }
 
-export async function startTestPayment(): Promise<StripeTestResult> {
-  return post<StripeTestResult>("/api/admin/stripe/test-payment");
+export async function startTestPayment(confirmLive: boolean): Promise<StripeTestResult> {
+  // The flag travels in the request rather than being implied by the mode, so
+  // the api can refuse a live charge that nobody explicitly asked for.
+  return post<StripeTestResult>("/api/admin/stripe/test-payment", {
+    confirm_live: confirmLive,
+  });
 }

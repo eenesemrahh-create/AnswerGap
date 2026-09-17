@@ -160,6 +160,17 @@ class Plan(BaseModel):
         return self
 
 
+class StripeTestRequest(BaseModel):
+    """`confirm_live` is the operator saying "yes, charge a real card".
+
+    A separate field rather than a flag on the button, so the live path cannot
+    be reached by a stray click or by a page that forgot which mode it is in:
+    the request itself has to say it. Absent means test mode only.
+    """
+
+    confirm_live: bool = False
+
+
 class CiRunRequest(BaseModel):
     run_id: int = Field(gt=0)
 
@@ -440,9 +451,11 @@ def stripe_status(request: Request) -> dict:
         "webhook_url": f"{PUBLIC_BASE_URL}/api/stripe/webhook" if PUBLIC_BASE_URL else None,
         "test_amount_cents": stripe.TEST_AMOUNT_CENTS,
         "test_currency": stripe.TEST_CURRENCY,
-        # The live guard, decided here rather than in the panel: a "test"
-        # payment against live keys charges a real card and pays a real fee.
-        "can_test_payment": mode == "test",
+        # A payment can be started in either mode; LIVE additionally requires
+        # an explicit confirmation on the request, because it charges a real
+        # card. The panel reads `needs_confirm` to know it must ask.
+        "can_test_payment": mode in ("test", "live"),
+        "needs_confirm": mode == "live",
         "account": None,
         "events": [],
         "error": None,
@@ -462,26 +475,36 @@ def stripe_status(request: Request) -> dict:
 
 
 @router.post("/stripe/test-payment")
-def stripe_test_payment(request: Request) -> dict:
-    """Open a Checkout Session for the fixed test amount, and return its link.
+def stripe_test_payment(request: Request, payload: StripeTestRequest | None = None) -> dict:
+    """Open a Checkout Session for the fixed amount, and return its link.
 
-    REFUSED IN LIVE MODE. The button exists to prove the integration works, and
-    proving it with live keys means a real charge on a real card plus Stripe's
-    fee - which is not a test, it is a purchase. Switch the Stripe dashboard to
-    test mode, take the test keys, and the same button works with card
-    4242 4242 4242 4242. Lifting this guard later is one condition.
+    LIVE MODE NEEDS `confirm_live`. With live keys this is not a test: a real
+    card is charged and Stripe keeps its fee (on $1.00, about $0.33), so the
+    money is really spent even though it lands in the operator's own account.
+    The default answer stays "no" and the panel has to ask a second time before
+    it can send true - one careless click must not become a charge.
+
+    Test mode needs no confirmation: it is play money and the whole point of
+    the button.
     """
     who = require_admin(request)
+    payload = payload or StripeTestRequest()
     mode = stripe.mode()
     if mode == "missing":
         return {"ok": False, "error": "noKey", "url": None}
-    if mode != "test":
-        return {"ok": False, "error": "liveKeyRefused", "url": None}
+    if mode != "test" and not payload.confirm_live:
+        return {"ok": False, "error": "liveNeedsConfirm", "url": None}
     if not WEB_BASE_URL:
         return {"ok": False, "error": "noReturnUrl", "url": None}
 
-    db.admin_log(actor=who.email or "", action="stripe_test_payment",
-                 detail={"amount_cents": stripe.TEST_AMOUNT_CENTS, "mode": mode})
+    # Audited BEFORE the call, and the mode is part of the record: "who started
+    # a real charge, and when" is exactly the question this log exists for.
+    db.admin_log(
+        actor=who.email or "",
+        action="stripe_test_payment",
+        detail={"amount_cents": stripe.TEST_AMOUNT_CENTS, "mode": mode,
+                "confirmed_live": bool(payload.confirm_live and mode != "test")},
+    )
     try:
         session = stripe.checkout_session(
             success_url=f"{WEB_BASE_URL}/?stripe=success",
@@ -489,9 +512,10 @@ def stripe_test_payment(request: Request) -> dict:
             email=who.email,
         )
     except stripe.StripeError as exc:
-        print(f"[stripe] test payment: {exc}", flush=True)
+        print(f"[stripe] test payment ({mode}): {exc}", flush=True)
         return {"ok": False, "error": exc.code, "url": None}
-    return {"ok": True, "error": None, "url": session["url"], "id": session["id"]}
+    return {"ok": True, "error": None, "url": session["url"], "id": session["id"],
+            "mode": mode}
 
 
 def _settings() -> dict:
