@@ -426,7 +426,8 @@ Last worked: **2026-09-17**, across TWO sessions. Four feature commits, all
 pushed to `origin/main` (`8d9b255`, `0d9e199`, `2f250c2`, `13e4d00`). Web
 build clean, 249 backend tests + 8 web tests green.
 
-**Where it stopped, in one line:** CI runs on every push and is green, and
+**Where it stopped, in one line:** AI Overview citations are now read in full
+and "unknown" is no longer shown as "none" (2026-09-18); CI runs on every push and is green, and
 the admin panel has a live CI page; the operator still has to add
 `CI_GITHUB_TOKEN` (buttons) and switch on Railway's "Wait for CI" (deploy
 gate) - see "CI, 2026-09-17" below.
@@ -521,6 +522,64 @@ Spend: ~$0 (one refused SERP call at $0; the samsung crawl on production was
   volume (Ads API, or DataForSEO Keywords Data as a stopgap) -> Claude-based
   intent classification + content brief. Custom Search JSON API and Trends
   were ruled out.
+
+## AI Overview citations: two faults corrected, 2026-09-18
+
+Both were found by COUNTING THE ARCHIVE, not by reading code, and both made
+the product under-report. `a91a5cb`.
+
+**1. An AI Overview has two layers of references.** The block carries its own
+list and EVERY PARAGRAPH (`items[].references`) carries another. Only the
+outer one was read. Measured: 3 of the 52 archived blocks name a domain that
+appears only in a paragraph — *"Do dentists recommend teeth whitening?"* goes
+from 7 cited domains to 10, adding three dental practices. Merged, first
+appearance wins. The direction of the old bug is the expensive one: it tells a
+customer their site is not cited when it is.
+
+**2. An empty list meant two different things and the UI showed both as
+"none".** Either Google cited nobody, or the block loads after the page and
+DataForSEO can never resolve it (`asynchronous_ai_overview`) — **22 of the 52
+archived blocks**. The second is unknown, and rendering unknown as a result is
+the one thing the accuracy rules forbid.
+
+`tree.ai_overview()` returns the domains AND a state:
+
+| state | meaning | is it a measurement? |
+|---|---|---|
+| `cited` | the block names sources | yes |
+| `none` | the block names none | yes |
+| `unresolved` | the block is there, its sources never arrived | **no** |
+| `absent` | Google showed no AI Overview at all | yes |
+
+`absent` is a real answer and `unresolved` is not — that distinction is the
+whole point. Migration `0008_gap_score_ai_state` stores it per row, the same
+rule as `threshold` / `strategy` / `embedding_model`: a row carries what its
+own number meant. NULL = written before the column = unknown, never guessed
+backwards.
+
+**What it changed on the demo trees**, and why the old numbers were worse than
+wrong — they were confidently wrong:
+
+| tree | before | after |
+|---|---|---|
+| teeth whitening | 13 of 16 checked | 13 of 15 read, 1 unreadable |
+| diş beyazlatma | 7 of 24 checked | 7 of 7 read, **17 unreadable** |
+| kredi notu | 4 of 9 checked | 5 of 5 read, 4 unreadable |
+
+The Turkish one is the case that matters: *"7 of 24"* implied 17 questions
+whose AI Overview cites nobody. We had never seen their sources.
+
+UI: a third cell state in the gap table (`unknown`, reason on hover), no pill
+in the tree, an explanation in the question detail, and the summary counting
+only over questions whose AI answer could be READ — with the rest reported
+beside it. `web/lib/domains.aiKnown()` is the single predicate; it is pure and
+tested, so "unknown is not none" cannot drift between the four screens.
+
+Tests: 279 → 285 with a database (6 in `tests/test_ai_overview.py`, plus the
+new column asserted in `test_sql.py`) and one more web test.
+**`a91a5cb`'s message says 286; the real figure is 285.**
+
+Spend: $0. Every number above comes from responses already on disk.
 
 ## CI, 2026-09-17
 
