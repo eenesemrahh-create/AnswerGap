@@ -31,6 +31,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from answergap import db, gate
 
+from . import ci
 from .auth import ADMIN_EMAILS, require_admin
 
 router = APIRouter(prefix="/api/admin")
@@ -157,6 +158,10 @@ class Plan(BaseModel):
                 f"{empty_features}. Fill them or remove them before publishing."
             )
         return self
+
+
+class CiRunRequest(BaseModel):
+    run_id: int = Field(gt=0)
 
 
 class PricingRequest(BaseModel):
@@ -357,6 +362,63 @@ def actions(request: Request, limit: int = 100) -> dict:
     """The audit log. Append-only, and the reason admin mistakes are visible."""
     require_admin(request)
     return {"actions": db.admin_actions(limit=max(1, min(500, limit)))}
+
+
+@router.get("/ci")
+def ci_overview(request: Request) -> dict:
+    """Recent CI runs on the deployed branch, with per-job results.
+
+    Always 200. A GitHub outage, a spent rate limit or a refused token comes
+    back as `error` beside the last good data - the admin API client turns any
+    non-200 into a redirect to an error page, and "GitHub is slow right now"
+    does not deserve to take the whole screen.
+    """
+    require_admin(request)
+    return ci.overview()
+
+
+def _ci_trigger(request: Request, action: str, detail: dict, call) -> dict:
+    """Shared by the three buttons: gate, token check, audit, call."""
+    who = require_admin(request)
+    if not ci.can_trigger():
+        return {"ok": False, "error": "noToken"}
+    db.admin_log(actor=who.email or "", action=action, detail=detail)
+    try:
+        call()
+    except ci.GitHubError as exc:
+        print(f"[ci] {action} {detail} failed: {exc}", flush=True)
+        return {"ok": False, "error": exc.code}
+    return {"ok": True, "error": None}
+
+
+@router.post("/ci/run")
+def ci_dispatch(request: Request) -> dict:
+    """Run the workflow now on the deployed branch, without a push."""
+    return _ci_trigger(request, "ci_dispatch", {"branch": ci.branch()}, ci.dispatch)
+
+
+@router.post("/ci/rerun")
+def ci_rerun(request: Request, payload: CiRunRequest) -> dict:
+    return _ci_trigger(
+        request, "ci_rerun", {"run_id": payload.run_id},
+        lambda: ci.rerun(payload.run_id, failed_only=False),
+    )
+
+
+@router.post("/ci/rerun-failed")
+def ci_rerun_failed(request: Request, payload: CiRunRequest) -> dict:
+    return _ci_trigger(
+        request, "ci_rerun_failed", {"run_id": payload.run_id},
+        lambda: ci.rerun(payload.run_id, failed_only=True),
+    )
+
+
+@router.post("/ci/cancel")
+def ci_cancel(request: Request, payload: CiRunRequest) -> dict:
+    return _ci_trigger(
+        request, "ci_cancel", {"run_id": payload.run_id},
+        lambda: ci.cancel(payload.run_id),
+    )
 
 
 def _settings() -> dict:

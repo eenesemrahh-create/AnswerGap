@@ -548,3 +548,40 @@ button.act.warn { color: var(--warn); border-color: currentColor; }
    "unverified", which reuses `.pill.suspended` because it is the same kind of
    fact - this account cannot spend. */
 .doors { color: var(--muted, #6b7280); font-size: 12px; }
+
+/* --- CI page ------------------------------------------------------ */
+.pill.ci-pass { color: var(--ok); border-color: currentColor; }
+.pill.ci-fail { color: var(--warn); border-color: currentColor; background: var(--warn-bg); }
+.pill.ci-run { color: var(--focus); border-color: currentColor; }
+.pill.ci-idle { color: var(--text-faint); }
+.ci-bar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 16px; }
+.ci-bar button:disabled { opacity: .55; cursor: not-allowed; }
+.ci-right { margin-left: auto; }
+.ci-muted { color: var(--text-faint); font-size: 12.5px; }
+.ci-message {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r);
+  padding: 10px 14px;
+  margin: 0 0 16px;
+  background: var(--surface);
+}
+.ci-latest { border-left-width: 4px; margin-bottom: 8px; }
+.ci-edge-pass { border-left-color: var(--ok); }
+.ci-edge-fail { border-left-color: var(--warn); }
+.ci-edge-run { border-left-color: var(--focus); }
+.ci-latest-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ci-latest-head b { font-size: 15px; display: inline; }
+.ci-message-line { color: var(--text); }
+.ci-meta { margin: 6px 0 10px; }
+.ci-jobs { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 6px; }
+.ci-jobs li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13px; }
+.ci-jobs li b { font-size: 13px; display: inline; }
+.ci-failed-step { color: var(--warn); font-size: 12.5px; }
+.ci-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+.ci-buttons.compact button.act { padding: 3px 9px; font-size: 12px; }
+.ci-commit { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
+.ci-dot-wrap { display: inline-block; padding: 0 2px; }
+.ci-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--text-faint); }
+.ci-dot.ci-pass { background: var(--ok); }
+.ci-dot.ci-fail { background: var(--warn); }
+.ci-dot.ci-run { background: var(--focus); }

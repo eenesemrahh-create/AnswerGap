@@ -214,3 +214,50 @@ export const PRICING_TEMPLATES: Plan[] = [
     badge: null,
   },
 ];
+
+/* CI page. Mirrors `api/ci.py` summarize_run / summarize_job. */
+export interface CiJob {
+  id: number | null;
+  name: string;
+  status: string | null;
+  conclusion: string | null;
+  started_at: string | null;
+  completed_at: string | null;
+  url: string | null;
+  failed_step: string | null;
+}
+
+export interface CiRun {
+  id: number;
+  number: number;
+  attempt: number;
+  status: string | null;
+  conclusion: string | null;
+  event: string;
+  branch: string;
+  sha: string;
+  message: string;
+  actor: string | null;
+  created_at: string | null;
+  started_at: string | null;
+  updated_at: string | null;
+  url: string;
+  jobs: CiJob[] | null;
+}
+
+export interface CiOverview {
+  repo: string;
+  workflow: string;
+  branch: string;
+  can_trigger: boolean;
+  cache_seconds: number;
+  runs: CiRun[];
+  active: boolean;
+  error: string | null;
+  fetched_at: number | null;
+}
+
+export interface CiTriggerResult {
+  ok: boolean;
+  error: string | null;
+}

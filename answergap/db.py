@@ -2878,3 +2878,20 @@ def setting_put(*, key: str, value: str, actor: str) -> None:
             {"key": key, "value": str(value), "actor": actor},
         )
         conn.commit()
+
+
+def admin_log(*, actor: str, action: str, detail: dict) -> None:
+    """Audit an admin act whose effect happens OUTSIDE this database.
+
+    Triggering CI is a call to GitHub, so it cannot share a statement with its
+    audit row the way the writes above do. The row is written FIRST, before
+    the call: an attempt that then fails is still an attempt somebody made,
+    and a log written only on success would hide exactly the failures worth
+    seeing.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "INSERT INTO admin_action (actor, action, detail) VALUES (%s, %s, %s)",
+            (actor, action, json.dumps(detail)),
+        )
+        conn.commit()
