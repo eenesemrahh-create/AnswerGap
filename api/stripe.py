@@ -126,7 +126,13 @@ def account() -> dict:
     }
 
 
-def checkout_session(*, success_url: str, cancel_url: str, email: str | None) -> dict:
+def checkout_session(
+    *,
+    success_url: str,
+    cancel_url: str,
+    email: str | None,
+    amount_cents: int | None = None,
+) -> dict:
     """A one-off Checkout Session for the fixed test amount.
 
     Hosted by Stripe: the card is typed on Stripe's page, so no card data ever
@@ -139,7 +145,7 @@ def checkout_session(*, success_url: str, cancel_url: str, email: str | None) ->
         "cancel_url": cancel_url,
         "line_items[0][quantity]": "1",
         "line_items[0][price_data][currency]": TEST_CURRENCY,
-        "line_items[0][price_data][unit_amount]": str(TEST_AMOUNT_CENTS),
+        "line_items[0][price_data][unit_amount]": str(amount_cents or TEST_AMOUNT_CENTS),
         "line_items[0][price_data][product_data][name]": "AnswerGap payment test",
         # Marks the row this creates as a pipe test rather than a real sale, so
         # a later report can exclude it without guessing from the amount.

@@ -19,6 +19,7 @@ Run:
 from __future__ import annotations
 
 import gzip
+import hmac
 import json
 import os
 import time
@@ -832,6 +833,93 @@ def tree_jobs(slug: str, http_request: Request) -> dict:
         **db.task_spend(slug),
         "swept": swept,
     }
+
+
+# ------------------------------------------------------------- pay probe
+#
+# TEMPORARY. A link-gated page so somebody WITHOUT admin access can run a
+# Stripe payment of their own choosing and confirm the integration works.
+# Delete this, `web/app/pay/` and `PAY_PROBE_TOKEN` once Stripe is wired to
+# plans - it exists to be thrown away.
+#
+# IT IS NOT OPEN TO THE INTERNET, and that is not caution for its own sake.
+# An unauthenticated endpoint minting Checkout sessions for an arbitrary
+# amount is the exact shape card-testing abuse looks for: a stolen card list
+# is validated against endpoints like this one, and Stripe freezes the account
+# it happens on. The shared token in the link keeps it off that menu.
+#
+# Three further limits, all cheap:
+#  - the amount is BOUNDED, so a mistyped 100000 cannot become a $1,000 charge;
+#  - attempts are rate limited per IP, because a link gets forwarded;
+#  - with no token configured the endpoint answers 404 rather than 403 - its
+#    existence is not worth advertising.
+PAY_PROBE_TOKEN = os.environ.get("PAY_PROBE_TOKEN", "")
+PAY_PROBE_MIN_CENTS = 50      # Stripe's own floor for a USD charge.
+PAY_PROBE_MAX_CENTS = 5_000   # $50. A test, not a fundraiser.
+PAY_PROBE_MAX_PER_IP = 10
+PAY_PROBE_WINDOW_SECONDS = 3600
+
+
+class PayProbeRequest(BaseModel):
+    token: str = Field(max_length=200)
+    amount_cents: int
+
+
+@app.get("/api/pay/config")
+def pay_probe_config() -> dict:
+    """What the page needs to draw itself. Reveals nothing about the token."""
+    if not PAY_PROBE_TOKEN:
+        raise HTTPException(404, {"code": "notFound"})
+    return {
+        "min_cents": PAY_PROBE_MIN_CENTS,
+        "max_cents": PAY_PROBE_MAX_CENTS,
+        "currency": stripe.TEST_CURRENCY,
+        "mode": stripe.mode(),
+    }
+
+
+@app.post("/api/pay/session")
+def pay_probe_session(payload: PayProbeRequest, http_request: Request) -> dict:
+    """Mint one Checkout Session for the amount the visitor typed."""
+    if not PAY_PROBE_TOKEN:
+        raise HTTPException(404, {"code": "notFound"})
+    ip_hash = gate.anon_ip_hash(
+        http_request.headers.get("x-forwarded-for"), auth.ANON_IP_SALT
+    )
+    # Counted BEFORE the token is compared, so guessing the token is itself
+    # rate limited rather than free.
+    if not auth._rate_ok(
+        f"payprobe:{ip_hash}",
+        limit=PAY_PROBE_MAX_PER_IP,
+        window=PAY_PROBE_WINDOW_SECONDS,
+    ):
+        raise HTTPException(429, {"code": "tooManyRequests"})
+    if not hmac.compare_digest(payload.token, PAY_PROBE_TOKEN):
+        raise HTTPException(403, {"code": "badToken"})
+    if not PAY_PROBE_MIN_CENTS <= payload.amount_cents <= PAY_PROBE_MAX_CENTS:
+        raise HTTPException(400, {"code": "amountOutOfRange"})
+    if stripe.mode() == "missing":
+        raise HTTPException(503, {"code": "noKey"})
+
+    base = auth.WEB_BASE_URL or ""
+    try:
+        session = stripe.checkout_session(
+            success_url=f"{base}/pay?paid=1",
+            cancel_url=f"{base}/pay?cancelled=1",
+            email=None,
+            amount_cents=payload.amount_cents,
+        )
+    except stripe.StripeError as exc:
+        print(f"[stripe] pay probe: {exc}", flush=True)
+        raise HTTPException(502, {"code": exc.code}) from None
+    # Logged because this is the one payment path with no signed-in actor
+    # behind it: the log is the only record of who asked, and for how much.
+    print(
+        f"[stripe] pay probe session {session['id']} {payload.amount_cents}c "
+        f"mode={stripe.mode()} ip={ip_hash[:8]}",
+        flush=True,
+    )
+    return {"url": session["url"], "mode": stripe.mode()}
 
 
 @app.post("/api/stripe/webhook")
