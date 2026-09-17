@@ -192,6 +192,15 @@ def meta(http_request: Request) -> dict:
         # was printed to the server log", which is the single most confusing
         # state a fresh deployment can be in.
         "mail_backend": mailer.backend(),
+        # The DOMAIN of the From address, never the address and never the key.
+        # It is on every message we send, so it is not a secret, and it answers
+        # the one failure this setup actually has: the provider verifies a
+        # specific domain, and mail sent from any other one is refused with
+        # nothing visible to the user. Checking it took reading the api's
+        # deploy log; now it does not.
+        "mail_from_domain": mailer.sender().split("@")[-1].strip(">").strip()
+        if mailer.sender()
+        else None,
         # Real per-request prices, measured and reported - not credits. CLAUDE.md
         # prices in credits for customers; a developer needs the underlying cost,
         # because the whole point of the Standard queue is a comparison you can
