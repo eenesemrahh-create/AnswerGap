@@ -22,8 +22,17 @@ import { API_BASE } from "@/lib/api";
 
 type Config = { min_cents: number; max_cents: number; currency: string; mode: string };
 
+/* The two ways a key can be wrong used to share one sentence, and they have
+ * opposite fixes: "your link has no key" is the visitor's problem, "the server
+ * refused this key" is the operator's - the value in PAY_PROBE_TOKEN does not
+ * match the link, or the api has not restarted since it was set. One message
+ * for both sent the reader looking in the wrong place. */
+const NO_KEY_IN_LINK =
+  "Bu bağlantıda anahtar yok. Linkin sonunda ?k=... kısmı da olmalı.";
+
 const ERRORS: Record<string, string> = {
-  badToken: "Bu bağlantı geçerli değil. Doğru linki kullandığından emin ol.",
+  badToken:
+    "Sunucu bu anahtarı kabul etmedi. Linkteki ?k=... değeri, api servisindeki PAY_PROBE_TOKEN ile birebir aynı olmalı; değişken yeni eklendiyse servisin yeniden başlaması gerekir.",
   amountOutOfRange: "Tutar izin verilen aralığın dışında.",
   tooManyRequests: "Çok fazla deneme oldu. Bir saat sonra tekrar dene.",
   noKey: "Ödeme sistemi henüz yapılandırılmadı.",
@@ -35,6 +44,11 @@ const money = (cents: number, currency: string) =>
 
 export default function PayProbePage() {
   const [token, setToken] = useState<string | null>(null);
+  /* The URL is only readable in the browser, so the server-rendered pass has
+     no key by definition. Without this flag that pass renders "no key in this
+     link" for a moment on a perfectly good link - and a reader who arrives,
+     reads it and leaves never sees the form appear. */
+  const [ready, setReady] = useState(false);
   const [config, setConfig] = useState<Config | null>(null);
   const [closed, setClosed] = useState(false);
   const [amount, setAmount] = useState("1.00");
@@ -45,6 +59,7 @@ export default function PayProbePage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setToken(params.get("k"));
+    setReady(true);
     if (params.get("paid")) setOutcome("paid");
     if (params.get("cancelled")) setOutcome("cancelled");
     fetch(`${API_BASE}/api/pay/config`)
@@ -117,8 +132,10 @@ export default function PayProbePage() {
         </div>
       )}
 
-      {!token ? (
-        <p className="status-text">{ERRORS.badToken}</p>
+      {!ready ? (
+        <p className="status-text">Yükleniyor…</p>
+      ) : !token ? (
+        <p className="status-text">{NO_KEY_IN_LINK}</p>
       ) : (
         <>
           <p className="tagline" style={{ marginBottom: 20 }}>
