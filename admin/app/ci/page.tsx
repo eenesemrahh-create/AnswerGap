@@ -12,9 +12,11 @@ export default async function CiPage() {
       <h1>CI</h1>
       <p className="sub">
         Tests run on GitHub Actions against a throwaway Postgres, never on this
-        server. This page reads their results and can ask GitHub to run them
-        again. Railway deploys <code>{initial.branch}</code> whether or not they
-        pass, unless &ldquo;Wait for CI&rdquo; is switched on for each service.
+        server, and they run on every push to <code>{initial.branch}</code>.
+        This page reads their results
+        {initial.can_trigger ? " and can ask GitHub to run them again" : ""}.
+        Railway deploys that branch whether or not they pass, unless
+        &ldquo;Wait for CI&rdquo; is switched on for each service.
       </p>
       <CiBoard initial={initial} />
     </>

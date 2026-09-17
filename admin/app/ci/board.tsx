@@ -146,14 +146,14 @@ export function CiBoard({ initial }: { initial: CiOverview }) {
   return (
     <>
       <div className="ci-bar">
-        <button
-          className="act"
-          disabled={!data.can_trigger || pending}
-          title={data.can_trigger ? undefined : ERRORS.noToken}
-          onClick={() => act("Run now", runNow)}
-        >
-          Run now on {data.branch}
-        </button>
+        {/* No token, no buttons at all - a permanently disabled control is
+            worse than none. Setting CI_GITHUB_TOKEN on the api service brings
+            every trigger back with no code change; CLAUDE.md says how. */}
+        {data.can_trigger && (
+          <button className="act" disabled={pending} onClick={() => act("Run now", runNow)}>
+            Run now on {data.branch}
+          </button>
+        )}
         <button className="linkish" onClick={() => void refresh()} disabled={pending}>
           Refresh
         </button>
@@ -242,21 +242,6 @@ export function CiBoard({ initial }: { initial: CiOverview }) {
         </>
       )}
 
-      {!data.can_trigger && (
-        <>
-          <h2>Enabling the buttons</h2>
-          <p className="sub">
-            Reading works without a token because the repository is public, but it
-            is limited to 60 GitHub calls an hour, so this page refreshes slowly.
-            To trigger runs - and refresh every few seconds - create a
-            fine-grained personal access token on GitHub: <b>Settings → Developer
-            settings → Fine-grained tokens</b>, repository access <b>only {data.repo}</b>,
-            permission <b>Actions: Read and write</b>, nothing else. Put it on the
-            Railway <b>api</b> service as <code>CI_GITHUB_TOKEN</code>. It never
-            reaches this service or a browser.
-          </p>
-        </>
-      )}
     </>
   );
 }
