@@ -82,6 +82,8 @@ export const fr: Messages = {
     aiSourcesHint: "Sites que l’AI Overview de Google cite pour cette question. Connu uniquement pour les questions vérifiées.",
     aiCount: "{count} sites",
     aiNone: "aucun",
+    aiYou: "vous",
+    aiYouHint: "{site} fait partie des sources citées",
   },
 
   ai: {
@@ -90,6 +92,11 @@ export const fr: Messages = {
     coverage: "L’AI Overview de Google cite des sources pour {withAi} des {checked} questions vérifiées.",
     citedIn: "cité dans {count} sur {checked}",
     note: "Seules les questions vérifiées sont comptées. Les autres sont inconnues, pas non citées.",
+    siteLabel: "Votre site",
+    sitePlaceholder: "exemple.fr",
+    siteInvalid: "Saisissez un domaine, par exemple exemple.fr.",
+    siteCited: "{site} est cité dans {count} des {checked} questions vérifiées.",
+    siteHint: "Les sous-domaines comptent aussi : exemple.fr correspond à blog.exemple.fr. Mémorisé dans ce navigateur uniquement.",
   },
 
   seeds: {
@@ -123,6 +130,8 @@ export const fr: Messages = {
     aiNote:
       "Google répond à cette question par un aperçu IA et cite ces sites. Il " +
       "peut s'agir d'une question sans clic.",
+    aiYou: "{site} fait partie des sites cités.",
+    aiNotYou: "{site} n'est pas cité pour cette question.",
     sourceHeading: "Source",
     updated: "Dernière mise à jour : {date}",
     matching: "Correspondance : {strategy} · seuil {threshold}",

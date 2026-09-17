@@ -81,6 +81,8 @@ export const de: Messages = {
     aiSourcesHint: "Websites, die Googles AI Overview für diese Frage als Quelle nennt. Nur für geprüfte Fragen bekannt.",
     aiCount: "{count} Websites",
     aiNone: "keine",
+    aiYou: "du",
+    aiYouHint: "{site} ist unter den zitierten Quellen",
   },
 
   ai: {
@@ -89,6 +91,11 @@ export const de: Messages = {
     coverage: "Googles AI Overview nennt bei {withAi} von {checked} geprüften Fragen Quellen.",
     citedIn: "zitiert bei {count} von {checked}",
     note: "Nur geprüfte Fragen werden gezählt. Ungeprüfte Fragen sind unbekannt, nicht unzitiert.",
+    siteLabel: "Deine Website",
+    sitePlaceholder: "beispiel.de",
+    siteInvalid: "Gib eine Domain ein, z. B. beispiel.de.",
+    siteCited: "{site} wird in {count} von {checked} geprüften Fragen zitiert.",
+    siteHint: "Subdomains zählen mit: beispiel.de passt auch zu blog.beispiel.de. Nur in diesem Browser gespeichert.",
   },
 
   seeds: {
@@ -122,6 +129,8 @@ export const de: Messages = {
     aiNote:
       "Google beantwortet diese Frage mit einer KI-Übersicht und zitiert diese " +
       "Seiten. Möglicherweise eine Zero-Click-Frage.",
+    aiYou: "{site} ist unter den zitierten Websites.",
+    aiNotYou: "{site} wird für diese Frage nicht zitiert.",
     sourceHeading: "Quelle",
     updated: "Zuletzt aktualisiert: {date}",
     matching: "Abgleich: {strategy} · Schwelle {threshold}",

@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { useI18n } from "@/i18n";
+import { citesSite, isCited } from "@/lib/domains";
 import type { Node } from "@/lib/types";
 
 /* Who Google's AI Overview cites across the whole tree.
@@ -18,10 +19,24 @@ export function citedDomains(node: Node): string[] {
   return Array.from(new Set(node.ai_sources ?? []));
 }
 
-export function AiSummary({ nodes }: { nodes: Node[] }) {
+export function AiSummary({
+  nodes,
+  siteInput,
+  site,
+  onSiteChange,
+  onSelect,
+}: {
+  nodes: Node[];
+  /** What the reader typed, kept verbatim so the field does not fight them. */
+  siteInput: string;
+  /** The same, normalized; null while it is empty or not yet a domain. */
+  site: string | null;
+  onSiteChange: (value: string) => void;
+  onSelect: (id: string) => void;
+}) {
   const { t } = useI18n();
 
-  const { checked, withAi, top } = useMemo(() => {
+  const { checked, withAi, top, citing } = useMemo(() => {
     const checkedNodes = nodes.filter((n) => n.results_checked > 0);
     const counts = new Map<string, number>();
     let withAi = 0;
@@ -33,8 +48,13 @@ export function AiSummary({ nodes }: { nodes: Node[] }) {
     const top = [...counts.entries()]
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
       .slice(0, TOP_DOMAINS);
-    return { checked: checkedNodes.length, withAi, top };
-  }, [nodes]);
+    const citing = site
+      ? checkedNodes.filter((n) => isCited(n.ai_sources ?? [], site))
+      : [];
+    return { checked: checkedNodes.length, withAi, top, citing };
+  }, [nodes, site]);
+
+  const invalid = siteInput.trim() !== "" && site === null;
 
   return (
     <section className="ai-summary">
@@ -50,7 +70,13 @@ export function AiSummary({ nodes }: { nodes: Node[] }) {
             <ol className="ai-domains">
               {top.map(([domain, count]) => (
                 <li key={domain}>
-                  <span className="tag">{domain}</span>
+                  <span
+                    className={
+                      site && citesSite(domain, site) ? "tag tag-you" : "tag"
+                    }
+                  >
+                    {domain}
+                  </span>
                   <span className="muted">
                     {t("ai.citedIn", { count, checked })}
                   </span>
@@ -61,6 +87,45 @@ export function AiSummary({ nodes }: { nodes: Node[] }) {
           <p className="note">{t("ai.note")}</p>
         </>
       )}
+
+      {/* Unchecked questions are unknown, so the answer is always "of the
+          questions checked" - never "you are missing from N questions". */}
+      <div className="ai-site">
+        <label className="ai-site-field">
+          <span>{t("ai.siteLabel")}</span>
+          <input
+            className="search"
+            type="text"
+            inputMode="url"
+            autoComplete="url"
+            spellCheck={false}
+            value={siteInput}
+            onChange={(e) => onSiteChange(e.target.value)}
+            placeholder={t("ai.sitePlaceholder")}
+            aria-invalid={invalid}
+          />
+        </label>
+        {invalid && <p className="note">{t("ai.siteInvalid")}</p>}
+        {site && checked > 0 && (
+          <>
+            <p className="ai-summary-lead">
+              {t("ai.siteCited", { site, count: citing.length, checked })}
+            </p>
+            {citing.length > 0 && (
+              <ul className="ai-site-questions">
+                {citing.map((node) => (
+                  <li key={node.id}>
+                    <button type="button" onClick={() => onSelect(node.id)}>
+                      {node.question}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p className="note">{t("ai.siteHint")}</p>
+          </>
+        )}
+      </div>
     </section>
   );
 }

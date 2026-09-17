@@ -2500,3 +2500,46 @@ table.table {
   gap: 6px 14px;
 }
 .ai-domains li { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
+
+/* "Is my site cited?" — neutral text tokens only. Being cited is not a gap
+   status and not decoration, so neither palette applies. */
+.ai-site {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.ai-site-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.ai-site-field .search[aria-invalid="true"] { border-color: var(--danger-border); }
+.ai-site-questions {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ai-site-questions button {
+  all: unset;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+}
+.ai-site-questions button:hover { text-decoration-color: var(--text); }
+.ai-site-questions button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.ai-you { font-weight: 700; color: var(--text); }
+.tag.tag-you {
+  color: var(--text);
+  border-color: var(--text-soft);
+  font-weight: 700;
+}

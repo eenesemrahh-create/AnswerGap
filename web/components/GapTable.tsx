@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Badge } from "./Badge";
 import { AiSummary, citedDomains } from "./AiSummary";
 import { useI18n } from "@/i18n";
+import { isCited } from "@/lib/domains";
 import type { Node } from "@/lib/types";
 
 /* SEO people copy this into a spreadsheet, so it is a real <table> with
@@ -29,9 +30,13 @@ const COLUMNS: { key: Column; label: string; hint?: string; right?: boolean }[] 
   { key: "ai_sources", label: "table.aiSources", hint: "table.aiSourcesHint", right: true },
 ];
 
-/* Unchecked sorts below "none": unknown is not zero. */
-const aiRank = (node: Node) =>
-  node.results_checked > 0 ? citedDomains(node).length : -1;
+/* Unchecked sorts below "none": unknown is not zero. With a site entered,
+ * questions citing it sort above every question that does not. */
+const aiRank = (node: Node, site: string | null) => {
+  if (node.results_checked === 0) return -1;
+  const own = site && isCited(node.ai_sources ?? [], site) ? 1000 : 0;
+  return own + citedDomains(node).length;
+};
 
 export function GapTable({
   nodes,
@@ -39,6 +44,9 @@ export function GapTable({
   selectedId,
   onSelect,
   localeTag,
+  siteInput,
+  site,
+  onSiteChange,
 }: {
   nodes: Node[];
   /** The unfiltered tree, so the AI summary does not move with the filter. */
@@ -46,6 +54,9 @@ export function GapTable({
   selectedId: string | null;
   onSelect: (id: string) => void;
   localeTag: string;
+  siteInput: string;
+  site: string | null;
+  onSiteChange: (value: string) => void;
 }) {
   const { t } = useI18n();
   const [column, setColumn] = useState<Column>("matching_pages");
@@ -60,7 +71,7 @@ export function GapTable({
       } else if (column === "status") {
         diff = a.status.localeCompare(b.status);
       } else if (column === "ai_sources") {
-        diff = aiRank(a) - aiRank(b);
+        diff = aiRank(a, site) - aiRank(b, site);
       } else {
         diff = (a[column] as number) - (b[column] as number);
       }
@@ -68,7 +79,7 @@ export function GapTable({
       return ascending ? diff : -diff;
     });
     return copy;
-  }, [nodes, column, ascending, localeTag]);
+  }, [nodes, column, ascending, localeTag, site]);
 
   const toggle = (key: Column) => {
     if (key === column) setAscending((v) => !v);
@@ -80,7 +91,13 @@ export function GapTable({
 
   return (
     <div className="table-wrap">
-      <AiSummary nodes={allNodes} />
+      <AiSummary
+        nodes={allNodes}
+        siteInput={siteInput}
+        site={site}
+        onSiteChange={onSiteChange}
+        onSelect={onSelect}
+      />
       <table className="table">
         <thead>
           <tr>
@@ -146,7 +163,14 @@ export function GapTable({
                 {node.results_checked === 0 ? (
                   <span className="muted">—</span>
                 ) : citedDomains(node).length > 0 ? (
-                  t("table.aiCount", { count: citedDomains(node).length })
+                  <>
+                    {site && isCited(node.ai_sources, site) && (
+                      <span className="ai-you" title={t("table.aiYouHint", { site })}>
+                        {t("table.aiYou")} ·{" "}
+                      </span>
+                    )}
+                    {t("table.aiCount", { count: citedDomains(node).length })}
+                  </>
                 ) : (
                   <span className="muted">{t("table.aiNone")}</span>
                 )}

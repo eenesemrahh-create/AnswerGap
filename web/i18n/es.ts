@@ -81,6 +81,8 @@ export const es: Messages = {
     aiSourcesHint: "Sitios que el AI Overview de Google cita para esta pregunta. Solo se conoce en preguntas comprobadas.",
     aiCount: "{count} sitios",
     aiNone: "ninguno",
+    aiYou: "tú",
+    aiYouHint: "{site} está entre las fuentes citadas",
   },
 
   ai: {
@@ -89,6 +91,11 @@ export const es: Messages = {
     coverage: "El AI Overview de Google cita fuentes en {withAi} de las {checked} preguntas comprobadas.",
     citedIn: "citado en {count} de {checked}",
     note: "Solo se cuentan las preguntas comprobadas. Las no comprobadas son desconocidas, no sin citas.",
+    siteLabel: "Tu sitio",
+    sitePlaceholder: "ejemplo.com",
+    siteInvalid: "Escribe un dominio, como ejemplo.com.",
+    siteCited: "{site} aparece citado en {count} de las {checked} preguntas comprobadas.",
+    siteHint: "Los subdominios también cuentan: ejemplo.com coincide con blog.ejemplo.com. Solo se recuerda en este navegador.",
   },
 
   seeds: {
@@ -122,6 +129,8 @@ export const es: Messages = {
     aiNote:
       "Google responde a esta pregunta con un resumen de IA y cita estos sitios. " +
       "Puede ser una pregunta de cero clics.",
+    aiYou: "{site} está entre los sitios citados.",
+    aiNotYou: "{site} no aparece citado en esta pregunta.",
     sourceHeading: "Fuente",
     updated: "Última actualización: {date}",
     matching: "Coincidencia: {strategy} · umbral {threshold}",

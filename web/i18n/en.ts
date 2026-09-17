@@ -105,6 +105,8 @@ export const en = {
     aiSourcesHint: "Sites Google's AI Overview cites for this question. Known only for checked questions.",
     aiCount: "{count} sites",
     aiNone: "none",
+    aiYou: "you",
+    aiYouHint: "{site} is among the sources cited",
   },
 
   ai: {
@@ -113,6 +115,11 @@ export const en = {
     coverage: "Google's AI Overview cites sources for {withAi} of the {checked} questions checked.",
     citedIn: "cited in {count} of {checked}",
     note: "Counted over checked questions only. Unchecked questions are unknown, not uncited.",
+    siteLabel: "Your site",
+    sitePlaceholder: "example.com",
+    siteInvalid: "Enter a domain, like example.com.",
+    siteCited: "{site} is cited in {count} of the {checked} questions checked.",
+    siteHint: "Subdomains count too: example.com also matches blog.example.com. Remembered in this browser only.",
   },
 
   seeds: {
@@ -148,6 +155,8 @@ export const en = {
     aiNote:
       "Google answers this question with an AI Overview and cites these sites. " +
       "It may be a zero-click question.",
+    aiYou: "{site} is among the cited sites.",
+    aiNotYou: "{site} is not cited for this question.",
     sourceHeading: "Source",
     updated: "Last updated: {date}",
     matching: "Matching: {strategy} · threshold {threshold}",

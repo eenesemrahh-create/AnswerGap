@@ -81,6 +81,8 @@ export const tr: Messages = {
     aiSourcesHint: "Google AI Overview'un bu soru için kaynak gösterdiği siteler. Yalnızca kontrol edilmiş sorularda bilinir.",
     aiCount: "{count} site",
     aiNone: "yok",
+    aiYou: "sen",
+    aiYouHint: "{site} kaynak gösterilen siteler arasında",
   },
 
   ai: {
@@ -89,6 +91,11 @@ export const tr: Messages = {
     coverage: "Kontrol edilen {checked} sorunun {withAi} tanesinde Google AI Overview kaynak gösteriyor.",
     citedIn: "{checked} sorunun {count} tanesinde kaynak",
     note: "Yalnızca kontrol edilmiş sorular sayılır. Kontrol edilmemiş sorular bilinmiyor, kaynaksız değil.",
+    siteLabel: "Siten",
+    sitePlaceholder: "ornek.com",
+    siteInvalid: "ornek.com gibi bir alan adı gir.",
+    siteCited: "{site}, kontrol edilen {checked} sorunun {count} tanesinde kaynak gösteriliyor.",
+    siteHint: "Alt alan adları da sayılır: ornek.com, blog.ornek.com ile de eşleşir. Yalnızca bu tarayıcıda hatırlanır.",
   },
 
   seeds: {
@@ -123,6 +130,8 @@ export const tr: Messages = {
     aiNote:
       "Google bu soruya AI Overview ile cevap veriyor ve bu siteleri kaynak " +
       "gösteriyor. Sıfır tıklamayla cevaplanan bir soru olabilir.",
+    aiYou: "{site} kaynak gösterilen siteler arasında.",
+    aiNotYou: "{site} bu soru için kaynak gösterilmiyor.",
     sourceHeading: "Kaynak",
     updated: "Son güncelleme: {date}",
     matching: "Eşleştirme: {strategy} · eşik {threshold}",

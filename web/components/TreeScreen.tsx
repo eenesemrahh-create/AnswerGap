@@ -13,6 +13,7 @@ import {
   type Tree,
   type Verdict,
 } from "@/lib/types";
+import { normalizeSite } from "@/lib/domains";
 import { useDateFormat, useI18n } from "@/i18n";
 import { QuestionTree } from "./QuestionTree";
 import { GapTable } from "./GapTable";
@@ -27,6 +28,8 @@ import { DevPanel } from "./DevPanel";
 import { CrawlDiff } from "./CrawlDiff";
 
 type View = "tree" | "table" | "seeds";
+
+const SITE_KEY = "answergap.site";
 
 export function TreeScreen({ slug }: { slug: string }) {
   const { t, tag } = useI18n();
@@ -44,6 +47,28 @@ export function TreeScreen({ slug }: { slug: string }) {
      given on one question is drawn on the node in the tree behind it. */
   const [verdicts, setVerdicts] = useState<Record<string, Verdict>>({});
   const [labelCounts, setLabelCounts] = useState<LabelCounts | null>(null);
+
+  /* The reader's own domain, for "is my site cited?". Kept here because both
+     the table and the detail panel mark it, and remembered per browser: it is
+     a convenience, so a storage failure just means typing it again. */
+  const [siteInput, setSiteInput] = useState("");
+  useEffect(() => {
+    try {
+      setSiteInput(window.localStorage.getItem(SITE_KEY) ?? "");
+    } catch {
+      /* private window or blocked site data */
+    }
+  }, []);
+  const changeSite = (value: string) => {
+    setSiteInput(value);
+    try {
+      if (value.trim()) window.localStorage.setItem(SITE_KEY, value);
+      else window.localStorage.removeItem(SITE_KEY);
+    } catch {
+      /* not load-bearing */
+    }
+  };
+  const site = useMemo(() => normalizeSite(siteInput), [siteInput]);
 
   /* Who is looking, and what a request actually costs. Allowed to fail
      quietly: without it the screen loses the developer panel and the batch
@@ -278,6 +303,9 @@ export function TreeScreen({ slug }: { slug: string }) {
                 selectedId={selectedId}
                 onSelect={setSelectedId}
                 localeTag={tag}
+                siteInput={siteInput}
+                site={site}
+                onSiteChange={changeSite}
               />
             )}
             {view === "seeds" && (
@@ -290,6 +318,7 @@ export function TreeScreen({ slug }: { slug: string }) {
           tree={tree}
           onScored={applyScore}
           verdicts={verdicts}
+          site={site}
           onVerdict={(labels, counts) => {
             setVerdicts(labels);
             setLabelCounts(counts);

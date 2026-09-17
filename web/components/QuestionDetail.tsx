@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Badge, Rich } from "./Badge";
 import { ApiError, scoreQuestion, submitLabel } from "@/lib/api";
 import { useDateFormat, useI18n } from "@/i18n";
+import { citesSite } from "@/lib/domains";
 import type {
   LabelCounts,
   Node,
@@ -24,6 +25,7 @@ export function QuestionDetail({
   tree,
   onScored,
   verdicts,
+  site,
   onVerdict,
 }: {
   node: Node | null;
@@ -32,6 +34,8 @@ export function QuestionDetail({
   onScored?: (result: ScoreResult) => void;
   /** Verdicts already recorded, by question slug. Owned by the screen above. */
   verdicts: Record<string, Verdict>;
+  /** The reader's own normalized domain, to mark among the cited sources. */
+  site: string | null;
   onVerdict?: (labels: Record<string, Verdict>, counts: LabelCounts) => void;
 }) {
   const { t } = useI18n();
@@ -287,11 +291,21 @@ export function QuestionDetail({
           <h3>{t("detail.aiHeading")}</h3>
           <div className="tag-list">
             {node.ai_sources.map((domain) => (
-              <span className="tag" key={domain}>
+              <span
+                className={site && citesSite(domain, site) ? "tag tag-you" : "tag"}
+                key={domain}
+              >
                 {domain}
               </span>
             ))}
           </div>
+          {site && (
+            <p className="note">
+              {node.ai_sources.some((d) => citesSite(d, site))
+                ? t("detail.aiYou", { site })
+                : t("detail.aiNotYou", { site })}
+            </p>
+          )}
           <p className="note">{t("detail.aiNote")}</p>
         </>
       )}
@@ -302,7 +316,8 @@ export function QuestionDetail({
         {node.source_file && (
           <span className="result-domain">{node.source_file}</span>
         )}
-        {node.reach !== null && (
+        {/* Archive trees predate the relevance gate and omit the field. */}
+        {node.reach != null && (
           <span>{t("detail.relevance", { value: node.reach.toFixed(2) })}</span>
         )}
         <span>
