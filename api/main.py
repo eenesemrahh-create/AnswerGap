@@ -39,7 +39,7 @@ from answergap.dataforseo import (
 from answergap.languages import DEFAULT_LOCATION_CODE, LANGUAGES
 from answergap.tree import STRATEGY, THRESHOLD, all_trees
 
-from . import admin, auth
+from . import admin, auth, stripe
 
 ROOT = Path(__file__).resolve().parent.parent
 COUNTRIES_PATH = ROOT / "data" / "locations" / "countries.json"
@@ -832,6 +832,47 @@ def tree_jobs(slug: str, http_request: Request) -> dict:
         **db.task_spend(slug),
         "swept": swept,
     }
+
+
+@app.post("/api/stripe/webhook")
+async def stripe_webhook(http_request: Request) -> dict:
+    """Where Stripe reports that money moved.
+
+    Public, and guarded the same way `/api/callback/dataforseo` is: it FAILS
+    CLOSED. With no `STRIPE_WEBHOOK_SECRET` configured every call is refused,
+    because this endpoint writes rows the panel presents as payments - an
+    unsigned one would let anyone invent revenue.
+
+    The signature is checked against the RAW body. Re-serialising the JSON
+    first would change a byte somewhere and every real webhook would fail.
+
+    Always 200 once the signature holds, including for event types we ignore:
+    a non-2xx makes Stripe retry, and retrying will not make us interested in
+    `invoice.created`.
+    """
+    secret = stripe.webhook_secret()
+    if not secret:
+        raise HTTPException(503, {"code": "webhookNotConfigured"})
+    raw = await http_request.body()
+    if not stripe.verify(raw, http_request.headers.get("stripe-signature", ""), secret=secret):
+        raise HTTPException(400, {"code": "badSignature"})
+    try:
+        event = json.loads(raw)
+    except ValueError:
+        raise HTTPException(400, {"code": "badPayload"}) from None
+
+    record = stripe.summarize_event(event)
+    if not record:
+        return {"received": True, "recorded": False}
+    if not db.available():
+        # No database on this deployment: the signature was still checked, and
+        # saying so beats pretending the row was written.
+        print(f"[stripe] {record['kind']} {record['event_id']} (not stored: no database)",
+              flush=True)
+        return {"received": True, "recorded": False}
+    stored = db.payment_event_put(record, event)
+    print(f"[stripe] {record['kind']} {record['event_id']} stored={stored}", flush=True)
+    return {"received": True, "recorded": stored}
 
 
 @app.post("/api/callback/dataforseo")

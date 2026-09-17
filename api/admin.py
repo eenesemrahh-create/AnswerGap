@@ -31,8 +31,8 @@ from pydantic import BaseModel, Field, model_validator
 
 from answergap import db, gate
 
-from . import ci
-from .auth import ADMIN_EMAILS, require_admin
+from . import ci, stripe
+from .auth import ADMIN_EMAILS, PUBLIC_BASE_URL, WEB_BASE_URL, require_admin
 
 router = APIRouter(prefix="/api/admin")
 
@@ -419,6 +419,79 @@ def ci_cancel(request: Request, payload: CiRunRequest) -> dict:
         request, "ci_cancel", {"run_id": payload.run_id},
         lambda: ci.cancel(payload.run_id),
     )
+
+
+@router.get("/stripe")
+def stripe_status(request: Request) -> dict:
+    """Are the keys there, do they work, and what has arrived so far.
+
+    Always 200. A refused key or a Stripe outage comes back as `error` beside
+    everything else that IS known, because the admin API client turns any
+    non-200 into a redirect to an error page.
+
+    No key material is returned - only the account id, the mode read from the
+    key's prefix, and whether a webhook secret exists at all.
+    """
+    require_admin(request)
+    mode = stripe.mode()
+    out = {
+        "mode": mode,
+        "webhook_configured": bool(stripe.webhook_secret()),
+        "webhook_url": f"{PUBLIC_BASE_URL}/api/stripe/webhook" if PUBLIC_BASE_URL else None,
+        "test_amount_cents": stripe.TEST_AMOUNT_CENTS,
+        "test_currency": stripe.TEST_CURRENCY,
+        # The live guard, decided here rather than in the panel: a "test"
+        # payment against live keys charges a real card and pays a real fee.
+        "can_test_payment": mode == "test",
+        "account": None,
+        "events": [],
+        "error": None,
+    }
+    if mode != "missing":
+        try:
+            out["account"] = stripe.account()
+        except stripe.StripeError as exc:
+            print(f"[stripe] account: {exc}", flush=True)
+            out["error"] = exc.code
+    if db.available():
+        try:
+            out["events"] = db.payment_events(limit=25)
+        except Exception as exc:  # noqa: BLE001 - the page still has a job to do
+            print(f"[stripe] events: {type(exc).__name__}: {exc}", flush=True)
+    return out
+
+
+@router.post("/stripe/test-payment")
+def stripe_test_payment(request: Request) -> dict:
+    """Open a Checkout Session for the fixed test amount, and return its link.
+
+    REFUSED IN LIVE MODE. The button exists to prove the integration works, and
+    proving it with live keys means a real charge on a real card plus Stripe's
+    fee - which is not a test, it is a purchase. Switch the Stripe dashboard to
+    test mode, take the test keys, and the same button works with card
+    4242 4242 4242 4242. Lifting this guard later is one condition.
+    """
+    who = require_admin(request)
+    mode = stripe.mode()
+    if mode == "missing":
+        return {"ok": False, "error": "noKey", "url": None}
+    if mode != "test":
+        return {"ok": False, "error": "liveKeyRefused", "url": None}
+    if not WEB_BASE_URL:
+        return {"ok": False, "error": "noReturnUrl", "url": None}
+
+    db.admin_log(actor=who.email or "", action="stripe_test_payment",
+                 detail={"amount_cents": stripe.TEST_AMOUNT_CENTS, "mode": mode})
+    try:
+        session = stripe.checkout_session(
+            success_url=f"{WEB_BASE_URL}/?stripe=success",
+            cancel_url=f"{WEB_BASE_URL}/?stripe=cancelled",
+            email=who.email,
+        )
+    except stripe.StripeError as exc:
+        print(f"[stripe] test payment: {exc}", flush=True)
+        return {"ok": False, "error": exc.code, "url": None}
+    return {"ok": True, "error": None, "url": session["url"], "id": session["id"]}
 
 
 def _settings() -> dict:

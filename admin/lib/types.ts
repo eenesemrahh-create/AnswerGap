@@ -261,3 +261,45 @@ export interface CiTriggerResult {
   ok: boolean;
   error: string | null;
 }
+
+/* Payments. Mirrors `api/admin.stripe_status`; no key material is ever in it. */
+export interface StripeAccount {
+  id: string | null;
+  name: string | null;
+  country: string | null;
+  default_currency: string | null;
+  charges_enabled: boolean;
+  payouts_enabled: boolean;
+  details_submitted: boolean;
+}
+
+export interface PaymentEvent {
+  event_id: string;
+  kind: string;
+  livemode: boolean;
+  amount_cents: number | null;
+  currency: string | null;
+  email: string | null;
+  status: string | null;
+  object_id: string | null;
+  created_at: string;
+}
+
+export interface StripeStatus {
+  mode: "test" | "live" | "unknown" | "missing";
+  webhook_configured: boolean;
+  webhook_url: string | null;
+  test_amount_cents: number;
+  test_currency: string;
+  can_test_payment: boolean;
+  account: StripeAccount | null;
+  events: PaymentEvent[];
+  error: string | null;
+}
+
+export interface StripeTestResult {
+  ok: boolean;
+  error: string | null;
+  url: string | null;
+  id?: string;
+}

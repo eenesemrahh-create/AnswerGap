@@ -58,6 +58,7 @@ export default async function RootLayout({
                 <Link href="/">Overview</Link>
                 <Link href="/users">Users</Link>
                 <Link href="/settings">Settings</Link>
+                <Link href="/stripe">Payments</Link>
                 <Link href="/ci">CI</Link>
                 <Link href="/guide">Guide</Link>
                 <Link href="/audit">Audit</Link>

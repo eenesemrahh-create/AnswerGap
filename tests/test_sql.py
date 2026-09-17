@@ -227,3 +227,36 @@ def test_an_external_admin_act_is_audited() -> None:
     assert rows[0]["action"] == "ci_rerun"
     assert rows[0]["detail"] == {"run_id": 42}
     assert rows[0]["target_user"] is None
+
+
+# ------------------------------------------------------------------ payments
+
+
+def _event(event_id: str = "evt_1") -> dict:
+    return {
+        "event_id": event_id,
+        "kind": "checkout.session.completed",
+        "livemode": False,
+        "amount_cents": 100,
+        "currency": "usd",
+        "email": "op@example.com",
+        "status": "paid",
+        "object_id": "cs_1",
+    }
+
+
+def test_a_redelivered_webhook_is_recorded_once() -> None:
+    """Stripe retries until it gets a 2xx, so the same event WILL arrive twice."""
+    assert db.payment_event_put(_event(), {"id": "evt_1"}) is True
+    assert db.payment_event_put(_event(), {"id": "evt_1"}) is False
+    assert len(db.payment_events()) == 1
+
+
+def test_payments_come_back_newest_first_with_their_mode() -> None:
+    db.payment_event_put(_event("evt_a"), {"id": "evt_a"})
+    live = _event("evt_b")
+    live["livemode"] = True
+    db.payment_event_put(live, {"id": "evt_b"})
+    rows = db.payment_events()
+    assert [r["event_id"] for r in rows] == ["evt_b", "evt_a"]
+    assert rows[0]["livemode"] is True and rows[1]["livemode"] is False

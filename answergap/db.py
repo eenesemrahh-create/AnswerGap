@@ -656,6 +656,37 @@ MIGRATIONS: list[tuple[str, str]] = [
         ALTER TABLE gap_score ADD COLUMN IF NOT EXISTS ai_state TEXT;
         """,
     ),
+    (
+        "0009_payment_event",
+        """
+        -- Every Stripe webhook we recognise, append-only, exactly once.
+        --
+        -- `event_id` is UNIQUE and that is the whole idempotency story: Stripe
+        -- retries a webhook until it gets a 2xx, so the same event WILL arrive
+        -- twice. An ON CONFLICT DO NOTHING against this constraint is what
+        -- makes a redelivery a no-op rather than a second payment on the
+        -- record - the same shape `serp_task` uses for redelivered callbacks.
+        --
+        -- `livemode` is stored because a test payment and a real one are
+        -- otherwise indistinguishable in this table, and mixing them is how a
+        -- revenue figure becomes a lie.
+        CREATE TABLE IF NOT EXISTS payment_event (
+            id           BIGSERIAL PRIMARY KEY,
+            event_id     TEXT NOT NULL UNIQUE,
+            kind         TEXT NOT NULL,
+            livemode     BOOLEAN NOT NULL,
+            amount_cents INTEGER,
+            currency     TEXT,
+            email        TEXT,
+            status       TEXT,
+            object_id    TEXT,
+            payload      JSONB,
+            created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+        CREATE INDEX IF NOT EXISTS payment_event_recent_idx
+            ON payment_event (created_at DESC);
+        """,
+    ),
 ]
 
 
@@ -2915,3 +2946,41 @@ def admin_log(*, actor: str, action: str, detail: dict) -> None:
             (actor, action, json.dumps(detail)),
         )
         conn.commit()
+
+
+def payment_event_put(record: dict, payload: dict) -> bool:
+    """Record one Stripe event. Returns False when it was already there.
+
+    A redelivered webhook must not appear twice; the unique index decides that,
+    not a SELECT this code would have to race against.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO payment_event (event_id, kind, livemode, amount_cents,
+                                       currency, email, status, object_id, payload)
+            VALUES (%(event_id)s, %(kind)s, %(livemode)s, %(amount_cents)s,
+                    %(currency)s, %(email)s, %(status)s, %(object_id)s, %(payload)s)
+            ON CONFLICT (event_id) DO NOTHING
+            RETURNING id
+            """,
+            {**record, "payload": json.dumps(payload, ensure_ascii=False)[:100000]},
+        )
+        row = cur.fetchone()
+        conn.commit()
+        return bool(row)
+
+
+def payment_events(limit: int = 50) -> list[dict]:
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT event_id, kind, livemode, amount_cents, currency, email,
+                   status, object_id, created_at
+              FROM payment_event
+             ORDER BY created_at DESC, id DESC
+             LIMIT %s
+            """,
+            (limit,),
+        )
+        return [dict(r) for r in cur.fetchall()]
