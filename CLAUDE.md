@@ -422,12 +422,13 @@ defensible asset over time.
 
 ## 2026-09-17 session — read this first
 
-Last worked: **2026-09-17**. Three commits, all pushed to `origin/main`
-(`8d9b255`, `0d9e199`, `2f250c2`). Web build clean, 249 tests green.
+Last worked: **2026-09-17**, across TWO sessions. Four feature commits, all
+pushed to `origin/main` (`8d9b255`, `0d9e199`, `2f250c2`, `13e4d00`). Web
+build clean, 249 backend tests + 8 web tests green.
 
-**Where it stopped, in one line:** AI Overview citations are now a table
-column + summary box; the next step is the per-domain check ("your site is
-cited in these questions, not in those").
+**Where it stopped, in one line:** the AI Overview surface is complete in the
+TABLE (column, summary, per-domain check) and confirmed on production by the
+operator; the tree-view marker is the remaining half.
 
 What happened, in order:
 
@@ -457,15 +458,59 @@ What happened, in order:
    (N of M checked questions cite sources, top 5 domains). All counts are
    over CHECKED questions only - unknown is not uncited. Five locales.
    Demo data: teeth-whitening 13/16, diş beyazlatma 7/24, kredi notu 4/9.
-   **Not visually checked** - the Chrome extension did not respond; look at
-   the Table tab on production first thing.
+   Visually confirmed by the operator on production in session 2.
+5. **Per-domain check** (`13e4d00`, session 2). A "Your site" field at the
+   bottom of `AiSummary`: "{site} is cited in N of M questions checked", a
+   clickable list of those questions, a "you ·" marker in the AI Overview
+   column (cited questions sort first), and the matching tag bolded in the
+   question detail panel. The domain lives in `TreeScreen` state and in
+   `localStorage` (`answergap.site`) - per-browser convenience, never sent to
+   the API. Neutral text tokens only: being cited is neither a gap status
+   nor decoration, so neither palette applies.
+   Matching is `web/lib/domains.ts`, pure: URL / `www.` / port reduce to a
+   hostname, a site owns its subdomains (`clevelandclinic.org` -> 5 of 16 on
+   teeth-whitening; `health.clevelandclinic.org` -> 2), and a lookalike
+   (`notcolgate.com`, `colgate.com.evil.io`) never matches.
+   **The web app has tests now:** `cd web && npm test` runs
+   `web/tests/*.test.mjs` through node's built-in runner, which strips the
+   TypeScript types itself - no framework, no dependency. Keep `lib/` helpers
+   free of `@/` imports or node cannot load them.
+6. **Fixed a crash that had been live since 2026-08-28.** Selecting ANY
+   question in an archive (demo) tree threw: archive nodes omit `reach`
+   entirely and `QuestionDetail` guarded only `!== null`, so
+   `undefined.toFixed()` took the page down. Now `!= null`. Found only by
+   driving a real browser - the build and types were happy, because
+   `types.ts` declares `reach: number | null` and the API does not honour it.
+
+**Verification without the Chrome extension.** It failed to connect in both
+sessions. Headless Chrome driven over the DevTools protocol from a small
+node script (Node 24 has a global `WebSocket`: launch chrome with
+`--remote-debugging-port`, `Runtime.evaluate` to click and type, listen for
+`Runtime.exceptionThrown`, `Page.captureScreenshot`) did the job and is what
+caught the crash above. Setting an input from script needs the native value
+setter plus an `input` event, or React ignores it.
+
+**A GitHub deployment "success" does not mean the web service rebuilt.**
+Railway writes one GitHub deployment record per pushed commit - even for a
+CLAUDE.md-only commit that matches no service's `watchPatterns` - and the
+record does not say which service built. Check the service's own
+Deployments tab in Railway. The production web URL is not recorded anywhere
+in the repo or `.env`.
+
+Known lint debt: `react-hooks/set-state-in-effect` fires on the localStorage
+read in `TreeScreen` and on the identical pre-existing one in `ThemeToggle`.
+`next build` does not run lint, so it does not block; fixing both means
+`useSyncExternalStore` over storage.
 
 Spend: ~$0 (one refused SERP call at $0; the samsung crawl on production was
 ~$0.0026 under the new account).
 
 **Next, proposed and agreed in direction:**
-- Per-domain check: user enters their domain -> which questions cite it.
-- Tree-view marker on nodes whose AI Overview has citations.
+- ~~Per-domain check~~ **DONE** `13e4d00`.
+- Tree-view marker on nodes whose AI Overview cites sources - and, with a
+  site entered, on nodes that cite the reader's site.
+- CI with a Postgres service container (item 9 of the Next list) - the web
+  tests now give it a second suite to run.
 - Wider list discussed with the operator (Google APIs), in suggested order:
   labels to ~200 ($0.30) -> AI Overview surface (in progress) -> Privacy/ToS
   pages -> Search Console API (own-site impressions per question; needs the
