@@ -107,12 +107,18 @@ export function CiBoard({ initial }: { initial: CiOverview }) {
   }, []);
 
   // Poll: fast while a run is unfinished, slow otherwise, never in a hidden tab.
+  // Never faster than the api's own cache - without a token that is a minute,
+  // and polling inside it would only re-read the same answer.
+  const pollMs = Math.max(
+    data.active ? POLL_ACTIVE_MS : POLL_IDLE_MS,
+    data.cache_seconds * 1000
+  );
   useEffect(() => {
     const id = window.setInterval(() => {
       if (document.visibilityState === "visible") void refresh();
-    }, data.active ? POLL_ACTIVE_MS : POLL_IDLE_MS);
+    }, pollMs);
     return () => window.clearInterval(id);
-  }, [data.active, refresh]);
+  }, [pollMs, refresh]);
 
   // A one-second clock so running durations and "checked Xs ago" move.
   useEffect(() => {
@@ -153,7 +159,7 @@ export function CiBoard({ initial }: { initial: CiOverview }) {
         </button>
         <span className="ci-muted">
           {data.active ? "● live" : "idle"} · checked {ago(data.fetched_at, now)} · refreshing every{" "}
-          {(data.active ? POLL_ACTIVE_MS : POLL_IDLE_MS) / 1000}s
+          {pollMs / 1000}s
         </span>
         <a className="ci-right" href={repoUrl} target="_blank" rel="noreferrer">
           Open on GitHub
