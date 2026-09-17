@@ -97,6 +97,9 @@ export const fr: Messages = {
     siteInvalid: "Saisissez un domaine, par exemple exemple.fr.",
     siteCited: "{site} est cité dans {count} des {checked} questions vérifiées.",
     siteHint: "Les sous-domaines comptent aussi : exemple.fr correspond à blog.exemple.fr. Mémorisé dans ce navigateur uniquement.",
+    treeMarker: "IA {count}",
+    treeHint: "L'aperçu IA de Google cite {count} sites pour cette question.",
+    treeYouHint: "{site} en fait partie.",
   },
 
   seeds: {

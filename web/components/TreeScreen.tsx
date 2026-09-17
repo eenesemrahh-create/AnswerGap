@@ -294,6 +294,7 @@ export function TreeScreen({ slug }: { slug: string }) {
                 selectedId={selectedId}
                 onSelect={setSelectedId}
                 highlighted={highlighted}
+                site={site}
               />
             )}
             {!noQuestions && view === "table" && (

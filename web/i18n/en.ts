@@ -120,6 +120,9 @@ export const en = {
     siteInvalid: "Enter a domain, like example.com.",
     siteCited: "{site} is cited in {count} of the {checked} questions checked.",
     siteHint: "Subdomains count too: example.com also matches blog.example.com. Remembered in this browser only.",
+    treeMarker: "AI {count}",
+    treeHint: "Google's AI Overview cites {count} sites for this question.",
+    treeYouHint: "{site} is among them.",
   },
 
   seeds: {

@@ -426,9 +426,9 @@ Last worked: **2026-09-17**, across TWO sessions. Four feature commits, all
 pushed to `origin/main` (`8d9b255`, `0d9e199`, `2f250c2`, `13e4d00`). Web
 build clean, 249 backend tests + 8 web tests green.
 
-**Where it stopped, in one line:** the AI Overview surface is complete in the
-TABLE (column, summary, per-domain check) and confirmed on production by the
-operator; the tree-view marker is the remaining half.
+**Where it stopped, in one line:** the AI Overview surface is complete -
+table column, summary, per-domain check, and a marker on tree nodes; next is
+CI.
 
 What happened, in order:
 
@@ -507,8 +507,10 @@ Spend: ~$0 (one refused SERP call at $0; the samsung crawl on production was
 
 **Next, proposed and agreed in direction:**
 - ~~Per-domain check~~ **DONE** `13e4d00`.
-- Tree-view marker on nodes whose AI Overview cites sources - and, with a
-  site entered, on nodes that cite the reader's site.
+- ~~Tree-view marker~~ **DONE**: a pill on the node's bottom border, "AI 8"
+  (distinct cited domains), bold "AI 8 · you" when it cites the entered
+  site. Unchecked nodes get no pill - unknown, not zero. The site field
+  itself lives only in the Table view; the tree reads the same state.
 - CI with a Postgres service container (item 9 of the Next list) - the web
   tests now give it a second suite to run.
 - Wider list discussed with the operator (Google APIs), in suggested order:

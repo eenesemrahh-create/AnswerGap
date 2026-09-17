@@ -96,6 +96,9 @@ export const de: Messages = {
     siteInvalid: "Gib eine Domain ein, z. B. beispiel.de.",
     siteCited: "{site} wird in {count} von {checked} geprüften Fragen zitiert.",
     siteHint: "Subdomains zählen mit: beispiel.de passt auch zu blog.beispiel.de. Nur in diesem Browser gespeichert.",
+    treeMarker: "KI {count}",
+    treeHint: "Googles KI-Übersicht zitiert für diese Frage {count} Websites.",
+    treeYouHint: "{site} ist darunter.",
   },
 
   seeds: {

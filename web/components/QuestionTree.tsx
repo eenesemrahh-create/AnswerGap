@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/i18n";
+import { isCited } from "@/lib/domains";
 import type { Node } from "@/lib/types";
+import { citedDomains } from "./AiSummary";
 
 /* Tree layout, no library.
  *
@@ -22,6 +24,9 @@ const GAP_X = 64;
 const ROW = 54;
 const PAD = 40;
 const CHARS_PER_LINE = 34;
+/* The AI Overview pill straddles the bottom border, so it never covers the
+ * question text and fits the 10px gap between rows. */
+const PILL_H = 14;
 
 interface Placed {
   node: Node;
@@ -60,12 +65,15 @@ export function QuestionTree({
   selectedId,
   onSelect,
   highlighted,
+  site,
 }: {
   nodes: Node[];
   selectedId: string | null;
   onSelect: (id: string) => void;
   /** Ids passing the filter. null means "no filter, show everything normally". */
   highlighted: Set<string> | null;
+  /** The reader's normalized domain, or null; marks nodes that cite it. */
+  site: string | null;
 }) {
   const { t } = useI18n();
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -256,6 +264,33 @@ export function QuestionTree({
                         {line}
                       </text>
                     ))}
+                    {(() => {
+                      /* Only checked nodes carry sources; an unchecked node is
+                         unknown, so it gets no pill rather than a zero. */
+                      const count =
+                        node.results_checked > 0 ? citedDomains(node).length : 0;
+                      if (count === 0) return null;
+                      const you = site !== null && isCited(node.ai_sources, site);
+                      const label = you
+                        ? `${t("ai.treeMarker", { count })} · ${t("table.aiYou")}`
+                        : t("ai.treeMarker", { count });
+                      const width = label.length * 6 + 14;
+                      const x = item.x + W - width - 10;
+                      const y = item.y + H - PILL_H / 2;
+                      return (
+                        <g className={`ai-pill${you ? " you" : ""}`}>
+                          <title>
+                            {you
+                              ? `${t("ai.treeHint", { count })} ${t("ai.treeYouHint", { site })}`
+                              : t("ai.treeHint", { count })}
+                          </title>
+                          <rect x={x} y={y} width={width} height={PILL_H} rx={PILL_H / 2} />
+                          <text x={x + width / 2} y={y + 10} textAnchor="middle">
+                            {label}
+                          </text>
+                        </g>
+                      );
+                    })()}
                     {node.repeat_count > 1 && (
                       <>
                         <circle cx={item.x + W - 15} cy={item.y + 14} r={9}

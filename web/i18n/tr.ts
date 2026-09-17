@@ -96,6 +96,9 @@ export const tr: Messages = {
     siteInvalid: "ornek.com gibi bir alan adı gir.",
     siteCited: "{site}, kontrol edilen {checked} sorunun {count} tanesinde kaynak gösteriliyor.",
     siteHint: "Alt alan adları da sayılır: ornek.com, blog.ornek.com ile de eşleşir. Yalnızca bu tarayıcıda hatırlanır.",
+    treeMarker: "AI {count}",
+    treeHint: "Google AI Overview bu soru için {count} siteyi kaynak gösteriyor.",
+    treeYouHint: "{site} de aralarında.",
   },
 
   seeds: {

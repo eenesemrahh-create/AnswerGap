@@ -96,6 +96,9 @@ export const es: Messages = {
     siteInvalid: "Escribe un dominio, como ejemplo.com.",
     siteCited: "{site} aparece citado en {count} de las {checked} preguntas comprobadas.",
     siteHint: "Los subdominios también cuentan: ejemplo.com coincide con blog.ejemplo.com. Solo se recuerda en este navegador.",
+    treeMarker: "IA {count}",
+    treeHint: "El resumen de IA de Google cita {count} sitios para esta pregunta.",
+    treeYouHint: "{site} está entre ellos.",
   },
 
   seeds: {

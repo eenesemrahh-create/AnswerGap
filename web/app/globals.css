@@ -378,6 +378,19 @@ button {
 }
 .node.faded { opacity: .25; }
 
+/* AI Overview pill on a node. Neutral tokens: citations are not a gap status,
+   and a status colour here would read as a second verdict. */
+.ai-pill rect { fill: var(--surface); stroke: var(--border-strong); stroke-width: 1; }
+.ai-pill text {
+  font-size: 9.5px;
+  font-weight: 600;
+  fill: var(--text-soft);
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+.ai-pill.you rect { stroke: var(--text); stroke-width: 1.5; }
+.ai-pill.you text { fill: var(--text); font-weight: 700; }
+
 .node.gap .node-box { fill: var(--gap-bg); stroke: var(--gap-border); }
 .node.weak  .node-box { fill: var(--weak-bg);  stroke: var(--weak-border); }
 .node.covered .node-box { fill: var(--covered-bg); stroke: var(--covered-border); }
