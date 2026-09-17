@@ -426,9 +426,10 @@ Last worked: **2026-09-17**, across TWO sessions. Four feature commits, all
 pushed to `origin/main` (`8d9b255`, `0d9e199`, `2f250c2`, `13e4d00`). Web
 build clean, 249 backend tests + 8 web tests green.
 
-**Where it stopped, in one line:** the AI Overview surface is complete -
-table column, summary, per-domain check, and a marker on tree nodes; next is
-CI.
+**Where it stopped, in one line:** CI runs on every push and is green, and
+the admin panel has a live CI page; the operator still has to add
+`CI_GITHUB_TOKEN` (buttons) and switch on Railway's "Wait for CI" (deploy
+gate) - see "CI, 2026-09-17" below.
 
 What happened, in order:
 
@@ -511,8 +512,8 @@ Spend: ~$0 (one refused SERP call at $0; the samsung crawl on production was
   (distinct cited domains), bold "AI 8 · you" when it cites the entered
   site. Unchecked nodes get no pill - unknown, not zero. The site field
   itself lives only in the Table view; the tree reads the same state.
-- CI with a Postgres service container (item 9 of the Next list) - the web
-  tests now give it a second suite to run.
+- ~~CI with a Postgres service container~~ **DONE** `35b2a13` + `5bb6748`,
+  with a live admin page. See "CI, 2026-09-17".
 - Wider list discussed with the operator (Google APIs), in suggested order:
   labels to ~200 ($0.30) -> AI Overview surface (in progress) -> Privacy/ToS
   pages -> Search Console API (own-site impressions per question; needs the
@@ -520,6 +521,90 @@ Spend: ~$0 (one refused SERP call at $0; the samsung crawl on production was
   volume (Ads API, or DataForSEO Keywords Data as a stopgap) -> Claude-based
   intent classification + content brief. Custom Search JSON API and Trends
   were ruled out.
+
+## CI, 2026-09-17
+
+`.github/workflows/ci.yml`: push to main, pull requests, and
+`workflow_dispatch`. Three parallel jobs - **Backend tests** (pytest against a
+`postgres:17` service container), **Web tests and build** (`npm ci`,
+`npm test`, `npm run build`), **Admin build**. The repository is PUBLIC, so
+Actions minutes are free. Run #2 (`5bb6748`) was the first all-green run;
+each job takes ~30 s.
+
+**The SQL finally runs somewhere other than production.**
+`tests/test_sql.py`, 12 tests: Google sign-in create / re-sign-in (no second
+grant) / link a password account by address / changed Google address, the
+verify-once grant, case-insensitive address uniqueness, a re-crawl inserting
+rather than overwriting, a score surviving a re-crawl, the audit helper.
+Skipped unless `ANSWERGAP_TEST_DATABASE_URL` is set, and it **refuses any
+non-local host** because it drops the schema. The verify-once test was
+mutation-checked: removing the `signup_granted_at` guard turns it red.
+`test_verification_pays_the_grant_exactly_once` is the automated version of
+the second-click check "Pick up here" asks for - the SQL is now proven; the
+live mail link itself still has not been clicked in production.
+
+**Running Postgres on this laptop without installing anything:** the EDB
+portable zip (`postgresql-17.6-1-windows-x64-binaries.zip`), `initdb -A trust`,
+`pg_ctl -o "-p 55432" start`, then
+`ANSWERGAP_TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55432/answergap_test`.
+Extract the WHOLE zip - `share/timezonesets` is a subdirectory and initdb dies
+without it. `pgserver` from pip has no Python 3.14 wheel.
+
+**The first run failed, and not because of new code.** `web/package-lock.json`
+had drifted from `package.json` (`@emnapi/*` under unrs-resolver's optional
+wasm binding). Railway's install tolerated it; `npm ci` refuses by design.
+Resynced with `npm install --package-lock-only`; only `@emnapi` entries moved.
+CI is the first thing in this repo that runs `npm ci`, so it was the first
+thing to notice.
+
+**Job logs need a token; annotations do not.** Without auth,
+`GET /repos/{repo}/check-runs/{job_id}/annotations` still returns the failure
+annotation and each job's `steps[].conclusion` names the failing step - enough
+to know WHERE, not why. Reproduce the step locally for the why.
+
+### Admin `/ci` page
+
+Latest run as a card (status, commit, per-job status, duration, the failing
+step, log links); earlier runs in a table with a dot per job. Polls every 5 s
+while a run is unfinished and 30 s otherwise, never in a hidden tab, and
+never faster than the api's cache window - which it states on screen.
+
+- **The tests never run on our servers.** The page reads GitHub. Running a
+  test suite inside the api service would put it beside the production
+  database and the paid API keys.
+- `api/ci.py` is the GitHub client (urllib, stdlib). It **never raises**:
+  outage, spent rate limit or refused token come back as an `error` code
+  beside the last good runs, because the admin API client turns any non-200
+  into a redirect to an error page. A spent rate limit (403 with
+  `X-RateLimit-Remaining: 0`, or 429) is told apart from a bad token.
+- Cache: **8 s with a token, 60 s without.** 60 unauthenticated calls an
+  hour per IP is the whole allowance, and Railway's egress IP is shared.
+  Per-job detail is fetched for the 5 newest runs only.
+- **Buttons: Run now / Re-run / Re-run failed / Cancel.** Each goes admin
+  server action -> `POST /api/admin/ci/...` -> GitHub. They need
+  `CI_GITHUB_TOKEN` on the **api** service; without it they are hidden or
+  disabled and the page explains how to make one.
+- **Every trigger writes `admin_action` BEFORE calling GitHub**
+  (`db.admin_log`). A GitHub call cannot share a statement with its audit
+  row, and logging only successes would hide the refused attempts.
+- 18 pure tests in `tests/test_ci.py`.
+
+Verified: the page rendered against REAL GitHub data (run #1 live while its
+jobs ran, then #2 passed and #1 failed in the table) through a local stub that
+called `api.ci.overview()` without `require_admin`. **Not verified: the
+buttons**, because they need the token, and the page inside the real admin
+service behind a real sign-in.
+
+### What the operator has to do
+
+1. **Token** (for the buttons): GitHub -> Settings -> Developer settings ->
+   Fine-grained tokens. Repository access: only `eenesemrahh-create/AnswerGap`.
+   Permissions: **Actions: Read and write**, nothing else. Set it on the
+   Railway **api** service as `CI_GITHUB_TOKEN`. Optional overrides:
+   `CI_GITHUB_REPO`, `CI_WORKFLOW` (`ci.yml`), `CI_BRANCH` (`main`).
+2. **Deploy gate:** in Railway, each service's settings -> "Wait for CI".
+   Until then Railway still deploys `main` whether or not CI passed - the
+   page says so at the top.
 
 The 2026-09-15 state below is still accurate for everything it covers,
 including the unexecuted email-verification click.
@@ -2563,7 +2648,8 @@ Four things do have to change, in this order: **storage**, **tests**,
    plus a per-slug sweep cooldown; see the "Rate limit: sweep cooldown on
    /jobs" section. Broader per-identity rate limiting on other endpoints
    stays open, but not open unless it becomes a real concern.
-9. **CI, with a Postgres service container.** Nothing runs the 248 tests
+9. ~~**CI, with a Postgres service container.**~~ **DONE 2026-09-17** -
+   see "CI, 2026-09-17". Original note: Nothing runs the 248 tests
    automatically and Railway deploys `main` on push. Proven necessary the
    same day it was noticed: `f1ae414` took Google sign-in down in
    production. The Postgres container is the point rather than a detail -
