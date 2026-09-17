@@ -585,3 +585,21 @@ button.act.warn { color: var(--warn); border-color: currentColor; }
 .ci-dot.ci-pass { background: var(--ok); }
 .ci-dot.ci-fail { background: var(--warn); }
 .ci-dot.ci-run { background: var(--focus); }
+
+/* --- Guide (team explainer, Turkish) -------------------------------- */
+.guide { max-width: 820px; line-height: 1.55; }
+.guide h2 { margin-top: 32px; }
+.guide p, .guide ul, .guide ol { margin: 0 0 12px; }
+.guide li { margin-bottom: 4px; }
+.guide .tablewrap { margin: 8px 0 12px; }
+.guide td { white-space: normal; }
+.guide-flow { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; counter-reset: step; }
+.guide-flow li {
+  counter-increment: step;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 8px 12px;
+  font-size: 13px;
+}
+.guide-flow li::before { content: counter(step) ". "; color: var(--text-faint); font-weight: 600; }

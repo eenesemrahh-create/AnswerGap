@@ -59,6 +59,7 @@ export default async function RootLayout({
                 <Link href="/users">Users</Link>
                 <Link href="/settings">Settings</Link>
                 <Link href="/ci">CI</Link>
+                <Link href="/guide">Guide</Link>
                 <Link href="/audit">Audit</Link>
               </nav>
               <form action="/api/auth/signout" method="post">
