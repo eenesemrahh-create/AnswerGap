@@ -2,7 +2,7 @@
 // helpers in lib/ need no build step and no test framework.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { citesSite, isCited, normalizeSite } from "../lib/domains.ts";
+import { aiKnown, citesSite, isCited, normalizeSite } from "../lib/domains.ts";
 
 test("whatever people paste reduces to the hostname", () => {
   for (const input of [
@@ -62,4 +62,15 @@ test("isCited looks across every source of a question", () => {
   assert.equal(isCited(sources, "clevelandclinic.org"), true);
   assert.equal(isCited(sources, "colgate.com"), false);
   assert.equal(isCited([], "colgate.com"), false);
+});
+
+test("an unreadable AI answer is unknown, never 'cites nobody'", () => {
+  assert.equal(aiKnown({ results_checked: 8, ai_state: "cited" }), true);
+  assert.equal(aiKnown({ results_checked: 8, ai_state: "none" }), true);
+  assert.equal(aiKnown({ results_checked: 8, ai_state: "absent" }), true);
+  assert.equal(aiKnown({ results_checked: 8, ai_state: "unresolved" }), false);
+  // Scored before the state was recorded: unknown, not a result.
+  assert.equal(aiKnown({ results_checked: 8, ai_state: null }), false);
+  // Never checked at all.
+  assert.equal(aiKnown({ results_checked: 0, ai_state: null }), false);
 });

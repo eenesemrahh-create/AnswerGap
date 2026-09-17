@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/i18n";
-import { isCited } from "@/lib/domains";
+import { aiKnown, isCited } from "@/lib/domains";
 import type { Node } from "@/lib/types";
 import { citedDomains } from "./AiSummary";
 
@@ -265,10 +265,10 @@ export function QuestionTree({
                       </text>
                     ))}
                     {(() => {
-                      /* Only checked nodes carry sources; an unchecked node is
-                         unknown, so it gets no pill rather than a zero. */
-                      const count =
-                        node.results_checked > 0 ? citedDomains(node).length : 0;
+                      /* Only nodes whose AI answer could be READ carry a pill.
+                         Unchecked and unresolved are both unknown, and a pill
+                         reading "AI 0" would state a result neither has. */
+                      const count = aiKnown(node) ? citedDomains(node).length : 0;
                       if (count === 0) return null;
                       const you = site !== null && isCited(node.ai_sources, site);
                       const label = you

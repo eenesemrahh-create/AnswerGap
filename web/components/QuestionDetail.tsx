@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Badge, Rich } from "./Badge";
 import { ApiError, scoreQuestion, submitLabel } from "@/lib/api";
 import { useDateFormat, useI18n } from "@/i18n";
-import { citesSite } from "@/lib/domains";
+import { aiKnown, citesSite } from "@/lib/domains";
 import type {
   LabelCounts,
   Node,
@@ -283,6 +283,13 @@ export function QuestionDetail({
               )}
             </div>
           )}
+        </>
+      )}
+
+      {node.results_checked > 0 && !aiKnown(node) && (
+        <>
+          <h3>{t("detail.aiHeading")}</h3>
+          <p className="note">{t("detail.aiUnreadable")}</p>
         </>
       )}
 

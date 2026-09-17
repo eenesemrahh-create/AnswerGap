@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useI18n } from "@/i18n";
-import { citesSite, isCited } from "@/lib/domains";
+import { aiKnown, citesSite, isCited } from "@/lib/domains";
 import type { Node } from "@/lib/types";
 
 /* Who Google's AI Overview cites across the whole tree.
@@ -36,8 +36,12 @@ export function AiSummary({
 }) {
   const { t } = useI18n();
 
-  const { checked, withAi, top, citing } = useMemo(() => {
-    const checkedNodes = nodes.filter((n) => n.results_checked > 0);
+  const { checked, unknown, withAi, top, citing } = useMemo(() => {
+    /* Only questions whose AI answer could be READ are counted. An unresolved
+       block is not "cites nobody" - it is a measurement that did not happen,
+       and it is reported separately rather than folded into the denominator. */
+    const checkedNodes = nodes.filter(aiKnown);
+    const unknown = nodes.filter((n) => n.results_checked > 0 && !aiKnown(n)).length;
     const counts = new Map<string, number>();
     let withAi = 0;
     for (const node of checkedNodes) {
@@ -51,7 +55,7 @@ export function AiSummary({
     const citing = site
       ? checkedNodes.filter((n) => isCited(n.ai_sources ?? [], site))
       : [];
-    return { checked: checkedNodes.length, withAi, top, citing };
+    return { checked: checkedNodes.length, unknown, withAi, top, citing };
   }, [nodes, site]);
 
   const invalid = siteInput.trim() !== "" && site === null;
@@ -60,7 +64,10 @@ export function AiSummary({
     <section className="ai-summary">
       <h3>{t("ai.heading")}</h3>
       {checked === 0 ? (
-        <p className="note">{t("ai.noneChecked")}</p>
+        <p className="note">
+          {t("ai.noneChecked")}
+          {unknown > 0 && ` ${t("ai.unreadable", { count: unknown })}`}
+        </p>
       ) : (
         <>
           <p className="ai-summary-lead">
@@ -84,7 +91,10 @@ export function AiSummary({
               ))}
             </ol>
           )}
-          <p className="note">{t("ai.note")}</p>
+          <p className="note">
+            {t("ai.note")}
+            {unknown > 0 && ` ${t("ai.unreadable", { count: unknown })}`}
+          </p>
         </>
       )}
 

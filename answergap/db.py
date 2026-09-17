@@ -642,6 +642,20 @@ MIGRATIONS: list[tuple[str, str]] = [
             ON email_token (user_id, purpose, created_at DESC);
         """,
     ),
+    (
+        "0008_gap_score_ai_state",
+        """
+        -- What the AI Overview citation list MEANT, beside the list itself.
+        -- An empty `ai_sources` had two readings and the product showed both
+        -- as "none": Google cited nobody, or DataForSEO never resolved the
+        -- block (22 of 52 archived ones). The second is unknown, and
+        -- CLAUDE.md's accuracy rule forbids rendering unknown as a result.
+        -- Values: cited | none | unresolved | absent. NULL means the row was
+        -- written before this column existed - also unknown, and rendered as
+        -- such rather than guessed backwards.
+        ALTER TABLE gap_score ADD COLUMN IF NOT EXISTS ai_state TEXT;
+        """,
+    ),
 ]
 
 
@@ -756,6 +770,7 @@ def decompose(tree: dict) -> dict:
                     "results_checked": node.get("results_checked") or 0,
                     "results": node.get("results") or [],
                     "ai_sources": node.get("ai_sources") or [],
+                    "ai_state": node.get("ai_state"),
                     "source_key": node.get("source_file"),
                     "scored_at": node.get("updated_at"),
                 }
@@ -817,6 +832,7 @@ def recompose(
                 "results_checked": 0,
                 "results": [],
                 "ai_sources": [],
+                "ai_state": None,
                 "source_file": None,
                 "updated_at": None,
             }
@@ -842,6 +858,7 @@ def recompose(
                     "results_checked": score["results_checked"],
                     "results": score.get("results") or [],
                     "ai_sources": score.get("ai_sources") or [],
+                    "ai_state": score.get("ai_state"),
                     "source_file": score.get("source_key"),
                     "updated_at": score.get("scored_at"),
                 }
@@ -1014,6 +1031,7 @@ def save_score(
     results_checked: int,
     results: list,
     ai_sources: list,
+    ai_state: str | None,
     threshold: float,
     strategy: str,
     source_key: str | None = None,
@@ -1033,8 +1051,8 @@ def save_score(
             INSERT INTO gap_score (question_id, location_code, status,
                                    matching_pages, results_checked, threshold,
                                    strategy, embedding_model, results,
-                                   ai_sources, source_key)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                   ai_sources, ai_state, source_key)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
             (
                 ids[normalized],
@@ -1047,6 +1065,7 @@ def save_score(
                 embedding_model,
                 json.dumps(results, ensure_ascii=False),
                 json.dumps(ai_sources, ensure_ascii=False),
+                ai_state,
                 source_key,
             ),
         )
@@ -1065,7 +1084,7 @@ def _latest_scores(cur, location_code: int, question_ids: list[int]) -> dict[int
         """
         SELECT DISTINCT ON (question_id)
                question_id, status, matching_pages, results_checked,
-               results, ai_sources, source_key, scored_at
+               results, ai_sources, ai_state, source_key, scored_at
         FROM gap_score
         WHERE location_code = %s AND question_id = ANY(%s)
         ORDER BY question_id, scored_at DESC, id DESC
@@ -1239,7 +1258,7 @@ def _latest_scores_bulk(
         """
         SELECT DISTINCT ON (location_code, question_id)
                location_code, question_id, status, matching_pages,
-               results_checked, results, ai_sources, source_key, scored_at
+               results_checked, results, ai_sources, ai_state, source_key, scored_at
           FROM gap_score
          WHERE location_code = ANY(%s) AND question_id = ANY(%s)
          ORDER BY location_code, question_id, scored_at DESC, id DESC
@@ -1274,6 +1293,7 @@ def _build(crawl, edge_rows, related, scores_by_qid, slug_for) -> dict:
             "results_checked": s["results_checked"],
             "results": s["results"] or [],
             "ai_sources": s["ai_sources"] or [],
+            "ai_state": s.get("ai_state"),
             "source_key": s["source_key"],
             "scored_at": (
                 s["scored_at"].isoformat(timespec="seconds") if s["scored_at"] else None

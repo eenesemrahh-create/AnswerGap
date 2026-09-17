@@ -103,7 +103,7 @@ from .tree import (
     STATUS_NO_DATA,
     STATUSES,
     THRESHOLD,
-    _ai_sources,
+    ai_overview,
     _organic_results,
     score_question,
 )
@@ -423,6 +423,7 @@ def _carry_previous(fresh: dict, previous: dict | None) -> dict:
         "results_checked",
         "results",
         "ai_sources",
+        "ai_state",
         "source_file",
         "updated_at",
     )
@@ -493,6 +494,7 @@ def _blank_node(
         "results_checked": 0,
         "results": [],
         "ai_sources": [],
+        "ai_state": None,
         "source_file": None,
         "updated_at": None,
     }
@@ -698,6 +700,7 @@ def build_from_response(
     # scored children were embeddings, and the same node's status would depend
     # on which route last touched it.
     root_results = _organic_results(response)
+    root_ai = ai_overview(response)
     root_id = add(seed, 0, None)
     root = nodes[root_id]
     scored, matching, status = score_question(
@@ -709,7 +712,8 @@ def build_from_response(
             "matching_pages": matching,
             "results_checked": len(root_results),
             "results": scored,
-            "ai_sources": _ai_sources(response),
+            "ai_sources": root_ai[0],
+            "ai_state": root_ai[1],
             "updated_at": _now(),
         }
     )
@@ -916,7 +920,7 @@ def apply_response(tree: dict, node: dict, response: dict | None, key: str) -> d
     scored, matching, status = score_question(
         node["question"], results, language_code, strategy=strategy
     )
-    ai_sources = _ai_sources(response)
+    ai_sources, ai_state = ai_overview(response)
     node.update(
         {
             "status": status,
@@ -924,6 +928,7 @@ def apply_response(tree: dict, node: dict, response: dict | None, key: str) -> d
             "results_checked": len(results),
             "results": scored,
             "ai_sources": ai_sources,
+            "ai_state": ai_state,
             # Where this score can be traced back to. On the row backend the
             # response is a `serp_snapshot`, addressed by the same cache key the
             # filesystem used as a filename.
@@ -947,6 +952,7 @@ def apply_response(tree: dict, node: dict, response: dict | None, key: str) -> d
             results_checked=len(results),
             results=scored,
             ai_sources=ai_sources,
+            ai_state=ai_state,
             threshold=THRESHOLD,
             strategy=strategy,
             # Only meaningful under the embeddings strategy - a lexical row has

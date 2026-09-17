@@ -38,6 +38,9 @@ export interface Node {
   results_checked: number;
   results: Result[];
   ai_sources: string[];
+  /** What that list means. "unresolved" = Google's AI answer could not be read;
+   *  null = scored before this was recorded. Both are unknown, never "none". */
+  ai_state: "cited" | "none" | "unresolved" | "absent" | null;
   source_file: string | null;
   updated_at: string | null;
 }

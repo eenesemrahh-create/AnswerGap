@@ -87,25 +87,57 @@ def _organic_results(response: dict) -> list[dict]:
     ]
 
 
-def _ai_sources(response: dict) -> list[str]:
-    """Reference domains from the top-level AI Overview element.
+# What the AI Overview citation list turned out to be. Four outcomes, and the
+# last two are NOT the same thing: "Google cited nobody" is a measurement,
+# "we could not read the list" is the absence of one. CLAUDE.md's accuracy rule
+# - never show unknown as a result - applies here exactly as it does to a
+# question whose results were never fetched.
+AI_CITED = "cited"        # the block is there and names sources
+AI_NONE = "none"          # the block is there and names none
+AI_UNRESOLVED = "unresolved"  # the block is there but its sources never arrived
+AI_ABSENT = "absent"      # Google showed no AI Overview for this query
 
-    Phase 0 measured that the AI Overview nested inside PAA cannot be resolved,
-    but the SERP's own `ai_overview` block arrives fully populated with
-    references. That data is real and nobody else surfaces it.
+
+def ai_overview(response: dict) -> tuple[list[str], str]:
+    """Cited domains of the top-level AI Overview, and what that list means.
+
+    TWO LAYERS OF REFERENCES, and reading only the outer one under-reports.
+    The block carries a list of its own, and EVERY PARAGRAPH (`items`) carries
+    another. Measured across the 56 archived responses: 3 of 52 blocks name a
+    domain in a paragraph that the outer list never mentions - `sexton-dental.com`
+    under *"Do dentists recommend teeth whitening?"* is one. Missing those is
+    the expensive direction of wrong: it tells a customer their site is not
+    cited when it is. Both layers are merged, first appearance wins.
+
+    `asynchronous_ai_overview` with no references is Google loading the answer
+    after the page, which DataForSEO cannot resolve - 22 of the 52 archived
+    blocks. That is `unresolved`, never an empty citation list.
     """
     for node in walk(response.get("tasks")):
-        if node.get("type") == "ai_overview":
-            return [
-                d
-                for d in (
-                    (r.get("domain") or "")
-                    for r in (node.get("references") or [])
-                    if isinstance(r, dict)
-                )
-                if d
-            ]
-    return []
+        if node.get("type") != "ai_overview":
+            continue
+        domains: list[str] = []
+        seen: set[str] = set()
+        lists = [node.get("references")]
+        lists += [item.get("references") for item in (node.get("items") or [])
+                  if isinstance(item, dict)]
+        for refs in lists:
+            for ref in refs or []:
+                domain = ref.get("domain") if isinstance(ref, dict) else None
+                if domain and domain not in seen:
+                    seen.add(domain)
+                    domains.append(domain)
+        if domains:
+            return domains, AI_CITED
+        if node.get("asynchronous_ai_overview"):
+            return [], AI_UNRESOLVED
+        return [], AI_NONE
+    return [], AI_ABSENT
+
+
+def _ai_sources(response: dict) -> list[str]:
+    """Just the domains. Kept for callers that do not render the state."""
+    return ai_overview(response)[0]
 
 
 def index_raw(raw_dir: Path = RAW_DIR) -> dict[str, dict]:
@@ -127,6 +159,7 @@ def index_raw(raw_dir: Path = RAW_DIR) -> dict[str, dict]:
 
         paa = [q for q in (e.get("title") or "" for e in extract_paa(response)) if q.strip()]
         organic = _organic_results(response)
+        ai_sources, ai_state = ai_overview(response)
         entry = {
             "keyword": keyword,
             "language_code": language_code or languages.DEFAULT_LANGUAGE,
@@ -137,7 +170,8 @@ def index_raw(raw_dir: Path = RAW_DIR) -> dict[str, dict]:
             ).isoformat(timespec="seconds"),
             "paa": paa,
             "results": organic,
-            "ai_sources": _ai_sources(response),
+            "ai_sources": ai_sources,
+            "ai_state": ai_state,
         }
         previous = index.get(key)
         if previous is None or (len(entry["paa"]), len(entry["results"])) > (
@@ -235,6 +269,7 @@ def build_tree(seed_key: str, index: dict[str, dict]) -> dict | None:
             "results_checked": len(results),
             "results": scored,
             "ai_sources": entry["ai_sources"] if entry else [],
+            "ai_state": entry["ai_state"] if entry else None,
             "source_file": entry["file"] if entry else None,
             "updated_at": entry["updated_at"] if entry else None,
         }

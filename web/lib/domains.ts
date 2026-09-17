@@ -37,3 +37,14 @@ export function citesSite(source: string, site: string): boolean {
 export function isCited(sources: readonly string[], site: string): boolean {
   return sources.some((source) => citesSite(source, site));
 }
+
+/** Whether a node's citation list is a measurement at all.
+ *
+ * "unresolved" is Google loading its AI answer after the page, which the SERP
+ * provider cannot follow, and a row scored before this was recorded (null) is
+ * unknown for the same reason. Neither may be counted as "cites nobody" - that
+ * is the accuracy rule the badges already follow between "not checked" and
+ * "unanswered". */
+export function aiKnown(node: { results_checked: number; ai_state: string | null }): boolean {
+  return node.results_checked > 0 && node.ai_state !== null && node.ai_state !== "unresolved";
+}

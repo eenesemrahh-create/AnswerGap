@@ -209,6 +209,7 @@ def test_a_score_survives_a_re_crawl() -> None:
         results_checked=8,
         results=[],
         ai_sources=["www.example.com"],
+        ai_state="cited",
         threshold=0.6,
         strategy="words",
     )
@@ -217,6 +218,7 @@ def test_a_score_survives_a_re_crawl() -> None:
     back = {n["id"]: n for n in db.load_tree("teeth-whitening", slugify)["nodes"]}
     assert back[node["id"]]["status"] == "gap"
     assert back[node["id"]]["ai_sources"] == ["www.example.com"]
+    assert back[node["id"]]["ai_state"] == "cited"
 
 
 def test_an_external_admin_act_is_audited() -> None:

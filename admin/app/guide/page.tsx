@@ -77,33 +77,43 @@ export default async function GuidePage() {
             </tr>
             <tr>
               <td>Tabloda &ldquo;yok&rdquo;</td>
-              <td>Kopya alındı ama kaynak listesi boş</td>
+              <td>Kutu vardı ama hiçbir site kaynak gösterilmemiş</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Tabloda &ldquo;bilinmiyor&rdquo;</td>
+              <td>Kutu var ama kaynakları okunamadı (Google sonradan yüklüyor)</td>
               <td>Can 60 year old teeth be whitened?</td>
             </tr>
             <tr>
               <td>Tabloda &ldquo;—&rdquo;</td>
-              <td>Kopyası hiç alınmadı, bilinmiyor</td>
+              <td>Kopyası hiç alınmadı, bakılmadı</td>
               <td>Which teeth cannot be whitened?</td>
             </tr>
             <tr>
-              <td>&ldquo;16 sorunun 13&apos;ünde&rdquo;</td>
-              <td>Kopyası alınan 16 sorudan 13&apos;ünde liste dolu</td>
-              <td>13 / 16</td>
+              <td>&ldquo;15 sorunun 13&apos;ünde&rdquo;</td>
+              <td>AI cevabı okunabilen 15 sorudan 13&apos;ünde kaynak var</td>
+              <td>16 kontrol edildi, 1&apos;i okunamadı</td>
             </tr>
             <tr>
-              <td>&ldquo;youtube.com 16 sorunun 7&apos;sinde&rdquo;</td>
+              <td>&ldquo;youtube.com 15 sorunun 7&apos;sinde&rdquo;</td>
               <td>Bu site 7 farklı sorunun listesinde geçiyor</td>
               <td>en sık 5 site gösterilir</td>
             </tr>
             <tr>
               <td>Ağaçta &ldquo;AI 8&rdquo;</td>
               <td>Tablodaki &ldquo;8 site&rdquo; ile aynı bilgi</td>
-              <td>kontrol edilmemiş düğümde etiket yok</td>
+              <td>okunamayan düğümde etiket yok</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p>Kopyası alınmamış sorular hiçbir sayıya katılmaz; onlar için &ldquo;kaynak yok&rdquo; diyemeyiz.</p>
+      <p>
+        Sayımlar yalnızca AI cevabı okunabilen sorular üzerindendir. Diş beyazlatma ağacında
+        kontrol edilen 24 sorunun 17&apos;sinde kutu okunamadı; o 17 soru hiçbir sayıya katılmaz.
+        Kaynak listesi Google&apos;ın AI cevabında hem kutunun altındaki genel listeden hem de her
+        paragrafın kendi listesinden toplanır.
+      </p>
 
       <h2>Adım 3: &ldquo;Siten&rdquo; kutusu</h2>
       <p>
@@ -120,7 +130,7 @@ export default async function GuidePage() {
           <code>my.clevelandclinic.org</code> eşleşir.
         </li>
         <li>
-          <b>Sonuç gösterilir:</b> özette &ldquo;16 sorunun 5 tanesinde&rdquo;, tabloda ve ağaçta
+          <b>Sonuç gösterilir:</b> özette &ldquo;15 sorunun 5 tanesinde&rdquo;, tabloda ve ağaçta
           &ldquo;you&rdquo; işareti.
         </li>
       </ol>
@@ -146,7 +156,11 @@ export default async function GuidePage() {
         <li><b>Hangi sayfanın kaynak olduğunu göstermez.</b> Yalnızca site adı saklanıyor.</li>
         <li><b>Güncel değildir.</b> Demo ağaçlarının kopyaları 25 Ağustos 2026&apos;da alındı.</li>
         <li><b>Başka ülke ya da dil için geçerli değildir.</b></li>
-        <li><b>&ldquo;Kaynak değilsin&rdquo; yalnızca kontrol edilmiş sorular içindir.</b></li>
+        <li>
+          <b>&ldquo;Kaynak değilsin&rdquo; yalnızca AI cevabı okunabilen sorular içindir.</b>{" "}
+          Okunamayan sorularda siteniz kaynak olabilir de olmayabilir de; ekran bunu
+          &ldquo;bilinmiyor&rdquo; diye gösterir.
+        </li>
       </ul>
 
       <h2>Durum rozetleri ayrı bir hesaptır</h2>

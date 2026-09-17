@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Badge } from "./Badge";
 import { AiSummary, citedDomains } from "./AiSummary";
 import { useI18n } from "@/i18n";
-import { isCited } from "@/lib/domains";
+import { aiKnown, isCited } from "@/lib/domains";
 import type { Node } from "@/lib/types";
 
 /* SEO people copy this into a spreadsheet, so it is a real <table> with
@@ -33,7 +33,7 @@ const COLUMNS: { key: Column; label: string; hint?: string; right?: boolean }[] 
 /* Unchecked sorts below "none": unknown is not zero. With a site entered,
  * questions citing it sort above every question that does not. */
 const aiRank = (node: Node, site: string | null) => {
-  if (node.results_checked === 0) return -1;
+  if (!aiKnown(node)) return -1;
   const own = site && isCited(node.ai_sources ?? [], site) ? 1000 : 0;
   return own + citedDomains(node).length;
 };
@@ -162,6 +162,12 @@ export function GapTable({
               <td className="right">
                 {node.results_checked === 0 ? (
                   <span className="muted">—</span>
+                ) : !aiKnown(node) ? (
+                  /* The block was there; its sources never arrived. Unknown is
+                     not "none" - see the accuracy rules in CLAUDE.md. */
+                  <span className="muted" title={t("table.aiUnknownHint")}>
+                    {t("table.aiUnknown")}
+                  </span>
                 ) : citedDomains(node).length > 0 ? (
                   <>
                     {site && isCited(node.ai_sources, site) && (
