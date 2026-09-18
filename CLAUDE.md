@@ -426,11 +426,11 @@ Last worked: **2026-09-17**, across TWO sessions. Four feature commits, all
 pushed to `origin/main` (`8d9b255`, `0d9e199`, `2f250c2`, `13e4d00`). Web
 build clean, 249 backend tests + 8 web tests green.
 
-**Where it stopped, in one line:** AI Overview citations are now read in full
-and "unknown" is no longer shown as "none" (2026-09-18); CI runs on every push and is green, and
-the admin panel has a live CI page; the operator still has to add
-`CI_GITHUB_TOKEN` (buttons) and switch on Railway's "Wait for CI" (deploy
-gate) - see "CI, 2026-09-17" below.
+**Where it stopped, in one line (2026-09-18, late):** verification mail now
+ARRIVES - the whole email sign-in flow is finally live - and the next thing is
+the page the verification link lands on, which is unfinished. Everything else
+from this session (AI Overview citations, CI, Stripe) is done and recorded
+below.
 
 What happened, in order:
 
@@ -522,6 +522,96 @@ Spend: ~$0 (one refused SERP call at $0; the samsung crawl on production was
   volume (Ads API, or DataForSEO Keywords Data as a stopgap) -> Claude-based
   intent classification + content brief. Custom Search JSON API and Trends
   were ruled out.
+
+## Email finally leaves the building, 2026-09-18
+
+**The operator bought `gettopquestions.com` (GoDaddy, mailbox on Microsoft
+365) and verification mail now arrives.** This closes the item that has sat in
+"Pick up here" since 2026-09-15.
+
+**Sending is on a SUBDOMAIN, `send.gettopquestions.com`.** The root domain's
+MX and SPF belong to the Microsoft mailbox (`support@gettopquestions.com`) and
+must not be touched; a subdomain keeps the provider's records beside them
+instead of on top of them. Resend now asks for DKIM (TXT) plus TWO CNAMEs for
+sending - not the classic `v=spf1` TXT, which is what this file would have
+told you. The MX it also lists is for RECEIVING and is not needed; leaving
+"Enable Receiving" on just keeps the domain unverified.
+
+On the api service: `RESEND_API_KEY`, `MAIL_FROM`
+(`AnswerGap <noreply@send.gettopquestions.com>` - the address MUST be on the
+verified subdomain) and `MAIL_REPLY_TO` (`support@gettopquestions.com`, so
+replies reach a real mailbox).
+
+### The bug: Cloudflare refused us, and the failure was invisible
+
+`[mail] HTTP 403 sending to e**@gmail.com: error code: 1010`. **1010 is
+Cloudflare, not Resend** - it blocks the default `Python-urllib/3.x`
+signature, so the mail never reached the provider at all. Meanwhile the signup
+returned 200 and the dialog said "check your inbox", because `send()` never
+raises into a signup. An empty inbox with nothing on screen to explain it.
+
+Fixed in `4a06337` by sending `User-Agent: answergap/1.0`, which `api/ci.py`
+and `api/stripe.py` already did - the mailer was the one module that did not,
+and the only one of the three whose failure a customer feels. A test pins the
+header.
+
+**Diagnosis needed two things this repo now has:** `/api/meta.mail_from_domain`
+(`02f2942`), which ruled out the obvious cause - sending from the unverified
+root domain - without reading a log; and the api's deploy log line, which
+named the real one. Keep both habits: publish the non-secret half of a
+configuration, and log the provider's own reason.
+
+### What is NOT done
+
+- **The page the verification link lands on is unfinished.** The link works
+  and the account verifies; where it puts the reader afterwards is the next
+  piece of work.
+- **The second click has still not been tested.** `user_verify_email` is
+  proven by `tests/test_sql.py` against a real Postgres, but nobody has yet
+  clicked a live link twice and watched the balance stay put.
+- **Password reset has not been run end to end** either.
+- `WEB_BASE_URL` is **unset** on the api service. It does not stop mail going
+  out, but reset links and the Stripe return page read it; set it to the web
+  service URL, and to the custom domain when the app moves there.
+
+## Stripe: the pipe is proven, 2026-09-18
+
+`f372f84`, `d39ec39`, `f857ce1`, `a805e2e`. **A real payment was made and
+arrived.** Nothing is wired to plans or credits yet: a payment is recorded and
+nothing else happens.
+
+- `api/stripe.py` - stdlib client. Keys (`STRIPE_SECRET_KEY`,
+  `STRIPE_WEBHOOK_SECRET`) live on the api service and no endpoint returns
+  them. The publishable key is not used anywhere: Checkout is hosted by
+  Stripe, so no card detail reaches us.
+- **Mode comes from the key prefix**, because Stripe's Account object does not
+  say; anything unrecognised counts as not-test.
+- **`POST /api/stripe/webhook` fails closed** like the DataForSEO callback.
+  Signature over the RAW body, `hmac.compare_digest`, 5-minute window, several
+  `v1` values accepted for rotation. Migration `0009` adds `payment_event`
+  with a UNIQUE `event_id`, because Stripe retries until it gets a 2xx.
+  `livemode` is stored: mixing a test payment into a revenue figure is how the
+  figure becomes a lie.
+- **Admin `/stripe`**: key mode, whether the key works, charges enabled,
+  webhook secret present, and the payments received. A live payment takes TWO
+  deliberate acts - the first click only opens a warning naming the amount,
+  the fee (~$0.33 on $1.00) and where the money lands.
+- **`/pay?k=<token>`** (`web/app/pay/`) is a TEMPORARY link-gated page so
+  somebody without admin access can pay a chosen amount. Not open to the
+  internet on purpose: an unauthenticated endpoint minting Checkout sessions
+  for an arbitrary amount is what CARD-TESTING abuse looks for, and Stripe
+  freezes the account it happens on. Amount bounded $0.50-$50, 10 attempts per
+  IP per hour, 404 when `PAY_PROBE_TOKEN` is unset. **Delete the page, the two
+  `/api/pay/*` endpoints and the variable once plans are wired.**
+- **`PAY_PROBE_TOKEN` was typed into a chat during testing and must be
+  rotated.**
+
+**Next on payments, in order:** legal pages (ToS, privacy, refund policy -
+Stripe wants them and taking money without them is not defensible), then
+credit PACKS rather than subscriptions: a pack maps onto the append-only
+ledger with no renewal, proration or dunning to get wrong. The webhook already
+records the payment; granting credits is the piece to add, keyed on the
+session's metadata.
 
 ## AI Overview citations: two faults corrected, 2026-09-18
 
