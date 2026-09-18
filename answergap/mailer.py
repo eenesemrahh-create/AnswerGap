@@ -34,6 +34,10 @@ import urllib.request
 
 RESEND_ENDPOINT = "https://api.resend.com/emails"
 
+# Sent on every request. See the header block in `send()` for why it is not
+# optional.
+USER_AGENT = "answergap/1.0"
+
 # Short. This runs inside a request that a person is waiting on, and a provider
 # that has stopped answering must degrade to "we could not send it, press
 # resend" rather than to a timed-out signup.
@@ -102,6 +106,16 @@ def send(*, to: str, subject: str, text: str, html: str) -> bool:
         headers={
             "Authorization": f"Bearer {api_key()}",
             "Content-Type": "application/json",
+            # NAMED, because the default is `Python-urllib/3.x` and the
+            # provider sits behind Cloudflare, which refuses that signature
+            # with `HTTP 403 ... error code: 1010`. Measured in production on
+            # 2026-09-18: every verification mail was refused before it
+            # reached the provider, while the signup itself succeeded - so the
+            # inbox stayed empty with nothing on screen to explain it.
+            # `api/ci.py` and `api/stripe.py` already send a name; this module
+            # was the one that did not.
+            "User-Agent": USER_AGENT,
+            "Accept": "application/json",
         },
         method="POST",
     )

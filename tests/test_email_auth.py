@@ -364,3 +364,40 @@ def test_a_bad_address_is_a_CODED_400_not_a_pydantic_422():
 
 def test_a_good_address_comes_back_normalised():
     assert auth._email_or_400("  Ali@Example.COM ") == "ali@example.com"
+
+
+# --------------------------------------------------- the transport's headers
+
+
+def test_the_send_request_names_itself(monkeypatch) -> None:
+    """The provider sits behind Cloudflare, which refuses `Python-urllib/3.x`.
+
+    Measured in production on 2026-09-18: `HTTP 403 ... error code: 1010` on
+    every verification mail, while the signup itself succeeded - an empty inbox
+    with nothing on screen to explain it. The header is the fix, and this test
+    is here so a refactor cannot quietly drop it again.
+    """
+    captured: dict = {}
+
+    class _Response:
+        status = 200
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+    def fake_urlopen(request, timeout=None):
+        captured["headers"] = {k.lower(): v for k, v in request.header_items()}
+        return _Response()
+
+    monkeypatch.setenv("RESEND_API_KEY", "re_test")
+    monkeypatch.setenv("MAIL_FROM", "AnswerGap <noreply@send.example.com>")
+    monkeypatch.setattr(mailer.urllib.request, "urlopen", fake_urlopen)
+
+    assert mailer.send(to="a@example.com", subject="s", text="t", html="<p>t</p>") is True
+    agent = captured["headers"].get("User-agent".lower(), "")
+    assert agent == mailer.USER_AGENT
+    assert "urllib" not in agent.lower()
+    assert captured["headers"]["authorization"] == "Bearer re_test"
