@@ -29,11 +29,18 @@ import { useI18n } from "@/i18n";
  * spent, the honest next step is signing in, so the message that explains the
  * refusal and the button that resolves it are in one place.
  *
- * FIVE MODES, ONE DIALOG. Signing in, signing up, "check your inbox", "I
- * forgot", and "choose a new password" are five steps of ONE errand, and a
- * reader who lands on any of them may need to be on another. Splitting them
- * across routes would mean a full navigation — and a lost password field —
- * every time somebody guessed wrong about which one they wanted.
+ * SIX MODES, ONE DIALOG. Signing in, signing up, "check your inbox", "I
+ * forgot", "choose a new password" and "that link expired" are six steps of
+ * ONE errand, and a reader who lands on any of them may need to be on another.
+ * Splitting them across routes would mean a full navigation — and a lost
+ * password field — every time somebody guessed wrong about which one they
+ * wanted.
+ *
+ * `resend` is the one step nobody asks for: it is where a DEAD verification
+ * link lands. It needs its own email field because the reader arriving there
+ * has no session and never typed an address into this dialog — which is
+ * exactly why the `sent` step, whose resend button is disabled without one,
+ * could not serve as the destination.
  *
  * EMAIL FIRST, GOOGLE SECOND, AND THAT ORDERING IS A DECISION. Google is one
  * click and will stay the most-used door, but putting it on top makes the
@@ -42,7 +49,7 @@ import { useI18n } from "@/i18n";
  * room.
  */
 
-type Mode = "signin" | "signup" | "sent" | "forgot" | "reset";
+type Mode = "signin" | "signup" | "sent" | "forgot" | "reset" | "resend";
 
 export function SignInDialog({
   open,
@@ -176,6 +183,18 @@ export function SignInDialog({
       setResent(true);
     });
 
+  // Same call, but from the step that had to ask for the address first, so it
+  // ends on the inbox step rather than leaving the reader on a form they have
+  // already finished with.
+  const submitResend = (e: React.FormEvent) => {
+    e.preventDefault();
+    run(async () => {
+      await resendVerification(email, locale);
+      setMode("sent");
+      setResent(true);
+    });
+  };
+
   const title =
     mode === "signup"
       ? t("auth.signUpTitle")
@@ -183,9 +202,11 @@ export function SignInDialog({
         ? t("auth.forgotTitle")
         : mode === "reset"
           ? t("auth.resetTitle")
-          : mode === "sent"
-            ? t("auth.sentTitle")
-            : t("auth.dialogTitle");
+          : mode === "resend"
+            ? t("auth.verifyExpiredTitle")
+            : mode === "sent"
+              ? t("auth.sentTitle")
+              : t("auth.dialogTitle");
 
   return (
     <dialog
@@ -249,6 +270,42 @@ export function SignInDialog({
               {t("auth.backToSignIn")}
             </button>
           </>
+        ) : null}
+
+        {/* ------------------------------------------ the link was no good */}
+        {mode === "resend" ? (
+          <form className="auth-form" onSubmit={submitResend}>
+            <p className="dialog-sub">{t("auth.verifyExpiredSub")}</p>
+            <label className="auth-field">
+              <span>{t("auth.emailLabel")}</span>
+              <input
+                type="email"
+                autoComplete="email"
+                required
+                autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </label>
+            {error ? (
+              <p className="auth-error" role="alert">
+                {error}
+              </p>
+            ) : null}
+            <button className="btn btn-primary btn-wide" disabled={busy}>
+              {busy ? t("auth.working") : t("auth.verifyExpiredSubmit")}
+            </button>
+            <button
+              className="auth-link"
+              type="button"
+              onClick={() => {
+                setMode("signin");
+                setError(null);
+              }}
+            >
+              {t("auth.backToSignIn")}
+            </button>
+          </form>
         ) : null}
 
         {/* --------------------------------------------- choose a password */}

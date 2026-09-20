@@ -887,8 +887,8 @@ def verify_email(token: str = "") -> RedirectResponse:
     A GET, because it is reached by clicking a link in a mail client. That
     makes it prefetchable - some clients and scanners fetch links to preview
     them - which is exactly why redemption lands somewhere useful either way:
-    the token is single-use, and a second redemption finds the account already
-    verified and offers a fresh link rather than an error page.
+    the token is single-use, and a second redemption says so plainly instead
+    of showing an error page to somebody whose account is already fine.
 
     Signing in here is what makes the flow one step instead of two. The session
     travels in a FRAGMENT for the same reason the Google callback uses one:
@@ -904,8 +904,17 @@ def verify_email(token: str = "") -> RedirectResponse:
         token_hash=_hash_token(token), purpose=db.PURPOSE_VERIFY
     )
     if not user_id:
-        # Expired, already spent, or never real. One destination for all three:
-        # the page offers "send me a new link", which is the answer to each.
+        # Expired, already spent, or never real - and "already spent" is the
+        # one that must not be treated like the others. The commonest way a
+        # token is spent is a mail scanner prefetching the link, which verifies
+        # the account before the human clicks; sending that person off to ask
+        # for a replacement link would strand them, because `resend` will not
+        # mail an account that is already verified.
+        if db.email_token_settled(
+            token_hash=_hash_token(token), purpose=db.PURPOSE_VERIFY
+        ):
+            return RedirectResponse(f"{home}/?auth=alreadyVerified", status_code=302)
+        # Genuinely no good: the page offers "send me a new link".
         return RedirectResponse(f"{home}/?auth=verifyExpired", status_code=302)
 
     row = db.user_verify_email(user_id=user_id, signup_credits=_signup_credits())

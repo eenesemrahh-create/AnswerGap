@@ -268,6 +268,12 @@ export const de: Messages = {
       "Bestätige deine E-Mail-Adresse, um deine Credits zu nutzen.",
     verifyBannerAction: "Link erneut senden",
     verifiedToast: "Deine E-Mail ist bestätigt. Deine Credits sind bereit.",
+    alreadyVerified:
+      "Diese Adresse ist bereits bestätigt. Melde dich an und mach weiter.",
+    verifyExpiredTitle: "Dieser Link ist abgelaufen",
+    verifyExpiredSub:
+      "Ein Bestätigungslink gilt nur einmal und nur kurze Zeit. Gib deine Adresse ein, wir senden einen neuen.",
+    verifyExpiredSubmit: "Neuen Link senden",
     close: "Schließen",
     dialogTitle: "Bei AnswerGap anmelden",
     benefitCredits: "Guthaben für Suchen und Fragenprüfungen",

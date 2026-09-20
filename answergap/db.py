@@ -2601,6 +2601,38 @@ def email_token_redeem(*, token_hash: str, purpose: str) -> int | None:
         return int(row["user_id"]) if row else None
 
 
+def email_token_settled(*, token_hash: str, purpose: str) -> bool:
+    """Did this token's owner already get what the token was for?
+
+    Read-only, and deliberately blind to `used_at` and `expires_at` — the row
+    survives redemption, so it can still say WHO a refused token belonged to.
+
+    It exists because "this link no longer works" has two completely different
+    causes and only one of them is a problem. A mail scanner that prefetches
+    the link to preview it verifies the account and burns the token before the
+    human ever clicks; the human's click then fails against an account that is
+    already fine. Offering that person a fresh link is wrong twice over — they
+    do not need one, and `resend_verification` refuses to mail a verified
+    account anyway, so they would wait on a message that never comes.
+
+    Returns False for a token nobody ever issued, which is the safe reading:
+    an unknown token proves nothing about anybody.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT (u.email_verified_at IS NOT NULL) AS settled
+              FROM email_token t
+              JOIN app_user u ON u.id = t.user_id
+             WHERE t.token_hash = %(hash)s
+               AND t.purpose    = %(purpose)s
+            """,
+            {"hash": token_hash, "purpose": purpose},
+        )
+        row = cur.fetchone()
+        return bool(row and row["settled"])
+
+
 def email_token_recent(*, user_id: int, purpose: str, window_seconds: int) -> int:
     """How many of these we have mailed this user lately.
 

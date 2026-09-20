@@ -31,13 +31,17 @@ import { useI18n } from "@/i18n";
  *   ?reset=<token>      a password-reset link. Opens the dialog on its last
  *                       step with the token in hand.
  *   ?auth=…             something did not finish: denied, failed, expired.
+ *                       `verifyExpired` opens the dialog on the step that
+ *                       mails a fresh link; the rest are a sentence.
  */
 export function AccountMenu({ meta }: { meta: Meta }) {
   const { t, locale } = useI18n();
   const [me, setMe] = useState<Me | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [dialog, setDialog] = useState(false);
-  const [dialogMode, setDialogMode] = useState<"signin" | "reset">("signin");
+  const [dialogMode, setDialogMode] = useState<"signin" | "reset" | "resend">(
+    "signin"
+  );
   const [resetToken, setResetToken] = useState<string | undefined>();
   const [resent, setResent] = useState(false);
   const [resending, setResending] = useState(false);
@@ -68,7 +72,21 @@ export function AccountMenu({ meta }: { meta: Meta }) {
       // One message per outcome the API can redirect with. `denied` is the
       // consent screen being dismissed, which is a decision rather than a
       // fault, so it says nothing at all.
-      else if (reason === "verifyExpired") setNotice(t("error.resetExpired"));
+      //
+      // A dead verification link is the one outcome that gets a DIALOG rather
+      // than a sentence. The person holding it has no session, so the resend
+      // button in the strip below is not reachable for them - and a notice
+      // reading "ask for a new one" with nothing to ask with is a dead end.
+      else if (reason === "verifyExpired") {
+        setDialogMode("resend");
+        setDialog(true);
+      }
+      // A link clicked twice, or one a mail scanner opened first. Nothing is
+      // wrong and nothing needs doing, so it is a sentence rather than a
+      // dialog - and pointedly NOT the expired copy, which would send
+      // somebody chasing a replacement they do not need.
+      else if (reason === "alreadyVerified")
+        setNotice(t("auth.alreadyVerified"));
       else if (reason === "failed" || reason === "verifyFailed")
         setNotice(t("auth.failed"));
       else if (reason === "suspended") setNotice(t("error.suspended"));

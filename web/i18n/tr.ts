@@ -268,6 +268,12 @@ export const tr: Messages = {
       "Kredilerini kullanmaya başlamak için e-posta adresini doğrula.",
     verifyBannerAction: "Bağlantıyı yeniden gönder",
     verifiedToast: "E-posta adresin doğrulandı. Kredilerin hazır.",
+    alreadyVerified:
+      "Bu adres zaten doğrulanmış. Giriş yapıp devam edebilirsin.",
+    verifyExpiredTitle: "Bu bağlantının süresi dolmuş",
+    verifyExpiredSub:
+      "Doğrulama bağlantısı tek kullanımlıktır ve kısa süre geçerlidir. Adresini yaz, yenisini gönderelim.",
+    verifyExpiredSubmit: "Yeni bağlantı gönder",
     close: "Kapat",
     dialogTitle: "AnswerGap'e giriş yap",
     benefitCredits: "Arama yapmak ve soru kontrol etmek için kredi",

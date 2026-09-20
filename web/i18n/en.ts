@@ -308,6 +308,12 @@ export const en = {
     verifyBanner: "Confirm your email address to start using your credits.",
     verifyBannerAction: "Resend the link",
     verifiedToast: "Your email is confirmed. Your credits are ready.",
+    alreadyVerified:
+      "That address is already confirmed. Sign in and carry on.",
+    verifyExpiredTitle: "That link has expired",
+    verifyExpiredSub:
+      "A verification link works once and only for a short while. Enter your address and we will send a fresh one.",
+    verifyExpiredSubmit: "Send a new link",
     close: "Close",
     dialogTitle: "Sign in to AnswerGap",
     benefitCredits: "Credits to run searches and check questions",

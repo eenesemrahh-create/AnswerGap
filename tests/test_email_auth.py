@@ -401,3 +401,47 @@ def test_the_send_request_names_itself(monkeypatch) -> None:
     assert agent == mailer.USER_AGENT
     assert "urllib" not in agent.lower()
     assert captured["headers"]["authorization"] == "Bearer re_test"
+
+
+# ================================================ where a dead link lands
+
+"""`/api/auth/verify` routes three outcomes and only one of them is trouble.
+
+No database: `email_token_redeem` and `email_token_settled` are the only two
+calls the refusal path makes, and both are stubbed. That keeps this branch
+covered on a laptop, where `tests/test_sql.py` skips.
+"""
+
+
+@pytest.fixture
+def verify_env(monkeypatch):
+    monkeypatch.setattr(auth, "WEB_BASE_URL", "https://app.test")
+    monkeypatch.setattr(auth, "accounts_enabled", lambda: True)
+    monkeypatch.setattr(
+        auth.db, "email_token_redeem", lambda **kw: None  # always refuse
+    )
+
+
+def _verify_to(token: str = "t") -> str:
+    return auth.verify_email(token=token).headers["location"]
+
+
+def test_a_spent_link_on_a_verified_account_says_so(verify_env, monkeypatch):
+    """The mail-scanner case. NOT `verifyExpired`: `resend_verification`
+    refuses to mail a verified account, so offering a new link would leave
+    the reader waiting on a message that is never sent."""
+    monkeypatch.setattr(auth.db, "email_token_settled", lambda **kw: True)
+    assert _verify_to() == "https://app.test/?auth=alreadyVerified"
+
+
+def test_a_genuinely_expired_link_offers_a_new_one(verify_env, monkeypatch):
+    monkeypatch.setattr(auth.db, "email_token_settled", lambda **kw: False)
+    assert _verify_to() == "https://app.test/?auth=verifyExpired"
+
+
+def test_a_link_with_no_token_never_asks_the_database(verify_env, monkeypatch):
+    def explode(**kw):
+        raise AssertionError("no lookup for an empty token")
+
+    monkeypatch.setattr(auth.db, "email_token_settled", explode)
+    assert _verify_to(token="") == "https://app.test/?auth=verifyFailed"

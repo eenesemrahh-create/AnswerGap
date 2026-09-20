@@ -572,14 +572,34 @@ root domain - without reading a log; and the api's deploy log line, which
 named the real one. Keep both habits: publish the non-secret half of a
 configuration, and log the provider's own reason.
 
+### Where a dead verification link lands, 2026-09-20
+
+**A refused link has TWO causes and only one of them is a problem.** Both used
+to end on `?auth=verifyExpired` showing the *password-reset* sentence, "ask for
+a new one", with nothing on the page to ask with: the only resend button lives
+in the signed-in strip, and the person holding a dead link has no session.
+
+- **Genuinely expired or never real** → `?auth=verifyExpired` opens the dialog
+  on a new `resend` step. It needs its own email field; the existing `sent`
+  step could not serve, because its resend button is disabled without an
+  address and that reader never typed one.
+- **Already spent** → `?auth=alreadyVerified`, a sentence, no dialog.
+  `db.email_token_settled` answers this: `email_token_redeem` sets `used_at`
+  rather than deleting, so the row still names its owner. **This is the common
+  case, not an edge one** — a mail scanner that prefetches the link to preview
+  it verifies the account before the human clicks. Sending that person to the
+  resend step would strand them, because `resend_verification` will not mail a
+  verified account yet still answers "verificationSent".
+
+Covered both ways: `tests/test_sql.py` (real Postgres, CI only) for the SQL,
+and `tests/test_email_auth.py` for the routing with the two db calls stubbed,
+so the branch stays covered on a laptop with no Postgres.
+
 ### What is NOT done
 
-- **The page the verification link lands on is unfinished.** The link works
-  and the account verifies; where it puts the reader afterwards is the next
-  piece of work.
-- **The second click has still not been tested.** `user_verify_email` is
-  proven by `tests/test_sql.py` against a real Postgres, but nobody has yet
-  clicked a live link twice and watched the balance stay put.
+- **The second click has still not been tested against a live link.** The
+  logic is now pinned by tests, but nobody has clicked a real mailed link
+  twice and watched the balance stay put.
 - **Password reset has not been run end to end** either.
 - `WEB_BASE_URL` is **unset** on the api service. It does not stop mail going
   out, but reset links and the Stripe return page read it; set it to the web

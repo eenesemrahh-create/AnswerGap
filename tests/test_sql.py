@@ -167,6 +167,56 @@ def test_verifying_a_missing_account_is_none() -> None:
     assert db.user_verify_email(user_id=999_999, signup_credits=10) is None
 
 
+def _put_verify_token(user_id: int, email: str, token_hash: str, ttl: int = 3600) -> None:
+    db.email_token_put(
+        token_hash=token_hash,
+        user_id=user_id,
+        purpose=db.PURPOSE_VERIFY,
+        email=email,
+        ttl_seconds=ttl,
+    )
+
+
+def test_a_spent_link_still_names_a_verified_owner() -> None:
+    """The mail-scanner case: the token is burned before the human clicks it.
+
+    Redemption must refuse the second time - but `email_token_settled` has to
+    keep saying "this person is fine", or the page offers them a replacement
+    link that `resend` will never send to a verified account.
+    """
+    made = db.user_create_password(email="e@example.com", password_hash="h", name=None)
+    _put_verify_token(made["id"], "e@example.com", "hash-e")
+
+    assert db.email_token_settled(token_hash="hash-e", purpose=db.PURPOSE_VERIFY) is False
+    assert db.email_token_redeem(token_hash="hash-e", purpose=db.PURPOSE_VERIFY) == made["id"]
+    db.user_verify_email(user_id=made["id"], signup_credits=10)
+
+    assert db.email_token_redeem(token_hash="hash-e", purpose=db.PURPOSE_VERIFY) is None
+    assert db.email_token_settled(token_hash="hash-e", purpose=db.PURPOSE_VERIFY) is True
+
+
+def test_an_expired_link_on_an_unverified_account_is_not_settled() -> None:
+    """The other half: a real expiry, where a fresh link IS the answer."""
+    made = db.user_create_password(email="f@example.com", password_hash="h", name=None)
+    _put_verify_token(made["id"], "f@example.com", "hash-f", ttl=-1)
+
+    assert db.email_token_redeem(token_hash="hash-f", purpose=db.PURPOSE_VERIFY) is None
+    assert db.email_token_settled(token_hash="hash-f", purpose=db.PURPOSE_VERIFY) is False
+
+
+def test_a_token_nobody_issued_is_not_settled() -> None:
+    assert db.email_token_settled(token_hash="never", purpose=db.PURPOSE_VERIFY) is False
+
+
+def test_a_verify_token_does_not_answer_for_a_reset() -> None:
+    """`purpose` is part of the WHERE here too, for the reason it is there."""
+    made = db.user_create_password(email="g@example.com", password_hash="h", name=None)
+    _put_verify_token(made["id"], "g@example.com", "hash-g")
+    db.user_verify_email(user_id=made["id"], signup_credits=10)
+
+    assert db.email_token_settled(token_hash="hash-g", purpose=db.PURPOSE_RESET) is False
+
+
 # ----------------------------------------------------------------- the tree
 
 
