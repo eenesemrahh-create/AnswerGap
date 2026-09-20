@@ -373,7 +373,9 @@ def test_erasure_keeps_the_address_and_the_balance() -> None:
     db.user_erase(user_id=uid, actor="op@example.com", reason="support request")
 
     assert _row(uid)["email"] == "leaver@example.com"
-    assert _ledger(uid) == [{"delta": 10, "reason": "signup"}]
+    # The signup grant AND the debit for the search `_leaver` ran: erasure
+    # leaves the money history exactly as it found it.
+    assert _ledger(uid) == [{"delta": 10, "reason": "signup"}, {"delta": -1, "reason": "search"}]
 
 
 def test_erasure_keeps_the_signup_grant_marker() -> None:
@@ -580,7 +582,7 @@ def test_signing_in_with_google_revives_the_same_row_and_its_balance() -> None:
         signup_credits=10,
     )
     assert int(back["id"]) == uid
-    assert back["balance"] == 15
+    assert back["balance"] == 14
 
     row = _row(uid)
     assert row["status"] == "active"
@@ -600,7 +602,8 @@ def test_revival_does_not_pay_a_second_signup_grant() -> None:
         picture_url=None,
         signup_credits=10,
     )
-    assert _ledger(uid) == [{"delta": 10, "reason": "signup"}]
+    # One signup row, not two. The debit below is `_leaver`'s search.
+    assert _ledger(uid) == [{"delta": 10, "reason": "signup"}, {"delta": -1, "reason": "search"}]
 
 
 def test_signing_up_again_with_the_erased_address_revives_on_verification() -> None:
@@ -619,7 +622,7 @@ def test_signing_up_again_with_the_erased_address_revives_on_verification() -> N
     assert out["did_revive"] is True
     assert out["did_grant"] is False
     assert out["status"] == "active"
-    assert out["balance"] == 10
+    assert out["balance"] == 9
 
 
 def test_an_account_that_was_suspended_comes_back_suspended() -> None:
@@ -788,8 +791,9 @@ def test_an_erased_persons_spend_stays_in_the_total_and_leaves_the_user_row() ->
     disappearing from every per-account row, and they must land in
     `unattributed` rather than in `anonymous`, which is a different thing.
     """
+    # `_leaver` already ran one paid search; a second would double the total
+    # this test is asserting on.
     uid = int(_leaver()["id"])
-    _spend(uid, 0.0026)
     db.user_erase(user_id=uid, actor="op@example.com", reason="")
 
     row = db.admin_usage_by_month(months=1, admin_emails=ADMINS)[0]
