@@ -687,6 +687,67 @@ MIGRATIONS: list[tuple[str, str]] = [
             ON payment_event (created_at DESC);
         """,
     ),
+    (
+        "0010_account_erasure",
+        """
+        -- ERASURE IS A STATE ON THE ROW, NOT A DELETE. Five tables reference
+        -- `app_user` with ON DELETE RESTRICT, and that is the design rather
+        -- than an obstacle: the money history and the spend attribution have
+        -- to survive a person leaving. What leaves is the profile, every live
+        -- credential, and every link from the person to their searches. The
+        -- address and the ledger STAY, because the Privacy Policy promises a
+        -- returning person the balance they paid for, and says so plainly.
+
+        -- WHEN it happened, and the flag revival clears. NULL means "not
+        -- erased right now". The HISTORY of erasures and revivals is not here;
+        -- it is `admin_action`, append-only, the same answer 0005 gave for
+        -- `status`.
+        ALTER TABLE app_user ADD COLUMN IF NOT EXISTS erased_at TIMESTAMPTZ;
+
+        -- WHAT TO COME BACK AS. Without it, revival would restore 'active'
+        -- blindly and a suspended account could launder its ban through an
+        -- erasure and a fresh sign-in - which is the first thing somebody
+        -- would find. NULL unless the row is erased; the second CHECK enforces
+        -- that.
+        ALTER TABLE app_user ADD COLUMN IF NOT EXISTS status_before_erasure TEXT;
+
+        -- `status` GAINS A THIRD VALUE, 'erased', and it is carried there as
+        -- well as in the timestamp on purpose: five sign-in paths already test
+        -- `status <> 'active'` and become correct for erasure without being
+        -- touched. Moving the discriminator elsewhere would mean editing five
+        -- hand-written refusals and getting all five right, on the refusal
+        -- path, where a miss is invisible until it is a breach.
+        --
+        -- The timestamp is the fact; the status is the switch. The standing
+        -- objection to recording one fact twice is that the two can disagree,
+        -- so this makes disagreement UNREPRESENTABLE rather than a rule
+        -- somebody has to remember. It also means `admin_set_status(...,
+        -- 'active')` cannot half-revive an erased row: nothing can un-erase an
+        -- account without clearing the timestamp, and only `_revive` does.
+        --
+        -- DROP-then-ADD because Postgres has no ADD CONSTRAINT IF NOT EXISTS,
+        -- and every statement here is written to be re-runnable even though
+        -- `schema_migration` means it will not be re-run.
+        ALTER TABLE app_user DROP CONSTRAINT IF EXISTS app_user_erased_consistent;
+        ALTER TABLE app_user ADD CONSTRAINT app_user_erased_consistent
+            CHECK ((status = 'erased') = (erased_at IS NOT NULL));
+
+        ALTER TABLE app_user DROP CONSTRAINT IF EXISTS app_user_status_before_erasure;
+        ALTER TABLE app_user ADD CONSTRAINT app_user_status_before_erasure
+            CHECK (status_before_erasure IS NULL OR status = 'erased');
+
+        -- THE ONLY LINK FROM A PAYMENT TO A PERSON IS THE ADDRESS AS TEXT.
+        -- `payment_event` has no user_id and no foreign key, because Stripe's
+        -- webhook is recorded before we know whose it is. Erasure still has to
+        -- find that person's rows to redact `payload` - the whole raw event,
+        -- up to 100k chars, carrying billing name and address - and this is
+        -- the index that lookup wants. On lower(email) because every other
+        -- address comparison in this schema folds the same way, and an index
+        -- on the raw column would not be usable by the statement that needs it.
+        CREATE INDEX IF NOT EXISTS payment_event_email_idx
+            ON payment_event (lower(email));
+        """,
+    ),
 ]
 
 
@@ -2036,8 +2097,17 @@ def user_upsert(
     try:
         with connect() as conn, conn.cursor() as cur:
             # 1. WHO IS THIS? Subject id first, address second.
+            #
+            # FOR UPDATE on both, and it fixes a real race rather than being
+            # tidy: a plain SELECT never blocks under READ COMMITTED, so two
+            # concurrent callbacks against the same row both read
+            # `signup_granted_at IS NULL`, both decide to grant, and both
+            # insert - twenty credits for one signup. `user_verify_email` took
+            # this lock from the start; this function's step-3 comment below
+            # claimed the same protection without ever taking it.
             cur.execute(
-                "SELECT id, signup_granted_at FROM app_user WHERE google_sub = %s",
+                "SELECT id, signup_granted_at, erased_at "
+                "FROM app_user WHERE google_sub = %s FOR UPDATE",
                 (google_sub,),
             )
             found = cur.fetchone()
@@ -2045,10 +2115,16 @@ def user_upsert(
                 # Restricted to accounts with NO google_sub, so linking can
                 # only ever absorb a password account - never re-point someone
                 # else's Google row at a new subject id.
+                #
+                # An ERASED row matches here, because erasure blanks
+                # `google_sub`. That is deliberate and it is the Google revival
+                # door; step 2 turns the match into an explicit revival instead
+                # of letting one happen by accident.
                 cur.execute(
                     """
-                    SELECT id, signup_granted_at FROM app_user
+                    SELECT id, signup_granted_at, erased_at FROM app_user
                      WHERE google_sub IS NULL AND lower(email) = lower(%s)
+                     FOR UPDATE
                     """,
                     (email,),
                 )
@@ -2085,6 +2161,18 @@ def user_upsert(
                         "id": user_id,
                     },
                 )
+
+                # THE GOOGLE REVIVAL DOOR, and it is explicit because without
+                # it this path was silently broken: the address fallback above
+                # already matched an erased row, so a Google sign-in would link
+                # a subject id, re-verify the address and hand out a session
+                # while leaving `status = 'erased'`. A zombie account with the
+                # old balance and nothing in the audit log to say so.
+                #
+                # `grant` was decided above from `signup_granted_at`, which
+                # erasure preserved, so revival is paid nothing here either.
+                if found["erased_at"] is not None:
+                    _revive(cur, user_id=user_id, via="google", actor=email)
             else:
                 grant = credits > 0
                 cur.execute(
@@ -2478,7 +2566,8 @@ def user_verify_email(*, user_id: int, signup_credits: int) -> dict | None:
             # read `signup_granted_at IS NULL` and both insert a grant. The
             # row lock makes the second one wait and then read the truth.
             cur.execute(
-                "SELECT id, signup_granted_at FROM app_user WHERE id = %s FOR UPDATE",
+                "SELECT id, email, signup_granted_at, erased_at "
+                "FROM app_user WHERE id = %s FOR UPDATE",
                 (int(user_id),),
             )
             found = cur.fetchone()
@@ -2497,6 +2586,33 @@ def user_verify_email(*, user_id: int, signup_credits: int) -> dict | None:
                 """,
                 {"grant": grant, "id": int(user_id)},
             )
+
+            # THE PRIMARY REVIVAL DOOR. Erasure clears `email_verified_at`, so
+            # a returning person signing up again with the erased address takes
+            # the signup endpoint's unverified branch and is mailed a fresh
+            # link. Redeeming it lands HERE, which is the point: revival
+            # happens only where control of the mailbox has just been proven.
+            #
+            # Before the closing SELECT so the read-back reports the RESTORED
+            # status - the endpoint refuses anything that is not active, and a
+            # normal revival must not be refused. A suspended-before-erasure
+            # account still is, which is correct.
+            #
+            # `grant` was decided above from `signup_granted_at`, which erasure
+            # preserved, so a revived account is paid nothing. That is the
+            # anti-farming guard working through this door.
+            did_revive = False
+            if found["erased_at"] is not None:
+                did_revive = (
+                    _revive(
+                        cur,
+                        user_id=int(user_id),
+                        via="verify",
+                        actor=found["email"] or "",
+                    )
+                    is not None
+                )
+
             if grant:
                 cur.execute(
                     """
@@ -2523,6 +2639,7 @@ def user_verify_email(*, user_id: int, signup_credits: int) -> dict | None:
                 return None
             out = dict(row)
             out["did_grant"] = grant
+            out["did_revive"] = did_revive
             return out
     except Exception as exc:  # noqa: BLE001 - reported as a failed verification
         print(
@@ -2678,6 +2795,9 @@ def admin_overview() -> dict:
               (SELECT count(*) FROM app_user) AS users_total,
               (SELECT count(*) FROM app_user WHERE status = 'active') AS users_active,
               (SELECT count(*) FROM app_user WHERE status = 'suspended') AS users_suspended,
+              -- Counted separately, or erased accounts vanish from a breakdown
+              -- that still sums them into `users_total`.
+              (SELECT count(*) FROM app_user WHERE status = 'erased') AS users_erased,
               (SELECT count(*) FROM app_user
                 WHERE created_at > now() - interval '7 days') AS users_new_7d,
               (SELECT COALESCE(sum(delta) FILTER (WHERE delta > 0), 0)
@@ -2687,9 +2807,16 @@ def admin_overview() -> dict:
               (SELECT count(*) FROM usage_event
                 WHERE day_utc = (now() AT TIME ZONE 'utc')::date
                   AND outcome = 'allowed') AS allowed_today,
+              -- `user_id IS NULL` alone stopped meaning "signed-out visitor"
+              -- when erasure arrived: it blanks user_id, anon_id AND ip_hash,
+              -- leaving rows that are UNATTRIBUTED rather than anonymous.
+              -- Counting those as signed-out traffic would inflate the one
+              -- number the free-tier limit is set from.
               (SELECT count(*) FROM usage_event
                 WHERE day_utc = (now() AT TIME ZONE 'utc')::date
-                  AND user_id IS NULL AND outcome = 'allowed') AS anonymous_today,
+                  AND user_id IS NULL AND outcome = 'allowed'
+                  AND (anon_id IS NOT NULL OR ip_hash IS NOT NULL)
+              ) AS anonymous_today,
               (SELECT count(*) FROM usage_event
                 WHERE day_utc = (now() AT TIME ZONE 'utc')::date
                   AND outcome <> 'allowed') AS refused_today,
@@ -2706,6 +2833,7 @@ def admin_overview() -> dict:
                 "total": int(row.get("users_total") or 0),
                 "active": int(row.get("users_active") or 0),
                 "suspended": int(row.get("users_suspended") or 0),
+                "erased": int(row.get("users_erased") or 0),
                 "new_7d": int(row.get("users_new_7d") or 0),
             },
             "credits": {
@@ -2786,7 +2914,7 @@ def admin_user_detail(user_id: int) -> dict | None:
         cur.execute(
             """
             SELECT u.id, u.email, u.name, u.picture_url, u.status, u.token_epoch,
-                   u.created_at, u.last_seen_at,
+                   u.created_at, u.last_seen_at, u.erased_at,
                    (u.email_verified_at IS NOT NULL) AS email_verified,
                    -- Which doors this account has. NEVER the hash itself: this
                    -- row travels to the admin browser, and a value that is not
@@ -2895,6 +3023,13 @@ def admin_set_status(*, user_id: int, status: str, actor: str) -> bool:
     Justified because status is read on every spending request and a DISTINCT ON
     there would be a second query on the hot path. The history is not lost - the
     admin_action row written by the same statement is the log.
+
+    REFUSES AN ERASED ROW, and that guard is load-bearing. `StatusRequest` only
+    permits 'active' or 'suspended', so without it the suspend/reactivate toggle
+    would offer "Reactivate" on an erased account and either half-revive it -
+    status active, `erased_at` still set, no revival audit, nothing restored -
+    or, with the CHECK from migration 0010, throw a constraint violation that
+    reaches the operator as a 500. Un-erasing is `_revive`'s job alone.
     """
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
@@ -2902,6 +3037,7 @@ def admin_set_status(*, user_id: int, status: str, actor: str) -> bool:
             WITH upd AS (
                 UPDATE app_user SET status = %(status)s
                  WHERE id = %(uid)s AND status <> %(status)s
+                   AND status <> 'erased'
                 RETURNING id
             )
             INSERT INTO admin_action (actor, action, target_user, detail)
@@ -2941,6 +3077,270 @@ def admin_revoke_tokens(*, user_id: int, actor: str) -> int:
         row = cur.fetchone()
         conn.commit()
         return int(row["token_epoch"]) if row else 0
+
+
+def user_erase(*, user_id: int, actor: str, reason: str) -> dict | None:
+    """Erase a person, keeping the money and the address. Returns what it did.
+
+    SEVERAL STATEMENTS IN ONE TRANSACTION, NOT ONE CLEVER ONE - see the long
+    argument in `user_upsert`, which is the third bug this codebase has paid
+    for against chained data-modifying CTEs. Erasure is the coldest path in the
+    product, runs once per account ever, and touches six tables plus the audit.
+    One statement would be seven chained CTEs sharing a snapshot, and the audit
+    detail below wants REAL counts, which a CTE could not see. A transaction
+    gives the same "the audit cannot be skipped by a failure halfway" guarantee
+    that the same-statement rule was protecting, and gives honest numbers too.
+    Do NOT wrap the body in try/except: catching inside the block and carrying
+    on would let the context manager commit a half-erasure and report success.
+
+    THE ADDRESS AND THE LEDGER STAY. The Privacy Policy promises both - the
+    address is the recovery key that lets a returning person be handed back a
+    balance they paid for, and `credit_ledger.user_id` is NOT NULL and
+    ON DELETE RESTRICT precisely so no erasure can destroy the money history.
+    This function is why a plain `DELETE FROM app_user` is not the design.
+
+    `signup_granted_at` IS PRESERVED, and that is the anti-abuse half. Clearing
+    it would make erase-and-sign-up-again a free-credit tap: ten searches, a
+    delete, ten more, forever, against one mailbox. It is the only column kept
+    for OUR benefit rather than the person's, which is why it is named here
+    rather than left to be noticed.
+
+    WHAT IT SEVERS, and why each one is on the list:
+      * `crawl.user_id` AND `crawl.anon_id`. BOTH, because `api/main.py` writes
+        both on a signed-in search - the "a crawl carries EITHER, not both"
+        comment on migration 0006 has not been true since - and `can_access`
+        matches EITHER. Blanking only `user_id` would take the tree out of the
+        person's list while leaving it open to anyone holding that browser's
+        anon id, which for a self-service erasure is the very browser that just
+        pressed delete. Looking erased is worse than not being erased.
+      * `serp_task.user_id` - the provider receipt stays, the owner goes.
+      * `usage_event.user_id`, `.anon_id` AND `.ip_hash`. The last two are not
+        squeamishness: `anon_counters` counts `user_id IS NULL` once by
+        `anon_id` and again by `ip_hash`, so blanking only `user_id` would
+        donate this person's same-day searches to an anonymous visitor's free
+        allowance - their own browser's, and everyone behind that address.
+      * Every `email_token` and `auth_code` row. These are LIVE CREDENTIALS.
+        They do not cascade here because the row is not deleted, and
+        `email_token_redeem` asks about expiry and use but never about status -
+        so a reset link mailed ten minutes before an erasure would still be
+        redeemable afterwards, and would revive the account from stale mail.
+      * `token_epoch + 1`, which kills every session already issued. There is
+        no session table; the epoch is the only revocation there is.
+
+    WHAT IT DOES NOT TOUCH: `email`, `credit_ledger`, `created_at`,
+    `signup_granted_at`, and every `payment_event` column except `payload`.
+
+    `reason` IS WRITTEN TO THE AUDIT, so it must not be free text from a
+    visitor: the self-service endpoint passes a fixed code, an admin types a
+    short note. Nothing redacts `admin_action.detail`, so a name typed in here
+    would outlive the erasure meant to remove it.
+
+    Returns None for no such row, and `already_erased` when there is nothing
+    left to do - a second call writes NOTHING, including no second audit row.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        # FOR UPDATE does three jobs at once: fails fast on a missing row,
+        # captures `status` and `email` as they were BEFORE the blanking, and
+        # serialises against sign-in. `user_verify_email` takes the same lock,
+        # so a verification racing this waits and then reads the truth instead
+        # of reviving a row mid-erasure.
+        cur.execute(
+            "SELECT id, email, status, erased_at, token_epoch "
+            "FROM app_user WHERE id = %s FOR UPDATE",
+            (int(user_id),),
+        )
+        found = cur.fetchone()
+        if not found:
+            return None
+        if found["erased_at"] is not None:
+            return {
+                "user_id": int(found["id"]),
+                "already_erased": True,
+                "erased_at": found["erased_at"],
+                "token_epoch": int(found["token_epoch"]),
+            }
+
+        email = found["email"]
+        # Derived from the ROW, never from what the caller claims to be.
+        # `actor` is an email either way - an admin is an entry in an
+        # environment variable rather than a row - so the only thing telling
+        # the two cases apart is whether that address is this account's own.
+        self_service = (actor or "").strip().lower() == (email or "").lower()
+
+        cur.execute(
+            """
+            UPDATE app_user
+               SET name                  = NULL,
+                   picture_url           = NULL,
+                   password_hash         = NULL,
+                   google_sub            = NULL,
+                   -- Cleared on purpose, and it is what makes revival WORK
+                   -- rather than what breaks it. With the address unverified,
+                   -- a returning person signing up again takes the signup
+                   -- endpoint's unverified branch - "nobody has proven control
+                   -- of this address yet", which after an erasure is exactly
+                   -- true - and gets a fresh verify link. Redemption is where
+                   -- the account comes back. Left set, they would be routed
+                   -- into password RESET against a hash we just destroyed.
+                   email_verified_at     = NULL,
+                   status                = 'erased',
+                   -- Reads the OLD value: a SET expression sees the row as it
+                   -- was. This is what stops revival from laundering a ban - a
+                   -- suspended account that is erased comes back suspended.
+                   status_before_erasure = status,
+                   erased_at             = now(),
+                   token_epoch           = token_epoch + 1
+             WHERE id = %(id)s
+            RETURNING token_epoch, erased_at
+            """,
+            {"id": int(user_id)},
+        )
+        erased = cur.fetchone()
+
+        # Credentials first, so no ordering of failures can leave a usable link
+        # behind. The transaction already makes that theoretical; the ordering
+        # costs nothing and stops it being theoretical-plus-trust.
+        cur.execute("DELETE FROM email_token WHERE user_id = %s", (int(user_id),))
+        creds = cur.rowcount
+        cur.execute("DELETE FROM auth_code WHERE user_id = %s", (int(user_id),))
+        creds += cur.rowcount
+
+        cur.execute(
+            "UPDATE crawl SET user_id = NULL, anon_id = NULL WHERE user_id = %s",
+            (int(user_id),),
+        )
+        crawls = cur.rowcount
+        cur.execute(
+            "UPDATE serp_task SET user_id = NULL WHERE user_id = %s", (int(user_id),)
+        )
+        tasks = cur.rowcount
+        cur.execute(
+            "UPDATE usage_event SET user_id = NULL, anon_id = NULL, ip_hash = NULL "
+            "WHERE user_id = %s",
+            (int(user_id),),
+        )
+        events = cur.rowcount
+
+        # Matched on the address as text, because that is the only link there
+        # is: `payment_event` has no user_id and no foreign key, since the
+        # webhook is recorded before we know whose it is. `lower()` folds the
+        # same way as `app_user_email_key`, so this cannot miss a row the
+        # unique index considers the same person. Best-effort by construction -
+        # a checkout completed under a different address than the account's is
+        # not matched - which is why the count goes into the audit rather than
+        # being assumed.
+        #
+        # A MARKER, not NULL and not '{}'. NULL cannot tell "removed" from
+        # "never arrived", so six months later there would be no way to show
+        # the redaction happened. An empty object is worse: it reads to
+        # anything walking `payload->'data'` as a Stripe event that lost its
+        # contents - a redaction indistinguishable from a bug. The marker says
+        # what happened and when, keeps the column's shape, and gives the
+        # re-run guard below for free.
+        cur.execute(
+            """
+            UPDATE payment_event
+               SET payload = jsonb_build_object(
+                       'redacted',    true,
+                       'redacted_at', now(),
+                       'reason',      'account_erasure')
+             WHERE lower(email) = lower(%(email)s)
+               AND payload IS NOT NULL
+               AND payload -> 'redacted' IS NULL
+            """,
+            {"email": email},
+        )
+        payments = cur.rowcount
+
+        # LAST, so the audit carries the counts that actually happened rather
+        # than the ones this function hoped for.
+        cur.execute(
+            """
+            INSERT INTO admin_action (actor, action, target_user, detail)
+            VALUES (%(actor)s, %(action)s, %(id)s,
+                    jsonb_build_object(
+                        'reason',              %(reason)s,
+                        'self_service',        %(self)s,
+                        'status_before',       %(before)s,
+                        'crawls',              %(crawls)s,
+                        'serp_tasks',          %(tasks)s,
+                        'usage_events',        %(events)s,
+                        'payments_redacted',   %(payments)s,
+                        'credentials_deleted', %(creds)s))
+            """,
+            {
+                "actor": actor,
+                "action": "erase_self" if self_service else "erase",
+                "id": int(user_id),
+                "reason": (reason or "")[:200],
+                "self": self_service,
+                "before": found["status"],
+                "crawls": crawls,
+                "tasks": tasks,
+                "events": events,
+                "payments": payments,
+                "creds": creds,
+            },
+        )
+        conn.commit()
+        return {
+            "user_id": int(user_id),
+            "already_erased": False,
+            "email": email,
+            "erased_at": erased["erased_at"],
+            "token_epoch": int(erased["token_epoch"]),
+            "crawls": crawls,
+            "serp_tasks": tasks,
+            "usage_events": events,
+            "payments_redacted": payments,
+            "credentials_deleted": creds,
+        }
+
+
+def _revive(cur: Any, *, user_id: int, via: str, actor: str) -> str | None:
+    """Undo an erasure, inside the caller's transaction. Returns the status.
+
+    The counterpart of `user_erase`, and deliberately NOT its mirror image:
+    almost nothing comes back. The name, the picture, the old password and the
+    old Google link are gone for good; the searches stay severed; the payment
+    payloads stay redacted. What returns is the ACCOUNT - the row, the address
+    and the balance - which is the whole of what the Privacy Policy promises.
+
+    `signup_granted_at` is not cleared here either. Same guard from the other
+    side: a revived account must not be paid a second signup grant.
+
+    Restores `status_before_erasure`, never a flat 'active'. Otherwise erasure
+    is a ban-laundering machine, and that is the first thing an abuser finds.
+
+    Takes a cursor rather than opening its own connection, because reviving and
+    deciding the grant have to be one transaction - the same reason
+    `user_verify_email` does its four statements together.
+    """
+    cur.execute(
+        """
+        UPDATE app_user
+           SET status                = COALESCE(status_before_erasure, 'active'),
+               status_before_erasure = NULL,
+               erased_at             = NULL
+         WHERE id = %(id)s AND erased_at IS NOT NULL
+        RETURNING status
+        """,
+        {"id": int(user_id)},
+    )
+    row = cur.fetchone()
+    if not row:
+        return None
+    # Audited like every other privileged change to a row, and it is one: it
+    # hands somebody a balance back.
+    cur.execute(
+        """
+        INSERT INTO admin_action (actor, action, target_user, detail)
+        VALUES (%(actor)s, 'revive', %(id)s,
+                jsonb_build_object('via', %(via)s, 'status', %(status)s))
+        """,
+        {"actor": actor, "id": int(user_id), "via": via, "status": row["status"]},
+    )
+    return str(row["status"])
 
 
 def setting_put(*, key: str, value: str, actor: str) -> None:
@@ -3008,7 +3408,12 @@ def payment_events(limit: int = 50) -> list[dict]:
         cur.execute(
             """
             SELECT event_id, kind, livemode, amount_cents, currency, email,
-                   status, object_id, created_at
+                   status, object_id, created_at,
+                   -- The FLAG, never the payload itself: the raw event is 30 KB
+                   -- of Stripe and belongs in no list view. Without this the
+                   -- only proof an erasure redacted anything is invisible to
+                   -- the operator who has to answer for it.
+                   (payload -> 'redacted' IS NOT NULL) AS redacted
               FROM payment_event
              ORDER BY created_at DESC, id DESC
              LIMIT %s

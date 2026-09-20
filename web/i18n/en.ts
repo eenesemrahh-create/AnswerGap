@@ -310,6 +310,18 @@ export const en = {
     verifiedToast: "Your email is confirmed. Your credits are ready.",
     alreadyVerified:
       "That address is already confirmed. Sign in and carry on.",
+    accountEmail: "Signed in as",
+    deleteTitle: "Delete my account",
+    deleteLead: "This cannot be undone. Your searches are unlinked from you; your email address and payment records are kept.",
+    deleteAction: "Delete my accountâ¦",
+    deleteConfirmTitle: "Delete this account?",
+    deleteRemoves: "Removed: your name, your picture, your password, your saved preferences, and the link between you and every search you have run. Your saved analyses stop being yours.",
+    deleteKeeps: "Kept: your email address, so we can recognise you if you return, and your payment records, which tax rules require us to retain.",
+    deleteRevives: "If you sign up again with this address, the account comes back and any credits you paid for are still there. The searches are not.",
+    deleteConfirmPassword: "Enter your password to confirm",
+    deleteConfirmEmail: "Type {email} to confirm",
+    deleteSubmit: "Delete my account",
+    deleteCancel: "Keep my account",
     verifyExpiredTitle: "That link has expired",
     verifyExpiredSub:
       "A verification link works once and only for a short while. Enter your address and we will send a fresh one.",

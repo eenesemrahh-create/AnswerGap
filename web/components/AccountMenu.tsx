@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetchMe, resendVerification, signOut } from "@/lib/api";
 import { SignInDialog } from "./SignInDialog";
+import { AccountDialog } from "./AccountDialog";
 import { captureTokenFromHash, token } from "@/lib/auth";
 import type { Me, Meta } from "@/lib/types";
 import { useI18n } from "@/i18n";
@@ -45,6 +46,7 @@ export function AccountMenu({ meta }: { meta: Meta }) {
   const [resetToken, setResetToken] = useState<string | undefined>();
   const [resent, setResent] = useState(false);
   const [resending, setResending] = useState(false);
+  const [account, setAccount] = useState(false);
 
   const load = useCallback(() => {
     if (!token()) {
@@ -187,7 +189,16 @@ export function AccountMenu({ meta }: { meta: Meta }) {
         </span>
       )}
       {notice && <span className="account-failed">{notice}</span>}
-      <span className="account-who" title={t("auth.signedInAs", { email: me.email })}>
+      {/* A BUTTON, not a label, and that is the whole reason this dialog
+          exists. Deleting an account has to live somewhere, and the only
+          other place in this strip is next to "Sign out" - one misclick away,
+          in a row with no destructive style at all. Opening the identity
+          itself is the natural home for it. */}
+      <button
+        className="account-who"
+        onClick={() => setAccount(true)}
+        title={t("auth.signedInAs", { email: me.email })}
+      >
         {me.picture_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img className="account-avatar" src={me.picture_url} alt="" />
@@ -195,7 +206,8 @@ export function AccountMenu({ meta }: { meta: Meta }) {
           <i className="account-avatar account-avatar-blank" />
         )}
         {me.email}
-      </span>
+      </button>
+      <AccountDialog open={account} onClose={() => setAccount(false)} me={me} />
       {/* Zero is shown as "no credits left" rather than as "0 credits", and a
           negative balance is shown as it stands. A debit is unconditional
           because the money was already spent upstream; hiding an overspend

@@ -271,6 +271,18 @@ export const es: Messages = {
     verifiedToast: "Tu correo está confirmado. Tus créditos están listos.",
     alreadyVerified:
       "Esa dirección ya está confirmada. Inicia sesión y sigue.",
+    accountEmail: "SesiÃ³n iniciada como",
+    deleteTitle: "Eliminar mi cuenta",
+    deleteLead: "Esto no se puede deshacer. Tus bÃºsquedas se desvinculan de ti; tu correo y tus registros de pago se conservan.",
+    deleteAction: "Eliminar mi cuentaâ¦",
+    deleteConfirmTitle: "Â¿Eliminar esta cuenta?",
+    deleteRemoves: "Se elimina: tu nombre, tu foto, tu contraseÃ±a, tus preferencias guardadas y el vÃ­nculo entre tÃº y cada bÃºsqueda que has hecho. Tus anÃ¡lisis guardados dejan de ser tuyos.",
+    deleteKeeps: "Se conserva: tu direcciÃ³n de correo, para reconocerte si vuelves, y tus registros de pago, que las normas fiscales nos obligan a guardar.",
+    deleteRevives: "Si vuelves a registrarte con esta direcciÃ³n, la cuenta regresa y los crÃ©ditos que pagaste siguen ahÃ­. Las bÃºsquedas no.",
+    deleteConfirmPassword: "Escribe tu contraseÃ±a para confirmar",
+    deleteConfirmEmail: "Escribe {email} para confirmar",
+    deleteSubmit: "Eliminar mi cuenta",
+    deleteCancel: "Conservar mi cuenta",
     verifyExpiredTitle: "Ese enlace ha caducado",
     verifyExpiredSub:
       "Un enlace de verificación sirve una sola vez y durante poco tiempo. Escribe tu dirección y te enviamos uno nuevo.",

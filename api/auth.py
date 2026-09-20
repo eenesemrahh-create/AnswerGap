@@ -858,10 +858,17 @@ def login(request: Request, payload: LoginRequest) -> JSONResponse:
         # One code for all three. The address exists but arrived through Google
         # and has no password? Same answer as a wrong password, deliberately.
         raise HTTPException(401, {"code": "badCredentials"})
-    if row.get("status") != gate.STATUS_ACTIVE:
-        raise HTTPException(403, {"code": "suspended"})
+    # VERIFICATION BEFORE STATUS, and the order is the message - the same
+    # argument `gate.decide` makes about checking the balance last. Someone who
+    # signed up again with a previously erased address has a correct password
+    # and an unverified, still-erased row; telling them "this account is
+    # suspended" would be true and useless when the action they need is the
+    # link already sitting in their inbox. No enumeration cost: they just
+    # proved the password.
     if not row.get("email_verified"):
         raise HTTPException(403, {"code": "emailUnverified", "email": email})
+    if row.get("status") != gate.STATUS_ACTIVE:
+        raise HTTPException(403, {"code": "suspended"})
 
     # The cost parameters can be raised later, and this is the only moment the
     # plaintext exists to re-derive under them. `revoke=False`: the person is
@@ -1041,6 +1048,98 @@ def reset_password(request: Request, payload: ResetRequest) -> JSONResponse:
     # hand back a session the revocation above had just invalidated.
     fresh = db.user_for_gate(user_id) or row
     return JSONResponse({"token": _issue(fresh), "email": fresh.get("email")})
+
+
+class EraseRequest(BaseModel):
+    """What the person typed to prove they meant it.
+
+    ONE field for two different proofs, because the account has one of two
+    doors and not always both: an account with a password re-types the
+    PASSWORD, a Google-only account re-types its own EMAIL ADDRESS. Naming the
+    field after neither keeps the endpoint from telling a caller which kind of
+    account an address is - which is exactly the enumeration `login` is careful
+    about - and keeps the client from having to send the right key.
+    """
+
+    confirm: str = Field(min_length=1, max_length=passwords.MAX_LENGTH)
+    locale: str | None = None
+
+
+@router.post("/api/account/erase")
+def erase_account(request: Request, payload: EraseRequest) -> JSONResponse:
+    """Delete your own account. The Privacy Policy's section 7, as an endpoint.
+
+    RE-AUTHENTICATION, because this is irreversible from the person's side and
+    a session token is fourteen days old by the time most people use it. There
+    was no re-auth machinery in this file - `verify_password` was called in
+    exactly one place, inside `login` - so this is it: the password when there
+    is one, the address when the account came through Google and there is not.
+
+    The address fallback is not security theatre. A Google-only account has no
+    secret we can check without bouncing the person through an OAuth redirect
+    and back, and typing your own address is the same deliberate act GitHub
+    and Stripe ask for. What it defends against is the misclick and the
+    unattended laptop, which is what this control is actually exposed to.
+
+    Rate-limited per identity as well as per address: `_rate_ok` is in-process
+    and resets on redeploy, which is fine here - the cost of a burst is a few
+    wrong guesses at a password the caller already has a session for.
+    """
+    _accounts_or_503()
+    who = identity(request)
+    if not who.signed_in:
+        raise HTTPException(401, {"code": "signedOut"})
+    if not _rate_ok(
+        f"erase:{who.user_id}", limit=LOGIN_MAX_PER_EMAIL, window=LOGIN_WINDOW_SECONDS
+    ):
+        raise HTTPException(429, {"code": "tooManyAttempts"})
+
+    # The epoch re-check is the same one `/api/me` does: a token signed before
+    # a revocation must not be able to act.
+    gate_row = db.user_for_gate(who.user_id)
+    if not gate_row or gate_row.get("token_epoch") != who.token_epoch:
+        raise HTTPException(401, {"code": "signedOut"})
+
+    # `user_by_email` is the ONE function that fetches `password_hash`, by its
+    # own docstring, so the proof is checked through it rather than by adding a
+    # second way to read the column.
+    email = gate.normalize_email(gate_row.get("email"))
+    row = db.user_by_email(email)
+    stored = (row or {}).get("password_hash")
+    if stored:
+        proven = passwords.verify_password(payload.confirm, stored)
+    else:
+        proven = gate.normalize_email(payload.confirm) == email
+    if not proven:
+        raise HTTPException(403, {"code": "badCredentials"})
+
+    result = db.user_erase(
+        user_id=int(who.user_id),
+        # The account's own address, which is what makes `user_erase` label the
+        # audit row `erase_self` rather than `erase`.
+        actor=email,
+        reason="self_service",
+    )
+    if result is None:
+        raise HTTPException(401, {"code": "signedOut"})
+
+    # AFTER the erasure, never before: a mail promising a deletion that then
+    # failed is worse than no mail. It is also best-effort - `send` does not
+    # raise into a caller - because a provider outage must not turn a completed
+    # erasure into an error the person retries.
+    if not result.get("already_erased"):
+        try:
+            subject, text, html = mailer.render(
+                "erased", link=WEB_BASE_URL or PUBLIC_BASE_URL,
+                locale=_locale_of(payload.locale),
+            )
+            mailer.send(to=email, subject=subject, text=text, html=html)
+        except Exception as exc:  # noqa: BLE001 - the erasure already happened
+            print(f"[auth] erasure mail failed: {type(exc).__name__}: {exc}", flush=True)
+
+    # The client's token is already dead - erasure bumped the epoch - and this
+    # is what tells it to stop holding one.
+    return JSONResponse({"status": "erased"})
 
 
 def _issue(user: dict) -> str:

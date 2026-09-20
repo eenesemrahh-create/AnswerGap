@@ -34,3 +34,25 @@ export async function revokeTokens(userId: number) {
   await post(`/api/admin/user/${userId}/revoke-tokens`, {});
   revalidatePath(`/users/${userId}`);
 }
+
+/**
+ * Erase an account on the person's behalf. Irreversible from here.
+ *
+ * Returns the API's own summary instead of nothing, unlike the three above:
+ * the others can be read off the refreshed page - a balance moved, a pill
+ * changed colour - but erasure's whole effect is things that are no longer
+ * there. "3 searches unlinked, 1 payment redacted" is the only way the
+ * operator can see it worked, and a zero in that line is the signal that the
+ * payment address did not match the account's.
+ */
+export async function eraseUser(userId: number, reason: string) {
+  const out = await post<{
+    already_erased: boolean;
+    crawls: number;
+    usage_events: number;
+    payments_redacted: number;
+    credentials_deleted: number;
+  }>(`/api/admin/user/${userId}/erase`, { reason });
+  revalidatePath(`/users/${userId}`);
+  return out;
+}

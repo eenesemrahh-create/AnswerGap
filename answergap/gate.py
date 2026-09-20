@@ -33,9 +33,19 @@ REFUSED_SIGNED_OUT = "refused_signed_out"
 # is advice for a different problem. Same reasoning that gave `noCredits` its
 # own code rather than reusing the DataForSEO budget 429.
 REFUSED_UNVERIFIED = "refused_unverified"
+# The account was erased, by its owner or by an admin. Distinct from
+# REFUSED_SUSPENDED because they are opposite situations: a suspension is
+# something we did TO someone and may undo, an erasure is usually something
+# they asked for. Counting them together would make both numbers useless.
+REFUSED_ERASED = "refused_erased"
 
 STATUS_ACTIVE = "active"
 STATUS_SUSPENDED = "suspended"
+# Set by `db.user_erase`. `app_user.erased_at` is the authoritative record -
+# this value exists so that the six places already written as
+# `status != STATUS_ACTIVE` (login, reset, verify, require_admin, ...) refuse an
+# erased account without any of them having to learn a new concept.
+STATUS_ERASED = "erased"
 
 # Runtime settings, with their defaults HERE rather than as seed rows in the
 # migration. A default recorded in two places is a default that can disagree
@@ -126,10 +136,28 @@ def decide(identity: Identity, state: State, *, action: str, units: int) -> Deci
     if not state.accounts_enabled:
         return Decision(True, ALLOWED, affordable_units=units)
 
-    # Suspended outranks everything, including admin and including a full
+    # Not-active outranks everything, including admin and including a full
     # balance. Having credits is not permission to use them.
-    if state.status == STATUS_SUSPENDED:
-        return Decision(False, REFUSED_SUSPENDED, "suspended", 403)
+    #
+    # `!= ACTIVE` rather than `== SUSPENDED`, and that is a FIX rather than a
+    # tidy-up. Written as an equality test, this gate waved through every status
+    # it had not been told about - so adding `erased` without touching this line
+    # would have let an erased account keep spending. A gate that only stops the
+    # refusals it already knows by name is not a gate. Unknown now fails closed.
+    # `status is None` is an ANONYMOUS visitor - there is no account row to have
+    # a status - and must fall through to the anonymous allowance below rather
+    # than be refused as not-active.
+    if state.status is not None and state.status != STATUS_ACTIVE:
+        # The OUTCOME distinguishes the two, because it is written to
+        # `usage_event` and "how often does an erased account still try" is a
+        # question worth being able to answer. The CODE does not: it is what
+        # the browser is told, and this branch should be unreachable for an
+        # erased account anyway - erasure bumps `token_epoch`, so the session
+        # dies before the gate is consulted. Minting a user-facing `erased`
+        # code would buy a new ErrorKind and five translations for a message
+        # nobody should ever see, and hand whoever did see it an oracle.
+        outcome = REFUSED_ERASED if state.status == STATUS_ERASED else REFUSED_SUSPENDED
+        return Decision(False, outcome, "suspended", 403)
 
     # Admins are not billed. They still get a usage_event, so their dollars stay
     # attributed - what they skip is the ledger, because inventing a balance for

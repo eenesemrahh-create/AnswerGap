@@ -2636,3 +2636,59 @@ table.table {
 .legal-langs a[aria-current="page"] { color: var(--text); font-weight: 600; }
 
 .legal-footer-links { display: flex; gap: 16px; }
+
+/* ------------------------------------------------------------ account dialog
+ * The account strip became a BUTTON when erasure needed somewhere to live.
+ * Deleting an account cannot sit next to "Sign out" in a row that has no
+ * destructive style at all, so the identity itself opens a dialog and the
+ * dangerous half lives inside it, below a rule.
+ */
+
+/* A button that must still read as the label it replaced: no chrome, no
+   padding shift, just a pointer and a hover that says it does something. */
+.account-who {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+.account-who:hover { color: var(--text); }
+
+.account-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  margin: 0 0 4px;
+  font-size: 13px;
+  text-align: left;
+}
+.account-facts dt { color: var(--text-faint); }
+.account-facts dd { margin: 0; color: var(--text); }
+
+/* Separated by a rule, not by colour. The section is dangerous because of
+   what it does, and painting the whole block red would shout at somebody who
+   only opened the dialog to read their balance. */
+.account-danger {
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  text-align: left;
+}
+.account-danger h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.account-danger .dialog-sub { margin: 0 0 10px; font-size: 13px; }
+
+/* --danger, never --gap. Red here means "this is destructive", which is a
+   different claim from the product's gap/weak/covered verdicts, and the two
+   palettes must not mix. */
+.account-delete {
+  margin-top: 12px;
+  color: var(--danger);
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+}
+.account-delete:hover:not(:disabled) { border-color: var(--danger); }

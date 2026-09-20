@@ -183,6 +183,13 @@ def _mask(address: str) -> str:
 # loss at the exact moment the account is worth the most.
 
 SUBJECTS = {
+    "erased": {
+        "en": "Your AnswerGap account has been deleted",
+        "tr": "AnswerGap hesabın silindi",
+        "de": "Dein AnswerGap-Konto wurde gelöscht",
+        "es": "Tu cuenta de AnswerGap se ha eliminado",
+        "fr": "Votre compte AnswerGap a été supprimé",
+    },
     "verify": {
         "en": "Confirm your email address",
         "tr": "E-posta adresini doğrula",
@@ -200,6 +207,13 @@ SUBJECTS = {
 }
 
 HEADINGS = {
+    "erased": {
+        "en": "Your account has been deleted",
+        "tr": "Hesabın silindi",
+        "de": "Dein Konto wurde gelöscht",
+        "es": "Tu cuenta se ha eliminado",
+        "fr": "Votre compte a été supprimé",
+    },
     "verify": {
         "en": "Confirm your email",
         "tr": "E-postanı doğrula",
@@ -217,6 +231,31 @@ HEADINGS = {
 }
 
 BODIES = {
+    "erased": {
+        "en": "Your name, password and the link between you and your searches "
+              "have been removed. We keep your email address and your payment "
+              "records, as our Privacy Policy explains. If you sign up again "
+              "with this address, any credits you had paid for come back.",
+        "tr": "Adın, parolan ve seninle aramaların arasındaki bağ kaldırıldı. "
+              "Gizlilik Politikamızda anlattığımız gibi e-posta adresini ve "
+              "ödeme kayıtlarını saklıyoruz. Bu adresle tekrar kaydolursan "
+              "ödemesini yaptığın krediler geri gelir.",
+        "de": "Dein Name, dein Passwort und die Verbindung zwischen dir und "
+              "deinen Suchen wurden entfernt. Deine E-Mail-Adresse und deine "
+              "Zahlungsbelege behalten wir, wie in unserer "
+              "Datenschutzerklärung beschrieben. Meldest du dich mit dieser "
+              "Adresse erneut an, kommen bezahlte Credits zurück.",
+        "es": "Hemos eliminado tu nombre, tu contraseña y el vínculo entre tú "
+              "y tus búsquedas. Conservamos tu dirección de correo y tus "
+              "registros de pago, como explica nuestra Política de "
+              "Privacidad. Si vuelves a registrarte con esta dirección, los "
+              "créditos que pagaste regresan.",
+        "fr": "Votre nom, votre mot de passe et le lien entre vous et vos "
+              "recherches ont été supprimés. Nous conservons votre adresse "
+              "e-mail et vos justificatifs de paiement, comme l'explique "
+              "notre Politique de confidentialité. Si vous vous réinscrivez "
+              "avec cette adresse, les crédits payés reviennent.",
+    },
     "verify": {
         "en": "Confirm this address to activate your account and receive your "
               "free starting credits.",
@@ -246,6 +285,11 @@ BODIES = {
 }
 
 BUTTONS = {
+    "erased": {
+        "en": "Go to AnswerGap", "tr": "AnswerGap'e git",
+        "de": "Zu AnswerGap", "es": "Ir a AnswerGap",
+        "fr": "Aller sur AnswerGap",
+    },
     "verify": {
         "en": "Confirm email", "tr": "E-postayı doğrula",
         "de": "E-Mail bestätigen", "es": "Confirmar correo",
@@ -259,6 +303,13 @@ BUTTONS = {
 }
 
 EXPIRY = {
+    "erased": {
+        "en": "If you did not ask for this, contact us immediately.",
+        "tr": "Bunu sen istemediysen hemen bizimle iletişime geç.",
+        "de": "Falls du das nicht veranlasst hast, melde dich sofort bei uns.",
+        "es": "Si no solicitaste esto, ponte en contacto con nosotros de inmediato.",
+        "fr": "Si vous n'êtes pas à l'origine de cette demande, contactez-nous immédiatement.",
+    },
     "verify": {
         "en": "This link works once and expires in 24 hours.",
         "tr": "Bu bağlantı tek kullanımlıktır ve 24 saat sonra geçersiz olur.",

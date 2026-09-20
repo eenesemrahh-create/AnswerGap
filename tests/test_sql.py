@@ -310,3 +310,357 @@ def test_payments_come_back_newest_first_with_their_mode() -> None:
     rows = db.payment_events()
     assert [r["event_id"] for r in rows] == ["evt_b", "evt_a"]
     assert rows[0]["livemode"] is True and rows[1]["livemode"] is False
+
+
+# --------------------------------------------------------- account erasure
+
+
+def _row(user_id: int) -> dict:
+    """The raw row. These tests assert on columns no accessor returns."""
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT * FROM app_user WHERE id = %s", (user_id,))
+        return cur.fetchone()
+
+
+def _leaver(email: str = "leaver@example.com") -> dict:
+    """A person with something to erase.
+
+    One helper, because every erasure test needs the same preamble: an account
+    with credits, a tree carrying BOTH owner columns the way a real signed-in
+    search does, a usage row carrying all three identifiers, a payment under
+    the same address, and a live credential.
+    """
+    made = db.user_upsert(
+        google_sub="sub-leaver",
+        email=email,
+        name="A Leaver",
+        picture_url="https://x.test/a.png",
+        signup_credits=10,
+    )
+    uid = int(made["id"])
+    tree = _archive_tree()
+    db.save_tree(tree, new_crawl=True, user_id=uid, anon_id="anon-1")
+    db.record_usage(
+        user_id=uid,
+        ip_hash="ip-1",
+        anon_id="anon-1",
+        action="search",
+        outcome="allowed",
+        credits=1,
+        spend_usd=0.0026,
+        tree_slug=tree["slug"],
+    )
+    db.payment_event_put(
+        {**_event("evt_leaver"), "email": email},
+        {"id": "evt_leaver", "billing_name": "A Leaver"},
+    )
+    db.email_token_put(
+        token_hash="hash-leaver",
+        user_id=uid,
+        purpose=db.PURPOSE_RESET,
+        email=email,
+        ttl_seconds=3600,
+    )
+    return made
+
+
+# ------------------------------------------------------ what erasure KEEPS
+
+
+def test_erasure_keeps_the_address_and_the_balance() -> None:
+    """The Privacy Policy's two deliberate exceptions, as a test."""
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="support request")
+
+    assert _row(uid)["email"] == "leaver@example.com"
+    assert _ledger(uid) == [{"delta": 10, "reason": "signup"}]
+
+
+def test_erasure_keeps_the_signup_grant_marker() -> None:
+    """The anti-farming guard. Clear this and delete-then-resignup is a tap."""
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    assert _row(uid)["signup_granted_at"] is not None
+
+
+def test_erasure_keeps_the_payment_summary_and_removes_only_the_dossier() -> None:
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+
+    paid = next(p for p in db.payment_events() if p["event_id"] == "evt_leaver")
+    assert paid["amount_cents"] == 100 and paid["currency"] == "usd"
+    assert paid["livemode"] is False and paid["redacted"] is True
+
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT payload FROM payment_event WHERE event_id = 'evt_leaver'")
+        payload = cur.fetchone()["payload"]
+    # A MARKER, not NULL and not {}: NULL cannot tell "removed" from "never
+    # arrived", and {} reads as a Stripe event that lost its contents.
+    assert payload["redacted"] is True
+    assert payload["reason"] == "account_erasure"
+    assert "billing_name" not in payload
+
+
+# ----------------------------------------------------- what erasure REMOVES
+
+
+def test_erasure_blanks_the_profile_and_signs_them_out() -> None:
+    uid = int(_leaver()["id"])
+    before = int(_row(uid)["token_epoch"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+
+    row = _row(uid)
+    for column in (
+        "name",
+        "picture_url",
+        "password_hash",
+        "google_sub",
+        "email_verified_at",
+    ):
+        assert row[column] is None, column
+    assert row["status"] == "erased"
+    assert row["erased_at"] is not None
+    # The only revocation there is - there is no session table.
+    assert int(row["token_epoch"]) == before + 1
+
+
+def test_erasure_severs_every_link_to_the_searches() -> None:
+    """All three tables at once, because missing one of them is the failure."""
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT user_id, anon_id FROM crawl")
+        assert all(
+            c["user_id"] is None and c["anon_id"] is None for c in cur.fetchall()
+        )
+        cur.execute("SELECT user_id, anon_id, ip_hash FROM usage_event")
+        for event in cur.fetchall():
+            assert event["user_id"] is None
+            assert event["anon_id"] is None
+            assert event["ip_hash"] is None
+    assert db.load_trees(slugify, user_id=uid) == []
+
+
+def test_an_erased_tree_is_not_reachable_by_the_browser_that_made_it() -> None:
+    """`crawl` carries BOTH owner columns on a signed-in search.
+
+    The comment on migration 0006 says it carries either one or the other; the
+    API has passed both since accounts shipped, and `can_access` matches
+    EITHER. Blanking only `user_id` would take the tree out of the person's
+    list while leaving it open to the very browser that pressed delete - which
+    looks erased and is not.
+    """
+    uid = int(_leaver()["id"])
+    slug = _archive_tree()["slug"]
+    assert db.can_access(slug, user_id=uid, anon_id="anon-1") is True
+
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    assert db.can_access(slug, user_id=uid, anon_id="anon-1") is False
+
+
+def test_an_erased_persons_searches_do_not_burn_an_anonymous_free_search() -> None:
+    """`anon_counters` counts `user_id IS NULL` by anon_id AND by ip_hash.
+
+    So blanking only `user_id` would donate this person's same-day searches to
+    an anonymous visitor's allowance - their own browser's, and everyone
+    behind that address.
+    """
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+
+    counters = db.anon_counters(anon_id="anon-1", ip_hash="ip-1")
+    assert counters["by_browser"] == 0
+    assert counters["by_ip"] == 0
+
+
+def test_erasure_deletes_every_live_credential() -> None:
+    """A reset link mailed before the erasure must not survive it.
+
+    `email_token_redeem` asks about expiry and use, never about status, so a
+    surviving token would revive the account from stale mail.
+    """
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+
+    assert (
+        db.email_token_redeem(token_hash="hash-leaver", purpose=db.PURPOSE_RESET)
+        is None
+    )
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT count(*) AS n FROM email_token WHERE user_id = %s", (uid,))
+        assert cur.fetchone()["n"] == 0
+
+
+def test_only_that_persons_payments_are_redacted() -> None:
+    uid = int(_leaver()["id"])
+    db.payment_event_put(
+        {**_event("evt_other"), "email": "other@example.com"}, {"id": "evt_other"}
+    )
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+
+    events = {p["event_id"]: p for p in db.payment_events()}
+    assert events["evt_leaver"]["redacted"] is True
+    assert events["evt_other"]["redacted"] is False
+
+
+def test_payments_are_matched_case_insensitively() -> None:
+    """The same folding as `app_user_email_key`, or the index and this
+    statement would disagree about who somebody is."""
+    uid = int(_leaver()["id"])
+    db.payment_event_put(
+        {**_event("evt_shout"), "email": "LEAVER@EXAMPLE.COM"}, {"id": "evt_shout"}
+    )
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+
+    events = {p["event_id"]: p for p in db.payment_events()}
+    assert events["evt_shout"]["redacted"] is True
+
+
+# ------------------------------------------------ the audit and idempotency
+
+
+def test_erasure_writes_one_audit_row_carrying_the_real_counts() -> None:
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="support request")
+
+    entry = db.admin_actions(limit=5)[0]
+    assert entry["action"] == "erase"
+    assert entry["actor"] == "op@example.com"
+    assert entry["target_user"] == uid
+    detail = entry["detail"]
+    assert detail["reason"] == "support request"
+    assert detail["self_service"] is False
+    assert detail["status_before"] == "active"
+    assert detail["crawls"] == 1
+    assert detail["payments_redacted"] == 1
+    assert detail["credentials_deleted"] == 1
+
+
+def test_a_self_service_erasure_is_labelled_as_one() -> None:
+    """`actor` is an email either way, so the row's own address is the only
+    thing that tells the two cases apart."""
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="LEAVER@example.com", reason="self_service")
+
+    entry = db.admin_actions(limit=5)[0]
+    assert entry["action"] == "erase_self"
+    assert entry["detail"]["self_service"] is True
+
+
+def test_erasing_twice_writes_nothing_the_second_time() -> None:
+    uid = int(_leaver()["id"])
+    first = db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    before = len(db.admin_actions(limit=50))
+
+    second = db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    assert second["already_erased"] is True
+    assert second["erased_at"] == first["erased_at"]
+    assert len(db.admin_actions(limit=50)) == before
+
+
+def test_erasing_a_missing_account_is_none() -> None:
+    assert db.user_erase(user_id=999_999, actor="op@example.com", reason="") is None
+
+
+# ------------------------------------------------------------------ revival
+
+
+def test_signing_in_with_google_revives_the_same_row_and_its_balance() -> None:
+    """The round trip the Privacy Policy promises."""
+    uid = int(_leaver()["id"])
+    db.admin_credit(user_id=uid, delta=5, note=None, actor="op@example.com")
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+
+    back = db.user_upsert(
+        google_sub="sub-new",
+        email="leaver@example.com",
+        name="Back",
+        picture_url=None,
+        signup_credits=10,
+    )
+    assert int(back["id"]) == uid
+    assert back["balance"] == 15
+
+    row = _row(uid)
+    assert row["status"] == "active"
+    assert row["erased_at"] is None
+    assert row["google_sub"] == "sub-new"
+
+
+def test_revival_does_not_pay_a_second_signup_grant() -> None:
+    """The anti-farming guard from the other side - the whole reason
+    `signup_granted_at` survives an erasure."""
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    db.user_upsert(
+        google_sub="sub-new",
+        email="leaver@example.com",
+        name=None,
+        picture_url=None,
+        signup_credits=10,
+    )
+    assert _ledger(uid) == [{"delta": 10, "reason": "signup"}]
+
+
+def test_signing_up_again_with_the_erased_address_revives_on_verification() -> None:
+    """The email door, end to end.
+
+    Erasure clears `email_verified_at`, so the signup endpoint takes its
+    unverified branch and mails a link. Redeeming it is where the account
+    comes back - revival only happens where mailbox control was just proven.
+    """
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    assert db.user_by_email("leaver@example.com")["email_verified"] is False
+
+    db.user_set_password(user_id=uid, password_hash="new-hash", revoke=False)
+    out = db.user_verify_email(user_id=uid, signup_credits=10)
+    assert out["did_revive"] is True
+    assert out["did_grant"] is False
+    assert out["status"] == "active"
+    assert out["balance"] == 10
+
+
+def test_an_account_that_was_suspended_comes_back_suspended() -> None:
+    """Erasure is not a way to launder a ban."""
+    uid = int(_leaver()["id"])
+    db.admin_set_status(user_id=uid, status="suspended", actor="op@example.com")
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    db.user_upsert(
+        google_sub="sub-new",
+        email="leaver@example.com",
+        name=None,
+        picture_url=None,
+        signup_credits=10,
+    )
+    row = _row(uid)
+    assert row["status"] == "suspended"
+    assert row["status_before_erasure"] is None
+    assert row["erased_at"] is None
+
+
+def test_the_status_and_the_erased_flag_cannot_disagree() -> None:
+    """One fact recorded twice is a fact that can disagree - unless a CHECK
+    makes the disagreement unrepresentable."""
+    import psycopg
+
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    with pytest.raises(psycopg.errors.CheckViolation):
+        with db.connect() as conn, conn.cursor() as cur:
+            cur.execute("UPDATE app_user SET status = 'active' WHERE id = %s", (uid,))
+            conn.commit()
+
+
+def test_an_erased_account_cannot_be_reactivated_from_the_status_toggle() -> None:
+    """Un-erasing is `_revive`'s job alone. Without the guard the admin
+    toggle would offer 'Reactivate' and half-revive the row."""
+    uid = int(_leaver()["id"])
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    assert (
+        db.admin_set_status(user_id=uid, status="active", actor="op@example.com")
+        is False
+    )
+    row = _row(uid)
+    assert row["status"] == "erased" and row["erased_at"] is not None

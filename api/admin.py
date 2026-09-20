@@ -258,12 +258,52 @@ def set_status(request: Request, user_id: int, payload: StatusRequest) -> dict:
     session that silently disappeared.
     """
     who = require_admin(request)
-    if not db.admin_user_detail(user_id):
+    detail = db.admin_user_detail(user_id)
+    if not detail:
         raise HTTPException(404, {"code": "notFound"})
+    # `admin_set_status` refuses an erased row anyway, but silently: it would
+    # return `changed: false` and leave the operator guessing whether the click
+    # missed. Un-erasing is not a status change - it happens when the person
+    # proves the mailbox again - so say so.
+    if detail.get("status") == gate.STATUS_ERASED:
+        raise HTTPException(409, {"code": "erasedAccount"})
     changed = db.admin_set_status(
         user_id=user_id, status=payload.status, actor=who.email or ""
     )
     return {"user_id": user_id, "status": payload.status, "changed": changed}
+
+
+class EraseRequest(BaseModel):
+    """Why. Written to the audit, so it is a note from an operator - never
+    anything a customer typed: nothing redacts `admin_action.detail`, so a name
+    recorded here would outlive the erasure meant to remove it."""
+
+    reason: str = Field(default="", max_length=200)
+
+
+@router.post("/user/{user_id}/erase")
+def erase_user(request: Request, user_id: int, payload: EraseRequest) -> dict:
+    """Erase an account on the person's behalf. Irreversible from here.
+
+    The Privacy Policy offers two routes - do it yourself, or ask support - and
+    this is the second one. Same `db.user_erase` as the self-service endpoint,
+    so there is one definition of what erasure means; the only difference is
+    `actor`, which is this admin's address rather than the account's own, and
+    which is what makes the audit row say `erase` instead of `erase_self`.
+
+    NOT reachable through the suspend/reactivate toggle, deliberately: that one
+    is reversible and this one is not, and a control that does both is a
+    control somebody eventually misreads.
+    """
+    who = require_admin(request)
+    if not db.admin_user_detail(user_id):
+        raise HTTPException(404, {"code": "notFound"})
+    result = db.user_erase(
+        user_id=user_id, actor=who.email or "", reason=payload.reason
+    )
+    if result is None:
+        raise HTTPException(404, {"code": "notFound"})
+    return result
 
 
 @router.post("/user/{user_id}/revoke-tokens")

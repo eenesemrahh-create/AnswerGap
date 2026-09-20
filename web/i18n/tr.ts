@@ -270,6 +270,18 @@ export const tr: Messages = {
     verifiedToast: "E-posta adresin doğrulandı. Kredilerin hazır.",
     alreadyVerified:
       "Bu adres zaten doğrulanmış. Giriş yapıp devam edebilirsin.",
+    accountEmail: "GiriÅ yapÄ±lan hesap",
+    deleteTitle: "HesabÄ±mÄ± sil",
+    deleteLead: "Bu geri alÄ±namaz. AramalarÄ±nÄ±n seninle baÄÄ± koparÄ±lÄ±r; e-posta adresin ve Ã¶deme kayÄ±tlarÄ±n saklanÄ±r.",
+    deleteAction: "HesabÄ±mÄ± silâ¦",
+    deleteConfirmTitle: "Bu hesap silinsin mi?",
+    deleteRemoves: "Silinenler: adÄ±n, fotoÄrafÄ±n, parolan, kayÄ±tlÄ± tercihlerin ve seninle yaptÄ±ÄÄ±n her arama arasÄ±ndaki baÄ. KayÄ±tlÄ± analizlerin artÄ±k senin olmaktan Ã§Ä±kar.",
+    deleteKeeps: "Saklananlar: geri dÃ¶nersen seni tanÄ±yabilmemiz iÃ§in e-posta adresin, ve vergi kurallarÄ±nÄ±n saklamamÄ±zÄ± gerektirdiÄi Ã¶deme kayÄ±tlarÄ±n.",
+    deleteRevives: "Bu adresle tekrar kaydolursan hesap geri gelir ve Ã¶demesini yaptÄ±ÄÄ±n krediler yerinde durur. Aramalar geri gelmez.",
+    deleteConfirmPassword: "Onaylamak iÃ§in parolanÄ± gir",
+    deleteConfirmEmail: "Onaylamak iÃ§in {email} yaz",
+    deleteSubmit: "HesabÄ±mÄ± sil",
+    deleteCancel: "HesabÄ±m kalsÄ±n",
     verifyExpiredTitle: "Bu bağlantının süresi dolmuş",
     verifyExpiredSub:
       "Doğrulama bağlantısı tek kullanımlıktır ve kısa süre geçerlidir. Adresini yaz, yenisini gönderelim.",

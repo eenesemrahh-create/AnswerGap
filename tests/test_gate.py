@@ -62,6 +62,54 @@ def test_suspension_outranks_being_an_admin() -> None:
     assert not decision.allowed
 
 
+def test_an_erased_account_cannot_spend() -> None:
+    """The reason erasure could not ship without touching this file.
+
+    Written as `status == STATUS_SUSPENDED`, this gate waved through every
+    status it had not been told about by name - so an erased account would have
+    kept its balance AND kept spending it.
+    """
+    decision = gate.decide(
+        _user(), State(True, gate.STATUS_ERASED, balance=999), action="search", units=1
+    )
+    assert not decision.allowed
+    # Its own OUTCOME, so "how many erased accounts tried to spend" stays
+    # answerable and does not silently inflate the suspension count. The same
+    # CODE, because that one is shown to the reader and this branch should be
+    # unreachable - erasure bumps the token epoch, so the session dies first.
+    assert decision.outcome == gate.REFUSED_ERASED
+    assert (decision.http_status, decision.code) == (403, "suspended")
+
+
+def test_an_erased_admin_is_still_erased() -> None:
+    decision = gate.decide(
+        _user(is_admin=True),
+        State(True, gate.STATUS_ERASED, balance=10),
+        action="search",
+        units=1,
+    )
+    assert not decision.allowed
+
+
+def test_a_status_nobody_recognises_fails_closed() -> None:
+    """A gate that only stops the refusals it knows by name is not a gate."""
+    decision = gate.decide(
+        _user(), State(True, "something-new", balance=999), action="search", units=1
+    )
+    assert not decision.allowed
+    assert decision.http_status == 403
+
+
+def test_no_status_at_all_is_an_anonymous_visitor_not_a_refusal() -> None:
+    """`status is None` means there is no account row, not a bad one.
+
+    The first cut of the fail-closed rule refused every anonymous visitor,
+    because `None != "active"`. Four anonymous tests caught it.
+    """
+    decision = gate.decide(_anon(), State(True, None), action="search", units=1)
+    assert decision.allowed
+
+
 # ------------------------------------------------------------------ credits
 
 

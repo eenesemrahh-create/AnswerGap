@@ -1,6 +1,7 @@
 import { get, money, when } from "@/lib/api";
 import type { UserDetail } from "@/lib/types";
 import { grantCredits, revokeTokens, setStatus } from "../actions";
+import { EraseAccount } from "./EraseAccount";
 
 export const dynamic = "force-dynamic";
 
@@ -103,6 +104,16 @@ export default async function UserPage({
           session table.
         </span>
       </form>
+
+      {/* Its own heading, below the reversible controls. Suspending is
+          something you undo; this is not, and putting them under one heading
+          is how somebody eventually reaches for the wrong one. */}
+      <h2>Erase</h2>
+      <EraseAccount
+        userId={userId}
+        email={u.email}
+        erased={u.erased_at !== null}
+      />
 
       <h2>Activity</h2>
       <div className="tablewrap">

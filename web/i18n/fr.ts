@@ -274,6 +274,18 @@ export const fr: Messages = {
     verifiedToast: "Votre e-mail est confirmé. Vos crédits sont prêts.",
     alreadyVerified:
       "Cette adresse est déjà confirmée. Connectez-vous et continuez.",
+    accountEmail: "ConnectÃ© en tant que",
+    deleteTitle: "Supprimer mon compte",
+    deleteLead: "C'est irrÃ©versible. Vos recherches sont dÃ©liÃ©es de vous ; votre adresse e-mail et vos justificatifs de paiement sont conservÃ©s.",
+    deleteAction: "Supprimer mon compteâ¦",
+    deleteConfirmTitle: "Supprimer ce compte ?",
+    deleteRemoves: "SupprimÃ© : votre nom, votre photo, votre mot de passe, vos prÃ©fÃ©rences et le lien entre vous et chacune de vos recherches. Vos analyses enregistrÃ©es cessent d'Ãªtre les vÃ´tres.",
+    deleteKeeps: "ConservÃ© : votre adresse e-mail, pour vous reconnaÃ®tre si vous revenez, et vos justificatifs de paiement, que la fiscalitÃ© nous impose de garder.",
+    deleteRevives: "Si vous vous rÃ©inscrivez avec cette adresse, le compte revient et les crÃ©dits payÃ©s sont toujours lÃ . Les recherches, non.",
+    deleteConfirmPassword: "Saisissez votre mot de passe pour confirmer",
+    deleteConfirmEmail: "Saisissez {email} pour confirmer",
+    deleteSubmit: "Supprimer mon compte",
+    deleteCancel: "Garder mon compte",
     verifyExpiredTitle: "Ce lien a expiré",
     verifyExpiredSub:
       "Un lien de vérification ne sert qu'une fois et pour peu de temps. Indiquez votre adresse, nous en enverrons un nouveau.",

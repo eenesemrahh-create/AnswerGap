@@ -18,7 +18,11 @@ export interface UserRow {
   email: string;
   name: string | null;
   picture_url: string | null;
-  status: "active" | "suspended";
+  /** `erased` is set by `db.user_erase` and cleared only by a revival.
+   *  It is carried on `status` as well as on `erased_at` so that the
+   *  sign-in paths already written as `status != "active"` refuse an
+   *  erased account without any of them having to learn a new idea. */
+  status: "active" | "suspended" | "erased";
   /**
    * Whether the address was ever confirmed. An operator asked "why can this
    * person not spend?" has exactly two answers - suspended, or never
@@ -66,6 +70,9 @@ export interface CrawlRow {
 
 export interface UserDetail extends UserRow {
   token_epoch: number;
+  /** When the account was erased, or null. The authoritative flag; `status`
+   *  carries the same fact so the existing refusals work unchanged. */
+  erased_at: string | null;
   is_admin: boolean;
   ledger: LedgerRow[];
   usage: UsageRow[];

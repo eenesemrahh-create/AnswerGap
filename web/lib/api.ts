@@ -298,6 +298,30 @@ export function signOut(): void {
   if (typeof window !== "undefined") window.location.reload();
 }
 
+/** What `signOut` does, named for the callers that are not signing out.
+ *  Erasure ends the same way - drop the local copy of a token that is already
+ *  dead server-side - but calling it "sign out" at that call site would read
+ *  as if the account were still there. */
+export const clearTokenAndReload = signOut;
+
+/**
+ * Delete your own account. The Privacy Policy's section 7, as a call.
+ *
+ * `confirm` is the password when the account has one, and the account's own
+ * email address when it came through Google and does not. ONE field for both,
+ * so the client never has to announce which kind of account an address is.
+ *
+ * A POST rather than a DELETE, following `submitLabel`: this codebase spends
+ * its verbs on the two transports it has, and adding a third for one call is
+ * twenty lines to say the same thing.
+ *
+ * Deliberately does NOT clear the token itself - the caller does, once it has
+ * shown the person what happened. The token is already dead server-side
+ * (erasure bumps the epoch), so there is no window to worry about.
+ */
+export const eraseAccount = (confirm: string, locale?: string) =>
+  post<{ status: string }>("/api/account/erase", { confirm, locale });
+
 /* ------------------------------------------------- email + password sign-in
  *
  * The second door. `login` and `resetPassword` return a session token exactly
