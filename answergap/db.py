@@ -3562,15 +3562,22 @@ def user_erase(*, user_id: int, actor: str, reason: str) -> dict | None:
             """
             INSERT INTO admin_action (actor, action, target_user, detail)
             VALUES (%(actor)s, %(action)s, %(id)s,
+                    -- EVERY ONE OF THESE IS CAST, and it is not decoration.
+                    -- `jsonb_build_object` takes `"any"` arguments, so a
+                    -- parameter that appears ONLY inside it has no column to
+                    -- take its type from and Postgres refuses the statement
+                    -- with "could not determine data type of parameter $4".
+                    -- The admin writes above get away with bare parameters
+                    -- because each one is also written to a typed column.
                     jsonb_build_object(
-                        'reason',              %(reason)s,
-                        'self_service',        %(self)s,
-                        'status_before',       %(before)s,
-                        'crawls',              %(crawls)s,
-                        'serp_tasks',          %(tasks)s,
-                        'usage_events',        %(events)s,
-                        'payments_redacted',   %(payments)s,
-                        'credentials_deleted', %(creds)s))
+                        'reason',              %(reason)s::text,
+                        'self_service',        %(self)s::boolean,
+                        'status_before',       %(before)s::text,
+                        'crawls',              %(crawls)s::int,
+                        'serp_tasks',          %(tasks)s::int,
+                        'usage_events',        %(events)s::int,
+                        'payments_redacted',   %(payments)s::int,
+                        'credentials_deleted', %(creds)s::int))
             """,
             {
                 "actor": actor,
@@ -3640,7 +3647,9 @@ def _revive(cur: Any, *, user_id: int, via: str, actor: str) -> str | None:
         """
         INSERT INTO admin_action (actor, action, target_user, detail)
         VALUES (%(actor)s, 'revive', %(id)s,
-                jsonb_build_object('via', %(via)s, 'status', %(status)s))
+                -- Cast for the same reason as `user_erase`'s audit row: these
+                -- two appear nowhere but inside `jsonb_build_object`.
+                jsonb_build_object('via', %(via)s::text, 'status', %(status)s::text))
         """,
         {"actor": actor, "id": int(user_id), "via": via, "status": row["status"]},
     )
