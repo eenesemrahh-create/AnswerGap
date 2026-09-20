@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { I18nProvider } from "@/i18n";
 import { THEME_SCRIPT } from "@/lib/theme";
+import { SITE_URL } from "@/lib/legal";
 import "./globals.css";
 
 // Loaded via next/font so the file is fingerprinted, self-hosted and doesn't
@@ -16,7 +17,18 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AnswerGap — Rank and Appear in AI Search",
+  // Required, not decorative: a page that declares a relative canonical or
+  // hreflang without it is a BUILD error, and the legal routes declare both.
+  // It is also what turns those relative paths into the absolute URLs a
+  // search engine and a review fetcher expect.
+  metadataBase: new URL(SITE_URL),
+  // An object rather than a bare string, because a plain string here is
+  // REPLACED outright by a child page's title. The template keeps the brand
+  // on "/terms" without every page having to repeat it.
+  title: {
+    default: "AnswerGap — Rank and Appear in AI Search",
+    template: "%s — AnswerGap",
+  },
   description:
     "Discover what people ask, identify the answers AI engines need, and " +
     "create content that gets found, cited, and recommended.",

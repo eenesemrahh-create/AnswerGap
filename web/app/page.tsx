@@ -500,8 +500,13 @@ export default function Landing() {
             <ul>
               <li><a href="#">{t("market.footer.company.about")}</a></li>
               <li><a href="#">{t("market.footer.company.contact")}</a></li>
-              <li><a href="#">{t("market.footer.company.privacy")}</a></li>
-              <li><a href="#">{t("market.footer.company.terms")}</a></li>
+              {/* The two live links in this column. They are `Link` rather
+                  than `<a href="#">` because these are the URLs handed to
+                  Stripe onboarding and Google OAuth verification, and a
+                  reviewer who lands on the landing page should be able to
+                  reach them the same way a customer would. */}
+              <li><Link href="/privacy">{t("market.footer.company.privacy")}</Link></li>
+              <li><Link href="/terms">{t("market.footer.company.terms")}</Link></li>
             </ul>
           </div>
         </div>
