@@ -130,3 +130,23 @@ export const money = (value: number) => `$${(value ?? 0).toFixed(4)}`;
 
 export const when = (iso: string | null | undefined) =>
   iso ? new Date(iso).toLocaleString() : "—";
+
+/**
+ * Dollars for a REPORT, where `money()`'s fixed four decimals are noise.
+ *
+ * `money()` shows $0.0026 because that is what one search costs and rounding
+ * it to $0.00 would make the per-row numbers vanish. A month's total is
+ * $12.41, and $12.4100 reads like a bug. So the precision follows the
+ * magnitude: four decimals below a dollar, two above it.
+ */
+export const usd = (value: number) => {
+  const n = Number(value ?? 0);
+  return n !== 0 && Math.abs(n) < 1 ? `$${n.toFixed(4)}` : `$${n.toFixed(2)}`;
+};
+
+/** Stripe speaks cents; this is the only place that has to know. */
+export const cents = (value: number) => `$${(Number(value ?? 0) / 100).toFixed(2)}`;
+
+/** "September 2026". The month column of a budget table, not a timestamp. */
+export const monthName = (iso: string) =>
+  new Date(iso).toLocaleDateString(undefined, { month: "long", year: "numeric" });

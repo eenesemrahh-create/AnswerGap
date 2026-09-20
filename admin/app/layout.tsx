@@ -57,6 +57,7 @@ export default async function RootLayout({
               <nav>
                 <Link href="/">Overview</Link>
                 <Link href="/users">Users</Link>
+                <Link href="/reports">Reports</Link>
                 <Link href="/settings">Settings</Link>
                 <Link href="/stripe">Payments</Link>
                 <Link href="/ci">CI</Link>

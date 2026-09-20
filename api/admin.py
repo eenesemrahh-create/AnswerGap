@@ -197,6 +197,39 @@ def overview(request: Request) -> dict:
     return data
 
 
+@router.get("/reports")
+def reports(request: Request, months: int = 12, limit: int = 100) -> dict:
+    """Spend and usage, for a month end or a year end.
+
+    Separate from `/overview`, which answers "what is happening today". This
+    answers "what has this cost us, and who spent it" - a different question
+    with a different time axis, and the numbers behind a budget rather than
+    behind a dashboard.
+
+    THREE STATEMENTS, not one, and that is deliberate. The house rule is one
+    statement per endpoint because the database is ~150 ms away, and it is the
+    right rule for a page a customer waits on. Nobody is waiting on this one:
+    it is an admin screen opened once a month, and folding a per-month roll-up,
+    a per-account roll-up and an all-time total into one query would produce
+    exactly the kind of statement this codebase has been burned by three times.
+
+    ADMIN_EMAILS travels INTO the query. There is no `is_admin` column on
+    `usage_event` - the flag only suppresses the ledger row - and admin is an
+    environment variable rather than a row, so the database cannot answer
+    "was this an admin's dollar" on its own. Passing the list keeps the
+    report's definition of an admin identical to the gate's.
+    """
+    require_admin(request)
+    months = max(1, min(int(months), 60))
+    limit = max(1, min(int(limit), 500))
+    return {
+        "months": db.admin_usage_by_month(months=months, admin_emails=ADMIN_EMAILS),
+        "users": db.admin_usage_by_user(limit=limit, admin_emails=ADMIN_EMAILS),
+        "totals": db.admin_usage_totals(admin_emails=ADMIN_EMAILS),
+        "window_months": months,
+    }
+
+
 @router.get("/users")
 def users(
     request: Request,

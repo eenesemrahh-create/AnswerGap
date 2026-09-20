@@ -39,8 +39,16 @@ export default async function UserPage({
         </div>
         <div className="card">
           <span>Spend</span>
+          {/* The SUM OF THE 50 ROWS BELOW, and it has to say so. This card
+              used to read "reported by DataForSEO", which is true of each
+              number in it and false of the total: `admin_user_detail` caps
+              the usage list at 50, so for a busy account this figure was a
+              fraction of the real spend wearing the label of the whole.
+              The unlimited lifetime figure is one page over, on Reports. */}
           <b>{money(u.usage.reduce((sum, r) => sum + Number(r.spend_usd || 0), 0))}</b>
-          <em>reported by DataForSEO</em>
+          <em>
+            over those 50 · <a href="/reports">lifetime total</a>
+          </em>
         </div>
       </div>
 

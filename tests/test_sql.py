@@ -664,3 +664,200 @@ def test_an_erased_account_cannot_be_reactivated_from_the_status_toggle() -> Non
     )
     row = _row(uid)
     assert row["status"] == "erased" and row["erased_at"] is not None
+
+
+# ------------------------------------------------------------- reporting
+
+
+def _spend(user_id: int | None, dollars: float, *, outcome: str = "allowed",
+           anon: str | None = None, ip: str | None = None) -> None:
+    db.record_usage(
+        user_id=user_id,
+        ip_hash=ip,
+        anon_id=anon,
+        action="search",
+        outcome=outcome,
+        credits=1 if dollars > 0 and outcome == "allowed" else 0,
+        spend_usd=dollars,
+        is_admin=False,
+    )
+
+
+ADMINS = {"boss@example.com"}
+
+
+def test_the_month_split_adds_up_to_the_month_total() -> None:
+    """The four cost columns are the SAME dollars grouped by who spent them.
+
+    If they stop summing to `cost_usd` the budget stops adding up, which is the
+    one thing a reporting screen must never do quietly.
+    """
+    customer = int(_google(sub="c", email="c@example.com")["id"])
+    boss = int(_google(sub="b", email="boss@example.com")["id"])
+    _spend(customer, 0.0026)
+    _spend(boss, 0.0020)
+    _spend(None, 0.0026, anon="anon-x", ip="ip-x")
+
+    row = db.admin_usage_by_month(months=1, admin_emails=ADMINS)[0]
+    parts = (
+        row["cost_customer"]
+        + row["cost_admin"]
+        + row["cost_anonymous"]
+        + row["cost_unattributed"]
+    )
+    assert round(parts, 6) == round(row["cost_usd"], 6)
+    assert round(row["cost_customer"], 6) == 0.0026
+    assert round(row["cost_admin"], 6) == 0.0020
+    assert round(row["cost_anonymous"], 6) == 0.0026
+
+
+def test_billable_and_attempts_are_deliberately_different_numbers() -> None:
+    """A cache hit costs nothing and still happened; a refusal likewise.
+
+    Collapsing the two into one "searches" column hides the cache paying off
+    and hides people being turned away.
+    """
+    uid = int(_google(sub="c", email="c@example.com")["id"])
+    _spend(uid, 0.0026)                                   # paid
+    _spend(uid, 0.0)                                      # cache hit
+    _spend(uid, 0.0, outcome="refused_no_credits")        # turned away
+
+    row = db.admin_usage_by_month(months=1, admin_emails=ADMINS)[0]
+    assert row["billable"] == 1
+    assert row["attempts"] == 3
+    assert row["refused"] == 1
+
+
+def test_an_admins_dollars_are_real_but_billed_to_nobody() -> None:
+    """Admins are not charged credits, and their spend is still money."""
+    boss = int(_google(sub="b", email="BOSS@example.com")["id"])
+    db.record_usage(
+        user_id=boss, ip_hash=None, anon_id=None, action="search",
+        outcome="allowed", credits=1, spend_usd=0.0026, is_admin=True,
+    )
+    row = db.admin_usage_by_month(months=1, admin_emails=ADMINS)[0]
+    assert round(row["cost_admin"], 6) == 0.0026
+    assert round(row["cost_customer"], 6) == 0.0
+    # No ledger row: the admin bought no credits to spend.
+    assert _ledger(boss) == [{"delta": 10, "reason": "signup"}]
+
+
+def test_admin_matching_folds_case_like_the_gate_does() -> None:
+    boss = int(_google(sub="b", email="Boss@Example.COM")["id"])
+    _spend(boss, 0.0026)
+    row = db.admin_usage_by_month(months=1, admin_emails={"BOSS@example.com"})[0]
+    assert round(row["cost_admin"], 6) == 0.0026
+
+
+def test_with_no_admins_configured_everything_is_a_customer() -> None:
+    uid = int(_google(sub="c", email="c@example.com")["id"])
+    _spend(uid, 0.0026)
+    row = db.admin_usage_by_month(months=1, admin_emails=set())[0]
+    assert round(row["cost_customer"], 6) == 0.0026
+    assert round(row["cost_admin"], 6) == 0.0
+
+
+def test_the_per_user_total_is_not_truncated() -> None:
+    """`admin_user_detail` caps its usage list at 50 and the detail page used
+    to sum that as if it were the whole. This one counts every row."""
+    uid = int(_google(sub="c", email="c@example.com")["id"])
+    for _ in range(60):
+        _spend(uid, 0.001)
+
+    row = next(u for u in db.admin_usage_by_user(admin_emails=ADMINS) if u["id"] == uid)
+    assert row["billable"] == 60
+    assert round(row["cost_usd"], 6) == 0.06
+
+
+def test_per_user_rows_carry_the_balance_and_the_ordering_is_by_cost() -> None:
+    cheap = int(_google(sub="a", email="a@example.com")["id"])
+    dear = int(_google(sub="b", email="b@example.com")["id"])
+    _spend(cheap, 0.001)
+    _spend(dear, 0.005)
+
+    rows = db.admin_usage_by_user(admin_emails=ADMINS)
+    assert rows[0]["id"] == dear, "most expensive account first"
+    # The ledger sum, never a stored total: signup 10 minus one credit spent.
+    assert next(r for r in rows if r["id"] == dear)["credits_left"] == 9
+
+
+def test_an_erased_persons_spend_stays_in_the_total_and_leaves_the_user_row() -> None:
+    """Erasure blanks attribution, not money.
+
+    The dollars have to remain in the month total - we paid them - while
+    disappearing from every per-account row, and they must land in
+    `unattributed` rather than in `anonymous`, which is a different thing.
+    """
+    uid = int(_leaver()["id"])
+    _spend(uid, 0.0026)
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+
+    row = db.admin_usage_by_month(months=1, admin_emails=ADMINS)[0]
+    assert round(row["cost_unattributed"], 6) == 0.0026
+    assert round(row["cost_anonymous"], 6) == 0.0
+    assert round(row["cost_usd"], 6) == 0.0026
+
+    erased = next(u for u in db.admin_usage_by_user(admin_emails=ADMINS) if u["id"] == uid)
+    assert erased["billable"] == 0
+    assert round(erased["cost_usd"], 6) == 0.0
+
+
+def test_revenue_counts_live_payments_only() -> None:
+    """A test payment in a revenue figure is how the figure becomes a lie."""
+    db.payment_event_put({**_event("evt_live"), "livemode": True}, {"id": "evt_live"})
+    db.payment_event_put({**_event("evt_test"), "livemode": False}, {"id": "evt_test"})
+
+    totals = db.admin_usage_totals(admin_emails=ADMINS)
+    assert totals["money"]["revenue_cents"] == 100
+    assert totals["money"]["payments"] == 1
+    assert totals["money"]["test_payments"] == 1
+
+    row = db.admin_usage_by_month(months=1, admin_emails=ADMINS)[0]
+    assert row["revenue_cents"] == 100
+
+
+def test_a_month_with_revenue_and_no_usage_still_appears() -> None:
+    """The FULL OUTER JOIN earning its keep: a payment has no usage row to
+    hang on, and a month that took money must not vanish from the budget."""
+    db.payment_event_put({**_event("evt_only"), "livemode": True}, {"id": "evt_only"})
+    rows = db.admin_usage_by_month(months=1, admin_emails=ADMINS)
+    assert len(rows) == 1
+    assert rows[0]["revenue_cents"] == 100
+    assert rows[0]["attempts"] == 0
+
+
+def test_the_reconciliation_names_what_attribution_missed() -> None:
+    """`usage_event` is best-effort and post-accounts; the provider receipts
+    are neither. The gap is money we spent and cannot trace to anybody."""
+    tree = _archive_tree()
+    db.save_tree(tree, new_crawl=True, add_spend=0.0026)   # a crawl receipt
+    uid = int(_google(sub="c", email="c@example.com")["id"])
+    _spend(uid, 0.001)                                     # attributed only
+
+    totals = db.admin_usage_totals(admin_emails=ADMINS)
+    assert round(totals["reconcile"]["attributed_usd"], 6) == 0.001
+    assert round(totals["reconcile"]["provider_usd"], 6) == 0.0026
+    assert round(totals["reconcile"]["unattributed_usd"], 6) == 0.0016
+
+
+def test_report_numbers_come_back_as_floats_not_decimals() -> None:
+    """The TypeScript says `number`; a Decimal serialised as a JSON string
+    turns `.toFixed` into a runtime error on a page about money."""
+    uid = int(_google(sub="c", email="c@example.com")["id"])
+    _spend(uid, 0.0026)
+
+    month = db.admin_usage_by_month(months=1, admin_emails=ADMINS)[0]
+    user = db.admin_usage_by_user(admin_emails=ADMINS)[0]
+    totals = db.admin_usage_totals(admin_emails=ADMINS)
+    assert isinstance(month["cost_usd"], float)
+    assert isinstance(user["cost_usd"], float)
+    assert isinstance(totals["usage"]["cost_usd"], float)
+
+
+def test_an_empty_database_reports_zero_rather_than_failing() -> None:
+    assert db.admin_usage_by_month(months=12, admin_emails=ADMINS) == []
+    assert db.admin_usage_by_user(admin_emails=ADMINS) == []
+    totals = db.admin_usage_totals(admin_emails=ADMINS)
+    assert totals["usage"]["attempts"] == 0
+    assert totals["money"]["revenue_cents"] == 0
+    assert totals["reconcile"]["unattributed_usd"] == 0

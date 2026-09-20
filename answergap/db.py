@@ -40,6 +40,7 @@ import gzip
 import json
 import os
 from contextlib import contextmanager
+from decimal import Decimal
 from typing import Any, Iterator
 
 try:
@@ -2945,6 +2946,309 @@ def admin_user_detail(user_id: int) -> dict | None:
         )
         row = cur.fetchone()
         return dict(row) if row else None
+
+
+# --------------------------------------------------------------- reporting
+#
+# Three questions the operator has to be able to answer at a month end: what
+# did we spend, who spent it, and how much of it came back as revenue.
+#
+# ALL THREE READ `usage_event`, WHICH IS THE ONLY TABLE THAT CAN ANSWER THEM.
+# `crawl.spend` cannot: `live.score` adds its spend to an EXISTING crawl row,
+# so a crawl's total is the seed search plus every later scoring, with no way
+# to split them or to say who ran which.
+#
+# WHO AN EVENT BELONGS TO IS A FOUR-WAY SPLIT, not two, and getting it to two
+# is how a budget stops adding up:
+#
+#   customer     a signed-in account that is not an admin
+#   admin        a signed-in account whose address is in ADMIN_EMAILS. Admins
+#                are NOT billed but their dollars ARE recorded, so this money
+#                is real spend that no credit ever paid for. Counting it as
+#                customer usage would overstate demand and understate margin.
+#   anonymous    the free daily search, signed out
+#   unattributed erased accounts. `user_erase` blanks user_id, anon_id AND
+#                ip_hash, so these rows belong to nobody by design. They are
+#                still money we spent, so they stay in the totals rather than
+#                being quietly dropped.
+#
+# ADMIN_EMAILS IS PASSED IN, NOT READ FROM THE DATABASE. There is no is_admin
+# column on `usage_event` - `record_usage` takes the flag but uses it only to
+# suppress the ledger row - and admin is an environment variable on the api
+# service rather than a row. So the caller supplies the list; `api/admin.py`
+# already imports it.
+
+
+def _admin_filter(admin_emails: set[str] | None) -> tuple[str, list[str]]:
+    """The SQL fragment that decides whether a row is an admin's.
+
+    Returns `(expression, params)`. Folded with `lower()` the same way
+    `gate.is_admin` and `app_user_email_key` fold, or the report would disagree
+    with the gate about who an admin is.
+    """
+    addresses = sorted({a.strip().lower() for a in (admin_emails or set()) if a.strip()})
+    if not addresses:
+        return "false", []
+    return "lower(u.email) = ANY(%s)", [addresses]
+
+
+def admin_usage_by_month(
+    *, months: int = 12, admin_emails: set[str] | None = None
+) -> list[dict]:
+    """Spend and volume per calendar month, newest first.
+
+    The budget table. `billable` counts the requests that actually cost money;
+    `attempts` counts every request including the ones a cache answered for
+    free and the ones the gate refused. The gap between them is the cache
+    working, and it is the number that says whether the corpus is paying off.
+
+    Revenue is joined in from `payment_event` by month rather than summed in
+    the same pass, because a payment has no usage row to hang on and a LEFT
+    JOIN on a month key is the only honest way to put them in one table.
+    """
+    is_admin, params = _admin_filter(admin_emails)
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"""
+            WITH usage AS (
+                -- `day_utc`, not `created_at`: it is the only indexed date
+                -- column on this table AND it is already UTC. Bucketing on
+                -- the timestamp would miss the index and put a 23:30 UTC
+                -- request in a different month from the counter that
+                -- rate-limited it.
+                SELECT date_trunc('month', e.day_utc) AS month,
+                       count(*) FILTER (WHERE e.spend_usd > 0)  AS billable,
+                       count(*)                                  AS attempts,
+                       count(*) FILTER (WHERE e.outcome <> 'allowed') AS refused,
+                       COALESCE(sum(e.spend_usd), 0)             AS cost_usd,
+                       COALESCE(sum(e.credits), 0)               AS credits_spent,
+                       -- The four-way split, each summing DOLLARS rather than
+                       -- rows: "where did the money go" is the question, and a
+                       -- refused request costs nothing but still counts once.
+                       COALESCE(sum(e.spend_usd) FILTER (
+                           WHERE e.user_id IS NOT NULL AND NOT ({is_admin})), 0)
+                           AS cost_customer,
+                       COALESCE(sum(e.spend_usd) FILTER (
+                           WHERE e.user_id IS NOT NULL AND ({is_admin})), 0)
+                           AS cost_admin,
+                       COALESCE(sum(e.spend_usd) FILTER (
+                           WHERE e.user_id IS NULL
+                             AND (e.anon_id IS NOT NULL OR e.ip_hash IS NOT NULL)), 0)
+                           AS cost_anonymous,
+                       COALESCE(sum(e.spend_usd) FILTER (
+                           WHERE e.user_id IS NULL
+                             AND e.anon_id IS NULL AND e.ip_hash IS NULL), 0)
+                           AS cost_unattributed,
+                       count(DISTINCT e.user_id) AS active_accounts
+                  FROM usage_event e
+                  LEFT JOIN app_user u ON u.id = e.user_id
+                 WHERE e.day_utc >= (date_trunc('month', now())
+                                     - make_interval(months => %s))::date
+                 GROUP BY 1
+            ),
+            paid AS (
+                -- `livemode` only. A test payment in a revenue figure is how
+                -- the figure becomes a lie, which is why the column is stored.
+                SELECT date_trunc('month', created_at) AS month,
+                       COALESCE(sum(amount_cents), 0)  AS revenue_cents,
+                       count(*)                        AS payments
+                  FROM payment_event
+                 WHERE livemode IS TRUE
+                   AND created_at >= date_trunc('month', now())
+                                     - make_interval(months => %s)
+                 GROUP BY 1
+            )
+            SELECT COALESCE(usage.month, paid.month) AS month,
+                   COALESCE(usage.billable, 0)          AS billable,
+                   COALESCE(usage.attempts, 0)          AS attempts,
+                   COALESCE(usage.refused, 0)           AS refused,
+                   COALESCE(usage.cost_usd, 0)          AS cost_usd,
+                   COALESCE(usage.credits_spent, 0)     AS credits_spent,
+                   COALESCE(usage.cost_customer, 0)     AS cost_customer,
+                   COALESCE(usage.cost_admin, 0)        AS cost_admin,
+                   COALESCE(usage.cost_anonymous, 0)    AS cost_anonymous,
+                   COALESCE(usage.cost_unattributed, 0) AS cost_unattributed,
+                   COALESCE(usage.active_accounts, 0)   AS active_accounts,
+                   COALESCE(paid.revenue_cents, 0)      AS revenue_cents,
+                   COALESCE(paid.payments, 0)           AS payments
+              FROM usage FULL OUTER JOIN paid ON paid.month = usage.month
+             ORDER BY 1 DESC
+            """,
+            # Two `is_admin` fragments in the usage CTE, then one month
+            # window per CTE. The count has to match the SQL exactly.
+            [*params, *params, int(months), int(months)],
+        )
+        return _as_floats([dict(r) for r in cur.fetchall()])
+
+
+def admin_usage_by_user(
+    *, limit: int = 100, months: int | None = None, admin_emails: set[str] | None = None
+) -> list[dict]:
+    """Per account: what they ran, what it cost us, what they have left.
+
+    NOT a LIMIT on the aggregate - the counts are over every row that matches,
+    and the limit only decides how many accounts come back. A truncated total
+    presented as a whole is the one thing a reporting screen must never do.
+
+    `credits_left` is the ledger sum, never a stored total, exactly as
+    everywhere else in this file: a balance that can drift from its own history
+    is worse than no balance.
+    """
+    is_admin, params = _admin_filter(admin_emails)
+    window = (
+        "AND e.day_utc >= (date_trunc('month', now()) "
+        "- make_interval(months => %s))::date"
+        if months
+        else ""
+    )
+    window_params = [int(months)] if months else []
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"""
+            SELECT u.id,
+                   u.email,
+                   u.status,
+                   u.created_at,
+                   u.last_seen_at,
+                   ({is_admin}) AS is_admin,
+                   COALESCE(x.billable, 0)      AS billable,
+                   COALESCE(x.attempts, 0)      AS attempts,
+                   COALESCE(x.refused, 0)       AS refused,
+                   COALESCE(x.cost_usd, 0)      AS cost_usd,
+                   COALESCE(x.credits_spent, 0) AS credits_spent,
+                   COALESCE(x.last_activity, u.last_seen_at) AS last_activity,
+                   COALESCE((SELECT sum(delta) FROM credit_ledger
+                              WHERE user_id = u.id), 0) AS credits_left,
+                   COALESCE((SELECT sum(amount_cents) FROM payment_event p
+                              WHERE p.livemode IS TRUE
+                                AND lower(p.email) = lower(u.email)), 0)
+                       AS paid_cents
+              FROM app_user u
+              LEFT JOIN LATERAL (
+                  SELECT count(*) FILTER (WHERE e.spend_usd > 0) AS billable,
+                         count(*)                                 AS attempts,
+                         count(*) FILTER (WHERE e.outcome <> 'allowed') AS refused,
+                         COALESCE(sum(e.spend_usd), 0)            AS cost_usd,
+                         COALESCE(sum(e.credits), 0)              AS credits_spent,
+                         max(e.created_at)                        AS last_activity
+                    FROM usage_event e
+                   WHERE e.user_id = u.id {window}
+              ) x ON TRUE
+             ORDER BY COALESCE(x.cost_usd, 0) DESC, u.id
+             LIMIT %s
+            """,
+            [*params, *window_params, int(limit)],
+        )
+        return _as_floats([dict(r) for r in cur.fetchall()])
+
+
+def _as_floats(rows: list[dict]) -> list[dict]:
+    """NUMERIC comes back as Decimal; the TypeScript on the other side says
+    `number`.
+
+    `admin_overview` casts for the same reason: a Decimal that survives into
+    JSON as a string turns `.toFixed` into a runtime error at the top of a page
+    somebody opened specifically to look at money.
+    """
+    for row in rows:
+        for key, value in list(row.items()):
+            if isinstance(value, Decimal):
+                row[key] = float(value)
+    return rows
+
+
+def admin_usage_totals(*, admin_emails: set[str] | None = None) -> dict:
+    """All-time totals, for the cards above the tables.
+
+    Separate from `admin_overview`, which answers "what is happening today".
+    This answers "what has this cost us since the beginning", which is the
+    number a year-end needs and which no existing query returns.
+    """
+    is_admin, params = _admin_filter(admin_emails)
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"""
+            SELECT count(*) FILTER (WHERE e.spend_usd > 0) AS billable,
+                   count(*)                                 AS attempts,
+                   count(*) FILTER (WHERE e.outcome <> 'allowed') AS refused,
+                   COALESCE(sum(e.spend_usd), 0)            AS cost_usd,
+                   COALESCE(sum(e.spend_usd) FILTER (
+                       WHERE e.user_id IS NOT NULL AND ({is_admin})), 0) AS cost_admin,
+                   COALESCE(sum(e.credits), 0)              AS credits_spent,
+                   count(DISTINCT e.user_id)                AS accounts_active,
+                   min(e.created_at)                        AS first_event
+              FROM usage_event e
+              LEFT JOIN app_user u ON u.id = e.user_id
+            """,
+            params,
+        )
+        usage = dict(cur.fetchone() or {})
+
+        cur.execute(
+            """
+            SELECT COALESCE(sum(amount_cents) FILTER (WHERE livemode), 0) AS revenue_cents,
+                   count(*) FILTER (WHERE livemode) AS payments,
+                   count(*) FILTER (WHERE NOT livemode) AS test_payments
+              FROM payment_event
+            """
+        )
+        money = dict(cur.fetchone() or {})
+
+        # THE RECONCILIATION, and it belongs on a budget screen rather than in
+        # a footnote. `usage_event` is written best-effort - the two call sites
+        # swallow their own exceptions, because losing a receipt is bad but
+        # losing the customer's result on top of it is worse - and it is not
+        # written at all when accounts are disabled. It also only exists from
+        # the day accounts shipped.
+        #
+        # `crawl.spend` and `serp_task.cost` are the closer-to-complete record:
+        # both are reported figures, both predate accounts, and neither can be
+        # skipped by a failed insert on the attribution path. The difference
+        # between the two totals is money we spent but cannot attribute to
+        # anybody, and a report that showed only the attributed half would
+        # quietly understate the bill.
+        cur.execute(
+            """
+            SELECT COALESCE((SELECT sum(spend) FROM crawl), 0)    AS crawl_spend,
+                   COALESCE((SELECT sum(cost) FROM serp_task), 0) AS task_spend
+            """
+        )
+        ledgerless = dict(cur.fetchone() or {})
+
+        cur.execute(
+            """
+            SELECT COALESCE(sum(delta) FILTER (WHERE delta > 0), 0) AS granted,
+                   COALESCE(-sum(delta) FILTER (WHERE delta < 0), 0) AS spent
+              FROM credit_ledger
+            """
+        )
+        credits = dict(cur.fetchone() or {})
+
+    # NUMERIC arrives as Decimal. `admin_overview` casts for the same reason:
+    # the TypeScript on the other side declares `number`, and a Decimal that
+    # survives as a JSON string turns `.toFixed` into a runtime error at the
+    # top of a page the operator opened to look at money.
+    for row in (usage, ledgerless):
+        for key, value in list(row.items()):
+            if isinstance(value, Decimal):
+                row[key] = float(value)
+
+    attributed = float(usage.get("cost_usd") or 0)
+    provider = float(ledgerless.get("crawl_spend") or 0) + float(
+        ledgerless.get("task_spend") or 0
+    )
+    return {
+        "usage": usage,
+        "money": money,
+        "credits": credits,
+        "reconcile": {
+            "attributed_usd": attributed,
+            "provider_usd": provider,
+            # Positive means money we spent and cannot trace to anyone: work
+            # done before accounts existed, or a receipt that failed to write.
+            "unattributed_usd": round(provider - attributed, 6),
+        },
+    }
 
 
 def admin_actions(limit: int = 100) -> list[dict]:

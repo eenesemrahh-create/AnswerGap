@@ -603,3 +603,45 @@ button.act.warn { color: var(--warn); border-color: currentColor; }
   font-size: 13px;
 }
 .guide-flow li::before { content: counter(step) ". "; color: var(--text-faint); font-weight: 600; }
+
+/* --- Reports -------------------------------------------------------
+ *
+ * One new idea on this screen: a share bar under the first cell of a row.
+ * It is a div, not a chart - no library, no axes, no legend - and it answers
+ * the single question a column of money raises at a glance: which row is the
+ * expensive one. Anything more would be a chart pretending to be a table.
+ */
+.bar {
+  display: block;
+  height: 3px;
+  margin-top: 5px;
+  min-width: 2px;
+  border-radius: 999px;
+  background: var(--focus);
+  opacity: .45;
+}
+
+/* A totals row has to read as a conclusion, not as one more row. Sticky so it
+   stays visible while a year of months scrolls past it. */
+tfoot td {
+  position: sticky;
+  bottom: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 0;
+  font-weight: 600;
+}
+
+/* Long tables keep their header. Without this, column eleven of row thirty is
+   a number with no name. */
+.tablewrap { max-height: 70vh; overflow-y: auto; }
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface);
+}
+
+/* `status` has had three values since erasure shipped; the pill had two.
+   Grey, not amber: an erased account is a finished state, not a warning. */
+.pill.erased { color: var(--text-faint); border-color: currentColor; }

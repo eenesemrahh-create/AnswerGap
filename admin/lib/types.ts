@@ -313,3 +313,77 @@ export interface StripeTestResult {
   id?: string;
   mode?: string;
 }
+
+/* --- Reports -------------------------------------------------------
+ *
+ * Costs arrive as numbers of DOLLARS, not cents: `usage_event.spend_usd` is
+ * NUMERIC(12,6) because a single search costs about $0.0026 and cents cannot
+ * hold it. Revenue arrives in CENTS, because Stripe speaks cents. The two
+ * units sit side by side in the same table, so the formatters are different
+ * on purpose - `usd()` for the first, `cents()` for the second.
+ */
+
+export interface MonthUsage {
+  month: string;
+  /** Requests that actually cost money. Cache hits are free and excluded. */
+  billable: number;
+  /** Every request, including cache hits and refusals. */
+  attempts: number;
+  refused: number;
+  cost_usd: number;
+  credits_spent: number;
+  /** The four-way split of the SAME dollars, so these sum to `cost_usd`. */
+  cost_customer: number;
+  cost_admin: number;
+  cost_anonymous: number;
+  /** Erased accounts: `user_erase` blanks every identifier by design. */
+  cost_unattributed: number;
+  active_accounts: number;
+  revenue_cents: number;
+  payments: number;
+}
+
+export interface UserUsage {
+  id: number;
+  email: string;
+  status: "active" | "suspended" | "erased";
+  created_at: string;
+  last_seen_at: string | null;
+  is_admin: boolean;
+  billable: number;
+  attempts: number;
+  refused: number;
+  cost_usd: number;
+  credits_spent: number;
+  credits_left: number;
+  paid_cents: number;
+  last_activity: string | null;
+}
+
+export interface Reports {
+  months: MonthUsage[];
+  users: UserUsage[];
+  window_months: number;
+  totals: {
+    usage: {
+      billable: number;
+      attempts: number;
+      refused: number;
+      cost_usd: number;
+      cost_admin: number;
+      credits_spent: number;
+      accounts_active: number;
+      first_event: string | null;
+    };
+    money: { revenue_cents: number; payments: number; test_payments: number };
+    credits: { granted: number; spent: number };
+    /** `usage_event` is best-effort and only exists since accounts shipped.
+     *  `crawl.spend` + `serp_task.cost` are the provider's own receipts and
+     *  predate it, so the difference is money we spent and cannot trace. */
+    reconcile: {
+      attributed_usd: number;
+      provider_usd: number;
+      unattributed_usd: number;
+    };
+  };
+}
