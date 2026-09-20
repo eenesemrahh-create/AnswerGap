@@ -1017,7 +1017,13 @@ def save_tree(
     """Persist a tree as rows. Returns the crawl id it belongs to.
 
     `new_crawl=True` is a fresh search and always opens a new crawl row - that
-    is what makes a re-crawl an INSERT instead of an overwrite. Scoring reuses
+    is what makes a re-crawl an INSERT instead of an overwrite.
+
+    `add_spend` and `add_calls` APPLY ONLY TO AN EXISTING CRAWL. A new row
+    takes its totals from the tree dict, so passing `add_spend=` alongside
+    `new_crawl=True` silently does nothing - which is correct for the two real
+    callers (a fresh crawl carries its own spend; scoring tops up the row it
+    found) and a trap for anyone writing a test. Scoring reuses
     the crawl it is scoring inside, because a harvested node belongs to the
     crawl that discovered it rather than to a new one.
 

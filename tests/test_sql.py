@@ -833,8 +833,12 @@ def test_a_month_with_revenue_and_no_usage_still_appears() -> None:
 def test_the_reconciliation_names_what_attribution_missed() -> None:
     """`usage_event` is best-effort and post-accounts; the provider receipts
     are neither. The gap is money we spent and cannot trace to anybody."""
+    # `spend` ON THE TREE, not `add_spend=`: the insert branch of `save_tree`
+    # reads the dict, and `add_spend` only applies when an EXISTING crawl is
+    # being topped up by scoring. Passing it here silently does nothing.
     tree = _archive_tree()
-    db.save_tree(tree, new_crawl=True, add_spend=0.0026)   # a crawl receipt
+    tree["spend"] = 0.0026                                 # a crawl receipt
+    db.save_tree(tree, new_crawl=True)
     uid = int(_google(sub="c", email="c@example.com")["id"])
     _spend(uid, 0.001)                                     # attributed only
 
