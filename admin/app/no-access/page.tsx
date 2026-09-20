@@ -1,3 +1,4 @@
+import { translator } from "@/lib/locale";
 import { apiUrl, sessionToken } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +16,7 @@ export const dynamic = "force-dynamic";
  * fact that resolves this, because ADMIN_EMAILS is matched on exactly that.
  */
 export default async function NoAccess() {
+  const t = await translator();
   let email: string | null = null;
   const token = await sessionToken();
   if (token) {
@@ -31,30 +33,16 @@ export default async function NoAccess() {
 
   return (
     <div className="signin">
-      <h1>Not an admin</h1>
+      <h1>{t("noAccess.title")}</h1>
       <p className="notice">
-        {email ? (
-          <>
-            Signed in as <b>{email}</b>, which is not in ADMIN_EMAILS.
-          </>
-        ) : (
-          <>This account is not in ADMIN_EMAILS.</>
-        )}
+        {email
+          ? t("noAccess.signedInAs", { email })
+          : t("noAccess.unknown")}
       </p>
-      <p className="sub">
-        ADMIN_EMAILS is a comma-separated list on the <b>api</b> service in
-        Railway. It is matched on the address exactly, ignoring case and
-        surrounding spaces. There is no role column in the database and no
-        endpoint that writes one, so this list is the only way to grant access —
-        add the address there and redeploy the api service.
-      </p>
-      <p className="sub">
-        Two things worth checking first: the variable is <b>ADMIN_EMAILS</b>,
-        plural, and a change only takes effect once the api service has
-        restarted.
-      </p>
+      <p className="sub">{t("noAccessDetail.listIsTheOnlyWay")}</p>
+      <p className="sub">{t("noAccessDetail.twoChecks")}</p>
       <form action="/api/auth/signout" method="post">
-        <button className="act" type="submit">Sign out</button>
+        <button className="act" type="submit">{t("nav.signOut")}</button>
       </form>
     </div>
   );

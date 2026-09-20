@@ -1,3 +1,4 @@
+import { translator } from "@/lib/locale";
 export const dynamic = "force-dynamic";
 
 /**
@@ -16,17 +17,18 @@ export default async function ApiErrorPage({
   searchParams: Promise<{ status?: string; path?: string }>;
 }) {
   const { status = "?", path = "" } = await searchParams;
+  const t = await translator();
 
   const hint =
     status === "503"
-      ? "The api service says accounts are switched off. That means one of SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, PUBLIC_BASE_URL or DATABASE_URL is missing there."
+      ? t("apiError.hint503")
       : status === "500"
-        ? "The api service failed while handling this. Its own log has the traceback — the admin service only sees the status."
-        : "Check the api service's log for the matching request.";
+        ? t("apiError.hint500")
+        : t("apiError.hintOther");
 
   return (
     <div className="signin">
-      <h1>The api returned {status}</h1>
+      <h1>{t("apiError.title", { status })}</h1>
       {path && (
         <p className="notice">
           <code>{path}</code>
@@ -34,8 +36,7 @@ export default async function ApiErrorPage({
       )}
       <p className="sub">{hint}</p>
       <p className="sub">
-        The full response body is in this service&apos;s log, prefixed{" "}
-        <code>[admin]</code>.
+        {t("apiError.bodyInLog")} <code>[admin]</code>
       </p>
     </div>
   );

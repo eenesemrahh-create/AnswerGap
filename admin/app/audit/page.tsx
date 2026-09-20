@@ -1,26 +1,25 @@
 import { get, when } from "@/lib/api";
+import { translator } from "@/lib/locale";
 import type { AdminAction } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function AuditPage() {
   const { actions } = await get<{ actions: AdminAction[] }>("/api/admin/actions");
+  const t = await translator();
 
   return (
     <>
-      <h1>Audit</h1>
-      <p className="sub">
-        Every privileged action, append-only. An admin&apos;s compromised Google
-        account is a compromised panel — there is no second factor here. This log
-        is what makes that damage visible rather than impossible, which is the
-        only guarantee actually available.
-      </p>
+      <h1>{t("audit.title")}</h1>
+      <p className="sub">{t("audit.lead")}</p>
 
       <div className="tablewrap">
         <table>
           <thead>
             <tr>
-              <th>When</th><th>Who</th><th>Did</th><th>To</th><th>Detail</th>
+              <th>{t("common.when")}</th><th>{t("common.who")}</th>
+              <th>{t("common.did")}</th><th>{t("common.to")}</th>
+              <th>{t("common.detail")}</th>
             </tr>
           </thead>
           <tbody>
@@ -35,7 +34,7 @@ export default async function AuditPage() {
             ))}
           </tbody>
         </table>
-        {actions.length === 0 && <p className="empty">Nothing yet.</p>}
+        {actions.length === 0 && <p className="empty">{t("common.nothingYet")}</p>}
       </div>
     </>
   );

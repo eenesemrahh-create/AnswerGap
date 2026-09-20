@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LocaleSwitch } from "@/components/LocaleSwitch";
+import { getLocale } from "@/lib/locale";
+import { makeT } from "@/lib/i18n";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { sessionToken } from "@/lib/api";
 import "./globals.css";
@@ -17,12 +20,19 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 /**
- * The operator's console. ENGLISH ONLY, deliberately.
+ * The operator's console. TURKISH AND ENGLISH.
  *
- * The customer app carries five locales and a build gate that fails when one
- * falls behind. This has a single audience - whoever is running the product -
- * and putting it through the same machinery would mean four more files and four
- * broken builds every time a label changes here. That cost buys nothing.
+ * This header used to read ENGLISH ONLY, and its reasoning was sound for what
+ * it was answering: the customer app carries five locales and a build gate,
+ * and the same machinery here would mean four more files and four broken
+ * builds every time a label changes. At five that cost buys nothing.
+ *
+ * At TWO it is one file and one broken build, and what it buys is the person
+ * who actually runs this product reading their own panel in their own
+ * language. The principle did not change; its input did. See `lib/i18n.ts`.
+ *
+ * The Guide page stays English - it is a manual that describes the code
+ * closely enough that a translation would drift, and it says so on itself.
  */
 export const metadata: Metadata = {
   title: "AnswerGap admin",
@@ -44,9 +54,13 @@ export default async function RootLayout({
   // session is the API's call, and it re-checks on every request. This decides
   // what to draw, never what is allowed.
   const signedIn = Boolean(await sessionToken());
+  // The language is read even when signed out, because /signin and
+  // /no-access are the two screens a confused operator reads most carefully.
+  const locale = await getLocale();
+  const t = makeT(locale);
 
   return (
-    <html lang="en" className={jakarta.variable}>
+    <html lang={locale} className={jakarta.variable}>
       <body>
         <header className="topbar">
           <span className="brand">
@@ -55,21 +69,25 @@ export default async function RootLayout({
           {signedIn ? (
             <>
               <nav>
-                <Link href="/">Overview</Link>
-                <Link href="/users">Users</Link>
-                <Link href="/reports">Reports</Link>
-                <Link href="/settings">Settings</Link>
-                <Link href="/stripe">Payments</Link>
-                <Link href="/ci">CI</Link>
-                <Link href="/guide">Guide</Link>
-                <Link href="/audit">Audit</Link>
+                <Link href="/">{t("nav.overview")}</Link>
+                <Link href="/users">{t("nav.users")}</Link>
+                <Link href="/reports">{t("nav.reports")}</Link>
+                <Link href="/settings">{t("nav.settings")}</Link>
+                <Link href="/stripe">{t("nav.payments")}</Link>
+                <Link href="/ci">{t("nav.ci")}</Link>
+                <Link href="/guide">{t("nav.guide")}</Link>
+                <Link href="/audit">{t("nav.audit")}</Link>
               </nav>
+              <LocaleSwitch locale={locale} />
               <form action="/api/auth/signout" method="post">
-                <button className="linkish" type="submit">Sign out</button>
+                <button className="linkish" type="submit">{t("nav.signOut")}</button>
               </form>
             </>
           ) : (
-            <nav />
+            <>
+              <nav />
+              <LocaleSwitch locale={locale} />
+            </>
           )}
         </header>
         <main>{children}</main>

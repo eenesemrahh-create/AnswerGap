@@ -1,4 +1,5 @@
 import { cents, get, monthName, usd, when } from "@/lib/api";
+import { translator } from "@/lib/locale";
 import type { Reports } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +26,7 @@ export const dynamic = "force-dynamic";
 export default async function ReportsPage() {
   const r = await get<Reports>("/api/admin/reports");
   const { usage, money, credits } = r.totals;
+  const t = await translator();
 
   const cached = usage.attempts - usage.billable;
   const cacheShare = usage.attempts > 0 ? (cached / usage.attempts) * 100 : 0;
@@ -33,52 +35,54 @@ export default async function ReportsPage() {
 
   return (
     <>
-      <h1>Reports</h1>
+      <h1>{t("reports.title")}</h1>
       <p className="sub">
-        Spend and usage since{" "}
-        {usage.first_event ? when(usage.first_event) : "the beginning"}. Costs
-        are what we paid the search provider, read from its own response rather
-        than estimated. Revenue counts live payments only — a test payment in a
-        revenue figure is how the figure becomes a lie.
+        {t("reports.lead", {
+          since: usage.first_event ? when(usage.first_event) : "—",
+        })}
       </p>
 
       <div className="cards">
         <div className="card">
-          <span>Total cost</span>
+          <span>{t("reports.totalCost")}</span>
           <b>{usd(usage.cost_usd)}</b>
-          <em>{usage.billable.toLocaleString()} billable requests</em>
+          <em>{t("reports.totalCostNote", { count: usage.billable.toLocaleString() })}</em>
         </div>
         <div className="card">
-          <span>Revenue</span>
+          <span>{t("reports.revenue")}</span>
           <b>{cents(money.revenue_cents)}</b>
           <em>
-            {money.payments} live
-            {money.test_payments > 0 && `, ${money.test_payments} test (excluded)`}
+            {t("reports.revenueNote", { live: money.payments })}
+            {money.test_payments > 0 &&
+              t("reports.revenueTest", { count: money.test_payments })}
           </em>
         </div>
         <div className="card">
-          <span>Margin</span>
+          <span>{t("reports.margin")}</span>
           <b className={money.revenue_cents / 100 - usage.cost_usd < 0 ? "neg" : ""}>
             {usd(money.revenue_cents / 100 - usage.cost_usd)}
           </b>
-          <em>revenue less what the searches cost</em>
+          <em>{t("reports.marginNote")}</em>
         </div>
         <div className="card">
-          <span>Served from cache</span>
+          <span>{t("reports.cached")}</span>
           <b>{cacheShare.toFixed(0)}%</b>
-          <em>{cached.toLocaleString()} requests that cost nothing</em>
+          <em>{t("reports.cachedNote", { count: cached.toLocaleString() })}</em>
         </div>
         <div className="card">
-          <span>Credits outstanding</span>
+          <span>{t("reports.outstanding")}</span>
           <b>{(credits.granted - credits.spent).toLocaleString()}</b>
           <em>
-            {credits.granted.toLocaleString()} granted · {credits.spent.toLocaleString()} spent
+            {t("reports.outstandingNote", {
+              granted: credits.granted.toLocaleString(),
+              spent: credits.spent.toLocaleString(),
+            })}
           </em>
         </div>
         <div className="card">
-          <span>Of that, admin spend</span>
+          <span>{t("reports.adminSpend")}</span>
           <b>{usd(usage.cost_admin)}</b>
-          <em>real money, billed to nobody</em>
+          <em>{t("reports.adminSpendNote")}</em>
         </div>
       </div>
 
@@ -89,38 +93,31 @@ export default async function ReportsPage() {
           receipts predate it and cannot be skipped by a failed insert. */}
       {r.totals.reconcile.unattributed_usd > 0.000001 && (
         <p className="notice">
-          The provider&apos;s own receipts total{" "}
-          <b>{usd(r.totals.reconcile.provider_usd)}</b>, which is{" "}
-          <b>{usd(r.totals.reconcile.unattributed_usd)}</b> more than the{" "}
-          {usd(r.totals.reconcile.attributed_usd)} traced to a person above.
-          That gap is work done before accounts existed, plus any receipt whose
-          write failed — attribution is best-effort on purpose, because losing
-          a receipt is bad but losing the customer&apos;s result on top of it is
-          worse. Treat the larger figure as the bill and the tables below as
-          where the traceable part of it went.
+          {t("reports.reconcile", {
+            provider: usd(r.totals.reconcile.provider_usd),
+            gap: usd(r.totals.reconcile.unattributed_usd),
+            attributed: usd(r.totals.reconcile.attributed_usd),
+          })}
         </p>
       )}
 
-      <h2>By month</h2>
-      <p className="sub">
-        The four cost columns are the same dollars split by who spent them, so
-        they add up to Cost.
-      </p>
+      <h2>{t("reports.byMonth")}</h2>
+      <p className="sub">{t("reports.byMonthLead")}</p>
       <div className="tablewrap">
         <table>
           <thead>
             <tr>
-              <th>Month</th>
-              <th className="num">Billable</th>
-              <th className="num">Attempts</th>
-              <th className="num">Refused</th>
-              <th className="num">Cost</th>
-              <th className="num">Customers</th>
-              <th className="num">Admin</th>
-              <th className="num">Anonymous</th>
-              <th className="num">Erased</th>
-              <th className="num">Revenue</th>
-              <th className="num">Accounts</th>
+              <th>{t("reports.month")}</th>
+              <th className="num">{t("reports.billable")}</th>
+              <th className="num">{t("reports.attempts")}</th>
+              <th className="num">{t("reports.refused")}</th>
+              <th className="num">{t("reports.cost")}</th>
+              <th className="num">{t("reports.customers")}</th>
+              <th className="num">{t("reports.admin")}</th>
+              <th className="num">{t("reports.anonymous")}</th>
+              <th className="num">{t("reports.erased")}</th>
+              <th className="num">{t("reports.revenueCol")}</th>
+              <th className="num">{t("reports.accounts")}</th>
             </tr>
           </thead>
           <tbody>
@@ -155,7 +152,7 @@ export default async function ReportsPage() {
           {r.months.length > 0 && (
             <tfoot>
               <tr>
-                <td>All {r.months.length} months</td>
+                <td>{t("reports.allMonths", { count: r.months.length })}</td>
                 <td className="num">
                   {r.months.reduce((s, m) => s + m.billable, 0).toLocaleString()}
                 </td>
@@ -188,27 +185,23 @@ export default async function ReportsPage() {
             </tfoot>
           )}
         </table>
-        {r.months.length === 0 && <p className="empty">No usage recorded yet.</p>}
+        {r.months.length === 0 && <p className="empty">{t("reports.noUsage")}</p>}
       </div>
 
-      <h2>By account</h2>
-      <p className="sub">
-        Every account, ordered by what it cost us. Counts are over that
-        account&apos;s whole history — nothing here is truncated to a recent
-        window, only the list length is.
-      </p>
+      <h2>{t("reports.byAccount")}</h2>
+      <p className="sub">{t("reports.byAccountLead")}</p>
       <div className="tablewrap">
         <table>
           <thead>
             <tr>
-              <th>Account</th>
-              <th className="num">Billable</th>
-              <th className="num">Attempts</th>
-              <th className="num">Refused</th>
-              <th className="num">Cost</th>
-              <th className="num">Credits left</th>
-              <th className="num">Paid</th>
-              <th>Last activity</th>
+              <th>{t("reports.account")}</th>
+              <th className="num">{t("reports.billable")}</th>
+              <th className="num">{t("reports.attempts")}</th>
+              <th className="num">{t("reports.refused")}</th>
+              <th className="num">{t("reports.cost")}</th>
+              <th className="num">{t("reports.creditsLeft")}</th>
+              <th className="num">{t("reports.paid")}</th>
+              <th>{t("reports.lastActivity")}</th>
             </tr>
           </thead>
           <tbody>
@@ -218,7 +211,7 @@ export default async function ReportsPage() {
                   <a href={`/users/${u.id}`}>{u.email}</a>{" "}
                   {u.is_admin && <span className="pill admin">admin</span>}
                   {u.status !== "active" && (
-                    <span className={`pill ${u.status}`}>{u.status}</span>
+                    <span className={`pill ${u.status}`}>{t(`common.${u.status}`)}</span>
                   )}
                   <span
                     className="bar"
@@ -243,17 +236,10 @@ export default async function ReportsPage() {
             ))}
           </tbody>
         </table>
-        {r.users.length === 0 && <p className="empty">No accounts yet.</p>}
+        {r.users.length === 0 && <p className="empty">{t("reports.noAccounts")}</p>}
       </div>
 
-      <p className="sub" style={{ marginTop: 20 }}>
-        Two things this screen cannot tell you, so that nobody reads more into
-        it than is there. Payments are matched to an account by email address
-        only — <code>payment_event</code> has no account id — so a checkout
-        completed under a different address shows as unpaid. And an admin is an
-        entry in <code>ADMIN_EMAILS</code> rather than a row, so the admin split
-        is computed from that list at query time, not stored on the event.
-      </p>
+      <p className="sub" style={{ marginTop: 20 }}>{t("reports.caveats")}</p>
     </>
   );
 }

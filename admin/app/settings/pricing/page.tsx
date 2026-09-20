@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { get } from "@/lib/api";
+import { getLocale, translator } from "@/lib/locale";
 import type { Pricing } from "@/lib/types";
 import { PricingEditor } from "./editor";
 
@@ -10,27 +11,19 @@ export const dynamic = "force-dynamic";
 
 export default async function PricingPage() {
   const current = await get<Pricing>("/api/admin/pricing");
+  const t = await translator();
+  const locale = await getLocale();
 
   return (
     <>
       <p className="sub" style={{ marginTop: 0 }}>
-        <Link href="/settings" className="linkish">&larr; Settings</Link>
+        <Link href="/settings" className="linkish">{t("pricing.back")}</Link>
       </p>
-      <h1>Pricing plans</h1>
-      <p className="sub">
-        What the marketing landing shows in the pricing section. Between 0 and
-        4 plans; empty means the landing renders its hardcoded fallback in
-        every supported language. Once anything is saved here, the landing
-        shows THIS text in every locale — the multi-language fallback stops
-        applying, deliberately (see CLAUDE.md).
-      </p>
-      <p className="sub">
-        Saved changes append a row to <code>app_setting</code>: the previous
-        value stays on record and shows up in the audit log. Nothing here is
-        overwritten in place.
-      </p>
+      <h1>{t("pricing.title")}</h1>
+      <p className="sub">{t("pricing.lead")}</p>
+      <p className="sub">{t("pricing.appendNote")}</p>
 
-      <PricingEditor initial={current.plans} />
+      <PricingEditor initial={current.plans} locale={locale} />
     </>
   );
 }

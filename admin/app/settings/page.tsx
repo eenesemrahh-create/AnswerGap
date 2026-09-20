@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { get } from "@/lib/api";
+import { translator } from "@/lib/locale";
 import type { Settings } from "@/lib/types";
 import { saveSettings } from "./actions";
 
@@ -7,19 +8,16 @@ export const dynamic = "force-dynamic";
 
 export default async function SettingsPage() {
   const s = await get<Settings>("/api/admin/settings");
+  const t = await translator();
 
   return (
     <>
-      <h1>Settings</h1>
-      <p className="sub">
-        Changed here, not in a deploy. Every change appends a row rather than
-        overwriting one, so &ldquo;what was the limit last Tuesday&rdquo; stays
-        answerable once somebody disputes a bill.
-      </p>
+      <h1>{t("settings.title")}</h1>
+      <p className="sub">{t("settings.lead")}</p>
 
       <form className="row" action={saveSettings}>
         <label>
-          Free searches per day, signed out
+          {t("settings.anonLabel")}
           <br />
           <input
             name="anonymous_daily_searches"
@@ -30,7 +28,7 @@ export default async function SettingsPage() {
           />
         </label>
         <label>
-          Credits for a new account
+          {t("settings.signupLabel")}
           <br />
           <input
             name="signup_credits"
@@ -40,38 +38,23 @@ export default async function SettingsPage() {
             defaultValue={s.signup_credits}
           />
         </label>
-        <button className="act" type="submit">Save</button>
+        <button className="act" type="submit">{t("common.save")}</button>
       </form>
 
-      <h2>What these actually do</h2>
+      <h2>{t("settings.explainHeading")}</h2>
       <p className="sub">
-        <b>Free searches per day</b> applies only to visitors who are not signed
-        in. It is counted against both a browser id and a hashed IP, and either
-        one reaching the limit refuses — because clearing site data resets the
-        first and a new network resets the second. It is best-effort in both
-        directions: a VPN defeats it, and an office behind one NAT shares a
-        single counter. It stops accidents and cheap abuse, not a determined
-        person. The real backstop is that a search costs $0.0026.
+        <b>{t("settings.anonLabel")}</b> {t("settings.explainAnon")}
       </p>
       <p className="sub">
-        <b>Credits for a new account</b> is granted once, by the same statement
-        that creates the account. Existing accounts are unaffected. A search
-        costs one credit; a cached result costs nothing, so re-running the same
-        search is free.
+        <b>{t("settings.signupLabel")}</b> {t("settings.explainSignup")}
       </p>
-      <p className="sub">
-        There is no checkout yet — credits are added by hand from a user&apos;s
-        page.
-      </p>
+      <p className="sub">{t("settings.noCheckout")}</p>
 
-      <h2>Marketing landing</h2>
-      <p className="sub">
-        The pricing section on the marketing landing reads from a separate
-        setting — plan cards with name, price and features.
-      </p>
+      <h2>{t("settings.landingHeading")}</h2>
+      <p className="sub">{t("settings.landingLead")}</p>
       <p>
         <Link href="/settings/pricing" className="linkish">
-          Edit pricing plans &rarr;
+          {t("settings.editPricing")}
         </Link>
       </p>
     </>

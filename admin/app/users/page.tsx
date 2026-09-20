@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { get, money, when } from "@/lib/api";
+import { translator } from "@/lib/locale";
 import type { UserRow } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -16,56 +17,54 @@ export default async function UsersPage({
   const { users } = await get<{ users: UserRow[] }>(
     `/api/admin/users?${params.toString()}`
   );
+  const t = await translator();
 
   return (
     <>
-      <h1>Users</h1>
-      <p className="sub">
-        Balance and spend come back with the list in one query — never one query
-        per row.
-      </p>
+      <h1>{t("users.title")}</h1>
+      <p className="sub">{t("users.lead")}</p>
 
       <form className="row" method="get">
-        <input name="q" defaultValue={q} placeholder="Search by email" />
+        <input name="q" defaultValue={q} placeholder={t("users.searchPlaceholder")} />
         <select name="status" defaultValue={status}>
-          <option value="">Any status</option>
-          <option value="active">Active</option>
-          <option value="suspended">Suspended</option>
+          <option value="">{t("common.anyStatus")}</option>
+          <option value="active">{t("common.active")}</option>
+          <option value="suspended">{t("common.suspended")}</option>
         </select>
-        <button className="act" type="submit">Filter</button>
+        <button className="act" type="submit">{t("common.filter")}</button>
       </form>
 
       <div className="tablewrap">
         <table>
           <thead>
             <tr>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Sign-in</th>
-              <th className="num">Credits</th>
-              <th className="num">Searches</th>
-              <th className="num">Spend</th>
-              <th>Joined</th>
-              <th>Last seen</th>
+              <th>{t("common.email")}</th>
+              <th>{t("common.status")}</th>
+              <th>{t("common.signIn")}</th>
+              <th className="num">{t("common.credits")}</th>
+              <th className="num">{t("common.searches")}</th>
+              <th className="num">{t("common.spend")}</th>
+              <th>{t("common.joined")}</th>
+              <th>{t("common.lastSeen")}</th>
             </tr>
           </thead>
           <tbody>
             {users.map((u) => (
               <tr key={u.id}>
                 <td><Link href={`/users/${u.id}`}>{u.email}</Link></td>
-                <td><span className={`pill ${u.status}`}>{u.status}</span></td>
+                <td><span className={`pill ${u.status}`}>{t(`common.${u.status}`)}</span></td>
                 {/* Unverified is called out because it is a SPENDING block,
                     not a profile detail: every paid action refuses with
                     emailUnverified until the link is clicked. */}
                 <td>
                   {u.email_verified ? (
                     <span className="doors">
-                      {u.has_password ? "password" : ""}
+                      {u.has_password ? t("common.password") : ""}
                       {u.has_password && u.has_google ? " + " : ""}
-                      {u.has_google ? "google" : ""}
+                      {u.has_google ? t("common.google") : ""}
                     </span>
                   ) : (
-                    <span className="pill suspended">unverified</span>
+                    <span className="pill suspended">{t("common.unverified")}</span>
                   )}
                 </td>
                 <td className={`num${u.balance < 0 ? " neg" : ""}`}>{u.balance}</td>
@@ -77,7 +76,7 @@ export default async function UsersPage({
             ))}
           </tbody>
         </table>
-        {users.length === 0 && <p className="empty">No users match.</p>}
+        {users.length === 0 && <p className="empty">{t("common.noMatch")}</p>}
       </div>
     </>
   );

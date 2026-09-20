@@ -1,19 +1,23 @@
 "use client";
 
+import { makeT, type Locale } from "@/lib/i18n";
+
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import type { StripeStatus } from "@/lib/types";
 import { loadStripe, startTestPayment } from "./actions";
 
+/* Server codes to catalogue KEYS, for the same reason as the CI board: this
+   map is module scope and `t` is not available there. */
 const ERRORS: Record<string, string> = {
-  noKey: "STRIPE_SECRET_KEY is not set on the api service.",
-  liveNeedsConfirm: "A live charge has to be confirmed before it is started.",
-  noReturnUrl: "WEB_BASE_URL is not set on the api service, so Checkout has nowhere to return to.",
-  keyRefused: "Stripe refused the key. It may be revoked, or from a different account.",
-  rateLimited: "Stripe is rate limiting us right now.",
-  stripeDown: "Stripe answered with a server error.",
-  invalidRequest: "Stripe rejected the request as invalid — see the api log for its own message.",
-  stripeError: "Stripe answered with an error.",
-  unreachable: "Stripe did not answer.",
+  noKey: "panel.errNoKey",
+  liveNeedsConfirm: "panel.errNeedsConfirm",
+  noReturnUrl: "panel.errNoReturnUrl",
+  keyRefused: "panel.errKey",
+  rateLimited: "panel.errRate",
+  stripeDown: "panel.errServer",
+  invalidRequest: "panel.errInvalid",
+  stripeError: "panel.errOther",
+  unreachable: "panel.errNoAnswer",
 };
 
 const money = (cents: number | null, currency: string | null) =>
@@ -21,7 +25,15 @@ const money = (cents: number | null, currency: string | null) =>
 
 const when = (iso: string) => new Date(iso).toLocaleString();
 
-export function StripePanel({ initial }: { initial: StripeStatus }) {
+export function StripePanel({
+  initial,
+  locale,
+}: {
+  initial: StripeStatus;
+  /** Language as a prop: a client component cannot read the cookie. */
+  locale: Locale;
+}) {
+  const t = makeT(locale);
   const [data, setData] = useState(initial);
   const [message, setMessage] = useState<string | null>(null);
   const [asking, setAsking] = useState(false);
@@ -65,7 +77,9 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
             : "Checkout opened in a new tab. Card 4242 4242 4242 4242, any future date, any CVC."
         );
       } else {
-        setMessage(ERRORS[result.error ?? ""] ?? `Stripe refused (${result.error}).`);
+        setMessage(ERRORS[result.error ?? ""]
+            ? t(ERRORS[result.error ?? ""])
+            : t("panel.errRefused", { code: String(result.error) }));
       }
     });
 
@@ -77,22 +91,22 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
       <div className="cards">
         <div className="card">
           <b>{data.mode}</b>
-          <span>Key mode</span>
+          <span>{t("panel.keyMode")}</span>
           <em>{live ? "real money" : data.mode === "test" ? "play money" : "no usable key"}</em>
         </div>
         <div className="card">
           <b>{account ? "yes" : "no"}</b>
-          <span>Key works</span>
+          <span>{t("panel.keyWorks")}</span>
           <em>{account?.id ?? (data.error ? ERRORS[data.error] ?? data.error : "not checked")}</em>
         </div>
         <div className="card">
           <b>{account?.charges_enabled ? "yes" : "no"}</b>
-          <span>Charges enabled</span>
+          <span>{t("panel.chargesEnabled")}</span>
           <em>{account?.country ?? "—"} · {account?.default_currency?.toUpperCase() ?? "—"}</em>
         </div>
         <div className="card">
           <b>{data.webhook_configured ? "yes" : "no"}</b>
-          <span>Webhook secret</span>
+          <span>{t("panel.webhookSecret")}</span>
           <em>{data.webhook_configured ? "signatures are checked" : "every webhook is refused"}</em>
         </div>
       </div>
@@ -101,22 +115,20 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
         <button
           className={live ? "act warn" : "act"}
           disabled={pending || !data.can_test_payment}
-          title={data.can_test_payment ? undefined : ERRORS.noKey}
+          title={data.can_test_payment ? undefined : t(ERRORS.noKey)}
           onClick={() => (data.needs_confirm ? setAsking(true) : test(false))}
         >
-          {live ? "Start a LIVE payment" : "Start a test payment"} (
+          {live ? t("panel.startLive") : t("panel.startTest")} (
           {money(data.test_amount_cents, data.test_currency)})
         </button>
-        <button className="linkish" onClick={() => void refresh()} disabled={pending}>
-          Refresh
-        </button>
+        <button className="linkish" onClick={() => void refresh()} disabled={pending}>{t("panel.refresh")}</button>
         <a
           className="ci-right"
           href={`https://dashboard.stripe.com/${live ? "" : "test/"}payments`}
           target="_blank"
           rel="noreferrer"
         >
-          Open Stripe dashboard
+          {t("panel.openDashboard")}
         </a>
       </div>
 
@@ -125,7 +137,7 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
           the reader is not agreeing to a number they have to go and look up. */}
       {asking && (
         <div className="notice">
-          <b>This charges a real card.</b> These are live keys, so{" "}
+          <b>{t("panel.realCard")}</b> These are live keys, so{" "}
           {money(data.test_amount_cents, data.test_currency)} is actually taken — Stripe
           keeps its fee (about $0.33 on $1.00) and the rest lands in your own Stripe
           account. A refund from the Stripe dashboard returns the amount but not the
@@ -134,9 +146,7 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
             <button className="act warn" disabled={pending} onClick={() => test(true)}>
               Yes, charge {money(data.test_amount_cents, data.test_currency)}
             </button>
-            <button className="act" disabled={pending} onClick={() => setAsking(false)}>
-              Cancel
-            </button>
+            <button className="act" disabled={pending} onClick={() => setAsking(false)}>{t("panel.cancel")}</button>
           </div>
         </div>
       )}
@@ -150,17 +160,18 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
       )}
       {message && <div className="ci-message">{message}</div>}
 
-      <h2>Payments received</h2>
+      <h2>{t("panel.received")}</h2>
       <p className="sub">
-        Written by the signed webhook at <code>{data.webhook_url ?? "PUBLIC_BASE_URL is unset"}</code>.
+        {t("panel.writtenBy")}{" "}
+        <code>{data.webhook_url ?? t("panel.noBaseUrl")}</code>.
         Nothing here grants credits yet.
       </p>
       <div className="tablewrap">
         <table>
           <thead>
             <tr>
-              <th>When</th><th>Event</th><th>Mode</th><th className="num">Amount</th>
-              <th>Status</th><th>Email</th><th>Object</th>
+              <th>{t("panel.when")}</th><th>{t("panel.event")}</th><th>{t("panel.mode")}</th><th className="num">{t("panel.amount")}</th>
+              <th>{t("panel.status")}</th><th>{t("panel.email")}</th><th>{t("panel.object")}</th>
             </tr>
           </thead>
           <tbody>
@@ -189,9 +200,10 @@ export function StripePanel({ initial }: { initial: StripeStatus }) {
         )}
       </div>
 
-      <h2>What has to be set</h2>
+      <h2>{t("panel.whatToSet")}</h2>
       <p className="sub">
-        On the Railway <b>api</b> service: <code>STRIPE_SECRET_KEY</code> and{" "}
+        {t("panel.onRailway")} <code>STRIPE_SECRET_KEY</code>{" "}
+        {t("panel.and")}{" "}
         <code>STRIPE_WEBHOOK_SECRET</code>. The second comes from Stripe →
         Developers → Webhooks → add an endpoint pointing at{" "}
         <code>{data.webhook_url ?? "<api>/api/stripe/webhook"}</code>, subscribed to{" "}

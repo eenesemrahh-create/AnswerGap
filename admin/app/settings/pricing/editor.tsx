@@ -1,5 +1,7 @@
 "use client";
 
+import { makeT, type Locale } from "@/lib/i18n";
+
 import { useState, useTransition } from "react";
 import {
   PRICING_MAX_FEATURES,
@@ -38,7 +40,15 @@ import { savePricing } from "./actions";
  * whole admin service exists to enforce (see `lib/api.ts`'s `server-only`
  * note).
  */
-export function PricingEditor({ initial }: { initial: Plan[] }) {
+export function PricingEditor({
+  initial,
+  locale,
+}: {
+  initial: Plan[];
+  /** Language as a prop: a client component cannot read the server's cookie. */
+  locale: Locale;
+}) {
+  const t = makeT(locale);
   const [plans, setPlans] = useState<Plan[]>(() => makeSlots(initial));
   const [status, setStatus] = useState<"idle" | "saved" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -119,7 +129,7 @@ export function PricingEditor({ initial }: { initial: Plan[] }) {
         setPlans(clean);
       } catch (err) {
         setStatus("error");
-        setErrorMessage(err instanceof Error ? err.message : "Save failed.");
+        setErrorMessage(err instanceof Error ? err.message : t("editor.saveFailed"));
       }
     });
   };
@@ -154,6 +164,7 @@ export function PricingEditor({ initial }: { initial: Plan[] }) {
             onFeatureAdd={() => addFeature(i)}
             onFeatureRemove={(fi) => removeFeature(i, fi)}
             onReset={() => resetSlot(i)}
+            locale={locale}
           />
         ))}
       </div>
@@ -166,14 +177,14 @@ export function PricingEditor({ initial }: { initial: Plan[] }) {
           disabled={pending || Boolean(validationError)}
           style={{ fontWeight: 600 }}
         >
-          {pending ? "Saving…" : "Save all cards"}
+          {pending ? t("editor.saving") : t("editor.saveAll")}
         </button>
         {validationError && (
           <span className="neg" style={{ fontSize: 13 }}>{validationError}</span>
         )}
         {status === "saved" && !pending && (
           <span style={{ color: "var(--ok, currentColor)", fontSize: 13 }}>
-            Saved. The landing picks this up on next load.
+            {t("editor.saved")}
           </span>
         )}
         {status === "error" && errorMessage && (
@@ -194,15 +205,20 @@ function PlanCard({
   onFeatureAdd,
   onFeatureRemove,
   onReset,
+  locale,
 }: {
   plan: Plan;
   index: number;
+  locale: Locale;
   onChange: (changes: Partial<Plan>) => void;
   onFeatureChange: (featureIndex: number, value: string) => void;
   onFeatureAdd: () => void;
   onFeatureRemove: (featureIndex: number) => void;
   onReset: () => void;
 }) {
+  // Its own `t` rather than one passed down: both are client components in
+  // this module, so either works, and a prop fewer is a prop fewer.
+  const t = makeT(locale);
   const cls = [
     "mkt-plan",
     `theme-${plan.theme}`,
@@ -220,15 +236,15 @@ function PlanCard({
             checked={plan.enabled}
             onChange={(e) => onChange({ enabled: e.target.checked })}
           />
-          <span>{plan.enabled ? "Published" : "Draft"}</span>
+          <span>{plan.enabled ? t("editor.published") : t("editor.draft")}</span>
         </label>
         <button
           type="button"
           className="act tiny"
           onClick={onReset}
-          title="Reset this slot to its template"
+          title={t("editor.resetTitle")}
         >
-          Reset
+          {t("editor.reset")}
         </button>
       </div>
 
@@ -236,7 +252,7 @@ function PlanCard({
           to switch the card's identity in place. Keeping this compact enough
           to sit above the badge input so the operator picks the colour first,
           then edits within it. */}
-      <div className="theme-picker" role="radiogroup" aria-label="Card colour">
+      <div className="theme-picker" role="radiogroup" aria-label={t("editor.cardColour")}>
         {THEME_OPTIONS.map((opt) => (
           <button
             key={opt.value}
@@ -260,21 +276,21 @@ function PlanCard({
           on the landing (which only renders `plan.badge && ...`). */}
       <input
         className="mkt-plan-badge edit-inline"
-        placeholder="+ Add badge (optional)"
+        placeholder={t("editor.addBadge")}
         maxLength={30}
         value={plan.badge ?? ""}
         onChange={(e) => onChange({ badge: e.target.value || null })}
       />
       <input
         className="mkt-plan-name edit-inline"
-        placeholder="Plan name"
+        placeholder={t("editor.planName")}
         maxLength={40}
         value={plan.name}
         onChange={(e) => onChange({ name: e.target.value })}
       />
       <input
         className="mkt-plan-desc edit-inline"
-        placeholder="One-line description"
+        placeholder={t("editor.oneLine")}
         maxLength={200}
         value={plan.desc}
         onChange={(e) => onChange({ desc: e.target.value })}
@@ -289,7 +305,7 @@ function PlanCard({
         />
         <input
           className="edit-inline per"
-          placeholder="/month"
+          placeholder={t("editor.perMonth")}
           maxLength={20}
           value={plan.per}
           onChange={(e) => onChange({ per: e.target.value })}
@@ -301,7 +317,7 @@ function PlanCard({
           <li key={i}>
             <input
               className="edit-inline"
-              placeholder="Feature description"
+              placeholder={t("editor.feature")}
               maxLength={100}
               value={feat}
               onChange={(e) => onFeatureChange(i, e.target.value)}
@@ -310,7 +326,7 @@ function PlanCard({
               type="button"
               className="feature-remove"
               onClick={() => onFeatureRemove(i)}
-              title="Remove feature"
+              title={t("editor.removeFeature")}
             >
               &times;
             </button>
@@ -331,7 +347,7 @@ function PlanCard({
 
       <input
         className="mkt-plan-cta edit-inline"
-        placeholder="CTA button label"
+        placeholder={t("editor.cta")}
         maxLength={40}
         value={plan.cta}
         onChange={(e) => onChange({ cta: e.target.value })}

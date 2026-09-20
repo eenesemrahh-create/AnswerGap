@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { eraseUser } from "../actions";
+import { makeT, type Locale } from "@/lib/i18n";
 
 /**
  * Erase an account, in two deliberate acts.
@@ -20,11 +21,17 @@ export function EraseAccount({
   userId,
   email,
   erased,
+  locale,
 }: {
   userId: number;
   email: string;
   erased: boolean;
+  /** The language, as a prop: a client component cannot read the cookie the
+   *  server chose from, and `t` is a function so it cannot cross as a prop
+   *  either. The catalogue is plain data and imports cleanly on both sides. */
+  locale: Locale;
 }) {
+  const t = makeT(locale);
   const [asking, setAsking] = useState(false);
   const [reason, setReason] = useState("");
   const [message, setMessage] = useState<string | null>(null);
@@ -32,11 +39,7 @@ export function EraseAccount({
 
   if (erased) {
     return (
-      <p className="sub">
-        This account is already erased. Nothing further to do here — it comes
-        back only when the person proves the mailbox again, by signing up or
-        signing in with the same address.
-      </p>
+      <p className="sub">{t("erase.already")}</p>
     );
   }
 
@@ -48,13 +51,16 @@ export function EraseAccount({
         const out = await eraseUser(userId, reason);
         setMessage(
           out.already_erased
-            ? "Already erased — nothing was written."
-            : `Erased. ${out.crawls} searches unlinked, ${out.usage_events} usage rows ` +
-              `unattributed, ${out.payments_redacted} payment payloads redacted, ` +
-              `${out.credentials_deleted} live credentials deleted.`
+            ? t("erase.alreadyDone")
+            : t("erase.done", {
+                crawls: out.crawls,
+                events: out.usage_events,
+                payments: out.payments_redacted,
+                creds: out.credentials_deleted,
+              })
         );
       } catch {
-        setMessage("The API refused. Check the api service log.");
+        setMessage(t("erase.failed"));
       }
     });
   };
@@ -67,51 +73,33 @@ export function EraseAccount({
           disabled={pending}
           onClick={() => setAsking(true)}
         >
-          Erase this account
+          {t("erase.button")}
         </button>
-        <span className="sub" style={{ margin: 0 }}>
-          Blanks the profile, deletes every live credential and unlinks every
-          search. Keeps the address and the payment amounts — the Privacy
-          Policy says so in section 7.
-        </span>
+        <span className="sub" style={{ margin: 0 }}>{t("erase.buttonNote")}</span>
       </div>
 
       {asking && (
         <div className="notice">
           <p>
-            <b>This cannot be undone from here.</b> It erases{" "}
-            <b>{email}</b>: name, picture, password and Google link blanked,
-            every session killed, every reset link deleted, and every search
-            unlinked from the person.
+            <b>{t("erase.warnTitle")}</b> {t("erase.warnBody", { email })}
           </p>
-          <p>
-            The address and the payment amounts are kept deliberately. If this
-            person signs up again with the same address, the account revives
-            and any credit balance they paid for comes back.
-          </p>
-          <p>
-            Payments are matched by email address only — there is no other link
-            — so a checkout completed under a different address will not be
-            redacted. The count below will say so.
-          </p>
+          <p>{t("erase.warnKeeps")}</p>
+          <p>{t("erase.warnPayments")}</p>
           <label className="row" style={{ marginTop: 8 }}>
             <input
-              placeholder="Reason for the audit log (optional)"
+              placeholder={t("erase.reasonPlaceholder")}
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               maxLength={200}
             />
           </label>
-          <p className="sub" style={{ margin: 0 }}>
-            Do not type anything about the person here. Nothing redacts the
-            audit log, so a name written in this box outlives the erasure.
-          </p>
+          <p className="sub" style={{ margin: 0 }}>{t("erase.reasonWarning")}</p>
           <div className="ci-buttons">
             <button className="act warn" disabled={pending} onClick={run}>
-              Yes, erase {email}
+              {t("erase.confirm", { email })}
             </button>
             <button className="act" onClick={() => setAsking(false)}>
-              Cancel
+              {t("common.cancel")}
             </button>
           </div>
         </div>

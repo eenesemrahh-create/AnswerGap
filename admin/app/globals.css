@@ -645,3 +645,7 @@ thead th {
 /* `status` has had three values since erasure shipped; the pill had two.
    Grey, not amber: an erased account is a finished state, not a warning. */
 .pill.erased { color: var(--text-faint); border-color: currentColor; }
+
+/* The language toggle sits between the nav and Sign out. `margin-left: auto`
+   on the nav already pushed everything right, so this just keeps a gap. */
+.topbar .lang { display: inline-flex; margin-right: 14px; }

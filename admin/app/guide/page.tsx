@@ -1,3 +1,4 @@
+import { translator } from "@/lib/locale";
 import { get } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
@@ -17,11 +18,13 @@ export const dynamic = "force-dynamic";
 const DOC_URL = "https://claude.ai/code/artifact/77530b9b-221b-483b-855d-64ee16850069";
 
 export default async function GuidePage() {
+  const t = await translator();
   await get("/api/admin/settings");
 
   return (
     <article className="guide">
       <h1>AI Overview verisi nereden geliyor?</h1>
+      <p className="notice">{t("guide.englishOnly")}</p>
       <p className="sub">
         AnswerGap hiçbir siteye girip içeriğini okumaz. Bir soruyu Google&apos;a bir kez
         sorar, Google&apos;ın o gün gösterdiği sonuç sayfasının kopyasını saklar ve bütün
