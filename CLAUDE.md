@@ -644,6 +644,72 @@ ledger with no renewal, proration or dunning to get wrong. The webhook already
 records the payment; granting credits is the piece to add, keyed on the
 session's metadata.
 
+## Legal pages, 2026-09-20
+
+`4e68b94`. Terms of Service and Privacy Policy, five languages, ten URLs.
+`/terms` and `/privacy` are the English canonicals - the short, permanent
+addresses to paste into Stripe and the Google Cloud console - with the four
+translations one segment deeper and `/terms/en` 308-ing to `/terms`.
+
+**Server-rendered, and that is the requirement rather than a preference.** A
+review fetcher does not run JavaScript, so a client-assembled body would be
+empty to the only two readers these pages have. It works despite the root
+layout wrapping everything in the client `I18nProvider`, because **a server
+component passed as `children` crosses that boundary as an already-rendered
+payload** - no root-layout surgery was needed.
+
+**Content lives in `web/content/legal/`, NEVER in `web/i18n/`.** The catalogue
+is statically imported by a root-layout provider, so all five locales ship to
+every visitor on every page (~112 KB already). Two long documents there would
+be a permanent tax on people who never open them. Three block kinds rendered
+as React elements: no markdown library, no sanitiser, **no data-to-HTML sink.**
+
+**`Widen`, not i18n's `Mutable`.** The catalogue gets away with stripping
+`readonly` because it holds no arrays - a readonly *property* is assignable to
+a mutable one, a readonly *array* is not. These documents are mostly arrays.
+`Widen` keeps `readonly` and preserves tuple arity, so a translation must match
+English **clause for clause and bullet for bullet**. Verified by adding a
+throwaway clause to `terms/en.ts` and watching exactly four files fail.
+
+**Written from the code, not from a template.** Every claim was checked against
+the schema and the outbound calls. A generic policy that misdescribes the
+system is worse than none, because it is a promise about behaviour nobody
+verified.
+
+**Two deliberate disclosures worth keeping accurate as the code moves:**
+- **Privacy §5** says the question corpus is SHARED between customers while the
+  search list is private. That is the real design and hiding it would be the
+  problem, not the design.
+- **Privacy §7** says deleting an account keeps the **email address** and the
+  **payment record**. Operator's decision, taken against the recommendation to
+  store a one-way hash instead; the policy states it plainly and offers a
+  manual route to remove the address. **The automated erasure it promises does
+  not exist yet** - see below.
+
+**Terms §6 says the gap score is an estimate expected to be wrong in a
+meaningful share of cases.** On 14 labels the metric is at precision 0.20. A
+contract claiming more than the interface does would be the one place this
+codebase stopped telling the truth about its own number.
+
+**Two things must happen before these URLs are handed over:**
+1. **Fill `LEGAL_VARS` in `web/content/legal/blocks.ts`** - company name,
+   entity type and state are `«PLACEHOLDERS»` in one constant. A production
+   build logs a warning while they are unfilled.
+2. **Build account erasure.** There is still no deletion endpoint, no admin
+   action and no script, and `credit_ledger` / `usage_event` / `crawl` /
+   `serp_task` / `admin_action` all reference `app_user` with
+   `ON DELETE RESTRICT`, so a plain `DELETE FROM app_user` fails by design.
+   The schema names the right answer at `answergap/db.py:391-394`: blank the
+   profile, leave the ledger standing. Keep `email`; blank `name`,
+   `picture_url`, `password_hash`, `google_sub`; add an `erased` status; and
+   **redact `payment_event.payload`**, which holds the entire raw Stripe event
+   up to 100 000 chars including billing name and address - "payment amounts"
+   is the summary columns, not the whole dossier.
+
+`robots.ts` **disallows `/pay`** on purpose: an unauthenticated page that mints
+Checkout sessions for an arbitrary amount is what card-testing abuse looks for,
+and it must not be indexed. That line dies with the page.
+
 ## Never commit a dashboard screenshot
 
 Two Railway screenshots arrived in the project root on 2026-08-31. They showed,
@@ -710,14 +776,16 @@ progress polling, developer panel, five locales.
    same day it was noticed: `f1ae414` took Google sign-in down in
    production. The Postgres container is the point rather than a detail -
    the bug that got through was SQL, which the current suite cannot reach.
-10. **Legal pages, then Stripe.** Privacy Policy and Terms of Service are
-    `href="#"` on the landing today, and they gate two things already on
-    this list: Google OAuth verification (the app is capped at 100 users in
-    "testing" mode until a privacy URL is published) and Stripe onboarding.
-11. **Own SEO.** Five locales are invisible to crawlers - `<html lang>` is
-    hard-coded `en` and the locale is client-side only - plus no OG image,
-    canonical, sitemap or robots. For a product that sells AI-search
-    visibility this is both a credibility problem and a free channel.
+10. ~~**Legal pages**~~ **DONE 2026-09-20** (`4e68b94`) - see "Legal pages"
+    below. **Still open before they are useful: fill the company
+    placeholders, then hand the URLs to Google and Stripe.** Also still
+    open: account erasure, which the policy now promises.
+11. **Own SEO.** Partly done by the legal work: `metadataBase`, a title
+    template, `sitemap.ts` and `robots.ts` now exist, and the ten legal
+    URLs carry canonical + hreflang. Still open for the REST of the app -
+    `<html lang>` is hard-coded `en`, the locale is client-side only, and
+    there is no OG image. For a product that sells AI-search visibility
+    this is both a credibility problem and a free channel.
 12. **Break the label deadlock: 35 labels free today, ~200 for $0.30.**
     The one number this product sells sits at precision 0.20 on 14 rows,
     and the plan to collect labels FROM users cannot start until the metric
