@@ -878,6 +878,9 @@ def decompose(tree: dict) -> dict:
             "location_code": tree["location_code"],
             "source": tree.get("source", "live"),
             "billable_calls": tree.get("billable_calls") or 0,
+            # Reads `estimated_spend` and writes `spend`. The names differ
+            # because the tree carries the figure under the key `live` built
+            # it with; by the time it is a row it is simply what was spent.
             "spend": tree.get("estimated_spend") or 0,
         },
         "questions": questions,
