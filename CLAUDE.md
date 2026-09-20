@@ -431,17 +431,37 @@ defensible asset over time.
 
 # Current state — resume here
 
-## 2026-09-17 session — read this first
+## 2026-09-20 session — read this first
 
-Last worked: **2026-09-17**, across TWO sessions. Four feature commits, all
-pushed to `origin/main` (`8d9b255`, `0d9e199`, `2f250c2`, `13e4d00`). Web
-build clean, 249 backend tests + 8 web tests green.
+Last worked: **2026-09-20**. Six commits: a dead verification link now has
+somewhere to go (`73ff6e6`), the Terms and Privacy Policy are published in five
+languages (`4e68b94`), account erasure is built (`008dad5`), the admin has a
+Reports page (`44de4d2`), and the admin console speaks Turkish (`6d2cf46`).
+**326 backend tests + 9 web tests green; all three apps build.**
 
-**Where it stopped, in one line (2026-09-18, late):** verification mail now
-ARRIVES - the whole email sign-in flow is finally live - and the next thing is
-the page the verification link lands on, which is unfinished. Everything else
-from this session (AI Overview citations, CI, Stripe) is done and recorded
-below.
+**Where it stopped, in one line:** the product is legally publishable and
+operationally legible, and **two things block turning that into users and
+money** — the company placeholders in `web/content/legal/blocks.ts` are still
+`«COMPANY NAME»`, and nobody has handed `/privacy` to the Google Cloud console
+or `/terms` to Stripe. Until the first, the second cannot happen; until the
+second, the app stays capped at 100 users.
+
+**33 SQL tests have never run on a developer machine.** 20 for erasure, 13 for
+the reports aggregates. There is no Postgres locally and the fixture refuses a
+non-local host on purpose, so **CI is the only thing that proves them** — check
+the "Backend tests" job before trusting any of it.
+
+Earlier sessions, kept for their reasoning, follow below.
+
+## 2026-09-17 session
+
+Four feature commits, all pushed to `origin/main` (`8d9b255`, `0d9e199`,
+`2f250c2`, `13e4d00`). Web build clean, 249 backend tests + 8 web tests green.
+
+**Where it stopped, at the time:** verification mail now ARRIVES - the whole
+email sign-in flow is finally live - and the next thing was the page the
+verification link lands on. That is now done; see "Where a dead verification
+link lands".
 
 What happened, in order:
 
@@ -768,6 +788,97 @@ erased row, so the suspend/reactivate toggle cannot half-revive one.
 is the busiest table in the schema; above roughly 100 000 rows for one user,
 batch that step outside the audited transaction and keep the audit last.
 
+## Admin Reports: what it cost, who spent it, 2026-09-20
+
+`44de4d2`. `/reports` in the admin, over three aggregates in `answergap/db.py`:
+`admin_usage_by_month`, `admin_usage_by_user`, `admin_usage_totals`, behind
+`GET /api/admin/reports`. Overview answers *what is happening today*; this
+answers *what did September cost*, which is what a month end is made of.
+
+**Two counts per row, never one.** `billable` is the requests that cost money;
+`attempts` is every request including cache hits and refusals. Collapsing them
+into "searches" hides the two things worth knowing — how much the corpus is
+saving, and how often somebody is being turned away.
+
+**The cost split has FOUR parts and sums to the total.** Two is how a budget
+stops adding up:
+
+| | |
+|---|---|
+| customer | a signed-in account that is not an admin |
+| admin | real money that no credit ever paid for — admins are not billed |
+| anonymous | the free daily search |
+| **unattributed** | what an erased account leaves behind. `user_erase` blanks every identifier on purpose, and those dollars must not be quietly reclassified as anonymous traffic. |
+
+**`ADMIN_EMAILS` travels INTO the query.** There is no `is_admin` column on
+`usage_event` — the flag only suppresses the ledger row — and admin is an
+environment variable rather than a row, so the database cannot answer "was this
+an admin's dollar" on its own. Passing the list keeps the report's definition
+of an admin identical to the gate's.
+
+**Bucketed on `day_utc`, not `created_at`.** It is the only indexed date column
+on the busiest table in the product, and it is already UTC. Bucketing on the
+timestamp would both miss the index and put a 23:30 request in a different
+month from the counter that rate-limited it.
+
+**THE RECONCILIATION IS ON THE SCREEN, not in a footnote.** `usage_event` is
+best-effort — both call sites swallow their own exceptions, because losing a
+receipt is bad and losing the customer's result on top of it is worse — and it
+only exists since accounts shipped. `crawl.spend` + `serp_task.cost` are the
+provider's own receipts, predate accounts, and cannot be skipped by a failed
+insert. **The difference is money we spent and cannot trace**, and a page that
+showed only the attributed half would understate the bill.
+
+**A pre-existing bug fixed on the way.** The user detail page's Spend card
+summed `u.usage`, which `admin_user_detail` caps at 50 rows, under the caption
+"reported by DataForSEO" — true of each number in it and false of the total.
+For a busy account that was a fraction of the real spend wearing the label of
+the whole.
+
+Formatters: `money()` keeps four decimals because one request costs $0.0026;
+`usd()` switches to two above a dollar, because `$1234.5000` reads like a bug.
+NUMERIC is cast to float on the way out — the TypeScript says `number`, and a
+Decimal reaching JSON as a string turns `.toFixed` into a runtime error on a
+page about money.
+
+## The admin console speaks Turkish, 2026-09-20
+
+`6d2cf46`. Default **Turkish**, English one click away in the nav, remembered
+in a cookie.
+
+**This reverses a documented decision, and the reasoning is worth keeping.**
+`layout.tsx` said ENGLISH ONLY, deliberately: the customer app carries five
+locales and a build gate, and the same machinery here would mean four more
+files and four broken builds every time a label changes. **That was right for
+five.** At two it is one file and one broken build, and what it buys is the
+person who runs the product reading their own panel. The principle did not
+change; its input did.
+
+**A cookie, not `localStorage`, and that is forced rather than preferred.**
+Every admin page is a server component with `force-dynamic`, so the text is
+built before the browser runs anything. The customer app's approach would
+render English and then correct itself — a visible flash on a page of tables,
+and on a server-rendered one simply impossible.
+
+**Two files.** `admin/lib/i18n.ts` is pure data plus one pure function with no
+`server-only` import, because four client components need the same strings and
+a function cannot cross that boundary as a prop; they take `locale` and build
+their own `t`. `admin/lib/locale.ts` reads the cookie and is server-only.
+
+**Same build gate as the customer app**, which is cheap at two locales:
+`Messages` is derived from the English catalogue, so a key in `en` missing from
+`tr` is a compile error. Verified by deleting one.
+
+**Three module-scope tables changed shape rather than being translated in
+place** — the CI error map, the Stripe error map and the CI run-state labels.
+They sit outside any component where `t` does not exist, so they hold catalogue
+KEYS and the call sites translate. `t` falls back to its own argument, so an
+unrecognised GitHub conclusion still renders as itself.
+
+**The Guide page stays English and says so on itself.** It is the operator
+manual, a third of all the prose in the console, and it describes the code
+closely enough that a translation would drift out of step invisibly.
+
 ## Never commit a dashboard screenshot
 
 Two Railway screenshots arrived in the project root on 2026-08-31. They showed,
@@ -836,8 +947,15 @@ progress polling, developer panel, five locales.
    the bug that got through was SQL, which the current suite cannot reach.
 10. ~~**Legal pages**~~ **DONE 2026-09-20** (`4e68b94`) - see "Legal pages"
     below. **Still open before they are useful: fill the company
-    placeholders, then hand the URLs to Google and Stripe.** Also still
-    open: account erasure, which the policy now promises.
+    placeholders, then hand the URLs to Google and Stripe.** Account erasure,
+    which the policy promises, is **DONE 2026-09-20** (`008dad5`).
+10b. **THE ONE THING BLOCKING EVERYTHING COMMERCIAL.** Fill `LEGAL_VARS` in
+    `web/content/legal/blocks.ts` — company name, entity type, state are
+    `«PLACEHOLDERS»` and a production build warns about them. Then paste
+    `https://gettopquestions.com/privacy` into the Google Cloud console and
+    `/terms` into Stripe onboarding. Until that happens the app is capped at
+    100 users and cannot take money, and **no amount of further building
+    changes either fact.**
 11. **Own SEO.** Partly done by the legal work: `metadataBase`, a title
     template, `sitemap.ts` and `robots.ts` now exist, and the ten legal
     URLs carry canonical + hreflang. Still open for the REST of the app -
@@ -849,9 +967,24 @@ progress polling, developer panel, five locales.
     and the plan to collect labels FROM users cannot start until the metric
     is credible enough to have users. See the review section for the
     arithmetic.
+13. **Wire credit packs to the Stripe webhook.** The payment is already
+    recorded; granting credits is the piece to add, keyed on the session's
+    metadata. Then **delete `/pay`, the two `/api/pay/*` endpoints, the
+    `PAY_PROBE_TOKEN` variable and the `robots.ts` line that hides it** —
+    they exist only until this lands.
+14. **`payment_event` has no `user_id` and no foreign key.** The only link
+    from a payment to an account is the email address as text, which is why
+    erasure's redaction and the Reports page's "Paid" column are both
+    best-effort. Adding a real column is the right fix and it gets easier
+    the fewer payments exist — do it while the table is nearly empty.
+15. **A `(user_id, day_utc)` index on `usage_event`.** The Reports
+    per-account aggregate has no composite index to ride on. Irrelevant at
+    today's row count; the busiest table in the schema will not stay that
+    way.
 
 Items 9-12 come from the 2026-09-15 review; the reasoning for each is in
-"Codebase review, 2026-09-15 — open findings not yet acted on".
+"Codebase review, 2026-09-15 — open findings not yet acted on". Items 13-15
+come from the 2026-09-20 work and are recorded in the sections above.
 
 ## Immediately actionable, no new code needed
 
