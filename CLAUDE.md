@@ -695,20 +695,78 @@ codebase stopped telling the truth about its own number.
 1. **Fill `LEGAL_VARS` in `web/content/legal/blocks.ts`** - company name,
    entity type and state are `«PLACEHOLDERS»` in one constant. A production
    build logs a warning while they are unfilled.
-2. **Build account erasure.** There is still no deletion endpoint, no admin
-   action and no script, and `credit_ledger` / `usage_event` / `crawl` /
-   `serp_task` / `admin_action` all reference `app_user` with
-   `ON DELETE RESTRICT`, so a plain `DELETE FROM app_user` fails by design.
-   The schema names the right answer at `answergap/db.py:391-394`: blank the
-   profile, leave the ledger standing. Keep `email`; blank `name`,
-   `picture_url`, `password_hash`, `google_sub`; add an `erased` status; and
-   **redact `payment_event.payload`**, which holds the entire raw Stripe event
-   up to 100 000 chars including billing name and address - "payment amounts"
-   is the summary columns, not the whole dossier.
+2. ~~**Build account erasure.**~~ **DONE 2026-09-20** (`008dad5`) - see
+   "Account erasure" below.
 
 `robots.ts` **disallows `/pay`** on purpose: an unauthenticated page that mints
 Checkout sessions for an arbitrary amount is what card-testing abuse looks for,
 and it must not be indexed. That line dies with the page.
+
+## Account erasure, 2026-09-20
+
+`008dad5`. `db.user_erase` + `db._revive`, migration `0010`, two endpoints
+(`POST /api/account/erase`, `POST /api/admin/user/{id}/erase`), an account
+dialog in the web app, a two-step confirm in admin, and 20 SQL tests.
+
+**Two live bugs had to be fixed before it was safe to ship, and both were the
+same shape - a rule written as an equality test against the cases somebody had
+already thought of.**
+
+1. `gate.decide` tested `status == STATUS_SUSPENDED`, so it **waved through
+   every status it had not been told about by name.** Adding `erased` without
+   touching it would have left an erased account spending. Now
+   `!= STATUS_ACTIVE`, failing closed. Careful: `status is None` means an
+   ANONYMOUS visitor and must still fall through - the first cut refused every
+   one of them and four existing tests caught it.
+2. **`crawl` carries BOTH `user_id` and `anon_id` on a signed-in search.** The
+   comment on migration 0006 says it carries one or the other; `api/main.py`
+   has passed both since accounts shipped and `can_access` matches EITHER.
+   Blanking only `user_id` would take the tree out of the person's list while
+   leaving it open to *the browser that pressed delete*. Same shape in
+   `usage_event`: `anon_counters` counts `user_id IS NULL` once by `anon_id`
+   and again by `ip_hash`, so a half-blank would donate the erased person's
+   same-day searches to an anonymous visitor's free allowance.
+
+**Several statements in one transaction, not one clever one** - the argument on
+`user_upsert`, which is the third bug this codebase has paid for against
+chained data-modifying CTEs. Do not "optimise" it back.
+
+**It deletes every `email_token` and `auth_code` row.** They do not cascade
+here because the row is not deleted, and `email_token_redeem` asks about expiry
+and use but never about status - a reset link mailed ten minutes before an
+erasure would otherwise survive it and revive the account from stale mail.
+
+**Revival is explicit and lives in one helper**, called only where mailbox
+control has just been proven: `user_verify_email` and the Google link path in
+`user_upsert`. That Google path was already silently broken - the address
+fallback matched an erased row, so a sign-in linked a subject id, handed out a
+session and left `status = 'erased'` for the gate to wave through.
+`signup_granted_at` survives erasure so no second grant is ever paid;
+`status_before_erasure` means a suspended account comes back suspended.
+
+**`erased_at` is the fact, `status` is the switch, a CHECK makes them unable to
+disagree.** Carried in both places so the five sign-in paths already written as
+`status != 'active'` became correct for free. `admin_set_status` refuses an
+erased row, so the suspend/reactivate toggle cannot half-revive one.
+
+**Three honest limitations, recorded so nobody claims more than is true:**
+- **Redaction is logical, not physical.** `payload` is TOASTed, so the UPDATE
+  writes a new tuple and the old one survives until autovacuum - plus WAL and
+  Railway's point-in-time-restore window. Same for the blanked `app_user`
+  columns. The policy's 30-day answer window covers it; a guarantee of
+  immediate physical removal would not be true.
+- **Payments are matched by email address only.** `payment_event` has no
+  `user_id` and no foreign key. A checkout completed under a different address
+  than the account's is not redacted, which is why the matched count goes into
+  the audit detail - a zero there is the signal.
+- **`admin_action.detail` is not redacted by anything.** `admin_credit` stores
+  a free-text note, and `user_erase` stores a `reason`. A name typed into
+  either outlives the erasure meant to remove it. The admin UI says so above
+  the box.
+
+**Erasure is O(the person's whole history) in one transaction.** `usage_event`
+is the busiest table in the schema; above roughly 100 000 rows for one user,
+batch that step outside the audited transaction and keep the audit last.
 
 ## Never commit a dashboard screenshot
 
