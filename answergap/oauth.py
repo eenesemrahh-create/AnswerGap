@@ -123,6 +123,21 @@ def parse_origins(raw: str | None) -> frozenset[str]:
     return frozenset(out)
 
 
+def first_origin(raw: str | None) -> str:
+    """The first origin as WRITTEN, not as sorted.
+
+    `parse_origins` answers "may a session go here"; a set is exactly right for
+    that and loses the one thing a fallback needs - which entry the operator
+    put first. Normalised identically, so the answer is always a member of the
+    allowlist the same string produced.
+    """
+    for part in (raw or "").split(","):
+        cleaned = part.strip().rstrip("/").lower()
+        if cleaned:
+            return cleaned
+    return ""
+
+
 def return_allowed(target: str, allowlist: frozenset[str]) -> bool:
     """Is this a place we are willing to hand a session to?
 

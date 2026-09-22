@@ -51,11 +51,14 @@ GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
 ADMIN_EMAILS = gate.parse_admin_emails(os.environ.get("ADMIN_EMAILS", ""))
 
 # Where a completed sign-in may return to. Exact origins, never prefixes.
-AUTH_RETURN_ORIGINS = oauth.parse_origins(
-    os.environ.get(
-        "AUTH_RETURN_ORIGINS", "http://localhost:3000,http://localhost:3100"
-    )
+#
+# The raw string is kept because ORDER is a fact the allowlist itself cannot
+# carry - `parse_origins` returns a set, and `WEB_BASE_URL` below needs to know
+# which of these the operator meant as the customer app.
+AUTH_RETURN_ORIGINS_RAW = os.environ.get(
+    "AUTH_RETURN_ORIGINS", "http://localhost:3000,http://localhost:3100"
 )
+AUTH_RETURN_ORIGINS = oauth.parse_origins(AUTH_RETURN_ORIGINS_RAW)
 
 # Already used to build the DataForSEO postback URL. It now also builds the
 # OAuth redirect_uri, which widens what an unset value costs: without it, batch
@@ -575,9 +578,17 @@ def me(request: Request) -> dict:
 # is the api; a person clicking a link in their inbox needs the app. Falls
 # back to the first allowed return origin so a correct deployment does not
 # need a fourth URL variable set to a value it could have worked out.
+#
+# THE FALLBACK USED TO SORT THE ALLOWLIST AND TAKE `[0]`, WHICH IS NOT "first"
+# BUT "alphabetically first" - and there are always at least two apps here.
+# `https://admin-…` sorts ahead of `https://web-…`, so with `WEB_BASE_URL`
+# unset every verification link mailed a CUSTOMER to the ADMIN console, which
+# cannot read the session fragment and simply showed its own sign-in screen.
+# The order the operator wrote is the only signal available about which origin
+# is the customer app, so it is the one that is honoured.
 WEB_BASE_URL = (
     os.environ.get("WEB_BASE_URL", "").rstrip("/")
-    or (sorted(AUTH_RETURN_ORIGINS)[0] if AUTH_RETURN_ORIGINS else "")
+    or oauth.first_origin(AUTH_RETURN_ORIGINS_RAW)
 )
 
 # Sliding-window counters, in memory, per process. Same trade as the `/jobs`

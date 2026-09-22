@@ -58,6 +58,36 @@ def test_non_http_targets_are_refused(junk: str) -> None:
     assert not oauth.return_allowed(junk, ALLOWED)
 
 
+# ------------------------------------------------------------- first_origin
+
+
+def test_the_first_origin_is_the_one_written_first() -> None:
+    """THE bug this function exists for.
+
+    `WEB_BASE_URL` used to fall back to `sorted(AUTH_RETURN_ORIGINS)[0]`, and
+    "admin" sorts ahead of "web". Every verification link therefore mailed a
+    CUSTOMER to the ADMIN console, which cannot read a session fragment and
+    showed its own sign-in screen instead. Alphabetical order carries no
+    intent; the order the operator wrote does.
+    """
+    raw = "https://web.up.railway.app,https://admin.up.railway.app"
+    assert oauth.first_origin(raw) == "https://web.up.railway.app"
+    assert sorted(oauth.parse_origins(raw))[0] == "https://admin.up.railway.app"
+
+
+def test_first_origin_normalises_exactly_as_the_allowlist_does() -> None:
+    """Or the fallback could name an origin its own allowlist would refuse."""
+    raw = "  HTTPS://Web.Up.Railway.App/ , https://admin.up.railway.app "
+    assert oauth.first_origin(raw) in oauth.parse_origins(raw)
+    assert oauth.first_origin(raw) == "https://web.up.railway.app"
+
+
+@pytest.mark.parametrize("raw", ["", "   ", ",", None])
+def test_first_origin_of_nothing_is_empty(raw: str | None) -> None:
+    """An unset variable stays unset rather than becoming a relative link."""
+    assert oauth.first_origin(raw) == ""
+
+
 # ------------------------------------------------------------------- state
 
 
