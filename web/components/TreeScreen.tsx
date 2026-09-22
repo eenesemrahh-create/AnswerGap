@@ -15,6 +15,7 @@ import {
 } from "@/lib/types";
 import { normalizeSite } from "@/lib/domains";
 import { useDateFormat, useI18n } from "@/i18n";
+import { ErrorNote } from "./ErrorNote";
 import { QuestionTree } from "./QuestionTree";
 import { GapTable } from "./GapTable";
 import { QuestionDetail } from "./QuestionDetail";
@@ -157,12 +158,7 @@ export function TreeScreen({ slug }: { slug: string }) {
     return (
       <div className="landing">
         <div className="error">
-          <strong>{t(`error.${error.kind}`, error.values)}</strong>
-          <div style={{ marginTop: 8 }}>
-            {t("error.startBackend")}
-            <br />
-            <code>python -m uvicorn api.main:app --reload --port 8000</code>
-          </div>
+          <ErrorNote error={error} />
         </div>
         <p style={{ marginTop: 16 }}>
           <Link href="/">← {t("error.backToAnalyses")}</Link>

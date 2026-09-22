@@ -323,6 +323,8 @@ export const de: Messages = {
     googleOff:
       "Google-Anmeldung ist in dieser Installation nicht eingerichtet. Nutze E-Mail.",
     unreachable: "API nicht erreichbar ({url}). Läuft das Backend?",
+    notFound:
+      "Diese Analyse gibt es hier nicht. Sie wurde gelöscht, oder die Adresse ist vertippt.",
     http: "{status} {statusText} — {path}",
     noCredentials: "DataForSEO-Zugangsdaten fehlen. .env.example nach .env kopieren, ausfüllen und das Backend neu starten.",
     budget: "Das Anfragelimit wurde erreicht; der Crawl wurde gestoppt, statt mehr auszugeben.",

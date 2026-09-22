@@ -37,6 +37,7 @@ export const API_BASE = BASE;
  */
 export type ErrorKind =
   | "unreachable"
+  | "notFound"
   | "http"
   | "noCredentials"
   | "budget"
@@ -100,6 +101,11 @@ const CODES: Record<string, ErrorKind> = {
 function kindFor(status: number, code?: string): ErrorKind {
   if (code && CODES[code]) return CODES[code];
   if (status === 503) return "noCredentials";
+  // A 404 is the one status a customer reaches by their own navigation - a
+  // mistyped slug, a bookmark to a tree that is gone. `http` renders it as
+  // "404 — /api/tree/king-arthur-en-2840", which names our route rather than
+  // their problem, so it gets a sentence of its own.
+  if (status === 404) return "notFound";
   if (status === 429) return "budget";
   if (status === 502) return "upstream";
   if (status === 400 || status === 409) return "badRequest";

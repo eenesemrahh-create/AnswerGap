@@ -25,6 +25,7 @@ import {
 } from "@/lib/types";
 import { useDateFormat, useI18n } from "@/i18n";
 import { AccountMenu } from "@/components/AccountMenu";
+import { ErrorNote } from "@/components/ErrorNote";
 import { LocalePicker } from "@/components/LocalePicker";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -362,12 +363,7 @@ export default function Landing() {
       {error && (
         <section className="mkt-saved">
           <div className="error" style={{ maxWidth: 720, margin: "0 auto" }}>
-            <strong>{t(`error.${error.kind}`, error.values)}</strong>
-            <div style={{ marginTop: 8 }}>
-              {t("error.startBackend")}
-              <br />
-              <code>python -m uvicorn api.main:app --reload --port 8000</code>
-            </div>
+            <ErrorNote error={error} />
           </div>
         </section>
       )}

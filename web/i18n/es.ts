@@ -325,6 +325,8 @@ export const es: Messages = {
     googleOff:
       "El inicio de sesión con Google no está configurado aquí. Usa el correo.",
     unreachable: "No se pudo conectar con la API ({url}). ¿Está el backend en marcha?",
+    notFound:
+      "Ese análisis no está aquí. Puede que se haya eliminado o que la dirección esté mal escrita.",
     http: "{status} {statusText} — {path}",
     noCredentials: "Faltan las credenciales de DataForSEO. Copia .env.example a .env, complétalo y reinicia el backend.",
     budget: "Se alcanzó el límite de peticiones; el rastreo se detuvo en lugar de gastar más.",

@@ -361,6 +361,8 @@ export const en = {
     googleOff:
       "Google sign-in is not configured on this deployment. Use email instead.",
     unreachable: "Could not reach the API ({url}). Is the backend running?",
+    notFound:
+      "That analysis is not here. It may have been deleted, or the address may be mistyped.",
     http: "{status} {statusText} — {path}",
     noCredentials: "DataForSEO credentials are missing. Copy .env.example to .env, fill it in, then restart the backend.",
     budget: "The request ceiling was reached, so the crawl stopped rather than spend more.",

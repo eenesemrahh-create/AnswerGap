@@ -329,6 +329,8 @@ export const fr: Messages = {
     googleOff:
       "La connexion Google n'est pas configurée ici. Utilisez l'e-mail.",
     unreachable: "API injoignable ({url}). Le backend est-il démarré ?",
+    notFound:
+      "Cette analyse n'est pas ici. Elle a peut-être été supprimée, ou l'adresse est mal saisie.",
     http: "{status} {statusText} — {path}",
     noCredentials: "Les identifiants DataForSEO sont absents. Copiez .env.example vers .env, remplissez-le, puis redémarrez le backend.",
     budget: "Le plafond de requêtes a été atteint ; l’exploration s’est arrêtée plutôt que de dépenser davantage.",

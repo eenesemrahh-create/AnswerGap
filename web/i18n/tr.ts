@@ -322,6 +322,8 @@ export const tr: Messages = {
     googleOff:
       "Bu kurulumda Google ile giriş yapılandırılmamış. E-posta ile devam et.",
     unreachable: "API'ye ulaşılamadı ({url}). Backend çalışıyor mu?",
+    notFound:
+      "Bu analiz burada değil. Silinmiş ya da adres yanlış yazılmış olabilir.",
     http: "{status} {statusText} — {path}",
     noCredentials: "DataForSEO kimlik bilgileri eksik. .env.example dosyasını .env olarak kopyalayıp doldurun, sonra arka ucu yeniden başlatın.",
     budget: "İstek tavanına ulaşıldı; tarama daha fazla harcamak yerine durdu.",
