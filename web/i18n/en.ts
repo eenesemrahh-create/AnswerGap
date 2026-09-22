@@ -313,7 +313,7 @@ export const en = {
     accountEmail: "Signed in as",
     deleteTitle: "Delete my account",
     deleteLead: "This cannot be undone. Your searches are unlinked from you; your email address and payment records are kept.",
-    deleteAction: "Delete my accountâ¦",
+    deleteAction: "Delete my account…",
     deleteConfirmTitle: "Delete this account?",
     deleteRemoves: "Removed: your name, your picture, your password, your saved preferences, and the link between you and every search you have run. Your saved analyses stop being yours.",
     deleteKeeps: "Kept: your email address, so we can recognise you if you return, and your payment records, which tax rules require us to retain.",
