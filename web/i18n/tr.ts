@@ -115,10 +115,7 @@ export const tr: Messages = {
   },
 
   detail: {
-    empty:
-      "Hangi sayfaların bu soruyu hedeflediğini, hangilerinin " +
-      "hedeflemediğini ve kaçının onu gerçekten cevapladığını görmek " +
-      "için bir soru seçin.",
+    close: "Kapat",
     depth: "Seviye {depth}",
     branches: "{count} dalda",
     matchingPages: "Hedefleyen sayfa",

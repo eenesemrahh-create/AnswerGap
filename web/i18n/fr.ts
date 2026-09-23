@@ -116,9 +116,7 @@ export const fr: Messages = {
   },
 
   detail: {
-    empty:
-      "Sélectionnez une question pour voir quelles pages la ciblent, " +
-      "lesquelles non, et combien y répondent vraiment.",
+    close: "Fermer",
     depth: "Niveau {depth}",
     branches: "dans {count} branches",
     matchingPages: "Pages qui la ciblent",

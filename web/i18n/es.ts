@@ -115,9 +115,7 @@ export const es: Messages = {
   },
 
   detail: {
-    empty:
-      "Selecciona una pregunta para ver qué páginas la abordan, cuáles " +
-      "no, y cuántas la responden de verdad.",
+    close: "Cerrar",
     depth: "Nivel {depth}",
     branches: "en {count} ramas",
     matchingPages: "Páginas que la abordan",

@@ -27,6 +27,10 @@ const CHARS_PER_LINE = 34;
 /* The AI Overview pill straddles the bottom border, so it never covers the
  * question text and fits the 10px gap between rows. */
 const PILL_H = 14;
+/* Mirrors `.panel` in globals.css. The canvas cannot measure a sibling it does
+   not own, and the two only have to agree on how much room to leave. */
+const PANEL_W = 400;
+const MARGIN = 16;
 
 interface Placed {
   node: Node;
@@ -150,9 +154,76 @@ export function QuestionTree({
     setView({ k, x: (cw - width * k) / 2, y: (ch - height * k) / 2 });
   }, [width, height]);
 
+  /* Opening position. NOT `fit()`.
+   *
+   * A question tree is a tall narrow ribbon and the canvas is landscape, so
+   * fitting both axes is always decided by the height: measured on the three
+   * demo trees the width fits at 91% every time while the height forces 82%,
+   * 73% and — at 51 nodes — 32%. Fitting therefore guarantees that the bigger
+   * the answer, the less of it can be read.
+   *
+   * So the tree opens at 100% anchored on the seed, the way a canvas tool
+   * opens, and the whole-tree view stays one click away on the fit button.
+   * A tree small enough to fit whole is centred instead, because for those
+   * the overview and the readable view are the same thing. */
+  const anchor = useCallback(() => {
+    const el = canvasRef.current;
+    if (!el) return;
+    const { clientWidth: cw, clientHeight: ch } = el;
+    if (width <= cw && height <= ch) {
+      setView({ k: 1, x: (cw - width) / 2, y: (ch - height) / 2 });
+      return;
+    }
+    const root = placed.find((p) => p.node.parent_id === null) ?? placed[0];
+    const rootY = root ? root.y + H / 2 : height / 2;
+    /* Centred horizontally while the tree is narrower than the canvas, pinned
+       to the left edge once it is not — so a shallow tree is not stranded
+       against one side, and a deep one still starts at the seed. */
+    const x = width <= cw ? (cw - width) / 2 : 24 - PAD;
+    setView({ k: 1, x, y: ch / 2 - (rootY + PAD) });
+  }, [placed, width, height]);
+
+  /* Once per mount, and deliberately not on every layout change: scoring a
+     question harvests new nodes into the tree, and re-anchoring there would
+     throw away the reader's pan and zoom mid-task. `applyScore` in TreeScreen
+     avoids a refetch for that same reason — an effect keyed on the layout
+     would have undone it. */
+  const anchored = useRef(false);
   useEffect(() => {
-    fit();
-  }, [fit]);
+    if (anchored.current) return;
+    anchored.current = true;
+    anchor();
+  }, [anchor]);
+
+  /* Keep the selected node out from under the detail panel.
+   *
+   * The panel buys its 400px back from the canvas by overlaying it, and the
+   * node most likely to be underneath is the one just clicked — the panel is
+   * anchored right and the deepest column sits right. So the canvas gives way:
+   * the smallest pan that brings the selection back into the uncovered strip,
+   * and nothing at all when it is already visible. */
+  useEffect(() => {
+    if (!selectedId) return;
+    const el = canvasRef.current;
+    if (!el) return;
+    const item = placed.find((p) => p.node.id === selectedId);
+    if (!item) return;
+    const { clientWidth: cw, clientHeight: ch } = el;
+    setView((v) => {
+      const left = v.x + v.k * (item.x + PAD);
+      const right = v.x + v.k * (item.x + PAD + W);
+      const top = v.y + v.k * (item.y + PAD);
+      const bottom = v.y + v.k * (item.y + PAD + H);
+      const edge = cw - PANEL_W - MARGIN;
+      let dx = 0;
+      let dy = 0;
+      if (right > edge) dx = edge - right;
+      if (left + dx < MARGIN) dx = MARGIN - left;
+      if (bottom > ch - MARGIN) dy = ch - MARGIN - bottom;
+      if (top + dy < MARGIN) dy = MARGIN - top;
+      return dx || dy ? { ...v, x: v.x + dx, y: v.y + dy } : v;
+    });
+  }, [selectedId, placed]);
 
   const onWheel = (e: React.WheelEvent) => {
     e.preventDefault();

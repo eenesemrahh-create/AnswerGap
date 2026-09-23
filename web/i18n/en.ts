@@ -139,9 +139,7 @@ export const en = {
   },
 
   detail: {
-    empty:
-      "Select a question to see which pages target it, which don't, and how " +
-      "many of them actually answer it.",
+    close: "Close",
     depth: "Depth {depth}",
     branches: "in {count} branches",
     matchingPages: "Pages targeting it",

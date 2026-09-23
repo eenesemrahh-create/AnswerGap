@@ -27,6 +27,8 @@ export function QuestionDetail({
   verdicts,
   site,
   onVerdict,
+  onClose,
+  overlay,
 }: {
   node: Node | null;
   tree: Tree;
@@ -37,6 +39,15 @@ export function QuestionDetail({
   /** The reader's own normalized domain, to mark among the cited sources. */
   site: string | null;
   onVerdict?: (labels: Record<string, Verdict>, counts: LabelCounts) => void;
+  /** Clears the selection. The panel overlays the canvas, so it needs a way out. */
+  onClose?: () => void;
+  /* Over the canvas, or beside the content?
+   *
+   * The tree is pannable, so anything the panel covers can be moved out from
+   * under it — and there the overlay buys the canvas 400px back. A table
+   * cannot be panned: the same overlay would simply hide the right-hand
+   * columns, and a hidden column reads as a column that does not exist. */
+  overlay?: boolean;
 }) {
   const { t } = useI18n();
   const formatDate = useDateFormat();
@@ -106,13 +117,11 @@ export function QuestionDetail({
     }
   };
 
-  if (!node) {
-    return (
-      <aside className="panel">
-        <div className="panel-empty">{t("detail.empty")}</div>
-      </aside>
-    );
-  }
+  /* Nothing selected renders NOTHING, rather than a panel explaining that
+     nothing is selected. The panel is 400px of a 1280px screen and the canvas
+     beside it is the screen's whole point; a sentence is not worth a third of
+     the tree. It slides over the canvas when there is something to say. */
+  if (!node) return null;
 
   const hasData = node.results_checked > 0;
 
@@ -130,7 +139,13 @@ export function QuestionDetail({
     (verdict === "G" && !metricSaysGap) || (verdict === "N" && metricSaysGap);
 
   return (
-    <aside className="panel">
+    <aside className={`panel${overlay ? " panel-overlay" : ""}`} aria-label={node.question}>
+      {onClose && (
+        <button className="panel-close" onClick={onClose} aria-label={t("detail.close")}
+                title={t("detail.close")}>
+          ×
+        </button>
+      )}
       <h2>{node.question}</h2>
       <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8 }}>
         <Badge

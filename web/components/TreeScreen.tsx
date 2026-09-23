@@ -71,6 +71,16 @@ export function TreeScreen({ slug }: { slug: string }) {
   };
   const site = useMemo(() => normalizeSite(siteInput), [siteInput]);
 
+  /* The detail panel overlays the canvas now, so Escape has to dismiss it —
+     the close button is 400px away from wherever the reader just clicked. */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedId(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   /* Who is looking, and what a request actually costs. Allowed to fail
      quietly: without it the screen loses the developer panel and the batch
      button, which is a smaller loss than losing the tree. */
@@ -316,6 +326,8 @@ export function TreeScreen({ slug }: { slug: string }) {
           onScored={applyScore}
           verdicts={verdicts}
           site={site}
+          onClose={() => setSelectedId(null)}
+          overlay={view === "tree"}
           onVerdict={(labels, counts) => {
             setVerdicts(labels);
             setLabelCounts(counts);

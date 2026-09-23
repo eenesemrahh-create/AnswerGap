@@ -115,9 +115,7 @@ export const de: Messages = {
   },
 
   detail: {
-    empty:
-      "Wählen Sie eine Frage, um zu sehen, welche Seiten sie adressieren, " +
-      "welche nicht, und wie viele davon sie wirklich beantworten.",
+    close: "Schließen",
     depth: "Ebene {depth}",
     branches: "in {count} Zweigen",
     matchingPages: "Passende Seiten",
