@@ -53,6 +53,7 @@ export const tr: Messages = {
   },
 
   toolbar: {
+    seedLabel: "Aramanız",
     seeds: "İlgili aramalar",
     tree: "Ağaç",
     table: "Tablo",

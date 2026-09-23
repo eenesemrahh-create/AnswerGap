@@ -165,14 +165,30 @@ button {
 
 .brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
-  font-weight: 640;
+  font-weight: 700;
+  font-size: 15px;
   letter-spacing: -.02em;
   text-decoration: none;
   white-space: nowrap;
+  color: var(--text);
 }
-.brand span { color: var(--gap); }
+/* The landing's `.mkt-brand-tile` at the size a dense app header can carry.
+   Not shared with it outright: that one is 34px with a drop shadow, sized for
+   a marketing nav with 24px of air around it, and it would crowd a toolbar. */
+.brand-tile {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--grad);
+  color: var(--brand-contrast);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 13px;
+  flex: none;
+}
 .brand small {
   font-weight: 450;
   font-size: 11px;
@@ -402,6 +418,34 @@ button {
   stroke-dasharray: 4 3;
 }
 .node.no_data .node-text { fill: var(--text-soft); }
+
+/* THE SEED. Drawn as the query it is, not as a question with a verdict.
+ *
+ * It used to take a status colour like everything else, which said the
+ * keyword somebody typed had been judged well answered - or, on the `web
+ * site` tree, that it was the one unanswered question in the tree. The score
+ * itself is real and still shown when the node is selected; what was wrong
+ * was dressing it as a finding.
+ *
+ * Brand tint, because the palette rule at the top of this file reserves
+ * amber and teal for verdicts and leaves the brand as decoration. A seed is
+ * decoration in exactly that sense: it says where you started, not what was
+ * found. `.seed` is written after the status rules so it wins whatever
+ * status the node carries. */
+.node.seed .node-box {
+  fill: var(--brand-soft);
+  stroke: var(--brand);
+  stroke-width: 1.5;
+  stroke-dasharray: none;
+}
+.node.seed .node-text { fill: var(--text); font-weight: 600; }
+.node-seed-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  fill: var(--brand);
+}
 
 .edge-line {
   fill: none;
@@ -1519,8 +1563,13 @@ table.table {
 /* The wordmark was painted with --gap, i.e. the colour that means "no page
    answers this question". A status token used as decoration, in the most
    prominent place on the page, and exactly what the palette rule above forbids.
-   The brand gradient says the same thing without borrowing a verdict's colour. */
-.brand span,
+   The brand gradient says the same thing without borrowing a verdict's colour.
+
+   `.brand span` is no longer in this list. The header's wordmark became a tile
+   plus plain text on 2026-09-23, matching the landing, and the only `span`
+   inside `.brand` is now that tile - which this rule was clipping to its
+   letter, so the tile drew no tile. The dead `.brand span { color: var(--gap) }`
+   further up went with it. */
 .landing h1 span {
   background: var(--grad);
   -webkit-background-clip: text;

@@ -373,11 +373,19 @@ Two things stayed out of it on purpose:
 - **Countries** — 213 entries in `data/locations/countries.json`.
 - **Three demo trees** built from real Google data:
 
-| Seed | Market | Nodes | gap / weak / covered / no_data |
-|---|---|---:|---|
-| teeth whitening | en / 2840 | 19 | 1 / 2 / 13 / 3 |
-| diş beyazlatma | tr / 2792 | 51 | 2 / 5 / 17 / 27 |
-| kredi notu nasıl yükseltilir | tr / 2792 | 21 | 5 / 1 / 3 / 12 |
+| Seed | Market | Nodes | Questions | gap / weak / covered / no_data |
+|---|---|---:|---:|---|
+| teeth whitening | en / 2840 | 19 | 18 | 1 / 2 / 12 / 3 |
+| diş beyazlatma | tr / 2792 | 51 | 50 | 2 / 5 / 16 / 27 |
+| kredi notu nasıl yükseltilir | tr / 2792 | 21 | 20 | 5 / 1 / 2 / 12 |
+
+**Nodes and questions differ by one, and the covered column dropped by one in
+each row, on 2026-09-23.** The seed is a node — it costs a SERP request like
+any other — but it is not a question Google suggested, and it was being
+counted as one. All three seeds happened to score `covered`, so all three
+inflated that column; on the `web site` tree the seed scored `gap` and was the
+ONLY gap, so the screen announced one unanswered question on a tree that had
+found none. See `tree.count_statuses`.
 
 Architecture walkthrough (diagrams, the evidence ledger, the known failure):
 https://claude.ai/code/artifact/8728066b-da07-4931-9b8e-241db01fafde

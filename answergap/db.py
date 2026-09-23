@@ -44,6 +44,7 @@ from decimal import Decimal
 from typing import Any, Iterator
 
 from . import gate, pricing_seed
+from . import tree as tree_mod
 
 try:
     import psycopg
@@ -1026,6 +1027,8 @@ def recompose(
         "language_code": crawl["language_code"],
         "location_code": crawl["location_code"],
         "node_count": len(ordered),
+        # Questions, which is nodes minus the seed. See `tree.count_questions`.
+        "question_count": tree_mod.count_questions(ordered),
         "source": crawl.get("source", "live"),
         "billable_calls": crawl.get("billable_calls") or 0,
         "estimated_spend": float(crawl.get("spend") or 0),

@@ -77,6 +77,9 @@ export const en = {
   },
 
   toolbar: {
+    /* Drawn inside the root node on the canvas. Says what that box is: the
+       keyword somebody typed, not a question Google suggested back. */
+    seedLabel: "Your search",
     seeds: "Related searches",
     tree: "Tree",
     table: "Table",

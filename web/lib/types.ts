@@ -51,7 +51,14 @@ export interface TreeSummary {
   language_code: string;
   language_name: string;
   location_code: number | null;
+  /** Nodes on the canvas, seed included. A node is the unit that costs a
+   *  SERP request, which is why the seed counts here. */
   node_count: number;
+  /** Questions, which is `node_count` minus the seed — the keyword the reader
+   *  typed is not something Google suggested back. This is what the interface
+   *  means by "N questions", and it always equals the sum of `status_counts`.
+   *  Optional so a tree stored before 2026-09-23 still parses. */
+  question_count?: number;
   status_counts: Record<Status, number>;
   threshold: number;
   strategy: string;
@@ -114,6 +121,7 @@ export interface ScoreResult {
   related_searches: string[];
   status_counts: Record<Status, number>;
   node_count: number;
+  question_count?: number;
 }
 
 /**

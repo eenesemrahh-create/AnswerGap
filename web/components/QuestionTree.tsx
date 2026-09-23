@@ -31,6 +31,10 @@ const PILL_H = 14;
    not own, and the two only have to agree on how much room to leave. */
 const PANEL_W = 400;
 const MARGIN = 16;
+/* Corner radius on an edge's two bends. Large enough to read as a rounded
+   corner at 100%, small enough that the vertical trunk is still obviously a
+   straight line. */
+const EDGE_RADIUS = 10;
 
 interface Placed {
   node: Node;
@@ -62,6 +66,43 @@ function wrap(text: string, maxLines = 2): string[] {
         : last + "…";
   }
   return lines.length ? lines : [text];
+}
+
+/* One edge, routed as an elbow: out of the parent, down a shared channel, into
+ * the child.
+ *
+ * It used to be a single cubic bezier from parent to child. That is the right
+ * curve for a pair of nodes near each other and the wrong one for a fan: the
+ * seed of a 51-node tree has its children spread over two thousand pixels, so
+ * every curve left the parent at almost the same point and climbed at almost
+ * the same angle, and the result read as a bundle of noise rather than as
+ * structure. Measured on `dis-beyazlatma`, where it covered the left third of
+ * the canvas.
+ *
+ * Every child of one parent now shares ONE vertical trunk at the midpoint of
+ * the gap between columns, which is what an org chart or a file tree does and
+ * for the same reason: the eye follows a line it can see the whole of.
+ *
+ * The corner radius shrinks on short hops so two rows apart never produces a
+ * curve bigger than the distance it has to cover.
+ */
+function elbow(x1: number, y1: number, x2: number, y2: number): string {
+  // Siblings that sit level with their parent get a straight line; an elbow
+  // with no bend in it would still draw two curves worth of path data.
+  if (Math.abs(y2 - y1) < 0.5) return `M${x1},${y1} H${x2}`;
+
+  const midX = (x1 + x2) / 2;
+  const down = y2 > y1 ? 1 : -1;
+  const r = Math.min(EDGE_RADIUS, Math.abs(y2 - y1) / 2, (x2 - x1) / 2);
+
+  return [
+    `M${x1},${y1}`,
+    `H${midX - r}`,
+    `Q${midX},${y1} ${midX},${y1 + r * down}`,
+    `V${y2 - r * down}`,
+    `Q${midX},${y2} ${midX + r},${y2}`,
+    `H${x2}`,
+  ].join(" ");
 }
 
 export function QuestionTree({
@@ -127,10 +168,9 @@ export function QuestionTree({
       const y1 = parent.y + H / 2;
       const x2 = item.x;
       const y2 = item.y + H / 2;
-      const mid = (x1 + x2) / 2;
       edgeList.push({
         id: `${parentId}->${item.node.id}`,
-        d: `M${x1},${y1} C${mid},${y1} ${mid},${y2} ${x2},${y2}`,
+        d: elbow(x1, y1, x2, y2),
       });
     }
 
@@ -303,12 +343,18 @@ export function QuestionTree({
               const node = item.node;
               const faded = highlighted !== null && !highlighted.has(node.id);
               const selected = node.id === selectedId;
+              /* The seed is the keyword that was typed, not a question that
+                 was found. It keeps its score - selecting it still shows the
+                 pages - but it is not drawn as a verdict, and it carries
+                 neither the AI pill nor the repeat badge, both of which only
+                 mean something about a discovered question. */
+              const isSeed = node.depth === 0;
               return (
                 <g
                   key={node.id}
-                  className={`node ${node.status}${selected ? " selected" : ""}${
-                    faded ? " faded" : ""
-                  }`}
+                  className={`node ${node.status}${isSeed ? " seed" : ""}${
+                    selected ? " selected" : ""
+                  }${faded ? " faded" : ""}`}
                 >
                   <g
                     className="node-hit"
@@ -330,12 +376,28 @@ export function QuestionTree({
                         key={i}
                         className="node-text"
                         x={item.x + 11}
-                        y={item.y + (item.lines.length === 1 ? 26 : 19 + i * 14)}
+                        /* The seed's text rides higher: the SEED caption sits
+                           along the bottom of its box, where a question has
+                           nothing. */
+                        y={
+                          item.y +
+                          (isSeed ? 20 : item.lines.length === 1 ? 26 : 19) +
+                          (item.lines.length === 1 && !isSeed ? 0 : i * 14)
+                        }
                       >
                         {line}
                       </text>
                     ))}
-                    {(() => {
+                    {isSeed && (
+                      <text
+                        className="node-seed-label"
+                        x={item.x + 11}
+                        y={item.y + H - 7}
+                      >
+                        {t("toolbar.seedLabel")}
+                      </text>
+                    )}
+                    {!isSeed && (() => {
                       /* Only nodes whose AI answer could be READ carry a pill.
                          Unchecked and unresolved are both unknown, and a pill
                          reading "AI 0" would state a result neither has. */
@@ -362,7 +424,7 @@ export function QuestionTree({
                         </g>
                       );
                     })()}
-                    {node.repeat_count > 1 && (
+                    {!isSeed && node.repeat_count > 1 && (
                       <>
                         <circle cx={item.x + W - 15} cy={item.y + 14} r={9}
                                 fill="var(--surface-2)" stroke="var(--border-strong)" />

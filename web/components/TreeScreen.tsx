@@ -133,13 +133,32 @@ export function TreeScreen({ slug }: { slug: string }) {
   const highlighted = useMemo(() => {
     if (!tree) return null;
     const noFilter = query.trim() === "" && hidden.size === 0;
-    return noFilter ? null : new Set(filtered.map((n) => n.id));
+    if (noFilter) return null;
+    const ids = new Set(filtered.map((n) => n.id));
+    /* The seed never fades. A status filter is a filter over QUESTIONS, and
+       the seed is not one - dimming it would also dim the node every branch
+       hangs from, which reads as a broken tree rather than as a filter. */
+    for (const node of tree.nodes) if (node.depth === 0) ids.add(node.id);
+    return ids;
   }, [tree, filtered, query, hidden]);
+
+  /* The table lists QUESTIONS, so the seed is not a row in it. The tree still
+     draws it, because a tree without its root is not a tree. */
+  const tableRows = useMemo(() => filtered.filter((n) => n.depth > 0), [filtered]);
 
   const selected = useMemo(
     () => tree?.nodes.find((n) => n.id === selectedId) ?? null,
     [tree, selectedId]
   );
+
+  /* Questions, which is every node EXCEPT the seed.
+   *
+   * The seed is the keyword the reader typed; it sits at the root of the tree
+   * because the tree hangs off it, but it is not one of the questions Google
+   * suggested and the status counts no longer include it. Falls back to
+   * counting here when the API is older than `question_count`. */
+  const questionCount =
+    tree?.question_count ?? tree?.nodes.filter((n) => n.depth > 0).length ?? 0;
 
   /* Scoring one question changes more than that question.
    *
@@ -186,13 +205,22 @@ export function TreeScreen({ slug }: { slug: string }) {
   return (
     <div className="shell">
       <header className="header">
+        {/* The same mark the landing and the marketing pages draw. It was
+            "Answer" plus a gradient "Gap" — already corrected once, away from
+            the amber that means "no page answers this question" — but still a
+            second wordmark for one product. One mark everywhere is the point;
+            the palette was fixed here long before the shape was. */}
         <Link href="/" className="brand">
-          Answer<span>Gap</span> <small>{t("brand.prototype")}</small>
+          <span className="brand-tile" aria-hidden>
+            A
+          </span>
+          AnswerGap
+          <small>{t("brand.prototype")}</small>
         </Link>
         <div className="header-mid">
           <div className="header-title">{tree.seed}</div>
           <div className="header-sub">
-            <span>{t("landing.questionCount", { count: tree.node_count })}</span>
+            <span>{t("landing.questionCount", { count: questionCount })}</span>
             <span>{tree.language_name}</span>
             <span>{t("detail.updated", { date: formatDate(tree.updated_at) })}</span>
           </div>
@@ -281,8 +309,8 @@ export function TreeScreen({ slug }: { slug: string }) {
         {view === "table" && (
           <span className="muted" style={{ fontSize: 12, marginLeft: "auto" }}>
             {t("toolbar.showing", {
-              shown: filtered.length,
-              total: tree.node_count,
+              shown: tableRows.length,
+              total: questionCount,
             })}
           </span>
         )}
@@ -305,7 +333,7 @@ export function TreeScreen({ slug }: { slug: string }) {
             )}
             {!noQuestions && view === "table" && (
               <GapTable
-                nodes={filtered}
+                nodes={tableRows}
                 allNodes={tree.nodes}
                 selectedId={selectedId}
                 onSelect={setSelectedId}

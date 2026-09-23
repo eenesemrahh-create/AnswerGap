@@ -28,7 +28,11 @@ the architecture verdict. Append new dated logs THERE, not here.
 
 Use these consistently; do not invent synonyms:
 
-- **node** — one question in the tree. Each node costs one SERP API call.
+- **node** — one box in the tree. Each node costs one SERP API call. The seed
+  is a node; it is **not** a question, and since 2026-09-23 `status_counts`
+  and `question_count` exclude it while `node_count` still counts it. Two
+  numbers, because a node is the unit of COST and a question is the unit of
+  WHAT WAS FOUND.
 - **seed** — the user's starting keyword, the tree's root.
 - **credit** — the unit we sell. One search = one credit.
 - **gap** — a question no page targets. The product's core concept.

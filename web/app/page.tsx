@@ -350,11 +350,15 @@ export default function Landing() {
               <Link key={tree.slug} href={`/tree/${tree.slug}`} className="card">
                 <div className="card-head">
                   <span className="card-title">{tree.seed}</span>
+                  {/* Questions, not nodes: the seed is the keyword that was
+                      typed, and the status counts beside this bar stopped
+                      including it. Passing `node_count` would leave the bar
+                      one question short of full for no visible reason. */}
                   <span className="card-count">
-                    {t("landing.questionCount", { count: tree.node_count })}
+                    {t("landing.questionCount", { count: questionsIn(tree) })}
                   </span>
                 </div>
-                <StatusBar counts={tree.status_counts} total={tree.node_count} />
+                <StatusBar counts={tree.status_counts} total={questionsIn(tree)} />
                 <div className="distribution">
                   {STATUSES.map((status) => (
                     <span key={status} className="chip">
@@ -727,6 +731,15 @@ function TargetIcon() {
       <circle cx="12" cy="12" r="1.5" fill="currentColor" />
     </svg>
   );
+}
+
+/** How many QUESTIONS a summary holds. See `tree.count_questions`.
+ *
+ * A summary carries no node list, so there is nothing to count here when the
+ * API predates `question_count` - `node_count` stands in and is one too many.
+ * Preferable to rendering nothing: the tally is a headline, not a receipt. */
+function questionsIn(tree: TreeSummary): number {
+  return tree.question_count ?? tree.node_count;
 }
 
 function StatusBar({

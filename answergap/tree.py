@@ -54,6 +54,47 @@ STATUSES = (STATUS_GAP, STATUS_WEAK, STATUS_COVERED, STATUS_NO_DATA)
 MAX_DEPTH = 2
 
 
+def count_questions(nodes: list[dict]) -> int:
+    """How many QUESTIONS a tree holds. Not the same as how many nodes.
+
+    `node_count` stays the number of nodes, because a node is the unit that
+    costs a SERP request and CLAUDE.md's terminology is built on it. This is
+    what the interface means when it says "19 questions": the seed is the
+    keyword somebody typed, not something Google suggested back.
+
+    Two numbers for two facts, rather than one number doing both jobs badly.
+    This one always equals the sum of `count_statuses`.
+    """
+    return sum(1 for node in nodes if node.get("depth") != 0)
+
+
+def count_statuses(nodes: list[dict]) -> dict[str, int]:
+    """Tally the statuses of the QUESTIONS in a tree. The seed is not one.
+
+    `depth == 0` is the keyword the user typed. It is scored like everything
+    else - the request was paid for and the number is real - but it is not a
+    question Google suggested, and these counts are what the legend, the
+    filters and the headline "N unanswered" are read from.
+
+    Counting it was not a rounding error. On the `web site` tree the seed
+    itself scored `gap`, and it was the ONLY gap: the screen said "1
+    unanswered question" and the one it meant was the phrase the user had just
+    typed into the box. The metric asks "do the pages that rank for this
+    actually answer it", which is a real question about a question and a
+    tautology about a keyword - the pages ranking for "web site" are, of
+    course, about web sites.
+
+    The seed's own score is still shown when it is selected. It is the
+    counting, not the measuring, that was wrong.
+    """
+    counts = {s: 0 for s in STATUSES}
+    for node in nodes:
+        if node.get("depth") == 0:
+            continue
+        counts[node["status"]] += 1
+    return counts
+
+
 # --------------------------------------------------------------- raw data
 
 
@@ -306,9 +347,7 @@ def build_tree(seed_key: str, index: dict[str, dict]) -> dict | None:
         else:
             seen_slugs[base] = 1
 
-    counts = {s: 0 for s in STATUSES}
-    for node in node_list:
-        counts[node["status"]] += 1
+    counts = count_statuses(node_list)
 
     timestamps = [n["updated_at"] for n in node_list if n["updated_at"]]
 
@@ -319,6 +358,7 @@ def build_tree(seed_key: str, index: dict[str, dict]) -> dict | None:
         "language_name": languages.get(language_code).name,
         "location_code": root["location_code"],
         "node_count": len(node_list),
+        "question_count": count_questions(node_list),
         "status_counts": counts,
         "threshold": THRESHOLD,
         "strategy": STRATEGY,

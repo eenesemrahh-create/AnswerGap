@@ -54,6 +54,7 @@ export const fr: Messages = {
   },
 
   toolbar: {
+    seedLabel: "Votre recherche",
     seeds: "Recherches associées",
     tree: "Arbre",
     table: "Tableau",

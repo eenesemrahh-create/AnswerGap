@@ -38,6 +38,7 @@ from answergap.dataforseo import (
     DataForSEOError,
 )
 from answergap.languages import DEFAULT_LOCATION_CODE, LANGUAGES
+from answergap import tree as tree_mod
 from answergap.tree import STRATEGY, THRESHOLD, all_trees
 
 from . import admin, auth, stripe
@@ -130,7 +131,15 @@ app.include_router(admin.router)
 
 
 def _summary(tree: dict) -> dict:
-    return {k: v for k, v in tree.items() if k != "nodes"}
+    """The tree without its nodes, for the list on the landing.
+
+    Retallied first, because the summary is where the stale numbers would be
+    least visible: a card showing "16 questions · 1 unanswered" next to a tree
+    that opens saying "15 questions · 0" is the kind of disagreement nobody
+    reports and everybody notices. See `_retally`.
+    """
+    counted = _retally(tree)
+    return {k: v for k, v in counted.items() if k != "nodes"}
 
 
 @app.get("/api/meta")
@@ -319,7 +328,29 @@ def _lookup(slug: str) -> dict:
     found = _live_one(slug) or _BY_SLUG.get(slug)
     if not found:
         raise HTTPException(404, f"No tree: {slug}")
-    return found
+    return _retally(found)
+
+
+def _retally(tree: dict) -> dict:
+    """Recount the statuses and the questions from the nodes, on every read.
+
+    These are DERIVED numbers, and a live tree is persisted as one JSON
+    document - the thing CLAUDE.md records as the shape that cost real data on
+    2026-08-27. A tree written before the counting rule changed carries the old
+    totals forever, so on 2026-09-23 the legend went on saying "1 unanswered"
+    about trees whose only gap had been the seed.
+
+    Deriving on read rather than migrating the documents: a loop over at most a
+    few hundred dicts costs nothing next to the request that fetched them, and
+    it makes a whole class of stale-document bug unrepresentable rather than
+    fixed once. The stored values stay as they are and are simply not trusted.
+    """
+    nodes = tree.get("nodes")
+    if not nodes:
+        return tree
+    tree["status_counts"] = tree_mod.count_statuses(nodes)
+    tree["question_count"] = tree_mod.count_questions(nodes)
+    return tree
 
 
 def _authorize_tree(slug: str, who: gate.Identity) -> dict:
@@ -553,6 +584,9 @@ def score_question_endpoint(
         "related_searches": found.get("related_searches", []),
         "status_counts": found["status_counts"],
         "node_count": found["node_count"],
+        # Scoring harvests new nodes, so the question tally moves too and the
+        # screen updates both without a refetch.
+        "question_count": found.get("question_count", found["node_count"]),
     }
 
 

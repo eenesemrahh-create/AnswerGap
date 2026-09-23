@@ -53,6 +53,7 @@ export const es: Messages = {
   },
 
   toolbar: {
+    seedLabel: "Tu búsqueda",
     seeds: "Búsquedas relacionadas",
     tree: "Árbol",
     table: "Tabla",

@@ -101,9 +101,9 @@ from .matching import active_strategy, seed_relevance
 from .text import normalize
 from .tree import (
     STATUS_NO_DATA,
-    STATUSES,
     THRESHOLD,
     ai_overview,
+    count_statuses,
     _organic_results,
     score_question,
 )
@@ -454,11 +454,12 @@ def _carry_previous(fresh: dict, previous: dict | None) -> dict:
 
 
 def _recount(tree: dict) -> dict:
-    counts = {s: 0 for s in STATUSES}
-    for node in tree["nodes"]:
-        counts[node["status"]] += 1
-    tree["status_counts"] = counts
+    # `count_statuses` skips the seed - see its docstring. Shared with the
+    # archive builder so a live tree and an archived one cannot disagree about
+    # what counts as a question.
+    tree["status_counts"] = count_statuses(tree["nodes"])
     tree["node_count"] = len(tree["nodes"])
+    tree["question_count"] = count_questions(tree["nodes"])
     return tree
 
 
@@ -755,6 +756,7 @@ def build_from_response(
         "language_name": lang.name,
         "location_code": location_code,
         "node_count": len(node_list),
+        "question_count": count_questions(node_list),
         "status_counts": {},
         "threshold": THRESHOLD,
         "strategy": active_strategy(),
