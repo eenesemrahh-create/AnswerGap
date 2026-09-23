@@ -4,11 +4,19 @@ import type { SolutionsShape } from "../blocks";
  * English solutions copy. This file pins the shape for the four translations.
  *
  * The nine team cards describe who the product is for, not features it has,
- * which is why this page can ship ahead of the pricing page: every claim here
- * is about the question tree and the gap check, and both exist. The three
- * cards under "one shared advantage" are deliberately worded around what is
- * measured rather than what is promised — "where no page clears the bar" is
- * the metric the product actually computes.
+ * so they are safe: every claim in them is about the question tree and the
+ * gap check, and both exist.
+ *
+ * THE ADVANTAGE BULLETS ARE NOT ALL TRUE YET, and they are transcribed from
+ * the approved design rather than invented here. "Explore questions by
+ * intent" needs the intent classifier, "Export data for your workflow" needs
+ * CSV export, and "Measure progress over time" needs history nobody records.
+ * Same standing as the pricing page's feature list: the plan is to build
+ * them after the screens, and CLAUDE.md item 16 is the reminder that this
+ * page is making promises until then.
+ *
+ * The workflow steps and the closing CTA describe what the product already
+ * does, and are safe.
  */
 export const en = {
   title: "Solutions",
@@ -99,24 +107,74 @@ export const en = {
       {
         title: "Discover real demand",
         desc:
-          "Every question comes from Google's own People Also Ask, expanded " +
-          "into a tree rather than a list, so you see how one topic branches " +
-          "into the next.",
+          "Turn one topic into the connected questions people ask throughout " +
+          "their decision journey.",
+        bullets: [
+          "Explore questions by intent",
+          "Find overlooked topic clusters",
+          "Research every market and language",
+        ],
       },
       {
         title: "Find visibility gaps",
         desc:
-          "For any question we fetch the pages that rank for it and count " +
-          "how many actually answer it. Few pages clearing the bar is the " +
-          "opening — and it is the number this product is built around.",
+          "See where current answers are weak, incomplete, or missing—and " +
+          "where your expertise can help.",
+        bullets: [
+          "Prioritize high-opportunity questions",
+          "Understand answer coverage",
+          "Spot competitor blind spots",
+        ],
       },
       {
         title: "Create with confidence",
         desc:
-          "See which sources Google's AI Overview cites for each question, " +
-          "and whether your own domain is among them, before you decide what " +
-          "to write.",
+          "Give content and SEO teams a clear, evidence-based brief for " +
+          "every page they produce.",
+        bullets: [
+          "Build connected content plans",
+          "Export data for your workflow",
+          "Measure progress over time",
+        ],
       },
     ],
+  },
+
+  workflow: {
+    head: "A simple workflow for a",
+    headTinted: "changing search landscape",
+    headTail: ".",
+    lead:
+      "Give everyone—from founders to enterprise search teams—the same clear " +
+      "view of demand and opportunity.",
+    steps: [
+      {
+        title: "Enter a topic",
+        desc:
+          "Start with a product, category, customer problem, or strategic " +
+          "keyword.",
+      },
+      {
+        title: "Map the questions",
+        desc:
+          "AnswerGap reveals related searches and the gaps inside existing " +
+          "AI answers.",
+      },
+      {
+        title: "Act on the opportunity",
+        desc:
+          "Prioritize, export, and create content designed to become a " +
+          "trusted source.",
+      },
+    ],
+  },
+
+  cta: {
+    head: "Find the gaps your audience is already searching through.",
+    lead:
+      "Start with a topic and turn real AI-search demand into a focused " +
+      "visibility strategy.",
+    primary: "Start free",
+    secondary: "Talk to us",
   },
 } as const satisfies SolutionsShape;

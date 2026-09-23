@@ -4,9 +4,15 @@ import type { SolutionsContent } from "./index";
  * Çözümler sayfası - İngilizce sürümün çevirisi.
  *
  * `en.ts` ile kart karta örtüşmek zorundadır; dokuz ekip kartı dokuz, üç
- * avantaj kartı üç kalır ve tip bunu derleme hatasına çevirir. Avantaj
- * kartları bilerek ölçülen şeyin diliyle yazılmıştır: "hiçbir sayfanın
- * eşiği geçemediği yer" ürünün gerçekten hesapladığı metriktir.
+ * avantaj kartı üç, her kartın üç maddesi üç ve üç iş akışı adımı üç kalır -
+ * tip bunu derleme hatasına çevirir.
+ *
+ * AVANTAJ MADDELERİNİN HEPSİ HENÜZ DOĞRU DEĞİL; `en.ts` ile aynı durumda
+ * oldukları için aynı söz veriliyor: "Soruları amaca göre inceleyin" niyet
+ * sınıflandırıcısını, "Verileri kendi iş akışınıza aktarın" CSV dışa
+ * aktarmayı, "İlerlemeyi zaman içinde ölçün" ise kimsenin tutmadığı bir
+ * geçmişi bekliyor. İş akışı adımları ve kapanış çağrısı ürünün bugün
+ * yaptığı şeyi anlatır.
  */
 export const tr: SolutionsContent = {
   title: "Çözümler",
@@ -98,24 +104,74 @@ export const tr: SolutionsContent = {
       {
         title: "Gerçek talebi keşfedin",
         desc:
-          "Her soru Google'ın kendi \"Kullanıcılar bunları da sordu\" " +
-          "bloğundan gelir ve liste değil ağaç olarak açılır; böylece bir " +
-          "konunun bir sonrakine nasıl dallandığını görürsünüz.",
+          "Tek bir konuyu, insanların karar yolculuğu boyunca sorduğu " +
+          "birbirine bağlı sorulara dönüştürün.",
+        bullets: [
+          "Soruları amaca göre inceleyin",
+          "Gözden kaçan konu kümelerini bulun",
+          "Her pazarı ve dili araştırın",
+        ],
       },
       {
         title: "Görünürlük boşluklarını bulun",
         desc:
-          "Herhangi bir soru için o soruda sıralanan sayfaları çekip kaçının " +
-          "soruyu gerçekten yanıtladığını sayarız. Eşiği geçen sayfanın az " +
-          "olması fırsattır - ve bu ürün o sayının etrafında kurulmuştur.",
+          "Mevcut yanıtların nerede zayıf, eksik ya da hiç olmadığını ve " +
+          "uzmanlığınızın nerede fark yaratabileceğini görün.",
+        bullets: [
+          "Fırsatı yüksek soruları önceliklendirin",
+          "Yanıt kapsamını anlayın",
+          "Rakiplerin kör noktalarını yakalayın",
+        ],
       },
       {
         title: "Güvenle üretin",
         desc:
-          "Ne yazacağınıza karar vermeden önce, Google AI Overview'ın her " +
-          "soru için hangi kaynakları gösterdiğini ve kendi alan adınızın " +
-          "aralarında olup olmadığını görün.",
+          "İçerik ve SEO ekiplerine, ürettikleri her sayfa için net ve " +
+          "kanıta dayalı bir brief verin.",
+        bullets: [
+          "Birbirine bağlı içerik planları kurun",
+          "Verileri kendi iş akışınıza aktarın",
+          "İlerlemeyi zaman içinde ölçün",
+        ],
       },
     ],
+  },
+
+  workflow: {
+    head: "Değişen arama dünyası için",
+    headTinted: "basit bir iş akışı",
+    headTail: ".",
+    lead:
+      "Kurucudan kurumsal arama ekibine kadar herkese, talep ve fırsat " +
+      "konusunda aynı net görüntüyü verin.",
+    steps: [
+      {
+        title: "Bir konu girin",
+        desc:
+          "Bir ürün, kategori, müşteri sorunu ya da stratejik anahtar " +
+          "kelimeyle başlayın.",
+      },
+      {
+        title: "Soruların haritasını çıkarın",
+        desc:
+          "AnswerGap ilgili aramaları ve mevcut yapay zeka yanıtlarının " +
+          "içindeki boşlukları ortaya çıkarır.",
+      },
+      {
+        title: "Fırsatı harekete çevirin",
+        desc:
+          "Önceliklendirin, dışa aktarın ve güvenilir kaynak olmak üzere " +
+          "kurgulanmış içerik üretin.",
+      },
+    ],
+  },
+
+  cta: {
+    head: "Hedef kitlenizin şimdiden aradığı boşlukları bulun.",
+    lead:
+      "Bir konuyla başlayın ve gerçek yapay zeka arama talebini odaklı bir " +
+      "görünürlük stratejisine çevirin.",
+    primary: "Ücretsiz başlayın",
+    secondary: "Bize ulaşın",
   },
 };

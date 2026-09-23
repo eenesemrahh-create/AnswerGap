@@ -5,9 +5,12 @@ import type { SolutionsContent } from "./index";
  *
  * Debe corresponderse con `en.ts` tarjeta por tarjeta y línea por línea; el
  * tipo convierte lo contrario en un error de compilación. Las nueve tarjetas
- * de equipos describen para quién es el producto, no funciones que tenga, y
- * las tres tarjetas de la ventaja común están redactadas en torno a lo que se
- * mide y no a lo que se promete.
+ * de equipos describen para quién es el producto, no funciones que tenga.
+ *
+ * LOS PUNTOS DE LA VENTAJA COMÚN NO SON TODOS CIERTOS TODAVÍA: son la
+ * traducción de los de `en.ts`, donde está anotado cuáles están pendientes
+ * («explora por intención», «exporta los datos», «mide el avance»). Los pasos
+ * del flujo de trabajo y el cierre describen lo que el producto ya hace.
  */
 export const es: SolutionsContent = {
   title: "Soluciones",
@@ -100,25 +103,74 @@ export const es: SolutionsContent = {
       {
         title: "Descubre demanda real",
         desc:
-          "Cada pregunta sale de «Otras preguntas de los usuarios» del propio " +
-          "Google, desplegada en un árbol y no en una lista, así que ves cómo " +
-          "un tema se ramifica en el siguiente.",
+          "Convierte un solo tema en las preguntas conectadas que la gente " +
+          "hace a lo largo de su proceso de decisión.",
+        bullets: [
+          "Explora las preguntas por intención",
+          "Encuentra grupos de temas que nadie cubre",
+          "Investiga cada mercado y cada idioma",
+        ],
       },
       {
         title: "Encuentra huecos de visibilidad",
         desc:
-          "Para cualquier pregunta recuperamos las páginas que se posicionan " +
-          "y contamos cuántas la responden de verdad. Que pocas páginas " +
-          "superen el listón es la oportunidad, y es la cifra sobre la que " +
-          "está construido este producto.",
+          "Mira dónde las respuestas actuales son débiles, incompletas o no " +
+          "existen, y dónde tu experiencia puede aportar algo.",
+        bullets: [
+          "Prioriza las preguntas con más oportunidad",
+          "Entiende cuánta cobertura tiene cada respuesta",
+          "Detecta los puntos ciegos de la competencia",
+        ],
       },
       {
         title: "Crea con confianza",
         desc:
-          "Consulta qué fuentes cita el resumen con IA de Google en cada " +
-          "pregunta, y si tu propio dominio está entre ellas, antes de decidir " +
-          "qué escribir.",
+          "Da a los equipos de contenido y de SEO un brief claro y basado en " +
+          "datos para cada página que publiquen.",
+        bullets: [
+          "Crea planes de contenido conectados",
+          "Exporta los datos a tu flujo de trabajo",
+          "Mide el avance con el tiempo",
+        ],
       },
     ],
+  },
+
+  workflow: {
+    head: "Un flujo de trabajo sencillo para una",
+    headTinted: "búsqueda en constante cambio",
+    headTail: ".",
+    lead:
+      "Da a todo el mundo, desde fundadores hasta equipos de búsqueda de " +
+      "grandes empresas, la misma visión clara de la demanda y la oportunidad.",
+    steps: [
+      {
+        title: "Introduce un tema",
+        desc:
+          "Empieza por un producto, una categoría, un problema de tus " +
+          "clientes o una palabra clave estratégica.",
+      },
+      {
+        title: "Mapea las preguntas",
+        desc:
+          "AnswerGap muestra las búsquedas relacionadas y los huecos que " +
+          "dejan las respuestas de la IA que ya existen.",
+      },
+      {
+        title: "Actúa sobre la oportunidad",
+        desc:
+          "Prioriza, exporta y crea contenido pensado para convertirse en una " +
+          "fuente de referencia.",
+      },
+    ],
+  },
+
+  cta: {
+    head: "Encuentra los huecos que tu público ya está buscando.",
+    lead:
+      "Empieza por un tema y convierte la demanda real de la búsqueda con IA " +
+      "en una estrategia de visibilidad concreta.",
+    primary: "Empieza gratis",
+    secondary: "Habla con nosotros",
   },
 };

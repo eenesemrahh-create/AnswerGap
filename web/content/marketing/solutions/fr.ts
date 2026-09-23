@@ -6,8 +6,15 @@ import type { SolutionsContent } from "./index";
  * Ce fichier doit correspondre à l'anglais carte pour carte et puce pour
  * puce ; le type transforme tout écart en erreur de compilation. Les neuf
  * cartes décrivent à qui s'adresse le produit, pas des fonctionnalités
- * promises : les trois cartes de « l'avantage commun » restent formulées
- * autour de ce qui est réellement mesuré.
+ * promises.
+ *
+ * LES PUCES DE « L'AVANTAGE COMMUN » NE SONT PAS TOUTES VRAIES AUJOURD'HUI.
+ * Elles sont traduites de l'anglais, qui porte le même avertissement :
+ * l'exploration par intention, l'export des données et le suivi dans le
+ * temps restent à construire.
+ *
+ * Les étapes du flux de travail et la bannière de clôture décrivent ce que
+ * le produit fait déjà.
  */
 export const fr: SolutionsContent = {
   title: "Solutions",
@@ -101,25 +108,74 @@ export const fr: SolutionsContent = {
       {
         title: "Découvrez la demande réelle",
         desc:
-          "Chaque question vient du bloc « Autres questions posées » de " +
-          "Google lui-même, déployé en arbre plutôt qu'en liste : vous voyez " +
-          "comment un sujet se ramifie vers le suivant.",
+          "Transformez un seul sujet en l'ensemble des questions liées que " +
+          "les gens posent tout au long de leur parcours de décision.",
+        bullets: [
+          "Explorez les questions par intention",
+          "Repérez les groupes de sujets négligés",
+          "Étudiez chaque marché et chaque langue",
+        ],
       },
       {
         title: "Repérez les lacunes de visibilité",
         desc:
-          "Pour chaque question, nous récupérons les pages qui se " +
-          "positionnent dessus et comptons combien y répondent réellement. " +
-          "Peu de pages au-dessus du seuil, c'est l'ouverture — et c'est le " +
-          "chiffre autour duquel ce produit est construit.",
+          "Voyez où les réponses actuelles sont faibles, incomplètes ou " +
+          "absentes — et où votre expertise peut aider.",
+        bullets: [
+          "Priorisez les questions à fort potentiel",
+          "Comprenez la couverture des réponses",
+          "Détectez les angles morts de vos concurrents",
+        ],
       },
       {
         title: "Créez en toute confiance",
         desc:
-          "Voyez quelles sources l'AI Overview de Google cite pour chaque " +
-          "question, et si votre propre domaine en fait partie, avant de " +
-          "décider quoi écrire.",
+          "Donnez aux équipes contenu et SEO un brief clair et étayé par des " +
+          "données pour chaque page qu'elles produisent.",
+        bullets: [
+          "Construisez des plans de contenu reliés entre eux",
+          "Exportez les données vers votre flux de travail",
+          "Mesurez vos progrès dans le temps",
+        ],
       },
     ],
+  },
+
+  workflow: {
+    head: "Un flux de travail simple pour",
+    headTinted: "un paysage de recherche en mutation",
+    headTail: ".",
+    lead:
+      "Donnez à tous — des fondateurs aux équipes de recherche des grands " +
+      "comptes — la même vision claire de la demande et des opportunités.",
+    steps: [
+      {
+        title: "Saisissez un sujet",
+        desc:
+          "Partez d'un produit, d'une catégorie, d'un problème client ou " +
+          "d'un mot-clé stratégique.",
+      },
+      {
+        title: "Cartographiez les questions",
+        desc:
+          "AnswerGap révèle les recherches associées et les lacunes des " +
+          "réponses IA existantes.",
+      },
+      {
+        title: "Agissez sur l'opportunité",
+        desc:
+          "Priorisez, exportez et créez des contenus conçus pour devenir une " +
+          "source de référence.",
+      },
+    ],
+  },
+
+  cta: {
+    head: "Trouvez les lacunes dans lesquelles votre audience cherche déjà.",
+    lead:
+      "Partez d'un sujet et transformez la demande réelle de la recherche IA " +
+      "en une stratégie de visibilité ciblée.",
+    primary: "Commencer gratuitement",
+    secondary: "Contactez-nous",
   },
 };

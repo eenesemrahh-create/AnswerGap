@@ -3164,3 +3164,124 @@ table.table {
 .mkt-pricing-more { text-align: center; margin-top: 28px; font-size: 14px; }
 .mkt-pricing-more a { color: var(--brand); font-weight: 600; text-decoration: none; }
 .mkt-pricing-more a:hover { text-decoration: underline; }
+
+/* --- Solutions: advantage bullets, the dark workflow band, the CTA ---- */
+
+/* The three checks under each advantage card. Brand-tinted marks, not the
+   teal `covered` tick: nothing here is a verdict about a question. */
+.mkt-card-bullets {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.mkt-card-bullets li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text-soft);
+}
+.mkt-card-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 5px;
+  width: 11px;
+  height: 6px;
+  border-left: 2px solid var(--brand);
+  border-bottom: 2px solid var(--brand);
+  transform: rotate(-45deg);
+}
+
+/* The dark band. Its own colours rather than the theme tokens, like the
+   `.mkt-cta` band above it: this section is dark in BOTH themes on purpose,
+   so it reads as a deliberate panel rather than as a theme that leaked. */
+.mkt-flow {
+  background:
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,.05) 1px, transparent 1.5px)
+      0 0 / 24px 24px,
+    linear-gradient(135deg, #1c1a26 0%, #14131b 100%);
+  color: #f6f4fb;
+  padding: 96px 24px;
+}
+.mkt-flow-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 72px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .mkt-flow-inner { grid-template-columns: 1fr; gap: 40px; }
+}
+.mkt-flow-title {
+  font-size: clamp(30px, 3.6vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -.03em;
+  margin: 0 0 20px;
+  font-weight: 800;
+}
+.mkt-flow-pitch p {
+  margin: 0;
+  color: #bdb8cc;
+  line-height: 1.65;
+  max-width: 44ch;
+}
+
+.mkt-flow-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+  /* Counter suppressed rather than the <ol> downgraded to a <ul>: the order
+     is real and belongs in the markup, it is just drawn by hand below. */
+  counter-reset: none;
+}
+.mkt-flow-steps li {
+  display: flex;
+  gap: 22px;
+  padding: 24px 26px;
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+.mkt-flow-num {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--brand-strong);
+  letter-spacing: .04em;
+  flex: none;
+  padding-top: 2px;
+}
+.mkt-flow-steps h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  letter-spacing: -.01em;
+}
+.mkt-flow-steps p {
+  margin: 0;
+  color: #bdb8cc;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
+/* The closing band, in brand gradient rather than the near-black the landing
+   and the pricing page use. It is the last thing on the page and it is the
+   ask, so it gets the loudest surface the palette owns. */
+.mkt-cta-grad {
+  background: var(--grad);
+  color: #ffffff;
+}
+.mkt-cta-grad .mkt-cta-sub { color: rgba(255, 255, 255, .88); }
+/* White pill on the gradient, and a hairline ghost beside it. The shared
+   `.mkt-cta-primary` is already white-on-dark, so only the secondary needs
+   re-pointing away from its near-black border. */
+.mkt-cta-grad .mkt-cta-secondary {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, .55);
+}
+.mkt-cta-grad .mkt-cta-secondary:hover { border-color: #ffffff; }

@@ -4,8 +4,9 @@ import type { SolutionsContent } from "./index";
  * Lösungsseite - Übersetzung der englischen Fassung.
  *
  * Maßgeblich ist `en.ts`. Diese Datei muss ihr Karte für Karte entsprechen -
- * neun Team-Karten bleiben neun, drei Vorteilskarten bleiben drei; der Typ
- * macht daraus einen Compile-Fehler.
+ * neun Team-Karten bleiben neun, drei Vorteilskarten bleiben drei, mit je drei
+ * Stichpunkten, und der Ablauf bleibt bei drei Schritten; der Typ macht aus
+ * jeder Abweichung einen Compile-Fehler.
  */
 export const de: SolutionsContent = {
   title: "Lösungen",
@@ -98,25 +99,74 @@ export const de: SolutionsContent = {
       {
         title: "Echte Nachfrage entdecken",
         desc:
-          "Jede Frage stammt aus Googles eigenem „Ähnliche Fragen“, " +
-          "aufgeklappt zu einem Baum statt zu einer Liste - so sehen Sie, wie " +
-          "ein Thema sich ins nächste verzweigt.",
+          "Machen Sie aus einem Thema die zusammenhängenden Fragen, die " +
+          "Menschen auf ihrem ganzen Entscheidungsweg stellen.",
+        bullets: [
+          "Fragen nach Suchintention erkunden",
+          "Übersehene Themencluster finden",
+          "Jeden Markt und jede Sprache recherchieren",
+        ],
       },
       {
         title: "Sichtbarkeitslücken finden",
         desc:
-          "Zu jeder Frage holen wir die Seiten, die dafür ranken, und zählen, " +
-          "wie viele sie tatsächlich beantworten. Wenige Seiten über der " +
-          "Schwelle sind die Chance - und um diese Zahl herum ist dieses " +
-          "Produkt gebaut.",
+          "Sehen Sie, wo die vorhandenen Antworten schwach, unvollständig " +
+          "oder gar nicht da sind - und wo Ihr Fachwissen weiterhilft.",
+        bullets: [
+          "Fragen mit großem Potenzial priorisieren",
+          "Die Abdeckung durch Antworten verstehen",
+          "Blinde Flecken der Wettbewerber erkennen",
+        ],
       },
       {
         title: "Mit Sicherheit erstellen",
         desc:
-          "Sehen Sie, welche Quellen Googles AI Overview zu jeder Frage " +
-          "zitiert und ob Ihre eigene Domain darunter ist, bevor Sie " +
-          "entscheiden, was Sie schreiben.",
+          "Geben Sie Content- und SEO-Teams für jede Seite, die sie " +
+          "erstellen, ein klares, belegtes Briefing.",
+        bullets: [
+          "Zusammenhängende Content-Pläne aufbauen",
+          "Daten für Ihren Workflow exportieren",
+          "Fortschritt über die Zeit messen",
+        ],
       },
     ],
+  },
+
+  workflow: {
+    head: "Ein einfacher Ablauf für eine",
+    headTinted: "Suchlandschaft im Wandel",
+    headTail: ".",
+    lead:
+      "Geben Sie allen - von Gründern bis zu Suchteams in Konzernen - " +
+      "denselben klaren Blick auf Nachfrage und Chancen.",
+    steps: [
+      {
+        title: "Ein Thema eingeben",
+        desc:
+          "Beginnen Sie mit einem Produkt, einer Kategorie, einem " +
+          "Kundenproblem oder einem strategischen Keyword.",
+      },
+      {
+        title: "Die Fragen abbilden",
+        desc:
+          "AnswerGap zeigt verwandte Suchanfragen und die Lücken in den " +
+          "vorhandenen KI-Antworten.",
+      },
+      {
+        title: "Die Chance nutzen",
+        desc:
+          "Priorisieren Sie, exportieren Sie die Daten und erstellen Sie " +
+          "Inhalte, die zu einer vertrauenswürdigen Quelle werden.",
+      },
+    ],
+  },
+
+  cta: {
+    head: "Finden Sie die Lücken, in denen Ihre Zielgruppe längst sucht.",
+    lead:
+      "Beginnen Sie mit einem Thema und machen Sie aus echter Nachfrage in " +
+      "der KI-Suche eine fokussierte Sichtbarkeitsstrategie.",
+    primary: "Kostenlos starten",
+    secondary: "Sprechen Sie mit uns",
   },
 };

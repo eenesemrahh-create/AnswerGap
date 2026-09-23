@@ -170,8 +170,29 @@ export interface SolutionsShape {
   readonly advantage: {
     readonly eyebrow: string;
     readonly heading: string;
-    readonly cards: readonly [Card, Card, Card];
+    /** Three cards, each with exactly three bullets under its paragraph. */
+    readonly cards: readonly [BulletCard, BulletCard, BulletCard];
   };
+  /** The dark band: how the product is used, in three numbered steps. */
+  readonly workflow: {
+    readonly head: string;
+    readonly headTinted: string;
+    readonly headTail: string;
+    readonly lead: string;
+    readonly steps: readonly [Card, Card, Card];
+  };
+  /** The gradient band that closes the page. */
+  readonly cta: {
+    readonly head: string;
+    readonly lead: string;
+    readonly primary: string;
+    readonly secondary: string;
+  };
+}
+
+/** A card that also lists what it means, so the claim above it is checkable. */
+export interface BulletCard extends Card {
+  readonly bullets: readonly [string, string, string];
 }
 
 export interface ContactShape {

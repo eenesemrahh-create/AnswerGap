@@ -24,7 +24,8 @@ export function SolutionsPage({
   chrome: ChromeContent;
   locale: Locale;
 }) {
-  const { hero, heroPrimary, heroSecondary, teams, advantage } = content;
+  const { hero, heroPrimary, heroSecondary, teams, advantage, workflow, cta } =
+    content;
 
   return (
     <div className="mkt-page" lang={LOCALE_TAGS[locale]}>
@@ -79,8 +80,71 @@ export function SolutionsPage({
             <article key={card.title} className="mkt-card">
               <h3 className="mkt-card-title">{card.title}</h3>
               <p className="mkt-card-body">{card.desc}</p>
+              <ul className="mkt-card-bullets">
+                {card.bullets.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
             </article>
           ))}
+        </div>
+      </section>
+
+      {/* The dark band. Numbered rather than bulleted, because these three are
+          an ORDER and a bullet list would say they are a set. */}
+      <section className="mkt-flow">
+        <div className="mkt-flow-inner">
+          <div className="mkt-flow-pitch">
+            <h2 className="mkt-flow-title">
+              {workflow.head && <>{workflow.head} </>}
+              <span className="mkt-tinted">{workflow.headTinted}</span>
+              {/* A space before the tail unless it opens with punctuation.
+                  English ends this headline with a bare "." and a space there
+                  would float it; Turkish and German end with a word, which
+                  without one would jam against the tinted span. The hero can
+                  always space because no locale ends it with punctuation
+                  alone - here one does. */}
+              {workflow.headTail &&
+                (/^[.,;:!?]/.test(workflow.headTail) ? (
+                  workflow.headTail
+                ) : (
+                  <> {workflow.headTail}</>
+                ))}
+            </h2>
+            <p>{workflow.lead}</p>
+          </div>
+          <ol className="mkt-flow-steps">
+            {workflow.steps.map((step, i) => (
+              <li key={step.title}>
+                {/* The number is decoration over a real <ol>: screen readers
+                    announce the list's own numbering, so printing it as text
+                    as well would say "one, one". */}
+                <span className="mkt-flow-num" aria-hidden>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="mkt-cta mkt-cta-grad">
+        <h2 className="mkt-cta-title">{cta.head}</h2>
+        <p className="mkt-cta-sub">{cta.lead}</p>
+        <div className="mkt-cta-actions">
+          <Link href="/?auth=signup" className="mkt-cta-primary">
+            {cta.primary} <span aria-hidden>→</span>
+          </Link>
+          <Link
+            href={marketingPath("contact", locale)}
+            className="mkt-cta-secondary"
+          >
+            {cta.secondary}
+          </Link>
         </div>
       </section>
 
