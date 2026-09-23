@@ -58,14 +58,50 @@
     light-dark(rgba(217, 70, 239, .09), rgba(217, 70, 239, .16)) 100%
   );
 
-  /* The claim. Unchanged from the semantics recorded above. */
-  --gap:           light-dark(#b45309, #fbbf24);
-  --gap-bg:        light-dark(#fdf0d5, #3a2b0c);
-  --gap-border:    light-dark(#e9b872, #7c5a15);
+  /* The claim. Unchanged from the semantics recorded above.
+   *
+   * GAP AND WEAK WERE THE SAME COLOUR IN PRACTICE, which is a problem because
+   * the difference between them is the thing this product sells. They were
+   * amber-700 and yellow-700 - ten degrees of hue apart in the text, and in
+   * the fills that actually carry a tree node, #fdf0d5 against #faf3e0. Two
+   * creams. A canvas of fifty boxes read as one status.
+   *
+   * Measured rather than eyeballed, CIELAB dE76, light theme:
+   *
+   *   layer    before  after
+   *   text      16.3    43.6
+   *   border    17.7    26.4
+   *   fill       4.8    10.5   <- the one that mattered
+   *
+   * The FILL was the real fault. dE 4.8 is at the edge of noticeable even
+   * across a large area, and the fill is what a node box is mostly made of -
+   * which is why the tree looked uniform while the legend dots looked fine.
+   * Dark theme text went 23.8 to 34.7.
+   *
+   * Separated on 2026-09-23 along all three axes at once, because any one of
+   * them alone is fragile: hue fails for colour-blind readers, a fill alone
+   * fails on a 10px legend dot, and a border alone fails at 45% zoom.
+   *
+   * Checked against the rest of the palette so the new orange did not solve
+   * one collision by creating another: gap/covered dE 97, weak/nodata 48,
+   * gap/brand 130.
+   *
+   *   gap  = orange, high chroma, and the heavier border below. It is the
+   *          headline finding, so it is the loud one.
+   *   weak = yellow, lower chroma, lighter fill. The same claim, hedged -
+   *          which is what less colour should mean.
+   *
+   * They stay inside the amber family on purpose. Red would read as an error,
+   * and a gap is the opposite: it is the opportunity the product exists to
+   * find. Teal belongs to `covered` and violet is decoration.
+   */
+  --gap:           light-dark(#c2410c, #fb923c);
+  --gap-bg:        light-dark(#ffe9dc, #3d1f0e);
+  --gap-border:    light-dark(#f2a77a, #8a4418);
 
-  --weak:          light-dark(#a16207, #d3a441);
-  --weak-bg:       light-dark(#faf3e0, #2b2312);
-  --weak-border:   light-dark(#e2cd9a, #5c4a1d);
+  --weak:          light-dark(#8f6b06, #e8c55a);
+  --weak-bg:       light-dark(#fdf6d8, #2e2812);
+  --weak-border:   light-dark(#e3cf8e, #61501f);
 
   --covered:       light-dark(#0f766e, #45c8b8);
   --covered-bg:    light-dark(#e3f4f1, #10312d);
@@ -409,7 +445,11 @@ button {
 .ai-pill.you rect { stroke: var(--text); stroke-width: 1.5; }
 .ai-pill.you text { fill: var(--text); font-weight: 700; }
 
-.node.gap .node-box { fill: var(--gap-bg); stroke: var(--gap-border); }
+/* The heavier stroke is the third axis, and the one that survives both
+   colour-blindness and zooming out: at 45% a fill is a smear and a hue is a
+   guess, but a thicker outline is still a thicker outline. `gap` gets it
+   because it is the finding the product sells. */
+.node.gap .node-box { fill: var(--gap-bg); stroke: var(--gap-border); stroke-width: 2; }
 .node.weak  .node-box { fill: var(--weak-bg);  stroke: var(--weak-border); }
 .node.covered .node-box { fill: var(--covered-bg); stroke: var(--covered-border); }
 .node.no_data .node-box {
