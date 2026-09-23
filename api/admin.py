@@ -42,10 +42,14 @@ router = APIRouter(prefix="/api/admin")
 # pricing pitch. Set here rather than in the payload's `max_length` so the
 # limit is written once and audited from one place.
 PRICING_MAX_PLANS = 4
-# A plan carries at most this many bullet points. The card visual starts to
-# read as an itemised invoice past six, and Replit's reference sits at five;
-# the ceiling is generous but not decorative.
-PRICING_MAX_FEATURES = 8
+# A plan carries at most this many bullet points.
+#
+# Was 8, on the reasoning that a card reads as an itemised invoice past six.
+# Raised to 12 on 2026-09-23 because the approved Pro card has twelve, and a
+# ceiling that refuses the design it was drawn for is a ceiling in the wrong
+# place. The card-length argument still holds for the LANDING, where three
+# cards sit beside a hero; on `/pricing` the list is the point of the page.
+PRICING_MAX_FEATURES = 12
 
 # Bound for the runtime setting. Clamped here as well as in
 # `gate.setting_int` - rejecting a bad value at the door gives the admin an
@@ -103,7 +107,17 @@ class Plan(BaseModel):
     name: str = Field(min_length=0, max_length=40, default="")
     desc: str = Field(min_length=0, max_length=200, default="")
     price: str = Field(min_length=0, max_length=20, default="")
+    # The same plan billed for a year, per month. Added 2026-09-23 with the
+    # /pricing page's monthly-annual switch. DEFAULTS TO EMPTY, and empty
+    # means "this plan has no annual rate" rather than "free": the landing
+    # never had a switch, so every row saved before today has no annual price
+    # and must keep rendering exactly as it did.
+    price_annual: str = Field(min_length=0, max_length=20, default="")
     per: str = Field(min_length=0, max_length=20, default="")
+    # The small caps line above the feature list ("BEST VALUE FOR MONEY").
+    # Also optional, and also for backward compatibility: the landing's cards
+    # have never drawn one.
+    features_heading: str = Field(min_length=0, max_length=40, default="")
     features: list[str] = Field(min_length=0, max_length=PRICING_MAX_FEATURES, default_factory=list)
     cta: str = Field(min_length=0, max_length=40, default="")
     badge: str | None = Field(default=None, max_length=30)

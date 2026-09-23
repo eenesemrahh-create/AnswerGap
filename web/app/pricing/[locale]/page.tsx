@@ -5,6 +5,7 @@ import { PRICING } from "@/content/marketing/pricing";
 import { CHROME } from "@/content/marketing/chrome";
 import { buildMarketingMetadata } from "@/lib/marketing";
 import { isLocale } from "@/lib/legal";
+import { contentPlanViews } from "@/lib/pricing-plans";
 import { LOCALES } from "@/i18n/types";
 
 /**
@@ -14,6 +15,13 @@ import { LOCALES } from "@/i18n/types";
  * hand rather than with the generated `PageProps` helper, which only exists
  * after `next build` has written `.next/types` and would therefore break
  * `tsc --noEmit` on a fresh clone.
+ *
+ * THESE DO NOT READ THE ADMIN PANEL, and `/pricing` does. The editor holds
+ * one set of strings, so admin cards here would mean English descriptions and
+ * English feature bullets under a Turkish headline. The cost is that an
+ * operator changing a price in the panel leaves these four showing the old
+ * one; `warnIfPricesDrifted` on the English page is what says so out loud.
+ * Teaching the admin `Plan` shape about locales is the real fix — CLAUDE.md.
  */
 
 /** Anything not listed by `generateStaticParams` 404s instead of rendering. */
@@ -39,6 +47,7 @@ export default async function PricingLocale({ params }: Props) {
       content={PRICING[locale]}
       chrome={CHROME[locale]}
       locale={locale}
+      plans={contentPlanViews(PRICING[locale])}
     />
   );
 }

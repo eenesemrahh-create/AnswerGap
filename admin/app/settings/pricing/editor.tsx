@@ -117,7 +117,9 @@ export function PricingEditor({
       name: p.name.trim(),
       desc: p.desc.trim(),
       price: p.price.trim(),
+      price_annual: p.price_annual.trim(),
       per: p.per.trim(),
+      features_heading: p.features_heading.trim(),
       cta: p.cta.trim(),
       badge: p.badge?.trim() || null,
       features: p.features.map((f) => f.trim()).filter(Boolean),
@@ -311,6 +313,33 @@ function PlanCard({
           onChange={(e) => onChange({ per: e.target.value })}
         />
       </div>
+
+      {/* The annual rate, and the caption above the feature list. Both are
+          read ONLY by `/pricing`; the landing's cards have neither a billing
+          switch nor a caption, so leaving them blank changes nothing there.
+          Labelled rather than placeholder-only, because an empty box beside
+          the monthly price is otherwise indistinguishable from the monthly
+          price being wrong. */}
+      <label className="edit-field">
+        {t("editor.annualPrice")}
+        <input
+          className="edit-inline"
+          placeholder={t("editor.annualPriceHint")}
+          maxLength={20}
+          value={plan.price_annual}
+          onChange={(e) => onChange({ price_annual: e.target.value })}
+        />
+      </label>
+      <label className="edit-field">
+        {t("editor.featuresHeading")}
+        <input
+          className="edit-inline"
+          placeholder={t("editor.featuresHeadingHint")}
+          maxLength={40}
+          value={plan.features_heading}
+          onChange={(e) => onChange({ features_heading: e.target.value })}
+        />
+      </label>
 
       <ul className="mkt-plan-features">
         {plan.features.map((feat, i) => (

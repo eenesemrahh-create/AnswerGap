@@ -118,7 +118,14 @@ export interface Plan {
   name: string;
   desc: string;
   price: string;
+  /** The same plan billed annually, per month. Empty means no annual rate,
+   *  which is how every row saved before 2026-09-23 reads - the landing has
+   *  no monthly/annual switch and never sends one. */
+  price_annual: string;
   per: string;
+  /** The small caps line above the feature list on `/pricing`. Optional for
+   *  the same backward-compatibility reason; the landing draws no such line. */
+  features_heading: string;
   features: string[];
   cta: string;
   badge: string | null;
@@ -130,7 +137,10 @@ export interface Pricing {
 
 /** Set once and read in both the client editor and the server action. */
 export const PRICING_MAX_PLANS = 4;
-export const PRICING_MAX_FEATURES = 8;
+/** Raised from 8 on 2026-09-23: the approved Pro card carries twelve bullets.
+ *  Must stay in step with `PRICING_MAX_FEATURES` in api/admin.py, which is the
+ *  one that actually refuses a save. */
+export const PRICING_MAX_FEATURES = 12;
 
 /**
  * Four ready-made card templates. Shown in the empty slots of the editor so
@@ -153,67 +163,88 @@ export const PRICING_TEMPLATES: Plan[] = [
     enabled: false,
     theme: "light",
     name: "Starter",
-    desc: "For creators building visibility in AI search.",
-    price: "$49",
+    desc: "For creators and small teams building visibility in AI search.",
+    price: "$9.99",
+    price_annual: "$7.99",
     per: "/month",
+    features_heading: "Best starter plan",
     features: [
-      "100 topic searches per month",
-      "AI search question maps",
-      "Search intent classification",
-      "Opportunity export",
+      "100 credits per month",
+      "Unlimited users",
+      "All regions",
+      "All languages",
+      "PNG image export",
+      "24-hour search history",
     ],
-    cta: "Get Started",
+    cta: "Start 7-Day Trial",
     badge: null,
+  },
+  {
+    id: "lite",
+    enabled: false,
+    theme: "dark",
+    name: "Lite",
+    desc: "For SEO professionals scaling AI search authority.",
+    price: "$19.99",
+    price_annual: "$15.99",
+    per: "/month",
+    features_heading: "Most popular",
+    features: [
+      "300 credits per month",
+      "Unlimited users",
+      "All regions",
+      "All languages",
+      "PNG image export",
+      "1-month search history",
+      "Deep search",
+      "CSV data export",
+    ],
+    cta: "Go Lite",
+    badge: "Most Popular",
   },
   {
     id: "pro",
     enabled: false,
-    theme: "dark",
+    theme: "light",
     name: "Pro",
-    desc: "For teams scaling AI search authority.",
-    price: "$149",
+    desc: "For high-volume teams and agencies requiring white-labeling.",
+    price: "$39.99",
+    price_annual: "$31.99",
     per: "/month",
+    features_heading: "Best value for money",
     features: [
-      "Unlimited topic searches",
-      "AI visibility opportunity scoring",
-      "Answer and citation gap analysis",
+      "1,000 credits per month",
+      "Unlimited users",
+      "All regions",
+      "All languages",
+      "PNG image export",
+      "1-year search history",
+      "Deep search",
+      "CSV data export",
+      "Bulk searches",
       "API access",
-      "Priority support",
+      "Pay-as-you-go credits",
+      "MCP server",
     ],
     cta: "Go Pro",
-    badge: "Most Popular",
-  },
-  {
-    id: "business",
-    enabled: false,
-    theme: "violet",
-    name: "Business",
-    desc: "For agencies running many brands at once.",
-    price: "$299",
-    per: "/month",
-    features: [
-      "Everything in Pro",
-      "Multiple workspaces",
-      "White-label reports",
-      "Scheduled crawls",
-      "Team collaboration",
-    ],
-    cta: "Choose Business",
     badge: null,
   },
   {
     id: "enterprise",
     enabled: false,
-    theme: "pink",
+    theme: "violet",
     name: "Enterprise",
-    desc: "For large organizations with custom needs.",
+    desc: "For large organizations with custom volume and custom terms.",
     price: "Custom",
+    price_annual: "",
     per: "contact us",
+    features_heading: "Talk to us",
     features: [
       "Custom volume pricing",
-      "Dedicated infrastructure",
+      "White-label reports",
+      "Multiple workspaces",
+      "Scheduled crawls",
       "SSO and audit logs",
-      "Custom integrations",
       "Dedicated support",
     ],
     cta: "Contact Sales",

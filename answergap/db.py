@@ -43,6 +43,8 @@ from contextlib import contextmanager
 from decimal import Decimal
 from typing import Any, Iterator
 
+from . import gate, pricing_seed
+
 try:
     import psycopg
     from psycopg.rows import dict_row
@@ -126,6 +128,19 @@ def connect() -> Iterator[Any]:
 
 
 # --------------------------------------------------------------- schema
+
+# Migration 0011 seeds the pricing cards. Both values are read at import time
+# and interpolated into that migration's SQL, so the seed and the key it is
+# stored under each exist in exactly one place.
+#
+# `gate` imports nothing but the standard library, so this cannot cycle.
+#
+# DOLLAR-QUOTED in the SQL below ($seed$...$seed$) rather than escaped: the
+# JSON is full of double quotes and would otherwise need escaping rules that
+# differ between the Python string, the f-string and Postgres. `$seed$` cannot
+# appear inside JSON produced by `json.dumps`, so the quoting is unambiguous.
+SETTING_PRICING_PLANS_KEY = gate.SETTING_PRICING_PLANS
+_SEED_PRICING_JSON = json.dumps(pricing_seed.SEED_PLANS, ensure_ascii=False)
 
 # Applied in order, each exactly once, tracked in `schema_migration`. Never edit
 # a statement that has already run anywhere - add a new one instead. This list
@@ -761,6 +776,33 @@ MIGRATIONS: list[tuple[str, str]] = [
         -- on the raw column would not be usable by the statement that needs it.
         CREATE INDEX IF NOT EXISTS payment_event_email_idx
             ON payment_event (lower(email));
+        """,
+    ),
+    (
+        "0011_seed_pricing_plans",
+        # The three cards the /pricing page reads, written once into the
+        # setting an admin would otherwise have to type them into. Built by
+        # f-string from `answergap.pricing_seed`, so the seed exists as ONE
+        # value rather than as SQL somebody has to keep in step with Python.
+        #
+        # WHERE NOT EXISTS, so this is a seed and not an overwrite. A
+        # deployment that already has plans - typed by an operator, or from a
+        # previous run of this migration - keeps them. `app_setting` is
+        # append-only and latest-wins, so an unconditional INSERT here would
+        # silently discard whatever the operator had published, which is the
+        # one thing a migration must never do to content.
+        #
+        # `set_by = 'migration 0011'` rather than an email. The audit answers
+        # "who set this" and the honest answer is "nobody - it shipped".
+        f"""
+        INSERT INTO app_setting (setting_key, setting_value, set_by)
+        SELECT '{SETTING_PRICING_PLANS_KEY}',
+               $seed${_SEED_PRICING_JSON}$seed$,
+               'migration 0011'
+        WHERE NOT EXISTS (
+            SELECT 1 FROM app_setting
+             WHERE setting_key = '{SETTING_PRICING_PLANS_KEY}'
+        );
         """,
     ),
 ]

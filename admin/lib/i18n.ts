@@ -352,6 +352,10 @@ const en = {
     saved: "Saved. The landing picks this up on next load.",
     saveFailed: "Save failed.",
     perMonth: "/month",
+    annualPrice: "Annual rate, per month",
+    annualPriceHint: "Blank = no annual option",
+    featuresHeading: "Caption above the features",
+    featuresHeadingHint: "e.g. Best value for money",
   },
 
   board: {
@@ -810,6 +814,10 @@ const tr: Messages = {
     saved: "Kaydedildi. Sayfa bunu bir sonraki yüklemede alır.",
     saveFailed: "Kaydedilemedi.",
     perMonth: "/ay",
+    annualPrice: "Yıllık fiyat, aylık olarak",
+    annualPriceHint: "Boş = yıllık seçenek yok",
+    featuresHeading: "Özelliklerin üstündeki başlık",
+    featuresHeadingHint: "örn. En iyi fiyat/performans",
   },
 
   board: {

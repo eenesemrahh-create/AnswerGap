@@ -1019,13 +1019,27 @@ progress polling, developer panel, five locales.
     the standing rule above: *do not restrict search history — AlsoAsked's
     24-hour lock is bad practice.* That is a product decision to take
     deliberately, not one to inherit from a mockup.
-17. **Two pricing surfaces, two sources of truth.** `/pricing` hardcodes its
-    numbers; the landing's `#pricing` section reads plans an admin saved
-    through `/settings/pricing`. They can disagree, and the first person to
-    notice will be a customer. The fix is to teach the admin `Plan` shape
-    the fields the page needs — an annual price, the credit count, the
-    comparison rows — not to copy numbers by hand. Chosen knowingly; see
-    the header comment in `web/components/marketing/PricingPage.tsx`.
+17. ~~**Two pricing surfaces, two sources of truth.**~~ **MOSTLY DONE
+    2026-09-23.** `/pricing` now reads `GET /api/pricing`, the same
+    `app_setting.pricing_plans` the landing and the admin editor use.
+    Migration `0011_seed_pricing_plans` writes the three cards on a database
+    that has none, so a fresh deployment has them without anyone typing them
+    in; `Plan` grew `price_annual` and `features_heading`, and
+    `PRICING_MAX_FEATURES` went 8 → 12 because the approved Pro card has
+    twelve.
+    **What is still open: the admin editor holds ONE set of strings.** So
+    only the English `/pricing` reads it; `/pricing/{tr,de,es,fr}` render
+    their content files, or a Turkish reader would get English feature
+    bullets. The cost is that changing a price in the panel leaves the four
+    translations showing the old one. Two guards, neither of them a fix:
+    `warnIfPricesDrifted` logs it server-side on every English render, and
+    `tests/test_pricing_seed.py` fails when the Python seed and
+    `web/content/marketing/pricing/en.ts` disagree on a price or a bullet
+    count. **The real fix is per-locale plans in the admin shape.**
+    Also: the comparison table's rows are three-tuples written against
+    Starter/Lite/Pro in that order, so `/pricing` DROPS the whole table if an
+    operator reorders, renames or adds a card. A table that labels the wrong
+    column is worse than no table.
 
 Items 16-17 come from the 2026-09-23 marketing pages and are recorded in the
 files they name. Items 9-12 come from the 2026-09-15 review; the reasoning for

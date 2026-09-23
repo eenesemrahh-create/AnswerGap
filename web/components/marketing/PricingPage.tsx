@@ -3,6 +3,7 @@ import { MarketingFooter, MarketingNav } from "../MarketingChrome";
 import { PricingCycle } from "./PricingCycle";
 import type { ChromeContent } from "@/content/marketing/chrome";
 import type { PricingContent } from "@/content/marketing/pricing";
+import type { PlanView } from "@/lib/pricing-plans";
 import { marketingPath } from "@/lib/marketing";
 import { LOCALE_TAGS, type Locale } from "@/i18n/types";
 
@@ -26,12 +27,21 @@ export function PricingPage({
   content,
   chrome,
   locale,
+  plans,
+  showCompare = true,
 }: {
   content: PricingContent;
   chrome: ChromeContent;
   locale: Locale;
+  /** The cards to draw. From the admin panel on `/pricing`, from `content`
+   *  on the four translations. See `lib/pricing-plans.ts`. */
+  plans: PlanView[];
+  /** False when the cards no longer line up with the comparison table's
+   *  three-tuples - an operator reordered or added one. A table that labels
+   *  the wrong column is worse than no table. */
+  showCompare?: boolean;
 }) {
-  const { hero, billing, plans, compare, faq, cta } = content;
+  const { hero, billing, compare, faq, cta } = content;
 
   return (
     <div className="mkt-page" lang={LOCALE_TAGS[locale]}>
@@ -56,17 +66,12 @@ export function PricingPage({
             picks `plans-1|2|3` from however many cards an admin published,
             and this page always has three. */}
         <section className="mkt-plans plans-3 mkt-plans-page">
-          {/* The theme is DERIVED from the badge rather than carried in the
-              content, because it is a visual decision and the four
-              translations should not each get a vote on it. The design darkens
-              exactly the card it calls Most Popular. `theme-dark` and
-              `theme-light` are the classes the landing's admin-driven cards
-              already use, so both pricing surfaces look the same. */}
+          {/* `theme-*` are the same classes the landing's admin-driven cards
+              use, so both pricing surfaces look the same. The value comes from
+              the admin panel when the cards do, and is derived from the badge
+              when they come from a content file - see `contentPlanViews`. */}
           {plans.map((plan) => (
-            <article
-              key={plan.name}
-              className={`mkt-plan theme-${plan.badge ? "dark" : "light"}`}
-            >
+            <article key={plan.name} className={`mkt-plan theme-${plan.theme}`}>
               {plan.badge && <span className="mkt-plan-badge">{plan.badge}</span>}
               <h2 className="mkt-plan-name">{plan.name}</h2>
               <p className="mkt-plan-desc">{plan.desc}</p>
@@ -88,7 +93,11 @@ export function PricingPage({
                 {plan.cta}
               </Link>
 
-              <p className="mkt-plan-featlabel">{plan.featuresHeading}</p>
+              {/* Optional: an admin card saved before this field existed has
+                  none, and a blank caption would leave a gap above the list. */}
+              {plan.featuresHeading && (
+                <p className="mkt-plan-featlabel">{plan.featuresHeading}</p>
+              )}
               <ul className="mkt-plan-features">
                 {plan.features.map((feature) => (
                   <li key={feature}>{feature}</li>
@@ -98,6 +107,7 @@ export function PricingPage({
           ))}
         </section>
 
+        {showCompare && (
         <section className="mkt-section">
           <h2 className="mkt-section-title">{compare.heading}</h2>
           <div className="mkt-compare-wrap">
@@ -148,6 +158,7 @@ export function PricingPage({
             </table>
           </div>
         </section>
+        )}
       </PricingCycle>
 
       <section className="mkt-section">
