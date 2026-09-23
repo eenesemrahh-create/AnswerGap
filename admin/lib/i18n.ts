@@ -83,8 +83,8 @@ const en = {
   overview: {
     title: "Overview",
     lead:
-      "Free searches for signed-out visitors: {anon} per day · new accounts " +
-      "start with {signup} credits.",
+      "Searching requires an account · new accounts start with {signup} " +
+      "credits.",
     users: "Users",
     total: "Total",
     newThisWeek: "New this week",
@@ -267,17 +267,15 @@ const en = {
       "Changed here, not in a deploy. Every change appends a row rather than " +
       "overwriting one, so “what was the limit last Tuesday” stays " +
       "answerable once somebody disputes a bill.",
-    anonLabel: "Free searches per day, signed out",
     signupLabel: "Credits for a new account",
-    explainHeading: "What these actually do",
-    explainAnon:
-      "applies only to visitors who are not signed in. It is counted against " +
-      "both a browser id and a hashed IP, and either one reaching the limit " +
-      "refuses — because clearing site data resets the first and a new network " +
-      "resets the second. It is best-effort in both directions: a VPN defeats " +
-      "it, and an office behind one NAT shares a single counter. It stops " +
-      "accidents and cheap abuse, not a determined person. The real backstop is " +
-      "that a search costs $0.0026.",
+    explainHeading: "What this actually does",
+    explainSignedOut:
+      "Signing in is required before any search. There used to be one free " +
+      "search a day for signed-out visitors, counted against a browser id and " +
+      "a hashed IP; it was retired on 23 September 2026 because both are " +
+      "resettable — clearing site data defeats one, a new network defeats the " +
+      "other — so it was a speed bump rather than a limit, and it was the only " +
+      "place the product spent real money on somebody it could not name.",
     explainSignup:
       "is granted once, by the same statement that creates the account. " +
       "Existing accounts are unaffected. A search costs one credit; a cached " +
@@ -538,8 +536,8 @@ const tr: Messages = {
   overview: {
     title: "Genel bakış",
     lead:
-      "Çıkış yapmış ziyaretçiler için ücretsiz arama: günde {anon} · yeni " +
-      "hesaplar {signup} kredi ile başlıyor.",
+      "Arama yapmak için hesap gerekiyor · yeni hesaplar {signup} kredi ile " +
+      "başlıyor.",
     users: "Kullanıcılar",
     total: "Toplam",
     newThisWeek: "Bu hafta yeni",
@@ -726,17 +724,16 @@ const tr: Messages = {
       "Dağıtımla değil, buradan değişir. Her değişiklik üzerine yazmak yerine " +
       "yeni bir satır ekler, böylece biri faturaya itiraz ettiğinde “geçen " +
       "salı limit neydi” sorusu cevaplanabilir kalır.",
-    anonLabel: "Çıkış yapmışlar için günlük ücretsiz arama",
     signupLabel: "Yeni hesaba verilen kredi",
-    explainHeading: "Bunlar aslında ne yapıyor",
-    explainAnon:
-      "yalnızca giriş yapmamış ziyaretçilere uygulanır. Hem bir tarayıcı " +
-      "kimliğine hem de özetlenmiş bir IP'ye karşı sayılır ve ikisinden biri " +
-      "limite ulaştığında reddeder — çünkü site verisini temizlemek birincisini, " +
-      "yeni bir ağ ikincisini sıfırlar. İki yönde de en iyi çabadır: bir VPN " +
-      "onu aşar, tek NAT arkasındaki bir ofis ise tek sayacı paylaşır. Kazaları " +
-      "ve ucuz kötüye kullanımı durdurur, kararlı birini değil. Gerçek emniyet " +
-      "supabı, bir aramanın 0,0026 dolara mal olmasıdır.",
+    explainHeading: "Bu aslında ne yapıyor",
+    explainSignedOut:
+      "Herhangi bir aramadan önce giriş yapmak zorunludur. Eskiden çıkış " +
+      "yapmış ziyaretçiler için günde bir ücretsiz arama vardı; bir tarayıcı " +
+      "kimliğine ve özetlenmiş bir IP'ye karşı sayılıyordu. 23 Eylül 2026'da " +
+      "kaldırıldı, çünkü ikisi de sıfırlanabilir — site verisini temizlemek " +
+      "birini, yeni bir ağ diğerini aşar — yani bir limitten çok bir hız " +
+      "kesiciydi ve ürünün adını bilmediği birine gerçek para harcadığı tek " +
+      "yerdi.",
     explainSignup:
       "hesabı oluşturan aynı ifadeyle bir kez verilir. Mevcut hesaplar " +
       "etkilenmez. Bir arama bir krediye mal olur; önbellekten gelen sonuç " +

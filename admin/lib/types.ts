@@ -9,7 +9,6 @@ export interface Overview {
 }
 
 export interface Settings {
-  anonymous_daily_searches: number;
   signup_credits: number;
 }
 

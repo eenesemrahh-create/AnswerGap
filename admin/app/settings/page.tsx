@@ -17,17 +17,6 @@ export default async function SettingsPage() {
 
       <form className="row" action={saveSettings}>
         <label>
-          {t("settings.anonLabel")}
-          <br />
-          <input
-            name="anonymous_daily_searches"
-            type="number"
-            min={0}
-            max={100}
-            defaultValue={s.anonymous_daily_searches}
-          />
-        </label>
-        <label>
           {t("settings.signupLabel")}
           <br />
           <input
@@ -42,9 +31,7 @@ export default async function SettingsPage() {
       </form>
 
       <h2>{t("settings.explainHeading")}</h2>
-      <p className="sub">
-        <b>{t("settings.anonLabel")}</b> {t("settings.explainAnon")}
-      </p>
+      <p className="sub">{t("settings.explainSignedOut")}</p>
       <p className="sub">
         <b>{t("settings.signupLabel")}</b> {t("settings.explainSignup")}
       </p>

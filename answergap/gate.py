@@ -23,7 +23,11 @@ from dataclasses import dataclass
 # answered later from rows that were never inserted.
 ALLOWED = "allowed"
 REFUSED_NO_CREDITS = "refused_no_credits"
-REFUSED_ANON_LIMIT = "refused_anon_limit"
+# `refused_anon_limit` was retired on 2026-09-23 with the anonymous allowance.
+# The constant is gone; the VALUE is not, because rows written before that date
+# still carry it and rewriting history to tidy up a vocabulary would be the one
+# thing an append-only usage log must never do. Any report reading `outcome`
+# has to keep recognising it.
 REFUSED_SUSPENDED = "refused_suspended"
 REFUSED_SIGNED_OUT = "refused_signed_out"
 # Added with password accounts. Distinct from REFUSED_NO_CREDITS on purpose:
@@ -50,20 +54,13 @@ STATUS_ERASED = "erased"
 # Runtime settings, with their defaults HERE rather than as seed rows in the
 # migration. A default recorded in two places is a default that can disagree
 # with itself.
-SETTING_ANON_DAILY = "anonymous_daily_searches"
 SETTING_SIGNUP_CREDITS = "signup_credits"
 # JSON array of pricing plans shown on the marketing landing. Blank/missing
 # means "no admin has set it yet" and the landing renders the hardcoded i18n
 # defaults for its locale - a fresh install without a manual seed still shows
 # a pricing section. See `api/admin.py` for the shape and validation.
 SETTING_PRICING_PLANS = "pricing_plans"
-DEFAULT_ANON_DAILY = 1
 DEFAULT_SIGNUP_CREDITS = 10
-
-# Anonymous visitors may discover, never score. Discovery is one request;
-# scoring is per question and a batch is ten. The free tier is a taste of the
-# product, not an unmetered door into the expensive half of it.
-ANONYMOUS_ACTIONS = frozenset({"search"})
 
 
 @dataclass(frozen=True)
@@ -104,9 +101,6 @@ class State:
     # caller written before password accounts existed keeps its old behaviour.
     email_verified: bool = True
     balance: int = 0
-    anon_limit: int = DEFAULT_ANON_DAILY
-    anon_used_browser: int = 0
-    anon_used_ip: int = 0
 
 
 @dataclass(frozen=True)
@@ -144,9 +138,11 @@ def decide(identity: Identity, state: State, *, action: str, units: int) -> Deci
     # it had not been told about - so adding `erased` without touching this line
     # would have let an erased account keep spending. A gate that only stops the
     # refusals it already knows by name is not a gate. Unknown now fails closed.
-    # `status is None` is an ANONYMOUS visitor - there is no account row to have
-    # a status - and must fall through to the anonymous allowance below rather
-    # than be refused as not-active.
+    # `status is None` is a SIGNED-OUT visitor - there is no account row to have
+    # a status - and must fall through to the signed-out refusal at the bottom
+    # rather than be refused here as not-active. Both now end in a refusal, but
+    # not the same one: "sign in" and "this account is suspended" are different
+    # sentences, and only one of them is true of someone who has no account.
     if state.status is not None and state.status != STATUS_ACTIVE:
         # The OUTCOME distinguishes the two, because it is written to
         # `usage_event` and "how often does an erased account still try" is a
@@ -193,27 +189,22 @@ def decide(identity: Identity, state: State, *, action: str, units: int) -> Deci
             info={"balance": state.balance, "needed": units},
         )
 
-    if action not in ANONYMOUS_ACTIONS:
-        return Decision(False, REFUSED_SIGNED_OUT, "signedOut", 401)
-
-    # Either counter refuses. Clearing site data defeats the browser id; a new
-    # IP defeats the other; needing both to be under the limit is what makes the
-    # cheap bypasses cost something.
-    used = max(state.anon_used_browser, state.anon_used_ip)
-    if used >= state.anon_limit:
-        return Decision(
-            False,
-            REFUSED_ANON_LIMIT,
-            "anonLimit",
-            429,
-            info={
-                "used": used,
-                "limit": state.anon_limit,
-                "by_browser": state.anon_used_browser,
-                "by_ip": state.anon_used_ip,
-            },
-        )
-    return Decision(True, ALLOWED, affordable_units=units)
+    # Signed out, and that is the end of it. Changed 2026-09-23: there used to
+    # be a daily allowance here, one free search per browser and per IP, and
+    # `action` decided whether a signed-out visitor could reach it - discovery
+    # yes, scoring no.
+    #
+    # It is gone because the free search was the only place this product spent
+    # real money on somebody it could not name. Two hashed counters are a speed
+    # bump, not an identity: clearing site data resets one and any new address
+    # resets the other, so the bill was bounded by how much trouble a stranger
+    # felt like going to. An account makes the spend attributable, and that is
+    # the whole requirement.
+    #
+    # `action` therefore no longer changes this answer - it is still taken
+    # because the caller records it on `usage_event`, and because a refusal
+    # worth counting is a refusal worth knowing the shape of.
+    return Decision(False, REFUSED_SIGNED_OUT, "signedOut", 401)
 
 
 def credits_for(billable_calls: int | None) -> int:

@@ -212,16 +212,23 @@ def test_verification_defaults_to_true_for_callers_that_predate_it():
 
 
 def test_anonymous_visitors_are_not_touched_by_the_verification_rule():
-    """The branch lives inside `if identity.signed_in`. A signed-out visitor
-    has no address to verify and must still get the free daily search."""
+    """The branch lives inside `if identity.signed_in`.
+
+    A signed-out visitor has no address to verify, so the unverified refusal
+    must never be the one they get. Since the anonymous allowance was retired
+    they are refused either way - but with `signedOut`, which tells the browser
+    to offer a sign-in, rather than `emailUnverified`, which would send someone
+    with no account looking through their inbox for a link nobody sent.
+    """
     who = gate.Identity(anon_id="browser-1")
     out = gate.decide(
         who,
-        gate.State(accounts_enabled=True, email_verified=False, anon_limit=1),
+        gate.State(accounts_enabled=True, email_verified=False),
         action="search",
         units=1,
     )
-    assert out.allowed
+    assert out.code == "signedOut"
+    assert out.outcome == gate.REFUSED_SIGNED_OUT
 
 
 # ================================================ the escalation trap

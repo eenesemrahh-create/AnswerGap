@@ -190,19 +190,12 @@ def check(who: gate.Identity, *, action: str, units: int) -> gate.Decision:
             balance=int(row.get("balance") or 0),
         )
     else:
-        counters = db.anon_counters(anon_id=who.anon_id, ip_hash=who.ip_hash)
-        state = gate.State(
-            accounts_enabled=True,
-            anon_limit=gate.setting_int(
-                {gate.SETTING_ANON_DAILY: counters["anon_limit"]},
-                gate.SETTING_ANON_DAILY,
-                default=gate.DEFAULT_ANON_DAILY,
-                lo=0,
-                hi=100,
-            ),
-            anon_used_browser=counters["by_browser"],
-            anon_used_ip=counters["by_ip"],
-        )
+        # No query at all any more. A signed-out visitor used to cost one round
+        # trip here to count their daily allowance against two hashed keys;
+        # since the allowance was retired the gate refuses them on identity
+        # alone, so asking the database anything would be spending a query to
+        # learn nothing.
+        state = gate.State(accounts_enabled=True)
 
     decision = gate.decide(who, state, action=action, units=units)
     if not decision.allowed:

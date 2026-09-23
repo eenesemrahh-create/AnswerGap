@@ -5,6 +5,7 @@ import { ApiError, fetchMe, resendVerification, signOut } from "@/lib/api";
 import { SignInDialog } from "./SignInDialog";
 import { AccountDialog } from "./AccountDialog";
 import { captureTokenFromHash, token } from "@/lib/auth";
+import { onSignInRequest } from "@/lib/signin-request";
 import type { Me, Meta } from "@/lib/types";
 import { useI18n } from "@/i18n";
 
@@ -40,9 +41,12 @@ export function AccountMenu({ meta }: { meta: Meta }) {
   const [me, setMe] = useState<Me | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [dialog, setDialog] = useState(false);
-  const [dialogMode, setDialogMode] = useState<"signin" | "reset" | "resend">(
-    "signin"
-  );
+  const [dialogMode, setDialogMode] = useState<
+    "signin" | "signup" | "reset" | "resend"
+  >("signin");
+  /* Why the dialog opened, when something other than the sign-in button opened
+     it. `SignInDialog` has always had the prop and nothing ever passed it. */
+  const [dialogReason, setDialogReason] = useState<string | undefined>();
   const [resetToken, setResetToken] = useState<string | undefined>();
   const [resent, setResent] = useState(false);
   const [resending, setResending] = useState(false);
@@ -57,6 +61,18 @@ export function AccountMenu({ meta }: { meta: Meta }) {
       .then(setMe)
       .catch(() => setMe(null));
   }, []);
+
+  /* Something elsewhere on the page hit a wall that only signing in clears —
+     today the search box, which refuses to spend a request it knows will be
+     refused. The dialog is mounted here, so the request is answered here. */
+  useEffect(() => {
+    if (!meta.accounts_enabled) return;
+    return onSignInRequest(({ mode, reason }) => {
+      setDialogReason(reason);
+      setDialogMode(mode);
+      setDialog(true);
+    });
+  }, [meta.accounts_enabled]);
 
   useEffect(() => {
     if (!meta.accounts_enabled) return;
@@ -140,10 +156,12 @@ export function AccountMenu({ meta }: { meta: Meta }) {
       onClose={() => {
         setDialog(false);
         setDialogMode("signin");
+        setDialogReason(undefined);
         setResetToken(undefined);
       }}
       googleEnabled={meta.google_enabled !== false}
       initialMode={dialogMode}
+      reason={dialogReason}
       resetToken={resetToken}
       onSignedIn={load}
     />

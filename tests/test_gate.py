@@ -100,14 +100,19 @@ def test_a_status_nobody_recognises_fails_closed() -> None:
     assert decision.http_status == 403
 
 
-def test_no_status_at_all_is_an_anonymous_visitor_not_a_refusal() -> None:
+def test_no_status_at_all_is_signed_out_not_suspended() -> None:
     """`status is None` means there is no account row, not a bad one.
 
-    The first cut of the fail-closed rule refused every anonymous visitor,
-    because `None != "active"`. Four anonymous tests caught it.
+    Both answers are now a refusal, so the assertion is on WHICH one. The
+    fail-closed rule is written `!= "active"`, and `None != "active"`, so a
+    signed-out visitor falling into that branch would be told their account is
+    suspended - a sentence about an account they do not have, and a 403 where
+    the browser needs a 401 to know to offer a sign-in.
     """
     decision = gate.decide(_anon(), State(True, None), action="search", units=1)
-    assert decision.allowed
+    assert not decision.allowed
+    assert (decision.http_status, decision.code) == (401, "signedOut")
+    assert decision.outcome == gate.REFUSED_SIGNED_OUT
 
 
 # ------------------------------------------------------------------ credits
@@ -155,42 +160,31 @@ def test_a_batch_with_no_credits_at_all_is_refused() -> None:
 # ---------------------------------------------------------------- anonymous
 
 
-def test_the_first_anonymous_search_is_free() -> None:
-    decision = gate.decide(_anon(), State(True, anon_limit=1), action="search", units=1)
-    assert decision.allowed
+def test_searching_signed_out_is_refused() -> None:
+    """The rule this whole section used to test the opposite of.
 
-
-def test_either_counter_refuses_on_its_own() -> None:
-    """THE anonymous rule, and the one an implementation is likely to get wrong.
-
-    Clearing site data resets the browser id; a new IP resets the other. Code
-    that checked only one counter would pass every other test in this file and
-    fail only this one - twice, once per direction.
+    Until 2026-09-23 a signed-out visitor got one free search a day. It was
+    retired because the two counters behind it - a browser id and a hashed IP -
+    are both resettable by the person being counted, so it bounded the bill by
+    how much trouble a stranger felt like going to rather than by anything.
     """
-    by_ip = gate.decide(
-        _anon(), State(True, anon_limit=1, anon_used_ip=1, anon_used_browser=0),
-        action="search", units=1,
-    )
-    by_browser = gate.decide(
-        _anon(), State(True, anon_limit=1, anon_used_ip=0, anon_used_browser=1),
-        action="search", units=1,
-    )
-    assert not by_ip.allowed and by_ip.code == "anonLimit"
-    assert not by_browser.allowed and by_browser.code == "anonLimit"
-
-
-def test_a_zero_limit_refuses_immediately() -> None:
-    """0 is a real setting - "no free searches at all" - not a missing value."""
-    decision = gate.decide(_anon(), State(True, anon_limit=0), action="search", units=1)
+    decision = gate.decide(_anon(), State(True), action="search", units=1)
     assert not decision.allowed
+    assert (decision.http_status, decision.code) == (401, "signedOut")
 
 
-def test_anonymous_visitors_cannot_reach_the_expensive_half() -> None:
-    """Discovery is one request; a batch is ten. Scoring requires an account."""
-    for action in ("score", "batch"):
-        decision = gate.decide(_anon(), State(True, anon_limit=99), action=action, units=1)
-        assert not decision.allowed
-        assert (decision.http_status, decision.code) == (401, "signedOut")
+def test_no_action_buys_its_way_past_being_signed_out() -> None:
+    """`action` no longer changes the signed-out answer, and that is the point.
+
+    `search` used to be the one action a signed-out visitor could reach, named
+    in an `ANONYMOUS_ACTIONS` set. The set is gone; if anything ever
+    reintroduces a per-action exemption, it fails here rather than in
+    production on the one endpoint that spends money.
+    """
+    for action in ("search", "score", "batch", "something-new"):
+        decision = gate.decide(_anon(), State(True), action=action, units=1)
+        assert not decision.allowed, action
+        assert (decision.http_status, decision.code) == (401, "signedOut"), action
 
 
 # -------------------------------------------------------------- the charge
@@ -283,21 +277,16 @@ def test_settings_are_clamped_but_zero_survives() -> None:
 # ------------------------------------------------- what a refusal explains
 
 
-def test_the_anonymous_refusal_carries_both_counters() -> None:
-    """A refusal has to say WHY, or it is a support ticket.
+def test_the_signed_out_refusal_carries_no_numbers() -> None:
+    """Nothing to explain, so nothing is attached.
 
-    Which counter tripped is the whole diagnosis - a browser id that has been
-    used up behaves nothing like a shared office address that has - and it is a
-    fact about the caller's own requests, so returning it reveals nothing they
-    could not have counted themselves.
+    This used to carry both anonymous counters, because which one tripped was
+    the whole diagnosis. Being signed out has no such detail - the reason is
+    the request itself - and `info` travels to the browser, so inventing a
+    payload here would be handing out facts to say nothing with.
     """
-    decision = gate.decide(
-        _anon(),
-        State(True, anon_limit=1, anon_used_ip=1, anon_used_browser=0),
-        action="search",
-        units=1,
-    )
-    assert decision.info == {"used": 1, "limit": 1, "by_browser": 0, "by_ip": 1}
+    decision = gate.decide(_anon(), State(True), action="search", units=1)
+    assert decision.info is None
 
 
 def test_an_empty_balance_refusal_says_what_was_needed() -> None:

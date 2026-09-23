@@ -461,19 +461,37 @@ def test_an_erased_tree_is_not_reachable_by_the_browser_that_made_it() -> None:
     assert db.can_access(slug, user_id=uid, anon_id="anon-1") is False
 
 
-def test_an_erased_persons_searches_do_not_burn_an_anonymous_free_search() -> None:
-    """`anon_counters` counts `user_id IS NULL` by anon_id AND by ip_hash.
+def test_erasure_blanks_the_browser_and_address_on_usage_rows() -> None:
+    """Erasure has to take the identifiers, not just the account key.
 
-    So blanking only `user_id` would donate this person's same-day searches to
-    an anonymous visitor's allowance - their own browser's, and everyone
-    behind that address.
+    This was written against `anon_counters`: blanking only `user_id` would
+    have donated an erased person's same-day searches to a stranger's free
+    allowance. That allowance is gone, and the rule outlived its first reason -
+    a browser id and an address hash identify the person being erased, so a row
+    still carrying either is a row the erasure did not reach.
+
+    Asserted against the columns directly rather than through a reader, which
+    is what let the original version of this test die with the function it
+    called.
     """
-    uid = int(_leaver()["id"])
-    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    def identified() -> int:
+        with db.connect() as conn, conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT count(*) AS n FROM usage_event
+                 WHERE anon_id IS NOT NULL OR ip_hash IS NOT NULL
+                """
+            )
+            return int((cur.fetchone() or {}).get("n") or 0)
 
-    counters = db.anon_counters(anon_id="anon-1", ip_hash="ip-1")
-    assert counters["by_browser"] == 0
-    assert counters["by_ip"] == 0
+    uid = int(_leaver()["id"])
+    # Counted BEFORE as well, or an erasure that deleted the rows outright -
+    # or a fixture that stopped writing them - would pass by having nothing
+    # left to find.
+    assert identified() > 0
+
+    db.user_erase(user_id=uid, actor="op@example.com", reason="")
+    assert identified() == 0
 
 
 def test_erasure_deletes_every_live_credential() -> None:

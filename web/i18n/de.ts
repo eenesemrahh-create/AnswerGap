@@ -296,6 +296,7 @@ export const de: Messages = {
     account: "Konto",
     failed: "Die Anmeldung wurde nicht abgeschlossen. Versuchen Sie es erneut.",
     why: "Melden Sie sich an, damit Ihre Suchen und Ihr Guthaben erhalten bleiben.",
+    whySearch: "Für die Suche ist ein Konto nötig. Es ist kostenlos, und neue Konten starten mit Guthaben.",
   },
 
   credits: {
@@ -332,9 +333,6 @@ export const de: Messages = {
     noCredits:
       "Kein Guthaben mehr. Eine Suche kostet ein Credit; Ergebnisse aus dem " +
       "Cache sind kostenlos.",
-    anonLimit:
-      "Die kostenlose Suche für heute wurde über diese Verbindung bereits " +
-      "genutzt. Melden Sie sich an, um weiterzumachen.",
     suspended: "Dieses Konto ist gesperrt. Melden Sie sich bei uns, wir klären das.",
     backToAnalyses: "Zurück zu den Analysen",
     startBackend: "Zum Starten des Backends, im Projektverzeichnis:",

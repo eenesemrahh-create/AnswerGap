@@ -336,6 +336,7 @@ export const en = {
     account: "Account",
     failed: "Sign-in did not finish. Try again.",
     why: "Sign in to keep your searches and your credits.",
+    whySearch: "Searching needs an account. It is free to create, and new accounts start with credits.",
   },
 
   credits: {
@@ -372,8 +373,6 @@ export const en = {
     signedOut: "You are signed out. Sign in to continue.",
     noCredits:
       "No credits left. A search costs one credit; cached results are free.",
-    anonLimit:
-      "Today's free search has been used on this connection. Sign in to keep going.",
     suspended: "This account is suspended. Get in touch and we will sort it out.",
     backToAnalyses: "Back to analyses",
     startBackend: "To start the backend, from the project root:",

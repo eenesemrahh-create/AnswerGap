@@ -45,7 +45,6 @@ export type ErrorKind =
   | "badRequest"
   | "signedOut"
   | "noCredits"
-  | "anonLimit"
   | "suspended"
   // --- email + password sign-in ---------------------------------------
   | "badCredentials"
@@ -71,14 +70,20 @@ export class ApiError extends Error {
  *
  * The code matters because 429 is already taken. It means the DataForSEO
  * request ceiling, and `error.budget` tells the reader the crawl stopped rather
- * than spend more — which is advice for a completely different problem than
- * "your daily free search is used up". So the gate sends a code, and a 429
- * WITHOUT one still maps to `budget` exactly as before.
+ * than spend more — which is advice for a completely different problem than a
+ * refusal about who is asking. So the gate sends a code, and a 429 WITHOUT one
+ * still maps to `budget` exactly as before.
  */
 const CODES: Record<string, ErrorKind> = {
   signedOut: "signedOut",
   noCredits: "noCredits",
-  anonLimit: "anonLimit",
+  // Retired with the anonymous daily allowance on 2026-09-23, and kept here
+  // pointing at `signedOut` on purpose: web and api deploy separately, so a
+  // browser holding the new bundle can still be answered by the old API for a
+  // few minutes. Dropping the row would send that refusal to the 429 fallback
+  // and tell the reader the crawl ran out of budget, when what they need is
+  // the sign-in button — which is exactly what `signedOut` shows them.
+  anonLimit: "signedOut",
   suspended: "suspended",
   accountsOff: "noCredentials",
   // Sign-in refusals. `badCredentials` is deliberately the ONLY code the

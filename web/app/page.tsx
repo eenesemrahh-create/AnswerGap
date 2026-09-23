@@ -12,6 +12,7 @@ import {
   fetchTrees,
   search as runSearch,
 } from "@/lib/api";
+import { requestSignIn } from "@/lib/signin-request";
 import {
   STATUSES,
   STATUS_COLOR,
@@ -115,6 +116,25 @@ export default function Landing() {
     event.preventDefault();
     const term = seed.trim();
     if (!term || busy) return;
+
+    /* Searching needs an account, so ask for one BEFORE spending a request
+     * that the gate will refuse anyway.
+     *
+     * This is courtesy, not enforcement — `gate.decide` refuses a signed-out
+     * search on its own and is the only thing standing between a stranger and
+     * a DataForSEO bill. What it buys is the difference between a form that
+     * fails and a form that explains: the refusal would otherwise land as a
+     * sentence under the box with nothing to press.
+     *
+     * Both conditions matter. `accounts_enabled` false is a machine with no
+     * database, where the gate allows everything and a sign-in dialog would
+     * be a door to nowhere. A null `meta` is a page whose first fetch has not
+     * landed; the request goes, and the server answers for us.
+     */
+    if (meta?.accounts_enabled && meta.role === "anonymous") {
+      requestSignIn({ mode: "signup", reason: t("auth.whySearch") });
+      return;
+    }
 
     setBusy(true);
     setSearchError(null);

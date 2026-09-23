@@ -427,21 +427,35 @@ MIGRATIONS: list[tuple[str, str]] = [
             -- List, so a cookie set by the api would never come back.
             anon_id       TEXT,
             action        TEXT NOT NULL,
-            -- allowed | refused_no_credits | refused_anon_limit |
-            -- refused_suspended | refused_signed_out. Refusals are recorded
-            -- too: "how often do we turn people away, and why" cannot be
-            -- answered later from rows that were never inserted.
+            -- allowed | refused_no_credits | refused_suspended |
+            -- refused_signed_out | refused_unverified | refused_erased.
+            -- Refusals are recorded too: "how often do we turn people away,
+            -- and why" cannot be answered later from rows that were never
+            -- inserted. Rows written before 2026-09-23 may also carry
+            -- `refused_anon_limit`, from the retired anonymous allowance;
+            -- there is no CHECK here, so history keeps its own vocabulary.
             outcome       TEXT NOT NULL,
             credits       INTEGER NOT NULL DEFAULT 0,
             spend_usd     NUMERIC(12, 6) NOT NULL DEFAULT 0,
             tree_slug     TEXT,
             question_slug TEXT,
-            -- Written at insert so the anonymous daily limit is a point lookup
-            -- on (key, day) rather than a range scan over created_at. This will
-            -- be the busiest table in the schema.
+            -- Written at insert so a day's usage is a point lookup on
+            -- (key, day) rather than a range scan over created_at. This will
+            -- be the busiest table in the schema. It was added for the
+            -- anonymous daily limit; that reader is gone, but the reports
+            -- aggregate on this column now and `admin_usage_by_month` is the
+            -- reason it stays indexed.
             day_utc       DATE NOT NULL DEFAULT (now() AT TIME ZONE 'utc')::date,
             created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
         );
+        -- These two served the anonymous daily counters and now have no
+        -- reader. They are LEFT IN PLACE deliberately: dropping an index is a
+        -- migration, `CREATE INDEX IF NOT EXISTS` cannot express a drop, and
+        -- two partial indexes on a table of this size cost less today than a
+        -- migration written in a hurry. They remain the right index for
+        -- "what did this browser or this address do", which is the shape of
+        -- every abuse investigation. Revisit when the table is large enough
+        -- for the write cost to show up.
         CREATE INDEX IF NOT EXISTS usage_event_anon_day_idx
             ON usage_event (anon_id, day_utc) WHERE anon_id IS NOT NULL;
         CREATE INDEX IF NOT EXISTS usage_event_ip_day_idx
@@ -2283,54 +2297,6 @@ def user_for_gate(user_id: int) -> dict | None:
         return dict(row) if row else None
 
 
-def anon_counters(*, anon_id: str | None, ip_hash: str | None) -> dict:
-    """The anonymous limit and both of the day's counters, in one round trip.
-
-    The runtime setting is folded into this query rather than cached in the
-    process. An in-process cache would be per-replica, would diverge between
-    them, and would hand the admin an "it has not taken effect yet" mystery -
-    for a saving of zero, since it rides along with a query already being made.
-
-    Note `spend_usd > 0`: a cache hit does not burn the free daily search, which
-    is the same rule as "cached results are free" and costs nothing to honour.
-    Note also that `anon_id = NULL` matches no rows, so a client that omits the
-    header simply has no browser counter - the IP counter is what catches it.
-
-    `user_id IS NULL` counts ONLY signed-out usage, and leaving it out was a
-    bug. Every request carries an ip_hash and a browser id, signed in or not,
-    because both are worth having when investigating abuse - but a signed-in
-    user has already paid for their search with a credit, and counting it here
-    spent the free allowance of every signed-out visitor behind the same
-    address. One person signing in at an office would have locked out the
-    office; signing out would have locked out even themselves, since their own
-    browser id had already been counted.
-    """
-    with connect() as conn, conn.cursor() as cur:
-        cur.execute(
-            """
-            SELECT
-              (SELECT setting_value FROM app_setting
-                WHERE setting_key = 'anonymous_daily_searches'
-                ORDER BY created_at DESC, id DESC LIMIT 1) AS anon_limit,
-              (SELECT count(*) FROM usage_event
-                WHERE anon_id = %(anon)s AND user_id IS NULL
-                  AND day_utc = (now() AT TIME ZONE 'utc')::date
-                  AND outcome = 'allowed' AND spend_usd > 0) AS by_browser,
-              (SELECT count(*) FROM usage_event
-                WHERE ip_hash = %(ip)s AND user_id IS NULL
-                  AND day_utc = (now() AT TIME ZONE 'utc')::date
-                  AND outcome = 'allowed' AND spend_usd > 0) AS by_ip
-            """,
-            {"anon": anon_id, "ip": ip_hash},
-        )
-        row = cur.fetchone() or {}
-        return {
-            "anon_limit": row.get("anon_limit"),
-            "by_browser": int(row.get("by_browser") or 0),
-            "by_ip": int(row.get("by_ip") or 0),
-        }
-
-
 def record_usage(
     *,
     user_id: int | None,
@@ -3427,11 +3393,14 @@ def user_erase(*, user_id: int, actor: str, reason: str) -> dict | None:
         anon id, which for a self-service erasure is the very browser that just
         pressed delete. Looking erased is worse than not being erased.
       * `serp_task.user_id` - the provider receipt stays, the owner goes.
-      * `usage_event.user_id`, `.anon_id` AND `.ip_hash`. The last two are not
-        squeamishness: `anon_counters` counts `user_id IS NULL` once by
-        `anon_id` and again by `ip_hash`, so blanking only `user_id` would
-        donate this person's same-day searches to an anonymous visitor's free
-        allowance - their own browser's, and everyone behind that address.
+      * `usage_event.user_id`, `.anon_id` AND `.ip_hash`. The last two were
+        originally kept in step with the anonymous daily allowance, which
+        counted `user_id IS NULL` by `anon_id` and again by `ip_hash`: blanking
+        only `user_id` would have donated this person's same-day searches to a
+        stranger's free allowance. That allowance was retired on 2026-09-23 and
+        the reason is now plainer - a browser id and an address hash identify
+        the person being erased, so an erasure that left them behind would not
+        be one.
       * Every `email_token` and `auth_code` row. These are LIVE CREDENTIALS.
         They do not cascade here because the row is not deleted, and
         `email_token_redeem` asks about expiry and use but never about status -

@@ -1343,13 +1343,20 @@ table.table {
 }
 .dialog h2 { margin: 0 0 6px; font-size: 19px; letter-spacing: -.01em; }
 .dialog-sub, .dialog-reason { margin: 0 0 18px; color: var(--text-soft); }
-/* A refusal is the reason the dialog opened; it gets the weight to say so. */
+/* Why the dialog opened; it gets the weight to say so.
+ *
+ * NOT the gap palette, which is what this rule used to reach for. Amber is a
+ * VERDICT in this product - "no page answers this question" - and the rule at
+ * the top of this file reserves it for that. Nothing ever passed the `reason`
+ * prop, so the mistake was invisible until the search box started opening this
+ * dialog. "You need an account" is information, not a finding about a
+ * question, and brand tint is the file's designated decoration. */
 .dialog-reason {
   padding: 10px 12px;
-  border: 1px solid var(--gap-border);
+  border: 1px solid var(--border);
   border-radius: var(--r-sm);
-  background: var(--gap-bg);
-  color: var(--gap);
+  background: var(--brand-soft);
+  color: var(--text);
   font-size: 13px;
 }
 .dialog-list {

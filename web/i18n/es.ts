@@ -297,6 +297,7 @@ export const es: Messages = {
     account: "Cuenta",
     failed: "El inicio de sesión no se completó. Inténtalo de nuevo.",
     why: "Inicia sesión para conservar tus búsquedas y tus créditos.",
+    whySearch: "Buscar requiere una cuenta. Crearla es gratis y las cuentas nuevas empiezan con créditos.",
   },
 
   credits: {
@@ -334,9 +335,6 @@ export const es: Messages = {
     noCredits:
       "No te quedan créditos. Una búsqueda cuesta un crédito; los resultados " +
       "en caché son gratuitos.",
-    anonLimit:
-      "La búsqueda gratuita de hoy ya se ha usado en esta conexión. Inicia " +
-      "sesión para seguir.",
     suspended: "Esta cuenta está suspendida. Escríbenos y lo resolvemos.",
     backToAnalyses: "Volver a los análisis",
     startBackend: "Para iniciar el backend, desde la raíz del proyecto:",

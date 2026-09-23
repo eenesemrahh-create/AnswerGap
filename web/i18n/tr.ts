@@ -295,6 +295,7 @@ export const tr: Messages = {
     account: "Hesap",
     failed: "Giriş tamamlanmadı. Tekrar deneyin.",
     why: "Aramalarınız ve krediniz sizde kalsın diye giriş yapın.",
+    whySearch: "Arama yapmak için hesap gerekiyor. Açmak ücretsiz ve yeni hesaplar kredi ile başlıyor.",
   },
 
   credits: {
@@ -330,9 +331,6 @@ export const tr: Messages = {
     noCredits:
       "Krediniz kalmadı. Bir arama bir kredi harcar; önbellekten gelen " +
       "sonuçlar ücretsizdir.",
-    anonLimit:
-      "Bugünkü ücretsiz arama bu bağlantıda kullanıldı. Devam etmek için " +
-      "giriş yapın.",
     suspended: "Bu hesap askıya alınmış. Bizimle iletişime geçin, çözelim.",
     backToAnalyses: "Analizlere dön",
     startBackend: "Backend'i başlatmak için proje kökünde:",

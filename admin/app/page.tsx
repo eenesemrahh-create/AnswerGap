@@ -13,10 +13,7 @@ export default async function OverviewPage() {
     <>
       <h1>{t("overview.title")}</h1>
       <p className="sub">
-        {t("overview.lead", {
-          anon: data.settings.anonymous_daily_searches,
-          signup: data.settings.signup_credits,
-        })}
+        {t("overview.lead", { signup: data.settings.signup_credits })}
       </p>
 
       <h2>{t("overview.users")}</h2>

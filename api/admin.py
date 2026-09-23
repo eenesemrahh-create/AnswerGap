@@ -47,11 +47,10 @@ PRICING_MAX_PLANS = 4
 # the ceiling is generous but not decorative.
 PRICING_MAX_FEATURES = 8
 
-# Bounds for the two runtime settings. Clamped here as well as in
+# Bound for the runtime setting. Clamped here as well as in
 # `gate.setting_int` - rejecting a bad value at the door gives the admin an
 # error they can act on, rather than silently storing something the reader
 # clamps later and nobody can explain.
-ANON_DAILY_MAX = 100
 SIGNUP_CREDITS_MAX = 100_000
 # A grant is a person typing a number. Six figures in one action is a slip, not
 # an intention, and the ledger is append-only - a mistake cannot be edited away,
@@ -69,7 +68,6 @@ class StatusRequest(BaseModel):
 
 
 class SettingsRequest(BaseModel):
-    anonymous_daily_searches: int | None = None
     signup_credits: int | None = None
 
 
@@ -364,17 +362,12 @@ def get_settings(request: Request) -> dict:
 def put_settings(request: Request, payload: SettingsRequest) -> dict:
     """Change a runtime setting. Append-only: the old value stays on the record.
 
-    Note that 0 is a real, wanted value for the anonymous limit - it means "no
-    free searches at all" - so these must be `is not None` checks rather than
-    truthiness.
+    Note that 0 is a real, wanted value for the signup grant - it means "new
+    accounts start empty" - so this must be an `is not None` check rather than
+    a truthiness one.
     """
     who = require_admin(request)
     actor = who.email or ""
-    if payload.anonymous_daily_searches is not None:
-        value = payload.anonymous_daily_searches
-        if not 0 <= value <= ANON_DAILY_MAX:
-            raise HTTPException(400, {"code": "outOfRange"})
-        db.setting_put(key=gate.SETTING_ANON_DAILY, value=str(value), actor=actor)
     if payload.signup_credits is not None:
         value = payload.signup_credits
         if not 0 <= value <= SIGNUP_CREDITS_MAX:
@@ -595,13 +588,6 @@ def _settings() -> dict:
     """Current settings, read through the same clamps the gate uses."""
     rows = db.settings_all()
     return {
-        gate.SETTING_ANON_DAILY: gate.setting_int(
-            rows,
-            gate.SETTING_ANON_DAILY,
-            default=gate.DEFAULT_ANON_DAILY,
-            lo=0,
-            hi=ANON_DAILY_MAX,
-        ),
         gate.SETTING_SIGNUP_CREDITS: gate.setting_int(
             rows,
             gate.SETTING_SIGNUP_CREDITS,

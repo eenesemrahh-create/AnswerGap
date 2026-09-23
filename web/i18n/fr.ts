@@ -300,6 +300,7 @@ export const fr: Messages = {
     account: "Compte",
     failed: "La connexion n'a pas abouti. Réessayez.",
     why: "Connectez-vous pour conserver vos recherches et vos crédits.",
+    whySearch: "La recherche nécessite un compte. La création est gratuite et les nouveaux comptes démarrent avec des crédits.",
   },
 
   credits: {
@@ -338,9 +339,6 @@ export const fr: Messages = {
     noCredits:
       "Plus de crédits. Une recherche coûte un crédit ; les résultats en " +
       "cache sont gratuits.",
-    anonLimit:
-      "La recherche gratuite du jour a déjà été utilisée sur cette connexion. " +
-      "Connectez-vous pour continuer.",
     suspended: "Ce compte est suspendu. Contactez-nous, nous réglerons cela.",
     backToAnalyses: "Retour aux analyses",
     startBackend: "Pour démarrer le backend, à la racine du projet :",
