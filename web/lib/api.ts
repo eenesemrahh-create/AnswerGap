@@ -389,3 +389,21 @@ export async function resetPassword(
   });
   if (out.token) setToken(out.token);
 }
+
+export interface ContactMessage {
+  name: string;
+  email: string;
+  company: string;
+  subject: string;
+  message: string;
+}
+
+/** Sends the contact form. Nothing is stored; the API mails it and forgets it.
+ *
+ * Deliberately NOT authenticated - the people most likely to use it are the
+ * ones who have not signed up yet, which is also why the endpoint carries its
+ * own per-IP rate limit rather than leaning on the gate.
+ */
+export async function sendContactMessage(message: ContactMessage): Promise<void> {
+  await post<{ ok: boolean }>("/api/contact", message);
+}

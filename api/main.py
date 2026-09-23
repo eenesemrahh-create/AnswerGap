@@ -852,6 +852,107 @@ def tree_jobs(slug: str, http_request: Request) -> dict:
 # plans - it exists to be thrown away.
 #
 # IT IS NOT OPEN TO THE INTERNET, and that is not caution for its own sake.
+# ----------------------------------------------------------------- contact
+#
+# The marketing contact form. Unauthenticated on purpose - the people most
+# likely to use it are the ones who have not signed up - which makes it the
+# one open write endpoint in the product, so it is built to be boring:
+#
+#  - it STORES NOTHING. There is no contact table and no row to leak; the
+#    message is mailed to the support address and forgotten. The privacy line
+#    printed under the form says exactly that, so it has to stay true.
+#  - every field is length-capped by the model below, so the mail cannot be
+#    used as a delivery mechanism for something large.
+#  - attempts are rate limited per IP. An open form without one is a spam
+#    relay that sends from OUR verified domain, which is how a sending domain
+#    gets a reputation it cannot spend its way out of.
+#  - Reply-To is the sender's own address, so replying reaches the customer.
+#    It is not trusted for anything else: it is never parsed, never looked up,
+#    and the mail says plainly that it is unverified.
+CONTACT_MAX_PER_IP = 5
+CONTACT_WINDOW_SECONDS = 3600
+
+
+class ContactRequest(BaseModel):
+    """`gate.looks_like_email` rather than `EmailStr`, for the two reasons
+    already recorded on `api/auth.py`'s request models: it keeps the
+    requirements file three lines long, and a Pydantic validator would answer
+    422 with English prose, while this API returns machine codes because it
+    cannot know which of five languages to apologise in."""
+
+    name: str = Field(min_length=1, max_length=120)
+    email: str = Field(min_length=3, max_length=gate.EMAIL_MAX_LENGTH)
+    company: str = Field(default="", max_length=120)
+    subject: str = Field(min_length=1, max_length=200)
+    message: str = Field(min_length=1, max_length=5000)
+
+
+@app.post("/api/contact")
+def contact(payload: ContactRequest, http_request: Request) -> dict:
+    """Mail one contact-form message to the support address.
+
+    Answers 200 whether or not the mail provider accepted it. `mailer.send`
+    never raises and returns False on a refusal; telling the visitor "that did
+    not send" when the failure is ours invites them to send it four more
+    times, and the provider's own log is where that failure is diagnosed. The
+    console backend on a laptop with no RESEND_API_KEY prints it instead,
+    which is the intended local behaviour.
+    """
+    ip_hash = gate.anon_ip_hash(
+        http_request.headers.get("x-forwarded-for"), auth.ANON_IP_SALT
+    )
+    # Counted BEFORE the address is validated, like the pay probe counts
+    # before comparing its token: otherwise a malformed body is a free
+    # request and the limit is one `@` away from meaning nothing.
+    if not auth._rate_ok(
+        f"contact:{ip_hash}",
+        limit=CONTACT_MAX_PER_IP,
+        window=CONTACT_WINDOW_SECONDS,
+    ):
+        raise HTTPException(429, {"code": "tooManyRequests"})
+    if not gate.looks_like_email(payload.email):
+        raise HTTPException(400, {"code": "invalidEmail"})
+
+    to = mailer.reply_to()
+    if not to:
+        # No support address configured. The console backend still prints it,
+        # so a local developer sees the message rather than a silent discard.
+        to = "support@localhost"
+
+    # Newlines out of the subject. Resend takes JSON so there is no header to
+    # inject into, but a subject line spanning three rows is broken in every
+    # mail client and the strip costs nothing.
+    subject = " ".join(payload.subject.split())
+    company = payload.company.strip() or "-"
+
+    text = (
+        f"From: {payload.name} <{payload.email}>\n"
+        f"Company: {company}\n"
+        f"Subject: {subject}\n"
+        f"\n{payload.message}\n"
+        f"\n-- \nSent from the AnswerGap contact form. "
+        f"The address above is what the sender typed and is NOT verified.\n"
+    )
+    html = (
+        f"<p><b>From:</b> {mailer._escape(payload.name)} "
+        f"&lt;{mailer._escape(payload.email)}&gt;<br>"
+        f"<b>Company:</b> {mailer._escape(company)}</p>"
+        f"<p style=\"white-space:pre-wrap\">{mailer._escape(payload.message)}</p>"
+        f"<hr><p style=\"color:#666;font-size:12px\">Sent from the AnswerGap "
+        f"contact form. The address above is what the sender typed and is "
+        f"<b>not verified</b>.</p>"
+    )
+
+    mailer.send(
+        to=to,
+        subject=f"[AnswerGap] {subject}",
+        text=text,
+        html=html,
+        reply_to_override=payload.email,
+    )
+    return {"ok": True}
+
+
 # An unauthenticated endpoint minting Checkout sessions for an arbitrary
 # amount is the exact shape card-testing abuse looks for: a stolen card list
 # is validated against endpoints like this one, and Stripe freezes the account

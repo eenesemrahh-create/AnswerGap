@@ -1007,8 +1007,29 @@ progress polling, developer panel, five locales.
     per-account aggregate has no composite index to ride on. Irrelevant at
     today's row count; the busiest table in the schema will not stay that
     way.
+16. **THE PRICING PAGE SELLS FEATURES THAT DO NOT EXIST.** `/pricing`
+    (2026-09-23) is built from the approved design and lists Deep search,
+    CSV export, PNG export, bulk searches, API access, an MCP server,
+    pay-as-you-go credits, monthly subscriptions and a 7-day trial. **None
+    of them are built**, and nothing charges on a cycle. The page is
+    reachable from the nav, so either the copy changes or the features do
+    before anyone is driven to it. The full list is in the header comment of
+    `web/content/marketing/pricing/en.ts`.
+    It also says **"24-hour search history"** on Starter, which contradicts
+    the standing rule above: *do not restrict search history — AlsoAsked's
+    24-hour lock is bad practice.* That is a product decision to take
+    deliberately, not one to inherit from a mockup.
+17. **Two pricing surfaces, two sources of truth.** `/pricing` hardcodes its
+    numbers; the landing's `#pricing` section reads plans an admin saved
+    through `/settings/pricing`. They can disagree, and the first person to
+    notice will be a customer. The fix is to teach the admin `Plan` shape
+    the fields the page needs — an annual price, the credit count, the
+    comparison rows — not to copy numbers by hand. Chosen knowingly; see
+    the header comment in `web/components/marketing/PricingPage.tsx`.
 
-Items 9-12 come from the 2026-09-15 review; the reasoning for each is in
+Items 16-17 come from the 2026-09-23 marketing pages and are recorded in the
+files they name. Items 9-12 come from the 2026-09-15 review; the reasoning for
+each is in
 "Codebase review, 2026-09-15 — open findings not yet acted on". Items 13-15
 come from the 2026-09-20 work and are recorded in the sections above.
 

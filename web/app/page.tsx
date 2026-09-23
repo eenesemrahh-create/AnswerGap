@@ -13,6 +13,7 @@ import {
   search as runSearch,
 } from "@/lib/api";
 import { requestSignIn } from "@/lib/signin-request";
+import { marketingPath } from "@/lib/marketing";
 import {
   STATUSES,
   STATUS_COLOR,
@@ -46,7 +47,7 @@ const MARKET_KEY = "answergap.market";
  * classes stay untouched - a redesign of `/tree/[slug]` picks its own moment.
  */
 export default function Landing() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const formatDate = useDateFormat();
   const router = useRouter();
 
@@ -186,22 +187,28 @@ export default function Landing() {
             <span className="mkt-brand-tile" aria-hidden>A</span>
             AnswerGap
           </Link>
+          {/* Pricing, Solutions and Contact are PAGES now, not anchors.
+              They are server-rendered under `/pricing` and friends, and the
+              English URL is the canonical one; the locale segment is added
+              here so a Turkish reader lands on the Turkish page rather than
+              on English with a picker to find. `aiSeo` still points at a
+              section of this page and `blog` still has nowhere to go. */}
           <div className="mkt-nav-links">
-            <a href="#pricing" className="mkt-nav-link">
+            <Link href={marketingPath("pricing", locale)} className="mkt-nav-link">
               {t("market.nav.pricing")}
-            </a>
-            <a href="#how-it-works" className="mkt-nav-link">
+            </Link>
+            <Link href={marketingPath("solutions", locale)} className="mkt-nav-link">
               {t("market.nav.solutions")}
-            </a>
+            </Link>
             <a href="#built-for" className="mkt-nav-link">
               {t("market.nav.aiSeo")}
             </a>
             <a href="#" className="mkt-nav-link" aria-disabled>
               {t("market.nav.blog")}
             </a>
-            <a href="#" className="mkt-nav-link" aria-disabled>
+            <Link href={marketingPath("contact", locale)} className="mkt-nav-link">
               {t("market.nav.contact")}
-            </a>
+            </Link>
           </div>
           <div className="mkt-nav-tools">
             {meta && <AccountMenu meta={meta} />}

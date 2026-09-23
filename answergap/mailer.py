@@ -79,13 +79,21 @@ def backend() -> str:
 # ------------------------------------------------------------------- transport
 
 
-def send(*, to: str, subject: str, text: str, html: str) -> bool:
+def send(
+    *, to: str, subject: str, text: str, html: str, reply_to_override: str = ""
+) -> bool:
     """Send one message. Never raises; returns whether it went out.
 
     Both a text and an HTML part are always supplied. A single-part HTML mail
     scores worse with spam filters and is unreadable in a client set to plain
     text; the text part also carries the raw URL, which is the fallback when a
     button does not render.
+
+    `reply_to_override` exists for the contact form, where the useful reply
+    address is the person who filled it in rather than our own support mailbox
+    - hitting Reply on a contact mail should reach the customer. It is only an
+    override: everything else still gets `MAIL_REPLY_TO`, so a bounced signup
+    still lands somewhere a human reads.
     """
     if not available():
         return _console(to=to, subject=subject, text=text)
@@ -97,8 +105,9 @@ def send(*, to: str, subject: str, text: str, html: str) -> bool:
         "text": text,
         "html": html,
     }
-    if reply_to():
-        payload["reply_to"] = reply_to()
+    chosen_reply_to = reply_to_override.strip() or reply_to()
+    if chosen_reply_to:
+        payload["reply_to"] = chosen_reply_to
 
     request = urllib.request.Request(
         RESEND_ENDPOINT,
