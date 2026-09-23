@@ -420,6 +420,9 @@ export const en = {
       sub:
         "Discover what people ask, identify the answers AI engines need, " +
         "and create content that gets found, cited, and recommended.",
+      /* The heading over the search box, for a reader who is signed in. Short
+         on purpose: they came back to work, not to read the pitch again. */
+      signedInTitle: "What should we look into?",
       searchPlaceholder: "Enter a topic — e.g. teeth whitening",
       searchCta: "Analyze",
       searching: "Searching…",
@@ -483,30 +486,7 @@ export const en = {
       sub:
         "Find the questions that can grow your visibility across AI and " +
         "search. Cancel anytime.",
-      starter: {
-        name: "Starter",
-        desc: "For creators building visibility in AI search.",
-        price: "$49",
-        per: "/month",
-        feat1: "100 topic searches per month",
-        feat2: "AI search question maps",
-        feat3: "Search intent classification",
-        feat4: "Opportunity export",
-        cta: "Get Started",
-      },
-      pro: {
-        name: "Pro",
-        badge: "Most Popular",
-        desc: "For teams scaling AI search authority.",
-        price: "$149",
-        per: "/month",
-        feat1: "Unlimited topic searches",
-        feat2: "AI visibility opportunity scoring",
-        feat3: "Answer and citation gap analysis",
-        feat4: "API access",
-        feat5: "Priority support",
-        cta: "Go Pro",
-      },
+      seeAll: "Compare every feature →",
       note:
         "Static pricing — checkout is not wired up yet. Credits are granted " +
         "by hand while the product is in preview.",
@@ -551,6 +531,9 @@ export const en = {
 
     saved: {
       heading: "Your recent analyses",
+      /* Shown instead when nobody is signed in: these are the public demo
+         trees, not the reader's own work. */
+      demoHeading: "See it on real data",
       count: "{count} saved",
     },
   },

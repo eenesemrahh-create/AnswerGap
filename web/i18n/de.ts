@@ -368,6 +368,7 @@ export const de: Messages = {
         "Entdecke, was Menschen fragen, identifiziere die Antworten, die " +
         "KI-Engines brauchen, und erstelle Inhalte, die gefunden, zitiert " +
         "und empfohlen werden.",
+      signedInTitle: "Was sollen wir untersuchen?",
       searchPlaceholder: "Thema eingeben — z. B. Zahnaufhellung",
       searchCta: "Analysieren",
       searching: "Suche…",
@@ -429,30 +430,7 @@ export const de: Messages = {
       sub:
         "Finde die Fragen, die deine Sichtbarkeit in KI und Suche wachsen " +
         "lassen. Jederzeit kündbar.",
-      starter: {
-        name: "Starter",
-        desc: "Für Creator, die Sichtbarkeit in KI-Suche aufbauen.",
-        price: "$49",
-        per: "/Monat",
-        feat1: "100 Themensuchen pro Monat",
-        feat2: "KI-Suchfragenkarten",
-        feat3: "Klassifikation der Suchabsicht",
-        feat4: "Export von Möglichkeiten",
-        cta: "Loslegen",
-      },
-      pro: {
-        name: "Pro",
-        badge: "Am Beliebtesten",
-        desc: "Für Teams, die KI-Suchautorität skalieren.",
-        price: "$149",
-        per: "/Monat",
-        feat1: "Unbegrenzte Themensuchen",
-        feat2: "Bewertung von KI-Sichtbarkeitschancen",
-        feat3: "Antwort- und Zitierlückenanalyse",
-        feat4: "API-Zugang",
-        feat5: "Priority-Support",
-        cta: "Pro werden",
-      },
+      seeAll: "Alle Funktionen vergleichen →",
       note:
         "Statische Preise — Checkout ist noch nicht angebunden. Guthaben " +
         "wird manuell vergeben, solange das Produkt in der Preview ist.",
@@ -494,6 +472,7 @@ export const de: Messages = {
     },
     saved: {
       heading: "Deine letzten Analysen",
+      demoHeading: "An echten Daten ansehen",
       count: "{count} gespeichert",
     },
   },

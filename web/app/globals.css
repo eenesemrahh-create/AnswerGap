@@ -2254,6 +2254,13 @@ table.table {
   display: grid;
   gap: 14px;
   flex: 1;
+  /* `flex: 1` makes this list absorb the card's spare height, and a grid
+     shares that height out among its ROWS - so the shortest card spaced its
+     bullets like a menu. Invisible while the two landing cards had four
+     bullets each; obvious the moment three cards carried six, eight and
+     twelve. The spare space now collects at the bottom, where it is just the
+     card being tall. */
+  align-content: start;
 }
 .mkt-plan-features li {
   display: flex;
@@ -3141,6 +3148,19 @@ table.table {
 
 /* A nav entry with no page behind it yet. Dimmed and not a link, so it reads
    as "not yet" rather than as a link that is broken. */
+/* The signed-out hero's button row, and the signed-in hero's heading.
+   The heading is smaller than the marketing headline on purpose: it is a
+   prompt over a search box, not a pitch. */
+.mkt-hero-actions { justify-content: center; margin-top: 34px; }
+.mkt-hero-title-compact {
+  font-size: clamp(26px, 3.2vw, 38px);
+  margin-bottom: 28px;
+}
+
 .mkt-nav-link.is-soon { color: var(--text-faint); cursor: default; }
 .mkt-nav-cta { padding: 9px 18px; font-size: 14px; }
 .mkt-nav-link[aria-current="page"] { color: var(--text); font-weight: 600; }
+
+.mkt-pricing-more { text-align: center; margin-top: 28px; font-size: 14px; }
+.mkt-pricing-more a { color: var(--brand); font-weight: 600; text-decoration: none; }
+.mkt-pricing-more a:hover { text-decoration: underline; }

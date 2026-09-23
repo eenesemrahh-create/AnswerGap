@@ -14,6 +14,12 @@ import {
 } from "@/lib/api";
 import { requestSignIn } from "@/lib/signin-request";
 import { marketingPath } from "@/lib/marketing";
+import { en as pricingEn } from "@/content/marketing/pricing/en";
+
+/** Ids for the fallback cards, matching what migration 0011 seeds. The
+ *  content file carries copy, not ids; `/pricing` uses the same three to
+ *  decide whether its comparison table still lines up. */
+const FALLBACK_IDS = ["starter", "lite", "pro"] as const;
 import {
   STATUSES,
   STATUS_COLOR,
@@ -113,6 +119,16 @@ export default function Landing() {
       .catch(() => setPlans([]));
   }, []);
 
+  /* Whether the hero shows the product or the pitch.
+   *
+   * `accounts_enabled === false` is a machine with no database, where the
+   * gate allows everything and there is nobody to sign in as - so the box
+   * shows, exactly as it did before accounts existed. `meta === null` is the
+   * first fetch still in flight, and falls to the pitch; see the comment on
+   * the hero for why that is the safe default rather than the search box. */
+  const showSearch =
+    meta !== null && (!meta.accounts_enabled || meta.role !== "anonymous");
+
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     const term = seed.trim();
@@ -132,8 +148,20 @@ export default function Landing() {
      * be a door to nowhere. A null `meta` is a page whose first fetch has not
      * landed; the request goes, and the server answers for us.
      */
+    /* A SECOND LINE OF DEFENCE, not the first one any more: the hero hides
+     * the search box entirely while nobody is signed in, so a signed-out
+     * reader no longer has a button to press here. It stays because `meta`
+     * can go stale - a session that expires while the tab is open leaves the
+     * box on screen - and because a form that silently posts a request it
+     * knows will be refused is worse than one that says why.
+     *
+     * SIGN IN rather than sign up, which was a real bug and not a taste.
+     * It opened on "Create your AnswerGap account", so somebody who already
+     * had one pressed search and got a form demanding an email and a new
+     * password - which reads as being sent to reset a password, and is
+     * exactly what it was reported as. */
     if (meta?.accounts_enabled && meta.role === "anonymous") {
-      requestSignIn({ mode: "signup", reason: t("auth.whySearch") });
+      requestSignIn({ mode: "signin", reason: t("auth.whySearch") });
       return;
     }
 
@@ -219,14 +247,59 @@ export default function Landing() {
       </nav>
 
       {/* --- Hero ---------------------------------------------------- */}
+      {/* TWO HEROES, and which one shows is the whole shape of this page.
+       *
+       * Signed out it SELLS: the pill, the headline and two buttons. There is
+       * no search box, because searching requires an account and a box that
+       * answers every press with a dialog is a promise the page cannot keep.
+       *
+       * Signed in it WORKS: the box, the market selectors and the saved
+       * analyses below. Somebody with credits did not come back for the
+       * pitch.
+       *
+       * While `meta` is still loading, the selling half shows. It is correct
+       * for every signed-out visitor and for every crawler, and it is what
+       * has to render if the API never answers at all; the cost is that a
+       * signed-in reader sees it for the length of one fetch. */}
       <section className="mkt-hero">
-        <span className="mkt-pill">{t("market.hero.eyebrow")}</span>
-        <h1 className="mkt-hero-title">
-          {t("market.hero.headlinePre")}
-          <br />
-          <span>{t("market.hero.headlineHighlight")}</span>
+        {!showSearch && (
+          <>
+            <span className="mkt-pill">{t("market.hero.eyebrow")}</span>
+            <h1 className="mkt-hero-title">
+              {t("market.hero.headlinePre")}
+              <br />
+              <span>{t("market.hero.headlineHighlight")}</span>
+            </h1>
+            <p className="mkt-hero-sub">{t("market.hero.sub")}</p>
+            <div className="mkt-cta-actions on-light mkt-hero-actions">
+              {/* SIGN UP here, unlike the search box's prompt, which opens on
+                  sign in. Someone reading the pitch is likelier to be new;
+                  someone pressing a search button is likelier to have an
+                  account already. */}
+              <button
+                type="button"
+                className="mkt-cta-primary"
+                onClick={() =>
+                  requestSignIn({ mode: "signup", reason: t("auth.whySearch") })
+                }
+              >
+                {t("market.cta.primary")} <span aria-hidden>→</span>
+              </button>
+              <Link
+                href={marketingPath("pricing", locale)}
+                className="mkt-cta-secondary"
+              >
+                {t("market.cta.secondary")}
+              </Link>
+            </div>
+          </>
+        )}
+
+        {showSearch && (
+          <>
+        <h1 className="mkt-hero-title mkt-hero-title-compact">
+          {t("market.hero.signedInTitle")}
         </h1>
-        <p className="mkt-hero-sub">{t("market.hero.sub")}</p>
 
         <form className="mkt-search" onSubmit={submit}>
           <svg
@@ -336,13 +409,20 @@ export default function Landing() {
             )}
           </div>
         )}
+          </>
+        )}
       </section>
 
       {/* --- Saved analyses (returning users only) ------------------ */}
       {trees && trees.length > 0 && (
         <section className="mkt-saved">
           <div className="mkt-saved-head">
-            <h3>{t("market.saved.heading")}</h3>
+            {/* A signed-out visitor has no analyses of their own. What they
+                are shown is the three public demos - by design; see
+                `/api/trees` - so calling them "yours" was a small lie that
+                only became visible once the hero stopped pretending they
+                could search. */}
+            <h3>{t(showSearch ? "market.saved.heading" : "market.saved.demoHeading")}</h3>
             <span>{t("market.saved.count", { count: trees.length })}</span>
           </div>
           <div className="mkt-saved-grid">
@@ -574,45 +654,41 @@ function PricingSection({
   plans: Plan[] | null;
   onCta: (event: React.MouseEvent) => void;
 }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
-  const fallback: Plan[] = [
-    {
-      id: "starter",
-      enabled: true,
-      theme: "light",
-      name: t("market.pricing.starter.name"),
-      desc: t("market.pricing.starter.desc"),
-      price: t("market.pricing.starter.price"),
-      per: t("market.pricing.starter.per"),
-      features: [
-        t("market.pricing.starter.feat1"),
-        t("market.pricing.starter.feat2"),
-        t("market.pricing.starter.feat3"),
-        t("market.pricing.starter.feat4"),
-      ],
-      cta: t("market.pricing.starter.cta"),
-      badge: null,
-    },
-    {
-      id: "pro",
-      enabled: true,
-      theme: "dark",
-      name: t("market.pricing.pro.name"),
-      desc: t("market.pricing.pro.desc"),
-      price: t("market.pricing.pro.price"),
-      per: t("market.pricing.pro.per"),
-      features: [
-        t("market.pricing.pro.feat1"),
-        t("market.pricing.pro.feat2"),
-        t("market.pricing.pro.feat3"),
-        t("market.pricing.pro.feat4"),
-        t("market.pricing.pro.feat5"),
-      ],
-      cta: t("market.pricing.pro.cta"),
-      badge: t("market.pricing.pro.badge"),
-    },
-  ];
+  /* THE SAME THREE CARDS `/pricing` FALLS BACK TO, from the same file.
+   *
+   * This section and the pricing page both read `GET /api/pricing`, so in
+   * production they already agree: migration 0011 seeded the setting and the
+   * admin editor is the one place either of them is changed. What did NOT
+   * agree was this fallback - two cards of older copy, from `market.pricing.*`
+   * in the message catalogue - so the two surfaces diverged exactly when the
+   * API was unreachable and nobody could see why.
+   *
+   * Imported from the locale FILE rather than the registry: `content/marketing
+   * /pricing/index.ts` carries a server-only tripwire, and this is a client
+   * component. One English module is ~2 KB in a bundle that already ships five
+   * locales of everything else.
+   *
+   * English, in every locale, and that is the honest trade. It only renders
+   * when the API answered with nothing, which in production means it is down -
+   * and English cards at the right price beat translated cards at the wrong
+   * one. `/pricing/{locale}` still renders fully translated, because it is a
+   * server component and can read the whole registry. */
+  const fallback: Plan[] = pricingEn.plans.map((plan, i) => ({
+    id: FALLBACK_IDS[i],
+    enabled: true,
+    theme: plan.badge ? "dark" : "light",
+    name: plan.name,
+    desc: plan.desc,
+    price: plan.priceMonthly,
+    price_annual: plan.priceAnnual,
+    per: plan.per,
+    features_heading: plan.featuresHeading,
+    features: [...plan.features],
+    cta: plan.cta,
+    badge: plan.badge,
+  }));
 
   // The publish switch: only cards the admin explicitly enabled travel to the
   // landing. Nothing enabled -> use the localised fallback. This is what lets
@@ -636,6 +712,14 @@ function PricingSection({
           <PlanCard key={plan.id} plan={plan} onCta={onCta} />
         ))}
       </div>
+      {/* The cards are the summary; the page behind this link carries the
+          annual rate, the feature-by-feature table and the FAQ. Without it
+          the landing is a dead end for anyone actually comparing plans. */}
+      <p className="mkt-pricing-more">
+        <Link href={marketingPath("pricing", locale)}>
+          {t("market.pricing.seeAll")}
+        </Link>
+      </p>
       {(!plans || plans.length === 0) && (
         <p
           style={{

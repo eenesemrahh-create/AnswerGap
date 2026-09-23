@@ -366,6 +366,7 @@ export const tr: Messages = {
       sub:
         "İnsanların ne sorduğunu keşfet, AI motorlarının ihtiyaç duyduğu " +
         "cevapları belirle ve bulunup, kaynak gösterilip, önerilen içerik üret.",
+      signedInTitle: "Neye bakalım?",
       searchPlaceholder: "Bir konu girin — örn. diş beyazlatma",
       searchCta: "Analiz et",
       searching: "Aranıyor…",
@@ -430,30 +431,7 @@ export const tr: Messages = {
       sub:
         "AI ve arama tarafında görünürlüğünü büyütecek soruları bul. " +
         "İstediğin zaman iptal et.",
-      starter: {
-        name: "Başlangıç",
-        desc: "AI aramada görünürlük kuran içerik üreticileri için.",
-        price: "$49",
-        per: "/ay",
-        feat1: "Ayda 100 konu araması",
-        feat2: "AI arama soru haritaları",
-        feat3: "Arama niyeti sınıflandırması",
-        feat4: "Fırsat dışa aktarımı",
-        cta: "Başla",
-      },
-      pro: {
-        name: "Pro",
-        badge: "En Popüler",
-        desc: "AI arama otoritesini ölçekleyen ekipler için.",
-        price: "$149",
-        per: "/ay",
-        feat1: "Sınırsız konu araması",
-        feat2: "AI görünürlük fırsat skoru",
-        feat3: "Cevap ve alıntı boşluk analizi",
-        feat4: "API erişimi",
-        feat5: "Öncelikli destek",
-        cta: "Pro'ya Geç",
-      },
+      seeAll: "Tüm özellikleri karşılaştır →",
       note:
         "Statik fiyatlandırma — ödeme henüz bağlanmadı. Ürün önizleme " +
         "aşamasındayken krediler elle veriliyor.",
@@ -498,6 +476,7 @@ export const tr: Messages = {
 
     saved: {
       heading: "Son analizlerin",
+      demoHeading: "Gerçek veri üzerinde görün",
       count: "{count} kayıtlı",
     },
   },

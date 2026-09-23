@@ -374,6 +374,7 @@ export const fr: Messages = {
         "Découvre ce que les gens demandent, identifie les réponses dont " +
         "les moteurs IA ont besoin, et crée du contenu qui est trouvé, cité " +
         "et recommandé.",
+      signedInTitle: "Que faut-il explorer ?",
       searchPlaceholder: "Entre un sujet — ex. blanchiment dentaire",
       searchCta: "Analyser",
       searching: "Recherche…",
@@ -437,30 +438,7 @@ export const fr: Messages = {
       sub:
         "Trouve les questions qui peuvent développer ta visibilité dans " +
         "l'IA et la recherche. Annule quand tu veux.",
-      starter: {
-        name: "Starter",
-        desc: "Pour les créateurs qui construisent leur visibilité en recherche IA.",
-        price: "49 $",
-        per: "/mois",
-        feat1: "100 recherches de sujets par mois",
-        feat2: "Cartes de questions de recherche IA",
-        feat3: "Classification de l'intention de recherche",
-        feat4: "Export des opportunités",
-        cta: "Commencer",
-      },
-      pro: {
-        name: "Pro",
-        badge: "Le plus populaire",
-        desc: "Pour les équipes qui scale leur autorité en recherche IA.",
-        price: "149 $",
-        per: "/mois",
-        feat1: "Recherches de sujets illimitées",
-        feat2: "Score d'opportunités de visibilité IA",
-        feat3: "Analyse des lacunes de réponse et de citation",
-        feat4: "Accès à l'API",
-        feat5: "Support prioritaire",
-        cta: "Passer à Pro",
-      },
+      seeAll: "Comparer toutes les fonctionnalités →",
       note:
         "Tarifs statiques — le checkout n'est pas encore branché. Les " +
         "crédits sont attribués à la main tant que le produit est en preview.",
@@ -503,6 +481,7 @@ export const fr: Messages = {
     },
     saved: {
       heading: "Tes analyses récentes",
+      demoHeading: "Voir sur des données réelles",
       count: "{count} enregistrés",
     },
   },

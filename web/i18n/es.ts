@@ -370,6 +370,7 @@ export const es: Messages = {
         "Descubre lo que la gente pregunta, identifica las respuestas que " +
         "necesitan los motores de IA y crea contenido que se encuentre, se " +
         "cite y se recomiende.",
+      signedInTitle: "¿Qué quieres investigar?",
       searchPlaceholder: "Introduce un tema — p. ej. blanqueamiento dental",
       searchCta: "Analizar",
       searching: "Buscando…",
@@ -432,30 +433,7 @@ export const es: Messages = {
       sub:
         "Encuentra las preguntas que pueden hacer crecer tu visibilidad en " +
         "IA y en búsqueda. Cancela cuando quieras.",
-      starter: {
-        name: "Starter",
-        desc: "Para creadores que construyen visibilidad en búsqueda con IA.",
-        price: "$49",
-        per: "/mes",
-        feat1: "100 búsquedas de temas al mes",
-        feat2: "Mapas de preguntas de búsqueda con IA",
-        feat3: "Clasificación de intención de búsqueda",
-        feat4: "Exportación de oportunidades",
-        cta: "Empezar",
-      },
-      pro: {
-        name: "Pro",
-        badge: "Más popular",
-        desc: "Para equipos que escalan la autoridad en búsqueda con IA.",
-        price: "$149",
-        per: "/mes",
-        feat1: "Búsquedas de temas ilimitadas",
-        feat2: "Puntuación de oportunidades de visibilidad en IA",
-        feat3: "Análisis de brechas de respuesta y citación",
-        feat4: "Acceso a la API",
-        feat5: "Soporte prioritario",
-        cta: "Pásate a Pro",
-      },
+      seeAll: "Compara todas las funciones →",
       note:
         "Precios estáticos — el checkout aún no está conectado. Los créditos " +
         "se conceden a mano mientras el producto está en preview.",
@@ -497,6 +475,7 @@ export const es: Messages = {
     },
     saved: {
       heading: "Tus análisis recientes",
+      demoHeading: "Míralo con datos reales",
       count: "{count} guardados",
     },
   },

@@ -103,6 +103,15 @@ export function AccountMenu({ meta }: { meta: Meta }) {
       // wrong and nothing needs doing, so it is a sentence rather than a
       // dialog - and pointedly NOT the expired copy, which would send
       // somebody chasing a replacement they do not need.
+      /* The marketing pages are server components and cannot open a dialog
+         that lives here, so their Sign in / Sign up buttons link to
+         `/?auth=signin|signup` instead. Added 2026-09-24 with those pages;
+         until now the links landed on the home page and did nothing at all,
+         which is the most confusing thing a button can do. */
+      else if (reason === "signin" || reason === "signup") {
+        setDialogMode(reason);
+        setDialog(true);
+      }
       else if (reason === "alreadyVerified")
         setNotice(t("auth.alreadyVerified"));
       else if (reason === "failed" || reason === "verifyFailed")
