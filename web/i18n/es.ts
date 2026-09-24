@@ -340,6 +340,9 @@ export const es: Messages = {
       "No te quedan créditos. Una búsqueda cuesta un crédito; los resultados " +
       "en caché son gratuitos.",
     suspended: "Esta cuenta está suspendida. Escríbenos y lo resolvemos.",
+    serverError:
+      "Algo ha fallado por nuestra parte. No se ha cobrado nada por una " +
+      "búsqueda que no terminó. Inténtalo de nuevo en un momento.",
     backToAnalyses: "Volver a los análisis",
     startBackend: "Para iniciar el backend, desde la raíz del proyecto:",
     loading: "Cargando…",

@@ -383,6 +383,12 @@ export const en = {
     noCredits:
       "No credits left. A search costs one credit; cached results are free.",
     suspended: "This account is suspended. Get in touch and we will sort it out.",
+    /* A 500 the browser can finally read. Deliberately says nothing about what
+       broke — that is in the server log — but it does say whose fault it is,
+       because the previous message blamed the reader's connection. */
+    serverError:
+      "Something went wrong on our side. Nothing was charged for a search " +
+      "that did not finish. Try again in a moment.",
     backToAnalyses: "Back to analyses",
     startBackend: "To start the backend, from the project root:",
     loading: "Loading…",

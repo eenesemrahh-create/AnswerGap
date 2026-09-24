@@ -44,7 +44,6 @@ from decimal import Decimal
 from typing import Any, Iterator
 
 from . import gate, pricing_seed
-from . import tree as tree_mod
 
 try:
     import psycopg
@@ -142,6 +141,14 @@ def connect() -> Iterator[Any]:
 # appear inside JSON produced by `json.dumps`, so the quoting is unambiguous.
 SETTING_PRICING_PLANS_KEY = gate.SETTING_PRICING_PLANS
 _SEED_PRICING_JSON = json.dumps(pricing_seed.SEED_PLANS, ensure_ascii=False)
+
+
+def _count_questions(nodes: list[dict]) -> int:
+    """`tree.count_questions`, reached without importing `tree` at module
+    scope - see the call site for the cycle that would close."""
+    from .tree import count_questions
+
+    return count_questions(nodes)
 
 # Applied in order, each exactly once, tracked in `schema_migration`. Never edit
 # a statement that has already run anywhere - add a new one instead. This list
@@ -1060,7 +1067,14 @@ def recompose(
         "location_code": crawl["location_code"],
         "node_count": len(ordered),
         # Questions, which is nodes minus the seed. See `tree.count_questions`.
-        "question_count": tree_mod.count_questions(ordered),
+        #
+        # Imported HERE rather than at module scope, and that is not a style
+        # choice: `tree` imports `dataforseo`, `dataforseo` imports this
+        # module, so a module-level import closes a cycle. It stayed hidden
+        # while everything happened to import `db` first and broke the moment
+        # anything imported `dataforseo` on its own. Pinned by
+        # `tests/test_imports.py`.
+        "question_count": _count_questions(ordered),
         "source": crawl.get("source", "live"),
         "billable_calls": crawl.get("billable_calls") or 0,
         "estimated_spend": float(crawl.get("spend") or 0),

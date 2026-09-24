@@ -151,6 +151,19 @@ class Client:
             raise DataForSEOError(f"HTTP {e.code} — {path}\n{detail}") from e
         except urllib.error.URLError as e:
             raise DataForSEOError(f"Network error — {path}: {e.reason}") from e
+        except (TimeoutError, OSError) as e:
+            # A READ timeout does not arrive as URLError. urllib wraps failures
+            # to CONNECT in one, but once the socket is open a slow response
+            # raises `socket.timeout` - which is `TimeoutError` in Python 3 -
+            # straight out of `urlopen`. A Live Advanced request is the one
+            # call here that routinely runs for a minute, so it is exactly the
+            # call that can hit TIMEOUT_SECONDS, and it was the one escaping.
+            #
+            # Uncaught, it left the endpoint as an unhandled 500, which
+            # Starlette answers outside the CORS middleware - so the browser
+            # could not read it and reported a dead backend instead. See
+            # `unhandled_to_json` in api/main.py for the other half of that.
+            raise DataForSEOError(f"Network error — {path}: {e}") from e
 
         # urllib does not transparently gunzip.
         if raw[:2] == b"\x1f\x8b":

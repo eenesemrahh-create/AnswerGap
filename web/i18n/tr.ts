@@ -336,6 +336,9 @@ export const tr: Messages = {
       "Krediniz kalmadı. Bir arama bir kredi harcar; önbellekten gelen " +
       "sonuçlar ücretsizdir.",
     suspended: "Bu hesap askıya alınmış. Bizimle iletişime geçin, çözelim.",
+    serverError:
+      "Bizim tarafımızda bir şeyler ters gitti. Tamamlanmayan bir arama için " +
+      "ücret alınmadı. Birazdan tekrar deneyin.",
     backToAnalyses: "Analizlere dön",
     startBackend: "Backend'i başlatmak için proje kökünde:",
     loading: "Yükleniyor…",

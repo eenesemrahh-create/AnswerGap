@@ -46,6 +46,7 @@ export type ErrorKind =
   | "signedOut"
   | "noCredits"
   | "suspended"
+  | "serverError"
   // --- email + password sign-in ---------------------------------------
   | "badCredentials"
   | "emailUnverified"
@@ -85,6 +86,11 @@ const CODES: Record<string, ErrorKind> = {
   // the sign-in button — which is exactly what `signedOut` shows them.
   anonLimit: "signedOut",
   suspended: "suspended",
+  // Something raised inside the request. Sent by the catch-all middleware in
+  // `api/main.py`, which exists because Starlette answers an unhandled
+  // exception OUTSIDE the CORS layer - so before it, every server bug reached
+  // the browser as a network error and read as "the backend is down".
+  serverError: "serverError",
   accountsOff: "noCredentials",
   // Sign-in refusals. `badCredentials` is deliberately the ONLY code the
   // server returns for "no such account", "no password on it" and "wrong

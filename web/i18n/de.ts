@@ -338,6 +338,9 @@ export const de: Messages = {
       "Kein Guthaben mehr. Eine Suche kostet ein Credit; Ergebnisse aus dem " +
       "Cache sind kostenlos.",
     suspended: "Dieses Konto ist gesperrt. Melden Sie sich bei uns, wir klären das.",
+    serverError:
+      "Auf unserer Seite ist etwas schiefgelaufen. Für eine nicht beendete " +
+      "Suche wurde nichts berechnet. Versuchen Sie es gleich noch einmal.",
     backToAnalyses: "Zurück zu den Analysen",
     startBackend: "Zum Starten des Backends, im Projektverzeichnis:",
     loading: "Wird geladen…",

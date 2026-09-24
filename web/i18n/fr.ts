@@ -344,6 +344,9 @@ export const fr: Messages = {
       "Plus de crédits. Une recherche coûte un crédit ; les résultats en " +
       "cache sont gratuits.",
     suspended: "Ce compte est suspendu. Contactez-nous, nous réglerons cela.",
+    serverError:
+      "Un problème est survenu de notre côté. Rien n'a été facturé pour une " +
+      "recherche qui n'a pas abouti. Réessayez dans un instant.",
     backToAnalyses: "Retour aux analyses",
     startBackend: "Pour démarrer le backend, à la racine du projet :",
     loading: "Chargement…",

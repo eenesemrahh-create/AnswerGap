@@ -21,6 +21,7 @@ from __future__ import annotations
 import gzip
 import hmac
 import json
+import logging
 import os
 import time
 from contextlib import asynccontextmanager
@@ -28,6 +29,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from answergap import db, gate, labels, live, mailer
@@ -116,6 +118,40 @@ app = FastAPI(
     version="0.2.0",
     lifespan=lifespan,
 )
+
+async def unhandled_to_json(request: Request, call_next):
+    """Turn an unhandled exception into a readable JSON 500.
+
+    WITHOUT THIS, EVERY SERVER BUG LOOKS LIKE AN OUTAGE. Starlette answers an
+    unhandled exception from `ServerErrorMiddleware`, which sits OUTSIDE every
+    middleware the app adds - including CORS. So the 500 goes back with no
+    `Access-Control-Allow-Origin`, the browser refuses to let the page read it,
+    `fetch` rejects, and `lib/api.ts` reports the only thing it can see: "Could
+    not reach the API. Is the backend running?"
+
+    Measured on 2026-09-24, when a search failed in production and that message
+    sent the operator - and then this session - looking at DNS, CORS and the
+    health of a service that was up the whole time. The failure was inside the
+    request.
+
+    Registered BEFORE `CORSMiddleware` on purpose. `add_middleware` inserts at
+    the front of the stack, so the LAST one added is the outermost; CORS has to
+    be outside this to decorate the response it returns.
+
+    The body says nothing about what broke - a stack trace belongs in the log,
+    not in a stranger's browser - but it is a shape the client already knows,
+    so `kindFor` renders it as an error rather than as a dead backend.
+    """
+    try:
+        return await call_next(request)
+    except Exception:  # noqa: BLE001 - the point is that nothing escapes
+        logging.getLogger("answergap.api").exception(
+            "Unhandled error on %s %s", request.method, request.url.path
+        )
+        return JSONResponse(status_code=500, content={"detail": {"code": "serverError"}})
+
+
+app.middleware("http")(unhandled_to_json)
 
 app.add_middleware(
     CORSMiddleware,
@@ -488,11 +524,11 @@ def search(request: SearchRequest, http_request: Request) -> dict:
     so they are priced and triggered separately; every question comes back
     `no_data` until the user asks for it to be scored.
 
-    This is the one paid endpoint anonymous visitors may reach, and the daily
-    allowance is set from the admin panel. A dry run never passes the gate: the
-    price has to be visible BEFORE anything is spent, and refusing to quote a
-    price to someone with no credits would be user-hostile for no gain, since a
-    dry run cannot be turned into a purchase.
+    Searching requires an account as of 2026-09-23; the anonymous daily
+    allowance this docstring used to describe is gone. A dry run still never
+    passes the gate: the price has to be visible BEFORE anything is spent, and
+    refusing to quote a price to someone with no credits would be user-hostile
+    for no gain, since a dry run cannot be turned into a purchase.
     """
     _guard(request.language_code)
     who = auth.identity(http_request)
