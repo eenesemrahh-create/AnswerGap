@@ -42,7 +42,7 @@ from answergap.dataforseo import (  # noqa: E402
     slugify,
 )
 from answergap.languages import get as get_language  # noqa: E402
-from answergap.text import fold_all, jaccard, normalize, stem_all, tokens  # noqa: E402
+from answergap.text import fold_all, jaccard, normalize, stem_all  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw"

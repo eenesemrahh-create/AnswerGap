@@ -53,6 +53,26 @@ jobs:
           cache-dependency-path: requirements*.txt
       - run: pip install -r requirements-dev.txt
 
+      # BEFORE the tests, because it answers a different question and answers
+      # it in a second: is every name in this package actually defined?
+      #
+      # On 2026-09-24 `live.build_from_response` used `count_questions` and
+      # never imported it. Production answered every search with a 500 and the
+      # suite stayed green, because that function is on the paid crawl path
+      # and no test called it. This step would have failed the push with the
+      # file and the line number.
+      #
+      # Annotated like the tests below, and for the same reason: a red run
+      # nobody can read from a terminal is barely a red run.
+      - name: Undefined names
+        run: |
+          set -o pipefail
+          python -m pyflakes answergap api scripts 2>&1 | tee /tmp/pyflakes.txt || true
+          if [ -s /tmp/pyflakes.txt ]; then
+            while read -r line; do echo "::error::$line"; done < /tmp/pyflakes.txt
+            exit 1
+          fi
+
       # WHY THIS IS NOT JUST `pytest -q`.
       #
       # tests/test_sql.py only ever runs HERE. There is no Postgres on the

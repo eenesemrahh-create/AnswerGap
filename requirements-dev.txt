@@ -7,3 +7,15 @@
 -r requirements.txt
 
 pytest==9.1.1
+
+# Undefined names, unused imports, shadowed dict keys. Added 2026-09-24 after
+# a NameError in `live.build_from_response` answered every production search
+# with a 500 while 373 tests stayed green - the function is on the paid crawl
+# path, so nothing called it. pyflakes found it by line number in under a
+# second, and found a dead duplicate key in the Spanish synonym pack on the
+# same run.
+#
+# Chosen over a fuller linter because it reports FACTS rather than opinions:
+# no style rules to argue about, no config file, pure Python, no transitive
+# dependencies. It is not a substitute for testing the crawl path.
+pyflakes==3.2.0

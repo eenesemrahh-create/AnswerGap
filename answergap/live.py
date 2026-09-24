@@ -103,6 +103,7 @@ from .tree import (
     STATUS_NO_DATA,
     THRESHOLD,
     ai_overview,
+    count_questions,
     count_statuses,
     _organic_results,
     score_question,

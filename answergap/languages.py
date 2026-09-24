@@ -187,7 +187,18 @@ SPANISH = Language(
     ),
     synonyms={
         "costo": "price", "coste": "price", "precio": "price",
-        "precios": "price", "cuánto": "price", "cuesta": "price",
+        # "cuánto" was here too, mapped to "price", and it never did anything:
+        # the same key appears below mapped to "duration" and the later entry
+        # silently won. Found by pyflakes on 2026-09-24, not by a person.
+        #
+        # Deleting the DEAD half rather than the live one, so this is a change
+        # to what the file SAYS and not to what it does - the scoring is
+        # unchanged. Which half should win is a real question and not one to
+        # settle in passing: "¿Cuánto cuesta?" is price and "¿Cuánto dura?" is
+        # duration, and a word-to-word map cannot hold both. That is the same
+        # wall CLAUDE.md already records against the dictionary layer, which it
+        # also measures as costing accuracy (synonyms F1 0.22 vs words 0.33).
+        "precios": "price", "cuesta": "price",
         "tarifa": "price", "caro": "price", "barato": "price",
         "cómo": "method", "método": "method", "métodos": "method",
         "manera": "method", "forma": "method", "proceso": "method",
