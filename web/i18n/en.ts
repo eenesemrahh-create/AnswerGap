@@ -363,6 +363,12 @@ export const en = {
     googleOff:
       "Google sign-in is not configured on this deployment. Use email instead.",
     unreachable: "Could not reach the API ({url}). Is the backend running?",
+    /* Shown under that message on the search box only. The crawl is saved
+       before the reply is sent, so a reply that never arrived still leaves the
+       work done — and a cached crawl has no billable call to charge for. */
+    unreachableRetry:
+      "If the search had already finished, it is saved — running it again " +
+      "costs no credits.",
     notFound:
       "That analysis is not here. It may have been deleted, or the address may be mistyped.",
     http: "{status} {statusText} — {path}",

@@ -806,6 +806,38 @@ MIGRATIONS: list[tuple[str, str]] = [
         );
         """,
     ),
+    (
+        "0012_seed_pricing_plans_over_empty",
+        # 0011 did not seed production, and it was right not to: a
+        # `pricing_plans` row already existed there with the value `[]`, so
+        # `WHERE NOT EXISTS` correctly refused to overwrite what looked like
+        # operator content. The migration was recorded as applied and the
+        # admin editor still showed no cards.
+        #
+        # An EMPTY LIST IS NOT CONTENT. It is what the editor saves when
+        # somebody opens it and presses Save without adding a card, and it is
+        # indistinguishable from never having set anything. So this repeats
+        # the seed with the condition it should have had: insert unless a
+        # NON-EMPTY list is already the latest value.
+        #
+        # Written as a second migration rather than a fix to 0011, because
+        # 0011 has run on real databases and the list above is a history.
+        f"""
+        INSERT INTO app_setting (setting_key, setting_value, set_by)
+        SELECT '{SETTING_PRICING_PLANS_KEY}',
+               $seed${_SEED_PRICING_JSON}$seed$,
+               'migration 0012'
+        WHERE NOT EXISTS (
+            SELECT 1 FROM (
+                SELECT DISTINCT ON (setting_key) setting_value
+                  FROM app_setting
+                 WHERE setting_key = '{SETTING_PRICING_PLANS_KEY}'
+                 ORDER BY setting_key, created_at DESC, id DESC
+            ) latest
+            WHERE btrim(latest.setting_value) NOT IN ('', '[]')
+        );
+        """,
+    ),
 ]
 
 

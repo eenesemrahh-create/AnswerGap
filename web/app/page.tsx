@@ -239,7 +239,20 @@ export default function Landing() {
             </Link>
           </div>
           <div className="mkt-nav-tools">
-            {meta && <AccountMenu meta={meta} />}
+            {meta && (
+              <AccountMenu
+                meta={meta}
+                /* Signing in changes what this page IS: the hero swaps the
+                   pitch for the search box, and the analyses below stop being
+                   the public demos and become the reader's own. Both are keyed
+                   on the server's view of the session, so both are refetched
+                   rather than guessed at. */
+                onSessionChange={() => {
+                  fetchMeta().then(setMeta).catch(() => {});
+                  fetchTrees().then(setTrees).catch(() => {});
+                }}
+              />
+            )}
             <ThemeToggle />
             <LocalePicker />
           </div>
@@ -402,6 +415,16 @@ export default function Landing() {
             style={{ marginTop: 24, maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}
           >
             <strong>{t(`error.${searchError.kind}`, searchError.values)}</strong>
+            {/* A lost connection does NOT mean a lost crawl.
+                `live.crawl` saves the tree before it answers, so a reply that
+                never arrived - the API restarting mid-request is the way this
+                happens - leaves the work done and cached. Retrying then costs
+                nothing, because a cache hit has no billable call and
+                `gate.credits_for` charges per call. Worth saying, or somebody
+                assumes they were charged for a search they never received. */}
+            {searchError.kind === "unreachable" && (
+              <div style={{ marginTop: 8 }}>{t("error.unreachableRetry")}</div>
+            )}
             {searchError.detail && (
               <div style={{ marginTop: 8 }}>
                 <code>{searchError.detail}</code>

@@ -321,6 +321,9 @@ export const tr: Messages = {
     googleOff:
       "Bu kurulumda Google ile giriş yapılandırılmamış. E-posta ile devam et.",
     unreachable: "API'ye ulaşılamadı ({url}). Backend çalışıyor mu?",
+    unreachableRetry:
+      "Arama tamamlanmışsa kaydedilmiştir — tekrar çalıştırmak kredi " +
+      "harcamaz.",
     notFound:
       "Bu analiz burada değil. Silinmiş ya da adres yanlış yazılmış olabilir.",
     http: "{status} {statusText} — {path}",

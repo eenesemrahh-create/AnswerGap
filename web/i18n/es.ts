@@ -325,6 +325,9 @@ export const es: Messages = {
     googleOff:
       "El inicio de sesión con Google no está configurado aquí. Usa el correo.",
     unreachable: "No se pudo conectar con la API ({url}). ¿Está el backend en marcha?",
+    unreachableRetry:
+      "Si la búsqueda ya había terminado, está guardada: repetirla no " +
+      "gasta créditos.",
     notFound:
       "Ese análisis no está aquí. Puede que se haya eliminado o que la dirección esté mal escrita.",
     http: "{status} {statusText} — {path}",

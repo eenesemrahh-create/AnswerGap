@@ -14,12 +14,13 @@ the most expensive test ever written. `_local_only` refuses anything else.
 
 from __future__ import annotations
 
+import json
 import os
 from urllib.parse import urlparse
 
 import pytest
 
-from answergap import db
+from answergap import db, gate
 from answergap.dataforseo import slugify
 from answergap.tree import all_trees
 
@@ -888,3 +889,63 @@ def test_an_empty_database_reports_zero_rather_than_failing() -> None:
     assert totals["usage"]["attempts"] == 0
     assert totals["money"]["revenue_cents"] == 0
     assert totals["reconcile"]["unattributed_usd"] == 0
+
+
+# ----------------------------------------------------- the pricing seed
+
+
+def _run_seed_0012() -> None:
+    """Run migration 0012's statement on its own.
+
+    `empty_tables` truncates `app_setting` before every test, so the seed the
+    migration already applied is gone and each case below starts from the
+    state it means to describe.
+    """
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute(dict(db.MIGRATIONS)["0012_seed_pricing_plans_over_empty"])
+        conn.commit()
+
+
+def _stored_plans() -> list:
+    raw = db.settings_all().get(gate.SETTING_PRICING_PLANS, "")
+    return json.loads(raw) if raw.strip() else []
+
+
+def test_the_seed_fills_a_database_that_has_no_plans() -> None:
+    _run_seed_0012()
+    assert [p["id"] for p in _stored_plans()] == ["starter", "lite", "pro"]
+
+
+def test_the_seed_fills_over_an_empty_list() -> None:
+    """THE PRODUCTION CASE. 0011 refused here, correctly by its own rule and
+    wrongly in effect: a `pricing_plans` row holding `[]` is what the editor
+    saves when somebody opens it and presses Save, and it left the admin panel
+    showing no cards after a migration that reported itself as applied."""
+    db.setting_put(key=gate.SETTING_PRICING_PLANS, value="[]", actor="op@example.com")
+    _run_seed_0012()
+    assert [p["id"] for p in _stored_plans()] == ["starter", "lite", "pro"]
+
+
+def test_the_seed_does_not_overwrite_real_plans() -> None:
+    """The whole reason 0011 was guarded. An operator's published cards, and
+    their prices, must survive a deploy."""
+    mine = '[{"id":"mine","enabled":true,"theme":"light","name":"Mine",'\
+           '"desc":"","price":"$1","price_annual":"","per":"/month",'\
+           '"features_heading":"","features":[],"cta":"Go","badge":null}]'
+    db.setting_put(key=gate.SETTING_PRICING_PLANS, value=mine, actor="op@example.com")
+    _run_seed_0012()
+    assert [p["id"] for p in _stored_plans()] == ["mine"]
+
+
+def test_the_seed_is_append_only_like_every_other_setting() -> None:
+    """`app_setting` keeps history: the empty value stays on the record and the
+    seed is a NEW row, so "what was published last Tuesday" is still
+    answerable."""
+    db.setting_put(key=gate.SETTING_PRICING_PLANS, value="[]", actor="op@example.com")
+    _run_seed_0012()
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT count(*) AS n FROM app_setting WHERE setting_key = %s",
+            (gate.SETTING_PRICING_PLANS,),
+        )
+        assert (cur.fetchone() or {}).get("n") == 2

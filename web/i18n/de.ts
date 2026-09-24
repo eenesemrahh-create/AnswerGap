@@ -323,6 +323,9 @@ export const de: Messages = {
     googleOff:
       "Google-Anmeldung ist in dieser Installation nicht eingerichtet. Nutze E-Mail.",
     unreachable: "API nicht erreichbar ({url}). Läuft das Backend?",
+    unreachableRetry:
+      "War die Suche bereits fertig, ist sie gespeichert — ein erneuter " +
+      "Lauf kostet kein Guthaben.",
     notFound:
       "Diese Analyse gibt es hier nicht. Sie wurde gelöscht, oder die Adresse ist vertippt.",
     http: "{status} {statusText} — {path}",

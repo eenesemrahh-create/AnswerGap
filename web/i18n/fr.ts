@@ -329,6 +329,9 @@ export const fr: Messages = {
     googleOff:
       "La connexion Google n'est pas configurée ici. Utilisez l'e-mail.",
     unreachable: "API injoignable ({url}). Le backend est-il démarré ?",
+    unreachableRetry:
+      "Si la recherche était déjà terminée, elle est enregistrée : la " +
+      "relancer ne coûte aucun crédit.",
     notFound:
       "Cette analyse n'est pas ici. Elle a peut-être été supprimée, ou l'adresse est mal saisie.",
     http: "{status} {statusText} — {path}",

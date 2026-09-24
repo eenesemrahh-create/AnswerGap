@@ -82,6 +82,33 @@ def test_the_migration_carries_the_seed_and_refuses_to_overwrite() -> None:
     assert [p["id"] for p in json.loads(body)] == ["starter", "lite", "pro"]
 
 
+def test_the_second_seed_treats_an_empty_list_as_nothing_set() -> None:
+    """0011 did not seed production and was right not to.
+
+    A `pricing_plans` row was already there holding `[]` - what the editor
+    saves when somebody opens it and presses Save - so `WHERE NOT EXISTS`
+    refused, the migration recorded itself as applied, and the admin editor
+    went on showing no cards. 0012 repeats the seed with the condition 0011
+    should have had.
+    """
+    sql = dict(db.MIGRATIONS)["0012_seed_pricing_plans_over_empty"]
+    assert gate.SETTING_PRICING_PLANS in sql
+    # The distinction that matters: blank and `[]` are "nothing set", and
+    # anything else is content that must survive.
+    assert "'[]'" in sql and "btrim" in sql
+    assert "DISTINCT ON" in sql, "must test the LATEST value, not any value"
+    body = sql.split("$seed$")[1]
+    assert [p["id"] for p in json.loads(body)] == ["starter", "lite", "pro"]
+
+
+def test_both_seeds_carry_the_same_plans() -> None:
+    """Two migrations, one seed value - built from the same Python constant,
+    so they cannot drift into seeding different prices."""
+    eleven = dict(db.MIGRATIONS)["0011_seed_pricing_plans"].split("$seed$")[1]
+    twelve = dict(db.MIGRATIONS)["0012_seed_pricing_plans_over_empty"].split("$seed$")[1]
+    assert json.loads(eleven) == json.loads(twelve) == SEED_PLANS
+
+
 def test_the_cards_are_seeded_published() -> None:
     """A seed nobody can see looks like a seed that failed."""
     assert all(p["enabled"] for p in SEED_PLANS)

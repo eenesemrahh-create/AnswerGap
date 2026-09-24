@@ -36,7 +36,17 @@ import { useI18n } from "@/i18n";
  *                       `verifyExpired` opens the dialog on the step that
  *                       mails a fresh link; the rest are a sentence.
  */
-export function AccountMenu({ meta }: { meta: Meta }) {
+export function AccountMenu({
+  meta,
+  onSessionChange,
+}: {
+  meta: Meta;
+  /** Called after a sign-in completes here, so the page around this strip can
+   *  refetch anything keyed on who is asking - `/api/meta`'s `role`, and the
+   *  tree list, which is per-account. Optional: the tree screen has nothing
+   *  that changes shape on sign-in. */
+  onSessionChange?: () => void;
+}) {
   const { t, locale } = useI18n();
   const [me, setMe] = useState<Me | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -172,7 +182,18 @@ export function AccountMenu({ meta }: { meta: Meta }) {
       initialMode={dialogMode}
       reason={dialogReason}
       resetToken={resetToken}
-      onSignedIn={load}
+      /* Reload this strip AND tell the page.
+       *
+       * `/api/meta` carries `role`, and the landing decides between the
+       * marketing hero and the search box from it - but meta is fetched once
+       * on mount and signing in does not remount anything. So a reader who
+       * signed in from this dialog got an account strip with their credits in
+       * it above a hero still inviting them to create an account. Signing OUT
+       * never had the bug: it reloads the page. */
+      onSignedIn={() => {
+        load();
+        onSessionChange?.();
+      }}
     />
   );
 
