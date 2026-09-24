@@ -384,6 +384,7 @@ export const fr: Messages = {
       searchPlaceholder: "Entre un sujet — ex. blanchiment dentaire",
       searchCta: "Analyser",
       searching: "Recherche…",
+      elapsed: "{seconds} s écoulées",
       tryLabel: "Essaie :",
       try1: "meilleur CRM pour startups",
       try2: "outils SEO pour l'IA",

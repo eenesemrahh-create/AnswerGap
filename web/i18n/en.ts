@@ -438,6 +438,9 @@ export const en = {
       searchPlaceholder: "Enter a topic — e.g. teeth whitening",
       searchCta: "Analyze",
       searching: "Searching…",
+      /* Under the waiting bar. A real measurement rather than a guess at
+         progress — there is no progress to report, only time. */
+      elapsed: "{seconds}s so far",
       tryLabel: "Try searching:",
       try1: "best CRM for startups",
       try2: "AI SEO tools",

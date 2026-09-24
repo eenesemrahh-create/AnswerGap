@@ -70,6 +70,23 @@ export default function Landing() {
   // Search state is kept apart from `error`: a failed crawl must not blank
   // out the saved analyses that are already on screen.
   const [busy, setBusy] = useState(false);
+  /* Seconds since the search started, for the waiting panel below.
+   *
+   * Measured from a TIMESTAMP rather than by incrementing a counter: a
+   * background tab has its timers throttled to about once a minute, so a
+   * counter would drift and tell somebody who switched away that 4 seconds
+   * had passed during a 40-second crawl. */
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    if (!busy) return;
+    const started = Date.now();
+    setElapsed(0);
+    const tick = setInterval(
+      () => setElapsed(Math.round((Date.now() - started) / 1000)),
+      1000
+    );
+    return () => clearInterval(tick);
+  }, [busy]);
   const [searchError, setSearchError] = useState<ApiError | null>(null);
 
   // Which market to search. Defaults to the US and is remembered per browser.
@@ -349,6 +366,38 @@ export default function Landing() {
             {busy ? t("market.hero.searching") : t("market.hero.searchCta")}
           </button>
         </form>
+
+        {/* A crawl takes 30-60 seconds, and until now the only sign of it was
+            a disabled button whose label changed. That is not enough for a
+            wait that long: people reload, or press again, or decide it broke.
+
+            NO PERCENTAGE. There is no progress signal to report - one request
+            goes to Google and either returns or does not - so a filling bar
+            would be an invented number on a screen whose whole argument is
+            that it does not invent numbers. The bar is indeterminate and the
+            honest measurement sits beside it: how long this has actually been
+            running, against how long it usually takes.
+
+            `role="status"` rather than an alert: it is progress, not a
+            problem, and a polite live region announces it once without
+            interrupting whatever a screen reader was saying. */}
+        {busy && (
+          <div className="mkt-waiting" role="status" aria-live="polite">
+            <span className="mkt-waiting-bar" aria-hidden />
+            <p className="mkt-waiting-title">
+              {t("market.hero.searching")} &ldquo;{seed.trim()}&rdquo;
+            </p>
+            <p className="mkt-waiting-hint">{t("landing.searchingHint")}</p>
+            {/* Held back for a few seconds: a counter that appears at 0 and
+                ticks to 1 draws the eye to the clock before there is anything
+                worth knowing. */}
+            {elapsed >= 3 && (
+              <p className="mkt-waiting-elapsed">
+                {t("market.hero.elapsed", { seconds: elapsed })}
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="mkt-try">
           <span>{t("market.hero.tryLabel")}</span>

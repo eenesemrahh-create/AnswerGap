@@ -378,6 +378,7 @@ export const de: Messages = {
       searchPlaceholder: "Thema eingeben — z. B. Zahnaufhellung",
       searchCta: "Analysieren",
       searching: "Suche…",
+      elapsed: "seit {seconds} s",
       tryLabel: "Beispielsuchen:",
       try1: "bestes CRM für Startups",
       try2: "AI-SEO-Tools",

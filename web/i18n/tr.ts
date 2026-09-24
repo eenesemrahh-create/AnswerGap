@@ -376,6 +376,7 @@ export const tr: Messages = {
       searchPlaceholder: "Bir konu girin — örn. diş beyazlatma",
       searchCta: "Analiz et",
       searching: "Aranıyor…",
+      elapsed: "{seconds} saniyedir sürüyor",
       tryLabel: "Örnek aramalar:",
       try1: "yeni başlayanlar için en iyi CRM",
       try2: "AI SEO araçları",

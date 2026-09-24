@@ -380,6 +380,7 @@ export const es: Messages = {
       searchPlaceholder: "Introduce un tema — p. ej. blanqueamiento dental",
       searchCta: "Analizar",
       searching: "Buscando…",
+      elapsed: "{seconds} s hasta ahora",
       tryLabel: "Búsquedas de ejemplo:",
       try1: "mejor CRM para startups",
       try2: "herramientas de SEO para IA",
