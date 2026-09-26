@@ -1066,13 +1066,28 @@ progress polling, developer panel, five locales.
     below. **Still open before they are useful: fill the company
     placeholders, then hand the URLs to Google and Stripe.** Account erasure,
     which the policy promises, is **DONE 2026-09-20** (`008dad5`).
-10b. **THE ONE THING BLOCKING EVERYTHING COMMERCIAL.** Fill `LEGAL_VARS` in
-    `web/content/legal/blocks.ts` — company name, entity type, state are
-    `«PLACEHOLDERS»` and a production build warns about them. Then paste
+10b. **THE ONE THING BLOCKING EVERYTHING COMMERCIAL.**
+    ~~Fill `LEGAL_VARS`.~~ **DONE 2026-09-26**: `gunel`, a **Delaware limited
+    liability company**. The production build no longer warns.
+    **Still open, and it is now operator work rather than code:** paste
     `https://gettopquestions.com/privacy` into the Google Cloud console and
-    `/terms` into Stripe onboarding. Until that happens the app is capped at
-    100 users and cannot take money, and **no amount of further building
-    changes either fact.**
+    `/terms` into Stripe onboarding, then paste the resulting Stripe **price
+    ids** into the pricing editor. Until all three happen the app is capped at
+    100 users and no plan is purchasable — `POST /api/billing/checkout`
+    answers `planNotPurchasable` while a price id is empty, which is every
+    card today. **No amount of further building changes any of it.**
+
+    **`{state}` was never a blank to guess at**, and the next person to touch
+    these documents should know why. The prose hard-codes "United States" in
+    22 places across nine files and uses `{state}` as a US state, so a
+    non-US value would have rendered the Turkish terms as *"the law of the
+    State of Istanbul, United States of America"*. The country was confirmed
+    before filling. If the entity ever moves, this is NOT a variable change —
+    it is a rewrite of the governing-law clause in nine documents.
+    Relatedly: `entity` stays **English in all four translations** on purpose.
+    "limited liability company" is a US term of art, and rendering it as
+    "GmbH" would name a different legal form under a different country's law,
+    inside the one clause that says which law applies.
 11. **Own SEO.** Partly done by the legal work: `metadataBase`, a title
     template, `sitemap.ts` and `robots.ts` now exist, and the ten legal
     URLs carry canonical + hreflang. Still open for the REST of the app -
