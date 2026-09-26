@@ -160,6 +160,137 @@ def checkout_session(
 # ------------------------------------------------------------------ webhook
 
 
+def subscription_checkout(
+    *,
+    price_id: str,
+    success_url: str,
+    cancel_url: str,
+    user_id: int,
+    email: str | None,
+    customer_id: str | None,
+) -> dict:
+    """A hosted Checkout Session for one monthly plan.
+
+    `mode=subscription`, so Stripe owns the renewal, the retries and the
+    proration on a plan change. That is the point of using Checkout and the
+    billing portal rather than building a payment form: the parts of billing
+    that are easy to get wrong are the parts we do not write.
+
+    `client_reference_id` CARRIES OUR USER ID, and it is what makes the
+    webhook able to attribute a subscription without matching on an email
+    address. An address can be changed, shared, or already belong to somebody
+    else by the time a renewal arrives a month later; a user id cannot.
+
+    An existing `customer_id` is reused when we have one so the card on file
+    and the billing history stay on one customer. Stripe refuses both
+    `customer` and `customer_email` together, so it is one or the other.
+    """
+    form = {
+        "mode": "subscription",
+        "success_url": success_url,
+        "cancel_url": cancel_url,
+        "line_items[0][price]": price_id,
+        "line_items[0][quantity]": "1",
+        "client_reference_id": str(user_id),
+        # Repeated on the subscription itself: a renewal invoice a month from
+        # now carries the subscription, not this session.
+        "subscription_data[metadata][answergap_user_id]": str(user_id),
+        "metadata[answergap_user_id]": str(user_id),
+    }
+    if customer_id:
+        form["customer"] = customer_id
+    elif email:
+        form["customer_email"] = email
+    data = _request("POST", "/v1/checkout/sessions", form)
+    return {"id": data.get("id"), "url": data.get("url")}
+
+
+def billing_portal(*, customer_id: str, return_url: str) -> dict:
+    """A link to Stripe's own billing portal.
+
+    Cancelling, switching plan, updating a card and downloading invoices all
+    live there. Every one of those is a screen we would otherwise have to
+    build, keep correct against Stripe's state, and get right in five
+    languages - and proration on a mid-period plan change is exactly the
+    arithmetic this product has no business re-implementing.
+    """
+    data = _request(
+        "POST",
+        "/v1/billing_portal/sessions",
+        {"customer": customer_id, "return_url": return_url},
+    )
+    return {"url": data.get("url")}
+
+
+def subscription_from_event(event: dict) -> dict | None:
+    """The fields `db.subscription_upsert` needs, out of any lifecycle event.
+
+    THREE EVENT SHAPES, one answer. `customer.subscription.*` carries the
+    subscription as the object; `invoice.*` carries an invoice that NAMES a
+    subscription and holds the period on its line items. Reading each shape
+    where the handler needs it would put three copies of this in one function
+    and get one of them wrong.
+
+    Returns None when the event is not about a subscription at all - a
+    one-off payment still raises `invoice.paid`.
+    """
+    kind = event.get("type") or ""
+    obj = ((event.get("data") or {}).get("object")) or {}
+
+    if kind.startswith("customer.subscription."):
+        item = ((obj.get("items") or {}).get("data") or [{}])[0]
+        return {
+            "subscription_id": obj.get("id"),
+            "customer_id": obj.get("customer"),
+            "price_id": (item.get("price") or {}).get("id"),
+            # `deleted` arrives with whatever status Stripe last had; the
+            # event type is the authority on it being over.
+            "status": "canceled" if kind.endswith(".deleted") else obj.get("status"),
+            "current_period_end": obj.get("current_period_end"),
+            "cancel_at_period_end": bool(obj.get("cancel_at_period_end")),
+            "user_id": _metadata_user_id(obj),
+            "invoice_id": None,
+            "quantity": item.get("quantity"),
+        }
+
+    if kind.startswith("invoice."):
+        subscription_id = obj.get("subscription")
+        if not subscription_id:
+            return None
+        line = ((obj.get("lines") or {}).get("data") or [{}])[0]
+        period = line.get("period") or {}
+        return {
+            "subscription_id": subscription_id,
+            "customer_id": obj.get("customer"),
+            "price_id": (line.get("price") or {}).get("id"),
+            # An invoice does not carry the subscription's status. The caller
+            # keeps what it already had for a paid one and marks past_due on
+            # a failure, which is what the two handlers below do.
+            "status": None,
+            "current_period_end": period.get("end"),
+            "cancel_at_period_end": None,
+            "user_id": _metadata_user_id(obj),
+            "invoice_id": obj.get("id"),
+            "quantity": line.get("quantity"),
+        }
+
+    return None
+
+
+def _metadata_user_id(obj: dict) -> int | None:
+    """Our user id, if this object was created with one on it.
+
+    A hint rather than an authority: the customer id is the link the webhook
+    trusts, because metadata is only present on objects we created and a
+    renewal invoice is created by Stripe.
+    """
+    raw = (obj.get("metadata") or {}).get("answergap_user_id")
+    try:
+        return int(raw) if raw else None
+    except (TypeError, ValueError):
+        return None
+
+
 def verify(payload: bytes, header: str, *, secret: str, now: float | None = None) -> bool:
     """Whether this body really came from Stripe, unmodified and recently.
 
@@ -200,6 +331,27 @@ INTERESTING = (
     "payment_intent.succeeded",
     "payment_intent.payment_failed",
     "charge.refunded",
+    # --- subscriptions -------------------------------------------------
+    # `invoice.paid` is the one that hands out credits, and it covers BOTH
+    # the first month and every renewal - Stripe raises it for the initial
+    # invoice too, so granting on `checkout.session.completed` as well would
+    # pay the first month twice.
+    "invoice.paid",
+    "invoice.payment_failed",
+    "customer.subscription.created",
+    "customer.subscription.updated",
+    "customer.subscription.deleted",
+)
+
+# The lifecycle events. Recorded like the rest, but they also MOVE CREDITS or
+# change what a person is entitled to, which is why they are named separately
+# rather than being matched by string in the handler.
+SUBSCRIPTION_EVENTS = (
+    "customer.subscription.created",
+    "invoice.paid",
+    "invoice.payment_failed",
+    "customer.subscription.updated",
+    "customer.subscription.deleted",
 )
 
 

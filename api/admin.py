@@ -122,6 +122,26 @@ class Plan(BaseModel):
     cta: str = Field(min_length=0, max_length=40, default="")
     badge: str | None = Field(default=None, max_length=30)
 
+    # --- what this plan actually SELLS -------------------------------
+    #
+    # Everything above is copy. These three are the contract, and they are
+    # separate fields rather than something parsed out of `features` because
+    # "100 credits per month" is a sentence an operator will translate,
+    # reword or pluralise, and a regular expression over it would hand
+    # somebody the wrong number of credits the first time they did.
+    #
+    # The price IDS are pasted from the Stripe dashboard rather than created
+    # from here. Creating products through the API would mean this code could
+    # mint live billable objects, and a plan card being saved is not a good
+    # moment to discover that. Empty means "not purchasable yet", which is
+    # what every plan is until somebody fills them in.
+    stripe_price_id: str = Field(min_length=0, max_length=64, default="")
+    stripe_price_id_annual: str = Field(min_length=0, max_length=64, default="")
+    # Credits granted per paid period. Copied onto the subscription at
+    # purchase, so changing it later prices new sales without silently
+    # re-pricing somebody's existing agreement.
+    credits: int = Field(default=0, ge=0, le=1_000_000)
+
     @model_validator(mode="before")
     @classmethod
     def _from_legacy_featured(cls, data):

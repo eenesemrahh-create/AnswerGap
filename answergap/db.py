@@ -845,6 +845,76 @@ MIGRATIONS: list[tuple[str, str]] = [
         );
         """,
     ),
+    (
+        "0013_subscriptions",
+        """
+        -- MONTHLY SUBSCRIPTIONS. Stripe owns the billing; this owns the
+        -- answer to two questions the product actually asks: who is on what,
+        -- and has this invoice already been paid for in credits.
+
+        -- The Stripe customer, so a second purchase reuses the first one's
+        -- card and the billing portal has something to open. On the user
+        -- rather than on the subscription: a person keeps their customer id
+        -- across cancelling and re-subscribing.
+        ALTER TABLE app_user ADD COLUMN IF NOT EXISTS stripe_customer_id TEXT;
+        CREATE UNIQUE INDEX IF NOT EXISTS app_user_stripe_customer_idx
+            ON app_user (stripe_customer_id) WHERE stripe_customer_id IS NOT NULL;
+
+        -- ONE ROW PER STRIPE SUBSCRIPTION, mirrored rather than owned. Every
+        -- field here is Stripe's answer, copied on a webhook, because the
+        -- alternative is asking Stripe on every page load - and a billing API
+        -- on the critical path of an account page is a page that breaks when
+        -- Stripe is slow.
+        --
+        -- `status` is Stripe's vocabulary verbatim (active, trialing,
+        -- past_due, canceled, incomplete, ...) rather than a translation.
+        -- Translating it would mean deciding today what `unpaid` means to us
+        -- and being wrong later; the interface can group them.
+        CREATE TABLE IF NOT EXISTS subscription (
+            id                     BIGSERIAL PRIMARY KEY,
+            user_id                BIGINT NOT NULL
+                                   REFERENCES app_user(id) ON DELETE RESTRICT,
+            stripe_subscription_id TEXT NOT NULL UNIQUE,
+            -- Which of OUR plans this is, by the id in `pricing_plans`. Kept
+            -- beside the Stripe price id because an operator renames a plan
+            -- far more often than they re-create its price.
+            plan_id                TEXT,
+            stripe_price_id        TEXT,
+            status                 TEXT NOT NULL,
+            -- How many credits one paid period grants. COPIED onto the row at
+            -- purchase, not looked up: the plan's credit count can change, and
+            -- a renewal must pay what was agreed, not what is advertised now.
+            credits_per_period     INTEGER NOT NULL DEFAULT 0,
+            current_period_end     TIMESTAMPTZ,
+            cancel_at_period_end   BOOLEAN NOT NULL DEFAULT FALSE,
+            created_at             TIMESTAMPTZ NOT NULL DEFAULT now(),
+            updated_at             TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+        CREATE INDEX IF NOT EXISTS subscription_user_idx
+            ON subscription (user_id, created_at DESC);
+
+        -- THE IDEMPOTENCY GUARD, and the reason this migration exists at all.
+        -- Stripe retries a webhook until it gets a 2xx, and `invoice.paid` is
+        -- the event that hands out credits. Without a unique key on the
+        -- invoice, one retry is one free month.
+        --
+        -- A partial unique index on the ledger rather than a separate table:
+        -- the grant and its guard are then the same row, so there is no way
+        -- to write one without the other.
+        CREATE UNIQUE INDEX IF NOT EXISTS credit_ledger_invoice_idx
+            ON credit_ledger (ref) WHERE reason = 'subscription';
+
+        -- `payment_event` has only ever carried an email, which is why
+        -- erasure's redaction and the reports' "Paid" column are both
+        -- best-effort (CLAUDE.md item 14). A subscription checkout knows whose
+        -- it is, so from here the link is a column rather than a guess. Old
+        -- rows keep their NULL; nothing back-fills a guess.
+        ALTER TABLE payment_event ADD COLUMN IF NOT EXISTS user_id BIGINT
+            REFERENCES app_user(id) ON DELETE RESTRICT;
+        CREATE INDEX IF NOT EXISTS payment_event_user_idx
+            ON payment_event (user_id, created_at DESC) WHERE user_id IS NOT NULL;
+        """,
+    ),
 ]
 
 
@@ -2367,6 +2437,10 @@ def user_for_gate(user_id: int) -> dict | None:
         cur.execute(
             """
             SELECT u.id, u.email, u.name, u.picture_url, u.status, u.token_epoch,
+                   -- For the billing endpoints: whether this person already
+                   -- has a Stripe customer, so a second purchase reuses the
+                   -- card on file and the portal has something to open.
+                   u.stripe_customer_id, u.created_at,
                    -- A boolean rather than the timestamp: the gate asks "may
                    -- this person spend", not "when did they confirm". Anything
                    -- reading the date would be reading it to re-derive this.
@@ -3387,6 +3461,225 @@ def admin_credit(
         return int(row["balance"]) if row else 0
 
 
+# ------------------------------------------------------------ subscriptions
+
+
+def stripe_customer_attach(*, user_id: int, customer_id: str) -> None:
+    """Remember the Stripe customer for this account.
+
+    Written once, on the first checkout. A person keeps their customer id
+    across cancelling and re-subscribing, which is what lets a second purchase
+    reuse the card on file and what gives the billing portal something to
+    open.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "UPDATE app_user SET stripe_customer_id = %s WHERE id = %s",
+            (customer_id, user_id),
+        )
+        conn.commit()
+
+
+def user_by_stripe_customer(customer_id: str) -> dict | None:
+    """Whose customer id is this? The webhook's only way back to an account.
+
+    `invoice.paid` names a customer, not a user. Matching on the address
+    instead would hand a renewal to whoever happens to own that address now -
+    which is the weakness `payment_event` still has and this column exists to
+    remove.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT id, email, status FROM app_user WHERE stripe_customer_id = %s",
+            (customer_id,),
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+
+def subscription_upsert(
+    *,
+    user_id: int,
+    stripe_subscription_id: str,
+    plan_id: str | None,
+    stripe_price_id: str | None,
+    status: str,
+    credits_per_period: int,
+    current_period_end: str | None,
+    cancel_at_period_end: bool,
+) -> None:
+    """Mirror one Stripe subscription. Called from every lifecycle webhook.
+
+    UPSERT rather than insert-or-update-by-hand: webhooks arrive out of order
+    often enough that `customer.subscription.updated` can beat
+    `checkout.session.completed`, and a handler that assumed the row existed
+    would drop the later truth on the floor.
+
+    `credits_per_period` is only written when the caller knows it. A status
+    change carries no line items, and overwriting an agreed credit count with
+    zero because this particular event did not mention it is how a renewal
+    quietly starts granting nothing.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO subscription (
+                user_id, stripe_subscription_id, plan_id, stripe_price_id,
+                status, credits_per_period, current_period_end,
+                cancel_at_period_end
+            )
+            VALUES (%(uid)s, %(sid)s, %(plan)s, %(price)s, %(status)s,
+                    %(credits)s, %(period_end)s, %(cancel)s)
+            ON CONFLICT (stripe_subscription_id) DO UPDATE SET
+                plan_id = COALESCE(EXCLUDED.plan_id, subscription.plan_id),
+                stripe_price_id =
+                    COALESCE(EXCLUDED.stripe_price_id, subscription.stripe_price_id),
+                status = EXCLUDED.status,
+                credits_per_period = CASE
+                    WHEN EXCLUDED.credits_per_period > 0
+                    THEN EXCLUDED.credits_per_period
+                    ELSE subscription.credits_per_period END,
+                current_period_end =
+                    COALESCE(EXCLUDED.current_period_end, subscription.current_period_end),
+                cancel_at_period_end = EXCLUDED.cancel_at_period_end,
+                updated_at = now()
+            """,
+            {
+                "uid": user_id,
+                "sid": stripe_subscription_id,
+                "plan": plan_id,
+                "price": stripe_price_id,
+                "status": status,
+                "credits": int(credits_per_period or 0),
+                "period_end": current_period_end,
+                "cancel": bool(cancel_at_period_end),
+            },
+        )
+        conn.commit()
+
+
+# Stripe statuses that mean "this person is entitled to the plan right now".
+# `past_due` is deliberately included: the card failed but the period is paid
+# for, and cutting service off before Stripe has finished retrying would
+# punish somebody whose bank declined once.
+LIVE_SUBSCRIPTION_STATUSES = ("active", "trialing", "past_due")
+
+
+def subscription_for_user(user_id: int) -> dict | None:
+    """The subscription an account screen should describe: the live one if
+    there is one, otherwise the most recent, so a cancelled plan still says
+    what it was rather than vanishing."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT stripe_subscription_id, plan_id, stripe_price_id, status,
+                   credits_per_period, current_period_end, cancel_at_period_end,
+                   created_at
+              FROM subscription
+             WHERE user_id = %(uid)s
+             ORDER BY (status = ANY(%(live)s)) DESC, created_at DESC
+             LIMIT 1
+            """,
+            {"uid": user_id, "live": list(LIVE_SUBSCRIPTION_STATUSES)},
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+
+def subscription_by_stripe_id(stripe_subscription_id: str) -> dict | None:
+    """One subscription by Stripe's id, for the webhook.
+
+    `invoice.paid` names a subscription and says nothing about how many
+    credits it is worth. The agreed figure lives on this row, copied there
+    when the plan was bought - so a renewal pays what was agreed rather than
+    what the pricing page happens to advertise this month.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT user_id, plan_id, stripe_price_id, status,
+                   credits_per_period, current_period_end, cancel_at_period_end
+              FROM subscription
+             WHERE stripe_subscription_id = %s
+            """,
+            (stripe_subscription_id,),
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+
+def subscription_set_status(*, stripe_subscription_id: str, status: str) -> None:
+    """Move a subscription's status without touching anything else.
+
+    For `invoice.payment_failed`, which says the card was declined and
+    nothing else - it carries no items, no period and no plan, so a full
+    upsert from it would overwrite good data with blanks.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE subscription
+               SET status = %s, updated_at = now()
+             WHERE stripe_subscription_id = %s
+            """,
+            (status, stripe_subscription_id),
+        )
+        conn.commit()
+
+
+def subscription_credit(
+    *, user_id: int, invoice_id: str, credits: int, note: str | None = None
+) -> bool:
+    """Grant one paid period's credits. True if this call was the one that did.
+
+    IDEMPOTENT BY INVOICE, and that is the whole function. Stripe retries a
+    webhook until it gets a 2xx, so without a unique key on the invoice one
+    retry is one free month. The key is a partial unique index on
+    `credit_ledger (ref) WHERE reason = 'subscription'`, which puts the grant
+    and its guard in the same row - there is no way to write one without the
+    other, and no second table to fall out of step.
+
+    Returns False on a duplicate rather than raising: a redelivery is normal
+    Stripe behaviour, not an error, and the caller answers 200 either way.
+    """
+    if credits <= 0:
+        return False
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO credit_ledger (user_id, delta, reason, ref, note)
+            VALUES (%(uid)s, %(delta)s, 'subscription', %(ref)s, %(note)s)
+            ON CONFLICT (ref) WHERE reason = 'subscription' DO NOTHING
+            RETURNING id
+            """,
+            {"uid": user_id, "delta": int(credits), "ref": invoice_id, "note": note},
+        )
+        granted = cur.fetchone() is not None
+        conn.commit()
+        return granted
+
+
+def credit_history(user_id: int, limit: int = 50) -> list[dict]:
+    """What moved this account's balance, newest first.
+
+    For the customer's own account page. `note` is included because it is
+    where an admin's reason for a manual grant lives, and somebody looking at
+    their own balance deserves the same explanation the admin wrote.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT delta, reason, ref, note, created_at
+              FROM credit_ledger
+             WHERE user_id = %s
+             ORDER BY created_at DESC, id DESC
+             LIMIT %s
+            """,
+            (user_id, max(1, min(int(limit), 200))),
+        )
+        return [dict(r) for r in cur.fetchall()]
+
+
 def admin_set_status(*, user_id: int, status: str, actor: str) -> bool:
     """Suspend or reactivate. The one UPDATE in an append-only design.
 
@@ -3772,13 +4065,21 @@ def payment_event_put(record: dict, payload: dict) -> bool:
         cur.execute(
             """
             INSERT INTO payment_event (event_id, kind, livemode, amount_cents,
-                                       currency, email, status, object_id, payload)
+                                       currency, email, status, object_id,
+                                       user_id, payload)
             VALUES (%(event_id)s, %(kind)s, %(livemode)s, %(amount_cents)s,
-                    %(currency)s, %(email)s, %(status)s, %(object_id)s, %(payload)s)
+                    %(currency)s, %(email)s, %(status)s, %(object_id)s,
+                    %(user_id)s, %(payload)s)
             ON CONFLICT (event_id) DO NOTHING
             RETURNING id
             """,
-            {**record, "payload": json.dumps(payload, ensure_ascii=False)[:100000]},
+            {
+                # `user_id` is present only when the webhook could resolve one,
+                # so it is defaulted here rather than required of every caller.
+                "user_id": None,
+                **record,
+                "payload": json.dumps(payload, ensure_ascii=False)[:100000],
+            },
         )
         row = cur.fetchone()
         conn.commit()

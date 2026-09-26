@@ -26,6 +26,7 @@ protect - no accounts exist.
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import secrets
 import time
@@ -36,6 +37,10 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, field_validator
 
 from answergap import db, gate, mailer, oauth, passwords, tokens
+
+# `stripe` imports nothing but the standard library, so a sibling importing it
+# cannot cycle - the same check made before `db` was allowed to import `gate`.
+from . import stripe
 
 router = APIRouter()
 
@@ -538,6 +543,169 @@ def me(request: Request) -> dict:
             if verified and gate.is_admin(row.get("email"), ADMIN_EMAILS)
             else "user"
         ),
+        # What they are paying for, or null. Mirrored from Stripe by the
+        # webhook, so this costs one local query rather than a call to a
+        # billing API on the critical path of every page that shows a balance.
+        "subscription": _subscription_summary(who.user_id),
+        "created_at": (row.get("created_at").isoformat()
+                       if row.get("created_at") else None),
+    }
+
+
+@router.get("/api/me/credits")
+def my_credits(request: Request) -> dict:
+    """What moved this account's balance, for the customer's own page.
+
+    The same ledger the admin sees, filtered to one person. Somebody looking
+    at a balance that changed is entitled to the row that changed it - it is
+    their money, and "24 credits" with no history is a number to be argued
+    with rather than trusted.
+    """
+    if not accounts_enabled():
+        raise HTTPException(503, {"code": "accountsOff"})
+    who = identity(request)
+    if not who.signed_in:
+        raise HTTPException(401, {"code": "signedOut"})
+    return {"entries": db.credit_history(who.user_id, limit=50)}
+
+
+class CheckoutRequest(BaseModel):
+    plan_id: str = Field(min_length=1, max_length=32, pattern=r"^[a-z0-9-]+$")
+    # Monthly unless asked otherwise. The pricing page's switch is the only
+    # thing that sets this, and an unknown value simply means monthly rather
+    # than an error - a billing endpoint should not refuse a sale over a
+    # query parameter.
+    cycle: str = Field(default="monthly", max_length=10)
+
+
+@router.post("/api/billing/checkout")
+def billing_checkout(request: Request, payload: CheckoutRequest) -> dict:
+    """Start a Stripe Checkout for one plan. Returns the URL to send them to.
+
+    THE PRICE IS LOOKED UP HERE, never accepted from the browser. A client
+    that could name its own Stripe price could name a cheaper one, and the
+    only thing standing between that and a discount would be nobody having
+    tried it.
+    """
+    if not accounts_enabled():
+        raise HTTPException(503, {"code": "accountsOff"})
+    who = identity(request)
+    if not who.signed_in:
+        raise HTTPException(401, {"code": "signedOut"})
+    row = db.user_for_gate(who.user_id) or {}
+    if row.get("status") != gate.STATUS_ACTIVE:
+        raise HTTPException(403, {"code": "suspended"})
+    if not row.get("email_verified", True):
+        # Selling to an address nobody has proved they own is how a chargeback
+        # starts, and the receipt would be mailed into the dark.
+        raise HTTPException(403, {"code": "emailUnverified"})
+    if stripe.mode() == "missing":
+        raise HTTPException(503, {"code": "noKey"})
+
+    plan = _published_plan(payload.plan_id)
+    if not plan:
+        raise HTTPException(404, {"code": "noSuchPlan"})
+    price_id = (
+        plan.get("stripe_price_id_annual")
+        if payload.cycle == "annual"
+        else plan.get("stripe_price_id")
+    )
+    if not price_id:
+        # The plan exists on the pricing page but nobody has pasted its Stripe
+        # price id, so it is advertised and not purchasable. Said plainly
+        # rather than as a 500 from Stripe.
+        raise HTTPException(409, {"code": "planNotPurchasable"})
+
+    base = (WEB_BASE_URL or "").rstrip("/")
+    try:
+        session = stripe.subscription_checkout(
+            price_id=price_id,
+            success_url=f"{base}/account?billing=done",
+            cancel_url=f"{base}/account?billing=cancelled",
+            user_id=who.user_id,
+            email=row.get("email"),
+            customer_id=row.get("stripe_customer_id"),
+        )
+    except Exception as exc:  # noqa: BLE001 - Stripe's refusal is not our 500
+        raise HTTPException(502, {"code": "stripeFailed"}) from exc
+    if not session.get("url"):
+        raise HTTPException(502, {"code": "stripeFailed"})
+    return {"url": session["url"]}
+
+
+@router.post("/api/billing/portal")
+def billing_portal(request: Request) -> dict:
+    """A link into Stripe's billing portal: cancel, switch plan, change card.
+
+    Everything the portal does is something we would otherwise have to build
+    and keep correct against Stripe's own state - and proration on a
+    mid-period switch is arithmetic this product has no business repeating.
+    """
+    if not accounts_enabled():
+        raise HTTPException(503, {"code": "accountsOff"})
+    who = identity(request)
+    if not who.signed_in:
+        raise HTTPException(401, {"code": "signedOut"})
+    row = db.user_for_gate(who.user_id) or {}
+    customer_id = row.get("stripe_customer_id")
+    if not customer_id:
+        # Never bought anything, so there is no billing history to manage.
+        raise HTTPException(409, {"code": "noCustomer"})
+    if stripe.mode() == "missing":
+        raise HTTPException(503, {"code": "noKey"})
+    base = (WEB_BASE_URL or "").rstrip("/")
+    try:
+        session = stripe.billing_portal(
+            customer_id=customer_id, return_url=f"{base}/account"
+        )
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(502, {"code": "stripeFailed"}) from exc
+    if not session.get("url"):
+        raise HTTPException(502, {"code": "stripeFailed"})
+    return {"url": session["url"]}
+
+
+def _published_plan(plan_id: str) -> dict | None:
+    """One PUBLISHED plan from the admin's pricing setting.
+
+    `enabled` is checked here as well as on the landing: an unpublished card
+    is a draft, and a draft must not be sellable just because somebody knows
+    its id.
+    """
+    try:
+        rows = db.settings_all()
+        plans = json.loads(rows.get(gate.SETTING_PRICING_PLANS, "") or "[]")
+    except Exception:  # noqa: BLE001
+        return None
+    for plan in plans if isinstance(plans, list) else []:
+        if plan.get("id") == plan_id and plan.get("enabled"):
+            return plan
+    return None
+
+
+def _subscription_summary(user_id: int) -> dict | None:
+    """The subscription an account page describes, or None.
+
+    Allowed to fail quietly. A balance and an address are the things this
+    endpoint exists for; a billing panel that cannot render is a worse
+    outcome than one that renders without its plan card.
+    """
+    try:
+        found = db.subscription_for_user(user_id)
+    except Exception:  # noqa: BLE001 - never break /api/me over billing
+        return None
+    if not found:
+        return None
+    ends = found.get("current_period_end")
+    return {
+        "plan_id": found.get("plan_id"),
+        "status": found.get("status"),
+        "credits_per_period": int(found.get("credits_per_period") or 0),
+        "current_period_end": ends.isoformat() if ends else None,
+        "cancel_at_period_end": bool(found.get("cancel_at_period_end")),
+        # Whether the plan is live RIGHT NOW, decided here rather than in five
+        # locales of interface code comparing status strings.
+        "active": found.get("status") in db.LIVE_SUBSCRIPTION_STATUSES,
     }
 
 

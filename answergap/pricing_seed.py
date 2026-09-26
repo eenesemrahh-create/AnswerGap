@@ -35,6 +35,11 @@ from __future__ import annotations
 SEED_PLANS: list[dict] = [
     {
         "id": "starter",
+        # Not purchasable until an operator pastes the Stripe price
+        # ids; `credits` is what one paid period grants.
+        "stripe_price_id": "",
+        "stripe_price_id_annual": "",
+        "credits": 100,
         "enabled": True,
         "theme": "light",
         "name": "Starter",
@@ -56,6 +61,11 @@ SEED_PLANS: list[dict] = [
     },
     {
         "id": "lite",
+        # Not purchasable until an operator pastes the Stripe price
+        # ids; `credits` is what one paid period grants.
+        "stripe_price_id": "",
+        "stripe_price_id_annual": "",
+        "credits": 300,
         # `dark` is what the old `featured` boolean produced, and it is the
         # card the design darkens - the one it also badges Most Popular.
         "enabled": True,
@@ -81,6 +91,11 @@ SEED_PLANS: list[dict] = [
     },
     {
         "id": "pro",
+        # Not purchasable until an operator pastes the Stripe price
+        # ids; `credits` is what one paid period grants.
+        "stripe_price_id": "",
+        "stripe_price_id_annual": "",
+        "credits": 1000,
         "enabled": True,
         "theme": "light",
         "name": "Pro",
