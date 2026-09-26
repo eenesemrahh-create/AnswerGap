@@ -3844,12 +3844,19 @@ def subscription_assign(
             """
             INSERT INTO admin_action (actor, action, target_user, detail)
             VALUES (%(actor)s, 'assign_plan', %(uid)s,
-                    jsonb_build_object('plan_id', %(plan)s,
-                                       'credits', %(credits)s,
-                                       'granted', %(delta)s,
-                                       'days', %(days)s,
-                                       'superseded', %(superseded)s,
-                                       'note', %(note)s))
+                    -- EVERY ONE OF THESE IS CAST, for the reason `user_erase`
+                    -- already records: `jsonb_build_object` takes `"any"`
+                    -- arguments, so a parameter appearing ONLY inside it has
+                    -- no column to take its type from and Postgres refuses
+                    -- the whole statement. `admin_credit` gets away with bare
+                    -- parameters because each is also written to a typed
+                    -- column; none of these are.
+                    jsonb_build_object('plan_id', %(plan)s::text,
+                                       'credits', %(credits)s::int,
+                                       'granted', %(delta)s::int,
+                                       'days', %(days)s::int,
+                                       'superseded', %(superseded)s::int,
+                                       'note', %(note)s::text))
             """,
             {
                 "actor": actor,
@@ -3910,7 +3917,10 @@ def subscription_revoke_assigned(
                 """
                 INSERT INTO admin_action (actor, action, target_user, detail)
                 VALUES (%s, 'revoke_plan', %s,
-                        jsonb_build_object('subscription_id', %s))
+                        -- Cast for the same reason as `assign_plan` above:
+                        -- this parameter appears nowhere but inside
+                        -- `jsonb_build_object`, so nothing can type it.
+                        jsonb_build_object('subscription_id', %s::bigint))
                 """,
                 (actor, user_id, subscription_id),
             )
