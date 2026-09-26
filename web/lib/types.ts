@@ -230,6 +230,14 @@ export interface Me {
   has_password?: boolean;
   has_google?: boolean;
   role: Role;
+  /** What they are on, or null for an account running on credits alone.
+   *  Mirrored from Stripe by the webhook, so reading it costs one local query
+   *  rather than a call to a billing API on the critical path of every page
+   *  that shows a balance. */
+  subscription?: Subscription | null;
+  /** When the account was created. Optional: an older API answers without it,
+   *  and the account page prints nothing rather than "Invalid Date". */
+  created_at?: string | null;
 }
 
 /**
@@ -400,4 +408,58 @@ export interface Plan {
   features: string[];
   cta: string;
   badge: string | null;
+  /**
+   * Credits one paid period grants. Optional because every plan saved before
+   * subscriptions existed has no such field, and the account page has to
+   * render those rather than print `undefined` beside a price.
+   *
+   * NOTE WHAT IS NOT HERE: the Stripe price ids. `GET /api/pricing` strips
+   * them. Checkout takes a plan id and looks the price up server-side, so a
+   * client that could name its own price could name a cheaper one.
+   */
+  credits?: number;
+  /** The same plan billed annually, per month. Empty or absent means the
+   *  annual switch has nothing to show for this card. */
+  price_annual?: string;
+}
+
+/**
+ * What this account is paying for, or was given.
+ *
+ * `source` is the difference between "you bought this" and "we gave you
+ * this", and the page has to know which: a billing-portal button shown to
+ * somebody who never bought anything answers `noCustomer`, which is a dead
+ * end wearing the costume of a feature.
+ */
+export interface Subscription {
+  plan_id: string | null;
+  /** Stripe's own vocabulary - active, trialing, past_due, canceled - or
+   *  `active` on a plan an operator assigned. Not translated on the way out;
+   *  `active` below is the question the interface actually asks. */
+  status: string;
+  credits_per_period: number;
+  current_period_end: string | null;
+  cancel_at_period_end: boolean;
+  source: "stripe" | "admin";
+  /**
+   * Entitled RIGHT NOW. Decided by the API rather than by five locales of
+   * interface code comparing status strings - and it is NOT the same as
+   * `status === "active"`, because nothing renews an assigned plan and one
+   * whose period has passed still says `active`.
+   */
+  active: boolean;
+}
+
+/** One line of the credit ledger, as the owner of the balance sees it. */
+export interface CreditEntry {
+  delta: number;
+  /** `signup`, `search`, `subscription`, `admin_grant`, `admin_revoke`. Mapped
+   *  to a sentence in the interface; an unrecognised one renders as itself
+   *  rather than as a blank. */
+  reason: string;
+  ref: string | null;
+  /** Where an admin's reason for a manual grant lives. Somebody looking at
+   *  their own balance deserves the same explanation the admin wrote. */
+  note: string | null;
+  created_at: string;
 }

@@ -331,7 +331,24 @@ def pricing() -> dict:
         return {"plans": []}
     if not isinstance(plans, list):
         return {"plans": []}
-    return {"plans": plans}
+    # THE STRIPE PRICE IDS DO NOT LEAVE THE SERVER. They are not secret -
+    # Stripe.js puts them in pages every day - but nothing in this product
+    # needs them in a browser: `POST /api/billing/checkout` takes a plan id
+    # and looks the price up itself, precisely so that a client cannot name a
+    # cheaper one. Publishing them here would suggest otherwise to the next
+    # person who reads this endpoint, and an unused field on a public payload
+    # is a question waiting to be answered wrongly.
+    #
+    # `credits` STAYS: the account page says what each plan grants, and that
+    # is a fact about the offer rather than about the billing plumbing.
+    return {
+        "plans": [
+            {k: v for k, v in plan.items()
+             if k not in ("stripe_price_id", "stripe_price_id_annual")}
+            if isinstance(plan, dict) else plan
+            for plan in plans
+        ]
+    }
 
 
 def _live_all(user_id: int | None = None) -> list[dict]:

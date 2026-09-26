@@ -309,6 +309,75 @@ export const es: Messages = {
     manualNote: "Por ahora los créditos se añaden a mano; todavía no hay pago.",
   },
 
+  account: {
+    title: "Tu cuenta",
+    signedOutTitle: "Inicia sesión para ver tu cuenta",
+    signedOutLead:
+      "Tu plan, tus créditos y todo aquello en lo que los has gastado están detrás del inicio de sesión.",
+    signedOutAction: "Iniciar sesión",
+    back: "Volver a la búsqueda",
+    loading: "Cargando…",
+
+    profileHeading: "Datos",
+    email: "Correo",
+    name: "Nombre",
+    joined: "Miembro desde",
+    unnamed: "Sin indicar",
+    verified: "Confirmado",
+    unverified: "Sin confirmar",
+    verifyAction: "Enviar el enlace otra vez",
+    verifySent: "Enviado. Revisa tu bandeja de entrada.",
+    doors: "Iniciar sesión con",
+    doorPassword: "Contraseña",
+    doorGoogle: "Google",
+
+    planHeading: "Tu plan",
+    noPlan: "Sin plan",
+    noPlanLead:
+      "Esta cuenta funciona solo con créditos. Un plan añade créditos cada mes.",
+    planCredits: "{count} créditos por periodo",
+    given: "Te lo hemos asignado nosotros",
+    bought: "Facturado a través de Stripe",
+    renews: "Se renueva el {date}",
+    endsOn: "Termina el {date}",
+    lapsed: "Este plan ha terminado.",
+    pastDue:
+      "El último pago no se completó. Actualiza tu tarjeta para conservar el plan.",
+    manage: "Gestionar facturación",
+    manageLead:
+      "Cancela, cambia de plan, actualiza tu tarjeta o descarga facturas. Abre Stripe.",
+
+    creditsHeading: "Créditos",
+    balanceLead:
+      "Una búsqueda cuesta un crédito. Los resultados en caché son gratis.",
+    historyHeading: "Historial",
+    historyWhen: "Cuándo",
+    historyChange: "Cambio",
+    historyWhy: "Motivo",
+    noHistory: "Todavía nada.",
+    reasonSignup: "Créditos de bienvenida",
+    reasonSearch: "Búsqueda",
+    reasonSubscription: "Renovación del plan",
+    reasonAdminGrant: "Añadidos por nosotros",
+    reasonAdminRevoke: "Retirados por nosotros",
+
+    plansHeading: "Planes",
+    plansLead: "Puedes cambiar de plan cuando quieras.",
+    current: "Tu plan",
+    choose: "Elegir {plan}",
+    monthly: "Mensual",
+    annual: "Anual",
+    notPurchasable: "Aún no disponible",
+    contactUs: "Contáctanos",
+    seeAllPlans: "Ver todos los planes",
+
+    billingDone:
+      "Gracias. Estamos activando tu plan — puede tardar un momento en aparecer aquí.",
+    billingCancelled: "No se ha cobrado nada.",
+
+    dangerHeading: "Eliminar cuenta",
+  },
+
   error: {
     invalidEmail: "Eso no parece una dirección de correo.",
     badCredentials:

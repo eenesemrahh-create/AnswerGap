@@ -307,6 +307,73 @@ export const tr: Messages = {
     manualNote: "Krediler şimdilik elle ekleniyor; henüz ödeme adımı yok.",
   },
 
+  account: {
+    title: "Hesabınız",
+    signedOutTitle: "Hesabınızı görmek için giriş yapın",
+    signedOutLead:
+      "Planınız, krediniz ve kredilerinizi harcadığınız her şey giriş yaptıktan sonra görünür.",
+    signedOutAction: "Giriş yap",
+    back: "Aramaya dön",
+    loading: "Yükleniyor…",
+
+    profileHeading: "Bilgiler",
+    email: "E-posta",
+    name: "Ad",
+    joined: "Üyelik başlangıcı",
+    unnamed: "Belirtilmemiş",
+    verified: "Doğrulandı",
+    unverified: "Doğrulanmadı",
+    verifyAction: "Bağlantıyı yeniden gönder",
+    verifySent: "Gönderildi. Gelen kutunuza bakın.",
+    doors: "Giriş yöntemi",
+    doorPassword: "Parola",
+    doorGoogle: "Google",
+
+    planHeading: "Planınız",
+    noPlan: "Plan yok",
+    noPlanLead:
+      "Bu hesap yalnızca kredi ile çalışıyor. Plan her ay kredi ekler.",
+    planCredits: "Her dönem {count} kredi",
+    given: "Tarafımızdan tanımlandı",
+    bought: "Stripe üzerinden faturalanıyor",
+    renews: "{date} tarihinde yenilenir",
+    endsOn: "{date} tarihinde biter",
+    lapsed: "Bu planın süresi doldu.",
+    pastDue: "Son ödeme alınamadı. Planın sürmesi için kartınızı güncelleyin.",
+    manage: "Ödemeleri yönet",
+    manageLead:
+      "İptal edin, plan değiştirin, kartınızı güncelleyin ya da faturalarınızı indirin. Stripe açılır.",
+
+    creditsHeading: "Krediler",
+    balanceLead: "Bir arama bir kredi. Önbellekten gelen sonuçlar ücretsiz.",
+    historyHeading: "Geçmiş",
+    historyWhen: "Tarih",
+    historyChange: "Değişim",
+    historyWhy: "Gerekçe",
+    noHistory: "Henüz bir şey yok.",
+    reasonSignup: "Hoş geldin kredisi",
+    reasonSearch: "Arama",
+    reasonSubscription: "Plan yenileme",
+    reasonAdminGrant: "Tarafımızdan eklendi",
+    reasonAdminRevoke: "Tarafımızdan alındı",
+
+    plansHeading: "Planlar",
+    plansLead: "Planınızı istediğiniz zaman değiştirebilirsiniz.",
+    current: "Mevcut planınız",
+    choose: "{plan} planını seç",
+    monthly: "Aylık",
+    annual: "Yıllık",
+    notPurchasable: "Henüz satışta değil",
+    contactUs: "Bize ulaşın",
+    seeAllPlans: "Tüm planları gör",
+
+    billingDone:
+      "Teşekkürler. Planınız hazırlanıyor — burada görünmesi biraz sürebilir.",
+    billingCancelled: "Hiçbir ödeme alınmadı.",
+
+    dangerHeading: "Hesabı sil",
+  },
+
   error: {
     invalidEmail: "Bu bir e-posta adresine benzemiyor.",
     badCredentials: "Bu e-posta ve parola bir hesapla eşleşmiyor.",

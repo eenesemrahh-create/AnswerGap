@@ -308,6 +308,75 @@ export const de: Messages = {
     manualNote: "Guthaben wird vorerst von Hand vergeben; es gibt noch keine Kasse.",
   },
 
+  account: {
+    title: "Ihr Konto",
+    signedOutTitle: "Melden Sie sich an, um Ihr Konto zu sehen",
+    signedOutLead:
+      "Ihr Tarif, Ihr Guthaben und alles, wofür Sie es ausgegeben haben, liegen hinter einer Anmeldung.",
+    signedOutAction: "Anmelden",
+    back: "Zurück zur Suche",
+    loading: "Wird geladen…",
+
+    profileHeading: "Angaben",
+    email: "E-Mail",
+    name: "Name",
+    joined: "Mitglied seit",
+    unnamed: "Nicht angegeben",
+    verified: "Bestätigt",
+    unverified: "Nicht bestätigt",
+    verifyAction: "Link erneut senden",
+    verifySent: "Gesendet. Sehen Sie in Ihrem Posteingang nach.",
+    doors: "Anmelden mit",
+    doorPassword: "Passwort",
+    doorGoogle: "Google",
+
+    planHeading: "Ihr Tarif",
+    noPlan: "Kein Tarif",
+    noPlanLead:
+      "Dieses Konto läuft allein auf Guthaben. Ein Tarif fügt jeden Monat Guthaben hinzu.",
+    planCredits: "{count} Guthaben pro Zeitraum",
+    given: "Von uns vergeben",
+    bought: "Abrechnung über Stripe",
+    renews: "Verlängert sich am {date}",
+    endsOn: "Endet am {date}",
+    lapsed: "Dieser Tarif ist abgelaufen.",
+    pastDue:
+      "Die letzte Zahlung ist fehlgeschlagen. Aktualisieren Sie Ihre Karte, um den Tarif zu behalten.",
+    manage: "Abrechnung verwalten",
+    manageLead:
+      "Kündigen, Tarif wechseln, Karte ändern oder Rechnungen herunterladen. Öffnet Stripe.",
+
+    creditsHeading: "Guthaben",
+    balanceLead:
+      "Eine Suche kostet ein Guthaben. Ergebnisse aus dem Cache sind kostenlos.",
+    historyHeading: "Verlauf",
+    historyWhen: "Wann",
+    historyChange: "Änderung",
+    historyWhy: "Grund",
+    noHistory: "Noch nichts.",
+    reasonSignup: "Startguthaben",
+    reasonSearch: "Suche",
+    reasonSubscription: "Tarifverlängerung",
+    reasonAdminGrant: "Von uns hinzugefügt",
+    reasonAdminRevoke: "Von uns abgezogen",
+
+    plansHeading: "Tarife",
+    plansLead: "Sie können Ihren Tarif jederzeit wechseln.",
+    current: "Ihr Tarif",
+    choose: "{plan} wählen",
+    monthly: "Monatlich",
+    annual: "Jährlich",
+    notPurchasable: "Noch nicht verfügbar",
+    contactUs: "Kontakt aufnehmen",
+    seeAllPlans: "Alle Tarife ansehen",
+
+    billingDone:
+      "Vielen Dank. Ihr Tarif wird eingerichtet — es kann einen Moment dauern, bis er hier erscheint.",
+    billingCancelled: "Es wurde nichts berechnet.",
+
+    dangerHeading: "Konto löschen",
+  },
+
   error: {
     invalidEmail: "Das sieht nicht nach einer E-Mail-Adresse aus.",
     badCredentials: "E-Mail und Passwort passen zu keinem Konto.",

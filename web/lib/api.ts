@@ -1,6 +1,7 @@
 import type {
   BatchPlan,
   Country,
+  CreditEntry,
   DevSpend,
   DiffResult,
   JobsStatus,
@@ -294,6 +295,44 @@ export const submitLabel = (
  * from a query — lives here and is fetched only when a token exists.
  */
 export const fetchMe = () => get<Me>("/api/me");
+
+/** What moved this account's balance, newest first.
+ *
+ * A separate call from `/api/me` on purpose: the balance is read on every page
+ * that shows the account strip, and fifty ledger rows travelling with it
+ * would be paid for everywhere to be read in one place.
+ */
+export const fetchCredits = () =>
+  get<{ entries: CreditEntry[] }>("/api/me/credits");
+
+/**
+ * Start a Stripe Checkout for one plan and hand back the URL to go to.
+ *
+ * THE PRICE IS NOT SENT. The plan id is; the API looks its Stripe price up
+ * server-side, which is the only thing standing between a client naming its
+ * own price and a discount nobody authorised.
+ *
+ * Returns the URL rather than navigating, so the caller can keep its button
+ * in a "working" state until the browser actually leaves - a checkout link
+ * takes a second to mint, and a button that looks idle in that second gets
+ * pressed twice.
+ */
+export const startCheckout = (planId: string, cycle: "monthly" | "annual") =>
+  post<{ url: string }>("/api/billing/checkout", { plan_id: planId, cycle });
+
+/**
+ * A link into Stripe's billing portal: cancel, switch plan, change card,
+ * download invoices.
+ *
+ * Everything it does is something we would otherwise have to build and keep
+ * correct against Stripe's own state - and proration on a mid-period switch is
+ * arithmetic this product has no business repeating.
+ *
+ * Answers `noCustomer` for an account that never bought anything, which is why
+ * the button is only drawn for a subscription whose `source` is `stripe`.
+ */
+export const openBillingPortal = () =>
+  post<{ url: string }>("/api/billing/portal", {});
 
 /** Send the browser to Google. A full navigation, not a fetch.
  *

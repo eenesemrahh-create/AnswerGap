@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, fetchMe, resendVerification, signOut } from "@/lib/api";
+import Link from "next/link";
 import { SignInDialog } from "./SignInDialog";
-import { AccountDialog } from "./AccountDialog";
 import { captureTokenFromHash, token } from "@/lib/auth";
 import { onSignInRequest } from "@/lib/signin-request";
 import type { Me, Meta } from "@/lib/types";
@@ -60,7 +60,6 @@ export function AccountMenu({
   const [resetToken, setResetToken] = useState<string | undefined>();
   const [resent, setResent] = useState(false);
   const [resending, setResending] = useState(false);
-  const [account, setAccount] = useState(false);
 
   const load = useCallback(() => {
     if (!token()) {
@@ -237,14 +236,18 @@ export function AccountMenu({
         </span>
       )}
       {notice && <span className="account-failed">{notice}</span>}
-      {/* A BUTTON, not a label, and that is the whole reason this dialog
-          exists. Deleting an account has to live somewhere, and the only
-          other place in this strip is next to "Sign out" - one misclick away,
-          in a row with no destructive style at all. Opening the identity
-          itself is the natural home for it. */}
-      <button
+      {/* A LINK TO A PAGE, and it used to open a dialog.
+          The dialog was the right shape for what it held - an address, a
+          balance and a delete button - and the wrong shape the moment there
+          was a plan to describe. A plan has a status, a renewal date, a
+          history and alternatives to move to, and none of that belongs in
+          something the reader has to dismiss before looking at anything else.
+          The argument that put erasure behind this control rather than beside
+          "Sign out" is unchanged; `/account` keeps it at the bottom of the
+          page, under its own heading. */}
+      <Link
         className="account-who"
-        onClick={() => setAccount(true)}
+        href="/account"
         title={t("auth.signedInAs", { email: me.email })}
       >
         {me.picture_url ? (
@@ -254,8 +257,7 @@ export function AccountMenu({
           <i className="account-avatar account-avatar-blank" />
         )}
         {me.email}
-      </button>
-      <AccountDialog open={account} onClose={() => setAccount(false)} me={me} />
+      </Link>
       {/* Zero is shown as "no credits left" rather than as "0 credits", and a
           negative balance is shown as it stands. A debit is unconditional
           because the money was already spent upstream; hiding an overspend

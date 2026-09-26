@@ -703,9 +703,24 @@ def _subscription_summary(user_id: int) -> dict | None:
         "credits_per_period": int(found.get("credits_per_period") or 0),
         "current_period_end": ends.isoformat() if ends else None,
         "cancel_at_period_end": bool(found.get("cancel_at_period_end")),
+        # Where it came from, so the page can say "we gave you this" instead
+        # of implying a purchase, and can leave out a billing-portal button
+        # that would answer `noCustomer` for somebody who never bought
+        # anything.
+        "source": found.get("source") or "stripe",
         # Whether the plan is live RIGHT NOW, decided here rather than in five
         # locales of interface code comparing status strings.
-        "active": found.get("status") in db.LIVE_SUBSCRIPTION_STATUSES,
+        #
+        # `live` COMES FROM THE DATABASE, which is not the same as
+        # `status in LIVE_SUBSCRIPTION_STATUSES` and used to be written that
+        # way. Nothing renews a plan an admin assigned, so one whose period
+        # has passed still reads `active` - and that comparison would have
+        # told somebody on their own account page that they had a plan they
+        # no longer had. The fallback covers a row from before the column
+        # existed.
+        "active": bool(
+            found.get("live", found.get("status") in db.LIVE_SUBSCRIPTION_STATUSES)
+        ),
     }
 
 

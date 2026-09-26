@@ -133,3 +133,30 @@ export function useDateFormat() {
     [tag]
   );
 }
+
+/**
+ * The same, WITHOUT a time of day. For dates that are dates.
+ *
+ * A renewal date and a joining date have no meaningful hour. Stripe's period
+ * end is midnight UTC, so `useDateFormat` rendered it as "October 26, 2026 at
+ * 03:00 AM" for a reader in Istanbul - a precision the fact does not have,
+ * shifted into a different clock, on the one line of the account page a
+ * customer is most likely to quote back. A crawl timestamp needs the hour;
+ * a billing date does not.
+ */
+export function useDayFormat() {
+  const { tag } = useI18n();
+  return useCallback(
+    (iso: string | null | undefined) => {
+      if (!iso) return "—";
+      const date = new Date(iso);
+      if (Number.isNaN(date.getTime())) return "—";
+      return date.toLocaleDateString(tag, {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    },
+    [tag]
+  );
+}

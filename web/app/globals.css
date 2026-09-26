@@ -3543,3 +3543,200 @@ table.table {
     min-height: 44px;
   }
 }
+
+
+/* ============================================================ /account
+ *
+ * The account page, which replaced a dialog. It sits on `.mkt-page` so it
+ * carries the same nav and background as the marketing pages - a reader
+ * arriving from the landing should not feel they have left the product - but
+ * everything below the nav is its own, because none of the `.mkt-*` blocks
+ * are about reading a table of your own money.
+ *
+ * ONE COLUMN, DELIBERATELY. Two columns here would put the plan beside the
+ * ledger and force a choice about which one is "main"; they are read in
+ * sequence - who am I, what am I on, what have I got left, what else could I
+ * be on - and a single column is that sequence.
+ */
+.account-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 20px 96px;
+}
+.account-page h1 {
+  margin: 0 0 32px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.account-block {
+  margin: 0 0 40px;
+  padding: 0 0 36px;
+  border-bottom: 1px solid var(--border);
+}
+.account-block:last-child { border-bottom: 0; padding-bottom: 0; }
+.account-block h2 {
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+.account-block h3 {
+  margin: 28px 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-muted { margin: 0 0 8px; color: var(--text-soft); font-size: 14px; }
+.account-fine { margin: 10px 0 0; color: var(--text-faint); font-size: 12px; }
+.account-page .account-facts { font-size: 14px; gap: 10px 24px; }
+
+/* NEUTRAL, NOT A VERDICT COLOUR. "Confirmed" and "Your plan" are facts about
+   an account; amber and teal mean gap and covered, and a tag that borrowed
+   one would be making a claim about a question. */
+.account-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 11px;
+  color: var(--text-soft);
+  vertical-align: 1px;
+}
+.account-tag.warn {
+  color: var(--danger);
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+}
+.account-inline-action {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: var(--brand);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.account-inline-action:disabled { color: var(--text-faint); cursor: default; }
+
+.account-notice,
+.account-error {
+  margin: 0 0 24px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.account-notice {
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text);
+}
+.account-error {
+  border: 1px solid var(--danger-border);
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.account-warn { margin: 10px 0 0; color: var(--danger); font-size: 13px; }
+
+/* --- the plan ------------------------------------------------------- */
+.account-plan-card {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+/* A live plan is marked with the BRAND tint, which is decoration - the same
+   rule the nav and the primary button follow. It says "this one is yours",
+   not "this one is good". */
+.account-plan-card.is-live {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+.account-plan-card b { display: block; font-size: 20px; font-weight: 800; }
+.account-plan-card p { margin: 6px 0 0; font-size: 14px; }
+.account-plan-card .btn { margin-top: 16px; }
+
+/* --- credits -------------------------------------------------------- */
+.account-balance {
+  margin: 0 0 6px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+/* An empty balance is stated, not alarmed about. It is the ordinary end of a
+   month rather than a fault, and the page directly below offers the fix. */
+.account-balance.empty { color: var(--text-faint); }
+
+.account-tablewrap { overflow-x: auto; }
+.account-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.account-table th {
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+.account-table td {
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.account-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.account-table td.num { font-weight: 600; }
+.account-table td.num.neg { color: var(--text-soft); }
+
+/* --- the alternatives ----------------------------------------------- */
+.account-plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.account-plan-option {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.account-plan-option.is-current {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+.account-plan-option b { font-size: 16px; font-weight: 700; }
+.account-plan-price { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+.account-plan-price em { font-size: 13px; font-weight: 500; font-style: normal; color: var(--text-faint); }
+/* The button sits at the bottom of every card whatever the copy above it
+   runs to, so a row of cards does not stagger. */
+.account-plan-option .btn,
+.account-plan-option .account-tag { margin-top: auto; align-self: flex-start; }
+
+/* --- the way out ---------------------------------------------------- */
+/* Separated by space and a rule, not by colour. The section is dangerous
+   because of what it does; painting the block red would shout at somebody who
+   came to read their balance. */
+.account-danger-block { margin-top: 24px; }
+.account-page .account-danger { border-top: 0; padding-top: 0; margin-top: 0; }
+.account-page .auth-form.account-danger { max-width: 420px; }
+
+@media (max-width: 720px) {
+  .account-page { padding: 28px 16px 72px; }
+  .account-page h1 { font-size: 24px; margin-bottom: 24px; }
+  /* The definition list stacks: a label column sized to "Member since" leaves
+     an email with about nine characters of room at 360px. */
+  .account-page .account-facts { grid-template-columns: 1fr; gap: 2px; }
+  .account-page .account-facts dt { margin-top: 10px; font-size: 12px; }
+  .account-page .account-facts dd { overflow-wrap: anywhere; }
+  .account-balance { font-size: 28px; }
+  .account-plans { grid-template-columns: 1fr; }
+}

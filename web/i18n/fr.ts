@@ -312,6 +312,75 @@ export const fr: Messages = {
     manualNote: "Les crédits sont ajoutés à la main pour l'instant ; il n'y a pas encore de paiement.",
   },
 
+  account: {
+    title: "Votre compte",
+    signedOutTitle: "Connectez-vous pour voir votre compte",
+    signedOutLead:
+      "Votre offre, vos crédits et tout ce à quoi vous les avez consacrés se trouvent derrière la connexion.",
+    signedOutAction: "Se connecter",
+    back: "Retour à la recherche",
+    loading: "Chargement…",
+
+    profileHeading: "Informations",
+    email: "E-mail",
+    name: "Nom",
+    joined: "Membre depuis",
+    unnamed: "Non renseigné",
+    verified: "Confirmé",
+    unverified: "Non confirmé",
+    verifyAction: "Renvoyer le lien",
+    verifySent: "Envoyé. Regardez votre boîte de réception.",
+    doors: "Se connecter avec",
+    doorPassword: "Mot de passe",
+    doorGoogle: "Google",
+
+    planHeading: "Votre offre",
+    noPlan: "Aucune offre",
+    noPlanLead:
+      "Ce compte fonctionne uniquement avec des crédits. Une offre en ajoute chaque mois.",
+    planCredits: "{count} crédits par période",
+    given: "Attribuée par nos soins",
+    bought: "Facturée via Stripe",
+    renews: "Se renouvelle le {date}",
+    endsOn: "Se termine le {date}",
+    lapsed: "Cette offre a pris fin.",
+    pastDue:
+      "Le dernier paiement n'est pas passé. Mettez votre carte à jour pour conserver l'offre.",
+    manage: "Gérer la facturation",
+    manageLead:
+      "Résilier, changer d'offre, modifier votre carte ou télécharger vos factures. Ouvre Stripe.",
+
+    creditsHeading: "Crédits",
+    balanceLead:
+      "Une recherche coûte un crédit. Les résultats en cache sont gratuits.",
+    historyHeading: "Historique",
+    historyWhen: "Quand",
+    historyChange: "Variation",
+    historyWhy: "Motif",
+    noHistory: "Rien pour l'instant.",
+    reasonSignup: "Crédits de bienvenue",
+    reasonSearch: "Recherche",
+    reasonSubscription: "Renouvellement de l'offre",
+    reasonAdminGrant: "Ajoutés par nos soins",
+    reasonAdminRevoke: "Retirés par nos soins",
+
+    plansHeading: "Offres",
+    plansLead: "Vous pouvez changer d'offre à tout moment.",
+    current: "Votre offre",
+    choose: "Choisir {plan}",
+    monthly: "Mensuel",
+    annual: "Annuel",
+    notPurchasable: "Pas encore disponible",
+    contactUs: "Nous contacter",
+    seeAllPlans: "Voir toutes les offres",
+
+    billingDone:
+      "Merci. Votre offre est en cours d'activation — elle peut mettre un instant à apparaître ici.",
+    billingCancelled: "Rien n'a été débité.",
+
+    dangerHeading: "Supprimer le compte",
+  },
+
   error: {
     invalidEmail: "Cela ne ressemble pas à une adresse e-mail.",
     badCredentials:

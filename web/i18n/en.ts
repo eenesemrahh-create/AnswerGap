@@ -350,6 +350,85 @@ export const en = {
     manualNote: "Credits are added by hand for now; there is no checkout yet.",
   },
 
+  /* The account page. Replaces a dialog that could only show an address, a
+     balance and a delete button - which was the whole account surface until
+     there was a plan to describe. */
+  account: {
+    title: "Your account",
+    signedOutTitle: "Sign in to see your account",
+    signedOutLead:
+      "Your plan, your credits and everything you have spent them on live behind a sign-in.",
+    signedOutAction: "Sign in",
+    back: "Back to search",
+    loading: "Loading…",
+
+    profileHeading: "Details",
+    email: "Email",
+    name: "Name",
+    joined: "Member since",
+    unnamed: "Not set",
+    verified: "Confirmed",
+    unverified: "Not confirmed",
+    verifyAction: "Send the link again",
+    verifySent: "Sent. Check your inbox.",
+    doors: "Sign in with",
+    doorPassword: "Password",
+    doorGoogle: "Google",
+
+    planHeading: "Your plan",
+    noPlan: "No plan",
+    noPlanLead:
+      "This account runs on credits alone. A plan adds credits every month.",
+    planCredits: "{count} credits each period",
+    /* WHERE IT CAME FROM, and it has to be said. A plan somebody was given is
+       not one they bought, and telling them otherwise is how a support
+       conversation starts with an argument about a charge that never
+       happened. */
+    given: "Given to you by us",
+    bought: "Billed through Stripe",
+    renews: "Renews {date}",
+    endsOn: "Ends {date}",
+    lapsed: "This plan has ended.",
+    pastDue: "The last payment did not go through. Update your card to keep the plan.",
+    manage: "Manage billing",
+    manageLead:
+      "Cancel, switch plan, change your card or download invoices. Opens Stripe.",
+
+    creditsHeading: "Credits",
+    balanceLead: "One search costs one credit. Cached results are free.",
+    historyHeading: "History",
+    historyWhen: "When",
+    historyChange: "Change",
+    historyWhy: "Why",
+    noHistory: "Nothing yet.",
+    /* One line per ledger reason. An unrecognised one renders as itself
+       rather than as a blank - a visible `something_else` is a bug report,
+       an empty cell is not. */
+    reasonSignup: "Welcome credits",
+    reasonSearch: "Search",
+    reasonSubscription: "Plan renewal",
+    reasonAdminGrant: "Added by us",
+    reasonAdminRevoke: "Removed by us",
+
+    plansHeading: "Plans",
+    plansLead: "Change your plan at any time.",
+    current: "Your plan",
+    choose: "Choose {plan}",
+    monthly: "Monthly",
+    annual: "Annual",
+    /* A card that is advertised but has no Stripe price behind it yet. Said
+       plainly on the button rather than left to fail at checkout. */
+    notPurchasable: "Not available yet",
+    contactUs: "Get in touch",
+    seeAllPlans: "See all plans",
+
+    billingDone:
+      "Thank you. Your plan is being set up — it can take a moment to appear here.",
+    billingCancelled: "Nothing was charged.",
+
+    dangerHeading: "Delete account",
+  },
+
   error: {
     invalidEmail: "That does not look like an email address.",
     badCredentials: "That email and password do not match an account.",
