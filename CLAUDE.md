@@ -461,6 +461,93 @@ defensible asset over time.
 
 # Current state — resume here
 
+## Subscriptions and the account page, 2026-09-26 — read this first
+
+Three commits: the subscription backend, admin-assigned plans, and `/account`.
+**407 backend tests, 11 web tests, all three apps build.** Nothing is pushed
+yet at the time of writing.
+
+**Monthly subscriptions, NOT the credit packs this file planned.** Packs were
+recommended here because a pack has no renewal, proration or dunning to get
+wrong; the operator chose subscriptions and the renewal machinery is now the
+webhook's problem. Everything else the pack argument protected is still true,
+so it is worth knowing how each hazard was answered:
+
+- **A redelivered webhook is one free month.** The guard is a PARTIAL UNIQUE
+  INDEX on `credit_ledger (ref) WHERE reason = 'subscription'`, which puts the
+  grant and its guard in the same row — there is no way to write one without
+  the other and no second table to fall out of step.
+- **Whose money it is comes from the STRIPE CUSTOMER ID**, stored on the
+  account at first checkout, with our own metadata as a fallback. Never the
+  email: an address can be changed, shared, or belong to somebody else by the
+  time a renewal arrives a month later.
+- **`credits_per_period` is COPIED onto the subscription at purchase**, never
+  looked up at renewal. Editing a plan card prices new sales; it must not
+  silently re-price somebody's existing agreement.
+- **The price id is looked up server-side from the plan id.** A client that
+  could name its own Stripe price could name a cheaper one. `GET /api/pricing`
+  strips the price ids for the same reason.
+- **Proration, cancelling and card changes all go to Stripe's billing
+  portal.** Mid-period switch arithmetic is not this product's business.
+
+**An operator can assign a plan without a payment** — trials, the people who
+tested this before it could charge, an apology, an agency invoiced elsewhere.
+ONE TABLE with a `source` column, not two: a second table would make "what is
+this person on" a question every screen has to ask twice and merge.
+
+- An assigned row carries **no `stripe_subscription_id`**. A synthetic
+  `sub_manual_7` in the column the webhook looks rows up by is a collision
+  waiting for a replayed event. NULLs do not collide under a UNIQUE index; a
+  CHECK stops the reverse mistake.
+- **Nothing renews an assigned plan, so expiry is computed ON READ.** A sweep
+  job would be a second source of truth that is wrong for however long it has
+  not run, and the moment a plan lapses is exactly when somebody is looking at
+  it. `_LIVE_SUBSCRIPTION_SQL` is the one definition; `live` travels out to
+  both the admin and `/api/me`.
+- **A paid subscription cannot be ended from the admin.** `source = 'admin'`
+  is in the WHERE clause and the button is not drawn. Otherwise Stripe keeps
+  charging the card and the next webhook reinstates the row — a cancellation
+  that visibly undoes itself.
+- Revoking **does not claw back credits**. They may have been spent, and a
+  balance that goes negative because somebody ended a trial is a bill for work
+  already delivered.
+
+**`/account` replaces `AccountDialog`, which is deleted.** The dialog was the
+right shape for an address, a balance and a delete button, and the wrong shape
+the moment there was a plan to describe. Erasure stays last, under its own
+heading — the reason it was never put beside "Sign out" does not expire.
+
+**Two bugs this work surfaced, both worth remembering:**
+- `_subscription_summary` decided "active" by comparing `status` against
+  `LIVE_SUBSCRIPTION_STATUSES`. On an assigned plan whose period had passed
+  that reads `active`, so the page would have told somebody they had a plan
+  they no longer had. **A derived fact belongs in one place; this one is in
+  SQL now.**
+- **Stripe's period end is midnight UTC and the shared date formatter carries
+  an hour**, because it was built for crawl timestamps. A renewal rendered as
+  "October 26, 2026 at 03:00 AM" in Istanbul. `useDayFormat` is date-only; the
+  ledger keeps the hour, because there it is how you tell two searches apart.
+
+**33 SQL tests still only run in CI** — 14 of them are new. There is no
+Postgres on this machine and the fixture refuses a non-local host, so check
+the "Backend tests" job before trusting any of it.
+
+**Verification without a database.** Accounts are off locally
+(`accounts_enabled: false`), so `/account` was driven over CDP with `/api/me`
+stubbed to the shapes the API really returns — six accounts including one whose
+`subscription` field is absent entirely. That is the same technique that caught
+the `undefined.toFixed()` crash on 2026-09-17, and the lesson is the same: a
+clean build and clean types say nothing about whether the page renders.
+
+**pyflakes is now the gate that catches what the test suite cannot.** Two
+consecutive incidents had the whole suite green over broken code; `db.foo`
+typos are still invisible to it, so a small AST check against the real module
+is worth running when adding db calls in bulk.
+
+**WHAT STILL BLOCKS TAKING MONEY, and it is not code:** `LEGAL_VARS` in
+`web/content/legal/blocks.ts`, then Stripe onboarding, then pasting real price
+ids into the pricing editor. See 10b.
+
 ## 2026-09-20 session — read this first
 
 Last worked: **2026-09-20**. Six commits: a dead verification link now has
@@ -997,16 +1084,19 @@ progress polling, developer panel, five locales.
     and the plan to collect labels FROM users cannot start until the metric
     is credible enough to have users. See the review section for the
     arithmetic.
-13. **Wire credit packs to the Stripe webhook.** The payment is already
-    recorded; granting credits is the piece to add, keyed on the session's
-    metadata. Then **delete `/pay`, the two `/api/pay/*` endpoints, the
-    `PAY_PROBE_TOKEN` variable and the `robots.ts` line that hides it** —
-    they exist only until this lands.
-14. **`payment_event` has no `user_id` and no foreign key.** The only link
-    from a payment to an account is the email address as text, which is why
-    erasure's redaction and the Reports page's "Paid" column are both
-    best-effort. Adding a real column is the right fix and it gets easier
-    the fewer payments exist — do it while the table is nearly empty.
+13. ~~**Wire credit packs to the Stripe webhook.**~~ **DONE 2026-09-26, as
+    MONTHLY SUBSCRIPTIONS rather than packs** — the operator's choice. See
+    "Subscriptions and the account page" below. **Still open: delete `/pay`,
+    the two `/api/pay/*` endpoints, the `PAY_PROBE_TOKEN` variable and the
+    `robots.ts` line that hides it.** They were to die when checkout landed;
+    checkout has landed in code but cannot take money until the Stripe
+    onboarding in 10b is done, so `/pay` is the only working payment path
+    today. Delete it the day a real plan is bought.
+14. ~~**`payment_event` has no `user_id`.**~~ **Half done 2026-09-26.**
+    Migration 0013 adds the column and a subscription checkout writes it.
+    **Still open: old rows keep their NULL and nothing back-fills a guess**,
+    so erasure's redaction and the Reports "Paid" column stay best-effort for
+    everything paid before that date.
 15. **A `(user_id, day_utc)` index on `usage_event`.** The Reports
     per-account aggregate has no composite index to ride on. Irrelevant at
     today's row count; the busiest table in the schema will not stay that
