@@ -56,7 +56,16 @@ export type ErrorKind =
   | "passwordTooCommon"
   | "resetExpired"
   | "invalidEmail"
-  | "googleOff";
+  | "googleOff"
+  // --- billing ---------------------------------------------------------
+  // Every one of these arrived as a bare 409 or 503 before they were listed.
+  // `kindFor` falls back on the status, so `planNotPurchasable` rendered as
+  // "That request cannot be run as asked" - a sentence that blames the reader
+  // for a plan WE have not finished setting up.
+  | "planNotPurchasable"
+  | "noSuchPlan"
+  | "noCustomer"
+  | "paymentsOff";
 
 export class ApiError extends Error {
   constructor(
@@ -108,6 +117,15 @@ const CODES: Record<string, ErrorKind> = {
   resetExpired: "resetExpired",
   invalidEmail: "invalidEmail",
   googleOff: "googleOff",
+  // Billing. `planNotPurchasable` is the one a reader hits TODAY: the card is
+  // published and advertised, and nobody has pasted its Stripe price id yet.
+  // It is our unfinished setup, not their bad request, and the message has to
+  // say so - a 409 that reads "that request cannot be run as asked" sends
+  // somebody looking for a mistake they did not make.
+  planNotPurchasable: "planNotPurchasable",
+  noSuchPlan: "noSuchPlan",
+  noCustomer: "noCustomer",
+  noKey: "paymentsOff",
 };
 
 function kindFor(status: number, code?: string): ErrorKind {

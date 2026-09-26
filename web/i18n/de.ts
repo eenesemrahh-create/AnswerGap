@@ -402,6 +402,13 @@ export const de: Messages = {
     budget: "Das Anfragelimit wurde erreicht; der Crawl wurde gestoppt, statt mehr auszugeben.",
     upstream: "DataForSEO war nicht erreichbar oder hat einen Fehler geliefert. Eine fehlgeschlagene Anfrage wird nicht berechnet.",
     badRequest: "Diese Anfrage kann so nicht ausgeführt werden.",
+    planNotPurchasable:
+      "Dieser Tarif kann noch nicht gekauft werden — wir richten die Zahlung " +
+      "dafür noch ein. Melden Sie sich bei uns, wir kümmern uns darum.",
+    noSuchPlan: "Diesen Tarif gibt es nicht mehr.",
+    noCustomer:
+      "Es gibt noch nichts zu verwalten — für dieses Konto wurde nie abgerechnet.",
+    paymentsOff: "Zahlungen sind noch nicht freigeschaltet.",
     signedOut: "Sie sind abgemeldet. Melden Sie sich an, um fortzufahren.",
     noCredits:
       "Kein Guthaben mehr. Eine Suche kostet ein Credit; Ergebnisse aus dem " +

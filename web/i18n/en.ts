@@ -455,6 +455,17 @@ export const en = {
     budget: "The request ceiling was reached, so the crawl stopped rather than spend more.",
     upstream: "DataForSEO could not be reached, or returned an error. A failed request is not charged.",
     badRequest: "That request cannot be run as asked.",
+    /* Billing refusals. THE FIRST ONE IS OURS, NOT THE READER'S: the card is
+       published and priced on the page, and nobody has finished connecting it
+       to Stripe. Saying "that request cannot be run as asked" — which is what
+       a bare 409 rendered as — sends somebody hunting for a mistake they did
+       not make. */
+    planNotPurchasable:
+      "This plan cannot be bought yet — we are still finishing its payment " +
+      "setup. Get in touch and we will sort it out for you.",
+    noSuchPlan: "That plan is no longer available.",
+    noCustomer: "There is nothing to manage yet — this account has never been billed.",
+    paymentsOff: "Payments are not switched on yet.",
     // One key per ErrorKind, in all five locales. Errors render as
     // t(`error.${kind}`) and a missing key would print its own name to a
     // customer at the worst possible moment.

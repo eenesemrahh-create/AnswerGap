@@ -398,6 +398,12 @@ export const tr: Messages = {
     budget: "İstek tavanına ulaşıldı; tarama daha fazla harcamak yerine durdu.",
     upstream: "DataForSEO’ya ulaşılamadı ya da hata döndü. Başarısız istek ücretlendirilmez.",
     badRequest: "Bu istek, istendiği şekliyle çalıştırılamaz.",
+    planNotPurchasable:
+      "Bu plan henüz satın alınamıyor — ödeme kurulumunu tamamlamadık. " +
+      "Bize yazın, sizin için halledelim.",
+    noSuchPlan: "Bu plan artık sunulmuyor.",
+    noCustomer: "Yönetilecek bir şey yok — bu hesaba hiç fatura kesilmemiş.",
+    paymentsOff: "Ödemeler henüz açık değil.",
     signedOut: "Çıkış yapılmış durumdasınız. Devam etmek için giriş yapın.",
     noCredits:
       "Krediniz kalmadı. Bir arama bir kredi harcar; önbellekten gelen " +

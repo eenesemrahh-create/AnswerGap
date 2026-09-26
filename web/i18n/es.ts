@@ -404,6 +404,12 @@ export const es: Messages = {
     budget: "Se alcanzó el límite de peticiones; el rastreo se detuvo en lugar de gastar más.",
     upstream: "No se pudo contactar con DataForSEO, o devolvió un error. Una petición fallida no se cobra.",
     badRequest: "Esa petición no se puede ejecutar tal como se ha pedido.",
+    planNotPurchasable:
+      "Este plan todavía no se puede comprar — aún estamos terminando de " +
+      "configurar su pago. Escríbenos y lo resolvemos contigo.",
+    noSuchPlan: "Ese plan ya no está disponible.",
+    noCustomer: "Aún no hay nada que gestionar: a esta cuenta nunca se le ha facturado.",
+    paymentsOff: "Los pagos todavía no están activados.",
     signedOut: "Has cerrado sesión. Inicia sesión para continuar.",
     noCredits:
       "No te quedan créditos. Una búsqueda cuesta un crédito; los resultados " +

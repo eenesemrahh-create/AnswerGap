@@ -408,6 +408,12 @@ export const fr: Messages = {
     budget: "Le plafond de requêtes a été atteint ; l’exploration s’est arrêtée plutôt que de dépenser davantage.",
     upstream: "DataForSEO est injoignable, ou a renvoyé une erreur. Une requête échouée n’est pas facturée.",
     badRequest: "Cette requête ne peut pas être exécutée telle quelle.",
+    planNotPurchasable:
+      "Cette offre n'est pas encore achetable — nous finalisons sa " +
+      "configuration de paiement. Écrivez-nous et nous nous en occupons.",
+    noSuchPlan: "Cette offre n'est plus proposée.",
+    noCustomer: "Il n'y a rien à gérer pour l'instant : ce compte n'a jamais été facturé.",
+    paymentsOff: "Les paiements ne sont pas encore activés.",
     signedOut: "Vous êtes déconnecté. Connectez-vous pour continuer.",
     noCredits:
       "Plus de crédits. Une recherche coûte un crédit ; les résultats en " +
