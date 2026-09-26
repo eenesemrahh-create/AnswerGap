@@ -81,9 +81,9 @@ export interface LegalDocumentShape {
  * production unnoticed.
  */
 export const LEGAL_VARS = {
-  company: "«COMPANY NAME»",
-  entity: "«ENTITY TYPE, e.g. limited liability company»",
-  state: "«STATE»",
+  company: "gunel",
+  entity: "limited liability company",
+  state: "Delaware",
   email: "support@gettopquestions.com",
   site: "gettopquestions.com",
 } as const;
