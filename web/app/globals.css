@@ -3357,3 +3357,189 @@ table.table {
     opacity: .5;
   }
 }
+
+/* =========================================================== 2026-09-26
+   PHONES.
+ *
+ * Measured before writing any of this, on a 390x844 viewport, because the
+ * screenshots showed a mess and a mess has more than one cause:
+ *
+ *   tree screen   header 219px + toolbar 200px = 419px of chrome
+ *                 canvas 425px -- HALF THE SCREEN before one question
+ *   landing       20 tap targets under 44px
+ *   /pricing      the comparison table scrolls its own wrapper (fine)
+ *
+ * Nothing overflowed the document horizontally. The problem was never
+ * overflow; it was a single flex row of eight things wrapping into five.
+ *
+ * The notices are NOT hidden here. "Archive data - not live" and the fetch
+ * time are the accuracy rules CLAUDE.md is built on, and a narrow screen is
+ * not a reason to stop telling the truth. They get a scrolling strip instead.
+ */
+
+.header-notices {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  /* --- tree screen chrome ------------------------------------------- */
+
+  .header {
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    padding: 8px 12px;
+  }
+  /* The "prototype" tag is the first thing to go: it is a disclaimer about
+     the product, and the notices below carry the disclaimers that matter. */
+  .brand small { display: none; }
+  .brand { font-size: 14px; }
+
+  /* THREE ROWS, dictated rather than hoped for. Left to itself this header
+     wrapped into six - brand, title, account and notices each taking a line
+     of their own - which measured 165px on a 390px screen. Every item below
+     is told which row it belongs to and whether it may grow.
+
+       row 1  brand ......... account  theme  locale
+       row 2  tree title + question count, language, fetched-at
+       row 3  the notices, scrolling
+
+     `flex: none` on the first row's items is the half that matters: without
+     it the brand and the account each try to fill the line and push the
+     other onto the next one. */
+  .brand { order: 1; flex: none; }
+  .account { order: 2; margin-left: auto; flex: none; }
+  .theme-toggle { order: 3; flex: none; }
+  .locale-picker { order: 4; flex: none; }
+  .header-mid { order: 5; flex: 1 0 100%; }
+  .header-notices {
+    order: 6;
+    flex: 1 0 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    /* Room for the scrollbar without it sitting on the chips. */
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .header-notices::-webkit-scrollbar { display: none; }
+  .header-notices > * { flex: none; }
+  .header-sub { gap: 8px; font-size: 11px; }
+
+  .toolbar { gap: 8px; padding: 8px 12px; }
+  /* One scrolling row instead of three wrapped ones. Four status chips at
+     ~150px each never fit 390px, and wrapping them cost ~80px of height on
+     the screen with the least of it to spare. */
+  .filters {
+    flex: 1 0 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 6px;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .filters .chip { flex: none; }
+  /* A row that scrolls with no sign that it scrolls is a row whose last two
+     chips do not exist. The mask fades the right edge while there is more to
+     the right, and `mask-image` costs nothing when it is not supported - the
+     chips simply cut off as they did before. */
+  .filters, .header-notices, .mkt-nav-links {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  }
+  /* Shares row one with the view tabs when there is room and drops below
+     them when there is not, rather than always taking a line of its own. */
+  .search { flex: 1 1 130px; max-width: none; min-width: 120px; }
+
+  /* --- marketing + landing ------------------------------------------ */
+
+  /* Wrapping, because below about 340px the brand and the account strip
+     together are wider than the screen and something has to give. Measured
+     at 320: the tools block alone is 214px beside a 134px brand, which
+     overflowed by 67px. Given permission to wrap it takes a second row
+     instead. */
+  .mkt-nav-inner { gap: 8px; padding: 10px 16px; flex-wrap: wrap; }
+  .mkt-nav-tools { margin-left: auto; flex: none; }
+  .mkt-brand { min-width: 0; }
+  /* The links wrapped to a row of their own and then ran out of width. A
+     scrolling row keeps all five reachable, which beats four visible and one
+     lost off the edge. */
+  .mkt-nav-links {
+    order: 3;
+    flex: 1 0 100%;
+    margin-left: 0;
+    gap: 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .mkt-nav-links::-webkit-scrollbar { display: none; }
+  .mkt-nav-links > * { flex: none; white-space: nowrap; }
+
+  .mkt-hero { padding: 40px 20px 28px; }
+  .mkt-hero-title { font-size: clamp(30px, 9vw, 40px); }
+  .mkt-hero-sub { font-size: 15px; }
+  /* Stacked and full width: two pill buttons side by side on a phone are two
+     small targets instead of two good ones. */
+  .mkt-cta-actions { flex-direction: column; align-items: stretch; gap: 10px; }
+  .mkt-cta-actions > * { width: 100%; text-align: center; }
+
+  .mkt-section { padding: 56px 20px; }
+  .mkt-saved-grid { grid-template-columns: 1fr; }
+  /* Country and language stack, each as a label beside a select that fills
+     what is left. `min-width: 0` on BOTH is the load-bearing part: a flex
+     item defaults to `min-width: auto`, so a <select> holding "United
+     States" refuses to shrink below its widest option and pushes the row
+     past the viewport - which is exactly what it did, 409px against 390,
+     the only horizontal overflow this pass introduced. */
+  .mkt-hero-market { flex-direction: column; align-items: stretch; gap: 10px; }
+  .mkt-hero-market label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .mkt-hero-market select { flex: 1 1 auto; min-width: 0; width: 100%; }
+}
+
+/* --- touch targets --------------------------------------------------
+ *
+ * Keyed on the POINTER, not the width. A 390px window on a desktop has a
+ * mouse and does not need 44px; a 1024px tablet has a finger and does. The
+ * measured offenders were 14-32px tall - the theme toggle, the locale
+ * select, the try-chips and the zoom buttons.
+ *
+ * 44px is the published floor on both platforms. The status chips are the
+ * one deliberate exception at 38: they now live in a scrolling row on the
+ * screen with the least vertical space in the product, and four of them at
+ * 44 would cost more than the misses save.
+ */
+@media (pointer: coarse) {
+  .theme-toggle,
+  .locale-picker,
+  .segment button,
+  .zoom button,
+  .mkt-try-chip,
+  .account-signin,
+  .account-signout,
+  .mkt-nav-cta {
+    min-height: 44px;
+  }
+  .theme-toggle, .zoom button { min-width: 44px; }
+  .mkt-try-chip { padding-inline: 14px; }
+  .chip { min-height: 38px; }
+  .panel-close { width: 44px; height: 44px; }
+  .batch input { min-height: 44px; }
+  /* iOS zooms the page when a font under 16px takes focus. */
+  input, select, textarea { font-size: 16px; min-height: 44px; }
+  /* Footer links measured 18px tall - a row of text baselines rather than
+     targets. Padding rather than line-height so the text stays where the
+     design put it and only the hit area grows. */
+  .mkt-footer-col a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}

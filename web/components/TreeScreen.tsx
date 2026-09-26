@@ -225,6 +225,14 @@ export function TreeScreen({ slug }: { slug: string }) {
             <span>{t("detail.updated", { date: formatDate(tree.updated_at) })}</span>
           </div>
         </div>
+        {/* GROUPED so the phone can give them a row of their own.
+            These are honesty labels, not decoration - CLAUDE.md forbids
+            claiming live data and requires the fetch time on every result -
+            so narrow screens may not drop them. What they can do is stop them
+            wrapping one-per-line between the title and the account strip,
+            which is most of why this header was 219px tall on a 390px phone.
+            In here they become one horizontally scrollable strip. */}
+        <div className="header-notices">
         {/* CLAUDE.md accuracy rule: never claim "live data". A live crawl is
             still a snapshot, so it is labelled by when it was fetched, and the
             archive is labelled as the archive. */}
@@ -254,6 +262,7 @@ export function TreeScreen({ slug }: { slug: string }) {
         )}
         {tree.source === "live" && <CrawlDiff slug={slug} />}
         {meta && <DevPanel meta={meta} slug={slug} />}
+        </div>
         {meta && <AccountMenu meta={meta} />}
         <ThemeToggle />
         <LocalePicker />
