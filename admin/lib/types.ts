@@ -67,6 +67,36 @@ export interface CrawlRow {
   created_at: string;
 }
 
+/**
+ * One subscription, paid or assigned.
+ *
+ * `source` is the whole difference. A `stripe` row is mirrored from a real
+ * subscription and only Stripe may end it; an `admin` row was handed out from
+ * this panel, carries no `stripe_subscription_id`, and is the only kind the
+ * revoke button can touch.
+ */
+export interface SubscriptionRow {
+  id: number;
+  stripe_subscription_id: string | null;
+  plan_id: string | null;
+  status: string;
+  credits_per_period: number;
+  current_period_end: string | null;
+  cancel_at_period_end: boolean;
+  source: "stripe" | "admin";
+  /** Which admin assigned it. Null on a paid row - nobody did. */
+  granted_by: string | null;
+  note: string | null;
+  created_at: string;
+  /**
+   * Entitled RIGHT NOW. Not the same as `status === "active"`: nothing
+   * renews an assigned plan, so one whose period has passed still says
+   * `active` and is no longer live. Computed by the database on read, because
+   * the moment a plan lapses is exactly when somebody is looking at it.
+   */
+  live: boolean;
+}
+
 export interface UserDetail extends UserRow {
   token_epoch: number;
   /** When the account was erased, or null. The authoritative flag; `status`
@@ -76,6 +106,10 @@ export interface UserDetail extends UserRow {
   ledger: LedgerRow[];
   usage: UsageRow[];
   crawls: CrawlRow[];
+  /** Every subscription, newest first - not just the live one. The question
+   *  on this page is "why does this person have what they have", and a trial
+   *  assigned in March is half the answer to a complaint made in June. */
+  subscriptions: SubscriptionRow[];
 }
 
 export interface AdminAction {
@@ -129,6 +163,27 @@ export interface Plan {
   features: string[];
   cta: string;
   badge: string | null;
+  /**
+   * The Stripe Price this card sells, PASTED from the Stripe dashboard.
+   * Nothing here mints billable objects - a product that could create its own
+   * prices could create the wrong one, and the dashboard is where a price is
+   * reviewed before it can charge anybody.
+   *
+   * Empty means not purchasable: `POST /api/billing/checkout` answers
+   * `planNotPurchasable` rather than sending somebody to a broken Stripe page.
+   * That is the state every card ships in.
+   */
+  stripe_price_id: string;
+  /** The annual Price for the same plan. Empty means the annual toggle has
+   *  nothing to sell, whatever `price_annual` advertises. */
+  stripe_price_id_annual: string;
+  /**
+   * Credits one paid period grants. A REAL FIELD, not parsed out of
+   * "300 credits per month" - that is a sentence an operator will reword or
+   * translate, and a regex over it would hand somebody the wrong number of
+   * credits the first time they did.
+   */
+  credits: number;
 }
 
 export interface Pricing {
@@ -178,6 +233,9 @@ export const PRICING_TEMPLATES: Plan[] = [
     ],
     cta: "Start 7-Day Trial",
     badge: null,
+    stripe_price_id: "",
+    stripe_price_id_annual: "",
+    credits: 100,
   },
   {
     id: "lite",
@@ -201,6 +259,9 @@ export const PRICING_TEMPLATES: Plan[] = [
     ],
     cta: "Go Lite",
     badge: "Most Popular",
+    stripe_price_id: "",
+    stripe_price_id_annual: "",
+    credits: 300,
   },
   {
     id: "pro",
@@ -228,6 +289,9 @@ export const PRICING_TEMPLATES: Plan[] = [
     ],
     cta: "Go Pro",
     badge: null,
+    stripe_price_id: "",
+    stripe_price_id_annual: "",
+    credits: 1000,
   },
   {
     id: "enterprise",
@@ -249,6 +313,13 @@ export const PRICING_TEMPLATES: Plan[] = [
     ],
     cta: "Contact Sales",
     badge: null,
+    // No Stripe price and no credit figure ON PURPOSE. This card says
+    // "contact us", so its terms are agreed in a conversation and then
+    // assigned by hand from the user page. A number here would be a quote
+    // nobody gave.
+    stripe_price_id: "",
+    stripe_price_id_annual: "",
+    credits: 0,
   },
 ];
 

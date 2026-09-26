@@ -949,3 +949,233 @@ def test_the_seed_is_append_only_like_every_other_setting() -> None:
             (gate.SETTING_PRICING_PLANS,),
         )
         assert (cur.fetchone() or {}).get("n") == 2
+
+
+# ------------------------------------------------- subscriptions, assigned
+#
+# The webhook's decisions are pinned in `tests/test_subscriptions.py` against a
+# stubbed database. These run the statements: the partial unique index that
+# stops a redelivered invoice paying twice, the CHECK that stops a row calling
+# itself Stripe's with nothing to prove it, and the read-time expiry that an
+# assigned plan needs because nothing renews it.
+
+
+def _balance(user_id: int) -> int:
+    """Summed from the ledger, not read from a column. There is no balance
+    column - the ledger IS the balance, which is what makes it append-only."""
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT COALESCE(sum(delta), 0) AS n FROM credit_ledger WHERE user_id = %s",
+            (user_id,),
+        )
+        return int((cur.fetchone() or {})["n"])
+
+
+def _subscriber(email: str = "sub@example.com") -> dict:
+    return _google(sub="sub-billing", email=email, credits=0)
+
+
+def _assign(user_id: int, **over) -> dict:
+    kwargs = {
+        "user_id": user_id,
+        "plan_id": "lite",
+        "credits_per_period": 300,
+        "days": 30,
+        "grant_credits": True,
+        "actor": "op@example.com",
+        "note": None,
+    }
+    kwargs.update(over)
+    return db.subscription_assign(**kwargs)
+
+
+def _paid(user_id: int, sid: str = "sub_real") -> None:
+    db.subscription_upsert(
+        user_id=user_id, stripe_subscription_id=sid, plan_id="pro",
+        stripe_price_id="price_pro", status="active", credits_per_period=1000,
+        current_period_end=None, cancel_at_period_end=False,
+    )
+
+
+def test_an_assigned_plan_grants_its_credits_and_becomes_the_live_one() -> None:
+    user = _subscriber()
+    result = _assign(user["id"])
+    assert result["granted"] == 300
+    assert result["balance"] == 300
+    live = db.subscription_for_user(user["id"])
+    assert live["plan_id"] == "lite"
+    assert live["source"] == "admin"
+    assert live["live"] is True
+    assert live["stripe_subscription_id"] is None
+    # Nothing renews it, so saying it will renew would be a lie told on the
+    # customer's own account page.
+    assert live["cancel_at_period_end"] is True
+
+
+def test_assigning_without_credits_still_puts_them_on_the_plan() -> None:
+    """The plan and the balance are two different grants. Somebody who already
+    has credits should not be handed 300 more just to change their plan."""
+    user = _subscriber()
+    result = _assign(user["id"], grant_credits=False)
+    assert result["granted"] == 0
+    assert result["balance"] == 0
+    assert db.subscription_for_user(user["id"])["plan_id"] == "lite"
+
+
+def test_assigning_twice_grants_twice_and_leaves_one_live_plan() -> None:
+    """An operator assigning a plan twice is two deliberate acts, unlike a
+    redelivered invoice. But two LIVE plans would make "what is this person on"
+    a question with two answers, so the first is superseded."""
+    user = _subscriber()
+    _assign(user["id"])
+    second = _assign(user["id"], plan_id="pro", credits_per_period=1000)
+    assert second["superseded"] == 1
+    assert second["balance"] == 1300
+    rows = db.subscriptions_for_user(user["id"])
+    assert [r["plan_id"] for r in rows] == ["pro", "lite"]
+    assert [r["live"] for r in rows] == [True, False]
+
+
+def test_an_assigned_plan_lapses_when_its_period_ends() -> None:
+    """THE READ IS THE CLOCK. Nothing sweeps expired assignments, so a row
+    still saying 'active' must not read as live once its date has passed."""
+    user = _subscriber()
+    _assign(user["id"])
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "UPDATE subscription SET current_period_end = now() - interval '1 day'"
+            " WHERE user_id = %s",
+            (user["id"],),
+        )
+        conn.commit()
+    lapsed = db.subscription_for_user(user["id"])
+    assert lapsed["status"] == "active"
+    assert lapsed["live"] is False
+
+
+def test_revoking_an_assigned_plan_ends_it_and_keeps_the_credits() -> None:
+    """Credits already granted may have been spent. A balance that goes
+    negative because somebody ended a trial is a bill for work delivered."""
+    user = _subscriber()
+    assigned = _assign(user["id"])
+    changed = db.subscription_revoke_assigned(
+        user_id=user["id"],
+        subscription_id=assigned["subscription_id"],
+        actor="op@example.com",
+    )
+    assert changed is True
+    assert db.subscription_for_user(user["id"])["status"] == "canceled"
+    assert _balance(user["id"]) == 300
+    # Revoking twice is not an error, but it is not a second event either.
+    assert db.subscription_revoke_assigned(
+        user_id=user["id"],
+        subscription_id=assigned["subscription_id"],
+        actor="op@example.com",
+    ) is False
+
+
+def test_a_paid_subscription_cannot_be_revoked_from_the_admin() -> None:
+    """THE GUARD THAT MATTERS. Stripe would go on charging the card and the
+    next webhook would reinstate the row - a cancellation that visibly undoes
+    itself, and a charge for a plan the panel said was over."""
+    user = _subscriber()
+    _paid(user["id"])
+    paid = next(r for r in db.subscriptions_for_user(user["id"])
+                if r["source"] == "stripe")
+    assert db.subscription_revoke_assigned(
+        user_id=user["id"], subscription_id=paid["id"], actor="op@example.com"
+    ) is False
+    assert db.subscription_by_stripe_id("sub_real")["status"] == "active"
+
+
+def test_a_paid_plan_outranks_an_assigned_one() -> None:
+    """Somebody given a trial who then bought the real thing must see what they
+    are paying for - the row with a card behind it, and the one the billing
+    portal opens."""
+    user = _subscriber()
+    _assign(user["id"])
+    _paid(user["id"])
+    assert db.subscription_for_user(user["id"])["source"] == "stripe"
+
+
+def test_assigning_a_plan_does_not_cancel_a_paid_one() -> None:
+    """`subscription_assign` supersedes assigned rows only. Ending a real
+    subscription is Stripe's job, through the billing portal."""
+    user = _subscriber()
+    _paid(user["id"])
+    result = _assign(user["id"])
+    assert result["superseded"] == 0
+    assert db.subscription_by_stripe_id("sub_real")["status"] == "active"
+
+
+def test_several_assigned_rows_coexist_but_a_stripe_row_needs_its_id() -> None:
+    """NULLs do not collide under a UNIQUE index; the CHECK stops the reverse
+    mistake, a row calling itself Stripe's with nothing to prove it."""
+    user = _subscriber()
+    _assign(user["id"])
+    _assign(user["id"], plan_id="pro")
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT count(*) AS n FROM subscription WHERE user_id = %s",
+            (user["id"],),
+        )
+        assert (cur.fetchone() or {})["n"] == 2
+    with pytest.raises(Exception):
+        with db.connect() as conn, conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO subscription (user_id, stripe_subscription_id,"
+                " status, source) VALUES (%s, NULL, 'active', 'stripe')",
+                (user["id"],),
+            )
+            conn.commit()
+
+
+def test_a_redelivered_invoice_cannot_grant_twice() -> None:
+    """The partial unique index, run for real. Without it one Stripe retry is
+    one free month."""
+    user = _subscriber()
+    first = db.subscription_credit(user_id=user["id"], invoice_id="in_1", credits=300)
+    again = db.subscription_credit(user_id=user["id"], invoice_id="in_1", credits=300)
+    other = db.subscription_credit(user_id=user["id"], invoice_id="in_2", credits=300)
+    assert (first, again, other) == (True, False, True)
+    assert _balance(user["id"]) == 600
+
+
+def test_an_admin_grant_is_not_guarded_by_the_invoice_index() -> None:
+    """The index is partial on `reason = 'subscription'` for exactly this
+    reason: two deliberate admin grants from the same actor must both land."""
+    user = _subscriber()
+    _assign(user["id"])
+    _assign(user["id"])
+    assert _balance(user["id"]) == 600
+
+
+def test_assigning_a_plan_is_audited() -> None:
+    user = _subscriber()
+    _assign(user["id"], note="beta tester")
+    assigned = next(a for a in db.admin_actions(limit=10)
+                    if a["action"] == "assign_plan")
+    assert assigned["detail"]["plan_id"] == "lite"
+    assert assigned["detail"]["granted"] == 300
+    assert assigned["detail"]["note"] == "beta tester"
+
+
+def test_the_user_detail_carries_every_subscription() -> None:
+    """The admin's question is "why does this person have what they have", and
+    a trial assigned in March is half the answer to a complaint made in June."""
+    user = _subscriber()
+    _assign(user["id"])
+    _paid(user["id"])
+    rows = db.admin_user_detail(user["id"])["subscriptions"]
+    assert {r["source"] for r in rows} == {"admin", "stripe"}
+
+
+def test_the_stripe_customer_link_is_one_account_only() -> None:
+    """The webhook's only way back to an account. Two users sharing a customer
+    id would hand a renewal to whichever one the query happened to return."""
+    first = _google(sub="s1", email="one@example.com", credits=0)
+    second = _google(sub="s2", email="two@example.com", credits=0)
+    db.stripe_customer_attach(user_id=first["id"], customer_id="cus_1")
+    assert db.user_by_stripe_customer("cus_1")["id"] == first["id"]
+    with pytest.raises(Exception):
+        db.stripe_customer_attach(user_id=second["id"], customer_id="cus_1")

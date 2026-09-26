@@ -338,6 +338,92 @@ def set_status(request: Request, user_id: int, payload: StatusRequest) -> dict:
     return {"user_id": user_id, "status": payload.status, "changed": changed}
 
 
+# How long an assigned plan may run for. A year is the longest arrangement
+# worth expressing as one act; anything beyond it should be re-assigned
+# deliberately rather than set once and forgotten about.
+ASSIGN_DAYS_MAX = 366
+
+
+class AssignPlanRequest(BaseModel):
+    """Put an account on a plan without a payment.
+
+    `credits` is OPTIONAL AND OVERRIDABLE. The plan's own figure is the
+    default, because that is what "assign the lite plan" means; the override
+    exists for the half-month trial and the apology, and a panel that forced
+    the operator to assign a plan and then correct the balance in a second
+    screen would produce two audit rows for one intention.
+    """
+
+    plan_id: str = Field(pattern="^[a-z0-9-]{1,40}$")
+    days: int = Field(default=30, ge=1, le=ASSIGN_DAYS_MAX)
+    credits: int | None = Field(default=None, ge=0, le=CREDIT_DELTA_MAX)
+    grant_credits: bool = True
+    note: str | None = Field(default=None, max_length=500)
+
+
+@router.post("/user/{user_id}/plan")
+def assign_plan(request: Request, user_id: int, payload: AssignPlanRequest) -> dict:
+    """Assign a plan by hand. No Stripe object is created or touched.
+
+    THE PLAN MUST EXIST IN `pricing_plans`, and that check is the point of
+    this endpoint rather than a formality: `plan_id` is what every later
+    screen looks up to name the plan, count its credits and draw its card, so
+    a typo accepted here becomes an account on a plan that renders as a blank
+    and cannot be explained by reading the row.
+
+    A DISABLED PLAN IS ALLOWED, unlike a customer checkout. `enabled` governs
+    what the public pricing page sells; an operator assigning a retired or
+    not-yet-launched plan to one account is doing something deliberate, and
+    refusing it would mean publishing a plan to the whole internet in order to
+    give it to one person.
+    """
+    who = require_admin(request)
+    detail = db.admin_user_detail(user_id)
+    if not detail:
+        raise HTTPException(404, {"code": "notFound"})
+    if detail.get("status") == gate.STATUS_ERASED:
+        raise HTTPException(409, {"code": "erasedAccount"})
+
+    plan = next(
+        (p for p in _pricing_plans() if p.get("id") == payload.plan_id), None
+    )
+    if plan is None:
+        raise HTTPException(404, {"code": "unknownPlan"})
+
+    credits = (
+        payload.credits if payload.credits is not None else int(plan.get("credits") or 0)
+    )
+    result = db.subscription_assign(
+        user_id=user_id,
+        plan_id=payload.plan_id,
+        credits_per_period=credits,
+        days=payload.days,
+        grant_credits=payload.grant_credits,
+        actor=who.email or "",
+        note=payload.note,
+    )
+    return {"user_id": user_id, **result}
+
+
+@router.post("/user/{user_id}/plan/{subscription_id}/revoke")
+def revoke_plan(request: Request, user_id: int, subscription_id: int) -> dict:
+    """End an assigned plan.
+
+    Refuses a paid one - `subscription_revoke_assigned` has `source = 'admin'`
+    in its WHERE clause, so a Stripe row simply does not match and `changed`
+    comes back false. Cancelling a real subscription is Stripe's job, through
+    the customer's billing portal; doing it here would leave Stripe charging
+    the card and the next webhook reinstating the row.
+    """
+    who = require_admin(request)
+    if not db.admin_user_detail(user_id):
+        raise HTTPException(404, {"code": "notFound"})
+    changed = db.subscription_revoke_assigned(
+        user_id=user_id, subscription_id=subscription_id, actor=who.email or ""
+    )
+    return {"user_id": user_id, "subscription_id": subscription_id, "changed": changed}
+
+
 class EraseRequest(BaseModel):
     """Why. Written to the audit, so it is a note from an operator - never
     anything a customer typed: nothing redacts `admin_action.detail`, so a name
@@ -616,6 +702,28 @@ def stripe_test_payment(request: Request, payload: StripeTestRequest | None = No
         return {"ok": False, "error": exc.code, "url": None}
     return {"ok": True, "error": None, "url": session["url"], "id": session["id"],
             "mode": mode}
+
+
+def _pricing_plans() -> list[dict]:
+    """Every stored plan, published or not.
+
+    Deliberately NOT `auth._published_plan`, which filters on `enabled`. That
+    filter is right for a customer checkout - a draft must not be sellable
+    just because somebody knows its id - and wrong here: an operator putting
+    one account on a retired or not-yet-launched plan is doing something
+    deliberate, and sharing that filter would force them to publish a plan to
+    the whole internet in order to give it to one person.
+
+    Returns [] rather than raising on unreadable JSON. The pricing editor is
+    where a syntax error gets seen and fixed; this is a lookup, and an
+    unknown plan id already has an answer here - 404.
+    """
+    try:
+        raw = db.settings_all().get(gate.SETTING_PRICING_PLANS, "") or "[]"
+        plans = json.loads(raw)
+    except Exception:  # noqa: BLE001
+        return []
+    return [p for p in plans if isinstance(p, dict)] if isinstance(plans, list) else []
 
 
 def _settings() -> dict:

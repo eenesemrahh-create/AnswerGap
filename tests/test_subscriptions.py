@@ -13,10 +13,14 @@ Postgres in CI.
 
 from __future__ import annotations
 
+from types import SimpleNamespace
+
 import pytest
+from fastapi import HTTPException
+from pydantic import ValidationError
 
 from answergap import db
-from api import main
+from api import admin, main
 
 
 # ------------------------------------------------------------ the fixtures
@@ -249,3 +253,126 @@ def test_checkout_refuses_a_price_the_browser_supplies() -> None:
 
     assert "price" not in CheckoutRequest.model_fields
     assert set(CheckoutRequest.model_fields) == {"plan_id", "cycle"}
+
+
+# ------------------------------------------------- assigning a plan by hand
+#
+# Trials, the people who tested this before it could take money, an apology,
+# an agency invoiced somewhere else. None of those can go through Stripe.
+#
+# The SQL is pinned in `tests/test_sql.py`; these are the endpoint's
+# decisions - what it refuses, and where the credit figure comes from.
+
+
+class _Req:
+    """Enough of a Request for `require_admin`, which is stubbed anyway."""
+
+
+@pytest.fixture
+def admin_wired(monkeypatch):
+    state = {"assigned": [], "revoked": []}
+
+    monkeypatch.setattr(admin, "require_admin",
+                        lambda request: SimpleNamespace(email="op@example.com"))
+    monkeypatch.setattr(db, "admin_user_detail",
+                        lambda uid: {"id": uid, "status": "active"} if uid == 7 else None)
+    monkeypatch.setattr(db, "settings_all", lambda: {"pricing_plans": PLANS})
+
+    def assign(**kw):
+        state["assigned"].append(kw)
+        return {"subscription_id": 1, "current_period_end": None,
+                "granted": kw["credits_per_period"] if kw["grant_credits"] else 0,
+                "superseded": 0, "balance": 0}
+
+    monkeypatch.setattr(db, "subscription_assign", assign)
+    monkeypatch.setattr(db, "subscription_revoke_assigned",
+                        lambda **kw: state["revoked"].append(kw) or True)
+    return state
+
+
+def _assign_request(**over):
+    body = {"plan_id": "lite"}
+    body.update(over)
+    return admin.AssignPlanRequest(**body)
+
+
+def test_the_credit_figure_comes_from_the_plan(admin_wired) -> None:
+    admin.assign_plan(_Req(), 7, _assign_request())
+    assert admin_wired["assigned"][0]["credits_per_period"] == 300
+
+
+def test_an_operator_may_override_the_credit_figure(admin_wired) -> None:
+    """The half-month trial and the apology. Forcing them to assign the plan
+    and then correct the balance in a second screen would produce two audit
+    rows for one intention."""
+    admin.assign_plan(_Req(), 7, _assign_request(credits=50))
+    assert admin_wired["assigned"][0]["credits_per_period"] == 50
+
+
+def test_zero_credits_is_not_the_same_as_leaving_it_blank(admin_wired) -> None:
+    """Blank means "whatever the plan grants"; 0 means "this plan, no
+    credits", which is a real thing to want for somebody who already has a
+    balance."""
+    admin.assign_plan(_Req(), 7, _assign_request(credits=0))
+    assert admin_wired["assigned"][0]["credits_per_period"] == 0
+
+
+def test_an_unpublished_plan_is_assignable(admin_wired) -> None:
+    """UNLIKE A CUSTOMER CHECKOUT. `enabled` governs what the public pricing
+    page sells; refusing a draft here would mean publishing a plan to the
+    whole internet in order to give it to one person."""
+    admin.assign_plan(_Req(), 7, _assign_request(plan_id="draft"))
+    assert admin_wired["assigned"][0]["plan_id"] == "draft"
+
+
+def test_an_unknown_plan_is_refused(admin_wired) -> None:
+    """`plan_id` is what every later screen looks up to name the plan and draw
+    its card, so a typo accepted here becomes an account on a plan that
+    renders as a blank."""
+    with pytest.raises(HTTPException) as caught:
+        admin.assign_plan(_Req(), 7, _assign_request(plan_id="nope"))
+    assert caught.value.status_code == 404
+    assert caught.value.detail["code"] == "unknownPlan"
+    assert admin_wired["assigned"] == []
+
+
+def test_an_unknown_user_is_refused(admin_wired) -> None:
+    with pytest.raises(HTTPException) as caught:
+        admin.assign_plan(_Req(), 99, _assign_request())
+    assert caught.value.status_code == 404
+
+
+def test_an_erased_account_cannot_be_put_on_a_plan(monkeypatch, admin_wired) -> None:
+    """Erasure blanks every identifier by design. Assigning a plan to one
+    would write a new row naming the person it just removed."""
+    monkeypatch.setattr(db, "admin_user_detail",
+                        lambda uid: {"id": uid, "status": "erased"})
+    with pytest.raises(HTTPException) as caught:
+        admin.assign_plan(_Req(), 7, _assign_request())
+    assert caught.value.status_code == 409
+
+
+def test_a_plan_cannot_be_assigned_for_longer_than_a_year() -> None:
+    """Anything beyond it should be re-assigned deliberately rather than set
+    once and forgotten about."""
+    with pytest.raises(ValidationError):
+        _assign_request(days=400)
+    with pytest.raises(ValidationError):
+        _assign_request(days=0)
+
+
+def test_the_plan_id_is_slug_shaped() -> None:
+    """It travels into an audit row and back out onto a page."""
+    with pytest.raises(ValidationError):
+        _assign_request(plan_id="Lite Plan")
+
+
+def test_revoking_names_the_row_and_the_user(admin_wired) -> None:
+    """Both, not just the subscription id: `subscription_revoke_assigned` has
+    `user_id` in its WHERE clause so a mistyped id cannot end somebody else's
+    plan."""
+    out = admin.revoke_plan(_Req(), 7, 12)
+    assert out["changed"] is True
+    assert admin_wired["revoked"] == [
+        {"user_id": 7, "subscription_id": 12, "actor": "op@example.com"}
+    ]

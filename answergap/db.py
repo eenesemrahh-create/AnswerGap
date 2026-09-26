@@ -915,6 +915,41 @@ MIGRATIONS: list[tuple[str, str]] = [
             ON payment_event (user_id, created_at DESC) WHERE user_id IS NOT NULL;
         """,
     ),
+    (
+        "0014_admin_assigned_plans",
+        """
+        -- A PLAN THE OPERATOR HANDS OUT RATHER THAN SELLS. Trials, the people
+        -- who tested this before it could take money, a support apology, an
+        -- agency arrangement invoiced somewhere else entirely.
+        --
+        -- The alternative was a second table, and it would have been wrong:
+        -- every screen that asks "what is this person on" would then have to
+        -- ask twice and merge, and the day one of the two is forgotten is the
+        -- day somebody sees the wrong plan. One table, one column saying where
+        -- the row came from.
+        ALTER TABLE subscription ADD COLUMN IF NOT EXISTS source TEXT
+            NOT NULL DEFAULT 'stripe';
+        ALTER TABLE subscription ADD COLUMN IF NOT EXISTS granted_by TEXT;
+        ALTER TABLE subscription ADD COLUMN IF NOT EXISTS note TEXT;
+
+        -- A Stripe subscription MUST carry Stripe's id; an assigned one has
+        -- none to carry, and inventing a fake one would be the more dangerous
+        -- choice - a synthetic `sub_manual_7` sitting in the column the
+        -- webhook looks things up by is a collision waiting for the day
+        -- somebody replays an event.
+        --
+        -- NULLs do not collide under a UNIQUE index in Postgres, so several
+        -- assigned rows coexist happily. The CHECK is what stops the reverse
+        -- mistake: a row calling itself Stripe's with nothing to prove it.
+        ALTER TABLE subscription ALTER COLUMN stripe_subscription_id DROP NOT NULL;
+        DO $mig$ BEGIN
+            ALTER TABLE subscription ADD CONSTRAINT subscription_source_ck CHECK (
+                source IN ('stripe', 'admin')
+                AND (source <> 'stripe' OR stripe_subscription_id IS NOT NULL)
+            );
+        EXCEPTION WHEN duplicate_object THEN NULL; END $mig$;
+        """,
+    ),
 ]
 
 
@@ -3078,11 +3113,27 @@ def admin_user_detail(user_id: int) -> dict | None:
                         SELECT id, slug, seed, language_code, location_code,
                                spend, created_at
                           FROM crawl WHERE user_id = u.id
-                         ORDER BY created_at DESC LIMIT 50) x), '[]') AS crawls
+                         ORDER BY created_at DESC LIMIT 50) x), '[]') AS crawls,
+                   -- EVERY subscription, not just the live one. The question
+                   -- here is "why does this person have what they have", and a
+                   -- trial assigned in March is half the answer to a complaint
+                   -- made in June.
+                   COALESCE((SELECT json_agg(x) FROM (
+                        SELECT id, stripe_subscription_id, plan_id, status,
+                               credits_per_period, current_period_end,
+                               cancel_at_period_end, source, granted_by, note,
+                               created_at,
+                               (status = ANY(%(live)s)
+                                AND NOT (source = 'admin'
+                                         AND current_period_end IS NOT NULL
+                                         AND current_period_end < now())) AS live
+                          FROM subscription WHERE user_id = u.id
+                         ORDER BY created_at DESC LIMIT 20) x), '[]')
+                     AS subscriptions
               FROM app_user u
-             WHERE u.id = %s
+             WHERE u.id = %(uid)s
             """,
-            (user_id,),
+            {"uid": user_id, "live": list(LIVE_SUBSCRIPTION_STATUSES)},
         )
         row = cur.fetchone()
         return dict(row) if row else None
@@ -3565,25 +3616,79 @@ def subscription_upsert(
 LIVE_SUBSCRIPTION_STATUSES = ("active", "trialing", "past_due")
 
 
+# An assigned plan runs out when its period does, and NOTHING RENEWS IT -
+# there is no invoice behind it and no webhook coming. So "is it still live"
+# cannot be read off `status` alone the way a Stripe row's can; the date has
+# to be part of the question.
+#
+# Expiry is computed on READ rather than swept by a job. A sweep would be a
+# second source of truth that is wrong for however long it has not run, and
+# the moment a plan lapses is exactly when somebody is looking at it.
+_LIVE_SUBSCRIPTION_SQL = """
+    status = ANY(%(live)s)
+    AND NOT (source = 'admin'
+             AND current_period_end IS NOT NULL
+             AND current_period_end < now())
+"""
+
+
 def subscription_for_user(user_id: int) -> dict | None:
     """The subscription an account screen should describe: the live one if
     there is one, otherwise the most recent, so a cancelled plan still says
-    what it was rather than vanishing."""
+    what it was rather than vanishing.
+
+    A PAID ROW OUTRANKS AN ASSIGNED ONE when both are live. Somebody given a
+    trial who then bought the real thing must see what they are paying for -
+    that is the row with a card behind it, the one the billing portal opens,
+    and the one whose renewal grants credits.
+    """
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
-            """
+            f"""
             SELECT stripe_subscription_id, plan_id, stripe_price_id, status,
                    credits_per_period, current_period_end, cancel_at_period_end,
-                   created_at
+                   source, granted_by, note, created_at,
+                   ({_LIVE_SUBSCRIPTION_SQL}) AS live
               FROM subscription
              WHERE user_id = %(uid)s
-             ORDER BY (status = ANY(%(live)s)) DESC, created_at DESC
+             ORDER BY ({_LIVE_SUBSCRIPTION_SQL}) DESC,
+                      (source = 'stripe') DESC,
+                      created_at DESC
              LIMIT 1
             """,
             {"uid": user_id, "live": list(LIVE_SUBSCRIPTION_STATUSES)},
         )
         row = cur.fetchone()
         return dict(row) if row else None
+
+
+def subscriptions_for_user(user_id: int, limit: int = 20) -> list[dict]:
+    """Every subscription this account has had, newest first, for the admin.
+
+    The customer's screen shows one - the one that answers "what am I on".
+    The operator's has to show all of them, because the question there is
+    "why does this person have what they have", and a trial assigned in March
+    is half the answer to a complaint made in June.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"""
+            SELECT id, stripe_subscription_id, plan_id, stripe_price_id, status,
+                   credits_per_period, current_period_end, cancel_at_period_end,
+                   source, granted_by, note, created_at,
+                   ({_LIVE_SUBSCRIPTION_SQL}) AS live
+              FROM subscription
+             WHERE user_id = %(uid)s
+             ORDER BY created_at DESC
+             LIMIT %(limit)s
+            """,
+            {
+                "uid": user_id,
+                "live": list(LIVE_SUBSCRIPTION_STATUSES),
+                "limit": max(1, min(int(limit), 100)),
+            },
+        )
+        return [dict(r) for r in cur.fetchall()]
 
 
 def subscription_by_stripe_id(stripe_subscription_id: str) -> dict | None:
@@ -3657,6 +3762,160 @@ def subscription_credit(
         granted = cur.fetchone() is not None
         conn.commit()
         return granted
+
+
+def subscription_assign(
+    *,
+    user_id: int,
+    plan_id: str,
+    credits_per_period: int,
+    days: int,
+    grant_credits: bool,
+    actor: str,
+    note: str | None = None,
+) -> dict:
+    """Put an account on a plan without a payment. Returns the new row's id,
+    when it runs out, and the balance after any grant.
+
+    SEVERAL STATEMENTS IN ONE TRANSACTION, not one clever one. This codebase
+    has paid three times for chained data-modifying CTEs (see `user_upsert`);
+    the audit row and the credit grant have to be all-or-nothing with the
+    assignment, and a transaction gives that without the snapshot trap.
+
+    SUPERSEDES ANY OTHER ASSIGNED PLAN, and touches no Stripe row while doing
+    it. Two live assignments would make "what plan is this person on" a
+    question with two answers. Cancelling their PAID subscription from here
+    would be worse than untidy: Stripe would know nothing about it, keep
+    charging the card, and the next renewal webhook would flip the row back -
+    a cancellation that visibly did not happen. Ending a real subscription is
+    Stripe's job, through the billing portal.
+
+    The credit grant is `admin_grant`, NOT `subscription`. The idempotency
+    index on `credit_ledger (ref) WHERE reason = 'subscription'` exists to
+    stop a redelivered invoice paying twice; an operator assigning the same
+    plan to the same person twice is two deliberate acts and must produce two
+    grants, or the second one silently does nothing.
+    """
+    credits_per_period = max(0, int(credits_per_period))
+    delta = credits_per_period if grant_credits else 0
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE subscription
+               SET status = 'canceled', updated_at = now()
+             WHERE user_id = %s AND source = 'admin' AND status <> 'canceled'
+            """,
+            (user_id,),
+        )
+        superseded = cur.rowcount
+        cur.execute(
+            """
+            INSERT INTO subscription (
+                user_id, stripe_subscription_id, plan_id, stripe_price_id,
+                status, credits_per_period, current_period_end,
+                -- Nothing renews an assigned plan, so saying it will renew
+                -- would be a lie told on the customer's own account page.
+                cancel_at_period_end, source, granted_by, note
+            )
+            VALUES (%(uid)s, NULL, %(plan)s, NULL, 'active', %(credits)s,
+                    now() + make_interval(days => %(days)s),
+                    TRUE, 'admin', %(actor)s, %(note)s)
+            RETURNING id, current_period_end
+            """,
+            {
+                "uid": user_id,
+                "plan": plan_id,
+                "credits": credits_per_period,
+                "days": max(1, int(days)),
+                "actor": actor,
+                "note": note,
+            },
+        )
+        created = cur.fetchone()
+        if delta:
+            cur.execute(
+                """
+                INSERT INTO credit_ledger (user_id, delta, reason, ref, note)
+                VALUES (%s, %s, 'admin_grant', %s, %s)
+                """,
+                (user_id, delta, actor, f"plan {plan_id}"),
+            )
+        cur.execute(
+            """
+            INSERT INTO admin_action (actor, action, target_user, detail)
+            VALUES (%(actor)s, 'assign_plan', %(uid)s,
+                    jsonb_build_object('plan_id', %(plan)s,
+                                       'credits', %(credits)s,
+                                       'granted', %(delta)s,
+                                       'days', %(days)s,
+                                       'superseded', %(superseded)s,
+                                       'note', %(note)s))
+            """,
+            {
+                "actor": actor,
+                "uid": user_id,
+                "plan": plan_id,
+                "credits": credits_per_period,
+                "delta": delta,
+                "days": max(1, int(days)),
+                "superseded": superseded,
+                "note": note,
+            },
+        )
+        cur.execute(
+            "SELECT COALESCE(sum(delta), 0) AS balance FROM credit_ledger"
+            " WHERE user_id = %s",
+            (user_id,),
+        )
+        balance = cur.fetchone()
+        conn.commit()
+        return {
+            "subscription_id": int(created["id"]),
+            "current_period_end": created["current_period_end"],
+            "granted": delta,
+            "superseded": superseded,
+            "balance": int(balance["balance"]) if balance else 0,
+        }
+
+
+def subscription_revoke_assigned(
+    *, user_id: int, subscription_id: int, actor: str
+) -> bool:
+    """End an assigned plan. True if this call was the one that ended it.
+
+    `source = 'admin'` IS IN THE WHERE CLAUSE, not checked beforehand. A paid
+    subscription must not be cancellable from here - Stripe would go on
+    charging the card and the next webhook would reinstate the row, so the
+    operator would see a cancellation undo itself and the customer would see
+    a charge for a plan the panel said was over.
+
+    Credits already granted are NOT taken back. They may have been spent, and
+    a balance that goes negative because somebody ended a trial is a bill for
+    work already delivered. Clawing them back is `admin_credit` with a
+    negative delta - a separate, deliberate act with its own audit row.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE subscription
+               SET status = 'canceled', updated_at = now()
+             WHERE id = %s AND user_id = %s
+               AND source = 'admin' AND status <> 'canceled'
+            """,
+            (subscription_id, user_id),
+        )
+        changed = cur.rowcount > 0
+        if changed:
+            cur.execute(
+                """
+                INSERT INTO admin_action (actor, action, target_user, detail)
+                VALUES (%s, 'revoke_plan', %s,
+                        jsonb_build_object('subscription_id', %s))
+                """,
+                (actor, user_id, subscription_id),
+            )
+        conn.commit()
+        return changed
 
 
 def credit_history(user_id: int, limit: int = 50) -> list[dict]:

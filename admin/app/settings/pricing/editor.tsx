@@ -123,6 +123,11 @@ export function PricingEditor({
       cta: p.cta.trim(),
       badge: p.badge?.trim() || null,
       features: p.features.map((f) => f.trim()).filter(Boolean),
+      // A pasted Stripe id picks up a trailing space more often than anything
+      // else on this form, and `price_abc ` matches no price in Stripe - the
+      // checkout would fail with an error that names the id and looks correct.
+      stripe_price_id: p.stripe_price_id.trim(),
+      stripe_price_id_annual: p.stripe_price_id_annual.trim(),
     }));
     startTransition(async () => {
       try {
@@ -338,6 +343,55 @@ function PlanCard({
           maxLength={40}
           value={plan.features_heading}
           onChange={(e) => onChange({ features_heading: e.target.value })}
+        />
+      </label>
+
+      {/* WHAT THE CARD ACTUALLY SELLS, as opposed to what it says.
+          Everything above is copy; these three are the plan's behaviour.
+
+          `credits` is a real field rather than something read out of
+          "300 credits per month" - that bullet is a sentence an operator will
+          reword or translate, and a regex over it would hand somebody the
+          wrong number of credits the first time they did.
+
+          The two price ids are PASTED from the Stripe dashboard. Nothing here
+          mints billable objects: a product that could create its own prices
+          could create the wrong one, and the dashboard is where a price gets
+          reviewed before it can charge anybody. Blank means not purchasable,
+          and the card then still renders and still advertises - it just
+          answers `planNotPurchasable` at checkout instead of sending somebody
+          to a broken Stripe page. */}
+      <label className="edit-field">
+        {t("editor.credits")}
+        <input
+          className="edit-inline"
+          type="number"
+          min={0}
+          placeholder={t("editor.creditsHint")}
+          value={plan.credits}
+          onChange={(e) =>
+            onChange({ credits: Math.max(0, Number(e.target.value) || 0) })
+          }
+        />
+      </label>
+      <label className="edit-field">
+        {t("editor.stripePrice")}
+        <input
+          className="edit-inline"
+          placeholder="price_..."
+          maxLength={80}
+          value={plan.stripe_price_id}
+          onChange={(e) => onChange({ stripe_price_id: e.target.value })}
+        />
+      </label>
+      <label className="edit-field">
+        {t("editor.stripePriceAnnual")}
+        <input
+          className="edit-inline"
+          placeholder="price_..."
+          maxLength={80}
+          value={plan.stripe_price_id_annual}
+          onChange={(e) => onChange({ stripe_price_id_annual: e.target.value })}
         />
       </label>
 

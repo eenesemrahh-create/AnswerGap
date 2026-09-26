@@ -1,8 +1,9 @@
 import { get, money, when } from "@/lib/api";
 import { getLocale, translator } from "@/lib/locale";
-import type { UserDetail } from "@/lib/types";
+import type { Pricing, UserDetail } from "@/lib/types";
 import { grantCredits, revokeTokens, setStatus } from "../actions";
 import { EraseAccount } from "./EraseAccount";
+import { PlanPanel } from "./PlanPanel";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +14,25 @@ export default async function UserPage({
 }) {
   const { id } = await params;
   const userId = Number(id);
-  const u = await get<UserDetail>(`/api/admin/user/${userId}`);
+  // TWO REQUESTS IN PARALLEL, not one after the other. The plan list is not
+  // derived from the user, so awaiting them in sequence would add a round trip
+  // to every page load for nothing.
+  //
+  // NEITHER CALL IS WRAPPED IN A CATCH, and that is deliberate rather than an
+  // oversight. `call()` turns every failure into a `redirect()` - to /signin,
+  // /no-access or /api-error - and a `redirect()` works by THROWING. A
+  // `.catch` around one of these would swallow the sign-in bounce along with
+  // the error it was meant to tolerate, and the operator would get a page
+  // rendered from a fallback instead of being sent where they need to go.
+  //
+  // So a corrupt `pricing_plans` setting takes this page to /api-error naming
+  // that path. Not ideal - the ledger and the erase control are on this page -
+  // but it names the real problem, and the alternative is sniffing redirect
+  // digests to tell one throw from another.
+  const [u, pricing] = await Promise.all([
+    get<UserDetail>(`/api/admin/user/${userId}`),
+    get<Pricing>("/api/admin/pricing"),
+  ]);
 
   const grant = grantCredits.bind(null, userId);
   const status = setStatus.bind(null, userId);
@@ -88,6 +107,16 @@ export default async function UserPage({
         </table>
         {u.ledger.length === 0 && <p className="empty">{t("userDetail.noLedger")}</p>}
       </div>
+
+      {/* Between the ledger and the account controls: a plan is about what
+          this person is entitled to, which is the same subject as the balance
+          directly above it - and it is reversible, unlike the block below. */}
+      <PlanPanel
+        userId={userId}
+        subscriptions={u.subscriptions ?? []}
+        plans={pricing.plans}
+        locale={locale}
+      />
 
       <h2>{t("userDetail.account")}</h2>
       <form className="row" action={status}>

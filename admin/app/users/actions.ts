@@ -23,6 +23,42 @@ export async function grantCredits(userId: number, formData: FormData) {
   revalidatePath(`/users/${userId}`);
 }
 
+/**
+ * Put an account on a plan without a payment. Trials, the people who tested
+ * this before it could take money, an apology, an agency invoiced elsewhere.
+ *
+ * `credits` is sent only when the operator typed one. Left blank it is
+ * omitted entirely rather than sent as 0, which are two different
+ * instructions: omitted means "whatever the plan grants", and 0 would mean
+ * "this plan, no credits" - a real thing to want, and reachable by typing 0.
+ */
+export async function assignPlan(userId: number, formData: FormData) {
+  const planId = String(formData.get("plan_id") ?? "");
+  if (!planId) return;
+  const rawCredits = String(formData.get("credits") ?? "").trim();
+  const credits = rawCredits === "" ? null : Number(rawCredits);
+  const days = Number(formData.get("days") ?? 30);
+  const note = String(formData.get("note") ?? "");
+  await post(`/api/admin/user/${userId}/plan`, {
+    plan_id: planId,
+    days: Number.isFinite(days) && days > 0 ? days : 30,
+    ...(credits !== null && Number.isFinite(credits) ? { credits } : {}),
+    grant_credits: formData.get("grant_credits") !== null,
+    note: note || null,
+  });
+  revalidatePath(`/users/${userId}`);
+}
+
+/**
+ * End an assigned plan. The API refuses a paid one - `source = 'admin'` is in
+ * its WHERE clause - so this cannot cancel a real subscription by mistake,
+ * and the button is not rendered for one either.
+ */
+export async function revokePlan(userId: number, subscriptionId: number) {
+  await post(`/api/admin/user/${userId}/plan/${subscriptionId}/revoke`, {});
+  revalidatePath(`/users/${userId}`);
+}
+
 export async function setStatus(userId: number, formData: FormData) {
   const status = String(formData.get("status") ?? "");
   if (status !== "active" && status !== "suspended") return;

@@ -162,6 +162,53 @@ const en = {
     noSearches: "No searches owned by this account.",
   },
 
+  plan: {
+    heading: "Plan",
+    current: "Current plan",
+    none: "No plan. This account is on credits alone.",
+    assigned: "assigned by {actor}",
+    paid: "paid through Stripe",
+    lapsed: "lapsed",
+    renews: "renews {date}",
+    endsOn: "ends {date}",
+    noRenew: "does not renew",
+    perPeriod: "{credits} credits per period",
+    assignHeading: "Assign a plan",
+    // The operator has to know this is not a sale before they press it, not
+    // after. Nothing is charged, nothing reaches Stripe, and nothing will
+    // renew it.
+    assignNote:
+      "No payment is taken and nothing is sent to Stripe. The plan runs for " +
+      "the number of days below and then simply lapses — nothing renews it.",
+    plan: "Plan",
+    days: "Days",
+    creditsOverride: "Credits",
+    creditsOverrideNote: "blank = whatever the plan grants",
+    grantCredits: "Also grant the credits now",
+    grantCreditsNote:
+      "Off changes the plan without touching the balance — for somebody who " +
+      "already has credits.",
+    assign: "Assign",
+    supersedes:
+      "Supersedes any plan already assigned to this account. A plan bought " +
+      "through Stripe is not touched and cannot be ended from here.",
+    historyHeading: "Plan history",
+    source: "Source",
+    status: "Status",
+    periodEnd: "Period end",
+    grantedBy: "Assigned by",
+    revoke: "End",
+    // The revoke button is absent on a paid row, and absence needs a reason
+    // on screen or it reads as a missing feature.
+    stripeManaged: "Stripe",
+    noPlans: "No plan has ever been assigned or bought.",
+    noPricingPlans:
+      "No plans are defined. Add them in Settings → Pricing before assigning one.",
+    creditsKept:
+      "Ending a plan does not take back credits already granted — they may " +
+      "have been spent. Use the credits form above to claw them back.",
+  },
+
   erase: {
     heading: "Erase",
     already:
@@ -356,6 +403,10 @@ const en = {
     annualPriceHint: "Blank = no annual option",
     featuresHeading: "Caption above the features",
     featuresHeadingHint: "e.g. Best value for money",
+    credits: "Credits per period",
+    creditsHint: "what one paid month grants",
+    stripePrice: "Stripe price (monthly)",
+    stripePriceAnnual: "Stripe price (annual)",
   },
 
   board: {
@@ -620,6 +671,48 @@ const tr: Messages = {
     noSearches: "Bu hesaba ait arama yok.",
   },
 
+  plan: {
+    heading: "Plan",
+    current: "Mevcut plan",
+    none: "Plan yok. Bu hesap yalnızca kredi ile çalışıyor.",
+    assigned: "{actor} tarafından atandı",
+    paid: "Stripe üzerinden satın alındı",
+    lapsed: "süresi doldu",
+    renews: "{date} tarihinde yenilenir",
+    endsOn: "{date} tarihinde biter",
+    noRenew: "yenilenmez",
+    perPeriod: "dönem başına {credits} kredi",
+    assignHeading: "Plan ata",
+    assignNote:
+      "Ödeme alınmaz ve Stripe'a hiçbir şey gönderilmez. Plan aşağıdaki gün " +
+      "sayısı kadar sürer ve sonra kendiliğinden biter — yenileyen bir şey yok.",
+    plan: "Plan",
+    days: "Gün",
+    creditsOverride: "Kredi",
+    creditsOverrideNote: "boş = planın verdiği kadar",
+    grantCredits: "Kredileri de şimdi yükle",
+    grantCreditsNote:
+      "Kapalıyken bakiyeye dokunmadan sadece planı değiştirir — zaten kredisi " +
+      "olan biri için.",
+    assign: "Ata",
+    supersedes:
+      "Bu hesaba daha önce atanmış planın yerine geçer. Stripe'tan satın " +
+      "alınmış bir plana dokunulmaz ve buradan sonlandırılamaz.",
+    historyHeading: "Plan geçmişi",
+    source: "Kaynak",
+    status: "Durum",
+    periodEnd: "Dönem sonu",
+    grantedBy: "Atayan",
+    revoke: "Sonlandır",
+    stripeManaged: "Stripe",
+    noPlans: "Bu hesaba hiç plan atanmamış ve satın alınmamış.",
+    noPricingPlans:
+      "Tanımlı plan yok. Atama yapmadan önce Ayarlar → Fiyatlandırma'dan ekleyin.",
+    creditsKept:
+      "Planı sonlandırmak verilmiş kredileri geri almaz — harcanmış " +
+      "olabilirler. Geri almak için yukarıdaki kredi formunu kullanın.",
+  },
+
   erase: {
     heading: "Sil",
     already:
@@ -818,6 +911,10 @@ const tr: Messages = {
     annualPriceHint: "Boş = yıllık seçenek yok",
     featuresHeading: "Özelliklerin üstündeki başlık",
     featuresHeadingHint: "örn. En iyi fiyat/performans",
+    credits: "Dönem başına kredi",
+    creditsHint: "bir ödenmiş ayın verdiği kredi",
+    stripePrice: "Stripe fiyatı (aylık)",
+    stripePriceAnnual: "Stripe fiyatı (yıllık)",
   },
 
   board: {
