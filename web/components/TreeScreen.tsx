@@ -23,8 +23,6 @@ import { GapTable } from "./GapTable";
 import { QuestionDetail } from "./QuestionDetail";
 import { NoQuestions, RelatedSeeds } from "./RelatedSeeds";
 import { Notice } from "./Badge";
-import { LocalePicker } from "./LocalePicker";
-import { ThemeToggle } from "./ThemeToggle";
 import { BatchScore } from "./BatchScore";
 import { AccountMenu } from "./AccountMenu";
 import { DevPanel } from "./DevPanel";
@@ -309,8 +307,12 @@ export function TreeScreen({ slug }: { slug: string }) {
         {meta && <DevPanel meta={meta} slug={slug} />}
         </div>
         {meta && <AccountMenu meta={meta} />}
-        <ThemeToggle />
-        <LocalePicker />
+            {/* Theme and language are NOT here any more. Signed in they
+                live on `/account` under Settings; signed out `AccountMenu`
+                draws them, because that reader cannot reach the account page
+                and a five-locale product must not strand them in English.
+                One component owns this strip either way, so the two cannot
+                appear twice or vanish together. */}
       </header>
 
       <div className="toolbar">

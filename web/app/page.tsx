@@ -34,8 +34,6 @@ import {
 import { useDateFormat, useI18n } from "@/i18n";
 import { AccountMenu } from "@/components/AccountMenu";
 import { ErrorNote } from "@/components/ErrorNote";
-import { LocalePicker } from "@/components/LocalePicker";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 const MARKET_KEY = "answergap.market";
 
@@ -270,8 +268,12 @@ export default function Landing() {
                 }}
               />
             )}
-            <ThemeToggle />
-            <LocalePicker />
+            {/* Theme and language are NOT here any more. Signed in they
+                live on `/account` under Settings; signed out `AccountMenu`
+                draws them, because that reader cannot reach the account page
+                and a five-locale product must not strand them in English.
+                One component owns this strip either way, so the two cannot
+                appear twice or vanish together. */}
           </div>
         </div>
       </nav>

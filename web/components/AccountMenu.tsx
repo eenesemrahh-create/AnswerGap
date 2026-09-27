@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetchMe, resendVerification, signOut } from "@/lib/api";
+import { ApiError, fetchMe, resendVerification } from "@/lib/api";
 import Link from "next/link";
 import { SignInDialog } from "./SignInDialog";
+import { LocalePicker } from "./LocalePicker";
+import { ThemeToggle } from "./ThemeToggle";
 import { captureTokenFromHash, token } from "@/lib/auth";
 import { onSignInRequest } from "@/lib/signin-request";
 import type { Me, Meta } from "@/lib/types";
@@ -166,7 +168,19 @@ export function AccountMenu({
       .finally(() => setResending(false));
   };
 
-  if (!meta.accounts_enabled) return null;
+  /* No accounts on this deployment - a laptop with no SESSION_SECRET or no
+     database. There is no sign-in to offer, but theme and language are not
+     account features and must not disappear with the account strip. This used
+     to `return null` and would have taken both controls off every screen the
+     moment accounts were switched off. */
+  if (!meta.accounts_enabled) {
+    return (
+      <div className="account">
+        <ThemeToggle />
+        <LocalePicker />
+      </div>
+    );
+  }
 
   const dialogEl = (
     <SignInDialog
@@ -213,6 +227,13 @@ export function AccountMenu({
         >
           {t("auth.tabSignIn")}
         </button>
+        {/* Theme and language stay HERE for a signed-out visitor, and only
+            here. Signed in they live on `/account` under Settings, but
+            somebody who has not signed in cannot reach that page - and a
+            five-locale product whose Turkish visitor lands on English with no
+            way to switch has lost them before the first search. */}
+        <ThemeToggle />
+        <LocalePicker />
         {dialogEl}
       </div>
     );
@@ -245,10 +266,22 @@ export function AccountMenu({
           The argument that put erasure behind this control rather than beside
           "Sign out" is unchanged; `/account` keeps it at the bottom of the
           page, under its own heading. */}
+      {/* THE AVATAR ALONE, once signed in.
+          The address, the balance, the theme toggle, the language picker and
+          "Sign out" all used to sit in this strip. Five controls, on every
+          screen, for things somebody adjusts once - and the address in
+          particular is a fact the reader already knows, printed in the corner
+          of every page they own.
+          They are all on `/account` now: the balance under Credits, the rest
+          under Settings. What stays here is the one thing this strip is for -
+          who you are, and the way to the page about it. The address survives
+          as the link's `title`, so hovering still answers "which account am I
+          in?" without the screen having to say it out loud. */}
       <Link
         className="account-who"
         href="/account"
         title={t("auth.signedInAs", { email: me.email })}
+        aria-label={t("auth.account")}
       >
         {me.picture_url ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -256,20 +289,7 @@ export function AccountMenu({
         ) : (
           <i className="account-avatar account-avatar-blank" />
         )}
-        {me.email}
       </Link>
-      {/* Zero is shown as "no credits left" rather than as "0 credits", and a
-          negative balance is shown as it stands. A debit is unconditional
-          because the money was already spent upstream; hiding an overspend
-          would make the number disagree with the ledger behind it. */}
-      <b className={`account-credits${me.credits <= 0 ? " empty" : ""}`}>
-        {me.credits <= 0
-          ? t("credits.empty")
-          : t("credits.balance", { count: me.credits })}
-      </b>
-      <button className="account-signout" onClick={signOut}>
-        {t("auth.signOut")}
-      </button>
       {dialogEl}
     </div>
   );

@@ -382,6 +382,9 @@ export const fr: Messages = {
       "Merci. Votre offre est en cours d'activation — elle peut mettre un instant à apparaître ici.",
     billingCancelled: "Rien n'a été débité.",
 
+    settingsHeading: "Réglages",
+    theme: "Apparence",
+    language: "Langue",
     dangerHeading: "Supprimer le compte",
   },
 

@@ -3762,3 +3762,19 @@ table.table {
    a class on the toolbar, so nothing has to know in advance whether this row
    will render. */
 .toolbar:has(+ .exports) { border-bottom: 0; }
+
+/* One setting per row: what it is on the left, the control on the right.
+   A definition list would be the semantic match, but these are CONTROLS
+   rather than values, and a <dd> holding a <select> reads oddly to a screen
+   reader announcing a description list. */
+.account-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.account-setting:last-child { border-bottom: 0; }
+.account-setting > span { color: var(--text-soft); }

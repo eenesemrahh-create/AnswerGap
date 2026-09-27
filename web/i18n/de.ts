@@ -378,6 +378,9 @@ export const de: Messages = {
       "Vielen Dank. Ihr Tarif wird eingerichtet — es kann einen Moment dauern, bis er hier erscheint.",
     billingCancelled: "Es wurde nichts berechnet.",
 
+    settingsHeading: "Einstellungen",
+    theme: "Darstellung",
+    language: "Sprache",
     dangerHeading: "Konto löschen",
   },
 

@@ -430,6 +430,9 @@ export const en = {
       "Thank you. Your plan is being set up — it can take a moment to appear here.",
     billingCancelled: "Nothing was charged.",
 
+    settingsHeading: "Settings",
+    theme: "Appearance",
+    language: "Language",
     dangerHeading: "Delete account",
   },
 

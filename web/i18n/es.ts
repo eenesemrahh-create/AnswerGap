@@ -379,6 +379,9 @@ export const es: Messages = {
       "Gracias. Estamos activando tu plan — puede tardar un momento en aparecer aquí.",
     billingCancelled: "No se ha cobrado nada.",
 
+    settingsHeading: "Ajustes",
+    theme: "Apariencia",
+    language: "Idioma",
     dangerHeading: "Eliminar cuenta",
   },
 

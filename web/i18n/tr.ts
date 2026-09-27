@@ -375,6 +375,9 @@ export const tr: Messages = {
       "Teşekkürler. Planınız hazırlanıyor — burada görünmesi biraz sürebilir.",
     billingCancelled: "Hiçbir ödeme alınmadı.",
 
+    settingsHeading: "Ayarlar",
+    theme: "Görünüm",
+    language: "Dil",
     dangerHeading: "Hesabı sil",
   },
 
