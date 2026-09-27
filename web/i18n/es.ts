@@ -300,6 +300,7 @@ export const es: Messages = {
     signOut: "Cerrar sesión",
     signedInAs: "Sesión iniciada como {email}",
     account: "Cuenta",
+    alreadySignedIn: "Ya tienes una cuenta",
     failed: "El inicio de sesión no se completó. Inténtalo de nuevo.",
     why: "Inicia sesión para conservar tus búsquedas y tus créditos.",
     whySearch: "Buscar requiere una cuenta. Crearla es gratis y las cuentas nuevas empiezan con créditos.",

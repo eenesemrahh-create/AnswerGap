@@ -4,6 +4,7 @@ import { PricingCycle } from "./PricingCycle";
 import type { ChromeContent } from "@/content/marketing/chrome";
 import type { PricingContent } from "@/content/marketing/pricing";
 import type { PlanView } from "@/lib/pricing-plans";
+import { SessionSwap } from "../SessionTools";
 import { marketingPath } from "@/lib/marketing";
 import { LOCALE_TAGS, type Locale } from "@/i18n/types";
 
@@ -89,9 +90,15 @@ export function PricingPage({
                 {billing.plusTax}
               </p>
 
-              <Link href="/?auth=signup" className="mkt-plan-cta">
+              <SessionSwap
+            signedIn={
+              <Link href="/account" className="mkt-plan-cta">{plan.cta}</Link>
+            }
+          >
+            <Link href="/?auth=signup" className="mkt-plan-cta">
                 {plan.cta}
               </Link>
+          </SessionSwap>
 
               {/* Optional: an admin card saved before this field existed has
                   none, and a blank caption would leave a gap above the list. */}
@@ -177,9 +184,15 @@ export function PricingPage({
         <h2 className="mkt-cta-title">{cta.heading}</h2>
         <p className="mkt-cta-sub">{cta.lead}</p>
         <div className="mkt-cta-actions">
-          <Link href="/?auth=signup" className="mkt-cta-primary">
+          <SessionSwap
+            signedIn={
+              <Link href="/account" className="mkt-cta-primary">{cta.primary}</Link>
+            }
+          >
+            <Link href="/?auth=signup" className="mkt-cta-primary">
             {cta.primary}
           </Link>
+          </SessionSwap>
           <Link
             href={marketingPath("contact", locale)}
             className="mkt-cta-secondary"

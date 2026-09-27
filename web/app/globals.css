@@ -3778,3 +3778,16 @@ table.table {
 }
 .account-setting:last-child { border-bottom: 0; }
 .account-setting > span { color: var(--text-soft); }
+
+/* A call to action that no longer applies: "Start free" shown to somebody who
+   already has an account. Greyed and inert rather than removed - a button that
+   vanishes when you sign in reads as a page that broke between two visits.
+   `pointer-events: none` so it cannot be clicked, and the cursor says so
+   before the click rather than after. */
+.mkt-cta-primary.is-inert,
+.mkt-plan-cta.is-inert {
+  pointer-events: none;
+  opacity: 0.45;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}

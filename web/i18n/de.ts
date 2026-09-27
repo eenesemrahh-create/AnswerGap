@@ -299,6 +299,7 @@ export const de: Messages = {
     signOut: "Abmelden",
     signedInAs: "Angemeldet als {email}",
     account: "Konto",
+    alreadySignedIn: "Sie haben bereits ein Konto",
     failed: "Die Anmeldung wurde nicht abgeschlossen. Versuchen Sie es erneut.",
     why: "Melden Sie sich an, damit Ihre Suchen und Ihr Guthaben erhalten bleiben.",
     whySearch: "Für die Suche ist ein Konto nötig. Es ist kostenlos, und neue Konten starten mit Guthaben.",

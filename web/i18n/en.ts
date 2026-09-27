@@ -341,6 +341,10 @@ export const en = {
     signOut: "Sign out",
     signedInAs: "Signed in as {email}",
     account: "Account",
+    /* On a marketing call to action that a signed-in reader cannot use. The
+       button stays, greyed, rather than vanishing: a control that disappears
+       when you sign in reads as a page that broke. */
+    alreadySignedIn: "You already have an account",
     failed: "Sign-in did not finish. Try again.",
     why: "Sign in to keep your searches and your credits.",
     whySearch: "Searching needs an account. It is free to create, and new accounts start with credits.",

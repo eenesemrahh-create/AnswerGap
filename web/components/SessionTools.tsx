@@ -76,3 +76,39 @@ export function SessionTools({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+/**
+ * Swap a signed-out call to action for something a signed-in reader can use.
+ *
+ * "Start free" pointing at the sign-up dialog is nonsense for somebody who
+ * already has an account, and these pages are server components - they cannot
+ * know. Same client island as above, different job.
+ *
+ * WHILE IT DOES NOT KNOW IT RENDERS THE SIGNED-OUT VERSION, which is the
+ * opposite of `SessionTools` and deliberate. That one is a nav strip nobody
+ * misses for a moment; this is the main call to action on a marketing page,
+ * and it has to be in the first HTML for the crawlers those pages exist for.
+ * The signed-out button is also the right default for the majority of readers,
+ * so the swap is invisible to almost everyone who sees it.
+ */
+export function SessionSwap({
+  children,
+  signedIn,
+}: {
+  children: React.ReactNode;
+  signedIn: React.ReactNode;
+}) {
+  const [signed, setSigned] = useState(false);
+
+  useEffect(() => {
+    if (!token()) return;
+    // The TOKEN is enough here, with no call to `/api/me`. The question is
+    // "should this reader be invited to create an account", and a token means
+    // they already did - even one the server would now reject was issued to
+    // somebody who signed up. A round trip on a marketing page to decide the
+    // wording of a button would be the wrong price.
+    setSigned(true);
+  }, []);
+
+  return <>{signed ? signedIn : children}</>;
+}

@@ -298,6 +298,7 @@ export const tr: Messages = {
     signOut: "Çıkış yap",
     signedInAs: "{email} olarak girildi",
     account: "Hesap",
+    alreadySignedIn: "Zaten bir hesabınız var",
     failed: "Giriş tamamlanmadı. Tekrar deneyin.",
     why: "Aramalarınız ve krediniz sizde kalsın diye giriş yapın.",
     whySearch: "Arama yapmak için hesap gerekiyor. Açmak ücretsiz ve yeni hesaplar kredi ile başlıyor.",

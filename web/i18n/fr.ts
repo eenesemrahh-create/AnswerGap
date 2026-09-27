@@ -303,6 +303,7 @@ export const fr: Messages = {
     signOut: "Se déconnecter",
     signedInAs: "Connecté en tant que {email}",
     account: "Compte",
+    alreadySignedIn: "Vous avez déjà un compte",
     failed: "La connexion n'a pas abouti. Réessayez.",
     why: "Connectez-vous pour conserver vos recherches et vos crédits.",
     whySearch: "La recherche nécessite un compte. La création est gratuite et les nouveaux comptes démarrent avec des crédits.",
