@@ -27,9 +27,9 @@ import json
 from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
-from answergap import db, gate
+from answergap import db, entitlements, gate
 
 from . import ci, stripe
 from .auth import ADMIN_EMAILS, PUBLIC_BASE_URL, WEB_BASE_URL, require_admin
@@ -141,6 +141,34 @@ class Plan(BaseModel):
     # purchase, so changing it later prices new sales without silently
     # re-pricing somebody's existing agreement.
     credits: int = Field(default=0, ge=0, le=1_000_000)
+    # WHAT THE PLAN UNLOCKS, as opposed to what it says and what it costs.
+    #
+    # A CLOSED VOCABULARY, validated here. `answergap/entitlements.py` holds
+    # the list; anything else is refused at the door rather than saved and
+    # silently ignored, because a card listing `csv-export` grants nothing and
+    # looks identical on screen to one listing `csv_export`. The first report
+    # of that mistake would be a customer saying a feature they paid for does
+    # not work.
+    #
+    # Note the name. `features` directly above is MARKETING COPY - the bullet
+    # list on the card - and these are the behaviours. Two lists called
+    # "features" would be one rename away from a card that advertises what it
+    # does not grant.
+    capabilities: list[str] = Field(default_factory=list, max_length=32)
+
+    @field_validator("capabilities")
+    @classmethod
+    def _known_capabilities(cls, value: list[str]) -> list[str]:
+        unknown = sorted({c for c in value if c not in entitlements.CAPABILITIES})
+        if unknown:
+            raise ValueError(
+                "unknown capabilities: " + ", ".join(unknown) +
+                " (known: " + ", ".join(sorted(entitlements.CAPABILITIES)) + ")"
+            )
+        # Deduplicated and ordered so two saves of the same ticks produce the
+        # same stored JSON - otherwise the settings history shows a change
+        # where nothing changed.
+        return sorted(set(value))
 
     @model_validator(mode="before")
     @classmethod

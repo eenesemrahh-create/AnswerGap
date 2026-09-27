@@ -6,6 +6,7 @@ import { useState, useTransition } from "react";
 import {
   PRICING_MAX_FEATURES,
   PRICING_MAX_PLANS,
+  CAPABILITY_OPTIONS,
   PRICING_TEMPLATES,
   THEME_OPTIONS,
   type Plan,
@@ -394,6 +395,39 @@ function PlanCard({
           onChange={(e) => onChange({ stripe_price_id_annual: e.target.value })}
         />
       </label>
+
+      {/* WHAT THE PLAN UNLOCKS. Tick boxes rather than a text field, because
+          the vocabulary is closed and the API refuses a save naming anything
+          outside it - a free text box would let somebody type `csv-export`,
+          see it save, and find out it grants nothing when a customer
+          complains. The list is the whole set; unticked means not included,
+          which is why there is no "none" option. */}
+      <fieldset className="edit-field edit-caps">
+        <legend>{t("editor.capabilities")}</legend>
+        <p className="edit-hint">{t("editor.capabilitiesHint")}</p>
+        {CAPABILITY_OPTIONS.map((cap) => (
+          <label key={cap.value} className="edit-cap">
+            <input
+              type="checkbox"
+              checked={plan.capabilities.includes(cap.value)}
+              onChange={(e) =>
+                onChange({
+                  // Rebuilt from the full option list rather than pushed and
+                  // spliced, so the saved order is always the same and two
+                  // identical sets of ticks cannot produce two different
+                  // stored strings.
+                  capabilities: CAPABILITY_OPTIONS.filter((c) =>
+                    c.value === cap.value
+                      ? e.target.checked
+                      : plan.capabilities.includes(c.value)
+                  ).map((c) => c.value),
+                })
+              }
+            />
+            {t(cap.key)}
+          </label>
+        ))}
+      </fieldset>
 
       <ul className="mkt-plan-features">
         {plan.features.map((feat, i) => (

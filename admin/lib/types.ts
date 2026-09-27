@@ -184,7 +184,31 @@ export interface Plan {
    * credits the first time they did.
    */
   credits: number;
+  /**
+   * What the plan UNLOCKS, as opposed to what it says and what it costs.
+   *
+   * A closed vocabulary - `CAPABILITY_OPTIONS` below, mirroring
+   * `answergap/entitlements.py`. The API refuses a save naming anything else,
+   * because a card listing `csv-export` grants nothing and looks identical on
+   * screen to one listing `csv_export`.
+   *
+   * NOT `features`, which is the marketing bullet list. Two lists called
+   * "features" would be one rename away from a card that advertises what it
+   * does not grant.
+   */
+  capabilities: string[];
 }
+
+/** Mirrors `CAPABILITIES` in answergap/entitlements.py. A name here that the
+ *  API does not know is refused on save, so the two cannot drift silently. */
+export const CAPABILITY_OPTIONS: readonly { value: string; key: string }[] = [
+  { value: "csv_export", key: "cap.csvExport" },
+  { value: "png_export", key: "cap.pngExport" },
+  { value: "bulk_search", key: "cap.bulkSearch" },
+  { value: "api_access", key: "cap.apiAccess" },
+  { value: "scheduled_crawls", key: "cap.scheduledCrawls" },
+  { value: "white_label", key: "cap.whiteLabel" },
+] as const;
 
 export interface Pricing {
   plans: Plan[];
@@ -236,6 +260,7 @@ export const PRICING_TEMPLATES: Plan[] = [
     stripe_price_id: "",
     stripe_price_id_annual: "",
     credits: 100,
+    capabilities: [],
   },
   {
     id: "lite",
@@ -262,6 +287,7 @@ export const PRICING_TEMPLATES: Plan[] = [
     stripe_price_id: "",
     stripe_price_id_annual: "",
     credits: 300,
+    capabilities: ["csv_export", "png_export"],
   },
   {
     id: "pro",
@@ -292,6 +318,7 @@ export const PRICING_TEMPLATES: Plan[] = [
     stripe_price_id: "",
     stripe_price_id_annual: "",
     credits: 1000,
+    capabilities: ["api_access", "bulk_search", "csv_export", "png_export"],
   },
   {
     id: "enterprise",
@@ -320,6 +347,7 @@ export const PRICING_TEMPLATES: Plan[] = [
     stripe_price_id: "",
     stripe_price_id_annual: "",
     credits: 0,
+    capabilities: ["api_access", "bulk_search", "csv_export", "png_export", "scheduled_crawls", "white_label"],
   },
 ];
 

@@ -230,6 +230,18 @@ export interface Me {
   has_password?: boolean;
   has_google?: boolean;
   role: Role;
+  /**
+   * What this account's plan allows, resolved server-side.
+   *
+   * A COURTESY, NOT A CONTROL. Every endpoint re-checks; this only decides
+   * what the interface draws, so a hidden button is a tidier screen rather
+   * than a security boundary. Treating it as one would put the decision in
+   * the browser, where the reader can edit it.
+   *
+   * Optional because an older API answers without it, and absent must mean
+   * "nothing extra" rather than "everything".
+   */
+  capabilities?: string[];
   /** What they are on, or null for an account running on credits alone.
    *  Mirrored from Stripe by the webhook, so reading it costs one local query
    *  rather than a call to a billing API on the critical path of every page

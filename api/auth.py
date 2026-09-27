@@ -36,7 +36,7 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, field_validator
 
-from answergap import db, gate, mailer, oauth, passwords, tokens
+from answergap import db, entitlements, gate, mailer, oauth, passwords, tokens
 
 # `stripe` imports nothing but the standard library, so a sibling importing it
 # cannot cycle - the same check made before `db` was allowed to import `gate`.
@@ -517,6 +517,12 @@ def me(request: Request) -> dict:
     if not row or row.get("token_epoch") != who.token_epoch:
         raise HTTPException(401, {"code": "signedOut"})
     verified = bool(row.get("email_verified", True))
+    admin = verified and gate.is_admin(row.get("email"), ADMIN_EMAILS)
+    # Resolved ONCE and reused below. Reading the subscription twice - once for
+    # the plan card and once for the capabilities - could return two answers
+    # for one account, and a page that shows a plan while hiding its features
+    # is worse than one that shows neither.
+    subscription = _subscription_summary(who.user_id)
     return {
         "email": row.get("email"),
         "name": row.get("name"),
@@ -538,15 +544,17 @@ def me(request: Request) -> dict:
         # applies, restated here so the two cannot drift. `ADMIN_EMAILS`
         # matches on the address, and a password signup may type any address
         # it likes until a mail proves otherwise.
-        "role": (
-            "admin"
-            if verified and gate.is_admin(row.get("email"), ADMIN_EMAILS)
-            else "user"
-        ),
+        "role": "admin" if admin else "user",
         # What they are paying for, or null. Mirrored from Stripe by the
         # webhook, so this costs one local query rather than a call to a
         # billing API on the critical path of every page that shows a balance.
-        "subscription": _subscription_summary(who.user_id),
+        "subscription": subscription,
+        # WHAT THIS PLAN LETS THEM DO, resolved server-side. The interface uses
+        # it to decide what to draw, and every endpoint re-checks it anyway -
+        # a hidden button is a courtesy, not a control.
+        "capabilities": _capabilities(
+            who.user_id, is_admin=admin, subscription=subscription
+        ),
         "created_at": (row.get("created_at").isoformat()
                        if row.get("created_at") else None),
     }
@@ -663,6 +671,54 @@ def billing_portal(request: Request) -> dict:
     if not session.get("url"):
         raise HTTPException(502, {"code": "stripeFailed"})
     return {"url": session["url"]}
+
+
+def _plan_by_id(plan_id: str | None) -> dict | None:
+    """One plan by id, PUBLISHED OR NOT.
+
+    Deliberately not `_published_plan`. That one filters on `enabled` because a
+    draft must not be sellable just because somebody knows its id - right for a
+    checkout, wrong here. Somebody on a plan the operator later unpublished
+    still paid for it, and their CSV export must not stop working because a
+    card was hidden from the marketing page.
+
+    Retiring a plan is therefore "stop selling it", not "take it away from the
+    people on it". Taking it away is cancelling their subscription, which is a
+    different act with a refund attached.
+    """
+    if not plan_id:
+        return None
+    try:
+        rows = db.settings_all()
+        plans = json.loads(rows.get(gate.SETTING_PRICING_PLANS, "") or "[]")
+    except Exception:  # noqa: BLE001
+        return None
+    for plan in plans if isinstance(plans, list) else []:
+        if isinstance(plan, dict) and plan.get("id") == plan_id:
+            return plan
+    return None
+
+
+def _capabilities(user_id: int, *, is_admin: bool, subscription: dict | None) -> list[str]:
+    """What this account is allowed to do, as a sorted list for JSON.
+
+    Takes the subscription already resolved for `/api/me` rather than reading
+    it again - two reads could disagree, and the one thing worse than a
+    missing capability is a page that shows a plan and hides its features.
+
+    ONLY A LIVE SUBSCRIPTION COUNTS. `active` is the API's own answer and it is
+    not `status == "active"`: nothing renews an assigned plan, so one whose
+    period has passed still says `active` while `active` here is false. A
+    lapsed plan grants nothing, which is the same rule the plan card on the
+    account page renders.
+    """
+    plan = None
+    if subscription and subscription.get("active"):
+        plan = _plan_by_id(subscription.get("plan_id"))
+    try:
+        return sorted(entitlements.resolve(plan, is_admin=is_admin))
+    except Exception:  # noqa: BLE001 - never break /api/me over a feature flag
+        return sorted(entitlements.FREE)
 
 
 def _published_plan(plan_id: str) -> dict | None:

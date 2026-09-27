@@ -407,6 +407,24 @@ const en = {
     creditsHint: "what one paid month grants",
     stripePrice: "Stripe price (monthly)",
     stripePriceAnnual: "Stripe price (annual)",
+    capabilities: "What this plan unlocks",
+    // Says plainly that ticking a box is not the same as building the
+    // feature. An operator who ticks "API access" today gets a plan that
+    // grants a capability nothing checks yet.
+    capabilitiesHint:
+      "Ticked means accounts on this plan may use it. A feature that is not " +
+      "built yet stays unusable whatever is ticked here.",
+  },
+
+  /* Capability labels. The VALUES are a closed vocabulary shared with
+     answergap/entitlements.py; these are only what the operator reads. */
+  cap: {
+    csvExport: "CSV export",
+    pngExport: "PNG export",
+    bulkSearch: "Bulk searches",
+    apiAccess: "API access",
+    scheduledCrawls: "Scheduled crawls",
+    whiteLabel: "White-label reports",
   },
 
   board: {
@@ -915,6 +933,19 @@ const tr: Messages = {
     creditsHint: "bir ödenmiş ayın verdiği kredi",
     stripePrice: "Stripe fiyatı (aylık)",
     stripePriceAnnual: "Stripe fiyatı (yıllık)",
+    capabilities: "Bu planın açtıkları",
+    capabilitiesHint:
+      "İşaretli olan, bu plandaki hesapların kullanabileceği anlamına gelir. " +
+      "Henüz yapılmamış bir özellik, burada işaretli olsa da çalışmaz.",
+  },
+
+  cap: {
+    csvExport: "CSV dışa aktarma",
+    pngExport: "PNG dışa aktarma",
+    bulkSearch: "Toplu arama",
+    apiAccess: "API erişimi",
+    scheduledCrawls: "Zamanlanmış taramalar",
+    whiteLabel: "Beyaz etiketli raporlar",
   },
 
   board: {
