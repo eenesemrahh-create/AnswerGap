@@ -10,7 +10,6 @@ import {
   fetchPricing,
   openBillingPortal,
   resendVerification,
-  signOut,
   startCheckout,
 } from "@/lib/api";
 import { token } from "@/lib/auth";
@@ -444,10 +443,10 @@ export function AccountScreen() {
             address and balance beside them were facts the reader already
             knew. Here they are one scroll from the account they belong to.
 
-            Sign out sits with them rather than in the nav for the same
-            reason, and it is safe here: `DeleteAccount` below is behind its
-            own heading and a typed confirmation, so the two cannot be
-            confused the way they would be side by side. */}
+            Sign out is NOT here. It went back to the nav strip: theme and
+            language are things you configure once, signing out is a thing you
+            do, and offering it in two places raises a question about which one
+            is real. */}
         <section className="account-block">
           <h2>{t("account.settingsHeading")}</h2>
           <div className="account-setting">
@@ -457,12 +456,6 @@ export function AccountScreen() {
           <div className="account-setting">
             <span>{t("account.language")}</span>
             <LocalePicker />
-          </div>
-          <div className="account-setting">
-            <span>{t("auth.signedInAs", { email: me.email })}</span>
-            <button className="btn" onClick={signOut}>
-              {t("auth.signOut")}
-            </button>
           </div>
         </section>
 

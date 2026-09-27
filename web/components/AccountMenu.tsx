@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetchMe, resendVerification } from "@/lib/api";
+import { ApiError, fetchMe, resendVerification, signOut } from "@/lib/api";
 import Link from "next/link";
 import { SignInDialog } from "./SignInDialog";
 import { LocalePicker } from "./LocalePicker";
@@ -51,6 +51,19 @@ export function AccountMenu({
 }) {
   const { t, locale } = useI18n();
   const [me, setMe] = useState<Me | null>(null);
+  /* THREE STATES, NOT TWO, and the third one is the whole reason this exists.
+     `me` starts null, which is indistinguishable from "signed out" - so every
+     load drew the signed-out strip first and corrected it when `/api/me`
+     answered. A signed-in reader watched Sign in, the theme toggle and the
+     language picker appear and vanish on every single page.
+     "unknown" renders NOTHING rather than a guess. Nothing for a moment is a
+     layout that settles; the wrong thing for a moment is a flicker the reader
+     has to learn to ignore.
+     Set from an EFFECT rather than read during render: `token()` reads
+     localStorage, which does not exist while Next prerenders this page, so a
+     render-time read would disagree with the server's HTML and hydrate
+     wrong. */
+  const [known, setKnown] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [dialog, setDialog] = useState(false);
   const [dialogMode, setDialogMode] = useState<
@@ -66,11 +79,13 @@ export function AccountMenu({
   const load = useCallback(() => {
     if (!token()) {
       setMe(null);
+      setKnown(true);
       return;
     }
     fetchMe()
       .then(setMe)
-      .catch(() => setMe(null));
+      .catch(() => setMe(null))
+      .finally(() => setKnown(true));
   }, []);
 
   /* Something elsewhere on the page hit a wall that only signing in clears —
@@ -182,6 +197,17 @@ export function AccountMenu({
     );
   }
 
+  /* Nothing until `/api/me` has answered. Drawing the signed-out strip first
+     made Sign in, the theme toggle and the language picker flash on every page
+     load for anyone signed in.
+
+     AFTER the accounts-disabled branch above, and the order is load-bearing:
+     that branch never calls `load()`, so `known` stays false forever there.
+     Gating first hid theme and language on every deployment without accounts -
+     which is every laptop with no database. Caught by the landing page
+     rendering no controls at all. */
+  if (!known) return null;
+
   const dialogEl = (
     <SignInDialog
       open={dialog}
@@ -290,6 +316,15 @@ export function AccountMenu({
           <i className="account-avatar account-avatar-blank" />
         )}
       </Link>
+      {/* BACK IN THE STRIP, at the operator's request. It had moved to the
+          account page's Settings section, on the argument that these are
+          controls somebody sets once - true of theme and language, and not
+          true of signing out, which is a thing you do rather than a thing you
+          configure. It stays out of Settings now; one control in two places is
+          a question about which one is real. */}
+      <button className="account-signout" onClick={signOut}>
+        {t("auth.signOut")}
+      </button>
       {dialogEl}
     </div>
   );

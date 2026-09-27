@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
+import { SessionTools } from "./SessionTools";
 import type { ChromeContent } from "@/content/marketing/chrome";
 import { marketingPath, type MarketingPage } from "@/lib/marketing";
 import { legalPath } from "@/lib/legal";
@@ -73,6 +74,12 @@ export function MarketingNav({
           {link("contact", chrome.nav.contact)}
         </div>
         <div className="mkt-nav-tools">
+          {/* Wrapped, so a signed-in reader is not invited to create the
+              account they already have. `SessionTools` renders these when
+              there is no session and the account strip when there is - and
+              nothing at all until it knows, rather than guessing and
+              correcting itself in front of the reader. */}
+          <SessionTools>
           <Link href="/?auth=signin" className="mkt-nav-link">
             {chrome.nav.signIn}
           </Link>
@@ -80,6 +87,7 @@ export function MarketingNav({
             {chrome.nav.signUp}
           </Link>
           <ThemeToggle />
+          </SessionTools>
         </div>
       </div>
     </nav>
