@@ -1,3 +1,5 @@
+import { exportFilename } from "./filename.ts";
+
 /**
  * The question table as a CSV file.
  *
@@ -109,25 +111,8 @@ export function toCsv(nodes: CsvNode[]): string {
   return "﻿" + lines.join("\r\n") + "\r\n";
 }
 
-/**
- * A filename a person can find again.
- *
- * The seed plus the date, ASCII-folded: `diş beyazlatma` becomes
- * `dis-beyazlatma`, because a downloaded file travels through mail clients and
- * file systems that still mangle anything else. Falls back to `answergap` when
- * the seed folds away to nothing, which a non-Latin seed does entirely.
- */
+/** `dis-beyazlatma-2026-09-27.csv`. The folding lives in `filename.ts`, shared
+ *  with the image export so the two files of one search agree on their name. */
 export function csvFilename(seed: string, today: Date = new Date()): string {
-  const slug = seed
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/ı/g, "i")
-    .replace(/ş/g, "s")
-    .replace(/ğ/g, "g")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 60);
-  const date = today.toISOString().slice(0, 10);
-  return `${slug || "answergap"}-${date}.csv`;
+  return exportFilename(seed, "csv", today);
 }

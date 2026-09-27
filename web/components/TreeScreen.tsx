@@ -398,6 +398,8 @@ export function TreeScreen({ slug }: { slug: string }) {
                 onSelect={setSelectedId}
                 highlighted={highlighted}
                 site={site}
+                seed={tree.seed}
+                canExport={capabilities.includes("png_export")}
               />
             )}
             {!noQuestions && view === "table" && (

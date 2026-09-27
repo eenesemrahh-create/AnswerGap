@@ -6,6 +6,17 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    // Lets `lib/*.ts` import a sibling as "./filename.ts".
+    //
+    // The extension is there for NODE, which runs `web/tests/*.test.mjs`
+    // directly and whose ESM resolver will not guess one. TypeScript refuses
+    // the extension without this flag, so the two tools disagreed and a shared
+    // helper could not be imported by both - which is how `csv.ts` and `png.ts`
+    // ended up with their own copy of the same transliteration table.
+    //
+    // Safe here because `noEmit` is set: nothing rewrites these paths, and the
+    // bundler resolves an explicit extension unchanged.
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",

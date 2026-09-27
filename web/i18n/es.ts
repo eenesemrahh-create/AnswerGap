@@ -61,6 +61,8 @@ export const es: Messages = {
     showing: "{shown} de {total} preguntas",
     exportCsv: "Exportar CSV",
     exportCsvHint: "Descarga las filas mostradas, con tus filtros aplicados.",
+    exportPng: "Descargar imagen",
+    exportPngHint: "Guarda el árbol completo como PNG, no solo la parte visible.",
     zoomIn: "Acercar",
     zoomOut: "Alejar",
     fit: "Ajustar a la pantalla",

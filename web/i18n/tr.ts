@@ -61,6 +61,8 @@ export const tr: Messages = {
     showing: "{total} sorudan {shown} tanesi",
     exportCsv: "CSV indir",
     exportCsvHint: "Ekranda görünen satırları, filtreleriniz uygulanmış hâlde indirir.",
+    exportPng: "Görseli indir",
+    exportPngHint: "Ağacın tamamını PNG olarak kaydeder, yalnızca görünen kısmı değil.",
     zoomIn: "Yakınlaş",
     zoomOut: "Uzaklaş",
     fit: "Ekrana sığdır",

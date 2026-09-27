@@ -62,6 +62,8 @@ export const fr: Messages = {
     showing: "{shown} sur {total} questions",
     exportCsv: "Exporter en CSV",
     exportCsvHint: "Télécharge les lignes affichées, avec vos filtres appliqués.",
+    exportPng: "Télécharger l'image",
+    exportPngHint: "Enregistre l'arbre entier en PNG, pas seulement la partie visible.",
     zoomIn: "Zoom avant",
     zoomOut: "Zoom arrière",
     fit: "Ajuster à l'écran",

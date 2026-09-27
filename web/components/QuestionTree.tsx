@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/i18n";
+import { pngFilename, svgToPng } from "@/lib/png";
 import { aiKnown, isCited } from "@/lib/domains";
 import type { Node } from "@/lib/types";
 import { citedDomains } from "./AiSummary";
@@ -111,6 +112,8 @@ export function QuestionTree({
   onSelect,
   highlighted,
   site,
+  seed,
+  canExport = false,
 }: {
   nodes: Node[];
   selectedId: string | null;
@@ -119,9 +122,18 @@ export function QuestionTree({
   highlighted: Set<string> | null;
   /** The reader's normalized domain, or null; marks nodes that cite it. */
   site: string | null;
+  /** Names the downloaded file. */
+  seed: string;
+  /** Whether this account's plan includes the image export. Defaults to false
+   *  so a caller that has not been taught about capabilities shows no button
+   *  rather than showing one to everybody. */
+  canExport?: boolean;
 }) {
   const { t } = useI18n();
   const canvasRef = useRef<HTMLDivElement>(null);
+  /* The <svg> itself, for the image export. The canvas div around it carries
+     the pan/zoom listeners and is the wrong element to serialise. */
+  const svgRef = useRef<SVGSVGElement>(null);
   const [view, setView] = useState({ x: 0, y: 0, k: 1 });
   const [dragging, setDragging] = useState(false);
   const dragStart = useRef<{ mx: number; my: number; x: number; y: number } | null>(null);
@@ -193,6 +205,47 @@ export function QuestionTree({
     const k = Math.min(cw / width, ch / height, 1);
     setView({ k, x: (cw - width * k) / 2, y: (ch - height * k) / 2 });
   }, [width, height]);
+
+  /* Download the tree as an image.
+   *
+   * THE WHOLE TREE, not the visible viewport: `rootTransform` replaces the
+   * pan/zoom with the plain padding offset, so what lands in the file is the
+   * answer rather than wherever the reader happened to have scrolled. That is
+   * also why it does not matter that the on-screen SVG is 100% x 100% - the
+   * export is measured from `width`/`height`, which are the tree's own extent.
+   *
+   * The background is read from the live canvas rather than hard-coded, so an
+   * export taken in dark mode is dark. A PNG with no background at all is dark
+   * text on transparency, invisible in most viewers. */
+  const [exporting, setExporting] = useState(false);
+  const exportPng = useCallback(() => {
+    const svg = svgRef.current;
+    const el = canvasRef.current;
+    if (!svg || !el || exporting) return;
+    setExporting(true);
+    const background =
+      window.getComputedStyle(el).backgroundColor || "#ffffff";
+    svgToPng(svg, {
+      width,
+      height,
+      background,
+      rootTransform: `translate(${PAD},${PAD})`,
+    })
+      .then((blob) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = pngFilename(seed);
+        link.click();
+        URL.revokeObjectURL(url);
+      })
+      .catch(() => {
+        /* Nothing downloaded. Silent here rather than a thrown error: the
+           button is a convenience, and a modal about a failed image on a page
+           about questions helps nobody. */
+      })
+      .finally(() => setExporting(false));
+  }, [width, height, seed, exporting]);
 
   /* Opening position. NOT `fit()`.
    *
@@ -322,6 +375,21 @@ export function QuestionTree({
         <button onClick={() => zoomBy(1.25)} title={t("toolbar.zoomIn")}
                 aria-label={t("toolbar.zoomIn")}>+</button>
         <button onClick={fit} title={t("toolbar.fit")} aria-label={t("toolbar.fit")}>⤢</button>
+        {/* In the zoom strip, because this is a canvas tool - "save what is on
+            this canvas" belongs beside "fit it to the screen", not in the
+            filter bar above, which is about which questions to show.
+            Hidden without the capability, for the reason the CSV button is:
+            a greyed-out control is an advertisement inside the product. */}
+        {canExport && (
+          <button
+            onClick={exportPng}
+            disabled={exporting}
+            title={t("toolbar.exportPngHint")}
+            aria-label={t("toolbar.exportPng")}
+          >
+            {exporting ? "…" : "⤓"}
+          </button>
+        )}
       </div>
 
       <div
@@ -333,7 +401,7 @@ export function QuestionTree({
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
       >
-        <svg width="100%" height="100%">
+        <svg ref={svgRef} width="100%" height="100%">
           <g transform={`translate(${view.x},${view.y}) scale(${view.k}) translate(${PAD},${PAD})`}>
             {edges.map((edge) => (
               <path key={edge.id} className="edge-line" d={edge.d} />

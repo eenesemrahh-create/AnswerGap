@@ -87,6 +87,8 @@ export const en = {
     showing: "{shown} of {total} questions",
     exportCsv: "Export CSV",
     exportCsvHint: "Downloads the rows shown, with your filters applied.",
+    exportPng: "Download image",
+    exportPngHint: "Saves the whole tree as a PNG, not just the visible part.",
     zoomIn: "Zoom in",
     zoomOut: "Zoom out",
     fit: "Fit to screen",
