@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ApiError, API_BASE, fetchLabels, fetchMe, fetchMeta, fetchTree } from "@/lib/api";
 import { token } from "@/lib/auth";
@@ -98,6 +98,11 @@ export function TreeScreen({ slug }: { slug: string }) {
      pays nothing for it, and allowed to fail quietly - the cost of failing is
      one hidden button. */
   const [capabilities, setCapabilities] = useState<string[]>([]);
+  /* The tree owns the image export - it holds the <svg> and the measured
+     extent - so the toolbar reaches in rather than duplicating either. */
+  const treeRef = useRef<{ exportPng: () => void }>(null);
+  const canExportCsv = capabilities.includes("csv_export");
+  const canExportPng = capabilities.includes("png_export");
   useEffect(() => {
     if (!token()) return;
     fetchMe()
@@ -322,6 +327,7 @@ export function TreeScreen({ slug }: { slug: string }) {
           </button>
         </div>
 
+
         <div className="filters">
           {STATUSES.map((status) => (
             <button
@@ -363,18 +369,32 @@ export function TreeScreen({ slug }: { slug: string }) {
             })}
           </span>
         )}
-        {/* ONLY WHEN THE PLAN ALLOWS IT, and only in the table view - the
-            export is of the table, and a button offering to download what you
-            are not looking at is a button that needs explaining.
+      </div>
 
-            Hidden rather than disabled for a reader without the capability.
-            A greyed-out control is an advertisement placed inside the product,
-            and the place to sell a plan is the pricing page, not a toolbar.
-            Hiding is a courtesy either way: nothing here is a control, and
-            the file is built from data the browser already has. */}
-        {view === "table" &&
-          capabilities.includes("csv_export") &&
-          tableRows.length > 0 && (
+      {/* THE EXPORTS GET THEIR OWN ROW, under the view tabs.
+          They were in the toolbar beside them, which reads as one more filter
+          control; a download is a different kind of act and the operator went
+          looking for it under the tabs. Kept to one line of small chips,
+          because the screen above the first question is already the thing
+          `b68bee2` was written to shrink.
+
+          EACH ONE APPEARS WITH THE VIEW IT EXPORTS. The image is of the tree
+          and the CSV is of the table AS FILTERED, so offering either from the
+          other view would hand somebody a file of something they are not
+          looking at. The row holds its position either way, which is what
+          makes them findable. */}
+      {(canExportCsv || canExportPng) && (
+        <div className="exports">
+          {view === "tree" && canExportPng && (
+            <button
+              className="chip"
+              onClick={() => treeRef.current?.exportPng()}
+              title={t("toolbar.exportPngHint")}
+            >
+              {t("toolbar.exportPng")}
+            </button>
+          )}
+          {view === "table" && canExportCsv && tableRows.length > 0 && (
             <button
               className="chip"
               onClick={exportCsv}
@@ -383,7 +403,8 @@ export function TreeScreen({ slug }: { slug: string }) {
               {t("toolbar.exportCsv")}
             </button>
           )}
-      </div>
+        </div>
+      )}
 
       <div className="body-row">
         <main className="main">
@@ -399,7 +420,7 @@ export function TreeScreen({ slug }: { slug: string }) {
                 highlighted={highlighted}
                 site={site}
                 seed={tree.seed}
-                canExport={capabilities.includes("png_export")}
+                exportRef={treeRef}
               />
             )}
             {!noQuestions && view === "table" && (

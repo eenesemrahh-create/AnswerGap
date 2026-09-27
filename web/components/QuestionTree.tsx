@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useI18n } from "@/i18n";
 import { pngFilename, svgToPng } from "@/lib/png";
 import { aiKnown, isCited } from "@/lib/domains";
@@ -113,7 +120,7 @@ export function QuestionTree({
   highlighted,
   site,
   seed,
-  canExport = false,
+  exportRef,
 }: {
   nodes: Node[];
   selectedId: string | null;
@@ -124,10 +131,16 @@ export function QuestionTree({
   site: string | null;
   /** Names the downloaded file. */
   seed: string;
-  /** Whether this account's plan includes the image export. Defaults to false
-   *  so a caller that has not been taught about capabilities shows no button
-   *  rather than showing one to everybody. */
-  canExport?: boolean;
+  /**
+   * Lets the toolbar trigger the image export.
+   *
+   * THE BUTTON LIVES OUTSIDE THIS COMPONENT NOW, under the view tabs, because
+   * in the zoom strip it was a 28px square drawn with `⤓` - a glyph most
+   * system fonts do not have, so it rendered as nothing and read as an
+   * unclickable gap. The export itself has to stay here: it needs the `<svg>`
+   * and the tree's measured extent, neither of which the toolbar can see.
+   */
+  exportRef?: React.Ref<{ exportPng: () => void }>;
 }) {
   const { t } = useI18n();
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -246,6 +259,11 @@ export function QuestionTree({
       })
       .finally(() => setExporting(false));
   }, [width, height, seed, exporting]);
+
+  /* Handed to the toolbar. `useImperativeHandle` rather than a callback prop
+     because the button's ENABLED state has to follow `exporting`, and a
+     function passed upward in an effect goes stale the moment that flips. */
+  useImperativeHandle(exportRef, () => ({ exportPng }), [exportPng]);
 
   /* Opening position. NOT `fit()`.
    *
@@ -375,21 +393,6 @@ export function QuestionTree({
         <button onClick={() => zoomBy(1.25)} title={t("toolbar.zoomIn")}
                 aria-label={t("toolbar.zoomIn")}>+</button>
         <button onClick={fit} title={t("toolbar.fit")} aria-label={t("toolbar.fit")}>⤢</button>
-        {/* In the zoom strip, because this is a canvas tool - "save what is on
-            this canvas" belongs beside "fit it to the screen", not in the
-            filter bar above, which is about which questions to show.
-            Hidden without the capability, for the reason the CSV button is:
-            a greyed-out control is an advertisement inside the product. */}
-        {canExport && (
-          <button
-            onClick={exportPng}
-            disabled={exporting}
-            title={t("toolbar.exportPngHint")}
-            aria-label={t("toolbar.exportPng")}
-          >
-            {exporting ? "…" : "⤓"}
-          </button>
-        )}
       </div>
 
       <div

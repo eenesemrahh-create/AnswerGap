@@ -3740,3 +3740,25 @@ table.table {
   .account-balance { font-size: 28px; }
   .account-plans { grid-template-columns: 1fr; }
 }
+
+/* The export row, under the view tabs.
+   Its own rule rather than reusing `.filters`, because that row wraps status
+   chips and would let a two-word button drift onto a line of its own. */
+/* Its own row under the toolbar, aligned with the view tabs above it so the
+   eye reads them as belonging together. Padding matches `.toolbar`'s inline
+   padding; no border, because a second rule directly under the first one
+   would read as a heavier frame than this row deserves. */
+.exports {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 14px 8px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+/* One band, not two. Without this the toolbar's own bottom border draws a
+   line between the tabs and the exports, and the pair reads as two separate
+   bars rather than as one control area with a second line. `:has` rather than
+   a class on the toolbar, so nothing has to know in advance whether this row
+   will render. */
+.toolbar:has(+ .exports) { border-bottom: 0; }
