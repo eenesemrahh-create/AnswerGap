@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ApiError, API_BASE, fetchLabels, fetchMeta, fetchTree } from "@/lib/api";
+import { ApiError, API_BASE, fetchLabels, fetchMe, fetchMeta, fetchTree } from "@/lib/api";
+import { token } from "@/lib/auth";
+import { csvFilename, toCsv } from "@/lib/csv";
 import {
   STATUSES,
   STATUS_COLOR,
@@ -89,6 +91,20 @@ export function TreeScreen({ slug }: { slug: string }) {
     fetchMeta().then(setMeta).catch(() => setMeta(null));
   }, []);
 
+  /* What this account's plan allows. A SECOND request rather than a field on
+     `/api/meta`, and that is forced: meta is Railway's healthcheck path and
+     must never touch the database, while a capability can only come from the
+     subscription. Fetched only when a token exists, so a signed-out reader
+     pays nothing for it, and allowed to fail quietly - the cost of failing is
+     one hidden button. */
+  const [capabilities, setCapabilities] = useState<string[]>([]);
+  useEffect(() => {
+    if (!token()) return;
+    fetchMe()
+      .then((me) => setCapabilities(me.capabilities ?? []))
+      .catch(() => setCapabilities([]));
+  }, []);
+
   const reload = () =>
     fetchTree(slug)
       .then(setTree)
@@ -145,6 +161,30 @@ export function TreeScreen({ slug }: { slug: string }) {
   /* The table lists QUESTIONS, so the seed is not a row in it. The tree still
      draws it, because a tree without its root is not a tree. */
   const tableRows = useMemo(() => filtered.filter((n) => n.depth > 0), [filtered]);
+
+  /* Download the table as it is on screen.
+   *
+   * EXPORTS WHAT IS FILTERED, not the whole tree. Somebody who has narrowed to
+   * the gaps and pressed export wants the gaps; handing them all 51 rows would
+   * quietly undo the work they just did. The seed is excluded for the same
+   * reason it is not a table row - it is the keyword, not a question.
+   *
+   * Built in the browser from data already here, so it costs no request and
+   * cannot fail on the network. `URL.revokeObjectURL` matters: without it the
+   * blob is held for the lifetime of the document, and this button is the kind
+   * somebody presses five times while deciding on a filter. */
+  const exportCsv = () => {
+    if (!tree) return;
+    const blob = new Blob([toCsv(tableRows)], {
+      type: "text/csv;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = csvFilename(tree.seed);
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   const selected = useMemo(
     () => tree?.nodes.find((n) => n.id === selectedId) ?? null,
@@ -323,6 +363,26 @@ export function TreeScreen({ slug }: { slug: string }) {
             })}
           </span>
         )}
+        {/* ONLY WHEN THE PLAN ALLOWS IT, and only in the table view - the
+            export is of the table, and a button offering to download what you
+            are not looking at is a button that needs explaining.
+
+            Hidden rather than disabled for a reader without the capability.
+            A greyed-out control is an advertisement placed inside the product,
+            and the place to sell a plan is the pricing page, not a toolbar.
+            Hiding is a courtesy either way: nothing here is a control, and
+            the file is built from data the browser already has. */}
+        {view === "table" &&
+          capabilities.includes("csv_export") &&
+          tableRows.length > 0 && (
+            <button
+              className="chip"
+              onClick={exportCsv}
+              title={t("toolbar.exportCsvHint")}
+            >
+              {t("toolbar.exportCsv")}
+            </button>
+          )}
       </div>
 
       <div className="body-row">

@@ -85,6 +85,8 @@ export const en = {
     table: "Table",
     searchPlaceholder: "Filter questions…",
     showing: "{shown} of {total} questions",
+    exportCsv: "Export CSV",
+    exportCsvHint: "Downloads the rows shown, with your filters applied.",
     zoomIn: "Zoom in",
     zoomOut: "Zoom out",
     fit: "Fit to screen",

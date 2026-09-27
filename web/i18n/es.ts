@@ -59,6 +59,8 @@ export const es: Messages = {
     table: "Tabla",
     searchPlaceholder: "Filtrar preguntas…",
     showing: "{shown} de {total} preguntas",
+    exportCsv: "Exportar CSV",
+    exportCsvHint: "Descarga las filas mostradas, con tus filtros aplicados.",
     zoomIn: "Acercar",
     zoomOut: "Alejar",
     fit: "Ajustar a la pantalla",

@@ -60,6 +60,8 @@ export const fr: Messages = {
     table: "Tableau",
     searchPlaceholder: "Filtrer les questions…",
     showing: "{shown} sur {total} questions",
+    exportCsv: "Exporter en CSV",
+    exportCsvHint: "Télécharge les lignes affichées, avec vos filtres appliqués.",
     zoomIn: "Zoom avant",
     zoomOut: "Zoom arrière",
     fit: "Ajuster à l'écran",

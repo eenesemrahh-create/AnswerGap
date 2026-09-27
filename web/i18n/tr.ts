@@ -59,6 +59,8 @@ export const tr: Messages = {
     table: "Tablo",
     searchPlaceholder: "Sorularda filtrele…",
     showing: "{total} sorudan {shown} tanesi",
+    exportCsv: "CSV indir",
+    exportCsvHint: "Ekranda görünen satırları, filtreleriniz uygulanmış hâlde indirir.",
     zoomIn: "Yakınlaş",
     zoomOut: "Uzaklaş",
     fit: "Ekrana sığdır",

@@ -59,6 +59,8 @@ export const de: Messages = {
     table: "Tabelle",
     searchPlaceholder: "Fragen filtern…",
     showing: "{shown} von {total} Fragen",
+    exportCsv: "CSV exportieren",
+    exportCsvHint: "Lädt die angezeigten Zeilen herunter, mit Ihren Filtern.",
     zoomIn: "Vergrößern",
     zoomOut: "Verkleinern",
     fit: "An Bildschirm anpassen",
