@@ -12,6 +12,7 @@ import {
   fetchTrees,
   search as runSearch,
 } from "@/lib/api";
+import { token } from "@/lib/auth";
 import { requestSignIn } from "@/lib/signin-request";
 import { marketingPath } from "@/lib/marketing";
 import { en as pricingEn } from "@/content/marketing/pricing/en";
@@ -134,15 +135,39 @@ export default function Landing() {
       .catch(() => setPlans([]));
   }, []);
 
+  /* Does a session token exist in this browser?
+   *
+   * Read in an effect rather than during render: `token()` reads localStorage,
+   * which does not exist while Next prerenders this page, so a render-time
+   * read would disagree with the server's HTML and hydrate wrong. The effect
+   * runs on the first tick and costs no request - which is the whole point
+   * below. */
+  const [hasToken, setHasToken] = useState<boolean | null>(null);
+  useEffect(() => {
+    setHasToken(Boolean(token()));
+  }, []);
+
   /* Whether the hero shows the product or the pitch.
    *
-   * `accounts_enabled === false` is a machine with no database, where the
-   * gate allows everything and there is nobody to sign in as - so the box
-   * shows, exactly as it did before accounts existed. `meta === null` is the
-   * first fetch still in flight, and falls to the pitch; see the comment on
-   * the hero for why that is the safe default rather than the search box. */
+   * `accounts_enabled === false` is a machine with no database, where the gate
+   * allows everything and there is nobody to sign in as - so the box shows,
+   * exactly as it did before accounts existed.
+   *
+   * THE TOKEN IS THE GUESS UNTIL `meta` ARRIVES, and that is the fix for a
+   * real complaint: this used to fall back to the pitch, so a signed-in reader
+   * coming from `/pricing` watched the signed-out landing for the length of a
+   * cross-origin round trip before it turned into their search box. The token
+   * is already in the browser and answers the same question in no time at all.
+   *
+   * `meta` still WINS once it lands. A token that the server rejects - expired,
+   * revoked, from a deleted account - would otherwise leave the search box on
+   * screen for somebody the API treats as anonymous. That correction is a
+   * flicker only for a reader whose session is actually dead, which is a
+   * different and much rarer thing than showing everyone the wrong hero. */
   const showSearch =
-    meta !== null && (!meta.accounts_enabled || meta.role !== "anonymous");
+    meta !== null
+      ? !meta.accounts_enabled || meta.role !== "anonymous"
+      : hasToken === true;
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
