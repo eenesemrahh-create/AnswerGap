@@ -197,6 +197,13 @@ button {
   padding: 10px 18px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
+  /* WRAPS, and that is the whole fix for the band between the desktop row and
+     the phone layout. Four children sharing one unwrappable line meant the
+     only one that could give was `.header-mid`, so between 721 and 800px the
+     seed title crushed to "dis ..." and its sub-line stacked ONE WORD PER ROW,
+     making the header 202px tall. Wrapping moves the notices to a second line
+     instead of squeezing the title into a column. */
+  flex-wrap: wrap;
 }
 
 .brand {
@@ -232,7 +239,29 @@ button {
   letter-spacing: 0;
 }
 
-.header-mid { flex: 1; min-width: 0; }
+/* WHICH CHILD GIVES WAY WHEN THE ROW WRAPS, decided here rather than left to
+   source order. Without it the account strip - the last element - dropped to a
+   line of its own, left-aligned under the brand, wasting a whole row to hold
+   an avatar. The notices are the right thing to move down: they are labels
+   about the data, they already wrap among themselves, and they are the only
+   group that reads just as well on a line of its own. */
+/* ABOVE THE PHONE LAYOUT ONLY. The `max-width: 720px` block further down
+   assigns its own three-row order, and `.header .header-mid` outranks its
+   `.header-mid` on specificity - so unscoped, these rules won inside that
+   media query too and took the phone header from 123px to 155px. Measured;
+   the pairing of specificity with a media query is easy to get wrong in
+   exactly this direction. */
+@media (min-width: 721px) {
+  .header .header-mid { order: 2; }
+  .header .account { order: 3; margin-left: auto; }
+  .header .header-notices { order: 4; }
+}
+
+/* `flex: 1 1 320px` rather than `flex: 1`. The basis is a floor: the title
+   and its sub-line need about this much to read as a line rather than as a
+   stack, and below it the header wraps instead of narrowing this any further.
+   `min-width: 0` stays, or the ellipsis on a long seed cannot work. */
+.header-mid { flex: 1 1 320px; min-width: 0; }
 .header-title {
   font-weight: 600;
   font-size: 15px;
