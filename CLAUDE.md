@@ -57,41 +57,39 @@ do not propose it.
   go from 4 to **15**. Extra cost $0.00015/click = $0.0006. Collecting those
   same 15 questions by recursion would cost 4 requests ($0.008).
   **Click depth is ~13x cheaper than recursion.**
-- **`seed_question` gives the real parent — one request is a TREE, not a list.**
-  With `click_depth=4` the 15 PAA elements carry a `seed_question` field.
-  Elements 0-3 have it `null` (Google's original four); the rest name the
-  question that was clicked to reveal them. `answergap/live.py` reads it.
-- **MEASURED BUT NOT IMPLEMENTED: `click_depth=4` means FOUR SUCCESSIVE CLICKS,
-  and one response is really a CHAIN of depth 5.** Re-measured 2026-09-22 on
-  `probe-A-click4.json` and `probe-C-both.json`, identically: four originals,
-  one of which is clicked to reveal 2, one of THOSE clicked to reveal 3, and so
-  on four times.
+- **`click_depth=4` means FOUR SUCCESSIVE CLICKS, and one request is a CHAIN of
+  real depth 5.** Not two levels — that reading was wrong and it cost us the
+  shape of the tree. Re-measured 2026-09-22 on `probe-A-click4.json` and
+  `probe-C-both.json`, identically: four originals (`seed_question: null`), one
+  of which is clicked to reveal 2, one of THOSE clicked to reveal 3, and so on
+  four times.
 
   | depth | 1 | 2 | 3 | 4 | 5 |
   |---|---:|---:|---:|---:|---:|
   | questions | 4 | 2 | 3 | 3 | 3 |
 
-  `seed_question` is therefore a parent pointer that **has to be walked
-  transitively**, and the bullet above does not walk it: `build_from_response`
-  promotes every named parent straight to level 1 and hangs its children at
-  level 2, flattening the shape above into `{1:7, 2:8}` — seven questions drawn
-  as direct children of the seed when only four are. The old note that *"three
-  of the four named parents were NOT among the original four, because Google
-  reflows the block"* was this same misreading: those three are the **interior
-  of the chain**. Google reflows nothing.
-
-  **The tree every user sees today has the flattened shape.** A chain-aware
-  `build_from_response` plus `tests/test_tree_shape.py` was written and
-  deliberately **discarded on 2026-09-23** to keep the screen-design work on a
-  clean main — not because it was wrong. It cost a visible regression the design
-  work has to answer first: `fit()` in `web/components/QuestionTree.tsx` has no
-  zoom floor, so a 6-column tree drops to 45% on a 1280px screen. The write-up
-  and the five open decisions are in
-  `~/.claude/plans/alsoasked-gibi-sorgu-sitelerinde-staged-hinton.md`; the code
-  is in the reflog as `c0b4af7` + `7d52739` until it expires (~90 days).
-  **Consequence for the product either way: we already buy depth 5 for one
-  credit** — AlsoAsked charges 4 credits for depth 3 — so before paying for
-  more depth, check we are showing the depth already bought.
+  `seed_question` names the question that was clicked, so it is a **parent
+  pointer and the chain has to be walked transitively.**
+  **What the earlier reading got wrong:** it promoted every named parent
+  straight to level 1 and hung its children at level 2, flattening the shape
+  above into `{1:7, 2:8}` — seven questions drawn as direct children of the
+  seed when only four are. The note that *"three of the four named parents were
+  NOT among the original four, because Google reflows the block"* was this same
+  misreading: those three are the **interior of the chain**, not reflowed
+  siblings. Google reflows nothing.
+  The orphan rule survives, corrected: a `seed_question` naming a question that
+  is no element's own title is still added, but under **its real parent**, and
+  only at level 1 when there is nothing else to hang it from.
+  Fixed in `build_from_response`; pinned by `tests/test_tree_shape.py` against
+  both committed probes.
+  **This fix was written on 2026-09-22, discarded on 2026-09-23 to keep the
+  screen-design work on a clean main, and restored on 2026-09-27.** It was
+  never wrong; what held it back was a visible regression it exposes — `fit()`
+  in `web/components/QuestionTree.tsx` had no zoom floor, so a deeper tree
+  dropped to 45% on a 1280px screen. Do not restore one without the other.
+  **Consequence for the product: we already buy depth 5 for one credit** —
+  AlsoAsked charges 4 credits for depth 3 — so before paying for more depth,
+  check we are showing the depth already bought.
 - **Do NOT use `load_async_ai_overview`.** $0.002 extra for nothing — the
   top-level `ai_overview` element already arrives with `references` populated
   (`asynchronous_ai_overview: false`). Phase 0 wasted money proving this.

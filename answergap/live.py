@@ -7,15 +7,25 @@ CLAUDE.md's measured rule is "fill click depth before recursing": with
 of 4, and collecting those same 15 by recursion would cost four requests.
 
 What makes the single request a *tree* rather than a flat list is the
-`seed_question` field on each PAA element. Measured on `probe-A-click4.json`:
-elements 0-3 carry `seed_question: null` (Google's original four) and elements
-4-14 name the question that was clicked to reveal them. That is a genuine
-parent pointer, so one request yields two real levels.
+`seed_question` field on each PAA element: it names the question that was
+clicked to reveal this one, which is a genuine parent pointer.
 
-Note the wrinkle the same measurement exposed: three of the four parents named
-by `seed_question` were NOT among the original four. Google reflows the block as
-it expands. Those parents are therefore added as level-1 nodes in their own
-right, otherwise their children would be orphaned.
+AND `click_depth=4` IS FOUR SUCCESSIVE CLICKS, so one request is a CHAIN of
+real depth 5 - not two levels. Re-measured 2026-09-22 on `probe-A-click4.json`
+and `probe-C-both.json`, identically: four originals, one clicked to reveal 2,
+one of those clicked to reveal 3, and so on four times - {1:4, 2:2, 3:3, 4:3,
+5:3}.
+
+The earlier reading of the same file said two levels, and promoted every named
+parent to level 1 - flattening that shape into {1:7, 2:8}, seven questions drawn
+as direct children of the seed when only four are. The "wrinkle" it recorded,
+that three named parents were not among the original four because Google
+reflows the block, was the same mistake: those three are the interior of the
+chain. `build_from_response` therefore resolves parents TRANSITIVELY.
+
+The orphan rule survives, corrected: a `seed_question` naming a question that is
+no element's own title is still added, but under its real parent, and only at
+level 1 when there is nothing else to hang it from.
 
 DISCOVERY AND GAP SCORING ARE SEPARATE - DELIBERATELY
 -----------------------------------------------------
@@ -441,12 +451,27 @@ def _carry_previous(fresh: dict, previous: dict | None) -> dict:
         for node in previous.get("nodes", [])
         if node.get("discovered_by") == "harvest"
     ]
+    by_id = {node["id"]: node for node in fresh["nodes"]}
+    # Old depth order, which is still ancestor-first: a carried parent always
+    # sat shallower than its carried child, whatever the new numbers turn out
+    # to be. That is what lets the depth below be read off a parent already
+    # placed.
     for node in sorted(harvested, key=lambda n: n["depth"]):
         if node["id"] in known or node["parent_id"] not in known:
             continue
         node = dict(node)
+        # RE-DEPTHED AGAINST THE FRESH PARENT, never carried verbatim. The
+        # correction that made `build_from_response` walk the click-depth chain
+        # moved questions from level 2 to level 4 or 5, and a node carried with
+        # its stored depth would come back SHALLOWER THAN ITS OWN PARENT. Reach
+        # travels with it for the same reason: it is a product down the path,
+        # so a path that got longer has to be re-multiplied.
+        parent = by_id[node["parent_id"]]
+        node["depth"] = parent["depth"] + 1
+        node["reach"] = round((node.get("relevance") or 0.0) * _reach(parent), 3)
         node["slug"] = _unique_slug(slugify(node["question"]), taken)
         fresh["nodes"].append(node)
+        by_id[node["id"]] = node
         known.add(node["id"])
     fresh["nodes"].sort(key=lambda n: (n["depth"], n["question"]))
 
@@ -722,30 +747,70 @@ def build_from_response(
 
     elements = extract_paa(response)
 
-    # Pass 1 - level 1. Google's original four, plus every question named as a
-    # `seed_question`, because expanding the block reveals parents that were not
-    # among the original four. Without this their children would be orphaned.
+    # `click_depth=4` IS FOUR SUCCESSIVE CLICKS, NOT TWO LEVELS. Measured on
+    # `data/raw/probe-A-click4.json` and `probe-C-both.json`, identically: the
+    # 15 elements form a CHAIN. Four originals; one of them is clicked and
+    # reveals two more; one of THOSE is clicked and reveals three; and so on
+    # four times, to a real depth of 5.
+    #
+    #   {1: 4, 2: 2, 3: 3, 4: 3, 5: 3}
+    #
+    # `seed_question` names the question that was clicked to reveal this one, so
+    # it is a parent pointer and the chain has to be WALKED. The first version
+    # of this code promoted every named parent straight to level 1 and hung its
+    # children at level 2, flattening the shape above into {1: 7, 2: 8} - seven
+    # questions presented as direct children of the seed when only four are.
+    # CLAUDE.md read those three extra level-1 nodes as Google "reflowing the
+    # block as it expands"; they are the interior of the chain, and the tree
+    # this product is named after was the wrong shape because of it.
+    named_parent: dict[str, str] = {}
+    for element in elements:
+        key = normalize((element.get("title") or "").strip(), language_code)
+        parent_title = (element.get("seed_question") or "").strip()
+        if key and parent_title:
+            named_parent.setdefault(key, parent_title)
+
+    # Guards the upward walk. A chain that points back at itself would otherwise
+    # be followed forever - CLAUDE.md's rule that an A->B->A loop must break,
+    # applied to the parent pointers rather than to the crawl.
+    walking: set[str] = set()
+
+    def place(question: str) -> str | None:
+        """Add a question under its real parent, placing that parent first."""
+        key = normalize(question, language_code)
+        if not key:
+            return None
+        if key in nodes:
+            return key
+
+        parent_title = named_parent.get(key)
+        parent_key = normalize(parent_title, language_code) if parent_title else ""
+        # Level 1 covers two cases and both belong there: one of Google's
+        # originals, and a question that is only ever CITED as a parent. The
+        # second is CLAUDE.md's orphan rule - dropping it would strand its
+        # children - and self-parenting collapses into it too.
+        if not parent_key or parent_key == key or key in walking:
+            return add(question, 1, root_id)
+
+        walking.add(key)
+        try:
+            resolved = place(parent_title)
+        finally:
+            walking.discard(key)
+        if not resolved or resolved == key:
+            return add(question, 1, root_id)
+        return add(question, nodes[resolved]["depth"] + 1, resolved)
+
+    # Google's originals first, so the four that actually head the block own
+    # level 1 before any interior question can be walked into it.
     for element in elements:
         title = (element.get("title") or "").strip()
         if title and not (element.get("seed_question") or "").strip():
             add(title, 1, root_id)
     for element in elements:
-        parent_title = (element.get("seed_question") or "").strip()
-        if parent_title:
-            add(parent_title, 1, root_id)
-
-    # Pass 2 - level 2, hung off the parent named by `seed_question`.
-    for element in elements:
         title = (element.get("title") or "").strip()
-        parent_title = (element.get("seed_question") or "").strip()
-        if not title or not parent_title:
-            continue
-        parent_key = normalize(parent_title, language_code)
-        if parent_key not in nodes:
-            continue
-        if normalize(title, language_code) == parent_key:
-            continue  # cycle breaking: a question is not its own child
-        add(title, 2, parent_key)
+        if title:
+            place(title)
 
     node_list = sorted(order, key=lambda n: (n["depth"], n["question"]))
     _dedupe_slugs(node_list)

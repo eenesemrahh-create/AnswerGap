@@ -20,6 +20,16 @@ Thumbs.db
 # disk as a local cache but do not belong in the repository.
 data/raw/locations-*.json
 
+# data/live/ is the filesystem backend's working set: trees somebody crawled on
+# this machine and the SERP responses behind them. Not archival evidence the way
+# data/raw/ is - production keeps the real thing in Postgres, and these are
+# whatever this laptop happened to search.
+#
+# Ignored because it was one `git add -A` away from being committed, and the
+# commit would have published somebody's search list. That is the same accident
+# the Screenshot rule below exists for, one directory over.
+data/live/
+
 # Screenshots of dashboards. Kept out of the repository on purpose: a Railway
 # or DataForSEO panel screenshot shows live environment variables - API
 # passwords, the database URL with its password, the callback token - in
