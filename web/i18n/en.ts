@@ -524,6 +524,7 @@ export const en = {
       contact: "Contact",
       signIn: "Sign In",
       signUp: "Sign Up",
+      menu: "Menu",
     },
 
     hero: {

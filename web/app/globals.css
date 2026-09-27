@@ -1771,14 +1771,72 @@ table.table {
   transition: color 120ms;
 }
 .mkt-nav-link:hover { color: var(--text); }
+/* --- the nav menu, inline or behind a hamburger ---------------------- */
+
+.nav-menu { display: contents; }
+
+/* Hidden until the breakpoint above shows it. `display: none` rather than
+   visibility, so it takes no space and cannot be tabbed to while the inline
+   links are the real menu. */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 38px;
+  height: 38px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  cursor: pointer;
+}
+.nav-burger span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-soft);
+}
+.nav-burger:hover span { background: var(--text); }
+.nav-burger[aria-expanded="true"] { border-color: var(--border-strong); }
+
+/* Anchored to the nav rather than to the button: the button sits at the right
+   edge on a narrow screen, and a panel hanging off it would run past the
+   viewport. Full width of the bar, under it, is the one position that cannot. */
+.nav-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 20px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 12px 24px -16px rgb(0 0 0 / 0.25);
+}
+.nav-panel .mkt-nav-link {
+  /* 44px, the touch-target floor the phone block already applies elsewhere. */
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 .mkt-nav-tools {
   margin-left: auto;
   display: flex;
   align-items: center;
   gap: 10px;
 }
-@media (max-width: 820px) {
-  .mkt-nav-links { display: none; }
+/* The hamburger takes over below this. Chosen by measurement, not by device:
+   it is the width at which five links, the brand and the tools stop fitting on
+   one line. Above it the burger is hidden and the links are inline; below,
+   the reverse. */
+@media (max-width: 900px) {
+  .nav-menu .mkt-nav-links { display: none; }
+  .nav-burger { display: inline-flex; }
 }
 
 /* --- Hero ------------------------------------------------------------ */
@@ -3474,7 +3532,7 @@ table.table {
      chips do not exist. The mask fades the right edge while there is more to
      the right, and `mask-image` costs nothing when it is not supported - the
      chips simply cut off as they did before. */
-  .filters, .header-notices, .mkt-nav-links {
+  .filters, .header-notices {
     -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
     mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
   }
@@ -3492,20 +3550,11 @@ table.table {
   .mkt-nav-inner { gap: 8px; padding: 10px 16px; flex-wrap: wrap; }
   .mkt-nav-tools { margin-left: auto; flex: none; }
   .mkt-brand { min-width: 0; }
-  /* The links wrapped to a row of their own and then ran out of width. A
-     scrolling row keeps all five reachable, which beats four visible and one
-     lost off the edge. */
-  .mkt-nav-links {
-    order: 3;
-    flex: 1 0 100%;
-    margin-left: 0;
-    gap: 18px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-  }
-  .mkt-nav-links::-webkit-scrollbar { display: none; }
-  .mkt-nav-links > * { flex: none; white-space: nowrap; }
+  /* The links themselves are gone from this width - the hamburger has them
+     from 900px down, so the scrolling row that used to live here is dead
+     weight. Removed rather than left in place: CSS that contradicts the rule
+     which actually wins is worse than no CSS at all, because the next reader
+     has to work out which one applies. */
 
   .mkt-hero { padding: 40px 20px 28px; }
   .mkt-hero-title { font-size: clamp(30px, 9vw, 40px); }

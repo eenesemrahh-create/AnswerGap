@@ -34,6 +34,7 @@ import {
 } from "@/lib/types";
 import { useDateFormat, useI18n } from "@/i18n";
 import { AccountMenu } from "@/components/AccountMenu";
+import { NavMenu } from "@/components/NavMenu";
 import { ErrorNote } from "@/components/ErrorNote";
 
 const MARKET_KEY = "answergap.market";
@@ -255,29 +256,15 @@ export default function Landing() {
             <span className="mkt-brand-tile" aria-hidden>A</span>
             AnswerGap
           </Link>
-          {/* Pricing, Solutions and Contact are PAGES now, not anchors.
-              They are server-rendered under `/pricing` and friends, and the
-              English URL is the canonical one; the locale segment is added
-              here so a Turkish reader lands on the Turkish page rather than
-              on English with a picker to find. `aiSeo` still points at a
-              section of this page and `blog` still has nowhere to go. */}
-          <div className="mkt-nav-links">
-            <Link href={marketingPath("pricing", locale)} className="mkt-nav-link">
-              {t("market.nav.pricing")}
-            </Link>
-            <Link href={marketingPath("solutions", locale)} className="mkt-nav-link">
-              {t("market.nav.solutions")}
-            </Link>
-            <a href="#built-for" className="mkt-nav-link">
-              {t("market.nav.aiSeo")}
-            </a>
-            <a href="#" className="mkt-nav-link" aria-disabled>
-              {t("market.nav.blog")}
-            </a>
-            <Link href={marketingPath("contact", locale)} className="mkt-nav-link">
-              {t("market.nav.contact")}
-            </Link>
-          </div>
+          <NavMenu
+          items={[
+            { label: t("market.nav.pricing"), href: marketingPath("pricing", locale) },
+            { label: t("market.nav.solutions"), href: marketingPath("solutions", locale) },
+            { label: t("market.nav.aiSeo"), href: "/#built-for" },
+            { label: t("market.nav.blog") },
+            { label: t("market.nav.contact"), href: marketingPath("contact", locale) },
+          ]}
+          />
           <div className="mkt-nav-tools">
             {meta && (
               <AccountMenu

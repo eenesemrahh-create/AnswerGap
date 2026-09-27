@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
+import { NavMenu } from "./NavMenu";
 import { SessionTools } from "./SessionTools";
 import type { ChromeContent } from "@/content/marketing/chrome";
 import { marketingPath, type MarketingPage } from "@/lib/marketing";
@@ -43,16 +44,6 @@ export function MarketingNav({
   /** Marked `aria-current`, so the reader can see where they are. */
   current: MarketingPage;
 }) {
-  const link = (page: MarketingPage, label: string) => (
-    <Link
-      href={marketingPath(page, locale)}
-      className="mkt-nav-link"
-      aria-current={current === page ? "page" : undefined}
-    >
-      {label}
-    </Link>
-  );
-
   return (
     <nav className="mkt-nav">
       <div className="mkt-nav-inner">
@@ -62,17 +53,29 @@ export function MarketingNav({
           </span>
           AnswerGap
         </Link>
-        <div className="mkt-nav-links">
-          {link("pricing", chrome.nav.pricing)}
-          {link("solutions", chrome.nav.solutions)}
-          {/* No page yet. Rendered as plain text rather than as a link to
-              nowhere - `LegalDocument` refused the landing's footer over the
-              same thing, and a menu item that does nothing when clicked reads
-              as a broken site rather than as a coming-soon. */}
-          <span className="mkt-nav-link is-soon">{chrome.nav.aiSeo}</span>
-          <span className="mkt-nav-link is-soon">{chrome.nav.blog}</span>
-          {link("contact", chrome.nav.contact)}
-        </div>
+        {/* `NavMenu` draws these inline while they fit and behind a hamburger
+            when they do not. They used to be `display: none` below 820px and a
+            scrolling row below 720px, which left the whole menu unreachable in
+            the band between - a tablet held upright, or a half-width window.
+
+            An item WITHOUT an `href` renders as text rather than as a link to
+            nowhere: `LegalDocument` refused the landing's footer over the same
+            thing, and a menu entry that does nothing when clicked reads as a
+            broken site rather than as a coming-soon. */}
+        <NavMenu
+          items={[
+            { label: chrome.nav.pricing, href: marketingPath("pricing", locale),
+              current: current === "pricing" },
+            { label: chrome.nav.solutions, href: marketingPath("solutions", locale),
+              current: current === "solutions" },
+            /* Anchors a section of the LANDING, so it needs the leading `/` -
+               from `/pricing` a bare `#built-for` would scroll to nothing. */
+            { label: chrome.nav.aiSeo, href: "/#built-for" },
+            { label: chrome.nav.blog },
+            { label: chrome.nav.contact, href: marketingPath("contact", locale),
+              current: current === "contact" },
+          ]}
+        />
         <div className="mkt-nav-tools">
           {/* Wrapped, so a signed-in reader is not invited to create the
               account they already have. `SessionTools` renders these when

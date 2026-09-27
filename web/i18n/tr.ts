@@ -444,6 +444,7 @@ export const tr: Messages = {
       contact: "İletişim",
       signIn: "Giriş yap",
       signUp: "Kaydol",
+      menu: "Menü",
     },
 
     hero: {

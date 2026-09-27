@@ -449,6 +449,7 @@ export const de: Messages = {
       contact: "Kontakt",
       signIn: "Anmelden",
       signUp: "Registrieren",
+      menu: "Menü",
     },
     hero: {
       eyebrow: "Sichtbarkeit in KI-Suche beginnt hier",

@@ -450,6 +450,7 @@ export const es: Messages = {
       contact: "Contacto",
       signIn: "Iniciar sesión",
       signUp: "Registrarse",
+      menu: "Menú",
     },
     hero: {
       eyebrow: "La visibilidad en búsqueda con IA empieza aquí",

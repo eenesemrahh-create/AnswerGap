@@ -17,6 +17,7 @@ import { marketingPath } from "@/lib/marketing";
 import type { CreditEntry, Me, Meta, Plan } from "@/lib/types";
 import { useDateFormat, useDayFormat, useI18n } from "@/i18n";
 import { AccountMenu } from "./AccountMenu";
+import { NavMenu } from "./NavMenu";
 import { DeleteAccount } from "./DeleteAccount";
 import { LocalePicker } from "./LocalePicker";
 import { ThemeToggle } from "./ThemeToggle";
@@ -150,11 +151,15 @@ export function AccountScreen() {
           </span>
           AnswerGap
         </Link>
-        <div className="mkt-nav-links">
-          <Link href={marketingPath("pricing", locale)} className="mkt-nav-link">
-            {t("market.nav.pricing")}
-          </Link>
-        </div>
+        <NavMenu
+          items={[
+            { label: t("market.nav.pricing"), href: marketingPath("pricing", locale) },
+            { label: t("market.nav.solutions"), href: marketingPath("solutions", locale) },
+            { label: t("market.nav.aiSeo"), href: "/#built-for" },
+            { label: t("market.nav.blog") },
+            { label: t("market.nav.contact"), href: marketingPath("contact", locale) },
+          ]}
+        />
         <div className="mkt-nav-tools">
           {/* Just the avatar, like every other screen. The controls that used
               to sit beside it are the subject of the Settings section below -

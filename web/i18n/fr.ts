@@ -454,6 +454,7 @@ export const fr: Messages = {
       contact: "Contact",
       signIn: "Se connecter",
       signUp: "S'inscrire",
+      menu: "Menu",
     },
     hero: {
       eyebrow: "La visibilité dans la recherche IA commence ici",
