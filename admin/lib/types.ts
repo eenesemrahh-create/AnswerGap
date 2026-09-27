@@ -199,6 +199,59 @@ export interface Plan {
   capabilities: string[];
 }
 
+/**
+ * Every field a `Plan` must have, with the value a card that predates it gets.
+ *
+ * THE INTERFACE ABOVE IS A PROMISE THE API DOES NOT KEEP. `pricing_plans` is a
+ * JSON blob written by whatever version of this editor last saved it, so a
+ * card stored in September has no `capabilities`, no `credits` and no Stripe
+ * ids - the fields did not exist. TypeScript says they are `string[]` and
+ * `number` and is simply wrong about rows already in the database.
+ *
+ * That is not hypothetical: it took the pricing editor down the first time a
+ * real deployment opened it, on `plan.capabilities.includes(...)` reading
+ * `undefined`. The same shape crashed the question panel on 2026-09-17, where
+ * `types.ts` declared `reach: number | null` and the API sent nothing at all.
+ *
+ * So the defaults live in ONE place and `completePlan` is applied at the
+ * boundary, rather than each of the twenty reads learning to be defensive.
+ */
+export const PLAN_DEFAULTS: Omit<Plan, "id"> = {
+  enabled: false,
+  theme: "light",
+  name: "",
+  desc: "",
+  price: "",
+  price_annual: "",
+  per: "",
+  features_heading: "",
+  features: [],
+  cta: "",
+  badge: null,
+  stripe_price_id: "",
+  stripe_price_id_annual: "",
+  credits: 0,
+  capabilities: [],
+};
+
+/**
+ * Fill in whatever the stored card is missing.
+ *
+ * Arrays are rebuilt rather than spread through, for two reasons. A stored
+ * `null` survives `{...defaults, ...saved}` - spread only skips keys that are
+ * ABSENT, not keys present and null - and it would crash the same way
+ * `undefined` did. And the copy means editing a card cannot mutate the
+ * defaults object shared by every other slot.
+ */
+export function completePlan(saved: Partial<Plan> & { id: string }): Plan {
+  return {
+    ...PLAN_DEFAULTS,
+    ...saved,
+    features: Array.isArray(saved.features) ? [...saved.features] : [],
+    capabilities: Array.isArray(saved.capabilities) ? [...saved.capabilities] : [],
+  };
+}
+
 /** Mirrors `CAPABILITIES` in answergap/entitlements.py. A name here that the
  *  API does not know is refused on save, so the two cannot drift silently. */
 export const CAPABILITY_OPTIONS: readonly { value: string; key: string }[] = [

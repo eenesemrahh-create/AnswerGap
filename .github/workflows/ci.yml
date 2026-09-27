@@ -120,7 +120,7 @@ jobs:
       - run: npm run build
 
   admin:
-    name: Admin build
+    name: Admin tests and build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     defaults:
@@ -134,4 +134,9 @@ jobs:
           cache: npm
           cache-dependency-path: admin/package-lock.json
       - run: npm ci
+      # Tests BEFORE the build, so a broken helper fails on the assertion that
+      # names it rather than somewhere inside a bundler trace. Added after the
+      # pricing editor crashed in production on a field the API does not send:
+      # the build was green, because a type promise is not a measurement.
+      - run: npm test
       - run: npm run build

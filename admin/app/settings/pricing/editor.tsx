@@ -7,6 +7,7 @@ import {
   PRICING_MAX_FEATURES,
   PRICING_MAX_PLANS,
   CAPABILITY_OPTIONS,
+  completePlan,
   PRICING_TEMPLATES,
   THEME_OPTIONS,
   type Plan,
@@ -485,7 +486,13 @@ function PlanCard({
  * blank slate, only material to react to.
  */
 function makeSlots(saved: Plan[]): Plan[] {
-  const out: Plan[] = saved.slice(0, PRICING_MAX_PLANS);
+  // `completePlan` on every stored card, and this is the whole fix for a crash
+  // rather than a precaution. What comes back from `/api/admin/pricing` is
+  // whatever version of this editor last saved it, so a card written before a
+  // field existed simply has no such key - and `plan.capabilities.includes()`
+  // on `undefined` took this page down the first time a real deployment
+  // opened it.
+  const out: Plan[] = saved.slice(0, PRICING_MAX_PLANS).map(completePlan);
   for (let i = out.length; i < PRICING_MAX_PLANS; i++) {
     out.push({ ...PRICING_TEMPLATES[i], features: [...PRICING_TEMPLATES[i].features] });
   }
