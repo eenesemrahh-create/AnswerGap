@@ -419,6 +419,7 @@ const en = {
   /* Capability labels. The VALUES are a closed vocabulary shared with
      answergap/entitlements.py; these are only what the operator reads. */
   cap: {
+    deepSearch: "Deep search",
     csvExport: "CSV export",
     pngExport: "PNG export",
     bulkSearch: "Bulk searches",
@@ -940,6 +941,7 @@ const tr: Messages = {
   },
 
   cap: {
+    deepSearch: "Derin arama",
     csvExport: "CSV dışa aktarma",
     pngExport: "PNG dışa aktarma",
     bulkSearch: "Toplu arama",

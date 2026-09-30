@@ -108,7 +108,7 @@ def test_the_vocabulary_is_closed_and_every_name_is_in_it() -> None:
     from `CAPABILITIES` would be a capability that can be checked, can be
     ticked, and can never be granted."""
     named = {
-        ent.CSV_EXPORT, ent.PNG_EXPORT, ent.BULK_SEARCH,
+        ent.DEEP_SEARCH, ent.CSV_EXPORT, ent.PNG_EXPORT, ent.BULK_SEARCH,
         ent.API_ACCESS, ent.SCHEDULED_CRAWLS, ent.WHITE_LABEL,
     }
     assert named == ent.CAPABILITIES
@@ -122,6 +122,7 @@ def test_capability_names_are_stable_api() -> None:
         "api_access",
         "bulk_search",
         "csv_export",
+        "deep_search",
         "png_export",
         "scheduled_crawls",
         "white_label",

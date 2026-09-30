@@ -242,7 +242,11 @@ def credits_for(billable_calls: int | None) -> int:
 #: The split is `dataforseo.py`'s, not a pricing invention: the seed search and
 #: a single question check run on `live/advanced` because somebody is watching,
 #: and a batch goes through `serp_task_post` because nobody is.
-QUEUED_ACTIONS = frozenset({"batch"})
+#: `deep` is here for the same reason `batch` is: a deep search posts its
+#: expansions through `serp_task_post` and the tree fills in over the next few
+#: minutes. The click surcharge makes a deep request $0.00075 rather than
+#: $0.0006, which is still a sixth of what the discounted credit is worth.
+QUEUED_ACTIONS = frozenset({"batch", "deep"})
 
 #: A queued request costs us $0.0006 against $0.0020 for the same question on
 #: Live. Half a credit is a conservative pass-through of that 3.3x - even

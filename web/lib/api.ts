@@ -1,5 +1,6 @@
 import type {
   BatchPlan,
+  DeepPlan,
   Country,
   CreditEntry,
   DevSpend,
@@ -256,6 +257,19 @@ export const scoreBatch = (
   slug: string,
   input: { questions?: string[]; top_n?: number; dry_run?: boolean }
 ) => post<BatchPlan>(`/api/tree/${slug}/score-batch`, input);
+
+/**
+ * Open the branches Google left closed, on the same Standard queue.
+ *
+ * Google returns four top-level questions and expands exactly one of them.
+ * This asks the other three the same question the seed was asked. Priced and
+ * polled exactly like a batch, because it is the same transaction - and each
+ * expansion is also a gap score for the question it expands, at no extra cost.
+ */
+export const deepSearch = (
+  slug: string,
+  input: { budget?: number; dry_run?: boolean }
+) => post<DeepPlan>(`/api/tree/${slug}/deep`, input);
 
 /** Queued scoring for one tree. Also sweeps stranded tasks on the way past. */
 export const fetchJobs = (slug: string) =>

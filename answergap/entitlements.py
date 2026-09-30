@@ -45,6 +45,7 @@ from __future__ import annotations
 # existing agreement. A capability is a yes/no about behaviour; a credit count
 # is an amount, and collapsing the two would lose that distinction.
 
+DEEP_SEARCH = "deep_search"
 CSV_EXPORT = "csv_export"
 PNG_EXPORT = "png_export"
 BULK_SEARCH = "bulk_search"
@@ -56,6 +57,7 @@ WHITE_LABEL = "white_label"
 #: else is reporting a typo, not granting a feature.
 CAPABILITIES: frozenset[str] = frozenset(
     {
+        DEEP_SEARCH,
         CSV_EXPORT,
         PNG_EXPORT,
         BULK_SEARCH,

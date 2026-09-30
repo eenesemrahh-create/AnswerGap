@@ -1,18 +1,24 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ApiError, fetchJobs, scoreBatch } from "@/lib/api";
-import type { BatchPlan, JobsStatus, Pricing } from "@/lib/types";
+import { ApiError, deepSearch, fetchJobs, scoreBatch } from "@/lib/api";
+import type { DeepPlan, JobsStatus, Pricing } from "@/lib/types";
 import { useI18n } from "@/i18n";
 
 /**
- * Score several questions at once, on the Standard queue.
+ * The two things that spend credits on the Standard queue: checking questions,
+ * and opening the branches Google left closed.
  *
- * THE PRICE IS ALWAYS SHOWN BEFORE IT IS SPENT. Clicking the button does not
+ * ONE COMPONENT FOR BOTH, because they are one transaction wearing two labels.
+ * Same queue, same half-credit price, same postback, same `/jobs` poll - and,
+ * crucially, the same progress display: two independent progress bars over one
+ * queue would disagree with each other the moment both had work in it.
+ *
+ * THE PRICE IS ALWAYS SHOWN BEFORE IT IS SPENT. Clicking a button does not
  * queue anything - it runs a dry run and puts the plan on screen. Confirming is
  * a second, deliberate act. CLAUDE.md's operating rule is that the cost is
- * visible before the request, and a batch is exactly where a surprise would be
- * expensive: one click, ten charges.
+ * visible before the request, and these are exactly where a surprise would be
+ * expensive: one click, several charges.
  *
  * The Live comparison sits next to the number rather than in a tooltip. The
  * whole argument for the Standard queue is a ratio, and a ratio with one half
@@ -26,16 +32,25 @@ export function BatchScore({
   slug,
   pricing,
   unscored,
+  canDeepSearch,
   onFinished,
 }: {
   slug: string;
   pricing: Pricing;
   /** How many questions have never been checked. Drives the default batch size. */
   unscored: number;
+  /**
+   * Whether this account's plan includes deep search.
+   *
+   * A courtesy, not a control - `/api/tree/{slug}/deep` checks the same
+   * capability server-side and refuses without it. Hiding the button keeps
+   * somebody from being quoted a price for something they cannot buy.
+   */
+  canDeepSearch: boolean;
   onFinished: () => void;
 }) {
   const { t } = useI18n();
-  const [plan, setPlan] = useState<BatchPlan | null>(null);
+  const [plan, setPlan] = useState<DeepPlan | null>(null);
   const [jobs, setJobs] = useState<JobsStatus | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -70,11 +85,25 @@ export function BatchScore({
     return () => clearInterval(id);
   }, [running, poll]);
 
-  const preview = async () => {
+  // Which of the two is being priced. Read from the plan rather than held
+  // separately, so the confirm button cannot buy one thing while the dialog
+  // above it describes the other.
+  const deep = plan?.action === "deep";
+
+  const run = async (
+    call: () => Promise<DeepPlan>,
+    { dryRun }: { dryRun: boolean }
+  ) => {
     setBusy(true);
     setError(null);
     try {
-      setPlan(await scoreBatch(slug, { top_n: size, dry_run: true }));
+      const next = await call();
+      if (dryRun) {
+        setPlan(next);
+      } else {
+        setPlan(null);
+        await poll();
+      }
     } catch (e) {
       setError(e instanceof ApiError ? (e.detail ?? e.kind) : String(e));
     } finally {
@@ -82,19 +111,15 @@ export function BatchScore({
     }
   };
 
-  const confirm = async () => {
-    setBusy(true);
-    setError(null);
-    try {
-      await scoreBatch(slug, { top_n: size });
-      setPlan(null);
-      await poll();
-    } catch (e) {
-      setError(e instanceof ApiError ? (e.detail ?? e.kind) : String(e));
-    } finally {
-      setBusy(false);
-    }
-  };
+  const previewBatch = () =>
+    run(() => scoreBatch(slug, { top_n: size, dry_run: true }), { dryRun: true });
+  const previewDeep = () =>
+    run(() => deepSearch(slug, { dry_run: true }), { dryRun: true });
+  const confirm = () =>
+    run(
+      () => (deep ? deepSearch(slug, {}) : scoreBatch(slug, { top_n: size })),
+      { dryRun: false }
+    );
 
   const money = (value: number) => `$${value.toFixed(4)}`;
 
@@ -119,7 +144,11 @@ export function BatchScore({
     return (
       <div className="batch confirm">
         <div className="batch-line">
-          <b>{t("batch.confirmCount", { count: plan.count })}</b>
+          <b>
+            {deep
+              ? t("deep.confirmCount", { count: plan.count })
+              : t("batch.confirmCount", { count: plan.count })}
+          </b>
           {/* WHAT IT COSTS THE READER comes first and in their own currency.
               This line used to open with our DataForSEO bill, and the credits
               the reader was actually about to spend appeared nowhere at all -
@@ -140,9 +169,27 @@ export function BatchScore({
             {t("batch.vsLive", { live: money(live), queue: plan.queue })}
           </span>
         </div>
+        {/* The reason is the same queue either way, but the sentence names
+            what is actually being bought. "Checking in bulk" is not what a
+            deep search does, and a discount explained by the wrong thing reads
+            as a number somebody got wrong. */}
         {typeof plan.credits === "number" && plan.credits < plan.count && (
-          <div className="muted batch-skipped">{t("batch.queueDiscount")}</div>
+          <div className="muted batch-skipped">
+            {deep ? t("deep.queueDiscount") : t("batch.queueDiscount")}
+          </div>
         )}
+        {/* WHICH branches, by name. "Queue 6 requests" is a number nobody can
+            check; the questions about to be opened are a claim they can. Each
+            one is also scored on the way, which is the part that is easy to
+            undersell - the response carries its organic results anyway. */}
+        {deep && plan.expanding && plan.expanding.length > 0 && (
+          <ul className="batch-skipped deep-branches">
+            {plan.expanding.map((b) => (
+              <li key={b.slug}>{b.question}</li>
+            ))}
+          </ul>
+        )}
+        {deep && <div className="muted batch-skipped">{t("deep.alsoScores")}</div>}
         {plan.skipped.length > 0 && (
           <div className="muted batch-skipped">
             {t("batch.skipped", { count: plan.skipped.length })}
@@ -175,9 +222,14 @@ export function BatchScore({
           onChange={(e) => setSize(Math.max(1, Math.min(50, Number(e.target.value) || 1)))}
         />
       </label>
-      <button onClick={preview} disabled={busy || unscored === 0}>
+      <button onClick={previewBatch} disabled={busy || unscored === 0}>
         {busy ? t("batch.pricing") : t("batch.check", { count: Math.min(size, unscored) })}
       </button>
+      {canDeepSearch && (
+        <button onClick={previewDeep} disabled={busy}>
+          {t("deep.open")}
+        </button>
+      )}
       {unscored === 0 && <span className="muted">{t("batch.allChecked")}</span>}
       {error && <span className="batch-failed">{error}</span>}
     </div>

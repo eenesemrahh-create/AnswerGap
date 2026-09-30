@@ -377,6 +377,14 @@ class Client:
                 "tag": item["cache_key"][:255],
                 "priority": 1,  # normal. Priority 2 is 2x for speed we do not need.
             }
+            # Per item, not per post: a deep expansion asks for the clicks and an
+            # ordinary scoring task does not, and both can travel in one call.
+            # The surcharge is $0.00015 a click, so an absent key is not a
+            # default to be filled in here - it is money not spent.
+            if item.get("people_also_ask_click_depth"):
+                task["people_also_ask_click_depth"] = item[
+                    "people_also_ask_click_depth"
+                ]
             if postback_url:
                 task["postback_url"] = postback_url
                 task["postback_data"] = "advanced"

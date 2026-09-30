@@ -185,6 +185,15 @@ export const tr: Messages = {
     allChecked: "Bütün sorular kontrol edilmiş.",
   },
 
+  deep: {
+    open: "Kapalı dalları aç",
+    confirmCount: "{count} dal",
+    queueDiscount:
+      "Yarı fiyat: dallar anında dönmek yerine kuyrukta açılır.",
+    alsoScores:
+      "Her biri yol üstünde boşluk için de kontrol edilir, ek ücret yok.",
+  },
+
   dev: {
     role: "yönetici",
     scopeTree: "Yalnızca bu analiz.",

@@ -186,6 +186,16 @@ export const es: Messages = {
     allChecked: "Todas las preguntas están comprobadas.",
   },
 
+  deep: {
+    open: "Abrir ramas cerradas",
+    confirmCount: "{count} ramas",
+    queueDiscount:
+      "Mitad de precio: las ramas se abren en la cola en lugar de volver al " +
+      "instante.",
+    alsoScores:
+      "Cada una se comprueba también en busca de huecos, sin coste adicional.",
+  },
+
   dev: {
     role: "administrador",
     scopeTree: "Solo este análisis.",

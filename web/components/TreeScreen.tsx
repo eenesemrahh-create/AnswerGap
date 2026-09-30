@@ -350,6 +350,7 @@ export function TreeScreen({ slug }: { slug: string }) {
             slug={slug}
             pricing={meta.pricing}
             unscored={tree.nodes.filter((n) => !n.results_checked).length}
+            canDeepSearch={capabilities.includes("deep_search")}
             onFinished={reload}
           />
         )}

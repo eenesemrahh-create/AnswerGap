@@ -306,6 +306,19 @@ export interface BatchPlan {
   }[];
 }
 
+/**
+ * What a deep search would open, or what it just queued.
+ *
+ * The same plan a batch returns — same queue, same price rule, same polling —
+ * plus the branches it is about to open. `expanding` is what lets the confirm
+ * step name them: "open these three questions" is a claim somebody can check
+ * before spending, where "queue 6 requests" is not.
+ */
+export interface DeepPlan extends BatchPlan {
+  action?: "deep";
+  expanding?: { slug: string; question: string; depth: number }[];
+}
+
 export interface Job {
   task_id: string;
   cache_key: string;

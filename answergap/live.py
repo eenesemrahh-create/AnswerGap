@@ -139,7 +139,8 @@ CLICK_SURCHARGE = 0.00015
 # measured along its whole path. CLAUDE.md's "expansion threshold" rule, given
 # a number.
 #
-# 0.5 is deliberately generous, and the measurement in `matching.seed_relevance`
+# The floor is deliberately generous - see the number it settled on below - and
+# the measurement in `matching.seed_relevance`
 # says why: the lexical score separates the extremes and leaves a wide middle
 # band it cannot split. A stricter floor would drop "Is there a free-to-play
 # knight game available?" along with the drift. Until embeddings can tell those
@@ -566,6 +567,90 @@ def _paa_titles(response: dict | None) -> list[str]:
     return titles
 
 
+def _paa_chain(response: dict | None, language_code: str) -> list[tuple[str, str | None]]:
+    """The PAA block as parent/child pairs. See `_chain`."""
+    if not response:
+        return []
+    return _chain(extract_paa(response), language_code)
+
+
+def _chain(elements: list[dict], language_code: str) -> list[tuple[str, str | None]]:
+    """Order PAA elements parent-before-child, each paired with its real parent.
+
+    A `click_depth` response is a CHAIN, not a flat list. `seed_question` names
+    the question that was clicked to reveal this one, so it is a parent pointer
+    and it has to be walked TRANSITIVELY - flattening it is precisely the bug
+    taken out of `build_from_response` on 2026-09-22, and harvesting a
+    click-depth response through the old flat path would have reintroduced it
+    under a different function's name. This is that walk, extracted so both
+    callers run the same one.
+
+    Returns `(question, parent_question)`, parents always emitted before their
+    children, `None` meaning "hang this at the top of whatever it is being
+    attached to". An ordinary scoring response carries no `seed_question` at
+    all and comes back as every question with parent `None` - which is exactly
+    the flat harvest this already was, so the generalisation costs the existing
+    path nothing.
+    """
+    named: dict[str, str] = {}
+    titles: list[str] = []
+    for element in elements:
+        title = (element.get("title") or "").strip()
+        if not title:
+            continue
+        titles.append(title)
+        key = normalize(title, language_code)
+        parent_title = (element.get("seed_question") or "").strip()
+        if key and parent_title:
+            named.setdefault(key, parent_title)
+
+    out: list[tuple[str, str | None]] = []
+    placed: set[str] = set()
+    # Guards the upward walk: a chain pointing back at itself would otherwise be
+    # followed forever. CLAUDE.md's A->B->A rule, applied to parent pointers.
+    walking: set[str] = set()
+
+    def emit(question: str) -> str | None:
+        key = normalize(question, language_code)
+        if not key:
+            return None
+        if key in placed:
+            return key
+        parent_title = named.get(key)
+        parent_key = normalize(parent_title, language_code) if parent_title else ""
+        parent: str | None = None
+        # No parent named, self-parenting, or a cycle: all three mean "top
+        # level". The middle two collapse into CLAUDE.md's orphan rule, which
+        # keeps a question that is only ever CITED as a parent rather than
+        # dropping it and stranding its children.
+        if parent_key and parent_key != key and key not in walking:
+            walking.add(key)
+            try:
+                resolved = emit(parent_title)
+            finally:
+                walking.discard(key)
+            if resolved and resolved != key:
+                parent = parent_title
+        # The walk above may have emitted THIS question already: a cycle
+        # terminates by placing whichever question it re-entered, and the outer
+        # frame is still holding it. Without this it is emitted twice, and the
+        # second copy names the cycle as its parent.
+        if key in placed:
+            return key
+        placed.add(key)
+        out.append((question, parent))
+        return key
+
+    # Google's originals first, so the questions that actually head the block
+    # own the top level before any interior one can be walked into it.
+    for title in titles:
+        if normalize(title, language_code) not in named:
+            emit(title)
+    for title in titles:
+        emit(title)
+    return out
+
+
 def _related_searches(response: dict | None) -> list[str]:
     """Query phrases Google hangs off the same page.
 
@@ -626,8 +711,17 @@ def _ancestors(node: dict, by_id: dict[str, dict]) -> set[str]:
     return found
 
 
-def _attach_harvest(tree: dict, parent: dict, questions: list[str]) -> dict:
+def _attach_harvest(
+    tree: dict, parent: dict, questions: list[tuple[str, str | None]]
+) -> dict:
     """Hang questions from an already-paid response underneath `parent`.
+
+    `questions` comes from `_chain`: each one paired with the question that was
+    clicked to reveal it, or `None` for the ones Google showed at the top of the
+    block. An ordinary scoring response names no parents at all and every
+    question hangs directly off `parent`, which is what this always did. A deep
+    expansion names them, and the chain is rebuilt under `parent` instead of
+    being flattened onto it.
 
     Returns what was added and what the relevance gate dropped. The dropped
     list is not diagnostics - CLAUDE.md's rule is that a crawl which bounds its
@@ -645,20 +739,30 @@ def _attach_harvest(tree: dict, parent: dict, questions: list[str]) -> dict:
     added: list[dict] = []
     dropped: list[dict] = []
 
-    for question in questions:
+    for question, parent_title in questions:
         key = normalize(question, language_code)
         if not key or key in blocked:
             continue
+
+        # Whoever this hangs from, which is `parent` unless the response named
+        # somebody nearer. A named parent the gate dropped, or one that landed
+        # outside this tree, falls back to `parent` rather than taking its
+        # children down with it - the orphan rule again.
+        parent_key = normalize(parent_title, language_code) if parent_title else ""
+        host = by_id.get(parent_key) if parent_key else None
+        if host is None or (host["id"] in blocked and host["id"] != parent["id"]):
+            host = parent
+
         relevance = round(seed_relevance(seed, question, language_code), 3)
-        reach = round(relevance * _reach(parent), 3)
+        reach = round(relevance * _reach(host), 3)
 
         existing = by_id.get(key)
         if existing:
             # Already in the tree under another parent. CLAUDE.md's repeat
             # signal: the strongest fallback while search volume is missing,
             # and harvesting is what finally makes it move.
-            if parent["id"] not in existing["parents"]:
-                existing["parents"].append(parent["id"])
+            if host["id"] not in existing["parents"]:
+                existing["parents"].append(host["id"])
                 existing["repeat_count"] = len(existing["parents"])
             continue
 
@@ -668,7 +772,7 @@ def _attach_harvest(tree: dict, parent: dict, questions: list[str]) -> dict:
             )
             continue
 
-        node = _blank_node(question, parent["depth"] + 1, parent["id"], language_code)
+        node = _blank_node(question, host["depth"] + 1, host["id"], language_code)
         node["relevance"] = relevance
         node["reach"] = reach
         node["discovered_by"] = "harvest"
@@ -755,62 +859,17 @@ def build_from_response(
     #
     #   {1: 4, 2: 2, 3: 3, 4: 3, 5: 3}
     #
-    # `seed_question` names the question that was clicked to reveal this one, so
-    # it is a parent pointer and the chain has to be WALKED. The first version
-    # of this code promoted every named parent straight to level 1 and hung its
-    # children at level 2, flattening the shape above into {1: 7, 2: 8} - seven
-    # questions presented as direct children of the seed when only four are.
-    # CLAUDE.md read those three extra level-1 nodes as Google "reflowing the
-    # block as it expands"; they are the interior of the chain, and the tree
-    # this product is named after was the wrong shape because of it.
-    named_parent: dict[str, str] = {}
-    for element in elements:
-        key = normalize((element.get("title") or "").strip(), language_code)
-        parent_title = (element.get("seed_question") or "").strip()
-        if key and parent_title:
-            named_parent.setdefault(key, parent_title)
-
-    # Guards the upward walk. A chain that points back at itself would otherwise
-    # be followed forever - CLAUDE.md's rule that an A->B->A loop must break,
-    # applied to the parent pointers rather than to the crawl.
-    walking: set[str] = set()
-
-    def place(question: str) -> str | None:
-        """Add a question under its real parent, placing that parent first."""
-        key = normalize(question, language_code)
-        if not key:
-            return None
-        if key in nodes:
-            return key
-
-        parent_title = named_parent.get(key)
+    # The walk that recovers that shape is `_chain`, shared with the harvest so
+    # a question discovered by deep search lands in the same place it would
+    # have if Google had returned it in the seed response.
+    for question, parent_title in _chain(elements, language_code):
         parent_key = normalize(parent_title, language_code) if parent_title else ""
-        # Level 1 covers two cases and both belong there: one of Google's
-        # originals, and a question that is only ever CITED as a parent. The
-        # second is CLAUDE.md's orphan rule - dropping it would strand its
-        # children - and self-parenting collapses into it too.
-        if not parent_key or parent_key == key or key in walking:
-            return add(question, 1, root_id)
-
-        walking.add(key)
-        try:
-            resolved = place(parent_title)
-        finally:
-            walking.discard(key)
-        if not resolved or resolved == key:
-            return add(question, 1, root_id)
-        return add(question, nodes[resolved]["depth"] + 1, resolved)
-
-    # Google's originals first, so the four that actually head the block own
-    # level 1 before any interior question can be walked into it.
-    for element in elements:
-        title = (element.get("title") or "").strip()
-        if title and not (element.get("seed_question") or "").strip():
-            add(title, 1, root_id)
-    for element in elements:
-        title = (element.get("title") or "").strip()
-        if title:
-            place(title)
+        # `_chain` emits parents first, so this lookup cannot miss.
+        parent_node = nodes.get(parent_key) if parent_key else None
+        if parent_node is None:
+            add(question, 1, root_id)
+        else:
+            add(question, parent_node["depth"] + 1, parent_node["id"])
 
     node_list = sorted(order, key=lambda n: (n["depth"], n["question"]))
     _dedupe_slugs(node_list)
@@ -1034,7 +1093,7 @@ def apply_response(tree: dict, node: dict, response: dict | None, key: str) -> d
 
     # The same response, mined for everything else it carries. Free: it is
     # already bought and, on a cache hit, already stored.
-    harvest = _attach_harvest(tree, node, _paa_titles(response))
+    harvest = _attach_harvest(tree, node, _paa_chain(response, language_code))
     related_added = _merge_related(tree, _related_searches(response))
 
     _recount(tree)
@@ -1096,8 +1155,16 @@ def queue_scores(
     postback_url: str | None = None,
     max_items: int | None = None,
     user_id: int | None = None,
+    click_depth: int | None = None,
 ) -> dict:
     """Queue gap scoring for several questions on the Standard queue.
+
+    `click_depth` turns each task into a DEEP EXPANSION as well as a score.
+    Nothing else changes, because nothing else needs to: the response comes
+    back through the same `ingest_task` -> `apply_response` path, which already
+    harvests the PAA block it finds. Asking for the clicks simply means that
+    block is 15 questions instead of 4. A deep search is therefore not a second
+    pipeline - it is this one, told to open the branches.
 
     Returns the plan and its price when `dry_run`, otherwise what was posted.
     The price is ALWAYS returned, dry run or not: CLAUDE.md's operating rule is
@@ -1142,16 +1209,17 @@ def queue_scores(
         if key in in_flight:
             skipped.append({"slug": node["slug"], "reason": "in_flight"})
             continue
-        items.append(
-            {
-                "keyword": node["question"],
-                "location_code": location_code,
-                "language_code": language_code,
-                "cache_key": key,
-                "slug": node["slug"],
-                "normalized": node["id"],
-            }
-        )
+        item = {
+            "keyword": node["question"],
+            "location_code": location_code,
+            "language_code": language_code,
+            "cache_key": key,
+            "slug": node["slug"],
+            "normalized": node["id"],
+        }
+        if click_depth:
+            item["people_also_ask_click_depth"] = click_depth
+        items.append(item)
 
     # Trim to what the caller can pay for, reporting the remainder through the
     # `skipped` list the UI already renders rather than by refusing the batch.
@@ -1163,7 +1231,8 @@ def queue_scores(
     # Estimated, and labelled as such. The real figure is whatever DataForSEO
     # reports per task, and that is what gets recorded - CLAUDE.md: read the
     # cost from the response, never trust the flat estimate.
-    estimate = round(len(items) * STANDARD_COST_PER_REQUEST, 6)
+    per_request = STANDARD_COST_PER_REQUEST + (click_depth or 0) * CLICK_SURCHARGE
+    estimate = round(len(items) * per_request, 6)
     plan = {
         "queued": [i["slug"] for i in items],
         "skipped": skipped,
@@ -1211,6 +1280,102 @@ def queue_scores(
         for r in posted
     ]
     plan["spend"] = round(sum(r.get("cost") or 0 for r in posted), 6)
+    return plan
+
+
+# ------------------------------------------------------------ deep search
+#
+# THE TREE IS DEEP BUT THIN. One click-depth response is a chain - {1:4, 2:2,
+# 3:3, 4:3, 5:3}, 15 questions - so Google hands back four top-level questions
+# and expands exactly ONE of them. The other three branches are never opened.
+# Deep search opens them, by asking each closed branch the same question Google
+# was asked about the seed.
+#
+# MEASURED, 2026-09-30, "teeth whitening" (en/2840), before this was priced:
+#
+#   expansions   unique questions   new per expansion
+#            0                 15   -
+#            6                 83   ~11
+#           11                129   ~10
+#
+# Duplicate rate 31% (51 of 165 returned questions were already in the tree),
+# and all 11 leaves scored reach 1.000 - the relevance gate rejected nothing,
+# because the unexpanded level-1 nodes are Google's own top four and are the
+# highest-relevance nodes in the tree. That is what makes expanding SAFER than
+# recursing deeper would be: `reach` decays with depth, and this is where it is
+# at its maximum.
+#
+# DEFAULT_EXPANSIONS = 6 is not a round number, it is the budget four credits
+# buys under the pricing rule already shipped: one Live seed at 1 credit, six
+# queued requests at half a credit each. The published figure is therefore 83,
+# not the ~100 AlsoAsked advertises - theirs is an average of THEIR shape, and
+# this repo does not ship numbers it has not measured.
+DEFAULT_EXPANSIONS = 6
+
+
+def expansion_candidates(tree: dict, limit: int) -> list[dict]:
+    """The branches Google left closed, best first.
+
+    A leaf is a question with no children. The seed is excluded because it is
+    the keyword rather than a question, and expanding it would re-run the search
+    already paid for. A question that has already been scored is excluded too:
+    an expansion IS a scoring request, so posting one for it would buy a
+    response we hold.
+
+    Ranked by `reach` and gated on `EXPANSION_FLOOR`, which is not a new rule -
+    it is the crawl rule `matching.py` already states verbatim, wired to a
+    second caller.
+    """
+    parents = {n.get("parent_id") for n in tree["nodes"]}
+    leaves = [
+        n
+        for n in tree["nodes"]
+        if n["id"] not in parents
+        and n.get("depth", 0) > 0
+        and not n.get("results_checked")
+        and _reach(n) >= EXPANSION_FLOOR
+    ]
+    # `question` breaks ties so the same tree always proposes the same branches;
+    # an unstable order would make the confirm dialog disagree with what the
+    # next click actually buys.
+    leaves.sort(key=lambda n: (-_reach(n), n.get("depth", 0), n["question"]))
+    return leaves[:limit] if limit else leaves
+
+
+def queue_expansions(
+    tree: dict,
+    *,
+    budget: int = DEFAULT_EXPANSIONS,
+    dry_run: bool = False,
+    postback_url: str | None = None,
+    max_items: int | None = None,
+    user_id: int | None = None,
+) -> dict:
+    """Open the closed branches on the Standard queue.
+
+    Deliberately a thin layer over `queue_scores`: the in-flight filter, the
+    credit trim, the receipts written before anything else can fail and the
+    ingest path are all the same machinery, and a second copy of them is how
+    two routes into the same tree start disagreeing about it.
+    """
+    chosen = expansion_candidates(tree, budget)
+    plan = queue_scores(
+        tree,
+        question_slugs=[n["slug"] for n in chosen],
+        dry_run=dry_run,
+        postback_url=postback_url,
+        max_items=max_items,
+        user_id=user_id,
+        click_depth=CLICK_DEPTH,
+    )
+    # Named so the caller can price it and the interface can say what it is
+    # about to open, rather than reporting a batch score with a bigger bill.
+    plan["action"] = "deep"
+    plan["expanding"] = [
+        {"slug": n["slug"], "question": n["question"], "depth": n["depth"]}
+        for n in chosen
+        if n["slug"] in set(plan["queued"])
+    ]
     return plan
 
 

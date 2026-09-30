@@ -1110,6 +1110,19 @@ table.table {
 .batch-actions { display: flex; gap: 8px; }
 .batch-skipped { font-size: 11.5px; line-height: 1.45; }
 
+/* The branches a deep search is about to open, named so the price can be
+   checked against something rather than taken on trust. Indented as a list
+   because that is what it is; capped in height so a budget of twenty does not
+   push the confirm button off the screen. */
+.deep-branches {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  max-height: 128px;
+  overflow-y: auto;
+  color: var(--muted);
+}
+.deep-branches li { margin: 2px 0; }
+
 /* Tabular figures so a price never jitters as it updates. */
 .batch-cost {
   font-weight: 700;

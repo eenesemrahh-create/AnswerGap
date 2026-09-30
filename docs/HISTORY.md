@@ -358,7 +358,9 @@ Two things stayed out of it on purpose:
   pair **`GET /api/tree/{slug}/labels`** /
   **`POST /api/tree/{slug}/question/{qslug}/label`**.
 - **Live crawl** (`answergap/live.py`) — the search box works. One request with
-  `click_depth=4` returns a 16-node, two-level tree; gap scoring is a separate
+  `click_depth=4` returns a 16-node tree — described here as two-level, which
+  was the 2026-09-22 misreading; it is a **chain of depth 5**, `{1:4, 2:2, 3:3,
+  4:3, 5:3}`, and `tests/test_tree_shape.py` pins it. Gap scoring is a separate
   per-question call that also **harvests** its own response, so the tree keeps
   widening for free and reaches depth 3 (see the two sections above). Live trees persist under `data/live/`, kept out of
   `data/raw/` so the Phase 0 evidence is never rewritten. Live tree slugs are
@@ -2140,3 +2142,57 @@ the live crawl today proved that in practice.
 Four things do have to change, in this order: **storage**, **tests**,
 **job runner**, **auth/tenancy/credits**.
 
+
+## Deep search, measured then built — 2026-09-30
+
+`scripts/measure_deep.py`, run twice against **`teeth whitening` (en / 2840)**
+before a credit price was chosen. The plan said to refuse to promise a number
+until this existed, and it earned that: the target did not hold.
+
+| expansions | unique questions | new per expansion |
+|---:|---:|---:|
+| 0 (seed only) | 15 | — |
+| 6 | **83** | ~11 |
+| 11 | 129 | ~10 |
+
+- **Duplicate rate 31%** — 51 of 165 returned questions were already in the
+  tree after `text.normalize`.
+- **The relevance gate rejected nothing.** All 11 leaves scored `reach` 1.000,
+  because the unexpanded level-1 nodes are Google's own top four and are the
+  highest-relevance nodes in the tree. That is the argument for expanding
+  rather than recursing: `reach` decays with depth, and this is where it is at
+  its maximum.
+- Live spend $0.0286 for 11; the queue is ~3.3x less, so the shipped six cost
+  **$0.0045** including the click surcharge.
+
+**Priced at 4 credits for 6 expansions, and the published figure is 83.** Four
+credits is not chosen, it falls out of the rule shipped on 2026-09-29: one Live
+seed at 1 credit, six queued requests at half a credit. AlsoAsked advertises
+~100 for the same 4 credits — that is an average of THEIR shape and this repo
+does not ship numbers it has not measured, so the copy says what deep search
+DOES ("open the branches Google left closed") and never quotes a count.
+
+The rate is flat at ~20–21 questions per credit whatever the budget, so the
+budget is a product decision about what the feature should deliver, not an
+efficiency one.
+
+**The build turned out much smaller than the plan assumed, because an
+expansion IS a scoring request.** `apply_response` already scores a node and
+harvests the PAA block it finds; asking for `people_also_ask_click_depth` makes
+that block 15 questions instead of 4. So deep search is not a second pipeline —
+it is `queue_scores` with a click depth and a different candidate selector, and
+**every expanded question gets a free gap score** because the response carries
+its organic results anyway.
+
+The one genuinely new piece was the chain. `_attach_harvest` hung everything
+flat at `parent.depth + 1`, which is exactly the bug taken out of
+`build_from_response` on 2026-09-22 — routing a click-depth response through it
+would have drawn one branch of 15 questions as 15 siblings. The walk is now
+`live._chain`, **shared by both callers**, so a question found by deep search
+lands where it would have landed had Google returned it in the seed response.
+`tests/test_tree_shape.py` passing unchanged is what proves the extraction was
+behaviour-preserving.
+
+A real bug the new tests caught: a cyclic `seed_question` pointer emitted the
+same question twice, because the outer frame did not re-check `placed` after
+the recursion that terminated the cycle had already emitted it.

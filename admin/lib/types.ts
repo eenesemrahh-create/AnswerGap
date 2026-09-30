@@ -255,6 +255,7 @@ export function completePlan(saved: Partial<Plan> & { id: string }): Plan {
 /** Mirrors `CAPABILITIES` in answergap/entitlements.py. A name here that the
  *  API does not know is refused on save, so the two cannot drift silently. */
 export const CAPABILITY_OPTIONS: readonly { value: string; key: string }[] = [
+  { value: "deep_search", key: "cap.deepSearch" },
   { value: "csv_export", key: "cap.csvExport" },
   { value: "png_export", key: "cap.pngExport" },
   { value: "bulk_search", key: "cap.bulkSearch" },

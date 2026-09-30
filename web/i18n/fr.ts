@@ -187,6 +187,16 @@ export const fr: Messages = {
     allChecked: "Toutes les questions ont été vérifiées.",
   },
 
+  deep: {
+    open: "Ouvrir les branches fermées",
+    confirmCount: "{count} branches",
+    queueDiscount:
+      "Demi-tarif : les branches s'ouvrent dans la file au lieu de revenir " +
+      "immédiatement.",
+    alsoScores:
+      "Chacune est aussi vérifiée pour les lacunes au passage, sans supplément.",
+  },
+
   dev: {
     role: "administrateur",
     scopeTree: "Cette analyse uniquement.",

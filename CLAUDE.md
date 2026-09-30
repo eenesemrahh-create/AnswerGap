@@ -4,6 +4,9 @@ Crawls Google "People Also Ask" recursively into a question tree, checks the
 search results behind each question, and shows **which questions no site
 actually answers**.
 
+(That "recursively" was aspirational until 2026-09-30 — one request, one chain.
+Deep search is what makes it true.)
+
 Positioning: *"Find the questions your competitors never answered."*
 
 Primary market: **United States** (`location_code=2840`, `language_code=en`).
@@ -87,9 +90,31 @@ do not propose it.
   never wrong; what held it back was a visible regression it exposes — `fit()`
   in `web/components/QuestionTree.tsx` had no zoom floor, so a deeper tree
   dropped to 45% on a 1280px screen. Do not restore one without the other.
-  **Consequence for the product: we already buy depth 5 for one credit** —
-  AlsoAsked charges 4 credits for depth 3 — so before paying for more depth,
-  check we are showing the depth already bought.
+  **Consequence for the product: we already buy depth 5 for one credit** — so
+  before paying for more depth, check we are showing the depth already bought.
+
+  **CORRECTED 2026-09-30: this used to add "AlsoAsked charges 4 credits for
+  depth 3", as a win. The claim was unsourced, and its missing half reverses
+  the conclusion.** Their documentation says a deep search "goes 3 levels deep
+  and on average returns approximately 100 questions". Three FULL levels is
+  4→16→64; our five are a single chain of 15.
+
+  | | AlsoAsked | AnswerGap, one credit |
+  |---|---:|---:|
+  | credits | 4 | 1 |
+  | levels | 3 | 5 |
+  | questions | ~100 | 15 |
+  | **questions per credit** | **25** | **15** |
+
+  **Depth is the wrong axis; breadth was what was missing.** Deep search
+  (2026-09-30) buys it back: 6 expansions, 4 credits, **83 questions
+  measured** — see `docs/HISTORY.md`. Compare on questions per credit, never
+  on levels.
+
+  Recorded so nobody re-derives it: our pricing cards are a near copy of
+  AlsoAsked's — same 100/300/1000 credit tiers, same bullets, undercut ~17%.
+  That is where the "24-hour search history" bullet came from, the one this
+  file's own rule forbids. It was inherited, not designed.
 - **Do NOT use `load_async_ai_overview`.** $0.002 extra for nothing — the
   top-level `ai_overview` element already arrives with `references` populated
   (`asynchronous_ai_overview: false`). Phase 0 wasted money proving this.

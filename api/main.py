@@ -33,7 +33,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
-from answergap import db, gate, labels, live, mailer
+from answergap import db, entitlements, gate, labels, live, mailer
 from answergap.dataforseo import (
     LIVE_COST_PER_REQUEST,
     STANDARD_COST_PER_REQUEST,
@@ -853,6 +853,87 @@ def score_batch(slug: str, request: BatchScoreRequest, http_request: Request) ->
         auth.record(
             who,
             action="batch",
+            billable_calls=posted,
+            spend=result.get("spend", 0.0),
+            tree_slug=slug,
+        )
+    return result
+
+
+class DeepRequest(BaseModel):
+    """How many closed branches to open."""
+
+    # Capped for the same reason `top_n` is: this endpoint spends money per
+    # item. The default is the six that four credits buys - see
+    # `live.DEFAULT_EXPANSIONS`, which is where the measurement behind the
+    # number is written down.
+    budget: int = Field(default=live.DEFAULT_EXPANSIONS, ge=1, le=20)
+    dry_run: bool = False
+
+
+@app.post("/api/tree/{slug}/deep")
+def deep_search(slug: str, request: DeepRequest, http_request: Request) -> dict:
+    """Open the branches Google left closed, on the Standard queue.
+
+    A click-depth response is a CHAIN: Google returns four top-level questions
+    and expands exactly one of them. This asks the other three the same question
+    it was asked about the seed, and hangs what comes back in the right place.
+
+    Deliberately shaped like `score-batch`, because it is the same transaction:
+    a price shown before it is spent, a trim rather than a refusal when the
+    balance is short, results that arrive by postback minutes later and are
+    polled for through `/jobs`.
+
+    It differs in one way that is worth stating plainly: each expansion is ALSO
+    a gap score for the question being expanded, at no extra cost, because the
+    response carries that question's organic results alongside its PAA block.
+
+    THE DRY RUN IS UNGATED BY CREDITS AND GATED BY PLAN. Those are different
+    questions. The confirm dialog is built from the dry run, so pricing it out
+    of reach of a short balance would hide the price from exactly the person
+    who needs it. Being on a plan that includes deep search at all is checked
+    first, so nobody is shown a price for something they cannot buy.
+    """
+    who = auth.identity(http_request)
+    auth.requires(who, entitlements.DEEP_SEARCH)
+    found = _authorize_tree(slug, who)
+    if found.get("source") != "live":
+        raise HTTPException(
+            409,
+            "Archived Phase 0 trees are fixed evidence and are not re-crawled. "
+            "Run a live search for this seed instead.",
+        )
+    if not db.available():
+        raise HTTPException(
+            503,
+            "Deep search needs the database: a queued task is paid for at post "
+            "time, so its id has to be written down before the result can go "
+            "missing.",
+        )
+
+    budget: int | None = None
+    if not request.dry_run:
+        budget = auth.check(
+            who, action="deep", units=request.budget
+        ).affordable_units
+
+    result = _run(
+        lambda: live.queue_expansions(
+            found,
+            budget=request.budget,
+            dry_run=request.dry_run,
+            postback_url=_postback_url(),
+            max_items=budget,
+            user_id=who.user_id,
+        )
+    )
+    result["callback"] = bool(_postback_url())
+    result["credits"] = gate.credit_cost("deep", result.get("count", 0))
+    if not request.dry_run:
+        posted = sum(1 for p in (result.get("posted") or []) if p.get("task_id"))
+        auth.record(
+            who,
+            action="deep",
             billable_calls=posted,
             spend=result.get("spend", 0.0),
             tree_slug=slug,

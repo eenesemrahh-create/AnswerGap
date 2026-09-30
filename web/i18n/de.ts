@@ -186,6 +186,16 @@ export const de: Messages = {
     allChecked: "Alle Fragen wurden geprüft.",
   },
 
+  deep: {
+    open: "Geschlossene Zweige öffnen",
+    confirmCount: "{count} Zweige",
+    queueDiscount:
+      "Halber Preis: Die Zweige öffnen sich in der Warteschlange, statt " +
+      "sofort zurückzukommen.",
+    alsoScores:
+      "Jeder wird dabei auch auf Lücken geprüft, ohne Aufpreis.",
+  },
+
   dev: {
     role: "Administrator",
     scopeTree: "Nur diese Analyse.",

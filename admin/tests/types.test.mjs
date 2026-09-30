@@ -110,6 +110,7 @@ test("the capability options are the ones the API accepts", () => {
       "api_access",
       "bulk_search",
       "csv_export",
+      "deep_search",
       "png_export",
       "scheduled_crawls",
       "white_label",

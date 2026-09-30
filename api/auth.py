@@ -726,6 +726,43 @@ def _capabilities(user_id: int, *, is_admin: bool, subscription: dict | None) ->
         return sorted(entitlements.FREE)
 
 
+def requires(who: gate.Identity, capability: str) -> None:
+    """Refuse the caller unless their plan unlocks `capability`.
+
+    The enforcing half of the capability layer. `/api/me` already tells the
+    interface what to draw, and a drawn button is a courtesy - this is the
+    control, and it is the only one that counts, because the request can be
+    made without the button.
+
+    FAILS CLOSED, everywhere. Accounts switched off, signed out, a stale token,
+    a lapsed plan, an unreadable pricing row: each one refuses. The alternative
+    is an error path that hands somebody Pro, and CLAUDE.md's rule for the
+    credit gate applies verbatim here - a billing system whose failure mode is
+    generosity is one that will be attacked.
+    """
+    if not accounts_enabled():
+        # Not a refusal of the person, a refusal of the deployment: with no
+        # accounts there is no plan to read, so nothing can be unlocked.
+        raise HTTPException(503, {"code": "accountsOff"})
+    if not who.signed_in:
+        raise HTTPException(401, {"code": "signedOut"})
+    row = db.user_for_gate(who.user_id)
+    if not row or row.get("token_epoch") != who.token_epoch:
+        raise HTTPException(401, {"code": "signedOut"})
+    verified = bool(row.get("email_verified", True))
+    admin = verified and gate.is_admin(row.get("email"), ADMIN_EMAILS)
+    allowed = _capabilities(
+        who.user_id, is_admin=admin, subscription=_subscription_summary(who.user_id)
+    )
+    if capability not in allowed:
+        # The capability travels in the body so the interface can name the
+        # feature and point at the plan that carries it, rather than showing a
+        # bare 403 for something the person may not know they had bought.
+        raise HTTPException(
+            403, {"code": "planRequired", "capability": capability}
+        )
+
+
 def _published_plan(plan_id: str) -> dict | None:
     """One PUBLISHED plan from the admin's pricing setting.
 

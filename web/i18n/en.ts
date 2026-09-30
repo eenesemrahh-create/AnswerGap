@@ -225,6 +225,20 @@ export const en = {
     allChecked: "Every question has been checked.",
   },
 
+  // Deep search. The copy says what it DOES and never promises a count:
+  // "~100 questions" is an average of a competitor's shape, and the measured
+  // figure here is 83 on a six-branch budget. A number on the button would be
+  // a promise the seed decides, not us.
+  deep: {
+    open: "Open closed branches",
+    confirmCount: "{count} branches",
+    queueDiscount:
+      "Half price: the branches open on the queue instead of returning " +
+      "instantly.",
+    alsoScores:
+      "Each one is also checked for gaps on the way, at no extra cost.",
+  },
+
   // The developer role's surface. Dollars, not credits - see DevPanel.
   dev: {
     role: "admin",
