@@ -324,6 +324,32 @@ def user_detail(request: Request, user_id: int) -> dict:
     return found
 
 
+@router.get("/user/{user_id}/activity")
+def user_activity(request: Request, user_id: int, months: int = 12) -> dict:
+    """What one account actually did, aggregated - and what it cost.
+
+    A SECOND CALL ON PURPOSE, against the house rule that one screen is one
+    call. `admin_user_detail` is already a wide statement with four `json_agg`
+    windows, and folding three more breakdowns plus a quota into it would make
+    the page's whole content hostage to the slowest aggregate on it. Separated,
+    the profile still renders when the analysis is slow, which is the half an
+    operator needs when they are looking somebody up to answer a question.
+
+    `months` bounds the breakdowns. The quota is NOT bounded by it - a plan
+    period is whatever the plan says, and clipping it to a calendar window
+    would report a fraction of somebody's allowance as the whole of it.
+    """
+    require_admin(request)
+    # The cheap existence check, not `admin_user_detail` - running the page's
+    # widest statement a second time just to decide a 404 would double the
+    # cost of splitting the call in the first place.
+    if not db.user_for_gate(user_id):
+        raise HTTPException(404, {"code": "notFound"})
+    out = db.admin_user_activity(user_id, months=max(1, min(months, 60)))
+    out["period"] = db.period_usage(user_id)
+    return out
+
+
 @router.post("/user/{user_id}/credits")
 def credit_user(request: Request, user_id: int, payload: CreditRequest) -> dict:
     """Grant or revoke credits. Writes a ledger row and an audit row together."""

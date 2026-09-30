@@ -271,6 +271,18 @@ export const deepSearch = (
   input: { budget?: number; dry_run?: boolean }
 ) => post<DeepPlan>(`/api/tree/${slug}/deep`, input);
 
+/**
+ * Tell the server an export happened. Free, and never blocks the download.
+ *
+ * The file is built here from data already on screen, so this cannot gate it
+ * and does not try to - it is a receipt, so that an export shows up in the
+ * activity log beside the searches instead of being invisible to it. Failure
+ * is swallowed by the caller for the same reason: losing the row is bad,
+ * losing the user's file over it would be worse.
+ */
+export const recordExport = (slug: string, kind: "csv" | "png", items: number) =>
+  post<{ recorded: boolean }>(`/api/tree/${slug}/export`, { kind, items });
+
 /** Queued scoring for one tree. Also sweeps stranded tasks on the way past. */
 export const fetchJobs = (slug: string) =>
   get<JobsStatus>(`/api/tree/${slug}/jobs`);

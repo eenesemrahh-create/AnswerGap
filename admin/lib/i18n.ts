@@ -119,6 +119,57 @@ const en = {
     searchPlaceholder: "Search by email",
   },
 
+  /* One account's activity, aggregated. The per-user answer to what Reports
+     answers for the product — and the only place an export is visible at all,
+     since nothing else records one. */
+  activity: {
+    heading: "Activity",
+    none: "Nothing recorded in this window.",
+    action: "Action",
+    attempts: "Attempts",
+    billable: "Billable",
+    refused: "Refused",
+    credits: "Credits",
+    spend: "Cost",
+    month: "Month",
+    total: "Total",
+    lastAt: "Last",
+    byAction: "By action",
+    byActionLead:
+      "Credits are what they paid; Cost is what we paid DataForSEO. The gap " +
+      "between those two columns is the margin on each kind of work.",
+    byMonth: "By month",
+    byOutcome: "Outcomes",
+    window: "Last {months} months",
+    windowShort: "{months}m",
+    firstAt: "first seen {date}",
+    crawls: "{count} searches saved · {spend} on the provider's own receipts",
+    quotaUsed: "{used} of {granted} credits used this period",
+    quotaEnds: "period ends {date}",
+    quotaSince: "Counted since {date}, when this period's credits landed.",
+  },
+
+  /* Action names. Free-form in the database on purpose, so an action this
+     build has never heard of renders as its own name rather than vanishing. */
+  action: {
+    search: "Search",
+    score: "Question check",
+    batch: "Bulk check",
+    deep: "Deep search",
+    export_csv: "CSV export",
+    export_png: "PNG export",
+  },
+
+  outcome: {
+    allowed: "Allowed",
+    refused_no_credits: "Out of credits",
+    refused_suspended: "Suspended",
+    refused_signed_out: "Signed out",
+    refused_unverified: "Unverified",
+    refused_erased: "Erased",
+    refused_anon_limit: "Anonymous limit (retired)",
+  },
+
   userDetail: {
     joinedAt: "joined",
     lastSeenAt: "last seen",
@@ -644,6 +695,52 @@ const tr: Messages = {
       "Bakiye ve harcama listeyle birlikte tek sorguda gelir — satır başına " +
       "bir sorgu asla.",
     searchPlaceholder: "E-posta ile ara",
+  },
+
+  activity: {
+    heading: "Hareketler",
+    none: "Bu aralıkta kayıtlı hareket yok.",
+    action: "İşlem",
+    attempts: "Deneme",
+    billable: "Ücretli",
+    refused: "Reddedilen",
+    credits: "Kredi",
+    spend: "Maliyet",
+    month: "Ay",
+    total: "Toplam",
+    lastAt: "Son",
+    byAction: "İşleme göre",
+    byActionLead:
+      "Kredi onun ödediği, Maliyet bizim DataForSEO'ya ödediğimiz. İki sütun " +
+      "arasındaki fark, her iş türündeki kârdır.",
+    byMonth: "Aya göre",
+    byOutcome: "Sonuçlar",
+    window: "Son {months} ay",
+    windowShort: "{months} ay",
+    firstAt: "ilk görülme {date}",
+    crawls: "{count} arama kayıtlı · sağlayıcının kendi fişlerine göre {spend}",
+    quotaUsed: "Bu dönemde {granted} kredinin {used} tanesi kullanıldı",
+    quotaEnds: "dönem bitişi {date}",
+    quotaSince: "{date} tarihinden beri, bu dönemin kredileri girdiğinden beri.",
+  },
+
+  action: {
+    search: "Arama",
+    score: "Soru kontrolü",
+    batch: "Toplu kontrol",
+    deep: "Derin arama",
+    export_csv: "CSV dışa aktarma",
+    export_png: "PNG dışa aktarma",
+  },
+
+  outcome: {
+    allowed: "İzin verildi",
+    refused_no_credits: "Kredi bitti",
+    refused_suspended: "Askıya alınmış",
+    refused_signed_out: "Oturum kapalı",
+    refused_unverified: "Doğrulanmamış",
+    refused_erased: "Silinmiş",
+    refused_anon_limit: "Anonim sınırı (kaldırıldı)",
   },
 
   userDetail: {

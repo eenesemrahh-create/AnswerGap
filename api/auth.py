@@ -554,6 +554,11 @@ def me(request: Request) -> dict:
         # webhook, so this costs one local query rather than a call to a
         # billing API on the critical path of every page that shows a balance.
         "subscription": subscription,
+        # HOW MUCH OF THIS PERIOD'S ALLOWANCE IS GONE, or null when there is
+        # no plan to be a fraction of. Read from the same `db.period_usage`
+        # the admin reads, so the bar somebody is shown and the bar an
+        # operator looks at while answering their email cannot disagree.
+        "period": _period(who.user_id, subscription),
         # WHAT THIS PLAN LETS THEM DO, resolved server-side. The interface uses
         # it to decide what to draw, and every endpoint re-checks it anyway -
         # a hidden button is a courtesy, not a control.
@@ -724,6 +729,39 @@ def _capabilities(user_id: int, *, is_admin: bool, subscription: dict | None) ->
         return sorted(entitlements.resolve(plan, is_admin=is_admin))
     except Exception:  # noqa: BLE001 - never break /api/me over a feature flag
         return sorted(entitlements.FREE)
+
+
+def _period(user_id: int, subscription: dict | None) -> dict | None:
+    """This period's allowance and how much of it is spent, for `/api/me`.
+
+    Skipped entirely without a LIVE subscription, which saves the query on
+    every page load for a signed-out-of-billing account and, more importantly,
+    keeps "no plan" and "a plan with nothing used" from rendering as the same
+    empty bar. The `active` flag is the API's own answer, not `status`, for
+    the reason `_capabilities` states: nothing renews an assigned plan, so a
+    lapsed one still reads `active` in the column.
+
+    Never breaks the page. A balance and a plan are the load-bearing parts of
+    this response; a meter is not worth failing them for.
+    """
+    if not subscription or not subscription.get("active"):
+        return None
+    try:
+        found = db.period_usage(user_id)
+    except Exception:  # noqa: BLE001
+        return None
+    if not found:
+        return None
+    # Renamed, not recomputed. `db.period_usage` already clamped the fraction;
+    # this only turns two timestamps into JSON and drops the `_at` suffix the
+    # browser has no use for.
+    return {
+        "start": (found["start_at"].isoformat() if found.get("start_at") else None),
+        "end": (found["end_at"].isoformat() if found.get("end_at") else None),
+        "granted": int(found["granted"]),
+        "used": int(found["used"]),
+        "fraction": float(found["fraction"]),
+    }
 
 
 def requires(who: gate.Identity, capability: str) -> None:

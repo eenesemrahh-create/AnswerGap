@@ -328,6 +328,9 @@ export const fr: Messages = {
     empty: "Plus de crédits",
     free: "Les résultats en cache sont gratuits : ils ne consomment aucun crédit.",
     manualNote: "Les crédits sont ajoutés à la main pour l'instant ; il n'y a pas encore de paiement.",
+    periodHeading: "Cette période",
+    periodUsed: "{used} crédits sur {granted} utilisés cette période",
+    periodResets: "réinitialisé le {date}",
   },
 
   account: {

@@ -860,6 +860,59 @@ def score_batch(slug: str, request: BatchScoreRequest, http_request: Request) ->
     return result
 
 
+#: What an export can be, and the capability each one needs. A closed map for
+#: the same reason `entitlements.CAPABILITIES` is closed: an unrecognised
+#: format must be a refusal, not a row nobody can interpret later.
+EXPORT_KINDS = {
+    "csv": entitlements.CSV_EXPORT,
+    "png": entitlements.PNG_EXPORT,
+}
+
+
+class ExportRequest(BaseModel):
+    kind: str
+    #: How many rows or nodes left the building. Analytics only - it is the
+    #: difference between "exported the tree" and "exported one filtered row",
+    #: which is the whole question when reading whether the feature is used.
+    items: int = Field(default=0, ge=0, le=100_000)
+
+
+@app.post("/api/tree/{slug}/export")
+def record_export(slug: str, request: ExportRequest, http_request: Request) -> dict:
+    """Write down that somebody exported, and check they were allowed to.
+
+    COSTS NOTHING AND IS NOT A CONTROL, and both halves are deliberate.
+
+    A CSV or a PNG is built in the browser from data already on screen, so
+    nothing here can stop it - anybody who can see the table can save it. What
+    this does is make the capability check real on the server rather than only
+    in a hidden button, and give the activity log a row for an action that
+    otherwise happens entirely outside it. Exports were invisible to Reports
+    until now, which meant the two plan features most often ticked were the two
+    nobody could tell were being used.
+
+    Recorded through the ordinary usage path at zero credits and zero spend,
+    beside the searches - a second table for free actions would mean every
+    question about "what did this account do" had to be asked twice and
+    merged. `usage_event` already carries refusals at zero credits, so the
+    shape fits.
+    """
+    capability = EXPORT_KINDS.get(request.kind)
+    if capability is None:
+        raise HTTPException(400, f"Unknown export kind: {request.kind!r}")
+    who = auth.identity(http_request)
+    auth.requires(who, capability)
+    _authorize_tree(slug, who)
+    auth.record(
+        who,
+        action=f"export_{request.kind}",
+        billable_calls=0,  # nothing reached DataForSEO, so nothing is charged
+        spend=0.0,
+        tree_slug=slug,
+    )
+    return {"recorded": True, "kind": request.kind, "items": request.items}
+
+
 class DeepRequest(BaseModel):
     """How many closed branches to open."""
 

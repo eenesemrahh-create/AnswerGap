@@ -97,6 +97,75 @@ export interface SubscriptionRow {
   live: boolean;
 }
 
+/**
+ * ONE ACCOUNT'S ACTIVITY, AGGREGATED — the per-user answer to what /reports
+ * answers for the product.
+ *
+ * It is a SECOND CALL rather than more fields on `UserDetail`, and the reason
+ * is in the shape of that function: it caps `usage`, `ledger` and `crawls` at
+ * 50 rows each, so every total computed from those lists is a fraction of the
+ * truth wearing the label of the whole. This codebase shipped exactly that
+ * mistake once, on this page's Spend card. These numbers are uncapped.
+ */
+export interface ActionRow {
+  /** `search` / `score` / `batch` / `deep` / `export_csv` / `export_png`.
+   *  Free-form on purpose — a build that does not recognise a newer action
+   *  must still show its row rather than hide activity it cannot name. */
+  action: string;
+  attempts: number;
+  allowed: number;
+  refused: number;
+  /** Requests that actually reached DataForSEO. Kept apart from `attempts`
+   *  because the difference is what the cache saved. */
+  billable: number;
+  credits: number;
+  spend_usd: number;
+  first_at: string;
+  last_at: string;
+}
+
+export interface ActivityMonthRow {
+  month: string;
+  attempts: number;
+  refused: number;
+  credits: number;
+  spend_usd: number;
+}
+
+export interface OutcomeRow {
+  outcome: string;
+  attempts: number;
+}
+
+/** This plan period's allowance and what is left of it. Null when there is no
+ *  live plan — with no allowance there is no fraction to draw, and an empty
+ *  bar would claim the allowance is untouched. */
+export interface CreditPeriod {
+  start_at: string | null;
+  end_at: string | null;
+  granted: number;
+  used: number;
+  /** Clamped to 1 by the API, so the bar cannot overrun its own track. */
+  fraction: number;
+}
+
+export interface UserActivity {
+  by_action: ActionRow[];
+  by_month: ActivityMonthRow[];
+  by_outcome: OutcomeRow[];
+  attempts: number;
+  refused: number;
+  billable: number;
+  credits: number;
+  spend_usd: number;
+  first_at: string | null;
+  last_at: string | null;
+  crawls: number;
+  crawl_spend: number;
+  window_months: number;
+  period: CreditPeriod | null;
+}
+
 export interface UserDetail extends UserRow {
   token_epoch: number;
   /** When the account was erased, or null. The authoritative flag; `status`

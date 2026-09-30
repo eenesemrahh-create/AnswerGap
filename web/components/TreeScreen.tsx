@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ApiError, API_BASE, fetchLabels, fetchMe, fetchMeta, fetchTree } from "@/lib/api";
+import { ApiError, API_BASE, fetchLabels, fetchMe, fetchMeta, fetchTree, recordExport } from "@/lib/api";
 import { token } from "@/lib/auth";
 import { csvFilename, toCsv } from "@/lib/csv";
 import {
@@ -187,6 +187,17 @@ export function TreeScreen({ slug }: { slug: string }) {
     link.download = csvFilename(tree.seed);
     link.click();
     URL.revokeObjectURL(url);
+    // A receipt, sent AFTER the file is on its way and deliberately not
+    // awaited. The export already succeeded; a failed beacon must not turn
+    // that into an error the reader sees.
+    recordExport(slug, "csv", tableRows.length).catch(() => {});
+  };
+
+  /* Same receipt for the image. The tree owns the export - it holds the <svg>
+     and the measured extent - so the count is nodes rather than rows. */
+  const exportPng = () => {
+    treeRef.current?.exportPng();
+    recordExport(slug, "png", tree?.nodes.length ?? 0).catch(() => {});
   };
 
   const selected = useMemo(
@@ -390,7 +401,7 @@ export function TreeScreen({ slug }: { slug: string }) {
           {view === "tree" && canExportPng && (
             <button
               className="chip"
-              onClick={() => treeRef.current?.exportPng()}
+              onClick={exportPng}
               title={t("toolbar.exportPngHint")}
             >
               {t("toolbar.exportPng")}

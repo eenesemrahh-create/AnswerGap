@@ -1,19 +1,32 @@
 import { get, money, when } from "@/lib/api";
 import { getLocale, translator } from "@/lib/locale";
-import type { Pricing, UserDetail } from "@/lib/types";
+import type { Pricing, UserActivity, UserDetail } from "@/lib/types";
 import { grantCredits, revokeTokens, setStatus } from "../actions";
+import { Activity } from "./Activity";
 import { EraseAccount } from "./EraseAccount";
 import { PlanPanel } from "./PlanPanel";
 
 export const dynamic = "force-dynamic";
 
+/** How far back the breakdowns look, in months. The API clamps 1-60 anyway;
+ *  this list is what the page offers, so a stray query string cannot put an
+ *  option on screen that the rest of the UI does not know how to describe. */
+const WINDOWS = [1, 3, 12, 60] as const;
+
 export default async function UserPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ months?: string }>;
 }) {
   const { id } = await params;
   const userId = Number(id);
+  const asked = Number((await searchParams).months);
+  // Anything unrecognised falls back to a year rather than being passed
+  // through. A window nobody chose is how a total quietly answers a different
+  // question from the one the heading claims.
+  const months = WINDOWS.includes(asked as (typeof WINDOWS)[number]) ? asked : 12;
   // TWO REQUESTS IN PARALLEL, not one after the other. The plan list is not
   // derived from the user, so awaiting them in sequence would add a round trip
   // to every page load for nothing.
@@ -29,9 +42,14 @@ export default async function UserPage({
   // that path. Not ideal - the ledger and the erase control are on this page -
   // but it names the real problem, and the alternative is sniffing redirect
   // digests to tell one throw from another.
-  const [u, pricing] = await Promise.all([
+  // THREE REQUESTS IN PARALLEL now. The activity aggregate is deliberately a
+  // separate call rather than more fields on the detail: that statement is
+  // already four `json_agg` windows wide, and folding three more breakdowns
+  // into it would make the whole page hostage to the slowest number on it.
+  const [u, pricing, activity] = await Promise.all([
     get<UserDetail>(`/api/admin/user/${userId}`),
     get<Pricing>("/api/admin/pricing"),
+    get<UserActivity>(`/api/admin/user/${userId}/activity?months=${months}`),
   ]);
 
   const grant = grantCredits.bind(null, userId);
@@ -55,21 +73,22 @@ export default async function UserPage({
           <b className={u.balance < 0 ? "neg" : ""}>{u.balance}</b>
           <em>{t("userDetail.creditsNote")}</em>
         </div>
+        {/* BOTH OF THESE USED TO BE COMPUTED FROM `u.usage`, which
+            `admin_user_detail` caps at 50 rows - so for a busy account they
+            were a fraction of the truth wearing the label of the whole. That
+            was a documented bug on the Spend card and an undocumented one on
+            Searches beside it. They now come from the aggregate, which has no
+            cap, and the caption says which window they cover. */}
         <div className="card">
-          <span>{t("common.searches")}</span><b>{u.usage.length}</b>
-          <em>{t("userDetail.searchesNote")}</em>
+          <span>{t("common.searches")}</span><b>{activity.attempts}</b>
+          <em>{t("activity.windowShort", { months })}</em>
         </div>
         <div className="card">
           <span>{t("common.spend")}</span>
-          {/* The SUM OF THE 50 ROWS BELOW, and it has to say so. This card
-              used to read "reported by DataForSEO", which is true of each
-              number in it and false of the total: `admin_user_detail` caps
-              the usage list at 50, so for a busy account this figure was a
-              fraction of the real spend wearing the label of the whole.
-              The unlimited lifetime figure is one page over, on Reports. */}
-          <b>{money(u.usage.reduce((sum, r) => sum + Number(r.spend_usd || 0), 0))}</b>
+          <b>{money(activity.spend_usd)}</b>
           <em>
-            {t("userDetail.spendNote")} · <a href="/reports">{t("userDetail.lifetimeLink")}</a>
+            {t("activity.windowShort", { months })} ·{" "}
+            <a href="/reports">{t("userDetail.lifetimeLink")}</a>
           </em>
         </div>
       </div>
@@ -77,6 +96,24 @@ export default async function UserPage({
       {u.is_admin && (
         <p className="notice">{t("userDetail.adminNotice")}</p>
       )}
+
+      {/* THE ANALYSIS, directly under the cards it explains. The window picker
+          is plain links rather than a form: every page here is a server
+          component, so a link is the whole mechanism - no client bundle, and
+          the chosen window is in the URL where it can be shared with somebody
+          else looking at the same account. */}
+      <p className="chips">
+        {WINDOWS.map((w) => (
+          <a
+            key={w}
+            className={`pill${w === months ? " active" : ""}`}
+            href={`/users/${userId}?months=${w}`}
+          >
+            {t("activity.windowShort", { months: w })}
+          </a>
+        ))}
+      </p>
+      <Activity data={activity} locale={locale} />
 
       <h2>{t("userDetail.creditsHeading")}</h2>
       <form className="row" action={grant}>

@@ -3752,6 +3752,31 @@ table.table {
    month rather than a fault, and the page directly below offers the fix. */
 .account-balance.empty { color: var(--text-faint); }
 
+/* This period's allowance. A track and a fill, not a <progress>: the native
+   element cannot be styled consistently across browsers and carries a
+   semantic this is not - nothing here is loading. The ARIA role is set on the
+   track in the markup, so a screen reader still gets a measurement. */
+.account-quota { margin: 10px 0 0; }
+.account-quota-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+.account-quota-fill {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  border-radius: 999px;
+  background: var(--focus);
+  transition: width 240ms ease;
+}
+/* Spent to the last credit. A colour change rather than a warning, because
+   running the allowance out is what buying it was for - it is only news if
+   there is nothing carried over, and the balance above already says that. */
+.account-quota-fill.full { background: var(--text-soft); }
+.account-quota p { margin: 6px 0 0; font-size: 12.5px; }
+
 .account-tablewrap { overflow-x: auto; }
 .account-table {
   width: 100%;

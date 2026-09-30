@@ -325,6 +325,9 @@ export const es: Messages = {
     empty: "No quedan créditos",
     free: "Los resultados en caché son gratuitos: no gastan crédito.",
     manualNote: "Por ahora los créditos se añaden a mano; todavía no hay pago.",
+    periodHeading: "Este periodo",
+    periodUsed: "{used} de {granted} créditos usados en este periodo",
+    periodResets: "se reinicia el {date}",
   },
 
   account: {

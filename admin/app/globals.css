@@ -658,3 +658,50 @@ thead th {
 .edit-caps .edit-hint { margin: 0 0 8px; font-size: 11px; color: var(--muted); }
 .edit-cap { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 2px 0; }
 .edit-cap input { margin: 0; }
+
+/* --- One account's activity ----------------------------------------
+ *
+ * The quota is the only forward-looking thing on the user page: everything
+ * else there is what already happened. A track and a fill rather than
+ * <progress>, which cannot be styled consistently and carries a "loading"
+ * semantic this is not. The ARIA role is on the track in the markup, so the
+ * measurement still reaches a screen reader.
+ */
+.quota { margin: 0 0 18px; }
+.quota-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.quota-line .sub { margin: 0; }
+.quota-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+.quota-fill {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  border-radius: 999px;
+  background: var(--focus);
+}
+/* Spent to the last credit. A colour change, not a warning: running the
+   allowance out is what buying it was for, and the balance says the rest. */
+.quota-fill.full { background: var(--text-soft); }
+.quota .sub { margin: 6px 0 0; }
+
+/* The window picker, and any other row of pills. Links rather than a form,
+   so the chosen window lives in the URL and can be sent to somebody else. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 14px;
+}
+.chips a.pill { text-decoration: none; }
+.chips a.pill:hover { border-color: var(--border-strong); }

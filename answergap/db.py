@@ -3080,6 +3080,174 @@ def admin_users(
         return [dict(r) for r in cur.fetchall()]
 
 
+def period_usage(user_id: int) -> dict | None:
+    """How much of the current plan period this account has already spent.
+
+    ONE DEFINITION, TWO SCREENS. The customer's own page and the admin's read
+    the same function, the way `_LIVE_SUBSCRIPTION_SQL` is read by both - a
+    quota the operator sees differently from the person paying for it is worse
+    than no quota at all.
+
+    Returns `None` when there is no live plan, and that is the honest answer
+    rather than a gap in the data: without an allowance there is no fraction
+    to draw. A balance still exists and is shown on its own.
+
+    THE DENOMINATOR IS THE PERIOD'S GRANT, NOT THE BALANCE. Credits roll over
+    and can be topped up by an admin, so `balance / credits_per_period` would
+    routinely exceed 1 and a bar that can read 340% is not a bar. What this
+    measures is "how much of this month's allowance have I used", which is the
+    question somebody actually has.
+
+    THE PERIOD STARTS WHERE THE LEDGER SAYS IT DID, not at a stored column -
+    there isn't one, and inventing it would mean a migration plus a webhook
+    change to keep it true. A Stripe plan's period begins at its last
+    `subscription` grant; an assigned plan never renews, so its period begins
+    when it was assigned. GREATEST covers both without asking which kind it is.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"""
+            WITH sub AS (
+                SELECT credits_per_period, current_period_end, created_at
+                  FROM subscription
+                 WHERE user_id = %(uid)s AND ({_LIVE_SUBSCRIPTION_SQL})
+                 ORDER BY (source = 'stripe') DESC, created_at DESC
+                 LIMIT 1
+            ), started AS (
+                SELECT GREATEST(
+                           (SELECT created_at FROM sub),
+                           coalesce((SELECT max(created_at) FROM credit_ledger
+                                      WHERE user_id = %(uid)s
+                                        AND reason = 'subscription'),
+                                    (SELECT created_at FROM sub))
+                       ) AS at
+            )
+            SELECT (SELECT at FROM started)                      AS start_at,
+                   (SELECT current_period_end FROM sub)          AS end_at,
+                   (SELECT credits_per_period FROM sub)::int     AS granted,
+                   coalesce((SELECT sum(credits) FROM usage_event
+                              WHERE user_id = %(uid)s
+                                AND created_at >= (SELECT at FROM started)),
+                            0)::int                              AS used
+              FROM sub
+            """,
+            {"uid": user_id, "live": list(LIVE_SUBSCRIPTION_STATUSES)},
+        )
+        row = cur.fetchone()
+    if not row or not row["granted"]:
+        return None
+    out = dict(row)
+    out["used"] = max(0, int(out["used"] or 0))
+    # SHAPED HERE, not in each API layer. The customer's meter and the
+    # operator's are the same measurement, and rounding it twice in two files
+    # is how they start disagreeing by a percent in a support conversation.
+    # Clamped at 1: spending past the allowance is possible - credits roll
+    # over and an admin can grant more - and a bar past its own end is a
+    # rendering bug rather than information.
+    out["fraction"] = round(min(1.0, out["used"] / int(out["granted"])), 4)
+    return out
+
+
+#: Actions that spend nothing. Kept as a list rather than inferred from
+#: `credits = 0`, because a REFUSED search also costs nothing and the two mean
+#: opposite things - one is a feature being used, the other is somebody being
+#: turned away.
+FREE_ACTIONS = ("export_csv", "export_png")
+
+
+def admin_user_activity(user_id: int, *, months: int = 12) -> dict:
+    """Everything one account has done, broken down, in ONE statement.
+
+    The per-user answer to what `/reports` answers for the whole product, and
+    it exists because `admin_user_detail` cannot be it: that function caps its
+    `usage` list at 50 rows, so every total computed from it is a fraction of
+    the truth wearing the label of the whole. That exact mistake was shipped
+    once already, on the user page's Spend card. An aggregate has no cap, so
+    the number is the number.
+
+    THREE BREAKDOWNS, because they answer different questions:
+
+    - `by_action` - what this person DOES. Searches against deep searches
+      against exports, each with its own credits and its own dollars, so the
+      pricing of their activity is readable rather than inferred from a total.
+    - `by_month` - whether they are speeding up or going quiet.
+    - `by_outcome` - how often they are turned away, and why. A refusal is
+      recorded as deliberately as a success, and an account that is hitting
+      `refused_no_credits` every week is a renewal conversation, not a bug.
+
+    `attempts` and `billable` are kept apart throughout, for the reason
+    `/reports` already states: collapsing them into "searches" hides both how
+    much the cache is saving and how often somebody is being refused.
+    """
+    since = f"-{max(1, min(int(months), 60))} months"
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            WITH ev AS (
+                SELECT * FROM usage_event
+                 WHERE user_id = %(uid)s
+                   AND day_utc >= (date_trunc('month', now())
+                                   + %(since)s::interval)::date
+            )
+            SELECT
+              (SELECT json_agg(a) FROM (
+                 SELECT action,
+                        count(*)::int AS attempts,
+                        count(*) FILTER (WHERE outcome = 'allowed')::int
+                            AS allowed,
+                        count(*) FILTER (WHERE outcome <> 'allowed')::int
+                            AS refused,
+                        count(*) FILTER (WHERE spend_usd > 0)::int AS billable,
+                        coalesce(sum(credits), 0)::int AS credits,
+                        coalesce(sum(spend_usd), 0) AS spend_usd,
+                        min(created_at) AS first_at,
+                        max(created_at) AS last_at
+                   FROM ev GROUP BY action
+                  ORDER BY coalesce(sum(credits), 0) DESC, count(*) DESC, action
+              ) a) AS by_action,
+              (SELECT json_agg(m) FROM (
+                 SELECT date_trunc('month', day_utc)::date AS month,
+                        count(*)::int AS attempts,
+                        count(*) FILTER (WHERE outcome <> 'allowed')::int
+                            AS refused,
+                        coalesce(sum(credits), 0)::int AS credits,
+                        coalesce(sum(spend_usd), 0) AS spend_usd
+                   FROM ev GROUP BY 1 ORDER BY 1 DESC
+              ) m) AS by_month,
+              (SELECT json_agg(o) FROM (
+                 SELECT outcome, count(*)::int AS attempts
+                   FROM ev GROUP BY outcome ORDER BY count(*) DESC
+              ) o) AS by_outcome,
+              (SELECT count(*) FROM ev)::int AS attempts,
+              (SELECT count(*) FROM ev WHERE outcome <> 'allowed')::int
+                  AS refused,
+              (SELECT count(*) FROM ev WHERE spend_usd > 0)::int AS billable,
+              (SELECT coalesce(sum(credits), 0) FROM ev)::int AS credits,
+              (SELECT coalesce(sum(spend_usd), 0) FROM ev) AS spend_usd,
+              (SELECT min(created_at) FROM ev) AS first_at,
+              (SELECT max(created_at) FROM ev) AS last_at,
+              -- UNCAPPED, unlike `admin_user_detail.crawls`. A seed count is
+              -- the one number an operator quotes back at somebody, so it
+              -- must not silently stop at fifty.
+              (SELECT count(*) FROM crawl WHERE user_id = %(uid)s)::int
+                  AS crawls,
+              (SELECT coalesce(sum(spend), 0) FROM crawl
+                WHERE user_id = %(uid)s) AS crawl_spend
+            """,
+            {"uid": user_id, "since": since},
+        )
+        row = cur.fetchone()
+    out = dict(row) if row else {}
+    for key in ("by_action", "by_month", "by_outcome"):
+        out[key] = _as_floats(out.get(key) or [])
+    for key in ("spend_usd", "crawl_spend"):
+        # NUMERIC arrives as Decimal, and a Decimal reaching JSON as a string
+        # turns `.toFixed` into a runtime error on a page about money.
+        out[key] = float(out.get(key) or 0)
+    out["window_months"] = max(1, min(int(months), 60))
+    return out
+
+
 def admin_user_detail(user_id: int) -> dict | None:
     """Profile, ledger, usage and crawls in ONE statement via json_agg.
 

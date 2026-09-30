@@ -321,6 +321,9 @@ export const tr: Messages = {
     empty: "Kredi kalmadı",
     free: "Önbellekten gelen sonuçlar ücretsizdir — kredi harcamaz.",
     manualNote: "Krediler şimdilik elle ekleniyor; henüz ödeme adımı yok.",
+    periodHeading: "Bu dönem",
+    periodUsed: "Bu dönemde {granted} kredinin {used} tanesi kullanıldı",
+    periodResets: "{date} tarihinde yenilenir",
   },
 
   account: {

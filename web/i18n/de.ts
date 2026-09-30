@@ -324,6 +324,9 @@ export const de: Messages = {
     empty: "Kein Guthaben mehr",
     free: "Ergebnisse aus dem Cache sind kostenlos — sie verbrauchen kein Guthaben.",
     manualNote: "Guthaben wird vorerst von Hand vergeben; es gibt noch keine Kasse.",
+    periodHeading: "Dieser Zeitraum",
+    periodUsed: "{used} von {granted} Credits in diesem Zeitraum verbraucht",
+    periodResets: "wird am {date} zurückgesetzt",
   },
 
   account: {

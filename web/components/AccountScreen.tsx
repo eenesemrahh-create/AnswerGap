@@ -353,6 +353,46 @@ export function AccountScreen() {
               ? t("credits.empty")
               : t("credits.balance", { count: me.credits })}
           </p>
+          {/* THE ALLOWANCE, AND HOW MUCH OF IT IS GONE. Drawn only when there
+              is a live plan: `period` is null otherwise, and an empty bar
+              would tell somebody with no allowance that theirs is untouched.
+
+              It sits UNDER the balance rather than replacing it, because the
+              two say different things. The balance is what can be spent right
+              now, including credits carried over and anything an admin added;
+              the bar is how fast this month's grant is going. Somebody
+              deciding whether to upgrade needs the second, and somebody
+              deciding whether to run a deep search needs the first. */}
+          {me.period && (
+            <div className="account-quota">
+              <div
+                className="account-quota-track"
+                role="progressbar"
+                aria-valuenow={me.period.used}
+                aria-valuemin={0}
+                aria-valuemax={me.period.granted}
+                aria-label={t("credits.periodHeading")}
+              >
+                <i
+                  className={`account-quota-fill${
+                    me.period.fraction >= 1 ? " full" : ""
+                  }`}
+                  style={{ width: `${me.period.fraction * 100}%` }}
+                />
+              </div>
+              <p className="account-muted">
+                {t("credits.periodUsed", {
+                  used: me.period.used,
+                  granted: me.period.granted,
+                })}
+                {me.period.end
+                  ? ` · ${t("credits.periodResets", {
+                      date: formatDay(me.period.end),
+                    })}`
+                  : ""}
+              </p>
+            </div>
+          )}
           <p className="account-muted">{t("account.balanceLead")}</p>
 
           <h3>{t("account.historyHeading")}</h3>

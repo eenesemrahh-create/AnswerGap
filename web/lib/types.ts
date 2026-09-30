@@ -247,9 +247,38 @@ export interface Me {
    *  rather than a call to a billing API on the critical path of every page
    *  that shows a balance. */
   subscription?: Subscription | null;
+  /**
+   * How much of THIS period's allowance is already spent, or null when there
+   * is no live plan to be a fraction of.
+   *
+   * Null and zero are different answers and the interface must not collapse
+   * them: no plan means there is no bar to draw, while a plan with nothing
+   * used yet means an empty one. Rendering the first as the second would tell
+   * somebody with no allowance that their allowance is untouched.
+   */
+  period?: CreditPeriod | null;
   /** When the account was created. Optional: an older API answers without it,
    *  and the account page prints nothing rather than "Invalid Date". */
   created_at?: string | null;
+}
+
+/**
+ * One plan period's credit allowance and what has been taken out of it.
+ *
+ * THE DENOMINATOR IS THE GRANT, NOT THE BALANCE. Credits roll over and an
+ * admin can top them up, so `balance / granted` would routinely pass 1 and a
+ * meter that reads 340% is not a meter. This answers "how much of this
+ * month's allowance have I used", which is the question somebody has.
+ */
+export interface CreditPeriod {
+  /** ISO. Where the ledger says this period actually began. */
+  start: string | null;
+  /** ISO, or null for an assigned plan with no end recorded. */
+  end: string | null;
+  granted: number;
+  used: number;
+  /** `used / granted`, clamped to 1 by the API so the bar cannot overrun. */
+  fraction: number;
 }
 
 /**

@@ -1179,3 +1179,121 @@ def test_the_stripe_customer_link_is_one_account_only() -> None:
     assert db.user_by_stripe_customer("cus_1")["id"] == first["id"]
     with pytest.raises(Exception):
         db.stripe_customer_attach(user_id=second["id"], customer_id="cus_1")
+
+
+# ------------------------------------------- per-user activity and the quota
+#
+# The per-account answer to what /reports answers for the product. It exists
+# because `admin_user_detail` caps its usage list at 50, so any total computed
+# from that list is a fraction wearing the label of the whole - a mistake this
+# codebase shipped once already on the user page's Spend card.
+
+
+def _act(user_id: int, action: str, *, credits: int, dollars: float,
+         outcome: str = "allowed") -> None:
+    db.record_usage(
+        user_id=user_id, ip_hash=None, anon_id=None, action=action,
+        outcome=outcome, credits=credits, spend_usd=dollars, is_admin=False,
+    )
+
+
+def test_activity_splits_by_action_with_its_own_money() -> None:
+    """The point of the breakdown: a search, a deep search and an export are
+    three different things and must not collapse into one 'searches' number."""
+    uid = int(_google(email="act@example.com", credits=0)["id"])
+    _act(uid, "search", credits=1, dollars=0.0026)
+    _act(uid, "search", credits=1, dollars=0.0026)
+    _act(uid, "deep", credits=3, dollars=0.0045)
+    _act(uid, "export_csv", credits=0, dollars=0.0)
+
+    by = {a["action"]: a for a in db.admin_user_activity(uid)["by_action"]}
+    assert by["search"]["attempts"] == 2
+    assert by["search"]["credits"] == 2
+    assert round(by["search"]["spend_usd"], 4) == 0.0052
+    assert by["deep"]["credits"] == 3
+    # A free action is present with zero money, NOT absent. Absent would read
+    # as "never exported", which is the opposite of what happened.
+    assert by["export_csv"]["attempts"] == 1
+    assert by["export_csv"]["credits"] == 0
+    assert by["export_csv"]["billable"] == 0
+
+
+def test_a_refusal_is_counted_apart_from_a_success() -> None:
+    """An account hitting refused_no_credits every week is a renewal
+    conversation. Collapsing it into attempts hides that."""
+    uid = int(_google(email="ref@example.com", credits=0)["id"])
+    _act(uid, "search", credits=1, dollars=0.0026)
+    _act(uid, "search", credits=0, dollars=0.0, outcome="refused_no_credits")
+
+    out = db.admin_user_activity(uid)
+    assert out["attempts"] == 2 and out["refused"] == 1 and out["billable"] == 1
+    by = {a["action"]: a for a in out["by_action"]}
+    assert by["search"]["allowed"] == 1 and by["search"]["refused"] == 1
+    assert {o["outcome"] for o in out["by_outcome"]} == {
+        "allowed", "refused_no_credits"
+    }
+
+
+def test_the_totals_are_not_capped_at_fifty() -> None:
+    """THE reason this function exists rather than summing the detail page's
+    list, which stops at 50 rows."""
+    uid = int(_google(email="many@example.com", credits=0)["id"])
+    for _ in range(60):
+        _act(uid, "search", credits=1, dollars=0.001)
+    out = db.admin_user_activity(uid)
+    assert out["attempts"] == 60 and out["credits"] == 60
+    assert len(db.admin_user_detail(uid)["usage"]) == 50  # the cap it replaces
+
+
+def test_an_account_that_has_done_nothing_reports_zero_not_an_error() -> None:
+    uid = int(_google(email="quiet@example.com", credits=0)["id"])
+    out = db.admin_user_activity(uid)
+    assert out["attempts"] == 0 and out["credits"] == 0
+    assert out["by_action"] == [] and out["by_month"] == []
+    assert isinstance(out["spend_usd"], float)
+
+
+def test_activity_money_comes_back_as_floats_not_decimals() -> None:
+    """NUMERIC arrives as Decimal, and a Decimal reaching JSON as a string
+    turns .toFixed into a runtime error on a page about money."""
+    uid = int(_google(email="dec@example.com", credits=0)["id"])
+    _act(uid, "search", credits=1, dollars=0.0026)
+    out = db.admin_user_activity(uid)
+    assert isinstance(out["spend_usd"], float)
+    assert isinstance(out["crawl_spend"], float)
+    assert isinstance(out["by_action"][0]["spend_usd"], float)
+
+
+def test_no_plan_means_no_quota_rather_than_an_empty_one() -> None:
+    """Without an allowance there is no fraction to draw, and null says so.
+    An empty bar would claim the allowance is untouched."""
+    uid = int(_google(email="noplan@example.com", credits=0)["id"])
+    assert db.period_usage(uid) is None
+
+
+def test_the_quota_counts_only_what_was_spent_since_the_period_began() -> None:
+    """The denominator is the period's grant, and the numerator must match it.
+    Spending from before the plan started belongs to no period of it."""
+    uid = int(_google(email="quota@example.com", credits=0)["id"])
+    _act(uid, "search", credits=5, dollars=0.01)  # before the plan exists
+    _assign(uid, credits_per_period=300)
+    _act(uid, "search", credits=2, dollars=0.005)
+
+    found = db.period_usage(uid)
+    assert found["granted"] == 300
+    assert found["used"] == 2  # not 7
+    assert found["start_at"] is not None
+
+
+def test_a_lapsed_assigned_plan_has_no_quota() -> None:
+    """Nothing renews an assigned plan, so a period that has passed grants
+    nothing - the same rule the capability layer applies."""
+    uid = int(_google(email="lapsed@example.com", credits=0)["id"])
+    _assign(uid, days=1)
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "UPDATE subscription SET current_period_end = now() - interval '2 days'"
+            " WHERE user_id = %s",
+            (uid,),
+        )
+    assert db.period_usage(uid) is None

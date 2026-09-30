@@ -375,6 +375,11 @@ export const en = {
     empty: "No credits left",
     free: "Cached results are free — they do not use a credit.",
     manualNote: "Credits are added by hand for now; there is no checkout yet.",
+    /* The meter. "of {granted}" is load-bearing: a used figure on its own is
+       a number nobody can act on, and the whole point is the fraction. */
+    periodHeading: "This period",
+    periodUsed: "{used} of {granted} credits used this period",
+    periodResets: "resets {date}",
   },
 
   /* The account page. Replaces a dialog that could only show an address, a
