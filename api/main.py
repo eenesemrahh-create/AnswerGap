@@ -833,6 +833,18 @@ def score_batch(slug: str, request: BatchScoreRequest, http_request: Request) ->
     except KeyError as e:
         raise HTTPException(404, f"No question: {e}") from e
     result["callback"] = bool(_postback_url())
+    # WHAT IT COSTS THE READER, priced here rather than in the browser.
+    #
+    # The confirm dialog used to show our DataForSEO bill and a Live
+    # counterfactual - "$0.0060 · $0.0198 on Live" - and then the reader was
+    # debited a number that appeared nowhere on screen. Now that a queued
+    # question is half a credit, a price nobody can see is a discount nobody
+    # gets, so the figure travels with the plan.
+    #
+    # Computed from `count`, which `queue_scores` sets AFTER filtering out
+    # already-scored questions and after the affordability trim - so the
+    # preview quotes the same number the charge will use.
+    result["credits"] = gate.credit_cost("batch", result.get("count", 0))
     if not request.dry_run:
         # Only tasks DataForSEO actually accepted. A rejected post comes back
         # with a null task_id and was never charged upstream, so charging a

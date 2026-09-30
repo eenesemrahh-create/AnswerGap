@@ -227,7 +227,12 @@ def record(
     """Write down what was actually bought. Charges only for real requests."""
     if not accounts_enabled():
         return
-    credits = gate.credits_for(billable_calls)
+    # Priced BY ACTION, because the queues cost us different money: a batch
+    # item goes through `serp_task_post` at $0.0006 while a single check runs
+    # on Live at $0.0020. `credit_cost` is where that 3.3x turns into half a
+    # credit; `billable_calls` is still the count of requests that really
+    # reached DataForSEO, so a cache hit is still free.
+    credits = gate.credit_cost(action, billable_calls)
     try:
         db.record_usage(
             user_id=who.user_id,

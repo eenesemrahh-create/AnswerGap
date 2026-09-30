@@ -4,7 +4,6 @@ export const tr: Messages = {
   brand: {
     name: "AnswerGap",
     tagline: "Rakiplerinin hiç cevaplamadığı soruları bul.",
-    prototype: "prototip",
   },
 
   landing: {
@@ -170,6 +169,9 @@ export const tr: Messages = {
     check: "En üstteki {count} soruyu kontrol et",
     pricing: "Fiyat hesaplanıyor…",
     confirmCount: "{count} soru",
+    credits: "{count} kredi",
+    queueDiscount:
+      "Yarı fiyat: toplu kontrol anında dönmek yerine kuyruğa giriyor.",
     vsLive: "{queue} kuyruğunda · Live'da {live}",
     skipped:
       "{count} tanesi atlandı — zaten kontrol edilmiş, zaten kuyrukta ya da " +

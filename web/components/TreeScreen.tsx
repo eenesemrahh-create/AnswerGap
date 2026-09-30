@@ -258,7 +258,6 @@ export function TreeScreen({ slug }: { slug: string }) {
             A
           </span>
           AnswerGap
-          <small>{t("brand.prototype")}</small>
         </Link>
         <div className="header-mid">
           <div className="header-title">{tree.seed}</div>

@@ -232,12 +232,6 @@ button {
   font-size: 13px;
   flex: none;
 }
-.brand small {
-  font-weight: 450;
-  font-size: 11px;
-  color: var(--text-faint);
-  letter-spacing: 0;
-}
 
 /* WHICH CHILD GIVES WAY WHEN THE ROW WRAPS, decided here rather than left to
    source order. Without it the account strip - the last element - dropped to a
@@ -3480,9 +3474,6 @@ table.table {
     gap: 8px 10px;
     padding: 8px 12px;
   }
-  /* The "prototype" tag is the first thing to go: it is a disclaimer about
-     the product, and the notices below carry the disclaimers that matter. */
-  .brand small { display: none; }
   .brand { font-size: 14px; }
 
   /* THREE ROWS, dictated rather than hoped for. Left to itself this header
@@ -3868,4 +3859,16 @@ table.table {
   opacity: 0.45;
   filter: grayscale(1);
   cursor: not-allowed;
+}
+
+/* What a batch costs the reader, in their own currency, next to what it costs
+   us. The struck-through figure is the undiscounted question count - shown
+   only when the two differ, so it never renders as "5 5". */
+.batch-credits { color: var(--text); white-space: nowrap; }
+.batch-credits s {
+  /* Spaced with a margin, not a space in the JSX - JSX collapses leading
+     whitespace inside an element and the two numbers ran together. */
+  margin-left: 6px;
+  color: var(--text-faint);
+  font-weight: 400;
 }

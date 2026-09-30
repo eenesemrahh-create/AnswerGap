@@ -120,11 +120,29 @@ export function BatchScore({
       <div className="batch confirm">
         <div className="batch-line">
           <b>{t("batch.confirmCount", { count: plan.count })}</b>
+          {/* WHAT IT COSTS THE READER comes first and in their own currency.
+              This line used to open with our DataForSEO bill, and the credits
+              the reader was actually about to spend appeared nowhere at all -
+              which was survivable while a question cost one credit and is not
+              now that a queued one costs half. The full price is struck
+              through beside it, because a discount nobody can see is not a
+              discount. */}
+          {typeof plan.credits === "number" && (
+            <b className="batch-credits">
+              {t("batch.credits", { count: plan.credits })}
+              {plan.credits < plan.count && (
+                <s aria-hidden>{plan.count}</s>
+              )}
+            </b>
+          )}
           <span className="batch-cost">{money(plan.estimated_spend)}</span>
           <span className="muted">
             {t("batch.vsLive", { live: money(live), queue: plan.queue })}
           </span>
         </div>
+        {typeof plan.credits === "number" && plan.credits < plan.count && (
+          <div className="muted batch-skipped">{t("batch.queueDiscount")}</div>
+        )}
         {plan.skipped.length > 0 && (
           <div className="muted batch-skipped">
             {t("batch.skipped", { count: plan.skipped.length })}

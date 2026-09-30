@@ -281,6 +281,18 @@ export interface BatchPlan {
   count: number;
   /** Always present, dry run or not: the price is visible before it is spent. */
   estimated_spend: number;
+  /**
+   * What this batch costs the reader, in credits — half a credit per question
+   * because it runs on the Standard queue, rounded up.
+   *
+   * Priced by the API (`gate.credit_cost`) rather than worked out here. The
+   * rule is a pricing rule; a copy of it in the browser is a second place for
+   * it to be wrong, and the one that a customer would see first.
+   *
+   * Optional only for an API older than the discount, where the honest render
+   * is the question count.
+   */
+  credits?: number;
   queue: "standard";
   callback: boolean;
   dry_run?: boolean;

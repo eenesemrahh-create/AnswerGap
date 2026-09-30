@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import math
 from dataclasses import dataclass
 
 # Outcomes recorded on `usage_event`. Refusals are written down too - "how often
@@ -176,17 +177,30 @@ def decide(identity: Identity, state: State, *, action: str, units: int) -> Deci
                 False, REFUSED_UNVERIFIED, "emailUnverified", 403,
                 info={"email": identity.email},
             )
-        if state.balance >= units:
+        # UNITS ARE REQUESTS; THE BALANCE IS CREDITS, and since the queued
+        # actions cost half a credit each the two are no longer the same
+        # number. Everything below compares credits to credits and hands
+        # `affordable_units` back in REQUESTS, so the caller's unit never
+        # changes and the conversion lives in one place.
+        needed = credit_cost(action, units)
+        if state.balance >= needed:
             return Decision(True, ALLOWED, affordable_units=units)
         if state.balance > 0:
             # Trim, do not refuse. A batch of ten against a balance of three
-            # should buy three, and say so. Refusing outright would be right
-            # only if we knew the exact billable count up front, and we do not -
-            # queue_scores filters already-scored questions after this check.
-            return Decision(True, ALLOWED, affordable_units=state.balance)
+            # should buy what three credits covers, and say so. Refusing
+            # outright would be right only if we knew the exact billable count
+            # up front, and we do not - queue_scores filters already-scored
+            # questions after this check.
+            #
+            # `requests_for` inverts the price: three credits buys six queued
+            # requests, and buying fewer than the balance covers would charge
+            # the customer for a discount they did not get.
+            return Decision(
+                True, ALLOWED, affordable_units=requests_for(action, state.balance)
+            )
         return Decision(
             False, REFUSED_NO_CREDITS, "noCredits", 402,
-            info={"balance": state.balance, "needed": units},
+            info={"balance": state.balance, "needed": needed},
         )
 
     # Signed out, and that is the end of it. Changed 2026-09-23: there used to
@@ -213,11 +227,69 @@ def credits_for(billable_calls: int | None) -> int:
     A cache hit reports zero billable calls and therefore costs nothing, which
     is CLAUDE.md's pricing rule ("cached results are free") falling out of the
     measurement rather than being asserted separately.
+
+    This is the LIVE price. `credit_cost` below is what callers should use; it
+    keeps this one for the actions a person is sitting and waiting for.
     """
     try:
         return max(0, int(billable_calls or 0))
     except (TypeError, ValueError):
         return 0
+
+
+#: Actions whose requests go on DataForSEO's Standard queue rather than Live.
+#:
+#: The split is `dataforseo.py`'s, not a pricing invention: the seed search and
+#: a single question check run on `live/advanced` because somebody is watching,
+#: and a batch goes through `serp_task_post` because nobody is.
+QUEUED_ACTIONS = frozenset({"batch"})
+
+#: A queued request costs us $0.0006 against $0.0020 for the same question on
+#: Live. Half a credit is a conservative pass-through of that 3.3x - even
+#: discounted, a queued credit costs us $0.0012 and is still the most
+#: profitable one we sell.
+QUEUED_CREDITS_PER_REQUEST = 0.5
+
+
+def credit_cost(action: str, requests: int | None) -> int:
+    """What `requests` of `action` cost the customer, in credits.
+
+    ONE CREDIT STILL TRACKS ONE REQUEST. What changed is that there are two
+    request prices, because there are two queues, and the flat rate was hiding
+    a 3.3x difference in what we pay:
+
+        Live    - seed search, single check   $0.0020-0.0026   1 credit
+        Queued  - batch                       $0.0006          1/2 credit
+        Cached  - anything already fetched    $0               0
+
+    Rounded UP per batch, so a batch of one costs one - a batch of one is not a
+    batch. There is deliberately no threshold and no cliff: somebody who
+    batches two questions instead of checking them singly moves us from $0.0040
+    to $0.0012 and pays 1 instead of 2, which is the incentive working rather
+    than an arbitrage to defend against.
+
+    `requests` is a count of requests, not of questions asked for. A batch that
+    skips nine already-scored questions posts one task and costs one credit.
+    """
+    live = credits_for(requests)
+    if live == 0 or action not in QUEUED_ACTIONS:
+        return live
+    return math.ceil(live * QUEUED_CREDITS_PER_REQUEST)
+
+
+def requests_for(action: str, credits: int | None) -> int:
+    """How many requests of `action` a balance of `credits` buys. The inverse
+    of `credit_cost`.
+
+    Used only where a batch is trimmed to what the balance covers. Rounded
+    DOWN, so the answer is always affordable: `credit_cost` rounds up, and
+    handing back a count whose price exceeds the balance would put the ledger
+    negative on a path whose whole job is to avoid that.
+    """
+    budget = credits_for(credits)
+    if budget == 0 or action not in QUEUED_ACTIONS:
+        return budget
+    return math.floor(budget / QUEUED_CREDITS_PER_REQUEST)
 
 
 def normalize_email(raw: str | None) -> str:

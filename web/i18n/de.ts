@@ -4,7 +4,6 @@ export const de: Messages = {
   brand: {
     name: "AnswerGap",
     tagline: "Finde die Fragen, die deine Wettbewerber nie beantwortet haben.",
-    prototype: "Prototyp",
   },
 
   landing: {
@@ -170,6 +169,10 @@ export const de: Messages = {
     check: "Top {count} prüfen",
     pricing: "Preis wird ermittelt…",
     confirmCount: "{count} Fragen",
+    credits: "{count} Guthaben",
+    queueDiscount:
+      "Halber Preis: Die Sammelprüfung läuft über die Warteschlange, statt " +
+      "sofort zurückzukommen.",
     vsLive: "in der {queue}-Warteschlange · {live} über Live",
     skipped:
       "{count} übersprungen — bereits geprüft, bereits in der Warteschlange " +

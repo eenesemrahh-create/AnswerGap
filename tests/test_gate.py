@@ -139,7 +139,12 @@ def test_an_empty_balance_is_402_not_a_generic_refusal() -> None:
 
 
 def test_a_batch_is_trimmed_to_what_the_balance_covers() -> None:
-    """Ten questions against three credits buys three - it does not refuse.
+    """Ten questions against three credits buys SIX - it does not refuse.
+
+    Six rather than three because a batch runs on the Standard queue and costs
+    half a credit per question. `units` is a count of QUESTIONS and the balance
+    is in CREDITS, so the trim has to convert; handing back three would charge
+    the customer full price for a discounted action.
 
     The exact billable count is only known after queue_scores filters out
     already-scored questions, so the pre-check works from an upper bound.
@@ -147,6 +152,26 @@ def test_a_batch_is_trimmed_to_what_the_balance_covers() -> None:
     """
     decision = gate.decide(_user(), State(True, "active", balance=3), action="batch", units=10)
     assert decision.allowed
+    assert decision.affordable_units == 6
+
+
+def test_a_trimmed_batch_never_costs_more_than_the_balance() -> None:
+    """The property behind the number above, at every balance.
+
+    `credit_cost` rounds UP, so an inverse that rounded up too would hand back
+    a count the balance cannot pay for and put the ledger negative on the one
+    path whose job is to stop exactly that.
+    """
+    for balance in range(1, 40):
+        decision = gate.decide(
+            _user(), State(True, "active", balance=balance), action="batch", units=999
+        )
+        assert gate.credit_cost("batch", decision.affordable_units) <= balance
+
+
+def test_a_live_action_is_not_discounted_by_the_trim() -> None:
+    """Only the queued actions are half price. A single check is Live."""
+    decision = gate.decide(_user(), State(True, "active", balance=3), action="score", units=10)
     assert decision.affordable_units == 3
 
 
@@ -200,7 +225,51 @@ def test_a_cache_hit_costs_nothing() -> None:
 
 
 def test_a_batch_is_n_charges_not_one() -> None:
+    """`credits_for` is the LIVE price and stays one credit per request. The
+    queue discount lives in `credit_cost`, below."""
     assert gate.credits_for(7) == 7
+
+
+# ------------------------------------------------- what the two queues cost
+#
+# A batch item goes through `serp_task_post` at $0.0006; the same question
+# checked on its own runs on Live at $0.0020. The credit price used to be flat
+# across that 3.3x, which meant we charged the same for the thing that cost us
+# a third as much. Half a credit passes the difference on and still leaves a
+# queued credit the most profitable one we sell ($0.0012 against $0.0020).
+
+
+def test_an_instant_request_costs_a_whole_credit() -> None:
+    assert gate.credit_cost("search", 1) == 1
+    assert gate.credit_cost("score", 10) == 10
+
+
+def test_a_queued_request_costs_half_rounded_up() -> None:
+    assert gate.credit_cost("batch", 10) == 5
+    assert gate.credit_cost("batch", 15) == 8
+    assert gate.credit_cost("batch", 7) == 4
+
+
+def test_a_batch_of_one_is_not_a_batch() -> None:
+    """Rounded up, so the smallest possible batch still costs a credit. A
+    half-credit line on the ledger would be a new kind of number for the one
+    case where it buys nothing."""
+    assert gate.credit_cost("batch", 1) == 1
+
+
+def test_a_cached_batch_is_still_free() -> None:
+    """The rule that has to survive every pricing change. `billable_calls` is
+    0 when nothing reached DataForSEO, and no discount can make zero cheaper."""
+    assert gate.credit_cost("batch", 0) == 0
+    assert gate.credit_cost("batch", None) == 0
+
+
+def test_an_unknown_action_pays_the_full_price() -> None:
+    """Fails closed in the direction that cannot lose money. A new action added
+    without being listed in QUEUED_ACTIONS is charged Live until somebody says
+    otherwise - the opposite default would hand out a discount nobody
+    authorised."""
+    assert gate.credit_cost("some_future_action", 10) == 10
 
 
 def test_a_missing_billable_count_charges_nothing() -> None:
@@ -293,7 +362,10 @@ def test_an_empty_balance_refusal_says_what_was_needed() -> None:
     decision = gate.decide(
         _user(), State(True, "active", balance=0), action="batch", units=10
     )
-    assert decision.info == {"balance": 0, "needed": 10}
+    # Five, not ten: what the reader needs is the PRICE of the batch they
+    # asked for, and ten questions on the queue cost five credits. Reporting
+    # the question count would tell somebody to buy twice what they need.
+    assert decision.info == {"balance": 0, "needed": 5}
 
 
 def test_an_allowed_decision_carries_no_explanation() -> None:

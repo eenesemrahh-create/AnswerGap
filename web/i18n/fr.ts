@@ -4,7 +4,6 @@ export const fr: Messages = {
   brand: {
     name: "AnswerGap",
     tagline: "Trouvez les questions auxquelles vos concurrents n'ont jamais répondu.",
-    prototype: "prototype",
   },
 
   landing: {
@@ -171,6 +170,10 @@ export const fr: Messages = {
     check: "Vérifier les {count} premières",
     pricing: "Calcul du prix…",
     confirmCount: "{count} questions",
+    credits: "{count} crédits",
+    queueDiscount:
+      "Moitié prix : la vérification groupée passe par la file d'attente au " +
+      "lieu de répondre immédiatement.",
     vsLive: "dans la file {queue} · {live} en Live",
     skipped:
       "{count} ignorées — déjà vérifiées, déjà en file, ou au-delà des " +

@@ -4,7 +4,6 @@ export const es: Messages = {
   brand: {
     name: "AnswerGap",
     tagline: "Encuentra las preguntas que tus competidores nunca respondieron.",
-    prototype: "prototipo",
   },
 
   landing: {
@@ -170,6 +169,10 @@ export const es: Messages = {
     check: "Comprobar las {count} primeras",
     pricing: "Calculando precio…",
     confirmCount: "{count} preguntas",
+    credits: "{count} créditos",
+    queueDiscount:
+      "Mitad de precio: comprobar en bloque pasa por la cola en lugar de " +
+      "responder al instante.",
     vsLive: "en la cola {queue} · {live} en Live",
     skipped:
       "{count} omitidas — ya comprobadas, ya en cola, o más allá de los " +

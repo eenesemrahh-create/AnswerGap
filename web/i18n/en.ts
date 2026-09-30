@@ -14,7 +14,6 @@ export const en = {
   brand: {
     name: "AnswerGap",
     tagline: "Find the questions your competitors never answered.",
-    prototype: "prototype",
   },
 
   landing: {
@@ -207,6 +206,12 @@ export const en = {
     check: "Check top {count}",
     pricing: "Pricing…",
     confirmCount: "{count} questions",
+    credits: "{count} credits",
+    /* Says WHY it is cheaper. A price that drops with no reason given reads
+       as a number somebody got wrong. */
+    queueDiscount:
+      "Half price: checking in bulk goes on the queue instead of returning " +
+      "instantly.",
     vsLive: "on the {queue} queue · {live} on Live",
     skipped:
       "{count} skipped — already checked, already queued, or beyond your " +
