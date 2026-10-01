@@ -137,3 +137,48 @@ def test_a_missing_tree_still_shows_the_money(monkeypatch) -> None:
 
     monkeypatch.setattr(admin.live, "load_tree", _boom)
     assert admin.search_detail(_Request(), "teeth-whitening")["tree"] is None
+
+
+# ------------------------------------------------------------- export audit
+
+
+def test_a_customer_cannot_write_an_export_audit_row(refused, monkeypatch) -> None:
+    monkeypatch.setattr(db, "admin_log", _no_db)
+    with pytest.raises(HTTPException) as exc:
+        admin.search_export(_Request(), "teeth-whitening",
+                            admin.SearchExportRequest(kind="csv", items=3))
+    assert exc.value.status_code == 403
+
+
+def test_an_admin_export_is_audited_with_who_what_and_how_much(monkeypatch) -> None:
+    logged: list[dict] = []
+    monkeypatch.setattr(admin, "require_admin",
+                        lambda request: gate.Identity(user_id=1, email="boss@example.com"))
+    monkeypatch.setattr(db, "admin_log", lambda **kw: logged.append(kw))
+    admin.search_export(_Request(), "teeth-whitening",
+                        admin.SearchExportRequest(kind="png", items=16))
+    assert logged == [{
+        "actor": "boss@example.com",
+        "action": "search_export",
+        "detail": {"slug": "teeth-whitening", "kind": "png", "items": 16},
+    }]
+
+
+def test_only_csv_and_png_are_export_kinds() -> None:
+    from pydantic import ValidationError
+
+    with pytest.raises(ValidationError):
+        admin.SearchExportRequest(kind="json", items=1)
+
+
+def test_the_result_carries_every_csv_column(monkeypatch) -> None:
+    monkeypatch.setattr(admin, "require_admin", lambda request: None)
+    monkeypatch.setattr(db, "admin_search_detail",
+                        lambda slug, **kw: {"slug": slug, "crawls": [{}]})
+    monkeypatch.setattr(admin.live, "load_tree", lambda slug: {"nodes": [
+        {"id": "1", "question": "q", "depth": 1, "status": "gap", "repeat_count": 3,
+         "parents": ["a", "b"], "updated_at": "2026-10-01T00:00:00Z"},
+    ]})
+    node = admin.search_detail(_Request(), "s")["tree"]["nodes"][0]
+    assert (node["repeat_count"], node["parents"], node["updated_at"]) == (
+        3, ["a", "b"], "2026-10-01T00:00:00Z")

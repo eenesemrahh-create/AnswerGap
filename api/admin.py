@@ -427,6 +427,35 @@ def search_detail(request: Request, slug: str) -> dict:
     return found
 
 
+class SearchExportRequest(BaseModel):
+    kind: Literal["csv", "png"]
+    items: int = Field(ge=0, le=100_000)
+
+
+@router.post("/search/{slug}/export")
+def search_export(request: Request, slug: str, payload: SearchExportRequest) -> dict:
+    """Record that an admin downloaded somebody's search.
+
+    The file is built in the admin's browser from data this API already
+    returned, so nothing here produces it. What this adds is the AUDIT ROW:
+    taking a copy of another person's research out of the product is the kind
+    of act that should leave a trace somebody can read later, and the
+    customer's own export is recorded too (`usage_event`, action `export_*`).
+
+    Written BEFORE the download starts, like every `admin_log` call: an export
+    that then failed in the browser is still one somebody asked for.
+    """
+    who = require_admin(request)
+    if not _SLUG_RE.fullmatch(slug):
+        raise HTTPException(404, {"code": "notFound"})
+    db.admin_log(
+        actor=who.email or "",
+        action="search_export",
+        detail={"slug": slug, "kind": payload.kind, "items": payload.items},
+    )
+    return {"recorded": True}
+
+
 _SLUG_RE = re.compile(r"[a-z0-9][a-z0-9-]{0,199}")
 
 
@@ -462,6 +491,11 @@ def _tree_for_admin(tree: dict) -> dict:
                 "matching_pages": n.get("matching_pages"),
                 "results_checked": n.get("results_checked"),
                 "ai_sources": n.get("ai_sources") or [],
+                # The CSV's remaining columns, so the admin's file matches the
+                # one the customer downloads column for column.
+                "repeat_count": n.get("repeat_count") or 1,
+                "parents": n.get("parents") or [],
+                "updated_at": n.get("updated_at"),
                 "results": [
                     {"title": r.get("title"), "url": r.get("url"),
                      "domain": r.get("domain")}

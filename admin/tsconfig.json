@@ -6,6 +6,10 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    // `lib/shared/*` are byte-for-byte copies of web/lib files that import a
+    // sibling as "./filename.ts" (node's test runner needs the extension).
+    // Safe with `noEmit`; see the same flag in web/tsconfig.json.
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",

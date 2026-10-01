@@ -747,3 +747,93 @@ label.inline { display: inline-flex; align-items: center; gap: 6px; color: var(-
 .qdetail p { margin: 0 0 4px; }
 .qdetail ol { margin: 0; padding-left: 20px; }
 .qdetail li { margin: 2px 0; overflow-wrap: anywhere; }
+
+/* --- Result view: tree / list, downloads ------------------------------
+   The tree rules are the customer app's (web/app/globals.css, "tree"), so a
+   node looks the same to the admin as it did to the person who searched. */
+:root {
+  --gap-bg: #ffe9dc;      --gap-border: #f2a77a;
+  --weak-bg: #fdf6d8;     --weak-border: #e3cf8e;
+  --covered-bg: #e3f4f1;  --covered-border: #9ed3cb;
+  --nodata-bg: transparent; --nodata-border: #c5bfb4;
+  --brand: #7c3aed;       --brand-soft: #efe7fd;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --gap-bg: #3d1f0e;     --gap-border: #8a4418;
+    --weak-bg: #2e2812;    --weak-border: #61501f;
+    --covered-bg: #10312d; --covered-border: #1f584f;
+    --nodata-border: #4a443b;
+    --brand: #a78bfa;      --brand-soft: #2a2140;
+  }
+}
+.small { font-size: 12px; margin: 6px 0; }
+.result-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.result-bar .spacer { flex: 1; }
+.result-bar button.act:disabled { opacity: .6; cursor: progress; }
+.seg { display: inline-flex; border: 1px solid var(--border-strong); border-radius: 6px; overflow: hidden; }
+.seg button {
+  border: 0; background: var(--surface); color: var(--text-soft);
+  font: inherit; font-size: 13px; padding: 6px 14px; cursor: pointer;
+}
+.seg button + button { border-left: 1px solid var(--border-strong); }
+.seg button.on { background: var(--surface-2); color: var(--text); font-weight: 600; }
+
+.tree-wrap {
+  position: relative;
+  height: min(70vh, 640px);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--surface);
+  overflow: hidden;
+  margin: 8px 0;
+}
+.tree-wrap .zoom {
+  position: absolute; top: 8px; right: 8px; z-index: 1;
+  display: inline-flex; gap: 2px; padding: 2px;
+  border: 1px solid var(--border); border-radius: var(--r); background: var(--surface);
+}
+.zoom button {
+  border: 0; background: transparent; width: 28px; height: 24px; border-radius: 5px;
+  color: var(--text-soft); font-size: 14px; line-height: 1; cursor: pointer;
+}
+.zoom button:hover { background: var(--surface-2); color: var(--text); }
+.zoom .ratio {
+  min-width: 46px; display: grid; place-items: center;
+  font-size: 11.5px; color: var(--text-faint); font-variant-numeric: tabular-nums;
+}
+.tree-canvas {
+  position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none;
+  background: radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0) 0 0 / 22px 22px,
+              var(--surface);
+}
+.tree-canvas.dragging { cursor: grabbing; }
+.tree-canvas svg { display: block; }
+.node-box { fill: var(--surface); stroke: var(--border-strong); stroke-width: 1; }
+.node-text { font-size: 12px; fill: var(--text); pointer-events: none; font-family: var(--font); }
+.node-sub { font-size: 10.5px; fill: var(--text-faint); pointer-events: none; }
+.node g.node-hit { cursor: pointer; }
+.node.selected .node-box { stroke: var(--focus); stroke-width: 2; }
+.node.gap .node-box { fill: var(--gap-bg); stroke: var(--gap-border); stroke-width: 2; }
+.node.weak .node-box { fill: var(--weak-bg); stroke: var(--weak-border); }
+.node.covered .node-box { fill: var(--covered-bg); stroke: var(--covered-border); }
+.node.no_data .node-box { fill: var(--nodata-bg); stroke: var(--nodata-border); stroke-dasharray: 4 3; }
+.node.no_data .node-text { fill: var(--text-soft); }
+.node.seed .node-box { fill: var(--brand-soft); stroke: var(--brand); stroke-width: 1.5; stroke-dasharray: none; }
+.node.seed .node-text { fill: var(--text); font-weight: 600; }
+.node.selected.seed .node-box, .node.selected .node-box { stroke: var(--focus); stroke-width: 2; }
+.node-seed-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  fill: var(--brand); font-family: var(--font);
+}
+.edge-line { fill: none; stroke: var(--border-strong); stroke-width: 1.2; }
+.ai-pill rect { fill: var(--surface); stroke: var(--border-strong); stroke-width: 1; }
+.ai-pill text { font-size: 9.5px; font-weight: 600; fill: var(--text-soft); pointer-events: none; font-family: var(--font); }
+.badge-dot { fill: var(--surface-2); stroke: var(--border-strong); }
+.badge-circle { font-size: 9.5px; font-weight: 700; font-family: var(--font); }
+.qcard {
+  border: 1px solid var(--border); border-radius: var(--r); background: var(--surface);
+  padding: 10px 14px; margin: 8px 0;
+}
+.qcard .qdetail { margin: 0; }
+.qcard-head { margin: 0 0 6px !important; font-size: 14px; }

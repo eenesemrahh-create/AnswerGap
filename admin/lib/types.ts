@@ -740,6 +740,9 @@ export interface SearchNode {
   matching_pages: number | null;
   results_checked: number | null;
   ai_sources: string[];
+  repeat_count: number;
+  parents: string[];
+  updated_at: string | null;
   results: { title: string; url: string; domain: string }[];
 }
 

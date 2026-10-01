@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { get, money, usd, when } from "@/lib/api";
-import { translator } from "@/lib/locale";
-import type { SearchDetail, SearchNode } from "@/lib/types";
+import { getLocale, translator } from "@/lib/locale";
+import { ResultView } from "@/components/ResultView";
+import type { SearchDetail } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +24,7 @@ export default async function SearchDetailPage({
   const { slug } = await params;
   const d = await get<SearchDetail>(`/api/admin/search/${encodeURIComponent(slug)}`);
   const t = await translator();
+  const locale = await getLocale();
   const firstAt = d.crawls[d.crawls.length - 1]?.created_at;
 
   return (
@@ -33,6 +35,36 @@ export default async function SearchDetailPage({
         {d.language_code} / {d.location_code} · <code>{d.slug}</code>
         {firstAt && <> · {t("searches.firstSearched", { when: when(firstAt) })}</>}
       </p>
+
+      <h2>{t("searches.resultHeading")}</h2>
+      {d.tree ? (
+        <>
+          <p className="sub">
+            {t("searches.resultLead")} · {d.tree.question_count} {t("searches.questions")}
+            {d.tree.updated_at && <> · {t("searches.updated", { date: when(d.tree.updated_at) })}</>}
+          </p>
+          <p className="chips">
+            {Object.entries(d.tree.status_counts).map(([status, count]) => (
+              <span key={status} className={`status-pill ${status}`}>
+                {t(`gapStatus.${status}`)} {count}
+              </span>
+            ))}
+          </p>
+          <ResultView slug={d.slug} seed={d.seed} nodes={d.tree.nodes} locale={locale} />
+          {d.tree.related_searches.length > 0 && (
+            <>
+              <h2>{t("searches.related")}</h2>
+              <p className="chips">
+                {d.tree.related_searches.map((r) => (
+                  <span key={r} className="pill">{r}</span>
+                ))}
+              </p>
+            </>
+          )}
+        </>
+      ) : (
+        <p className="notice">{t("searches.noTree")}</p>
+      )}
 
       <h2>{t("searches.costHeading")}</h2>
       <p className="sub">{t("searches.costLead")}</p>
@@ -156,36 +188,6 @@ export default async function SearchDetailPage({
         </>
       )}
 
-      <h2>{t("searches.resultHeading")}</h2>
-      {d.tree ? (
-        <>
-          <p className="sub">
-            {t("searches.resultLead")} · {d.tree.question_count} {t("searches.questions")}
-            {d.tree.updated_at && <> · {t("searches.updated", { date: when(d.tree.updated_at) })}</>}
-          </p>
-          <p className="chips">
-            {Object.entries(d.tree.status_counts).map(([status, count]) => (
-              <span key={status} className={`status-pill ${status}`}>
-                {t(`gapStatus.${status}`)} {count}
-              </span>
-            ))}
-          </p>
-          <ResultTree t={t} nodes={d.tree.nodes} />
-          {d.tree.related_searches.length > 0 && (
-            <>
-              <h2>{t("searches.related")}</h2>
-              <p className="chips">
-                {d.tree.related_searches.map((r) => (
-                  <span key={r} className="pill">{r}</span>
-                ))}
-              </p>
-            </>
-          )}
-        </>
-      ) : (
-        <p className="notice">{t("searches.noTree")}</p>
-      )}
-
       <h2>{t("searches.eventsHeading")}</h2>
       {d.events_capped && <p className="sub">{t("searches.eventsCapped")}</p>}
       <div className="tablewrap">
@@ -233,82 +235,4 @@ function Person({ t, id, email, admin }: {
       {admin && <> <span className="pill admin">admin</span></>}
     </>
   );
-}
-
-/** The stored tree, as nested lists. Each question opens to show the pages
- *  Google returned for it - which is what "check the result" means. */
-function ResultTree({ t, nodes }: { t: T; nodes: SearchNode[] }) {
-  const children = new Map<string | null, SearchNode[]>();
-  const ids = new Set(nodes.map((n) => n.id));
-  for (const n of nodes) {
-    // An orphan (parent not in the list) hangs from the root rather than vanishing.
-    const parent = n.parent_id && ids.has(n.parent_id) ? n.parent_id : null;
-    if (n.depth === 0 && parent === null) continue;
-    const key = parent ?? "__root";
-    children.set(key, [...(children.get(key) ?? []), n]);
-  }
-  const root = nodes.find((n) => n.depth === 0);
-  const top = [
-    ...(root ? children.get(root.id) ?? [] : []),
-    ...(children.get("__root") ?? []),
-  ];
-
-  const seen = new Set<string>();
-  const render = (list: SearchNode[]) => (
-    <ul className="qtree">
-      {list.map((n) => {
-        if (seen.has(n.id)) return null; // a cycle must not hang the page
-        seen.add(n.id);
-        const kids = children.get(n.id) ?? [];
-        return (
-          <li key={n.id}>
-            <details>
-              <summary>
-                <span className={`status-pill ${n.status}`}>{t(`gapStatus.${n.status}`)}</span>{" "}
-                {n.question}
-                {n.discovered_by === "harvest" && (
-                  <span className="faint"> · {t("searches.harvested")}</span>
-                )}
-              </summary>
-              <div className="qdetail">
-                <p className="faint">
-                  {n.results_checked
-                    ? t("searches.pagesChecked", {
-                        matching: n.matching_pages ?? 0,
-                        checked: n.results_checked,
-                      })
-                    : t("searches.notChecked")}
-                  {n.ai_sources.length > 0 &&
-                    ` · ${t("searches.aiCites", { domains: n.ai_sources.join(", ") })}`}
-                </p>
-                {n.results.length > 0 && (
-                  <ol>
-                    {n.results.map((r, i) => (
-                      <li key={i}>
-                        {/* rel=noreferrer: an admin URL must not leak to a
-                            third-party site through the Referer header. */}
-                        {/* Only http(s) becomes a link. The URL is third-party
-                            data, and a `javascript:` one would run in the
-                            admin's own session. */}
-                        {/^https?:\/\//i.test(r.url ?? "") ? (
-                          <a href={r.url} target="_blank" rel="noreferrer noopener">
-                            {r.title || r.url}
-                          </a>
-                        ) : (
-                          <span>{r.title || r.url}</span>
-                        )}{" "}
-                        <span className="faint">{r.domain}</span>
-                      </li>
-                    ))}
-                  </ol>
-                )}
-              </div>
-            </details>
-            {kids.length > 0 && render(kids)}
-          </li>
-        );
-      })}
-    </ul>
-  );
-  return render(top);
 }

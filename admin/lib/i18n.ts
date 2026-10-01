@@ -647,8 +647,7 @@ const en = {
     firstSearched: "First searched {when}",
     resultHeading: "Result",
     resultLead:
-      "The tree as it is stored now. Expand a question to read the pages " +
-      "Google returned for it.",
+      "The tree as it is stored now, exactly as the person who searched sees it.",
     questions: "Questions",
     noTree: "The stored result could not be loaded. The money below is still accurate.",
     related: "Related searches",
@@ -680,6 +679,22 @@ const en = {
     calls: "Paid calls",
     source: "Source",
     updated: "updated {date}",
+    viewTree: "Tree",
+    viewList: "List",
+    downloadCsv: "Download CSV",
+    downloadPng: "Download PNG",
+    exporting: "Preparing…",
+    exportAudited:
+      "Downloads are recorded in the audit log under your address: a copy of " +
+      "somebody's research leaving the product should leave a trace.",
+    exportFailed:
+      "Nothing was downloaded. The audit row could not be written, or the " +
+      "image could not be drawn.",
+    clickNode: "Click a question to read the pages Google returned for it.",
+    zoomIn: "Zoom in",
+    zoomOut: "Zoom out",
+    fit: "Fit the whole tree",
+    seedLabel: "SEED",
   },
 
   /* The customer app's four statuses, for the result view. */
@@ -1304,8 +1319,7 @@ const tr: Messages = {
     firstSearched: "İlk arama {when}",
     resultHeading: "Sonuç",
     resultLead:
-      "Ağacın şu an kayıtlı hâli. Google'ın bir soru için döndürdüğü sayfaları " +
-      "okumak için soruyu açın.",
+      "Ağacın şu an kayıtlı hâli; arayan kişinin gördüğüyle aynı.",
     questions: "Soru",
     noTree: "Kayıtlı sonuç yüklenemedi. Aşağıdaki tutarlar yine de doğrudur.",
     related: "İlgili aramalar",
@@ -1337,6 +1351,22 @@ const tr: Messages = {
     calls: "Ücretli çağrı",
     source: "Kaynak",
     updated: "güncellendi: {date}",
+    viewTree: "Ağaç",
+    viewList: "Liste",
+    downloadCsv: "CSV indir",
+    downloadPng: "PNG indir",
+    exporting: "Hazırlanıyor…",
+    exportAudited:
+      "İndirmeler denetim günlüğüne sizin adresinizle kaydedilir: birinin " +
+      "araştırmasının bir kopyasının üründen çıkması iz bırakmalıdır.",
+    exportFailed:
+      "Hiçbir şey indirilmedi. Denetim kaydı yazılamadı ya da görsel " +
+      "çizilemedi.",
+    clickNode: "Google'ın döndürdüğü sayfaları görmek için bir soruya tıklayın.",
+    zoomIn: "Yakınlaştır",
+    zoomOut: "Uzaklaştır",
+    fit: "Ağacın tamamını sığdır",
+    seedLabel: "Aranan",
   },
 
   gapStatus: {
