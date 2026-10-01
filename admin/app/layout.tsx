@@ -71,6 +71,7 @@ export default async function RootLayout({
               <nav>
                 <Link href="/">{t("nav.overview")}</Link>
                 <Link href="/users">{t("nav.users")}</Link>
+                <Link href="/searches">{t("nav.searches")}</Link>
                 <Link href="/reports">{t("nav.reports")}</Link>
                 <Link href="/settings">{t("nav.settings")}</Link>
                 <Link href="/stripe">{t("nav.payments")}</Link>

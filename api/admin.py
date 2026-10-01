@@ -24,12 +24,15 @@ structurally absent rather than forbidden by a check somebody could remove.
 from __future__ import annotations
 
 import json
+import re
+from datetime import date
 from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from answergap import db, entitlements, gate
+from answergap import db, entitlements, gate, live
+from answergap import tree as tree_mod
 
 from . import ci, stripe
 from .auth import ADMIN_EMAILS, PUBLIC_BASE_URL, WEB_BASE_URL, require_admin
@@ -348,6 +351,126 @@ def user_activity(request: Request, user_id: int, months: int = 12) -> dict:
     out = db.admin_user_activity(user_id, months=max(1, min(months, 60)))
     out["period"] = db.period_usage(user_id)
     return out
+
+
+@router.get("/searches")
+def searches(
+    request: Request,
+    q: str = "",
+    email: str = "",
+    language: str = "",
+    location: str = "",
+    date_from: str = "",
+    date_to: str = "",
+    paid: str = "",
+    sort: str = "recent",
+    limit: int = 50,
+    offset: int = 0,
+) -> dict:
+    """Every search anybody has run, filterable. Admin only.
+
+    The one place a person's searches are visible to anyone but that person -
+    which is exactly why it sits in this file and nowhere else. Customers see
+    their own list and nothing more (`/api/trees`); this is the operator's view
+    of all of them, with who ran each and what it cost.
+
+    Every filter is bounded or validated here rather than trusted: dates must
+    parse as dates, the location must be a number, `sort` must name a known
+    key. A bad value is a 400 the operator can read, not a 500 from Postgres.
+    """
+    require_admin(request)
+    if sort not in db.SEARCH_SORTS:
+        raise HTTPException(400, {"code": "badRequest"})
+    try:
+        location_code = int(location) if location.strip() else None
+        start = _iso_date(date_from)
+        end = _iso_date(date_to)
+    except ValueError:
+        raise HTTPException(400, {"code": "badRequest"}) from None
+    return db.admin_searches(
+        q=q.strip()[:200],
+        email=email.strip()[:200],
+        language_code=language.strip()[:10],
+        location_code=location_code,
+        date_from=start,
+        date_to=end,
+        paid_only=paid == "1",
+        sort=sort,
+        limit=max(1, min(200, limit)),
+        offset=max(0, offset),
+        admin_emails=ADMIN_EMAILS,
+    )
+
+
+@router.get("/search/{slug}")
+def search_detail(request: Request, slug: str) -> dict:
+    """One search: the result as stored, who ran it, who spent what on it.
+
+    THE RESULT IS SERVED FROM HERE, not by opening the customer app's tree
+    page. That page is gated by ownership and stays that way: an admin bypass
+    in a public endpoint is a privilege check living in a file whose whole
+    contract is "nothing here is privileged". The admin reads the tree through
+    the admin gate instead, and the customer surface keeps one rule.
+    """
+    require_admin(request)
+    if not _SLUG_RE.fullmatch(slug):
+        raise HTTPException(404, {"code": "notFound"})
+    found = db.admin_search_detail(slug, admin_emails=ADMIN_EMAILS)
+    if not found:
+        raise HTTPException(404, {"code": "notFound"})
+    tree = None
+    try:
+        tree = live.load_tree(slug)
+    except Exception:  # noqa: BLE001 - the money half still renders without it
+        tree = None
+    found["tree"] = _tree_for_admin(tree) if tree else None
+    return found
+
+
+_SLUG_RE = re.compile(r"[a-z0-9][a-z0-9-]{0,199}")
+
+
+def _iso_date(value: str) -> str | None:
+    """`YYYY-MM-DD` or nothing. Raises ValueError on anything else."""
+    value = value.strip()
+    if not value:
+        return None
+    return date.fromisoformat(value).isoformat()
+
+
+def _tree_for_admin(tree: dict) -> dict:
+    """The stored tree, reduced to what the result view reads.
+
+    Results are kept (title, url, domain) because "check the result" means
+    reading what Google returned for a question, not just its status.
+    """
+    nodes = tree.get("nodes") or []
+    return {
+        "seed": tree.get("seed"),
+        "updated_at": tree.get("updated_at"),
+        "status_counts": tree_mod.count_statuses(nodes) if nodes else {},
+        "question_count": tree_mod.count_questions(nodes) if nodes else 0,
+        "related_searches": (tree.get("related_searches") or [])[:40],
+        "nodes": [
+            {
+                "id": n.get("id"),
+                "question": n.get("question"),
+                "depth": n.get("depth"),
+                "parent_id": n.get("parent_id"),
+                "status": n.get("status"),
+                "discovered_by": n.get("discovered_by"),
+                "matching_pages": n.get("matching_pages"),
+                "results_checked": n.get("results_checked"),
+                "ai_sources": n.get("ai_sources") or [],
+                "results": [
+                    {"title": r.get("title"), "url": r.get("url"),
+                     "domain": r.get("domain")}
+                    for r in (n.get("results") or [])[:10]
+                ],
+            }
+            for n in nodes
+        ],
+    }
 
 
 @router.post("/user/{user_id}/credits")

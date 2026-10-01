@@ -40,6 +40,7 @@ const en = {
   nav: {
     overview: "Overview",
     users: "Users",
+    searches: "Searches",
     reports: "Reports",
     settings: "Settings",
     payments: "Payments",
@@ -600,6 +601,95 @@ const en = {
       "record and shows up in the audit log. Nothing here is overwritten in place.",
   },
 
+  /* Every search anybody has run. The one screen where a person's searches
+     are visible to somebody other than that person. */
+  searches: {
+    title: "Searches",
+    lead:
+      "Every search anybody has run, one row per topic. Customers only ever " +
+      "see their own; this is the only place that shows all of them.",
+    q: "Topic contains",
+    email: "Account email contains",
+    language: "Language (en, tr…)",
+    location: "Location code",
+    from: "Searched from",
+    to: "to",
+    paidOnly: "Only searches that cost money",
+    sort: "Sort",
+    sortRecent: "Most recent",
+    sortOldest: "Oldest",
+    sortCost: "Highest cost",
+    sortCrawls: "Most searched",
+    sortCredits: "Most credits",
+    clear: "Clear",
+    matched: "{count} searches match",
+    providerTotal: "Cost to us",
+    providerTotalNote: "DataForSEO's own receipts for these searches",
+    attributedTotal: "Attributed",
+    attributedTotalNote: "the part we can name a person for",
+    creditsTotal: "Credits charged",
+    creditsTotalNote: "what customers paid for these searches",
+    topic: "Topic",
+    market: "Market",
+    who: "Who",
+    timesSearched: "Searched",
+    lastSearched: "Last searched",
+    cost: "Cost",
+    credits: "Credits",
+    anonymous: "anonymous",
+    moreAccounts: "+{count} more",
+    none: "No searches match.",
+    prev: "← Previous",
+    next: "Next →",
+    page: "{from}–{to} of {total}",
+    // detail
+    back: "← All searches",
+    firstSearched: "First searched {when}",
+    resultHeading: "Result",
+    resultLead:
+      "The tree as it is stored now. Expand a question to read the pages " +
+      "Google returned for it.",
+    questions: "Questions",
+    noTree: "The stored result could not be loaded. The money below is still accurate.",
+    related: "Related searches",
+    pagesChecked: "{matching} of {checked} pages answer it",
+    notChecked: "not checked",
+    aiCites: "AI Overview cites: {domains}",
+    harvested: "found while checking another question",
+    costHeading: "What it cost",
+    costLead:
+      "Cost is what we paid DataForSEO; credits are what the person paid us. " +
+      "Unattributed is money spent on this search that no account can be named " +
+      "for — anonymous, erased, or from before accounts existed.",
+    crawlCost: "Searches",
+    taskCost: "Bulk checks",
+    unattributed: "Unattributed",
+    spendersHeading: "Who spent what",
+    spendersLead: "Every account that did something on this search, by action.",
+    crawlsHeading: "Who searched it",
+    crawlsLead:
+      "One row per time this topic was searched. A search that a previous one " +
+      "had already paid for costs $0 — the corpus is shared.",
+    tasksHeading: "Bulk check receipts",
+    eventsHeading: "Event log",
+    eventsCapped: "Showing the latest 200 events. The totals above are not capped.",
+    question: "Question",
+    outcome: "Outcome",
+    status: "Status",
+    tasks: "Tasks",
+    calls: "Paid calls",
+    source: "Source",
+    updated: "updated {date}",
+  },
+
+  /* The customer app's four statuses, for the result view. */
+  gapStatus: {
+    gap: "Unanswered",
+    weak: "Barely answered",
+    covered: "Well answered",
+    no_data: "Not checked",
+  },
+
   guide: {
     englishOnly:
       "This page is the operator manual and is kept in English only. It " +
@@ -618,6 +708,7 @@ const tr: Messages = {
   nav: {
     overview: "Genel bakış",
     users: "Kullanıcılar",
+    searches: "Aramalar",
     reports: "Raporlar",
     settings: "Ayarlar",
     payments: "Ödemeler",
@@ -1168,6 +1259,91 @@ const tr: Messages = {
       "Kaydedilen değişiklikler app_setting tablosuna yeni bir satır ekler: " +
       "önceki değer kayıtta kalır ve denetim günlüğünde görünür. Burada " +
       "hiçbir şey yerinde değiştirilmez.",
+  },
+
+  searches: {
+    title: "Aramalar",
+    lead:
+      "Herkesin yaptığı tüm aramalar, konu başına bir satır. Müşteriler " +
+      "yalnızca kendi aramalarını görür; hepsini gösteren tek yer burası.",
+    q: "Konu içerir",
+    email: "Hesap e-postası içerir",
+    language: "Dil (en, tr…)",
+    location: "Konum kodu",
+    from: "Arama tarihi",
+    to: "ile",
+    paidOnly: "Yalnızca para harcanan aramalar",
+    sort: "Sıralama",
+    sortRecent: "En yeni",
+    sortOldest: "En eski",
+    sortCost: "En yüksek maliyet",
+    sortCrawls: "En çok aranan",
+    sortCredits: "En çok kredi",
+    clear: "Temizle",
+    matched: "{count} arama eşleşti",
+    providerTotal: "Bize maliyeti",
+    providerTotalNote: "bu aramalar için DataForSEO'nun kendi faturaları",
+    attributedTotal: "Kişiye bağlanan",
+    attributedTotalNote: "bir kişiye bağlayabildiğimiz kısım",
+    creditsTotal: "Düşülen kredi",
+    creditsTotalNote: "müşterilerin bu aramalar için ödediği",
+    topic: "Konu",
+    market: "Pazar",
+    who: "Kim",
+    timesSearched: "Aranma",
+    lastSearched: "Son arama",
+    cost: "Maliyet",
+    credits: "Kredi",
+    anonymous: "anonim",
+    moreAccounts: "+{count} kişi daha",
+    none: "Eşleşen arama yok.",
+    prev: "← Önceki",
+    next: "Sonraki →",
+    page: "{total} kayıttan {from}–{to}",
+    back: "← Tüm aramalar",
+    firstSearched: "İlk arama {when}",
+    resultHeading: "Sonuç",
+    resultLead:
+      "Ağacın şu an kayıtlı hâli. Google'ın bir soru için döndürdüğü sayfaları " +
+      "okumak için soruyu açın.",
+    questions: "Soru",
+    noTree: "Kayıtlı sonuç yüklenemedi. Aşağıdaki tutarlar yine de doğrudur.",
+    related: "İlgili aramalar",
+    pagesChecked: "{checked} sayfadan {matching} tanesi cevaplıyor",
+    notChecked: "kontrol edilmedi",
+    aiCites: "AI Overview'un kaynakları: {domains}",
+    harvested: "başka bir soru kontrol edilirken bulundu",
+    costHeading: "Maliyet",
+    costLead:
+      "Maliyet, DataForSEO'ya ödediğimiz tutardır; kredi, kişinin bize ödediğidir. " +
+      "Kişiye bağlanamayan, bu arama için harcanıp hiçbir hesaba bağlanamayan " +
+      "paradır: anonim, silinmiş ya da hesaplar yokken yapılmış.",
+    crawlCost: "Aramalar",
+    taskCost: "Toplu kontroller",
+    unattributed: "Kişiye bağlanamayan",
+    spendersHeading: "Kim ne harcadı",
+    spendersLead: "Bu aramada işlem yapan her hesap, işleme göre.",
+    crawlsHeading: "Kim aradı",
+    crawlsLead:
+      "Bu konunun her aranışı bir satır. Daha önce parası ödenmiş bir arama " +
+      "$0 tutar, çünkü veri havuzu ortaktır.",
+    tasksHeading: "Toplu kontrol faturaları",
+    eventsHeading: "Olay günlüğü",
+    eventsCapped: "Son 200 olay gösteriliyor. Yukarıdaki toplamlar sınırlı değildir.",
+    question: "Soru",
+    outcome: "Sonuç",
+    status: "Durum",
+    tasks: "Görev",
+    calls: "Ücretli çağrı",
+    source: "Kaynak",
+    updated: "güncellendi: {date}",
+  },
+
+  gapStatus: {
+    gap: "Cevapsız",
+    weak: "Az cevaplanmış",
+    covered: "İyi cevaplanmış",
+    no_data: "Bakılmadı",
   },
 
   guide: {

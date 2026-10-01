@@ -950,6 +950,16 @@ MIGRATIONS: list[tuple[str, str]] = [
         EXCEPTION WHEN duplicate_object THEN NULL; END $mig$;
         """,
     ),
+    (
+        "0015_usage_event_tree_slug",
+        """
+        -- The admin Searches page asks "who spent what on THIS search", which
+        -- is a lookup by tree_slug on the busiest table in the schema. Partial,
+        -- because a usage row with no tree is never what that page asks about.
+        CREATE INDEX IF NOT EXISTS usage_event_tree_idx
+            ON usage_event (tree_slug, created_at DESC) WHERE tree_slug IS NOT NULL;
+        """,
+    ),
 ]
 
 
@@ -3246,6 +3256,295 @@ def admin_user_activity(user_id: int, *, months: int = 12) -> dict:
         out[key] = float(out.get(key) or 0)
     out["window_months"] = max(1, min(int(months), 60))
     return out
+
+
+def _like(term: str) -> str:
+    """A user-typed fragment for ILIKE, with its wildcards made literal.
+
+    Without this an operator filtering on `a_b` gets a pattern rather than the
+    text they typed - harmless, since it is parameterised, but a filter that
+    quietly matches more than it says is a filter nobody trusts.
+    """
+    escaped = term.replace("\\", "\\\\").replace("%", r"\%").replace("_", r"\_")
+    return f"%{escaped}%"
+
+
+# The only ORDER BY clauses `admin_searches` will run. The caller names a key;
+# SQL never travels from the request.
+SEARCH_SORTS = {
+    "recent": "last_at DESC, slug",
+    "oldest": "first_at ASC, slug",
+    "cost": "provider_usd DESC, last_at DESC",
+    "crawls": "crawls DESC, last_at DESC",
+    "credits": "credits DESC, last_at DESC",
+}
+
+
+def admin_searches(
+    *,
+    q: str = "",
+    email: str = "",
+    language_code: str = "",
+    location_code: int | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    paid_only: bool = False,
+    sort: str = "recent",
+    limit: int = 50,
+    offset: int = 0,
+    admin_emails: set[str] | None = None,
+) -> dict:
+    """Every search ever run, one row per SLUG, filtered - ONE statement.
+
+    A slug, not a crawl row, because a slug is what the operator means by "a
+    search": the same seed searched by three people is one tree and one shared
+    cache with three crawl rows under it. Who, when and what each cost is the
+    detail page's job.
+
+    TWO MONEY FIGURES PER ROW, for the reason `/reports` gives. `provider_usd`
+    is `crawl.spend` + `serp_task.cost`, DataForSEO's own receipts, which
+    predate accounts and cannot be skipped by a failed insert. `attributed_usd`
+    is `usage_event`, which knows WHO but is best-effort. The difference is
+    money spent on this search that no person can be named for.
+
+    The date window decides WHICH searches are listed (at least one crawl in
+    it); the figures on a listed row are all-time. Windowing the money as well
+    would make a row's total move with the filter, which reads as the data
+    changing.
+    """
+    order = SEARCH_SORTS.get(sort, SEARCH_SORTS["recent"])
+    is_admin, admin_params = _admin_filter(admin_emails)
+    admin_sql = is_admin.replace("%s", "%(admins)s")
+    params: dict = {
+        "q": _like(q) if q else None,
+        "email": _like(email) if email else None,
+        "lang": language_code or None,
+        "loc": location_code,
+        "dfrom": date_from,
+        "dto": date_to,
+        "paid": bool(paid_only),
+        "limit": max(1, min(int(limit), 200)),
+        "offset": max(0, int(offset)),
+        "admins": admin_params[0] if admin_params else [],
+    }
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"""
+            WITH c AS (
+                SELECT slug,
+                       (array_agg(seed ORDER BY created_at DESC))[1] AS seed,
+                       (array_agg(language_code ORDER BY created_at DESC))[1]
+                           AS language_code,
+                       (array_agg(location_code ORDER BY created_at DESC))[1]
+                           AS location_code,
+                       count(*)::int AS crawls,
+                       count(*) FILTER (WHERE user_id IS NULL)::int
+                           AS anonymous_crawls,
+                       min(created_at) AS first_at,
+                       max(created_at) AS last_at,
+                       coalesce(sum(billable_calls), 0)::int AS billable_calls,
+                       coalesce(sum(spend), 0) AS crawl_usd
+                  FROM crawl
+                 GROUP BY slug
+            ),
+            t AS (
+                SELECT tree_slug AS slug,
+                       count(*)::int AS tasks,
+                       coalesce(sum(cost), 0) AS task_usd
+                  FROM serp_task GROUP BY tree_slug
+            ),
+            e AS (
+                SELECT tree_slug AS slug,
+                       coalesce(sum(spend_usd), 0) AS attributed_usd,
+                       coalesce(sum(credits), 0)::int AS credits,
+                       count(*) FILTER (WHERE outcome <> 'allowed')::int AS refused
+                  FROM usage_event WHERE tree_slug IS NOT NULL
+                 GROUP BY tree_slug
+            ),
+            people AS (
+                SELECT slug, user_id FROM crawl WHERE user_id IS NOT NULL
+                UNION
+                SELECT tree_slug, user_id FROM usage_event
+                 WHERE tree_slug IS NOT NULL AND user_id IS NOT NULL
+            ),
+            who AS (
+                SELECT p.slug,
+                       count(*)::int AS accounts,
+                       json_agg(json_build_object(
+                           'id', u.id, 'email', u.email,
+                           'is_admin', ({admin_sql}))
+                           ORDER BY u.email) AS users
+                  FROM people p JOIN app_user u ON u.id = p.user_id
+                 GROUP BY p.slug
+            ),
+            matched AS (
+                SELECT c.*,
+                       coalesce(t.tasks, 0) AS tasks,
+                       coalesce(t.task_usd, 0) AS task_usd,
+                       c.crawl_usd + coalesce(t.task_usd, 0) AS provider_usd,
+                       coalesce(e.attributed_usd, 0) AS attributed_usd,
+                       coalesce(e.credits, 0) AS credits,
+                       coalesce(e.refused, 0) AS refused,
+                       coalesce(w.accounts, 0) AS accounts,
+                       coalesce(w.users, '[]'::json) AS users
+                  FROM c
+                  LEFT JOIN t ON t.slug = c.slug
+                  LEFT JOIN e ON e.slug = c.slug
+                  LEFT JOIN who w ON w.slug = c.slug
+                 WHERE (%(q)s::text IS NULL
+                        OR c.seed ILIKE %(q)s OR c.slug ILIKE %(q)s)
+                   AND (%(lang)s::text IS NULL OR c.language_code = %(lang)s)
+                   AND (%(loc)s::int IS NULL OR c.location_code = %(loc)s)
+                   AND (%(email)s::text IS NULL OR EXISTS (
+                         SELECT 1 FROM people p JOIN app_user u ON u.id = p.user_id
+                          WHERE p.slug = c.slug AND u.email ILIKE %(email)s))
+                   AND ((%(dfrom)s::date IS NULL AND %(dto)s::date IS NULL)
+                        OR EXISTS (
+                         SELECT 1 FROM crawl x
+                          WHERE x.slug = c.slug
+                            AND (%(dfrom)s::date IS NULL
+                                 OR x.created_at >= %(dfrom)s::date)
+                            AND (%(dto)s::date IS NULL
+                                 OR x.created_at < %(dto)s::date + 1)))
+                   AND (NOT %(paid)s
+                        OR c.crawl_usd + coalesce(t.task_usd, 0) > 0)
+            )
+            SELECT matched.*,
+                   count(*) OVER ()::int AS total,
+                   sum(provider_usd) OVER () AS total_provider_usd,
+                   sum(attributed_usd) OVER () AS total_attributed_usd,
+                   sum(credits) OVER ()::int AS total_credits
+              FROM matched
+             ORDER BY {order}
+             LIMIT %(limit)s OFFSET %(offset)s
+            """,
+            params,
+        )
+        found = _as_floats([dict(r) for r in cur.fetchall()])
+    totals = ("total", "total_provider_usd", "total_attributed_usd", "total_credits")
+    first = found[0] if found else {}
+    return {
+        "searches": [{k: v for k, v in r.items() if k not in totals} for r in found],
+        # Over EVERY matching row, not the page. Otherwise a sum the operator
+        # reads off the screen silently depends on the page size.
+        "total": int(first.get("total") or 0),
+        "total_provider_usd": float(first.get("total_provider_usd") or 0),
+        "total_attributed_usd": float(first.get("total_attributed_usd") or 0),
+        "total_credits": int(first.get("total_credits") or 0),
+    }
+
+
+def admin_search_detail(
+    slug: str, *, admin_emails: set[str] | None = None
+) -> dict | None:
+    """One search: every crawl, every person who spent on it, every receipt.
+
+    Four statements in one connection, not one. This page is opened one search
+    at a time by an operator; the one-statement rule is for pages a customer
+    waits on, and a four-way json_agg is the shape this file has been burned by.
+
+    IDENTIFIERS ARE NOT RETURNED. `anon_id` and `ip_hash` stay in the database:
+    an anonymous crawl is shown as anonymous, and the page has no use for a
+    value whose only job is to be a counter key.
+    """
+    is_admin, admin_params = _admin_filter(admin_emails)
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"""
+            SELECT c.id, c.seed, c.language_code, c.location_code, c.source,
+                   c.billable_calls, c.spend, c.created_at, c.user_id, u.email,
+                   (c.user_id IS NOT NULL AND ({is_admin})) AS is_admin,
+                   (c.user_id IS NULL AND c.anon_id IS NOT NULL) AS anonymous
+              FROM crawl c LEFT JOIN app_user u ON u.id = c.user_id
+             WHERE c.slug = %s
+             ORDER BY c.created_at DESC, c.id DESC
+            """,
+            [*admin_params, slug],
+        )
+        crawls = _as_floats([dict(r) for r in cur.fetchall()])
+        if not crawls:
+            return None
+
+        # Who spent what, per person and action. A NULL user_id is an anonymous
+        # visitor or an erased account; the two cannot be told apart here and
+        # are not guessed at.
+        cur.execute(
+            f"""
+            SELECT e.user_id, u.email,
+                   (e.user_id IS NOT NULL AND ({is_admin})) AS is_admin,
+                   e.action,
+                   count(*)::int AS attempts,
+                   count(*) FILTER (WHERE e.outcome = 'allowed')::int AS allowed,
+                   count(*) FILTER (WHERE e.outcome <> 'allowed')::int AS refused,
+                   count(*) FILTER (WHERE e.spend_usd > 0)::int AS billable,
+                   coalesce(sum(e.credits), 0)::int AS credits,
+                   coalesce(sum(e.spend_usd), 0) AS spend_usd,
+                   min(e.created_at) AS first_at,
+                   max(e.created_at) AS last_at
+              FROM usage_event e LEFT JOIN app_user u ON u.id = e.user_id
+             WHERE e.tree_slug = %s
+             GROUP BY e.user_id, u.email, e.action
+             ORDER BY coalesce(sum(e.spend_usd), 0) DESC, count(*) DESC
+            """,
+            [*admin_params, slug],
+        )
+        spenders = _as_floats([dict(r) for r in cur.fetchall()])
+
+        # The raw trail in order, capped. The aggregate above is not capped,
+        # so no total on the page is computed from this list.
+        cur.execute(
+            """
+            SELECT e.created_at, e.user_id, u.email, e.action, e.outcome,
+                   e.credits, e.spend_usd, e.question_slug
+              FROM usage_event e LEFT JOIN app_user u ON u.id = e.user_id
+             WHERE e.tree_slug = %s
+             ORDER BY e.created_at DESC, e.id DESC
+             LIMIT %s
+            """,
+            [slug, SEARCH_EVENTS_CAP],
+        )
+        events = _as_floats([dict(r) for r in cur.fetchall()])
+
+        cur.execute(
+            """
+            SELECT s.user_id, u.email, s.status,
+                   count(*)::int AS tasks,
+                   coalesce(sum(s.cost), 0) AS cost,
+                   min(s.posted_at) AS first_at, max(s.posted_at) AS last_at
+              FROM serp_task s LEFT JOIN app_user u ON u.id = s.user_id
+             WHERE s.tree_slug = %s
+             GROUP BY s.user_id, u.email, s.status
+             ORDER BY coalesce(sum(s.cost), 0) DESC
+            """,
+            [slug],
+        )
+        tasks = _as_floats([dict(r) for r in cur.fetchall()])
+
+    crawl_usd = sum(float(c.get("spend") or 0) for c in crawls)
+    task_usd = sum(float(t.get("cost") or 0) for t in tasks)
+    attributed = sum(float(s.get("spend_usd") or 0) for s in spenders)
+    return {
+        "slug": slug,
+        "seed": crawls[0]["seed"],
+        "language_code": crawls[0]["language_code"],
+        "location_code": crawls[0]["location_code"],
+        "crawls": crawls,
+        "spenders": spenders,
+        "events": events,
+        "events_capped": len(events) >= SEARCH_EVENTS_CAP,
+        "tasks": tasks,
+        "totals": {
+            "crawl_usd": crawl_usd,
+            "task_usd": task_usd,
+            "provider_usd": crawl_usd + task_usd,
+            "attributed_usd": attributed,
+            "unattributed_usd": max(0.0, crawl_usd + task_usd - attributed),
+            "credits": sum(int(s.get("credits") or 0) for s in spenders),
+        },
+    }
+
+
+SEARCH_EVENTS_CAP = 200
 
 
 def admin_user_detail(user_id: int) -> dict | None:

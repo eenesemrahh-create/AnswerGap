@@ -639,3 +639,135 @@ export interface Reports {
     };
   };
 }
+
+/** A person named on a search: who ran it or spent on it. */
+export interface SearchPerson {
+  id: number;
+  email: string;
+  is_admin: boolean;
+}
+
+/** One row of the admin Searches list: one SLUG, all of its crawls. */
+export interface SearchRow {
+  slug: string;
+  seed: string;
+  language_code: string;
+  location_code: number;
+  crawls: number;
+  anonymous_crawls: number;
+  first_at: string;
+  last_at: string;
+  billable_calls: number;
+  crawl_usd: number;
+  tasks: number;
+  task_usd: number;
+  /** DataForSEO's own receipts: crawl.spend + serp_task.cost. */
+  provider_usd: number;
+  /** What usage_event can name a person for. Best-effort. */
+  attributed_usd: number;
+  credits: number;
+  refused: number;
+  accounts: number;
+  users: SearchPerson[];
+}
+
+export interface SearchList {
+  searches: SearchRow[];
+  total: number;
+  total_provider_usd: number;
+  total_attributed_usd: number;
+  total_credits: number;
+}
+
+export interface SearchCrawl {
+  id: number;
+  seed: string;
+  language_code: string;
+  location_code: number;
+  source: string;
+  billable_calls: number;
+  spend: number;
+  created_at: string;
+  user_id: number | null;
+  email: string | null;
+  is_admin: boolean;
+  anonymous: boolean;
+}
+
+export interface SearchSpender {
+  user_id: number | null;
+  email: string | null;
+  is_admin: boolean;
+  action: string;
+  attempts: number;
+  allowed: number;
+  refused: number;
+  billable: number;
+  credits: number;
+  spend_usd: number;
+  first_at: string;
+  last_at: string;
+}
+
+export interface SearchEvent {
+  created_at: string;
+  user_id: number | null;
+  email: string | null;
+  action: string;
+  outcome: string;
+  credits: number;
+  spend_usd: number;
+  question_slug: string | null;
+}
+
+export interface SearchTask {
+  user_id: number | null;
+  email: string | null;
+  status: string;
+  tasks: number;
+  cost: number;
+  first_at: string;
+  last_at: string;
+}
+
+export interface SearchNode {
+  id: string;
+  question: string;
+  depth: number;
+  parent_id: string | null;
+  status: "gap" | "weak" | "covered" | "no_data";
+  discovered_by: string | null;
+  matching_pages: number | null;
+  results_checked: number | null;
+  ai_sources: string[];
+  results: { title: string; url: string; domain: string }[];
+}
+
+export interface SearchDetail {
+  slug: string;
+  seed: string;
+  language_code: string;
+  location_code: number;
+  crawls: SearchCrawl[];
+  spenders: SearchSpender[];
+  events: SearchEvent[];
+  events_capped: boolean;
+  tasks: SearchTask[];
+  totals: {
+    crawl_usd: number;
+    task_usd: number;
+    provider_usd: number;
+    attributed_usd: number;
+    unattributed_usd: number;
+    credits: number;
+  };
+  /** The stored result; null when the tree no longer loads. */
+  tree: {
+    seed: string;
+    updated_at: string | null;
+    status_counts: Record<string, number>;
+    question_count: number;
+    related_searches: string[];
+    nodes: SearchNode[];
+  } | null;
+}

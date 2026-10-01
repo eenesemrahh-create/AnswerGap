@@ -2196,3 +2196,35 @@ behaviour-preserving.
 A real bug the new tests caught: a cyclic `seed_question` pointer emitted the
 same question twice, because the outer frame did not re-check `placed` after
 the recursion that terminated the cycle had already emitted it.
+
+## Searches are private to their owner; the admin sees all of them — 2026-10-01
+
+**The three Phase 0 demos are no longer public.** `/api/trees` appended them to
+every list, so a newly signed-in reader took *diş beyazlatma*, *kredi notu* and
+*teeth whitening* for their own history. With accounts on, the list is the
+caller's own searches and nothing else, and an archive slug is a 404 like any
+tree that is not yours. On a laptop with no accounts they still list - one
+person, no live data. The files under `data/raw/` were **not deleted**: they
+are the Phase 0 evidence the evaluation scripts and `tests/test_ai_overview.py`
+read.
+
+**Admin `/searches`** lists every search, one row per SLUG (the same seed by
+three people is one tree with three crawl rows), filterable by topic, account
+email, language, location, date window and "cost money", sortable by recency,
+cost, times searched and credits. `/searches/{slug}` shows the stored tree
+with each question's returned pages, who searched it, who spent what per
+action, the Standard-queue receipts and the raw event log.
+
+- **Read through the admin API, not the customer tree page.** Giving admins a
+  bypass in `_authorize_tree` would put a privilege check in `main.py`, the
+  file whose contract is that nothing in it is privileged.
+- **Two money figures, as on Reports.** `provider_usd` = `crawl.spend` +
+  `serp_task.cost` (receipts); `attributed_usd` = `usage_event` (who). The
+  difference is shown as Unattributed rather than hidden.
+- The list's date window decides WHICH searches show; the figures on a row are
+  all-time, so a total does not move with the filter.
+- `anon_id` and `ip_hash` never leave the database; an anonymous crawl is
+  shown as "anonymous". Result URLs become links only when they are http(s).
+- Migration `0015` adds a partial `(tree_slug, created_at)` index on
+  `usage_event`, which the detail page looks up by.
+- **5 new SQL tests run only in CI**, like the other SQL tests.

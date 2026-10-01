@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { get, money, when } from "@/lib/api";
 import { getLocale, translator } from "@/lib/locale";
 import type { Pricing, UserActivity, UserDetail } from "@/lib/types";
@@ -211,6 +212,11 @@ export default async function UserPage({
       </div>
 
       <h2>{t("userDetail.searchesHeading")}</h2>
+      <p className="sub">
+        <Link href={`/searches?email=${encodeURIComponent(u.email ?? "")}`}>
+          {t("nav.searches")} →
+        </Link>
+      </p>
       <div className="tablewrap">
         <table>
           <thead>
@@ -221,7 +227,7 @@ export default async function UserPage({
             {u.crawls.map((c) => (
               <tr key={c.id}>
                 <td>{when(c.created_at)}</td>
-                <td>{c.seed}</td>
+                <td><Link href={`/searches/${encodeURIComponent(c.slug)}`}>{c.seed}</Link></td>
                 <td>{c.language_code} / {c.location_code}</td>
                 <td className="num">{money(Number(c.spend || 0))}</td>
               </tr>

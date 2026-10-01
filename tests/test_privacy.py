@@ -45,26 +45,49 @@ def _missing_lookup(slug: str) -> dict:
     raise HTTPException(404, f"No tree: {slug}")
 
 
-# ---------------------------------------------------------- archive is public
+# ---------------------------------------------------------- archive
 
 
-def test_archive_tree_is_public_even_with_db(monkeypatch) -> None:
-    """The three Phase 0 demos exist to show the product before sign-in.
+def test_archive_tree_is_hidden_when_accounts_are_on(monkeypatch) -> None:
+    """The Phase 0 demos stopped being public on 2026-10-01.
 
-    They carry no user data and their whole purpose is to be reachable by any
-    visitor, so the ownership rule cannot apply. The gate proves it by
-    NEVER calling can_access on an archive - if it ever did, the assertion
-    below would fire.
+    They were shown under every list, so a signed-in reader took them for
+    their own history. With accounts on, a slug from the archive is a 404 like
+    any other tree that is not yours - and `can_access` is never asked, since
+    no crawl row can own an archive.
     """
     monkeypatch.setattr(main, "_lookup", _fixed_lookup("archive"))
     monkeypatch.setattr(main.db, "available", lambda: True)
+    monkeypatch.setattr(main.auth, "accounts_enabled", lambda: True)
 
     def _no_call(*args, **kwargs):
         raise AssertionError("can_access must not run for archive trees")
 
     monkeypatch.setattr(main.db, "can_access", _no_call)
+    with pytest.raises(HTTPException) as exc:
+        main._authorize_tree("demo-slug", FakeIdentity(user_id=1))
+    assert exc.value.status_code == 404
+
+
+def test_archive_tree_stays_open_without_accounts(monkeypatch) -> None:
+    """A laptop with no accounts has one person and no live data; the archive
+    is the only thing it has to show."""
+    monkeypatch.setattr(main, "_lookup", _fixed_lookup("archive"))
+    monkeypatch.setattr(main.auth, "accounts_enabled", lambda: False)
     result = main._authorize_tree("demo-slug", FakeIdentity())
     assert result["source"] == "archive"
+
+
+def test_tree_list_carries_no_archive_when_accounts_are_on(monkeypatch) -> None:
+    monkeypatch.setattr(main, "_TREES", [{"slug": "demo", "seed": "demo"}])
+    monkeypatch.setattr(main, "_live_all", lambda user_id=None: [])
+    monkeypatch.setattr(main, "_summary", lambda t: {"slug": t["slug"]})
+    monkeypatch.setattr(main.auth, "identity", lambda request: FakeIdentity(user_id=7))
+    monkeypatch.setattr(main.auth, "accounts_enabled", lambda: True)
+    assert main.trees(None) == []
+
+    monkeypatch.setattr(main.auth, "accounts_enabled", lambda: False)
+    assert main.trees(None) == [{"slug": "demo"}]
 
 
 # ---------------------------------------------------------- live + no db

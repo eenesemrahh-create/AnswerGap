@@ -1297,3 +1297,82 @@ def test_a_lapsed_assigned_plan_has_no_quota() -> None:
             (uid,),
         )
     assert db.period_usage(uid) is None
+
+
+# ------------------------------------------------------------- admin searches
+
+
+def _searched(user_id: int | None, *, anon: str | None = None,
+              spend: float = 0.0026) -> int:
+    """One crawl of teeth-whitening, owned the way a real search owns it."""
+    return db.save_tree(_archive_tree(), new_crawl=True, add_spend=spend,
+                        add_calls=1 if spend else 0, user_id=user_id, anon_id=anon)
+
+
+def _used(user_id: int | None, action: str, credits: int, dollars: float,
+          slug: str = "teeth-whitening") -> None:
+    db.record_usage(user_id=user_id, ip_hash="ip-secret", anon_id="anon-secret",
+                    action=action, outcome="allowed", credits=credits,
+                    spend_usd=dollars, tree_slug=slug, is_admin=False)
+
+
+def test_a_seed_searched_by_two_people_is_one_row_with_both_names() -> None:
+    a = int(_google("s-a", "a@example.com")["id"])
+    b = int(_google("s-b", "b@example.com")["id"])
+    _searched(a)
+    _searched(b, spend=0.0)  # the second person rides the cache
+    _used(a, "search", 1, 0.0026)
+    _used(b, "score", 1, 0.002)
+
+    found = db.admin_searches(admin_emails=ADMINS)
+    assert found["total"] == 1
+    row = found["searches"][0]
+    assert row["slug"] == "teeth-whitening"
+    assert row["crawls"] == 2
+    assert row["accounts"] == 2
+    assert {u["email"] for u in row["users"]} == {"a@example.com", "b@example.com"}
+    assert row["provider_usd"] == pytest.approx(0.0026)
+    assert row["attributed_usd"] == pytest.approx(0.0046)
+    assert row["credits"] == 2
+
+
+def test_searches_filter_by_who_and_by_text() -> None:
+    a = int(_google("s-a", "a@example.com")["id"])
+    _searched(a)
+    assert db.admin_searches(email="A@EXAMPLE")["total"] == 1
+    assert db.admin_searches(email="nobody")["total"] == 0
+    assert db.admin_searches(q="teeth")["total"] == 1
+    assert db.admin_searches(q="whiten_ng")["total"] == 0  # `_` is literal
+    assert db.admin_searches(language_code="tr")["total"] == 0
+    assert db.admin_searches(location_code=2840)["total"] == 1
+    assert db.admin_searches(date_from="2000-01-01", date_to="2000-01-02")["total"] == 0
+    assert db.admin_searches(paid_only=True)["total"] == 1
+
+
+def test_an_unknown_sort_key_falls_back_rather_than_running() -> None:
+    _searched(None, anon="anon-1")
+    assert db.admin_searches(sort="slug; DROP TABLE crawl")["total"] == 1
+
+
+def test_search_detail_names_who_spent_what_and_hides_the_counter_keys() -> None:
+    a = int(_google("s-a", "a@example.com")["id"])
+    boss = int(_google("s-boss", "boss@example.com")["id"])
+    _searched(a)
+    _searched(None, anon="anon-secret", spend=0.0)
+    _used(a, "search", 1, 0.0026)
+    _used(boss, "deep", 0, 0.0104)
+
+    found = db.admin_search_detail("teeth-whitening", admin_emails=ADMINS)
+    assert len(found["crawls"]) == 2
+    assert any(c["anonymous"] for c in found["crawls"])
+    by_email = {s["email"]: s for s in found["spenders"]}
+    assert by_email["a@example.com"]["credits"] == 1
+    assert by_email["boss@example.com"]["is_admin"] is True
+    assert found["totals"]["provider_usd"] == pytest.approx(0.0026)
+    assert found["totals"]["attributed_usd"] == pytest.approx(0.013)
+    blob = json.dumps(found, default=str)
+    assert "anon-secret" not in blob and "ip-secret" not in blob
+
+
+def test_search_detail_of_a_slug_nobody_searched_is_none() -> None:
+    assert db.admin_search_detail("never-searched") is None

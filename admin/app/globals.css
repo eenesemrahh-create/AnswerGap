@@ -705,3 +705,45 @@ thead th {
 }
 .chips a.pill { text-decoration: none; }
 .chips a.pill:hover { border-color: var(--border-strong); }
+
+/* --- Searches ---------------------------------------------------------
+   The customer app's four status colours, so a gap reads the same here as
+   on the tree the customer saw. */
+:root {
+  --gap: #c2410c;
+  --weak: #8f6b06;
+  --covered: #0f766e;
+  --nodata: #8b857c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --gap: #fb923c;
+    --weak: #e8c55a;
+    --covered: #45c8b8;
+    --nodata: #857e72;
+  }
+}
+.faint { color: var(--text-faint); }
+form.filters input:not([type="checkbox"]) { min-width: 0; }
+label.inline { display: inline-flex; align-items: center; gap: 6px; color: var(--text-soft); font-size: 13px; }
+.pager { display: flex; justify-content: space-between; align-items: center; margin: 12px 0; }
+.status-pill {
+  display: inline-block;
+  padding: 0 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+.status-pill.gap { color: var(--gap); }
+.status-pill.weak { color: var(--weak); }
+.status-pill.covered { color: var(--covered); }
+.status-pill.no_data { color: var(--nodata); border-style: dashed; }
+.qtree { list-style: none; margin: 0; padding-left: 18px; border-left: 1px solid var(--border); }
+.qtree:first-of-type { padding-left: 0; border-left: 0; }
+.qtree li { margin: 4px 0; }
+.qtree summary { cursor: pointer; line-height: 1.6; }
+.qdetail { margin: 4px 0 8px 18px; font-size: 13px; }
+.qdetail p { margin: 0 0 4px; }
+.qdetail ol { margin: 0; padding-left: 20px; }
+.qdetail li { margin: 2px 0; overflow-wrap: anywhere; }

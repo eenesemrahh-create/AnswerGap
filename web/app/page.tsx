@@ -515,11 +515,10 @@ export default function Landing() {
       {trees && trees.length > 0 && (
         <section className="mkt-saved">
           <div className="mkt-saved-head">
-            {/* A signed-out visitor has no analyses of their own. What they
-                are shown is the three public demos - by design; see
-                `/api/trees` - so calling them "yours" was a small lie that
-                only became visible once the hero stopped pretending they
-                could search. */}
+            {/* Only ever the reader's own searches. The three public demos
+                that used to fill this for a signed-out visitor were removed
+                from `/api/trees` on 2026-10-01, so a signed-out list is empty
+                and this section does not render for them at all. */}
             <h3>{t(showSearch ? "market.saved.heading" : "market.saved.demoHeading")}</h3>
             <span>{t("market.saved.count", { count: trees.length })}</span>
           </div>
@@ -559,8 +558,10 @@ export default function Landing() {
       )}
 
       {/* An empty state is only meaningful when we know the API answered but
-          returned no rows - `trees` is `null` while loading. */}
-      {trees && trees.length === 0 && (
+          returned no rows - `trees` is `null` while loading. And only for
+          somebody who can search: a signed-out visitor's list is always
+          empty, and "you have no analyses yet" is not a pitch. */}
+      {trees && trees.length === 0 && showSearch && (
         <section className="mkt-saved">
           <div className="empty-state" style={{ maxWidth: 640, margin: "0 auto" }}>
             <b>{t("landing.emptyTitle")}</b>

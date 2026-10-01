@@ -410,9 +410,8 @@ def _retally(tree: dict) -> dict:
 def _authorize_tree(slug: str, who: gate.Identity) -> dict:
     """Fetch a tree and confirm this caller may see it.
 
-    The three Phase 0 archive demos are public by design - they carry no
-    user data and exist to show what the product does before anyone signs
-    in. Everything else - live crawls, whether signed-in or anonymous - is
+    The three Phase 0 archive demos are reachable only on a deployment
+    without accounts (local development). Everything else - live crawls, whether signed-in or anonymous - is
     gated by ownership: `db.can_access` says whether ANY crawl row on this
     slug matches the caller's identity, and the shared-corpus rule (two
     people searching the same seed both get a crawl row, second person for
@@ -430,6 +429,13 @@ def _authorize_tree(slug: str, who: gate.Identity) -> dict:
     """
     found = _lookup(slug)
     if found.get("source") != "live":
+        # The Phase 0 archive is NOT public any more (2026-10-01). It was the
+        # demo shown before anyone could sign in, and it now has no reader on
+        # a deployment with accounts: every list is the caller's own searches
+        # and nothing else. Without accounts there is one person on a laptop,
+        # and the archive is the only data they have to look at.
+        if auth.accounts_enabled():
+            raise HTTPException(404, f"No tree: {slug}")
         return found
     if not db.available():
         return found
@@ -440,7 +446,7 @@ def _authorize_tree(slug: str, who: gate.Identity) -> dict:
 
 @app.get("/api/trees")
 def trees(http_request: Request) -> list[dict]:
-    """YOUR live crawls first, then the three public Phase 0 demos.
+    """YOUR live crawls, and nothing else.
 
     Private as of 2026-09-08. A slug is listed only if this person has a crawl
     row for it, so what stays hidden is WHO SEARCHED WHAT - the part that is
@@ -448,17 +454,21 @@ def trees(http_request: Request) -> list[dict]:
     shared corpus and one shared cache: two people searching the same seed get
     the same tree, and the second one gets it free.
 
-    Signed out, this is the three demos and nothing else. Not "everything" - an
-    unauthenticated caller must never be the widest audience.
-
-    A user who just ran a search expects to find it at the top, not below three
-    fixtures they did not create.
+    Signed out, this is an empty list. Not "everything" - an unauthenticated
+    caller must never be the widest audience. The three Phase 0 demos that used
+    to follow every list were removed on 2026-10-01: a returning user read them
+    as their own history. They still list on a laptop with no accounts.
     """
     who = auth.identity(http_request)
     live_trees = sorted(
         _live_all(who.user_id), key=lambda t: t.get("updated_at") or "", reverse=True
     )
-    return [_summary(t) for t in live_trees] + [_summary(t) for t in _TREES]
+    # The archive demos are listed only where there are no accounts - see
+    # `_authorize_tree`. With accounts, a list is the caller's own searches
+    # and nothing else: a demo shown to a signed-in reader looked like their
+    # history, and to a signed-out one like somebody else's.
+    archive = [] if auth.accounts_enabled() else [_summary(t) for t in _TREES]
+    return [_summary(t) for t in live_trees] + archive
 
 
 @app.get("/api/tree/{slug}")
