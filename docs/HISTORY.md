@@ -2228,3 +2228,13 @@ action, the Standard-queue receipts and the raw event log.
 - Migration `0015` adds a partial `(tree_slug, created_at)` index on
   `usage_event`, which the detail page looks up by.
 - **5 new SQL tests run only in CI**, like the other SQL tests.
+
+**Later the same day (`ceb89a2`): tree view and downloads.** The detail page
+opens on a port of the customer's `QuestionTree` (`admin/components/
+ResultView.tsx`) with a list view beside it, and CSV / PNG downloads built
+from byte-for-byte copies of `web/lib/{csv,png,filename}.ts` under
+`admin/lib/shared/`, pinned by `admin/tests/shared.test.mjs`. Each download
+writes an `admin_action` `search_export` row first and produces no file if
+that fails. Verified in headless Chrome against a stub API: tree drawn,
+click opens the question card, both files downloaded, the audit POST arrived
+before each, a `javascript:` result URL stayed unclickable.

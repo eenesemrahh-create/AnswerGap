@@ -484,6 +484,66 @@ defensible asset over time.
 
 # Current state — resume here
 
+## Private searches + admin Searches page, 2026-10-01 — read this first
+
+Four commits, all pushed to `main`, CI green on the last (`ceb89a2`):
+`fa858e8`, `9ac14bd`, `ecfd602`, `ceb89a2`. **NOT YET CHECKED ON PRODUCTION
+by the operator** — the checklist below is what is still owed.
+
+1. **A fresh sign-in landed on the signed-out pitch** (`fa858e8`). The
+   verification link and Google both return to `/#token=`; the landing fetched
+   `/api/meta` + `/api/trees` before anything read that fragment
+   (`AccountMenu`, which captured it, only mounts once `meta` exists), so both
+   came back anonymous. The landing now calls `captureTokenFromHash()` before
+   its first request, and `AccountMenu` calls `onSessionChange` whenever it
+   captures one itself.
+2. **Everyone sees only their own searches** (`9ac14bd`). The three Phase 0
+   demos (diş beyazlatma, kredi notu, teeth whitening) were `_TREES`, appended
+   to every `/api/trees` list and publicly readable. With accounts on they are
+   no longer listed and an archive slug is a 404; without accounts (laptop)
+   they still show. **The files under `data/raw/` were NOT deleted** — the
+   evaluation scripts and `tests/test_ai_overview.py` read them.
+3. **Admin `/searches`** (`9ac14bd`, `ceb89a2`). Every search, one row per
+   slug, filterable by topic / account email / language / location / date /
+   "cost money", sortable. `/searches/{slug}` opens on the result — a port of
+   the customer's tree (pan, zoom, click a question for its pages) plus a list
+   view — then cost (provider receipts vs attributed vs unattributed), who
+   spent what per action, who searched it, Standard-queue receipts and the
+   event log. **CSV and PNG downloads** build the same files the customer
+   gets.
+   - **No admin bypass in the customer API.** The tree is served by
+     `GET /api/admin/search/{slug}` behind `require_admin`; `_authorize_tree`
+     in `main.py` still has one rule for everyone.
+   - **Every download is audited first** — `POST /api/admin/search/{slug}/export`
+     writes `admin_action` (`search_export`, slug, kind, items) and the file
+     is only built if that succeeds.
+   - `admin/lib/shared/{csv,png,filename}.ts` are **byte-for-byte copies** of
+     `web/lib/`. The two services build separately and cannot import each
+     other; `admin/tests/shared.test.mjs` fails when either side changes
+     alone — fix it by copying the file again, never by editing one copy.
+   - `anon_id` / `ip_hash` never leave the database; result URLs become links
+     only when they are `http(s)`.
+   - Migration `0015` adds a partial `usage_event (tree_slug, created_at)`
+     index.
+   - The SQL is proven by 5 tests in `tests/test_sql.py` (CI only). The first
+     CI run failed on a FIXTURE bug, not the query: `save_tree` ignores
+     `add_spend` on a new crawl and reads the tree's `estimated_spend`.
+
+**Operator checklist, still open:**
+- [ ] Railway: api, web and admin each show the new build in their own
+      Deployments tab.
+- [ ] Sign up with a new address, click the mail link → the search box and
+      "Your recent analyses" appear, not "Start for free". Same via Google.
+- [ ] A normal account sees no demo trees; a signed-out visitor sees no
+      "no analyses yet" box.
+- [ ] Admin → Searches: list loads, filters work, a detail page shows the
+      tree; click a question.
+- [ ] Download CSV and PNG; each leaves a `search_export` row on Audit.
+
+**No `gh` CLI on this machine.** CI status was read from the public GitHub
+API (`/repos/eenesemrahh-create/AnswerGap/actions/runs?head_sha=…`, failed
+test text from `/check-runs/{id}/annotations`).
+
 ## Subscriptions and the account page, 2026-09-26 — read this first
 
 Three commits: the subscription backend, admin-assigned plans, and `/account`.
