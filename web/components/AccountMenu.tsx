@@ -105,7 +105,12 @@ export function AccountMenu({
     // The API redirects back with the token in a URL fragment. Take it out of
     // the address bar before anything else, so a copied link cannot carry a
     // session and a refresh does not re-read a stale one.
-    captureTokenFromHash();
+    //
+    // A token found HERE arrived after the page had already fetched as
+    // anonymous - this strip only mounts once `meta` exists - so the page is
+    // told, exactly as after a dialog sign-in. The landing captures the hash
+    // itself before its first request; this covers every other page.
+    if (captureTokenFromHash()) onSessionChange?.();
 
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);

@@ -12,7 +12,7 @@ import {
   fetchTrees,
   search as runSearch,
 } from "@/lib/api";
-import { token } from "@/lib/auth";
+import { captureTokenFromHash, token } from "@/lib/auth";
 import { requestSignIn } from "@/lib/signin-request";
 import { marketingPath } from "@/lib/marketing";
 import { en as pricingEn } from "@/content/marketing/pricing/en";
@@ -94,6 +94,18 @@ export default function Landing() {
   const [languageCode, setLanguageCode] = useState<string>("en");
 
   useEffect(() => {
+    /* TAKE THE TOKEN OUT OF THE URL BEFORE THE FIRST REQUEST.
+     *
+     * A verification link and a Google sign-in both land here as
+     * `/#token=…`. `AccountMenu` also captures it, but it only mounts once
+     * `meta` has arrived - so `meta` and the tree list were fetched WITHOUT
+     * the session, came back anonymous, and a freshly signed-in reader got
+     * the signed-out pitch with "Sign out" in the corner above it. Capturing
+     * here first means the very first `/api/meta` already knows who is
+     * asking. Must run before the `hasToken` effect below, which it does:
+     * effects run in declaration order. */
+    captureTokenFromHash();
+
     /* A related-search chip on a tree page links here with the phrase attached.
      * Read straight off `location` rather than through useSearchParams, which
      * would force a Suspense boundary around the whole landing page for what is
