@@ -1304,9 +1304,13 @@ def test_a_lapsed_assigned_plan_has_no_quota() -> None:
 
 def _searched(user_id: int | None, *, anon: str | None = None,
               spend: float = 0.0026) -> int:
-    """One crawl of teeth-whitening, owned the way a real search owns it."""
-    return db.save_tree(_archive_tree(), new_crawl=True, add_spend=spend,
-                        add_calls=1 if spend else 0, user_id=user_id, anon_id=anon)
+    """One crawl of teeth-whitening, owned the way a real search owns it.
+
+    The spend rides on the TREE, as on a real search: `save_tree` ignores
+    `add_spend` on a new crawl and reads `estimated_spend` instead."""
+    tree = _archive_tree()
+    tree.update(estimated_spend=spend, billable_calls=1 if spend else 0)
+    return db.save_tree(tree, new_crawl=True, user_id=user_id, anon_id=anon)
 
 
 def _used(user_id: int | None, action: str, credits: int, dollars: float,
