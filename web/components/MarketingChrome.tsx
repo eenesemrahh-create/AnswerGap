@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ThemeToggle } from "./ThemeToggle";
 import { NavMenu } from "./NavMenu";
 import { SessionTools } from "./SessionTools";
 import type { ChromeContent } from "@/content/marketing/chrome";
@@ -17,8 +16,7 @@ import type { Locale } from "@/i18n/types";
  * German menu. This is that fix made general — the chrome speaks whatever
  * language the page it surrounds does, because it is handed the same content.
  *
- * `ThemeToggle` is the one client island here. It has to be: the theme lives
- * in the browser, and a server component cannot read it.
+ * No theme toggle: theme and language are set on `/account` only.
  *
  * Sign in and Sign up are LINKS to `/?auth=signin|signup`, not buttons. The
  * dialog is mounted by `AccountMenu` on the landing page, and a server page
@@ -89,7 +87,6 @@ export function MarketingNav({
           <Link href="/?auth=signup" className="btn btn-primary mkt-nav-cta">
             {chrome.nav.signUp}
           </Link>
-          <ThemeToggle />
           </SessionTools>
         </div>
       </div>

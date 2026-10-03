@@ -1843,7 +1843,10 @@ table.table {
    the reverse. */
 @media (max-width: 900px) {
   .nav-menu .mkt-nav-links { display: none; }
-  .nav-burger { display: inline-flex; }
+  /* `order` puts it after the tools, at the far right edge. `.nav-menu` is
+     `display: contents`, so the button is a flex item of the nav row itself
+     and would otherwise sit beside the brand on the left. */
+  .nav-burger { display: inline-flex; order: 1; }
 }
 
 /* --- Hero ------------------------------------------------------------ */

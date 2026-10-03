@@ -189,10 +189,9 @@ export function AccountMenu({
   };
 
   /* No accounts on this deployment - a laptop with no SESSION_SECRET or no
-     database. There is no sign-in to offer, but theme and language are not
-     account features and must not disappear with the account strip. This used
-     to `return null` and would have taken both controls off every screen the
-     moment accounts were switched off. */
+     database. The ONE place theme and language still sit in the strip:
+     `/account` cannot load without accounts, so removing them here would
+     leave no way to change either. Production always has accounts. */
   if (!meta.accounts_enabled) {
     return (
       <div className="account">
@@ -258,13 +257,10 @@ export function AccountMenu({
         >
           {t("auth.tabSignIn")}
         </button>
-        {/* Theme and language stay HERE for a signed-out visitor, and only
-            here. Signed in they live on `/account` under Settings, but
-            somebody who has not signed in cannot reach that page - and a
-            five-locale product whose Turkish visitor lands on English with no
-            way to switch has lost them before the first search. */}
-        <ThemeToggle />
-        <LocalePicker />
+        {/* No theme or language controls here, at the operator's request:
+            they live only on `/account` under Settings. A signed-out visitor
+            gets the system theme and the browser's language instead - see
+            `readBrowser` in `i18n/index.ts`. */}
         {dialogEl}
       </div>
     );

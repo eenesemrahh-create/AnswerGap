@@ -292,12 +292,9 @@ export default function Landing() {
                 }}
               />
             )}
-            {/* Theme and language are NOT here any more. Signed in they
-                live on `/account` under Settings; signed out `AccountMenu`
-                draws them, because that reader cannot reach the account page
-                and a five-locale product must not strand them in English.
-                One component owns this strip either way, so the two cannot
-                appear twice or vanish together. */}
+            {/* Theme and language are NOT here. They live only on
+                `/account` under Settings; a signed-out visitor gets the
+                system theme and the browser's language. */}
           </div>
         </div>
       </nav>

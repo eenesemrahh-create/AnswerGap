@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ThemeToggle } from "./ThemeToggle";
 import { fill, type Block, type LegalDocumentShape } from "@/content/legal/blocks";
 import { LEGAL_DOCS, legalPath, type LegalDoc } from "@/lib/legal";
 import { LOCALES, LOCALE_NAMES, LOCALE_TAGS, type Locale } from "@/i18n/types";
@@ -45,9 +44,7 @@ export function LegalDocument({
             </span>
             AnswerGap
           </Link>
-          <div className="mkt-nav-tools">
-            <ThemeToggle />
-          </div>
+          {/* No theme toggle: theme and language are set on `/account` only. */}
         </div>
       </nav>
 

@@ -71,15 +71,33 @@ function readStored(): Locale | null {
   }
 }
 
+/**
+ * The browser's own language, when it is one we have.
+ *
+ * The language picker lives only on `/account` now, which a signed-out
+ * visitor cannot reach - so without this a Turkish visitor would land on
+ * English with no way to switch. Not persisted: it is a guess, and only a
+ * choice made on the account page is a preference.
+ */
+function readBrowser(): Locale | null {
+  if (typeof navigator === "undefined") return null;
+  for (const tag of navigator.languages ?? [navigator.language]) {
+    const base = tag?.slice(0, 2).toLowerCase();
+    if ((LOCALES as readonly string[]).includes(base)) return base as Locale;
+  }
+  return null;
+}
+
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
 
   // Read after mount, never during render: the server has no localStorage, and
   // reading it during the first client render would produce a hydration
-  // mismatch. English renders first, then the stored choice applies.
+  // mismatch. English renders first, then the stored choice applies - or,
+  // with none stored, the browser's language.
   useEffect(() => {
-    const stored = readStored();
-    if (stored) setLocaleState(stored);
+    const chosen = readStored() ?? readBrowser();
+    if (chosen) setLocaleState(chosen);
   }, []);
 
   useEffect(() => {
