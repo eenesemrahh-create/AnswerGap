@@ -20,42 +20,41 @@ import { exportFilename } from "./filename.ts";
  *    opens as `diÅŸ` for the market this product was measured in. Three bytes
  *    fix it and no other reader minds.
  *
- * 3. UNKNOWN IS NOT ZERO. A question nobody checked has no matching-page count
- *    and no verdict. Writing `0` there would turn "we never looked" into "no
- *    page answers this" - a gap the metric never claimed, in a file somebody
- *    will sort by that column. Those cells are empty, and `status` says
- *    `not_checked`.
+ * 3. UNKNOWN IS NOT ZERO. A question nobody checked has no AI Overview
+ *    reading and no verdict. Writing "none" there would turn "we never looked"
+ *    into "nothing cites an answer" - a claim nobody measured, in a file
+ *    somebody will filter by that column. Those cells are empty, and `Status`
+ *    says `Not checked`.
  *
  * 4. CRLF. RFC 4180 says CRLF, and Excel on Windows agrees; LF alone puts a
  *    whole sheet on one row in some versions.
  */
 
-/** Columns, in the order a reader scans them: what was asked, what we found,
- *  then where it sits in the tree. */
-export const CSV_COLUMNS = [
-  "question",
-  "status",
-  "depth",
-  "matching_pages",
-  "results_checked",
-  "ai_domains",
-  "repeat_count",
-  "parents",
-  "updated_at",
-] as const;
+/** A FLAT LIST, three columns, at the operator's request (2026-10-03). The
+ *  file used to carry the tree as well - depth, parents, repeat count - and
+ *  a reader opening it wanted the questions and the verdicts, not the shape
+ *  they were found in. The tree is the PNG export's job. */
+export const CSV_COLUMNS = ["Question", "Status", "AI Overview"] as const;
+
+/** The labels the Table view shows (`status.*` in `i18n/en.ts`), so the file
+ *  and the screen name a verdict the same way. English, like the headers: a
+ *  file is passed around, and a column of mixed languages sorts badly. An
+ *  unknown status is written as itself rather than dropped. */
+const STATUS_LABELS: Record<string, string> = {
+  gap: "Unanswered",
+  weak: "Barely answered",
+  covered: "Well answered",
+  no_data: "Not checked",
+  not_checked: "Not checked",
+};
 
 /** The subset of a node this file needs. Structural typing, so the real `Node`
  *  satisfies it without this module importing the app's types. */
 export interface CsvNode {
   question: string;
   status: string;
-  depth: number;
-  matching_pages: number;
   results_checked: number;
   ai_sources?: string[];
-  repeat_count?: number;
-  parents?: string[];
-  updated_at?: string | null;
 }
 
 const RISKY_FIRST_CHARACTER = /^[=+\-@\t\r]/;
@@ -75,33 +74,17 @@ export function cell(value: unknown): string {
   return text;
 }
 
-/**
- * A number that is only meaningful once somebody has checked.
- *
- * `results_checked === 0` is the tree's own marker for "never looked", and it
- * is why this takes the whole node rather than a number: the caller cannot
- * decide emptiness from the value alone, because 0 matching pages on a CHECKED
- * question is the product's most important finding.
- */
-function measured(node: CsvNode, value: number): string {
-  return node.results_checked > 0 ? String(value) : "";
-}
-
 export function toRow(node: CsvNode): string {
   return [
     cell(node.question),
-    cell(node.status),
-    cell(node.depth),
-    measured(node, node.matching_pages),
-    cell(node.results_checked),
-    // Distinct cited domains, the same count the AI Overview column shows.
-    // Empty rather than 0 on an unchecked question, for rule 3 above.
-    node.results_checked > 0 ? cell((node.ai_sources ?? []).length) : "",
-    cell(node.repeat_count ?? ""),
-    // Several parents is the repeat signal made visible. Semicolons, because
-    // a comma would need the whole cell quoting for no gain in readability.
-    cell((node.parents ?? []).join("; ")),
-    cell(node.updated_at ?? ""),
+    cell(STATUS_LABELS[node.status] ?? node.status),
+    // The domains Google's AI Overview cited, distinct. EMPTY on a question
+    // nobody checked, for rule 3 above - and also empty on a checked one that
+    // cites nothing, which `Status` tells apart. Semicolons, because a comma
+    // would need the whole cell quoting for no gain in readability.
+    node.results_checked > 0
+      ? cell([...new Set(node.ai_sources ?? [])].join("; "))
+      : "",
   ].join(",");
 }
 

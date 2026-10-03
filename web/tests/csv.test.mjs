@@ -72,23 +72,42 @@ test("a question that merely CONTAINS an equals sign is not touched", () => {
 
 // ------------------------------------------------- unknown is not zero
 
-test("an unchecked question has EMPTY measurements, never 0", () => {
-  // Writing 0 would turn "we never looked" into "no page answers this" - a
-  // gap the metric never claimed, in a column somebody will sort by.
-  const row = toRow(node({ status: "not_checked", results_checked: 0, matching_pages: 0 }));
-  const cells = row.split(",");
-  const matching = CSV_COLUMNS.indexOf("matching_pages");
-  const ai = CSV_COLUMNS.indexOf("ai_domains");
-  assert.equal(cells[matching], "");
-  assert.equal(cells[ai], "");
-  assert.ok(row.includes("not_checked"));
+test("an unchecked question has an EMPTY AI Overview cell", () => {
+  // Writing anything there would turn "we never looked" into a claim nobody
+  // measured, in a column somebody will filter by.
+  const row = toRow(node({ status: "no_data", results_checked: 0 }));
+  assert.equal(row.split(",")[CSV_COLUMNS.indexOf("AI Overview")], "");
+  assert.ok(row.includes("Not checked"));
 });
 
-test("zero matching pages on a CHECKED question is a real 0", () => {
-  // The product's most important finding. Blanking it would hide exactly the
-  // rows this tool exists to surface.
-  const row = toRow(node({ matching_pages: 0, results_checked: 8 }));
-  assert.equal(row.split(",")[CSV_COLUMNS.indexOf("matching_pages")], "0");
+// ----------------------------------------------------------- the format
+
+test("the file is three flat columns: Question, Status, AI Overview", () => {
+  assert.deepEqual([...CSV_COLUMNS], ["Question", "Status", "AI Overview"]);
+  // No tree in the file: depth and parents are gone.
+  const row = toRow(node());
+  assert.ok(!row.includes("2026-09-27"));
+  assert.equal(row.split(",").length, 3);
+});
+
+test("status is written as the label the Table view shows", () => {
+  const status = (s) => toRow(node({ status: s })).split(",")[1];
+  assert.equal(status("gap"), "Unanswered");
+  assert.equal(status("weak"), "Barely answered");
+  assert.equal(status("covered"), "Well answered");
+  assert.equal(status("no_data"), "Not checked");
+  // Something new from the API is written as itself, never dropped.
+  assert.equal(status("brand_new"), "brand_new");
+});
+
+test("AI Overview lists the cited domains, distinct, semicolon-separated", () => {
+  const row = toRow(node({ ai_sources: ["colgate.com", "nih.gov", "colgate.com"] }));
+  assert.equal(row.split(",")[2], "colgate.com; nih.gov");
+});
+
+test("a checked question citing nothing has an empty AI Overview cell", () => {
+  const row = toRow(node({ ai_sources: [] }));
+  assert.equal(row.split(",")[2], "");
 });
 
 // -------------------------------------------------------- the envelope
@@ -114,10 +133,7 @@ test("an empty tree still produces a header", () => {
 test("a node missing the optional fields does not crash or print undefined", () => {
   // Archive trees omit fields the live API sends; the same shape difference
   // that took the question panel down on 2026-09-17.
-  const row = toRow({
-    question: "q", status: "gap", depth: 1,
-    matching_pages: 2, results_checked: 5,
-  });
+  const row = toRow({ question: "q", status: "gap", results_checked: 5 });
   assert.ok(!row.includes("undefined"));
 });
 

@@ -72,10 +72,9 @@ export function ResultView({
     try {
       await recordSearchExport(slug, "csv", questions.length);
       // Unknown stays unknown: `results_checked` 0 is the CSV's own marker for
-      // "never looked", and it leaves the measured cells empty.
+      // "never looked", and it leaves the AI Overview cell empty.
       const rows = questions.map((n) => ({
         ...n,
-        matching_pages: n.matching_pages ?? 0,
         results_checked: n.results_checked ?? 0,
       }));
       download(new Blob([toCsv(rows)], { type: "text/csv;charset=utf-8" }),
