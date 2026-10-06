@@ -395,13 +395,20 @@ button {
 }
 .zoom button:hover { background: var(--surface-2); color: var(--text); }
 .zoom .ratio {
-  min-width: 46px;
-  display: grid;
-  place-items: center;
+  min-width: 58px;
+  border: 0;
+  background: transparent;
+  border-radius: var(--r-sm);
+  padding: 0 4px;
+  font: inherit;
   font-size: 11.5px;
-  color: var(--text-faint);
+  color: var(--text-soft);
   font-variant-numeric: tabular-nums;
+  text-align: center;
+  cursor: pointer;
 }
+.zoom .ratio:hover { background: var(--surface-2); color: var(--text); }
+.zoom .ratio option { background: var(--surface); color: var(--text); }
 
 /* ----------------------------------------------------------------- notice */
 

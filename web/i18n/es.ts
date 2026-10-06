@@ -64,6 +64,7 @@ export const es: Messages = {
     exportPngHint: "Guarda el árbol completo como PNG, no solo la parte visible.",
     zoomIn: "Acercar",
     zoomOut: "Alejar",
+    zoomLevel: "Nivel de zoom",
     fit: "Ajustar a la pantalla",
   },
 

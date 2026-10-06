@@ -90,6 +90,7 @@ export const en = {
     exportPngHint: "Saves the whole tree as a PNG, not just the visible part.",
     zoomIn: "Zoom in",
     zoomOut: "Zoom out",
+    zoomLevel: "Zoom level",
     fit: "Fit to screen",
   },
 

@@ -65,6 +65,7 @@ export const fr: Messages = {
     exportPngHint: "Enregistre l'arbre entier en PNG, pas seulement la partie visible.",
     zoomIn: "Zoom avant",
     zoomOut: "Zoom arrière",
+    zoomLevel: "Niveau de zoom",
     fit: "Ajuster à l'écran",
   },
 

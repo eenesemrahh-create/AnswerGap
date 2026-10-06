@@ -43,6 +43,13 @@ const MARGIN = 16;
    corner at 100%, small enough that the vertical trunk is still obviously a
    straight line. */
 const EDGE_RADIUS = 10;
+/* Zoom presets in the toolbar's dropdown, in percent. Their ends are also the
+   clamp for every other way of zooming, so the wheel cannot reach a level the
+   box cannot name. */
+const ZOOM_LEVELS = [25, 50, 75, 100, 125, 150, 200, 300, 400];
+const ZOOM_MIN = ZOOM_LEVELS[0] / 100;
+const ZOOM_MAX = ZOOM_LEVELS[ZOOM_LEVELS.length - 1] / 100;
+const clampZoom = (k: number) => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, k));
 
 interface Placed {
   node: Node;
@@ -215,7 +222,7 @@ export function QuestionTree({
     const el = canvasRef.current;
     if (!el) return;
     const { clientWidth: cw, clientHeight: ch } = el;
-    const k = Math.min(cw / width, ch / height, 1);
+    const k = clampZoom(Math.min(cw / width, ch / height, 1));
     setView({ k, x: (cw - width * k) / 2, y: (ch - height * k) / 2 });
   }, [width, height]);
 
@@ -344,7 +351,7 @@ export function QuestionTree({
     const mx = e.clientX - box.left;
     const my = e.clientY - box.top;
     setView((v) => {
-      const k = Math.min(2.5, Math.max(0.15, v.k * (e.deltaY < 0 ? 1.12 : 1 / 1.12)));
+      const k = clampZoom(v.k * (e.deltaY < 0 ? 1.12 : 1 / 1.12));
       const ratio = k / v.k;
       return { k, x: mx - (mx - v.x) * ratio, y: my - (my - v.y) * ratio };
     });
@@ -370,12 +377,14 @@ export function QuestionTree({
     setDragging(false);
   };
 
-  const zoomBy = (factor: number) =>
+  /* Zoom about the canvas centre. `zoomTo` is the dropdown's absolute level;
+     `zoomBy` is the buttons' relative step. */
+  const zoomTo = (target: (k: number) => number) =>
     setView((v) => {
       const el = canvasRef.current;
       const cw = el?.clientWidth ?? 0;
       const ch = el?.clientHeight ?? 0;
-      const k = Math.min(2.5, Math.max(0.15, v.k * factor));
+      const k = clampZoom(target(v.k));
       const ratio = k / v.k;
       return {
         k,
@@ -383,13 +392,32 @@ export function QuestionTree({
         y: ch / 2 - (ch / 2 - v.y) * ratio,
       };
     });
+  const zoomBy = (factor: number) => zoomTo((k) => k * factor);
+
+  /* The current level as a whole percent. When it is not one of the presets
+     (wheel, +/-, fit) it is shown as an extra option so the box never lies
+     about the scale on screen. */
+  const percent = Math.round(view.k * 100);
+  const levels = ZOOM_LEVELS.includes(percent)
+    ? ZOOM_LEVELS
+    : [...ZOOM_LEVELS, percent].sort((a, b) => a - b);
 
   return (
     <>
       <div className="zoom">
         <button onClick={() => zoomBy(1 / 1.25)} title={t("toolbar.zoomOut")}
                 aria-label={t("toolbar.zoomOut")}>−</button>
-        <span className="ratio">{Math.round(view.k * 100)}%</span>
+        <select
+          className="ratio"
+          value={percent}
+          onChange={(e) => zoomTo(() => Number(e.target.value) / 100)}
+          title={t("toolbar.zoomLevel")}
+          aria-label={t("toolbar.zoomLevel")}
+        >
+          {levels.map((p) => (
+            <option key={p} value={p}>{p}%</option>
+          ))}
+        </select>
         <button onClick={() => zoomBy(1.25)} title={t("toolbar.zoomIn")}
                 aria-label={t("toolbar.zoomIn")}>+</button>
         <button onClick={fit} title={t("toolbar.fit")} aria-label={t("toolbar.fit")}>⤢</button>

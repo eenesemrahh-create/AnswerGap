@@ -64,6 +64,7 @@ export const tr: Messages = {
     exportPngHint: "Ağacın tamamını PNG olarak kaydeder, yalnızca görünen kısmı değil.",
     zoomIn: "Yakınlaş",
     zoomOut: "Uzaklaş",
+    zoomLevel: "Yakınlaştırma düzeyi",
     fit: "Ekrana sığdır",
   },
 

@@ -64,6 +64,7 @@ export const de: Messages = {
     exportPngHint: "Speichert den ganzen Baum als PNG, nicht nur den sichtbaren Teil.",
     zoomIn: "Vergrößern",
     zoomOut: "Verkleinern",
+    zoomLevel: "Zoomstufe",
     fit: "An Bildschirm anpassen",
   },
 
