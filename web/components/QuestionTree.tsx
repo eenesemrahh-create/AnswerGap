@@ -32,6 +32,11 @@ const GAP_X = 64;
 const ROW = 54;
 const PAD = 40;
 const CHARS_PER_LINE = 34;
+/* A question wraps to at most this many lines before it is cut with an
+   ellipsis. Three, not two: at two, one PAA question in five was cut, and a
+   cut question is the one thing the exported image cannot recover. */
+const MAX_LINES = 3;
+const LINE_H = 14;
 /* The AI Overview pill straddles the bottom border, so it never covers the
  * question text and fits the 10px gap between rows. */
 const PILL_H = 14;
@@ -54,11 +59,22 @@ const clampZoom = (k: number) => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, k));
 interface Placed {
   node: Node;
   x: number;
+  /* `y` is where a standard H-tall box would sit, so `y + H / 2` is the
+     centre every edge attaches to. A taller box grows evenly about that
+     centre, from `top` for `h`. */
   y: number;
+  top: number;
+  h: number;
   lines: string[];
 }
 
-function wrap(text: string, maxLines = 2): string[] {
+/* The box grows by one line for every line beyond what a standard box holds:
+   two for a question, one for the seed, whose caption takes the other. */
+function boxHeight(lines: number, isSeed: boolean): number {
+  return H + Math.max(0, lines - (isSeed ? 1 : 2)) * LINE_H;
+}
+
+function wrap(text: string, maxLines = MAX_LINES): string[] {
   const words = text.split(/\s+/);
   const lines: string[] = [];
   let current = "";
@@ -167,14 +183,19 @@ export function QuestionTree({
     }
 
     const layout = new Map<string, Placed>();
-    let row = 0;
+    /* Leaves stack downward from here; a tall leaf takes its extra height
+       out of the rows below it rather than overlapping them. */
+    let cursor = 0;
 
     const place = (node: Node): number => {
       const kids = children.get(node.id) ?? [];
+      const lines = wrap(node.question);
+      const h = boxHeight(lines.length, node.depth === 0);
+      const extra = h - H;
       let y: number;
       if (kids.length === 0) {
-        y = row * ROW;
-        row += 1;
+        y = cursor + extra / 2;
+        cursor += ROW + extra;
       } else {
         const ys = kids.map(place);
         y = (Math.min(...ys) + Math.max(...ys)) / 2;
@@ -183,12 +204,23 @@ export function QuestionTree({
         node,
         x: node.depth * (W + GAP_X),
         y,
-        lines: wrap(node.question),
+        top: y - extra / 2,
+        h,
+        lines,
       });
       return y;
     };
 
     for (const root of children.get(null) ?? []) place(root);
+
+    /* An internal box taller than standard can poke above the first row. */
+    const minTop = Math.min(0, ...[...layout.values()].map((p) => p.top));
+    if (minTop < 0) {
+      for (const p of layout.values()) {
+        p.y -= minTop;
+        p.top -= minTop;
+      }
+    }
 
     const edgeList: { id: string; d: string }[] = [];
     for (const item of layout.values()) {
@@ -208,7 +240,7 @@ export function QuestionTree({
 
     const all = [...layout.values()];
     const maxX = all.length ? Math.max(...all.map((p) => p.x)) + W : W;
-    const maxY = all.length ? Math.max(...all.map((p) => p.y)) + H : H;
+    const maxY = all.length ? Math.max(...all.map((p) => p.top + p.h)) : H;
 
     return {
       placed: all,
@@ -330,8 +362,8 @@ export function QuestionTree({
     setView((v) => {
       const left = v.x + v.k * (item.x + PAD);
       const right = v.x + v.k * (item.x + PAD + W);
-      const top = v.y + v.k * (item.y + PAD);
-      const bottom = v.y + v.k * (item.y + PAD + H);
+      const top = v.y + v.k * (item.top + PAD);
+      const bottom = v.y + v.k * (item.top + PAD + item.h);
       const edge = cw - PANEL_W - MARGIN;
       let dx = 0;
       let dy = 0;
@@ -468,8 +500,8 @@ export function QuestionTree({
                       }
                     }}
                   >
-                    <rect className="node-box" x={item.x} y={item.y}
-                          width={W} height={H} rx={7} />
+                    <rect className="node-box" x={item.x} y={item.top}
+                          width={W} height={item.h} rx={7} />
                     {item.lines.map((line, i) => (
                       <text
                         key={i}
@@ -479,9 +511,12 @@ export function QuestionTree({
                            along the bottom of its box, where a question has
                            nothing. */
                         y={
-                          item.y +
-                          (isSeed ? 20 : item.lines.length === 1 ? 26 : 19) +
-                          (item.lines.length === 1 && !isSeed ? 0 : i * 14)
+                          isSeed
+                            ? item.top + 20 + i * LINE_H
+                            : item.top +
+                              (item.h - item.lines.length * LINE_H) / 2 +
+                              11 +
+                              i * LINE_H
                         }
                       >
                         {line}
@@ -491,7 +526,7 @@ export function QuestionTree({
                       <text
                         className="node-seed-label"
                         x={item.x + 11}
-                        y={item.y + H - 7}
+                        y={item.top + item.h - 7}
                       >
                         {t("toolbar.seedLabel")}
                       </text>
@@ -508,7 +543,7 @@ export function QuestionTree({
                         : t("ai.treeMarker", { count });
                       const width = label.length * 6 + 14;
                       const x = item.x + W - width - 10;
-                      const y = item.y + H - PILL_H / 2;
+                      const y = item.top + item.h - PILL_H / 2;
                       return (
                         <g className={`ai-pill${you ? " you" : ""}`}>
                           <title>
@@ -525,10 +560,10 @@ export function QuestionTree({
                     })()}
                     {!isSeed && node.repeat_count > 1 && (
                       <>
-                        <circle cx={item.x + W - 15} cy={item.y + 14} r={9}
+                        <circle cx={item.x + W - 15} cy={item.top + 14} r={9}
                                 fill="var(--surface-2)" stroke="var(--border-strong)" />
                         <text className="node-sub badge-circle" x={item.x + W - 15}
-                              y={item.y + 17.5} textAnchor="middle">
+                              y={item.top + 17.5} textAnchor="middle">
                           ×{node.repeat_count}
                         </text>
                       </>

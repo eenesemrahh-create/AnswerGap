@@ -237,6 +237,10 @@ const GAP_X = 64;
 const ROW = 54;
 const PAD = 40;
 const CHARS_PER_LINE = 34;
+/* Same as the customer tree: three lines before an ellipsis, and a box that
+   grows evenly about its edge anchor (`y + H / 2`) to hold them. */
+const MAX_LINES = 3;
+const LINE_H = 14;
 const PILL_H = 14;
 const EDGE_RADIUS = 10;
 
@@ -244,10 +248,16 @@ interface Placed {
   node: SearchNode;
   x: number;
   y: number;
+  top: number;
+  h: number;
   lines: string[];
 }
 
-function wrap(text: string, maxLines = 2): string[] {
+function boxHeight(lines: number, isSeed: boolean): number {
+  return H + Math.max(0, lines - (isSeed ? 1 : 2)) * LINE_H;
+}
+
+function wrap(text: string, maxLines = MAX_LINES): string[] {
   const words = text.split(/\s+/);
   const lines: string[] = [];
   let current = "";
@@ -312,23 +322,35 @@ function TreeCanvas({
       children.set(node.parent_id, list);
     }
     const layout = new Map<string, Placed>();
-    let row = 0;
+    let cursor = 0;
     const place = (node: SearchNode): number => {
       if (layout.has(node.id)) return layout.get(node.id)!.y; // cycle guard
-      layout.set(node.id, { node, x: node.depth * (W + GAP_X), y: 0, lines: wrap(node.question) });
+      const lines = wrap(node.question);
+      const h = boxHeight(lines.length, node.depth === 0);
+      const extra = h - H;
+      layout.set(node.id, { node, x: node.depth * (W + GAP_X), y: 0, top: 0, h, lines });
       const kids = children.get(node.id) ?? [];
       let y: number;
       if (kids.length === 0) {
-        y = row * ROW;
-        row += 1;
+        y = cursor + extra / 2;
+        cursor += ROW + extra;
       } else {
         const ys = kids.map(place);
         y = (Math.min(...ys) + Math.max(...ys)) / 2;
       }
-      layout.get(node.id)!.y = y;
+      const item = layout.get(node.id)!;
+      item.y = y;
+      item.top = y - extra / 2;
       return y;
     };
     for (const root of children.get(null) ?? []) place(root);
+    const minTop = Math.min(0, ...[...layout.values()].map((p) => p.top));
+    if (minTop < 0) {
+      for (const p of layout.values()) {
+        p.y -= minTop;
+        p.top -= minTop;
+      }
+    }
 
     const edgeList: { id: string; d: string }[] = [];
     for (const item of layout.values()) {
@@ -343,7 +365,7 @@ function TreeCanvas({
     }
     const all = [...layout.values()];
     const maxX = all.length ? Math.max(...all.map((p) => p.x)) + W : W;
-    const maxY = all.length ? Math.max(...all.map((p) => p.y)) + H : H;
+    const maxY = all.length ? Math.max(...all.map((p) => p.top + p.h)) : H;
     return { placed: all, edges: edgeList, width: maxX + PAD * 2, height: maxY + PAD * 2 };
   }, [nodes]);
 
@@ -468,16 +490,17 @@ function TreeCanvas({
                       }
                     }}
                   >
-                    <rect className="node-box" x={item.x} y={item.y} width={W} height={H} rx={7} />
+                    <rect className="node-box" x={item.x} y={item.top} width={W} height={item.h} rx={7} />
                     {item.lines.map((line, i) => (
                       <text key={i} className="node-text" x={item.x + 11}
-                            y={item.y + (isSeed ? 20 : item.lines.length === 1 ? 26 : 19) +
-                               (item.lines.length === 1 && !isSeed ? 0 : i * 14)}>
+                            y={isSeed
+                              ? item.top + 20 + i * LINE_H
+                              : item.top + (item.h - item.lines.length * LINE_H) / 2 + 11 + i * LINE_H}>
                         {line}
                       </text>
                     ))}
                     {isSeed && (
-                      <text className="node-seed-label" x={item.x + 11} y={item.y + H - 7}>
+                      <text className="node-seed-label" x={item.x + 11} y={item.top + item.h - 7}>
                         {t("searches.seedLabel")}
                       </text>
                     )}
@@ -485,7 +508,7 @@ function TreeCanvas({
                       const label = `AI ${ai}`;
                       const pw = label.length * 6 + 14;
                       const x = item.x + W - pw - 10;
-                      const y = item.y + H - PILL_H / 2;
+                      const y = item.top + item.h - PILL_H / 2;
                       return (
                         <g className="ai-pill">
                           <rect x={x} y={y} width={pw} height={PILL_H} rx={PILL_H / 2} />
@@ -495,9 +518,9 @@ function TreeCanvas({
                     })()}
                     {!isSeed && node.repeat_count > 1 && (
                       <>
-                        <circle cx={item.x + W - 15} cy={item.y + 14} r={9} className="badge-dot" />
+                        <circle cx={item.x + W - 15} cy={item.top + 14} r={9} className="badge-dot" />
                         <text className="node-sub badge-circle" x={item.x + W - 15}
-                              y={item.y + 17.5} textAnchor="middle">
+                              y={item.top + 17.5} textAnchor="middle">
                           ×{node.repeat_count}
                         </text>
                       </>
