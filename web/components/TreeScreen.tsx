@@ -214,6 +214,17 @@ export function TreeScreen({ slug }: { slug: string }) {
   const questionCount =
     tree?.question_count ?? tree?.nodes.filter((n) => n.depth > 0).length ?? 0;
 
+  /* The seed's own questions, and how many of them have nothing under them. */
+  const topLevel = (() => {
+    const nodes = tree?.nodes ?? [];
+    const parents = new Set(nodes.map((n) => n.parent_id));
+    const first = nodes.filter((n) => n.depth === 1);
+    return {
+      total: first.length,
+      closed: first.filter((n) => !parents.has(n.id)).length,
+    };
+  })();
+
   /* Scoring one question changes more than that question.
    *
    * The request bought for its organic results also carries a PAA block and a
@@ -362,6 +373,7 @@ export function TreeScreen({ slug }: { slug: string }) {
             pricing={meta.pricing}
             unscored={tree.nodes.filter((n) => !n.results_checked).length}
             canDeepSearch={capabilities.includes("deep_search")}
+            topLevel={topLevel}
             onFinished={reload}
           />
         )}

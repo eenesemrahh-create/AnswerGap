@@ -191,6 +191,8 @@ export const de: Messages = {
 
   deep: {
     open: "Geschlossene Zweige öffnen",
+    openCount: "{count} geschlossene Zweige öffnen",
+    closedHint: "Google hat {open} der {total} Hauptfragen geöffnet und {closed} geschlossen gelassen.",
     confirmCount: "{count} Zweige",
     queueDiscount:
       "Halber Preis: Die Zweige öffnen sich in der Warteschlange, statt " +

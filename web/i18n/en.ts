@@ -234,6 +234,8 @@ export const en = {
   // a promise the seed decides, not us.
   deep: {
     open: "Open closed branches",
+    openCount: "Open {count} closed branches",
+    closedHint: "Google expanded {open} of the {total} top questions and left {closed} closed.",
     confirmCount: "{count} branches",
     queueDiscount:
       "Half price: the branches open on the queue instead of returning " +

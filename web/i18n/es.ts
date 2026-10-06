@@ -191,6 +191,8 @@ export const es: Messages = {
 
   deep: {
     open: "Abrir ramas cerradas",
+    openCount: "Abrir {count} ramas cerradas",
+    closedHint: "Google abrió {open} de las {total} preguntas principales y dejó {closed} cerradas.",
     confirmCount: "{count} ramas",
     queueDiscount:
       "Mitad de precio: las ramas se abren en la cola en lugar de volver al " +

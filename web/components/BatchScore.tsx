@@ -33,6 +33,7 @@ export function BatchScore({
   pricing,
   unscored,
   canDeepSearch,
+  topLevel,
   onFinished,
 }: {
   slug: string;
@@ -47,6 +48,14 @@ export function BatchScore({
    * somebody from being quoted a price for something they cannot buy.
    */
   canDeepSearch: boolean;
+  /**
+   * The seed's own questions: how many there are, and how many Google left
+   * closed. A click-depth response opens ONE of them, so on most trees three
+   * of four are leaves - and that is where the breadth a reader compares
+   * against a competitor is missing. Said in counts from this tree only; a
+   * promised number of questions would be an average of somebody else's.
+   */
+  topLevel: { total: number; closed: number };
   onFinished: () => void;
 }) {
   const { t } = useI18n();
@@ -226,9 +235,33 @@ export function BatchScore({
         {busy ? t("batch.pricing") : t("batch.check", { count: Math.min(size, unscored) })}
       </button>
       {canDeepSearch && (
-        <button onClick={previewDeep} disabled={busy}>
-          {t("deep.open")}
+        <button
+          className={topLevel.closed > 0 ? "primary" : undefined}
+          onClick={previewDeep}
+          disabled={busy}
+          title={
+            topLevel.closed > 0
+              ? t("deep.closedHint", {
+                  open: topLevel.total - topLevel.closed,
+                  total: topLevel.total,
+                  closed: topLevel.closed,
+                })
+              : undefined
+          }
+        >
+          {topLevel.closed > 0
+            ? t("deep.openCount", { count: topLevel.closed })
+            : t("deep.open")}
         </button>
+      )}
+      {canDeepSearch && topLevel.closed > 0 && (
+        <span className="muted batch-hint">
+          {t("deep.closedHint", {
+            open: topLevel.total - topLevel.closed,
+            total: topLevel.total,
+            closed: topLevel.closed,
+          })}
+        </span>
       )}
       {unscored === 0 && <span className="muted">{t("batch.allChecked")}</span>}
       {error && <span className="batch-failed">{error}</span>}

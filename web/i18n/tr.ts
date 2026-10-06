@@ -190,6 +190,8 @@ export const tr: Messages = {
 
   deep: {
     open: "Kapalı dalları aç",
+    openCount: "{count} kapalı dalı aç",
+    closedHint: "Google {total} ana sorudan {open} tanesini açtı, {closed} tanesini kapalı bıraktı.",
     confirmCount: "{count} dal",
     queueDiscount:
       "Yarı fiyat: dallar anında dönmek yerine kuyrukta açılır.",

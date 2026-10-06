@@ -192,6 +192,8 @@ export const fr: Messages = {
 
   deep: {
     open: "Ouvrir les branches fermées",
+    openCount: "Ouvrir {count} branches fermées",
+    closedHint: "Google a ouvert {open} des {total} questions principales et en a laissé {closed} fermées.",
     confirmCount: "{count} branches",
     queueDiscount:
       "Demi-tarif : les branches s'ouvrent dans la file au lieu de revenir " +

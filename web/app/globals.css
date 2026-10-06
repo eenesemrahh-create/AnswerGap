@@ -1071,11 +1071,16 @@ table.table {
    reader has to go looking for is a cost they will not look for. */
 .batch {
   display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: center;
   gap: 8px;
   margin-left: auto;
   font-size: 12.5px;
 }
+/* Its own line under the buttons: the toolbar is already full, and a sentence
+   squeezed between two buttons reads as neither. */
+.batch-hint { flex-basis: 100%; text-align: right; font-size: 12px; }
 .batch-size {
   display: inline-flex;
   align-items: center;
