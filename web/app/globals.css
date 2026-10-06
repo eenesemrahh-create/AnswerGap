@@ -373,10 +373,18 @@ button {
 }
 .search::placeholder { color: var(--text-faint); }
 
+/* Floats over the canvas. `.tree-canvas` is `inset: 0` and comes after this
+   strip in the DOM, so without its own stacking layer the canvas sat on top
+   and swallowed every click as the start of a pan. */
 .zoom {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
   display: inline-flex;
+  align-items: center;
   gap: 2px;
-  margin-left: auto;
+  box-shadow: var(--shadow-sm, 0 1px 2px rgb(0 0 0 / 0.06));
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: var(--r);
