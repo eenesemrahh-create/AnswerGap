@@ -5,6 +5,7 @@ import {
   FRAME_FOOTER,
   FRAME_HEADER,
   FRAME_MIN_WIDTH,
+  FRAME_NOTE_LINE,
   framedSize,
   frameLegendLabels,
   isTransparent,
@@ -30,6 +31,11 @@ test("a frame adds its header and footer, and never narrows a wide tree", () => 
     width: 2000,
     height: 400 + FRAME_HEADER + FRAME_FOOTER,
   });
+});
+
+test("each line of small print adds its own row", () => {
+  const size = framedSize({ width: 2000, height: 400, background: "#fff", frame: { notes: ["a", "b", "c"] } });
+  assert.equal(size.height, 400 + FRAME_HEADER + FRAME_FOOTER + 3 * FRAME_NOTE_LINE);
 });
 
 test("a tiny tree is widened so the header and key do not collide", () => {

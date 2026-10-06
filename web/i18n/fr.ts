@@ -100,6 +100,7 @@ export const fr: Messages = {
     noneChecked: "Aucune question n’a encore été vérifiée. Vérifier une question indique aussi, sans coût supplémentaire, si l’AI Overview de Google y répond et quels sites il cite.",
     coverage: "L'aperçu IA de Google cite des sources pour {withAi} des {checked} questions dont la réponse IA a pu être lue.",
     citedIn: "cité dans {count} sur {checked}",
+    pngTop: "Les plus cités par AI Overview : {domains}",
     note: "Seules les questions dont la réponse IA a pu être lue sont comptées. Le reste est inconnu, pas non cité.",
     unreadable: "Illisible pour {count} autres.",
     siteLabel: "Votre site",

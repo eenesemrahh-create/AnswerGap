@@ -116,7 +116,7 @@ export interface PngFrame {
   /** "15 questions · English · Updated 6 October 2026". */
   subtitle: string;
   legend: { label: string; fill: string; stroke: string; dashed: boolean }[];
-  /** Small print under the legend, joined with " · ". */
+  /** Small print under the legend, one line each. */
   notes: string[];
   brand: string;
   colors: { ink: string; soft: string; faint: string; brand: string; rule: string };
@@ -124,7 +124,10 @@ export interface PngFrame {
 }
 
 export const FRAME_HEADER = 80;
-export const FRAME_FOOTER = 64;
+/* The key's row; every line of small print adds FRAME_NOTE_LINE. One line
+   each rather than one joined line, which ran off the edge at three notes. */
+export const FRAME_FOOTER = 48;
+export const FRAME_NOTE_LINE = 18;
 /* Below this the header and legend would collide on a tiny tree. */
 export const FRAME_MIN_WIDTH = 760;
 const FRAME_X = 40;
@@ -134,7 +137,11 @@ export function framedSize(options: PngOptions): { width: number; height: number
   if (!options.frame) return { width: options.width, height: options.height };
   return {
     width: Math.max(options.width, FRAME_MIN_WIDTH),
-    height: options.height + FRAME_HEADER + FRAME_FOOTER,
+    height:
+      options.height +
+      FRAME_HEADER +
+      FRAME_FOOTER +
+      (options.frame.notes?.length ?? 0) * FRAME_NOTE_LINE,
   };
 }
 
@@ -201,9 +208,9 @@ function drawFrame(clone: SVGSVGElement, frame: PngFrame, width: number, treeHei
     // enough to space a key, and errs wide.
     x += 26 + item.label.length * 6.6 + 22;
   }
-  if (frame.notes.length) {
-    addText(g, frame.notes.join(" · "), FRAME_X, top + 50, `${font}font-size:11px;fill:${c.faint};`);
-  }
+  frame.notes.forEach((note, i) => {
+    addText(g, note, FRAME_X, top + 52 + i * FRAME_NOTE_LINE, `${font}font-size:11px;fill:${c.faint};`);
+  });
   clone.appendChild(g);
 }
 

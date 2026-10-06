@@ -99,6 +99,7 @@ export const es: Messages = {
     noneChecked: "Aún no se ha comprobado ninguna pregunta. Comprobar una pregunta también muestra, sin coste adicional, si el AI Overview de Google la responde y qué sitios cita.",
     coverage: "El resumen de IA de Google cita fuentes en {withAi} de las {checked} preguntas cuya respuesta de IA pudo leerse.",
     citedIn: "citado en {count} de {checked}",
+    pngTop: "Más citados por AI Overview: {domains}",
     note: "Solo se cuentan las preguntas cuya respuesta de IA pudo leerse. El resto es desconocido, no sin citas.",
     unreadable: "En {count} más no pudo leerse.",
     siteLabel: "Tu sitio",

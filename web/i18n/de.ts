@@ -99,6 +99,7 @@ export const de: Messages = {
     noneChecked: "Es wurde noch keine Frage geprüft. Eine Prüfung zeigt ohne Zusatzkosten auch, ob Googles AI Overview die Frage beantwortet und welche Websites es zitiert.",
     coverage: "Googles KI-Übersicht zitiert Quellen bei {withAi} von {checked} Fragen, deren KI-Antwort lesbar war.",
     citedIn: "zitiert bei {count} von {checked}",
+    pngTop: "Am häufigsten in AI Overviews zitiert: {domains}",
     note: "Gezählt werden nur Fragen mit lesbarer KI-Antwort. Alles andere ist unbekannt, nicht unzitiert.",
     unreadable: "Bei {count} weiteren nicht lesbar.",
     siteLabel: "Deine Website",

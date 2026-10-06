@@ -125,6 +125,7 @@ export const en = {
     noneChecked: "No question has been checked yet. Checking a question also shows whether Google's AI Overview answers it and which sites it cites, at no extra cost.",
     coverage: "Google's AI Overview cites sources for {withAi} of the {checked} questions whose AI answer could be read.",
     citedIn: "cited in {count} of {checked}",
+    pngTop: "Most cited by AI Overview: {domains}",
     note: "Counted only over questions whose AI answer could be read. Everything else is unknown, not uncited.",
     unreadable: "{count} more could not be read.",
     siteLabel: "Your site",

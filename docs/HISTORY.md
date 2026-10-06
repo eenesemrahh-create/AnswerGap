@@ -2238,3 +2238,35 @@ writes an `admin_action` `search_export` row first and produces no file if
 that fails. Verified in headless Chrome against a stub API: tree drawn,
 click opens the question card, both files downloaded, the audit POST arrived
 before each, a `javascript:` result URL stayed unclickable.
+
+## Side by side with AlsoAsked, 2026-10-06
+
+The operator exported the same seed from both tools - *"What is the hardest
+type of breast cancer to cure?"* - and asked how an agency would react.
+AlsoAsked: 4 top questions, each opened, 22 rows of which ~8 are repeats,
+all on topic, no triple-negative. Ours (1 credit): 4 top questions, three of
+them empty, one chain five deep that ends on "What is 90% of cancer caused
+by?"; every box grey because nothing was checked; the seed caption printed
+over the seed's second line; a question cut at "without...". But ours had
+**"What is triple-negative breast cancer?" - the actual answer** - which
+theirs does not. The verdict: better data, a worse document.
+
+Shipped in response: zoom box clickable (`b29fae5`; the canvas was painting
+over it), three-line boxes and a seed caption with its own line
+(`eb11cc3`), a framed PNG with title, status key, brand and small print
+(`9a1b180`, which also fixed the dark-mode export being transparent), a
+primary "Open N closed branches" button with a sentence saying Google left
+them closed (`039e2b5`), and an AI Overview line plus a ×N tooltip.
+
+**Dropped from the plan: fading drifted nodes by `reach`.** Measured offline
+on the chain above with `matching.seed_relevance`: a LONG question seed makes
+the lexical score as coarse as a two-word one, and reach compounds it.
+"Which type of breast cancer is almost always curable?" lands at 0.216 and
+"What is one of the biggest triggers of breast cancer?" at 0.144 - both under
+`EXPANSION_FLOOR` and both squarely on topic - beside the real drift at
+0.003-0.072. Fading on that would mark good questions as off-topic. Same wall
+as the gap threshold; it waits for embeddings.
+
+The same numbers say deep search behaves on this seed: with the 0.25 floor
+it would open triple-negative, stage-4 survival and "most fatal" and leave
+the general-cancer drift alone.

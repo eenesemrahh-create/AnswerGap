@@ -294,6 +294,25 @@ export function QuestionTree({
     if (questions.some((n) => n.repeat_count > 1)) {
       notes.push(t("toolbar.pngRepeatNote"));
     }
+    /* The AI Overview line, in the same words and over the same denominator
+       as the summary above the table: questions whose AI answer could be
+       read, never the whole tree. Nothing at all when none could be. */
+    const readable = questions.filter(aiKnown);
+    if (readable.length > 0) {
+      const tally = new Map<string, number>();
+      let withAi = 0;
+      for (const n of readable) {
+        const domains = citedDomains(n);
+        if (domains.length > 0) withAi += 1;
+        for (const d of domains) tally.set(d, (tally.get(d) ?? 0) + 1);
+      }
+      notes.push(t("ai.coverage", { withAi, checked: readable.length }));
+      const top = [...tally.entries()]
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .slice(0, 3)
+        .map(([d]) => d);
+      if (top.length > 0) notes.push(t("ai.pngTop", { domains: top.join(", ") }));
+    }
     svgToPng(svg, {
       width,
       height,
@@ -589,14 +608,20 @@ export function QuestionTree({
                       );
                     })()}
                     {!isSeed && node.repeat_count > 1 && (
-                      <>
+                      /* Its own group so the tooltip names the badge, not the
+                         whole box. The same ×N reads as a duplicate on a
+                         competitor's tree; here it is the interest signal. */
+                      <g>
+                        <title>
+                          {t("table.branchesHint")}: {node.repeat_count}
+                        </title>
                         <circle cx={item.x + W - 15} cy={item.top + 14} r={9}
                                 fill="var(--surface-2)" stroke="var(--border-strong)" />
                         <text className="node-sub badge-circle" x={item.x + W - 15}
                               y={item.top + 17.5} textAnchor="middle">
                           ×{node.repeat_count}
                         </text>
-                      </>
+                      </g>
                     )}
                   </g>
                 </g>

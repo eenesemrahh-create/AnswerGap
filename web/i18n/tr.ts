@@ -99,6 +99,7 @@ export const tr: Messages = {
     noneChecked: "Henüz hiçbir soru kontrol edilmedi. Bir soruyu kontrol etmek, Google AI Overview'un onu cevaplayıp cevaplamadığını ve hangi siteleri kaynak gösterdiğini de ek ücret olmadan gösterir.",
     coverage: "Google AI Overview, AI cevabı okunabilen {checked} sorunun {withAi} tanesinde kaynak gösteriyor.",
     citedIn: "{checked} sorunun {count} tanesinde kaynak",
+    pngTop: "AI Overview'da en çok kaynak gösterilenler: {domains}",
     note: "Yalnızca AI cevabı okunabilen sorular sayılır. Geri kalanı bilinmiyor, kaynaksız değil.",
     unreadable: "{count} soruda okunamadı.",
     siteLabel: "Siten",
