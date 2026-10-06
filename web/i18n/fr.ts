@@ -54,6 +54,8 @@ export const fr: Messages = {
 
   toolbar: {
     seedLabel: "Votre recherche",
+    pngUncheckedNote: "Aucune question vérifiée pour l'instant : chaque case reste grise jusqu'à la vérification de ses résultats",
+    pngRepeatNote: "×N = Google a affiché cette question sous N branches différentes",
     seeds: "Recherches associées",
     tree: "Arbre",
     table: "Tableau",

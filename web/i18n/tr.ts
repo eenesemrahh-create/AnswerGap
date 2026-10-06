@@ -53,6 +53,8 @@ export const tr: Messages = {
 
   toolbar: {
     seedLabel: "Aramanız",
+    pngUncheckedNote: "Henüz hiçbir soru kontrol edilmedi: arama sonuçları kontrol edilene kadar her kutu gri kalır",
+    pngRepeatNote: "×N = Google bu soruyu N farklı dalda gösterdi",
     seeds: "İlgili aramalar",
     tree: "Ağaç",
     table: "Tablo",

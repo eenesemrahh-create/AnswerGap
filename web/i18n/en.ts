@@ -79,6 +79,8 @@ export const en = {
     /* Drawn inside the root node on the canvas. Says what that box is: the
        keyword somebody typed, not a question Google suggested back. */
     seedLabel: "Your search",
+    pngUncheckedNote: "No question checked yet: every box stays grey until its search results are checked",
+    pngRepeatNote: "×N = Google showed this question under N different branches",
     seeds: "Related searches",
     tree: "Tree",
     table: "Table",

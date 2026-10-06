@@ -53,6 +53,8 @@ export const es: Messages = {
 
   toolbar: {
     seedLabel: "Tu búsqueda",
+    pngUncheckedNote: "Aún no se ha comprobado ninguna pregunta: cada caja sigue gris hasta que se comprueben sus resultados",
+    pngRepeatNote: "×N = Google mostró esta pregunta en N ramas distintas",
     seeds: "Búsquedas relacionadas",
     tree: "Árbol",
     table: "Tabla",

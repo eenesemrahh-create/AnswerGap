@@ -433,6 +433,11 @@ export function TreeScreen({ slug }: { slug: string }) {
                 highlighted={highlighted}
                 site={site}
                 seed={tree.seed}
+                subtitle={[
+                  t("landing.questionCount", { count: questionCount }),
+                  tree.language_name,
+                  t("detail.updated", { date: formatDate(tree.updated_at) }),
+                ].join(" · ")}
                 exportRef={treeRef}
               />
             )}

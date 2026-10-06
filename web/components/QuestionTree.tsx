@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { useI18n } from "@/i18n";
-import { pngFilename, svgToPng } from "@/lib/png";
+import { cssFrame, opaqueBackground, pngFilename, svgToPng, type FrameStatus } from "@/lib/png";
 import { aiKnown, isCited } from "@/lib/domains";
 import type { Node } from "@/lib/types";
 import { citedDomains } from "./AiSummary";
@@ -143,6 +143,7 @@ export function QuestionTree({
   highlighted,
   site,
   seed,
+  subtitle,
   exportRef,
 }: {
   nodes: Node[];
@@ -152,8 +153,10 @@ export function QuestionTree({
   highlighted: Set<string> | null;
   /** The reader's normalized domain, or null; marks nodes that cite it. */
   site: string | null;
-  /** Names the downloaded file. */
+  /** Names the downloaded file, and titles the image. */
   seed: string;
+  /** The line under the title in the exported image. */
+  subtitle: string;
   /**
    * Lets the toolbar trigger the image export.
    *
@@ -275,13 +278,40 @@ export function QuestionTree({
     const el = canvasRef.current;
     if (!svg || !el || exporting) return;
     setExporting(true);
-    const background =
-      window.getComputedStyle(el).backgroundColor || "#ffffff";
+    const background = opaqueBackground(el);
+    /* The seed is not a question and carries no verdict; it is left out of
+       the counts the same way `status_counts` leaves it out. */
+    const questions = nodes.filter((n) => n.depth > 0);
+    const counts: Partial<Record<FrameStatus, number>> = {};
+    for (const n of questions) {
+      const s = n.status as FrameStatus;
+      counts[s] = (counts[s] ?? 0) + 1;
+    }
+    const notes: string[] = [];
+    if (questions.length > 0 && (counts.no_data ?? 0) === questions.length) {
+      notes.push(t("toolbar.pngUncheckedNote"));
+    }
+    if (questions.some((n) => n.repeat_count > 1)) {
+      notes.push(t("toolbar.pngRepeatNote"));
+    }
     svgToPng(svg, {
       width,
       height,
       background,
       rootTransform: `translate(${PAD},${PAD})`,
+      frame: cssFrame(el, {
+        title: seed,
+        subtitle,
+        labels: {
+          gap: t("status.gap"),
+          weak: t("status.weak"),
+          covered: t("status.covered"),
+          no_data: t("status.no_data"),
+        },
+        counts,
+        notes,
+        brand: "AnswerGap",
+      }),
     })
       .then((blob) => {
         const url = URL.createObjectURL(blob);
@@ -297,7 +327,7 @@ export function QuestionTree({
            about questions helps nobody. */
       })
       .finally(() => setExporting(false));
-  }, [width, height, seed, exporting]);
+  }, [width, height, seed, subtitle, nodes, t, exporting]);
 
   /* Handed to the toolbar. `useImperativeHandle` rather than a callback prop
      because the button's ENABLED state has to follow `exporting`, and a

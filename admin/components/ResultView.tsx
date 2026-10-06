@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { makeT, type Locale } from "@/lib/i18n";
 import type { SearchNode } from "@/lib/types";
 import { csvFilename, toCsv } from "@/lib/shared/csv.ts";
-import { pngFilename, svgToPng } from "@/lib/shared/png.ts";
+import { cssFrame, opaqueBackground, pngFilename, svgToPng, type FrameStatus } from "@/lib/shared/png.ts";
 import { recordSearchExport } from "@/app/searches/actions";
 
 type T = ReturnType<typeof makeT>;
@@ -30,11 +30,14 @@ export function ResultView({
   seed,
   nodes,
   locale,
+  subtitle,
 }: {
   slug: string;
   seed: string;
   nodes: SearchNode[];
   locale: Locale;
+  /** The line under the title in the exported image. */
+  subtitle: string;
 }) {
   const t = makeT(locale);
   const [mode, setMode] = useState<"tree" | "list">("tree");
@@ -135,7 +138,7 @@ export function ResultView({
       {mode === "tree" ? (
         <>
           <TreeCanvas t={t} nodes={fixed} selectedId={selected} onSelect={setSelected}
-                      exportRef={exportPngRef} />
+                      seed={seed} subtitle={subtitle} exportRef={exportPngRef} />
           {chosen ? (
             <div className="qcard">
               <NodeDetail t={t} node={chosen} heading />
@@ -300,12 +303,16 @@ function TreeCanvas({
   nodes,
   selectedId,
   onSelect,
+  seed,
+  subtitle,
   exportRef,
 }: {
   t: T;
   nodes: SearchNode[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  seed: string;
+  subtitle: string;
   exportRef: React.RefObject<(() => Promise<Blob>) | null>;
 }) {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -399,17 +406,42 @@ function TreeCanvas({
       const svg = svgRef.current;
       const el = canvasRef.current;
       if (!svg || !el) return Promise.reject(new Error("no tree"));
+      // The customer's frame, built the same way: seed excluded from the counts.
+      const questions = nodes.filter((n) => n.depth > 0);
+      const counts: Partial<Record<FrameStatus, number>> = {};
+      for (const n of questions) {
+        const s = n.status as FrameStatus;
+        counts[s] = (counts[s] ?? 0) + 1;
+      }
+      const notes: string[] = [];
+      if (questions.length > 0 && (counts.no_data ?? 0) === questions.length) {
+        notes.push(t("searches.pngUncheckedNote"));
+      }
+      if (questions.some((n) => n.repeat_count > 1)) notes.push(t("searches.pngRepeatNote"));
       return svgToPng(svg, {
         width,
         height,
-        background: window.getComputedStyle(el).backgroundColor || "#ffffff",
+        background: opaqueBackground(el),
         rootTransform: `translate(${PAD},${PAD})`,
+        frame: cssFrame(el, {
+          title: seed,
+          subtitle,
+          labels: {
+            gap: t("gapStatus.gap"),
+            weak: t("gapStatus.weak"),
+            covered: t("gapStatus.covered"),
+            no_data: t("gapStatus.no_data"),
+          },
+          counts,
+          notes,
+          brand: "AnswerGap",
+        }),
       });
     };
     return () => {
       exportRef.current = null;
     };
-  }, [exportRef, width, height]);
+  }, [exportRef, width, height, nodes, seed, subtitle, t]);
 
   // Wheel zoom needs a non-passive listener, or preventDefault is ignored
   // and the page scrolls along with the zoom.

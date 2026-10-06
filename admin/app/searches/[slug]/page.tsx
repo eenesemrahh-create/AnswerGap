@@ -50,7 +50,17 @@ export default async function SearchDetailPage({
               </span>
             ))}
           </p>
-          <ResultView slug={d.slug} seed={d.seed} nodes={d.tree.nodes} locale={locale} />
+          <ResultView
+            slug={d.slug}
+            seed={d.seed}
+            nodes={d.tree.nodes}
+            locale={locale}
+            subtitle={[
+              `${d.tree.question_count} ${t("searches.questions")}`,
+              `${d.language_code} / ${d.location_code}`,
+              d.tree.updated_at ? t("searches.updated", { date: when(d.tree.updated_at) }) : null,
+            ].filter(Boolean).join(" · ")}
+          />
           {d.tree.related_searches.length > 0 && (
             <>
               <h2>{t("searches.related")}</h2>

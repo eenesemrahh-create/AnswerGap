@@ -53,6 +53,8 @@ export const de: Messages = {
 
   toolbar: {
     seedLabel: "Ihre Suche",
+    pngUncheckedNote: "Noch keine Frage geprüft: Jedes Feld bleibt grau, bis seine Suchergebnisse geprüft sind",
+    pngRepeatNote: "×N = Google zeigte diese Frage unter N verschiedenen Zweigen",
     seeds: "Ähnliche Suchanfragen",
     tree: "Baum",
     table: "Tabelle",
