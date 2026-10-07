@@ -431,6 +431,19 @@ export const tr: Messages = {
     languageLead: "Arayüzün dili.",
   },
 
+  home: {
+    statAnalyses: "analiz",
+    statGaps: "cevapsız soru bulundu",
+    filter: "Analizlerinde ara…",
+    sortLabel: "Sırala",
+    sortNewest: "En yeni",
+    sortQuestions: "En çok soru",
+    sortGaps: "En çok cevapsız",
+    noMatch: "“{query}” ile eşleşen analiz yok.",
+    unanswered: "cevapsız",
+    notChecked: "Henüz kontrol edilmedi",
+  },
+
   strip: {
     left: "kredi kaldı",
     upgrade: "Yükselt",

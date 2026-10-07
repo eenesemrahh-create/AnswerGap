@@ -22,19 +22,18 @@ import { en as pricingEn } from "@/content/marketing/pricing/en";
  *  decide whether its comparison table still lines up. */
 const FALLBACK_IDS = ["starter", "lite", "pro"] as const;
 import {
-  STATUSES,
-  STATUS_COLOR,
   isDryRun,
   type Country,
   type Meta,
   type Plan,
   type SearchLanguage,
-  type Status,
   type TreeSummary,
 } from "@/lib/types";
-import { useDateFormat, useI18n } from "@/i18n";
+import { useI18n } from "@/i18n";
 import { AccountMenu } from "@/components/AccountMenu";
 import { CreditStrip } from "@/components/CreditStrip";
+import { SavedAnalyses } from "@/components/SavedAnalyses";
+import { useMe } from "@/lib/me";
 import { NavMenu } from "@/components/NavMenu";
 import { ErrorNote } from "@/components/ErrorNote";
 
@@ -55,8 +54,8 @@ const MARKET_KEY = "answergap.market";
  */
 export default function Landing() {
   const { t, locale } = useI18n();
-  const formatDate = useDateFormat();
   const router = useRouter();
+  const { me } = useMe();
 
   const [trees, setTrees] = useState<TreeSummary[] | null>(null);
   const [meta, setMeta] = useState<Meta | null>(null);
@@ -354,6 +353,11 @@ export default function Landing() {
 
         {showSearch && (
           <>
+        {me && (
+          <span className="home-hello">
+            {t("account.hello", { name: me.name?.split(" ")[0] || me.email.split("@")[0] })}
+          </span>
+        )}
         <h1 className="mkt-hero-title mkt-hero-title-compact">
           {t("market.hero.signedInTitle")}
         </h1>
@@ -426,63 +430,73 @@ export default function Landing() {
           </div>
         )}
 
-        <div className="mkt-try">
-          <span>{t("market.hero.tryLabel")}</span>
-          <button
-            type="button"
-            className="mkt-try-chip"
-            onClick={() => tryChip(t("market.hero.try1"))}
-          >
-            &ldquo;{t("market.hero.try1")}&rdquo;
-          </button>
-          <button
-            type="button"
-            className="mkt-try-chip"
-            onClick={() => tryChip(t("market.hero.try2"))}
-          >
-            &ldquo;{t("market.hero.try2")}&rdquo;
-          </button>
-        </div>
-
-        {/* Market selectors live below the try-chips - real users need them
-            to change country / language, but they should not compete with the
-            search bar for above-the-fold attention. */}
-        <div className="mkt-hero-market">
-          <label>
-            <span>{t("landing.country")}:</span>
-            <select
-              value={locationCode}
-              onChange={(e) => {
-                const next = Number(e.target.value);
-                setLocationCode(next);
-                rememberMarket(next, languageCode);
-              }}
+        {/* One row under the search card: where the search runs (as two
+            pill selectors), what it costs, and two examples to start from.
+            The market used to sit on a line of its own below the examples,
+            labelled like a form; as pills it reads as part of the search. */}
+        <div className="home-search-meta">
+          <div className="home-market">
+            <label className="home-pill-select" title={t("landing.country")}>
+              <svg viewBox="0 0 20 20" aria-hidden>
+                <circle cx="10" cy="10" r="7" />
+                <path d="M3 10h14M10 3c2 2.2 2.8 4.6 2.8 7s-.8 4.8-2.8 7c-2-2.2-2.8-4.6-2.8-7S8 5.2 10 3z" />
+              </svg>
+              <select
+                value={locationCode}
+                aria-label={t("landing.country")}
+                onChange={(e) => {
+                  const next = Number(e.target.value);
+                  setLocationCode(next);
+                  rememberMarket(next, languageCode);
+                }}
+              >
+                {countries.length === 0 && <option value={2840}>United States</option>}
+                {countries.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="home-pill-select" title={t("landing.language")}>
+              <svg viewBox="0 0 20 20" aria-hidden>
+                <path d="M3 5h8M7 3v2M5 5c.5 3 2.5 5.5 5 6.5M9.5 5c-.8 3.5-3 6-6 7.5M11 17l3.5-8 3.5 8M12.2 14.5h4.6" />
+              </svg>
+              <select
+                value={languageCode}
+                aria-label={t("landing.language")}
+                onChange={(e) => {
+                  setLanguageCode(e.target.value);
+                  rememberMarket(locationCode, e.target.value);
+                }}
+              >
+                {languages.length === 0 && <option value="en">English</option>}
+                {languages.map((language) => (
+                  <option key={language.code} value={language.code}>
+                    {language.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <span className="home-cost">{t("account.newSearchLead")}</span>
+          </div>
+          <div className="mkt-try home-try">
+            <span>{t("market.hero.tryLabel")}</span>
+            <button
+              type="button"
+              className="mkt-try-chip"
+              onClick={() => tryChip(t("market.hero.try1"))}
             >
-              {countries.length === 0 && <option value={2840}>United States</option>}
-              {countries.map((country) => (
-                <option key={country.code} value={country.code}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>{t("landing.language")}:</span>
-            <select
-              value={languageCode}
-              onChange={(e) => {
-                setLanguageCode(e.target.value);
-                rememberMarket(locationCode, e.target.value);
-              }}
+              {t("market.hero.try1")}
+            </button>
+            <button
+              type="button"
+              className="mkt-try-chip"
+              onClick={() => tryChip(t("market.hero.try2"))}
             >
-              {languages.length === 0 && <option value="en">English</option>}
-              {languages.map((language) => (
-                <option key={language.code} value={language.code}>
-                  {language.name}
-                </option>
-              ))}
-            </select>
-          </label>
+              {t("market.hero.try2")}
+            </button>
+          </div>
         </div>
 
         {searchError && (
@@ -512,50 +526,32 @@ export default function Landing() {
         )}
       </section>
 
-      {/* --- Saved analyses (returning users only) ------------------ */}
+      {/* --- The member's own work --------------------------------- */}
+      {/* Three numbers first - how much has been searched, how many
+          unanswered questions it turned up, and what is left to spend - then
+          the analyses themselves. Only the reader's own: the public demos
+          left `/api/trees` on 2026-10-01, so a signed-out list is empty and
+          none of this renders for them. */}
       {trees && trees.length > 0 && (
-        <section className="mkt-saved">
-          <div className="mkt-saved-head">
-            {/* Only ever the reader's own searches. The three public demos
-                that used to fill this for a signed-out visitor were removed
-                from `/api/trees` on 2026-10-01, so a signed-out list is empty
-                and this section does not render for them at all. */}
-            <h3>{t(showSearch ? "market.saved.heading" : "market.saved.demoHeading")}</h3>
-            <span>{t("market.saved.count", { count: trees.length })}</span>
-          </div>
-          <div className="mkt-saved-grid">
-            {trees.map((tree) => (
-              <Link key={tree.slug} href={`/tree/${tree.slug}`} className="card">
-                <div className="card-head">
-                  <span className="card-title">{tree.seed}</span>
-                  {/* Questions, not nodes: the seed is the keyword that was
-                      typed, and the status counts beside this bar stopped
-                      including it. Passing `node_count` would leave the bar
-                      one question short of full for no visible reason. */}
-                  <span className="card-count">
-                    {t("landing.questionCount", { count: questionsIn(tree) })}
-                  </span>
-                </div>
-                <StatusBar counts={tree.status_counts} total={questionsIn(tree)} />
-                <div className="distribution">
-                  {STATUSES.map((status) => (
-                    <span key={status} className="chip">
-                      <i className="dot" style={{ background: STATUS_COLOR[status] }} />
-                      {t(`status.${status}`)}
-                      <b className="count">{tree.status_counts[status] ?? 0}</b>
-                    </span>
-                  ))}
-                </div>
-                <div className="header-sub" style={{ marginTop: 10 }}>
-                  <span>{tree.language_name}</span>
-                  <span>
-                    {t("detail.updated", { date: formatDate(tree.updated_at) })}
-                  </span>
-                </div>
+        <>
+          <section className="home-stats" aria-label={t("market.saved.heading")}>
+            <div className="home-stat">
+              <b>{trees.length}</b>
+              <span>{t("home.statAnalyses")}</span>
+            </div>
+            <div className="home-stat is-gap">
+              <b>{trees.reduce((sum, tree) => sum + (tree.status_counts.gap ?? 0), 0)}</b>
+              <span>{t("home.statGaps")}</span>
+            </div>
+            {me && (
+              <Link href="/account/subscription" className="home-stat is-credits">
+                <b>{Math.max(0, me.credits)}</b>
+                <span>{t("strip.left")}</span>
               </Link>
-            ))}
-          </div>
-        </section>
+            )}
+          </section>
+          <SavedAnalyses trees={trees} />
+        </>
       )}
 
       {/* An empty state is only meaningful when we know the API answered but
@@ -579,6 +575,11 @@ export default function Landing() {
         </section>
       )}
 
+      {/* --- The pitch: signed-out visitors only ---------------------
+          A member came back to search, not to be sold to. The footer stays
+          for everybody. */}
+      {!showSearch && (
+      <>
       {/* --- How it works ------------------------------------------- */}
       <section id="how-it-works" className="mkt-section">
         <div className="mkt-section-head">
@@ -673,6 +674,9 @@ export default function Landing() {
           </a>
         </div>
       </div>
+
+      </>
+      )}
 
       {/* --- Footer -------------------------------------------------- */}
       <footer className="mkt-footer">
@@ -914,46 +918,5 @@ function TargetIcon() {
       <circle cx="12" cy="12" r="5" />
       <circle cx="12" cy="12" r="1.5" fill="currentColor" />
     </svg>
-  );
-}
-
-/** How many QUESTIONS a summary holds. See `tree.count_questions`.
- *
- * A summary carries no node list, so there is nothing to count here when the
- * API predates `question_count` - `node_count` stands in and is one too many.
- * Preferable to rendering nothing: the tally is a headline, not a receipt. */
-function questionsIn(tree: TreeSummary): number {
-  return tree.question_count ?? tree.node_count;
-}
-
-function StatusBar({
-  counts,
-  total,
-}: {
-  counts: Record<Status, number>;
-  total: number;
-}) {
-  const { t } = useI18n();
-  if (!total) return null;
-  return (
-    <div
-      className="bar"
-      role="img"
-      aria-label={STATUSES.map(
-        (status) => `${t(`status.${status}`)}: ${counts[status] ?? 0}`
-      ).join(", ")}
-    >
-      {STATUSES.map((status) => {
-        const value = counts[status] ?? 0;
-        if (!value) return null;
-        return (
-          <i
-            key={status}
-            className={status}
-            style={{ width: `${(value / total) * 100}%` }}
-          />
-        );
-      })}
-    </div>
   );
 }

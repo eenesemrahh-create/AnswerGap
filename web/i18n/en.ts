@@ -501,6 +501,20 @@ export const en = {
     languageLead: "The language of the interface.",
   },
 
+  /* The member home: the landing page once somebody is signed in. */
+  home: {
+    statAnalyses: "analyses",
+    statGaps: "unanswered questions found",
+    filter: "Filter your analyses…",
+    sortLabel: "Sort",
+    sortNewest: "Newest first",
+    sortQuestions: "Most questions",
+    sortGaps: "Most unanswered",
+    noMatch: "No analysis matches “{query}”.",
+    unanswered: "unanswered",
+    notChecked: "Not checked yet",
+  },
+
   /* The strip under the nav on every signed-in page. */
   strip: {
     left: "credits left",

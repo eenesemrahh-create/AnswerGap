@@ -436,6 +436,19 @@ export const de: Messages = {
     languageLead: "Die Sprache der Oberfläche.",
   },
 
+  home: {
+    statAnalyses: "Analysen",
+    statGaps: "unbeantwortete Fragen gefunden",
+    filter: "Analysen filtern…",
+    sortLabel: "Sortieren",
+    sortNewest: "Neueste zuerst",
+    sortQuestions: "Meiste Fragen",
+    sortGaps: "Meiste unbeantwortete",
+    noMatch: "Keine Analyse passt zu „{query}“.",
+    unanswered: "unbeantwortet",
+    notChecked: "Noch nicht geprüft",
+  },
+
   strip: {
     left: "Credits übrig",
     upgrade: "Upgrade",

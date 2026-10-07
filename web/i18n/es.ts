@@ -437,6 +437,19 @@ export const es: Messages = {
     languageLead: "El idioma de la interfaz.",
   },
 
+  home: {
+    statAnalyses: "análisis",
+    statGaps: "preguntas sin respuesta encontradas",
+    filter: "Filtra tus análisis…",
+    sortLabel: "Ordenar",
+    sortNewest: "Más recientes",
+    sortQuestions: "Más preguntas",
+    sortGaps: "Más sin respuesta",
+    noMatch: "Ningún análisis coincide con «{query}».",
+    unanswered: "sin respuesta",
+    notChecked: "Aún sin comprobar",
+  },
+
   strip: {
     left: "créditos restantes",
     upgrade: "Mejorar plan",

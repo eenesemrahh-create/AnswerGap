@@ -440,6 +440,19 @@ export const fr: Messages = {
     languageLead: "La langue de l'interface.",
   },
 
+  home: {
+    statAnalyses: "analyses",
+    statGaps: "questions sans réponse trouvées",
+    filter: "Filtrer vos analyses…",
+    sortLabel: "Trier",
+    sortNewest: "Plus récentes",
+    sortQuestions: "Plus de questions",
+    sortGaps: "Plus sans réponse",
+    noMatch: "Aucune analyse ne correspond à « {query} ».",
+    unanswered: "sans réponse",
+    notChecked: "Pas encore vérifiée",
+  },
+
   strip: {
     left: "crédits restants",
     upgrade: "Changer d'offre",
