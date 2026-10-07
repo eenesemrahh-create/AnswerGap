@@ -416,6 +416,30 @@ export const de: Messages = {
     theme: "Darstellung",
     language: "Sprache",
     dangerHeading: "Konto löschen",
+
+    navOverview: "Übersicht",
+    navProfile: "Profil",
+    navSubscription: "Abonnement",
+    navSettings: "Einstellungen",
+    navSearches: "Meine Suchen",
+    hello: "Hallo, {name}",
+    overviewLead: "Ihre Credits, Ihr Tarif und Ihr Konto auf einen Blick.",
+    newSearch: "Neue Suche starten",
+    newSearchLead: "Eine Suche kostet einen Credit. Zwischengespeicherte Ergebnisse sind kostenlos.",
+    noAllowance: "Kein monatliches Kontingent. Ein Tarif fügt jeden Monat Credits hinzu.",
+    overdrawn: "Ihr Guthaben ist {count}: Die nächsten Credits gleichen das zuerst aus.",
+    changePlan: "Tarif wechseln",
+    profileLead: "Wer Sie sind und wie Sie sich anmelden.",
+    subscriptionLead: "Ihr Tarif, Ihre Credits und die Tarife, zu denen Sie wechseln können.",
+    settingsLead: "Wie AnswerGap aussieht und mit Ihnen spricht.",
+    themeLead: "Hell, dunkel oder wie Ihr System.",
+    languageLead: "Die Sprache der Oberfläche.",
+  },
+
+  strip: {
+    left: "Credits übrig",
+    upgrade: "Upgrade",
+    choosePlan: "Tarif wählen",
   },
 
   error: {

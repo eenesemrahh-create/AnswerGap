@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { AccountScreen } from "@/components/AccountScreen";
+import { AccountOverview } from "@/components/account/AccountPages";
 
 /**
- * `/account` — what you are on, what you have left, and how to change either.
+ * `/account` — the account at a glance. Since 2026-10-07 one of four small
+ * pages (overview, profile, subscription, settings) sharing `AccountShell`.
  *
  * NOT INDEXED, and that is not a detail. Everything on this page is one
  * person's own data behind a token in their browser; there is nothing here
@@ -23,5 +24,5 @@ export const metadata: Metadata = {
 };
 
 export default function AccountRoute() {
-  return <AccountScreen />;
+  return <AccountOverview />;
 }

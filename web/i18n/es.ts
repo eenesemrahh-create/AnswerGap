@@ -417,6 +417,30 @@ export const es: Messages = {
     theme: "Apariencia",
     language: "Idioma",
     dangerHeading: "Eliminar cuenta",
+
+    navOverview: "Resumen",
+    navProfile: "Perfil",
+    navSubscription: "Suscripción",
+    navSettings: "Ajustes",
+    navSearches: "Mis búsquedas",
+    hello: "Hola, {name}",
+    overviewLead: "Tus créditos, tu plan y tu cuenta de un vistazo.",
+    newSearch: "Empezar una búsqueda nueva",
+    newSearchLead: "Una búsqueda es un crédito. Los resultados en caché son gratis.",
+    noAllowance: "Sin asignación mensual. Un plan añade créditos cada mes.",
+    overdrawn: "Tu saldo es {count}: los próximos créditos lo cubren primero.",
+    changePlan: "Cambiar de plan",
+    profileLead: "Quién eres y cómo inicias sesión.",
+    subscriptionLead: "Tu plan, tus créditos y los planes a los que puedes cambiar.",
+    settingsLead: "Cómo se ve AnswerGap y en qué idioma te habla.",
+    themeLead: "Claro, oscuro o según tu sistema.",
+    languageLead: "El idioma de la interfaz.",
+  },
+
+  strip: {
+    left: "créditos restantes",
+    upgrade: "Mejorar plan",
+    choosePlan: "Elegir un plan",
   },
 
   error: {

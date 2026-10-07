@@ -1,15 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { ApiError, fetchMe, resendVerification, signOut } from "@/lib/api";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ApiError, resendVerification, signOut } from "@/lib/api";
 import Link from "next/link";
+import { loadMe, planName, useMe } from "@/lib/me";
 import { SignInDialog } from "./SignInDialog";
 import { LocalePicker } from "./LocalePicker";
 import { ThemeToggle } from "./ThemeToggle";
-import { captureTokenFromHash, token } from "@/lib/auth";
+import { captureTokenFromHash } from "@/lib/auth";
 import { onSignInRequest } from "@/lib/signin-request";
 import type { Me, Meta } from "@/lib/types";
-import { useI18n } from "@/i18n";
+import { useDayFormat, useI18n } from "@/i18n";
 
 /**
  * Sign in, or who you are and what you have left.
@@ -50,20 +51,15 @@ export function AccountMenu({
   onSessionChange?: () => void;
 }) {
   const { t, locale } = useI18n();
-  const [me, setMe] = useState<Me | null>(null);
-  /* THREE STATES, NOT TWO, and the third one is the whole reason this exists.
-     `me` starts null, which is indistinguishable from "signed out" - so every
-     load drew the signed-out strip first and corrected it when `/api/me`
-     answered. A signed-in reader watched Sign in, the theme toggle and the
-     language picker appear and vanish on every single page.
-     "unknown" renders NOTHING rather than a guess. Nothing for a moment is a
-     layout that settles; the wrong thing for a moment is a flicker the reader
-     has to learn to ignore.
-     Set from an EFFECT rather than read during render: `token()` reads
-     localStorage, which does not exist while Next prerenders this page, so a
-     render-time read would disagree with the server's HTML and hydrate
-     wrong. */
-  const [known, setKnown] = useState(false);
+  const formatDay = useDayFormat();
+  /* From the shared store (`lib/me.ts`), so this menu, the credit strip under
+     the nav and the account pages all show the same balance from one request.
+     `known` is the three-state guard this component has always needed: until
+     `/api/me` answers, render NOTHING rather than a signed-out guess - drawing
+     Sign in first and correcting it made it flash on every page load. */
+  const { me, known, plans } = useMe();
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [dialog, setDialog] = useState(false);
   const [dialogMode, setDialogMode] = useState<
@@ -77,16 +73,26 @@ export function AccountMenu({
   const [resending, setResending] = useState(false);
 
   const load = useCallback(() => {
-    if (!token()) {
-      setMe(null);
-      setKnown(true);
-      return;
-    }
-    fetchMe()
-      .then(setMe)
-      .catch(() => setMe(null))
-      .finally(() => setKnown(true));
+    void loadMe(true);
   }, []);
+
+  /* The panel closes on a click anywhere else and on Escape, like every
+     menu a reader has used before. */
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      if (!menuRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   /* Something elsewhere on the page hit a wall that only signing in clears —
      today the search box, which refuses to spend a request it knows will be
@@ -284,49 +290,98 @@ export function AccountMenu({
         </span>
       )}
       {notice && <span className="account-failed">{notice}</span>}
-      {/* A LINK TO A PAGE, and it used to open a dialog.
-          The dialog was the right shape for what it held - an address, a
-          balance and a delete button - and the wrong shape the moment there
-          was a plan to describe. A plan has a status, a renewal date, a
-          history and alternatives to move to, and none of that belongs in
-          something the reader has to dismiss before looking at anything else.
-          The argument that put erasure behind this control rather than beside
-          "Sign out" is unchanged; `/account` keeps it at the bottom of the
-          page, under its own heading. */}
-      {/* THE AVATAR ALONE, once signed in.
-          The address, the balance, the theme toggle, the language picker and
-          "Sign out" all used to sit in this strip. Five controls, on every
-          screen, for things somebody adjusts once - and the address in
-          particular is a fact the reader already knows, printed in the corner
-          of every page they own.
-          They are all on `/account` now: the balance under Credits, the rest
-          under Settings. What stays here is the one thing this strip is for -
-          who you are, and the way to the page about it. The address survives
-          as the link's `title`, so hovering still answers "which account am I
-          in?" without the screen having to say it out loud. */}
-      <Link
-        className="account-who"
-        href="/account"
-        title={t("auth.signedInAs", { email: me.email })}
-        aria-label={t("auth.account")}
-      >
-        {me.picture_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img className="account-avatar" src={me.picture_url} alt="" />
-        ) : (
-          <i className="account-avatar account-avatar-blank" />
+      {/* THE AVATAR OPENS A PANEL, 2026-10-07 (modelled on AlsoAsked's).
+          Who you are, what you have left and until when, the four account
+          pages, and Sign out at the bottom - one place for all of it rather
+          than an avatar link plus a loose Sign out button beside it. Deleting
+          the account is still NOT in here: it lives on Settings, under its
+          own heading, a long way from anything routine. */}
+      <div className="acct-menu" ref={menuRef}>
+        <button
+          className="account-who acct-menu-trigger"
+          onClick={() => setOpen((v) => !v)}
+          aria-haspopup="menu"
+          aria-expanded={open}
+          title={t("auth.signedInAs", { email: me.email })}
+          aria-label={t("auth.account")}
+        >
+          <Avatar me={me} size={30} />
+        </button>
+        {open && (
+          <div className="acct-menu-panel" role="menu">
+            <div className="acct-menu-head">
+              <Avatar me={me} size={40} />
+              <div className="acct-menu-who">
+                <b>{me.name || me.email.split("@")[0]}</b>
+                <span>{me.email}</span>
+              </div>
+            </div>
+            <Link href="/account/subscription" className="acct-menu-credits" onClick={() => setOpen(false)}>
+              <span>
+                <b>{me.credits}</b> {t("strip.left")}
+              </span>
+              <em>
+                {me.subscription?.active
+                  ? planName(plans, me.subscription.plan_id)
+                  : t("account.noPlan")}
+                {me.subscription?.active && me.subscription.current_period_end
+                  ? ` · ${formatDay(me.subscription.current_period_end)}`
+                  : ""}
+              </em>
+              {me.period && (
+                <i className="acct-menu-meter">
+                  <i style={{ width: `${Math.max(0, 1 - me.period.fraction) * 100}%` }} />
+                </i>
+              )}
+            </Link>
+            <nav className="acct-menu-links">
+              {[
+                ["/account", t("account.navOverview")],
+                ["/account/profile", t("account.navProfile")],
+                ["/account/subscription", t("account.navSubscription")],
+                ["/account/settings", t("account.navSettings")],
+                ["/", t("account.navSearches")],
+              ].map(([href, label]) => (
+                <Link key={href} href={href} role="menuitem" onClick={() => setOpen(false)}>
+                  {label}
+                  <span aria-hidden>›</span>
+                </Link>
+              ))}
+            </nav>
+            <button className="acct-menu-signout" onClick={signOut} role="menuitem">
+              {t("auth.signOut")}
+            </button>
+          </div>
         )}
-      </Link>
-      {/* BACK IN THE STRIP, at the operator's request. It had moved to the
-          account page's Settings section, on the argument that these are
-          controls somebody sets once - true of theme and language, and not
-          true of signing out, which is a thing you do rather than a thing you
-          configure. It stays out of Settings now; one control in two places is
-          a question about which one is real. */}
-      <button className="account-signout" onClick={signOut}>
-        {t("auth.signOut")}
-      </button>
+      </div>
       {dialogEl}
     </div>
+  );
+}
+
+/** A picture when Google gave one, initials when it did not. */
+export function Avatar({ me, size }: { me: Me; size: number }) {
+  const initials = (me.name || me.email)
+    .split(/[\s@._-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]!.toUpperCase())
+    .join("");
+  return me.picture_url ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      className="acct-avatar"
+      src={me.picture_url}
+      alt=""
+      style={{ width: size, height: size }}
+    />
+  ) : (
+    <span
+      className="acct-avatar acct-avatar-initials"
+      style={{ width: size, height: size, fontSize: size * 0.38 }}
+      aria-hidden
+    >
+      {initials}
+    </span>
   );
 }

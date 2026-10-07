@@ -480,6 +480,32 @@ export const en = {
     theme: "Appearance",
     language: "Language",
     dangerHeading: "Delete account",
+
+    // The four account pages, 2026-10-07.
+    navOverview: "Overview",
+    navProfile: "Profile",
+    navSubscription: "Subscription",
+    navSettings: "Settings",
+    navSearches: "My searches",
+    hello: "Hello, {name}",
+    overviewLead: "Your credits, your plan and your account at a glance.",
+    newSearch: "Start a new search",
+    newSearchLead: "One search is one credit. Cached results are free.",
+    noAllowance: "No monthly allowance. A plan adds credits every month.",
+    overdrawn: "Your balance is {count}: the next credits you receive cover it first.",
+    changePlan: "Change plan",
+    profileLead: "Who you are and how you sign in.",
+    subscriptionLead: "Your plan, your credits and the plans you can move to.",
+    settingsLead: "How AnswerGap looks and speaks to you.",
+    themeLead: "Light, dark, or follow your system.",
+    languageLead: "The language of the interface.",
+  },
+
+  /* The strip under the nav on every signed-in page. */
+  strip: {
+    left: "credits left",
+    upgrade: "Upgrade",
+    choosePlan: "Choose a plan",
   },
 
   error: {

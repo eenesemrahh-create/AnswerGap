@@ -420,6 +420,30 @@ export const fr: Messages = {
     theme: "Apparence",
     language: "Langue",
     dangerHeading: "Supprimer le compte",
+
+    navOverview: "Vue d'ensemble",
+    navProfile: "Profil",
+    navSubscription: "Abonnement",
+    navSettings: "Paramètres",
+    navSearches: "Mes recherches",
+    hello: "Bonjour, {name}",
+    overviewLead: "Vos crédits, votre offre et votre compte en un coup d'œil.",
+    newSearch: "Lancer une nouvelle recherche",
+    newSearchLead: "Une recherche coûte un crédit. Les résultats en cache sont gratuits.",
+    noAllowance: "Pas d'allocation mensuelle. Une offre ajoute des crédits chaque mois.",
+    overdrawn: "Votre solde est de {count} : les prochains crédits le couvrent d'abord.",
+    changePlan: "Changer d'offre",
+    profileLead: "Qui vous êtes et comment vous vous connectez.",
+    subscriptionLead: "Votre offre, vos crédits et les offres vers lesquelles passer.",
+    settingsLead: "L'apparence d'AnswerGap et sa langue.",
+    themeLead: "Clair, sombre ou selon votre système.",
+    languageLead: "La langue de l'interface.",
+  },
+
+  strip: {
+    left: "crédits restants",
+    upgrade: "Changer d'offre",
+    choosePlan: "Choisir une offre",
   },
 
   error: {

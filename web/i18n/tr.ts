@@ -411,6 +411,30 @@ export const tr: Messages = {
     theme: "Görünüm",
     language: "Dil",
     dangerHeading: "Hesabı sil",
+
+    navOverview: "Genel bakış",
+    navProfile: "Profil",
+    navSubscription: "Abonelik",
+    navSettings: "Ayarlar",
+    navSearches: "Aramalarım",
+    hello: "Merhaba, {name}",
+    overviewLead: "Kredilerin, planın ve hesabın tek bakışta.",
+    newSearch: "Yeni bir arama başlat",
+    newSearchLead: "Bir arama bir kredi. Önbellekteki sonuçlar ücretsiz.",
+    noAllowance: "Aylık kredi hakkın yok. Bir plan her ay kredi ekler.",
+    overdrawn: "Bakiyen {count}: bir sonraki gelen krediler önce bunu kapatır.",
+    changePlan: "Planı değiştir",
+    profileLead: "Kim olduğun ve nasıl giriş yaptığın.",
+    subscriptionLead: "Planın, kredilerin ve geçebileceğin planlar.",
+    settingsLead: "AnswerGap'in görünümü ve dili.",
+    themeLead: "Açık, koyu ya da sistemine göre.",
+    languageLead: "Arayüzün dili.",
+  },
+
+  strip: {
+    left: "kredi kaldı",
+    upgrade: "Yükselt",
+    choosePlan: "Plan seç",
   },
 
   error: {

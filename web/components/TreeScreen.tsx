@@ -29,6 +29,7 @@ import { AnalyseRounds } from "./AnalyseRounds";
 /* See the note where it is used. */
 const BATCH_AND_DEEP_ENABLED = false;
 import { AccountMenu } from "./AccountMenu";
+import { CreditStrip } from "./CreditStrip";
 import { DevPanel } from "./DevPanel";
 import { CrawlDiff } from "./CrawlDiff";
 
@@ -335,6 +336,7 @@ export function TreeScreen({ slug }: { slug: string }) {
                 One component owns this strip either way, so the two cannot
                 appear twice or vanish together. */}
       </header>
+      <CreditStrip />
 
       <div className="toolbar">
         <div className="segment">

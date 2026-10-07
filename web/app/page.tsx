@@ -34,6 +34,7 @@ import {
 } from "@/lib/types";
 import { useDateFormat, useI18n } from "@/i18n";
 import { AccountMenu } from "@/components/AccountMenu";
+import { CreditStrip } from "@/components/CreditStrip";
 import { NavMenu } from "@/components/NavMenu";
 import { ErrorNote } from "@/components/ErrorNote";
 
@@ -298,6 +299,9 @@ export default function Landing() {
           </div>
         </div>
       </nav>
+      {/* What is left and until when, for a signed-in reader. Draws nothing
+          for anybody else. */}
+      <CreditStrip />
 
       {/* --- Hero ---------------------------------------------------- */}
       {/* TWO HEROES, and which one shows is the whole shape of this page.
