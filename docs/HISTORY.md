@@ -2297,3 +2297,28 @@ Round 2's tasks sat **~10 minutes** in DataForSEO's Standard queue (posted
 What it argues for, in order: embeddings (paraphrase clustering, drift, and the
 "filter coffee"/"coffee filter" confusion are one problem), then skipping
 paraphrases inside a round so the credits buy distinct intents.
+
+## Embeddings, measured on QUESTION-vs-question — 2026-10-07
+
+The 2026-09-14 test measured embeddings on the gap metric (does this PAGE
+answer this question) and they lost to lexical. This one measures the other
+job: question against question, on the 101 "filter coffee" questions. Ground
+truth written before any score: 14 paraphrase groups (53 true pairs over 3916,
+12 arguable questions left out), and 38 questions marked as drifted off filter
+coffee / coffee filters. One seed, hand labels: a direction, not a threshold.
+
+| | lexical (today) | voyage-4-lite | voyage-4 | voyage-4-large |
+|---|---:|---:|---:|---:|
+| Paraphrase, best F1 | 0.46 | 0.55 | 0.65 | **0.81** (P 0.87, R 0.75 at cos 0.93) |
+| Drift, AUC vs seed | **0.91** | 0.88 | 0.89 | 0.82 |
+| "filter coffee" vs "coffee filter" | 1.00 | 0.96 | 0.94 | 0.85 |
+
+- **Paraphrase grouping is the one place embeddings earn their keep**, and
+  only the LARGE model - the opposite of the gap metric, where large was worst.
+- **Drift is not an embedding problem.** Lexical already ranks drifted
+  questions below on-topic ones better than any model. What lets Nescafe and
+  belly fat through is where `EXPANSION_FLOOR` sits, not the scorer.
+- **Word order is not solved by either.** "What is filter coffee?" vs "What is
+  a coffee filter?" is 0.93 under voyage-4-large - right at the paraphrase
+  threshold, so grouping would merge them.
+Cost: a fraction of a cent for three models.
