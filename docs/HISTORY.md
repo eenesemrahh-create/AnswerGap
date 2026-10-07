@@ -2270,3 +2270,30 @@ as the gap threshold; it waits for embeddings.
 The same numbers say deep search behaves on this seed: with the 0.25 floor
 it would open triple-negative, stage-4 survival and "most fatal" and leave
 the general-cancer drift alone.
+
+## "filter coffee" after two rounds, and AlsoAsked beside it — 2026-10-07
+
+First tree to go through both paid rounds: 1 search + round 1 + round 2 =
+**6 credits, 101 questions, 42 analysed** (7 unanswered, 16 barely, 19 well,
+59 not checked); AI Overview cites sources on 29 of 31 readable, top cited
+youtube / facebook / quora. Our spend ≈ $0.0026 + 42 × $0.0006 ≈ $0.028.
+Round 2's tasks sat **~10 minutes** in DataForSEO's Standard queue (posted
+11:48 UTC, done 11:57), far past the 28–55 s measured on 2026-08-31.
+
+- **No exact duplicates**: 101 questions, 101 after `text.normalize`. Dedupe works.
+- **Many paraphrase duplicates**: ~14 clusters, ~29 redundant questions, so
+  roughly **70 distinct intents** behind "101". Worst: eight ways of asking
+  "what do I use if I have no coffee filter". Each one was a paid analysis.
+- **Drift got through the round gate**: Nescafe, belly fat, foods
+  cardiologists avoid, Ryze coffee, Italian brands, "#1 coffee in the US".
+  With a two-word seed, "coffee" alone clears `EXPANSION_FLOOR`.
+- **The lexical scorer cannot tell "filter coffee" from "coffee filter"**:
+  word overlap 1.00. Google's own top questions for this seed drifted to the
+  paper filter and the espresso portafilter; AlsoAsked's (NYC, same day) are
+  about the drink: "What is filter coffee?", vs instant, stronger, with milk.
+- **AlsoAsked**: 20 rows, 18 unique, all on topic, 6 verbatim in ours, 2 more
+  as paraphrases; 10 of theirs we do not have, all about the drink itself.
+
+What it argues for, in order: embeddings (paraphrase clustering, drift, and the
+"filter coffee"/"coffee filter" confusion are one problem), then skipping
+paraphrases inside a round so the credits buy distinct intents.
