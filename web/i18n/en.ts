@@ -160,10 +160,11 @@ export const en = {
     resultsHeading:
       "Search results · a page counts as an answer at {threshold} or higher",
     noResults: "Search results were <b>never fetched</b> for this question, so nobody knows whether anyone answers it - that is why it is drawn with a dashed outline. This is an archived analysis; run a live search for the same seed to score it.",
-    notScoredYet: "This question has <b>not been checked yet</b>. Checking it costs one search request, so it never happens automatically — and until it does, nobody knows whether anyone answers it.",
-    scoreButton: "Check this question",
-    scoring: "Checking…",
-    scoreCost: "One SERP request. A question already fetched costs nothing.",
+    notScoredYet: "This question has <b>not been checked yet</b>. Checking it costs one credit, so it never happens automatically — and until it does, nobody knows whether anyone answers it.",
+    scoreButton: "Check this question · 1 credit",
+    scoring: "Searching this question… (30–60 seconds)",
+    scoreCost: "The question is searched on its own: you get its result here and its own question tree. A question already searched costs nothing.",
+    openTree: "Open this question's tree",
     untitled: "(no title)",
     aiHeading: "Google AI Overview sources",
     aiNote:

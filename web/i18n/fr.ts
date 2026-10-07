@@ -133,10 +133,11 @@ export const fr: Messages = {
     resultsHeading:
       "Résultats de recherche · une page compte comme réponse à partir de {threshold}",
     noResults: "Les résultats de recherche n'ont <b>jamais été récupérés</b> pour cette question, personne ne sait donc si quelqu'un y répond - d'où le contour en pointillés. Il s'agit d'une analyse archivée ; lancez une recherche en direct sur le même terme pour l'évaluer.",
-    notScoredYet: "Cette question n'a <b>pas encore été vérifiée</b>. La vérifier coûte une requête de recherche, cela ne se produit donc jamais automatiquement — et d'ici là, personne ne sait si quelqu'un y répond.",
-    scoreButton: "Vérifier cette question",
-    scoring: "Vérification…",
-    scoreCost: "Une requête SERP. Une question déjà récupérée ne coûte rien.",
+    notScoredYet: "Cette question n'a <b>pas encore été vérifiée</b>. La vérifier coûte un crédit, cela ne se produit donc jamais automatiquement — et d'ici là, personne ne sait si quelqu'un y répond.",
+    scoreButton: "Vérifier cette question · 1 crédit",
+    scoring: "Recherche de cette question… (30 à 60 secondes)",
+    scoreCost: "La question est recherchée à part : son résultat s'affiche ici et elle obtient son propre arbre de questions. Une question déjà recherchée ne coûte rien.",
+    openTree: "Ouvrir l'arbre de cette question",
     untitled: "(sans titre)",
     aiHeading: "Sources de l'aperçu IA de Google",
     aiNote:

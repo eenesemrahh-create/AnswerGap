@@ -1,8 +1,9 @@
 import type {
   BatchPlan,
-  DeepPlan,
+  CheckResult,
   Country,
   CreditEntry,
+  DeepPlan,
   DevSpend,
   DiffResult,
   JobsStatus,
@@ -234,6 +235,14 @@ export interface SearchInput {
 
 export const search = (input: SearchInput) =>
   post<SearchResult>("/api/search", input);
+
+/**
+ * "Check this question": search it as its own seed. One credit, or zero if
+ * that search is already cached. Returns the new tree's slug and the clicked
+ * question with its verdict, so the tree it came from can redraw it.
+ */
+export const checkQuestion = (slug: string, questionSlug: string) =>
+  post<CheckResult>(`/api/tree/${slug}/question/${questionSlug}/check`);
 
 /** Gap-scores ONE question. One billable SERP request, or zero if cached. */
 export const scoreQuestion = (

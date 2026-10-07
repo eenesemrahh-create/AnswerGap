@@ -111,6 +111,15 @@ export interface DroppedQuestion {
  * not just the scored node — `nodes` is the whole updated list, because the
  * harvest can also add parents to questions already on screen.
  */
+/** What "Check this question" returns: where its own tree is, and the
+ *  clicked question carrying the verdict that search produced. */
+export interface CheckResult {
+  slug: string;
+  node: Node;
+  status_counts: Record<Status, number>;
+  from_cache: boolean;
+}
+
 export interface ScoreResult {
   node: Node;
   nodes: Node[];

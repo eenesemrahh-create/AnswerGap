@@ -929,13 +929,21 @@ def crawl(
         _invalidate(key)
 
     client = _client(max_requests=1, dry_run=dry_run)
+    params = {"people_also_ask_click_depth": CLICK_DEPTH}
     response = client.serp(
-        seed,
-        location_code,
-        language_code,
-        cache_key=key,
-        extra_params={"people_also_ask_click_depth": CLICK_DEPTH},
+        seed, location_code, language_code, cache_key=key, extra_params=params
     )
+    # The same cache key also holds what the single-question score path
+    # bought, which asked for no clicks. Built from that, a search for a
+    # question that was once scored would come back as 4 questions instead of
+    # 15 - and since "check this question" IS a search for a question, that
+    # would be the common case rather than an edge one. Such a response is a
+    # miss: fetched again, and paid for.
+    if response is not None and not _has_click_depth(response):
+        _invalidate(key)
+        response = client.serp(
+            seed, location_code, language_code, cache_key=key, extra_params=params
+        )
 
     if response is None:
         # Dry run: nothing was fetched, so report the plan instead of a tree.
@@ -964,14 +972,101 @@ def crawl(
 
     tree["billable_calls"] = client.billable_calls
     tree["estimated_spend"] = _spend(response, client)
-    tree["from_cache"] = client.cache_hits > 0
+    # Not `cache_hits > 0`: a stale hit that was then re-bought is not a
+    # result from the cache.
+    tree["from_cache"] = client.billable_calls == 0
     # OWNERSHIP, not attribution - "list this user's searches" and "let them
     # back into their own tree by slug". Set here, on the insert, and never on
     # the scoring path: live.score updates an EXISTING crawl row, so writing
     # an owner there would let user B's score rewrite whose search it was.
     # Who spent which dollar is `usage_event`'s job.
     save_tree(tree, new_crawl=True, user_id=user_id, anon_id=anon_id)
+
+    # The seed's score, which `build_from_response` computed for free from the
+    # organic results of this same response, written where every tree reads
+    # scores from. It was never persisted before: `save_tree` stores edges, not
+    # scores, so the seed lost its colour on the next load and no other tree
+    # holding the same question could see it. Now a question checked by
+    # searching it shows its verdict in the tree it came from too.
+    root = next((n for n in tree["nodes"] if n.get("depth") == 0), None)
+    if root is not None and root.get("results_checked"):
+        _persist_score(tree, root, key, tree["strategy"])
     return tree
+
+
+def _has_click_depth(response: dict) -> bool:
+    """Whether this response was bought with `people_also_ask_click_depth`.
+
+    DataForSEO echoes the request's parameters back under `tasks[0].data`. A
+    response without that block cannot say, and is trusted rather than
+    re-bought - only a positive "asked for no clicks" makes it a miss.
+    """
+    tasks = response.get("tasks") or []
+    data = (tasks[0] or {}).get("data") if tasks else None
+    if not isinstance(data, dict):
+        return True
+    return bool(data.get("people_also_ask_click_depth"))
+
+
+# ------------------------------------------------------------------ check
+
+#: What a score consists of, as it sits on a node.
+_SCORE_FIELDS = (
+    "status",
+    "matching_pages",
+    "results_checked",
+    "results",
+    "ai_sources",
+    "ai_state",
+    "updated_at",
+)
+
+
+def check_question(
+    tree: dict,
+    question_slug: str,
+    *,
+    user_id: int | None = None,
+    anon_id: str | None = None,
+) -> dict:
+    """"Check this question": search it as a seed of its own.
+
+    ONE request does both jobs. Its organic results are the question's gap
+    score, and its PAA block is the question's own tree. The new tree is a
+    search like any other - owned by the caller, listed with their searches,
+    priced at one credit.
+
+    The verdict lands on the question in the tree it was clicked from as
+    well. With a database that is automatic: scores are keyed by question and
+    market, not by tree, so `crawl` writing the seed's score is enough. The
+    fields are copied onto the old node anyway, so the caller can redraw it
+    without a refetch, and on disk - where nothing joins scores across trees -
+    the old tree is saved with them.
+    """
+    node = next((n for n in tree["nodes"] if n["slug"] == question_slug), None)
+    if node is None:
+        raise KeyError(question_slug)
+
+    fresh = crawl(
+        node["question"],
+        tree["location_code"],
+        tree["language_code"],
+        user_id=user_id,
+        anon_id=anon_id,
+    )
+    root = next((n for n in fresh["nodes"] if n.get("depth") == 0), None)
+    if root is not None and root.get("results_checked"):
+        node.update({field: root.get(field) for field in _SCORE_FIELDS})
+        _recount(tree)
+        if not db.available():
+            save_tree(tree)
+    return {
+        "slug": fresh["slug"],
+        "node": node,
+        "billable_calls": fresh.get("billable_calls", 0),
+        "estimated_spend": fresh.get("estimated_spend", 0.0),
+        "from_cache": fresh.get("from_cache", False),
+    }
 
 
 # ------------------------------------------------------------------ score
@@ -1064,32 +1159,7 @@ def apply_response(tree: dict, node: dict, response: dict | None, key: str) -> d
         }
     )
 
-    # The score is its own row, keyed by question and market rather than by
-    # tree. That is what makes a re-crawl unable to lose it - and what lets the
-    # same verdict show up under every tree the question appears in, which is
-    # already how CLAUDE.md keys the label log.
-    if db.available():
-        db.save_score(
-            normalized=node["id"],
-            question=node["question"],
-            language_code=language_code,
-            location_code=tree["location_code"],
-            status=status,
-            matching_pages=matching,
-            results_checked=len(results),
-            results=scored,
-            ai_sources=ai_sources,
-            ai_state=ai_state,
-            threshold=THRESHOLD,
-            strategy=strategy,
-            # Only meaningful under the embeddings strategy - a lexical row has
-            # no model to record, and NULL is how the schema says so. Reading
-            # this back later distinguishes "scored under lexical" from
-            # "scored under an embedding model we no longer trust" without
-            # having to guess from the strategy name.
-            embedding_model=embeddings.model() if strategy == "embeddings" else None,
-            source_key=key,
-        )
+    _persist_score(tree, node, key, strategy)
 
     # The same response, mined for everything else it carries. Free: it is
     # already bought and, on a cache hit, already stored.
@@ -1104,6 +1174,40 @@ def apply_response(tree: dict, node: dict, response: dict | None, key: str) -> d
         "dropped": harvest["dropped"],
         "related_searches_added": related_added,
     }
+
+
+def _persist_score(tree: dict, node: dict, key: str, strategy: str) -> None:
+    """Write a node's score as its own row.
+
+    Keyed by question and market rather than by tree. That is what makes a
+    re-crawl unable to lose it - and what lets the same verdict show up under
+    every tree the question appears in, which is already how CLAUDE.md keys the
+    label log. Shared by `apply_response` and by `crawl` for the seed, so the
+    two cannot disagree about what a score row holds.
+    """
+    if not db.available():
+        return
+    db.save_score(
+        normalized=node["id"],
+        question=node["question"],
+        language_code=tree["language_code"],
+        location_code=tree["location_code"],
+        status=node["status"],
+        matching_pages=node["matching_pages"],
+        results_checked=node["results_checked"],
+        results=node["results"],
+        ai_sources=node.get("ai_sources"),
+        ai_state=node.get("ai_state"),
+        threshold=THRESHOLD,
+        strategy=strategy,
+        # Only meaningful under the embeddings strategy - a lexical row has
+        # no model to record, and NULL is how the schema says so. Reading
+        # this back later distinguishes "scored under lexical" from
+        # "scored under an embedding model we no longer trust" without
+        # having to guess from the strategy name.
+        embedding_model=embeddings.model() if strategy == "embeddings" else None,
+        source_key=key,
+    )
 
 
 # ------------------------------------------------------- batch scoring

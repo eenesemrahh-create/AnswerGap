@@ -9,8 +9,8 @@ import {
   STATUSES,
   STATUS_COLOR,
   type LabelCounts,
+  type CheckResult,
   type Meta,
-  type ScoreResult,
   type Status,
   type Tree,
   type Verdict,
@@ -24,6 +24,9 @@ import { QuestionDetail } from "./QuestionDetail";
 import { NoQuestions, RelatedSeeds } from "./RelatedSeeds";
 import { Notice } from "./Badge";
 import { BatchScore } from "./BatchScore";
+
+/* See the note where it is used. */
+const BATCH_AND_DEEP_ENABLED = false;
 import { AccountMenu } from "./AccountMenu";
 import { DevPanel } from "./DevPanel";
 import { CrawlDiff } from "./CrawlDiff";
@@ -225,25 +228,21 @@ export function TreeScreen({ slug }: { slug: string }) {
     };
   })();
 
-  /* Scoring one question changes more than that question.
-   *
-   * The request bought for its organic results also carries a PAA block and a
-   * set of related searches, and the API now harvests both. So a score can add
-   * NEW nodes, and can add a parent to a node already on screen — neither of
-   * which swapping a single node in place could express. The API therefore
-   * returns the whole node list and it is taken as authoritative.
-   *
-   * Refetching the tree would do the same job but would also reset the pan/zoom
-   * position and the selection, which live in this component's state. */
-  const applyScore = (result: ScoreResult) =>
+  /* "Check this question" sends the reader on to the question's own tree,
+   * so all this screen has to do is redraw the one box it was clicked from -
+   * that is what they see if they come Back. Nothing else in this tree
+   * changes: the question's own PAA block went into ITS tree, not this one.
+   * Swapped in place rather than refetched, so pan, zoom and the selection
+   * survive the round trip. */
+  const applyScore = (result: CheckResult) =>
     setTree((current) =>
       current
         ? {
             ...current,
             status_counts: result.status_counts,
-            node_count: result.node_count,
-            related_searches: result.related_searches,
-            nodes: result.nodes,
+            nodes: current.nodes.map((n) =>
+              n.id === result.node.id ? { ...n, ...result.node } : n
+            ),
           }
         : current
     );
@@ -367,7 +366,12 @@ export function TreeScreen({ slug }: { slug: string }) {
           ))}
         </div>
 
-        {meta && tree.source === "live" && !noQuestions && (
+        {/* Off since 2026-10-07: one query is one credit, and the only way to
+            check a question is to search it. Batch checks (half a credit
+            each) and deep search (4 credits for 6 branches) come back one at a
+            time, each priced on the same rule. The component and its endpoints
+            are kept for that. */}
+        {BATCH_AND_DEEP_ENABLED && meta && tree.source === "live" && !noQuestions && (
           <BatchScore
             slug={slug}
             pricing={meta.pricing}

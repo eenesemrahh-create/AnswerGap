@@ -654,6 +654,62 @@ def score_question_endpoint(
     }
 
 
+@app.post("/api/tree/{slug}/question/{question_slug}/check")
+def check_question_endpoint(
+    slug: str, question_slug: str, http_request: Request
+) -> dict:
+    """"Check this question": search it as its own seed. ONE credit, or zero.
+
+    Since 2026-10-07 this is what the button does, replacing `/score` in the
+    interface. One request returns both the question's gap score and its own
+    question tree, so the reader is sent to that tree and the verdict shows on
+    the box they clicked as well. Priced as what it is - a search - so one
+    query is one credit everywhere in the product.
+
+    Gated in the same order as `/score`: ownership of the tree it was clicked
+    from, then that the question exists, THEN credits, so nobody is charged
+    for a 404 and a stranger cannot probe somebody else's tree.
+    """
+    who = auth.identity(http_request)
+    found = _authorize_tree(slug, who)
+    if found.get("source") != "live":
+        raise HTTPException(
+            409,
+            "Archived Phase 0 trees are fixed evidence and are not re-scored. "
+            "Run a live search for this seed instead.",
+        )
+    if not any(n.get("slug") == question_slug for n in found.get("nodes", [])):
+        raise HTTPException(404, f"No question: {question_slug}")
+
+    auth.check(who, action="search", units=1)
+    try:
+        result = _run(
+            lambda: live.check_question(
+                found,
+                question_slug,
+                user_id=who.user_id,
+                anon_id=who.anon_id,
+            )
+        )
+    except KeyError as e:
+        raise HTTPException(404, f"No question: {question_slug}") from e
+    _LIVE[found["slug"]] = found
+    auth.record(
+        who,
+        action="search",
+        billable_calls=result.get("billable_calls", 0),
+        spend=result.get("estimated_spend", 0.0),
+        tree_slug=result["slug"],
+        question_slug=question_slug,
+    )
+    return {
+        "slug": result["slug"],
+        "node": result["node"],
+        "status_counts": found["status_counts"],
+        "from_cache": result.get("from_cache", False),
+    }
+
+
 # ------------------------------------------------------------------ labels
 
 

@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Badge, Rich } from "./Badge";
-import { ApiError, scoreQuestion, submitLabel } from "@/lib/api";
+import { ApiError, checkQuestion, submitLabel } from "@/lib/api";
 import { useDateFormat, useI18n } from "@/i18n";
 import { aiKnown, citesSite } from "@/lib/domains";
 import type {
+  CheckResult,
   LabelCounts,
   Node,
-  ScoreResult,
   Tree,
   Verdict,
 } from "@/lib/types";
@@ -32,8 +33,9 @@ export function QuestionDetail({
 }: {
   node: Node | null;
   tree: Tree;
-  /** Called with the freshly scored node so the tree above can update. */
-  onScored?: (result: ScoreResult) => void;
+  /** Called with the checked question so the tree above can redraw it
+   *  before the reader is sent on to the question's own tree. */
+  onScored?: (result: CheckResult) => void;
   /** Verdicts already recorded, by question slug. Owned by the screen above. */
   verdicts: Record<string, Verdict>;
   /** The reader's own normalized domain, to mark among the cited sources. */
@@ -50,24 +52,14 @@ export function QuestionDetail({
   overlay?: boolean;
 }) {
   const { t } = useI18n();
+  const router = useRouter();
   const formatDate = useDateFormat();
   const [scoring, setScoring] = useState(false);
   const [scoreError, setScoreError] = useState<ApiError | null>(null);
 
-  /* What the last score run harvested out of the response it paid for.
-   *
-   * Tagged with the question it belongs to rather than cleared on selection:
-   * once a question is scored the "check this" branch disappears, so the note
-   * has to survive that, and it must never show up under a DIFFERENT question. */
-  const [harvest, setHarvest] = useState<{
-    slug: string;
-    found: number;
-    dropped: number;
-  } | null>(null);
-
   /* The verdict just cast, so the panel can confirm it without a refetch.
    *
-   * Tagged with the question, like `harvest` above: the confirmation belongs to
+   * Tagged with the question rather than cleared on selection: the confirmation belongs to
    * one question and must never appear under a different one after a click in
    * the tree. */
   const [voted, setVoted] = useState<{ slug: string; retracted: boolean } | null>(
@@ -98,21 +90,21 @@ export function QuestionDetail({
     }
   };
 
+  /* "Check this question" searches the question as its own seed: one
+     credit buys its verdict AND its own question tree. The verdict is drawn
+     here first, so Back lands on a coloured box, then the reader is taken to
+     the new tree. On a question already checked the same call is free from
+     the cache, and simply opens that tree. */
   const runScore = async () => {
     if (!node || scoring) return;
     setScoring(true);
     setScoreError(null);
     try {
-      const result = await scoreQuestion(tree.slug, node.slug);
-      setHarvest({
-        slug: node.slug,
-        found: result.discovered.length,
-        dropped: result.dropped.length,
-      });
+      const result = await checkQuestion(tree.slug, node.slug);
       onScored?.(result);
+      router.push(`/tree/${encodeURIComponent(result.slug)}`);
     } catch (e) {
       setScoreError(e instanceof ApiError ? e : new ApiError("http", {}));
-    } finally {
       setScoring(false);
     }
   };
@@ -129,6 +121,11 @@ export function QuestionDetail({
   // can actually run: a live tree with an unscored question. Archived Phase 0
   // trees are fixed evidence and the API refuses to re-score them.
   const canScore = tree.source === "live" && !hasData;
+  /* A question already checked still has a tree of its own to open. The same
+     call: free when that search is cached, one credit if it was scored by the
+     old in-place route and so has no tree yet. Not offered on the seed - its
+     tree is the one on screen. */
+  const canOpenTree = tree.source === "live" && hasData && node.depth > 0;
 
   const verdict = verdicts[node.slug] ?? null;
   /* The metric calls anything below the threshold a gap; `weak` is the same
@@ -164,17 +161,22 @@ export function QuestionDetail({
 
       <p className="note">{t(`status.${node.status}Explained`)}</p>
 
-      {/* Discovery is normally a separate purchase, so it is worth saying out
-          loud when a scoring request paid for some as well. The dropped count
-          goes with it: a crawl that bounds its own coverage has to say so, or
-          it reads as complete when it is not. */}
-      {harvest?.slug === node.slug && (harvest.found > 0 || harvest.dropped > 0) && (
-        <p className="note">
-          {harvest.found > 0 && t("detail.harvestFound", { count: harvest.found })}
-          {harvest.found > 0 && harvest.dropped > 0 && " "}
-          {harvest.dropped > 0 &&
-            t("detail.harvestDropped", { count: harvest.dropped })}
-        </p>
+      {canOpenTree && (
+        <>
+          <button
+            type="button"
+            className="score-button"
+            onClick={runScore}
+            disabled={scoring}
+          >
+            {scoring ? t("detail.scoring") : t("detail.openTree")}
+          </button>
+          {scoreError && (
+            <div className="error" style={{ marginTop: 12 }}>
+              <strong>{t(`error.${scoreError.kind}`, scoreError.values)}</strong>
+            </div>
+          )}
+        </>
       )}
 
       {hasData && (

@@ -132,10 +132,11 @@ export const de: Messages = {
     resultsHeading:
       "Suchergebnisse · eine Seite gilt ab {threshold} als Antwort",
     noResults: "Für diese Frage wurden <b>nie Suchergebnisse abgerufen</b>, daher weiß niemand, ob sie jemand beantwortet - deshalb ist sie gestrichelt umrandet. Dies ist eine archivierte Analyse; führen Sie eine Live-Suche mit demselben Begriff aus, um sie zu bewerten.",
-    notScoredYet: "Diese Frage wurde <b>noch nicht geprüft</b>. Die Prüfung kostet eine Suchanfrage und passiert deshalb nie automatisch — und bis dahin weiß niemand, ob sie jemand beantwortet.",
-    scoreButton: "Diese Frage prüfen",
-    scoring: "Wird geprüft…",
-    scoreCost: "Eine SERP-Anfrage. Eine bereits abgerufene Frage kostet nichts.",
+    notScoredYet: "Diese Frage wurde <b>noch nicht geprüft</b>. Die Prüfung kostet einen Credit und passiert deshalb nie automatisch — und bis dahin weiß niemand, ob sie jemand beantwortet.",
+    scoreButton: "Diese Frage prüfen · 1 Credit",
+    scoring: "Diese Frage wird gesucht… (30–60 Sekunden)",
+    scoreCost: "Die Frage wird eigenständig gesucht: Ihr Ergebnis erscheint hier, und sie bekommt ihren eigenen Fragenbaum. Eine bereits gesuchte Frage kostet nichts.",
+    openTree: "Fragenbaum dieser Frage öffnen",
     untitled: "(ohne Titel)",
     aiHeading: "Quellen der Google KI-Übersicht",
     aiNote:

@@ -272,6 +272,47 @@ def test_a_score_survives_a_re_crawl() -> None:
     assert back[node["id"]]["ai_state"] == "cited"
 
 
+def test_checking_a_question_colours_it_in_the_tree_it_came_from(
+    tmp_path, monkeypatch
+) -> None:
+    """2026-10-07: "Check this question" searches the question as a seed.
+
+    The verdict reaches the tree it was clicked from only through
+    `gap_score` - `save_tree` writes edges, never scores - so this pins that
+    `crawl` writes the seed's score, and that the other tree reads it back.
+    """
+    from pathlib import Path
+
+    from answergap import live
+
+    probe = Path(__file__).resolve().parents[1] / "data" / "raw" / "probe-A-click4.json"
+    response = json.loads(probe.read_text(encoding="utf-8"))
+
+    class Fake:
+        billable_calls = 0
+        cache_hits = 0
+        estimated_spend = 0.0
+
+        def serp(self, *_args, **_kwargs):
+            self.billable_calls += 1
+            return json.loads(json.dumps(response))
+
+    monkeypatch.setattr(live, "_client", lambda **_: Fake())
+    monkeypatch.setattr(live, "SERP_DIR", tmp_path / "serp")
+
+    old = live.crawl("knight online", 2840, "en")
+    question = next(n for n in old["nodes"] if n["depth"] == 1)
+    result = live.check_question(old, question["slug"])
+
+    again = {n["id"]: n for n in live.load_tree(old["slug"])["nodes"]}
+    assert again[question["id"]]["results_checked"] > 0
+    assert again[question["id"]]["status"] == result["node"]["status"]
+
+    fresh = live.load_tree(result["slug"])
+    root = next(n for n in fresh["nodes"] if n["depth"] == 0)
+    assert root["status"] == result["node"]["status"]
+
+
 def test_an_external_admin_act_is_audited() -> None:
     db.admin_log(actor="op@example.com", action="ci_rerun", detail={"run_id": 42})
     rows = db.admin_actions(limit=5)

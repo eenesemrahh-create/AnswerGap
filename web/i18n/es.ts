@@ -132,10 +132,11 @@ export const es: Messages = {
     resultsHeading:
       "Resultados de búsqueda · una página cuenta como respuesta a partir de {threshold}",
     noResults: "<b>Nunca se recuperaron</b> resultados de búsqueda para esta pregunta, así que nadie sabe si alguien la responde - por eso se dibuja con borde discontinuo. Es un análisis archivado; ejecuta una búsqueda en vivo con el mismo término para evaluarla.",
-    notScoredYet: "Esta pregunta <b>aún no se ha comprobado</b>. Comprobarla cuesta una petición de búsqueda, así que nunca ocurre automáticamente — y hasta entonces nadie sabe si alguien la responde.",
-    scoreButton: "Comprobar esta pregunta",
-    scoring: "Comprobando…",
-    scoreCost: "Una petición SERP. Una pregunta ya descargada no cuesta nada.",
+    notScoredYet: "Esta pregunta <b>aún no se ha comprobado</b>. Comprobarla cuesta un crédito, así que nunca ocurre automáticamente — y hasta entonces nadie sabe si alguien la responde.",
+    scoreButton: "Comprobar esta pregunta · 1 crédito",
+    scoring: "Buscando esta pregunta… (30–60 segundos)",
+    scoreCost: "La pregunta se busca por sí sola: su resultado aparece aquí y se abre su propio árbol de preguntas. Una pregunta ya buscada no cuesta nada.",
+    openTree: "Abrir el árbol de esta pregunta",
     untitled: "(sin título)",
     aiHeading: "Fuentes del resumen de IA de Google",
     aiNote:

@@ -484,6 +484,31 @@ defensible asset over time.
 
 # Current state — resume here
 
+## One query, one credit — 2026-10-07, read this first
+
+**The operator simplified pricing: every query is one credit, and for now that
+is the whole system.** "Check this question" no longer scores in place. It
+SEARCHES the question as its own seed (`POST /api/tree/{slug}/question/{q}/check`
+→ `live.check_question` → `live.crawl`): one request returns the question's
+gap score (organic results) AND its own question tree (PAA block), and the
+reader is sent to that tree. The verdict shows on the box they clicked as well.
+
+- **Batch checks and deep search are OFF in the UI** (`BATCH_AND_DEEP_ENABLED`
+  in `TreeScreen.tsx`). Endpoints and components are kept; they come back one
+  at a time, each priced on the one-query-one-credit rule.
+- **`crawl` now persists the seed's score to `gap_score`.** It was computed for
+  free in `build_from_response` but never saved — `save_tree` writes edges,
+  not scores — so it vanished on reload and no other tree could see it.
+- **A cached response bought WITHOUT click depth is a miss in `crawl`.** The old
+  `/score` path cached plain responses under the same key; building a tree
+  from one gives 4 questions instead of 15. Re-bought, and charged.
+- Charged and recorded as `action="search"`, `question_slug` set.
+- Pricing/landing copy still describes the old model — next step.
+- Dropped plans, recorded so they are not re-derived: widening the first
+  search by auto-opening the 3 closed top-level branches (sound, measured
+  idea; parked by the operator), and fading drifted nodes by `reach` (lexical
+  score too coarse on long seeds — see HISTORY 2026-10-06).
+
 ## Private searches + admin Searches page, 2026-10-01 — read this first
 
 Four commits, all pushed to `main`, CI green on the last (`ceb89a2`):

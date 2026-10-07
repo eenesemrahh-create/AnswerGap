@@ -132,10 +132,11 @@ export const tr: Messages = {
     resultsHeading:
       "Arama sonuçları · bir sayfa {threshold} ve üzerinde cevap sayılıyor",
     noResults: "Bu soru için arama sonuçları <b>hiç çekilmedi</b>, dolayısıyla kimsenin cevaplayıp cevaplamadığı bilinmiyor - kesik çizgiyle çizilmesinin sebebi bu. Bu arşivlenmiş bir analiz; puanlamak için aynı kelimeyle canlı arama çalıştır.",
-    notScoredYet: "Bu soru <b>henüz kontrol edilmedi</b>. Kontrol etmek bir arama isteğine mal oluyor, bu yüzden asla kendiliğinden olmuyor — ve o zamana kadar kimsenin cevaplayıp cevaplamadığı bilinmiyor.",
-    scoreButton: "Bu soruyu kontrol et",
-    scoring: "Kontrol ediliyor…",
-    scoreCost: "Bir SERP isteği. Daha önce çekilmiş bir soru hiçbir şeye mal olmaz.",
+    notScoredYet: "Bu soru <b>henüz kontrol edilmedi</b>. Kontrol etmek bir krediye mal oluyor, bu yüzden asla kendiliğinden olmuyor — ve o zamana kadar kimsenin cevaplayıp cevaplamadığı bilinmiyor.",
+    scoreButton: "Bu soruyu kontrol et · 1 kredi",
+    scoring: "Bu soru aranıyor… (30–60 saniye)",
+    scoreCost: "Soru kendi başına aranır: sonucu burada görünür ve kendi soru ağacı açılır. Daha önce aranmış bir soru ücretsizdir.",
+    openTree: "Bu sorunun ağacını aç",
     untitled: "(başlıksız)",
     aiHeading: "Google AI Overview kaynakları",
     aiNote:
