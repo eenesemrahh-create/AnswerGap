@@ -22,7 +22,7 @@ import { QuestionTree } from "./QuestionTree";
 import { GapTable } from "./GapTable";
 import { QuestionDetail } from "./QuestionDetail";
 import { NoQuestions, RelatedSeeds } from "./RelatedSeeds";
-import { Notice } from "./Badge";
+
 import { BatchScore } from "./BatchScore";
 import { AnalyseRounds } from "./AnalyseRounds";
 
@@ -270,75 +270,88 @@ export function TreeScreen({ slug }: { slug: string }) {
 
   return (
     <div className="shell">
-      <header className="header">
-        {/* The same mark the landing and the marketing pages draw. It was
-            "Answer" plus a gradient "Gap" — already corrected once, away from
-            the amber that means "no page answers this question" — but still a
-            second wordmark for one product. One mark everywhere is the point;
-            the palette was fixed here long before the shape was. */}
+      {/* THREE LAYERS, 2026-10-07. The header used to be one flex row of
+          brand, title, notices and account that wrapped into whatever shape
+          the width allowed, held together on phones by a page of `order`
+          rules. Now each layer has one job:
+            app bar     where you are (brand) and who you are (avatar)
+            title band  what this is, how fresh it is, and the one paid action
+            toolbar     how to look at it
+          The honesty labels CLAUDE.md requires - a snapshot, never "live";
+          the fetch time; a provisional threshold - are all still on screen,
+          in the title band's meta line rather than as loose pills. */}
+      <header className="app-bar">
         <Link href="/" className="brand">
           <span className="brand-tile" aria-hidden>
             A
           </span>
           AnswerGap
         </Link>
-        <div className="header-mid">
-          <div className="header-title">{tree.seed}</div>
-          <div className="header-sub">
+        {meta && <AccountMenu meta={meta} />}
+      </header>
+      <CreditStrip />
+
+      <section className="tree-head">
+        <div className="tree-head-main">
+          <h1 className="tree-title">{tree.seed}</h1>
+          <div className="tree-meta">
             <span>{t("landing.questionCount", { count: questionCount })}</span>
             <span>{tree.language_name}</span>
             <span>{t("detail.updated", { date: formatDate(tree.updated_at) })}</span>
           </div>
+          <div className="tree-meta tree-meta-honest">
+            {/* CLAUDE.md accuracy rule: never claim "live data". A live crawl
+                is still a snapshot, and the archive is labelled as such. */}
+            {tree.source === "live" ? (
+              <span className="tree-honest" title={t("notice.liveDataNote")}>
+                {t("notice.liveData")} — {t("notice.liveDataDetail")}
+              </span>
+            ) : (
+              <span className="tree-honest">
+                {t("notice.archiveData")} — {t("notice.archiveDataDetail")}
+              </span>
+            )}
+            {!tree.threshold_validated && (
+              <span
+                className="tree-honest"
+                title={
+                  labelCounts
+                    ? `${t("notice.thresholdNote")} ${t("verdict.tally", {
+                        questions: labelCounts.questions,
+                        gap: labelCounts.gap,
+                        notGap: labelCounts.not_gap,
+                      })}`
+                    : t("notice.thresholdNote")
+                }
+              >
+                {t("notice.provisionalThreshold")} {tree.threshold.toFixed(2)}
+              </span>
+            )}
+          </div>
+          {(tree.source === "live" || meta) && (
+            <div className="tree-head-extras">
+              {tree.source === "live" && <CrawlDiff slug={slug} />}
+              {meta && <DevPanel meta={meta} slug={slug} />}
+            </div>
+          )}
         </div>
-        {/* GROUPED so the phone can give them a row of their own.
-            These are honesty labels, not decoration - CLAUDE.md forbids
-            claiming live data and requires the fetch time on every result -
-            so narrow screens may not drop them. What they can do is stop them
-            wrapping one-per-line between the title and the account strip,
-            which is most of why this header was 219px tall on a 390px phone.
-            In here they become one horizontally scrollable strip. */}
-        <div className="header-notices">
-        {/* CLAUDE.md accuracy rule: never claim "live data". A live crawl is
-            still a snapshot, so it is labelled by when it was fetched, and the
-            archive is labelled as the archive. */}
-        {tree.source === "live" ? (
-          <Notice title={t("notice.liveDataNote")}>
-            <b>{t("notice.liveData")}</b> — {t("notice.liveDataDetail")}
-          </Notice>
-        ) : (
-          <Notice>
-            <b>{t("notice.archiveData")}</b> — {t("notice.archiveDataDetail")}
-          </Notice>
+        {/* The paid way to analyse the tree since 2026-10-07: two flat-priced
+            rounds, each of which grows it. The page's one primary action, so
+            it sits beside the title rather than among the view controls.
+            Needs the database, like every queued request. */}
+        {meta && tree.source === "live" && !noQuestions && (
+          <div className="tree-head-action">
+            <AnalyseRounds
+              slug={slug}
+              roundsUsed={tree.rounds_used ?? 0}
+              unanalysed={tree.nodes.filter((n) => n.depth > 0 && !n.results_checked).length}
+              onFinished={reload}
+            />
+          </div>
         )}
-        {!tree.threshold_validated && (
-          <Notice
-            title={
-              labelCounts
-                ? `${t("notice.thresholdNote")} ${t("verdict.tally", {
-                    questions: labelCounts.questions,
-                    gap: labelCounts.gap,
-                    notGap: labelCounts.not_gap,
-                  })}`
-                : t("notice.thresholdNote")
-            }
-          >
-            <b>{t("notice.provisionalThreshold")}</b> {tree.threshold.toFixed(2)}
-          </Notice>
-        )}
-        {tree.source === "live" && <CrawlDiff slug={slug} />}
-        {meta && <DevPanel meta={meta} slug={slug} />}
-        </div>
-        {meta && <AccountMenu meta={meta} />}
-            {/* Theme and language are NOT here any more. Signed in they
-                live on `/account` under Settings; signed out `AccountMenu`
-                draws them, because that reader cannot reach the account page
-                and a five-locale product must not strand them in English.
-                One component owns this strip either way, so the two cannot
-                appear twice or vanish together. */}
-      </header>
-      <CreditStrip />
+      </section>
 
-      <div className="toolbar">
+      <div className="toolbar tree-toolbar">
         <div className="segment">
           <button aria-pressed={view === "tree"} onClick={() => setView("tree")}>
             {t("toolbar.tree")}
@@ -351,7 +364,6 @@ export function TreeScreen({ slug }: { slug: string }) {
             <b className="count">{tree.related_searches?.length ?? 0}</b>
           </button>
         </div>
-
 
         <div className="filters">
           {STATUSES.map((status) => (
@@ -369,24 +381,9 @@ export function TreeScreen({ slug }: { slug: string }) {
           ))}
         </div>
 
-        {/* The paid way to analyse the tree since 2026-10-07: two flat-priced
-            rounds, each of which grows it. Needs the database, like every
-            queued request, so it is not offered where `meta` says there is
-            none to record the receipts in. */}
-        {meta && tree.source === "live" && !noQuestions && (
-          <AnalyseRounds
-            slug={slug}
-            roundsUsed={tree.rounds_used ?? 0}
-            unanalysed={tree.nodes.filter((n) => n.depth > 0 && !n.results_checked).length}
-            onFinished={reload}
-          />
-        )}
-
         {/* Off since 2026-10-07: one query is one credit, and the only way to
-            check a question is to search it. Batch checks (half a credit
-            each) and deep search (4 credits for 6 branches) come back one at a
-            time, each priced on the same rule. The component and its endpoints
-            are kept for that. */}
+            check a question is to search it. Batch checks and deep search
+            come back one at a time, each priced on the same rule. */}
         {BATCH_AND_DEEP_ENABLED && meta && tree.source === "live" && !noQuestions && (
           <BatchScore
             slug={slug}
@@ -398,58 +395,40 @@ export function TreeScreen({ slug }: { slug: string }) {
           />
         )}
 
-        <input
-          className="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={t("toolbar.searchPlaceholder")}
-          aria-label={t("toolbar.searchPlaceholder")}
-        />
-
-        {view === "table" && (
-          <span className="muted" style={{ fontSize: 12, marginLeft: "auto" }}>
-            {t("toolbar.showing", {
-              shown: tableRows.length,
-              total: questionCount,
-            })}
-          </span>
-        )}
-      </div>
-
-      {/* THE EXPORTS GET THEIR OWN ROW, under the view tabs.
-          They were in the toolbar beside them, which reads as one more filter
-          control; a download is a different kind of act and the operator went
-          looking for it under the tabs. Kept to one line of small chips,
-          because the screen above the first question is already the thing
-          `b68bee2` was written to shrink.
-
-          EACH ONE APPEARS WITH THE VIEW IT EXPORTS. The image is of the tree
-          and the CSV is of the table AS FILTERED, so offering either from the
-          other view would hand somebody a file of something they are not
-          looking at. The row holds its position either way, which is what
-          makes them findable. */}
-      {(canExportCsv || canExportPng) && (
-        <div className="exports">
+        <div className="tree-toolbar-end">
+          <input
+            className="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("toolbar.searchPlaceholder")}
+            aria-label={t("toolbar.searchPlaceholder")}
+          />
+          {view === "table" && (
+            <span className="muted tree-showing">
+              {t("toolbar.showing", { shown: tableRows.length, total: questionCount })}
+            </span>
+          )}
+          {/* EACH DOWNLOAD APPEARS WITH THE VIEW IT EXPORTS: the image is of
+              the tree, the CSV is of the table as filtered. In the toolbar's
+              far end now, rather than a row of its own under it. */}
           {view === "tree" && canExportPng && (
-            <button
-              className="chip"
-              onClick={exportPng}
-              title={t("toolbar.exportPngHint")}
-            >
-              {t("toolbar.exportPng")}
+            <button className="tree-export" onClick={exportPng} title={t("toolbar.exportPngHint")}>
+              <svg viewBox="0 0 20 20" aria-hidden>
+                <path d="M10 3v9m0 0-3.5-3.5M10 12l3.5-3.5M4 14.5V16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1.5" />
+              </svg>
+              <span>{t("toolbar.exportPng")}</span>
             </button>
           )}
           {view === "table" && canExportCsv && tableRows.length > 0 && (
-            <button
-              className="chip"
-              onClick={exportCsv}
-              title={t("toolbar.exportCsvHint")}
-            >
-              {t("toolbar.exportCsv")}
+            <button className="tree-export" onClick={exportCsv} title={t("toolbar.exportCsvHint")}>
+              <svg viewBox="0 0 20 20" aria-hidden>
+                <path d="M10 3v9m0 0-3.5-3.5M10 12l3.5-3.5M4 14.5V16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1.5" />
+              </svg>
+              <span>{t("toolbar.exportCsv")}</span>
             </button>
           )}
         </div>
-      )}
+      </div>
 
       <div className="body-row">
         <main className="main">
