@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Badge, Rich } from "./Badge";
+import { Rich } from "./Badge";
 import { ApiError, checkQuestion, submitLabel } from "@/lib/api";
 import { useDateFormat, useI18n } from "@/i18n";
 import { aiKnown, citesSite } from "@/lib/domains";
@@ -135,98 +135,116 @@ export function QuestionDetail({
   const disagrees =
     (verdict === "G" && !metricSaysGap) || (verdict === "N" && metricSaysGap);
 
+  /* Which of the checked pages clear the threshold - one dot each, filled
+     when that page counts as answering. The verdict in one glance, drawn from
+     the same overlaps the list below prints as numbers. */
+  const passed = node.results.map((r) => r.overlap >= tree.threshold);
+
+  /* REORDERED 2026-10-07, same content and the same rules. Most important
+     first: the verdict and its evidence count, then the one action, then the
+     pages the verdict was made from, then the reader's own verdict BELOW them
+     (it can only be asked once the titles have been read), then AI Overview,
+     and the method last, folded away - except the fetch time and the
+     unvalidated threshold, which CLAUDE.md requires on screen. */
   return (
-    <aside className={`panel${overlay ? " panel-overlay" : ""}`} aria-label={node.question}>
-      {onClose && (
-        <button className="panel-close" onClick={onClose} aria-label={t("detail.close")}
-                title={t("detail.close")}>
-          ×
-        </button>
-      )}
-      <h2>{node.question}</h2>
-      <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8 }}>
-        <Badge
-          status={node.status}
-          matching={node.matching_pages}
-          checked={node.results_checked}
-        />
-        <span className="muted" style={{ fontSize: 12 }}>
-          {t("detail.depth", { depth: node.depth })}
-          {node.repeat_count > 1 &&
-            ` · ${t("detail.branches", { count: node.repeat_count })}`}
-          {node.discovered_by === "harvest" &&
-            ` · ${t("detail.harvestedNode")}`}
+    <aside className={`panel qd${overlay ? " panel-overlay" : ""}`} aria-label={node.question}>
+      <header className="qd-head">
+        <h2>{node.question}</h2>
+        {onClose && (
+          <button className="panel-close" onClick={onClose} aria-label={t("detail.close")}
+                  title={t("detail.close")}>
+            ×
+          </button>
+        )}
+      </header>
+      <div className="qd-chips">
+        <span>{t("detail.depth", { depth: node.depth })}</span>
+        {node.repeat_count > 1 && <span>{t("detail.branches", { count: node.repeat_count })}</span>}
+        {node.discovered_by === "harvest" && <span>{t("detail.harvestedNode")}</span>}
+        <span title={t("table.volumeHint")}>
+          {t("detail.volume")}: {t("table.noVolume")}
         </span>
       </div>
 
-      <p className="note">{t(`status.${node.status}Explained`)}</p>
+      {/* --- the verdict ---------------------------------------------- */}
+      <section className={`qd-verdict ${node.status}`}>
+        <span className="qd-verdict-label">{t(`status.${node.status}`)}</span>
+        {hasData ? (
+          <>
+            <b className="qd-verdict-big">
+              {t("status.evidence", { matching: node.matching_pages, checked: node.results_checked })}
+            </b>
+            <span className="qd-dots" aria-hidden>
+              {passed.map((ok, i) => (
+                <i key={i} className={ok ? "on" : undefined} />
+              ))}
+            </span>
+          </>
+        ) : null}
+        <p>{t(`status.${node.status}Explained`)}</p>
+      </section>
 
-      {canOpenTree && (
-        <>
-          <button
-            type="button"
-            className="score-button"
-            onClick={runScore}
-            disabled={scoring}
-          >
-            {scoring ? t("detail.scoring") : t("detail.openTree")}
+      {/* --- the one action ------------------------------------------- */}
+      {(canScore || canOpenTree) && (
+        <div className="qd-action">
+          <button type="button" className="qd-primary" onClick={runScore} disabled={scoring}>
+            {scoring
+              ? t("detail.scoring")
+              : canScore
+                ? t("detail.scoreButton")
+                : t("detail.openTree")}
           </button>
+          {canScore && <p className="qd-fine">{t("detail.scoreCost")}</p>}
           {scoreError && (
-            <div className="error" style={{ marginTop: 12 }}>
+            <div className="error" style={{ marginTop: 10 }}>
               <strong>{t(`error.${scoreError.kind}`, scoreError.values)}</strong>
+              {scoreError.detail && (
+                <div style={{ marginTop: 8 }}>
+                  <code>{scoreError.detail}</code>
+                </div>
+              )}
             </div>
           )}
-        </>
+        </div>
+      )}
+      {!hasData && !canScore && (
+        <p className="qd-note">
+          <Rich html={t("detail.noResults")} />
+        </p>
       )}
 
+      {/* --- the evidence --------------------------------------------- */}
       {hasData && (
-        <dl className="metrics">
-          <div>
-            <dt>{t("detail.matchingPages")}</dt>
-            <dd>{node.matching_pages}</dd>
-          </div>
-          <div>
-            <dt>{t("detail.checked")}</dt>
-            <dd>{node.results_checked}</dd>
-          </div>
-          <div>
-            <dt>{t("detail.volume")}</dt>
-            <dd className="muted" style={{ fontSize: 13, fontWeight: 500 }}>
-              {t("table.noVolume")}
-            </dd>
-          </div>
-        </dl>
+        <section className="qd-section">
+          <h3>{t("detail.resultsHeading", { threshold: tree.threshold.toFixed(2) })}</h3>
+          <ol className="qd-results">
+            {node.results.map((result, i) => (
+              <li key={`${result.url}-${i}`} className={passed[i] ? "is-passed" : undefined}>
+                <span className="qd-score">{result.overlap.toFixed(2)}</span>
+                <span className="qd-site" aria-hidden>
+                  {(result.domain || "?").replace(/^www\./, "").charAt(0).toUpperCase()}
+                </span>
+                <span className="qd-result-body">
+                  <a href={result.url} target="_blank" rel="noopener noreferrer">
+                    {result.title || t("detail.untitled")}
+                  </a>
+                  <span className="qd-domain">{result.domain}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </section>
       )}
 
-      {hasData ? (
-        <>
-          <h3>
-            {t("detail.resultsHeading", { threshold: tree.threshold.toFixed(2) })}
-          </h3>
-          {node.results.map((result, i) => (
-            <div className="result" key={`${result.url}-${i}`}>
-              <span
-                className={`score${result.overlap >= tree.threshold ? " passed" : ""}`}
-              >
-                {result.overlap.toFixed(2)}
-              </span>
-              <div className="result-body">
-                <a href={result.url} target="_blank" rel="noopener noreferrer">
-                  <div className="result-title">
-                    {result.title || t("detail.untitled")}
-                  </div>
-                </a>
-                <div className="result-domain">{result.domain}</div>
-              </div>
-            </div>
-          ))}
-
-          {/* The verdict sits BELOW the evidence, never above it.
-              The question is "do these page titles answer it?", so it can only
-              be asked once the titles have been read. Asking first would be
-              asking the user to rate a number. */}
+      {/* --- the reader's verdict ------------------------------------- */}
+      {/* BELOW the evidence, never above it: "do these page titles answer
+          it?" can only be asked once the titles have been read. Both buttons
+          carry equal weight - nudging either way biases the labels this
+          exists to collect. */}
+      {hasData && (
+        <section className="qd-section qd-ask">
           <h3>{t("verdict.heading")}</h3>
-          <p className="note">{t("verdict.ask")}</p>
+          <p className="qd-note">{t("verdict.ask")}</p>
           <div className="verdict-row">
             <button
               type="button"
@@ -249,13 +267,11 @@ export function QuestionDetail({
               {t("verdict.notGap")}
             </button>
           </div>
-          {voting && <p className="note">{t("verdict.saving")}</p>}
+          {voting && <p className="qd-note">{t("verdict.saving")}</p>}
           {!voting && voted?.slug === node.slug && (
-            <p className="note">
+            <p className="qd-note">
               {t(voted.retracted ? "verdict.retracted" : "verdict.recorded")}
-              {/* A verdict that agrees with the metric confirms it; one that
-                  disagrees is the only kind that can move the threshold. Saying
-                  so is what makes the disagreement worth the click. */}
+              {/* Only a disagreement can move the threshold; say so. */}
               {!voted.retracted && disagrees && ` ${t("verdict.disagrees")}`}
             </p>
           )}
@@ -269,89 +285,62 @@ export function QuestionDetail({
               )}
             </div>
           )}
-        </>
-      ) : (
-        <>
-          <p className="note">
-            <Rich
-              html={t(canScore ? "detail.notScoredYet" : "detail.noResults")}
-            />
-          </p>
-          {canScore && (
-            <>
-              <button
-                type="button"
-                className="score-button"
-                onClick={runScore}
-                disabled={scoring}
-              >
-                {scoring ? t("detail.scoring") : t("detail.scoreButton")}
-              </button>
-              <p className="note">{t("detail.scoreCost")}</p>
-            </>
-          )}
-          {scoreError && (
-            <div className="error" style={{ marginTop: 12 }}>
-              <strong>{t(`error.${scoreError.kind}`, scoreError.values)}</strong>
-              {scoreError.detail && (
-                <div style={{ marginTop: 8 }}>
-                  <code>{scoreError.detail}</code>
-                </div>
-              )}
-            </div>
-          )}
-        </>
+        </section>
       )}
 
+      {/* --- AI Overview ---------------------------------------------- */}
       {node.results_checked > 0 && !aiKnown(node) && (
-        <>
+        <section className="qd-section">
           <h3>{t("detail.aiHeading")}</h3>
-          <p className="note">{t("detail.aiUnreadable")}</p>
-        </>
+          <p className="qd-note">{t("detail.aiUnreadable")}</p>
+        </section>
       )}
-
       {node.ai_sources.length > 0 && (
-        <>
-          <h3>{t("detail.aiHeading")}</h3>
-          <div className="tag-list">
+        <section className="qd-section qd-ai">
+          <h3>
+            {t("detail.aiHeading")}
+            <span className="qd-count">{node.ai_sources.length}</span>
+          </h3>
+          <div className="qd-ai-list">
             {node.ai_sources.map((domain) => (
-              <span
-                className={site && citesSite(domain, site) ? "tag tag-you" : "tag"}
-                key={domain}
-              >
-                {domain}
+              <span className={site && citesSite(domain, site) ? "qd-ai-site is-you" : "qd-ai-site"} key={domain}>
+                <i aria-hidden>{domain.replace(/^www\./, "").charAt(0).toUpperCase()}</i>
+                {domain.replace(/^www\./, "")}
               </span>
             ))}
           </div>
           {site && (
-            <p className="note">
+            <p className="qd-note">
               {node.ai_sources.some((d) => citesSite(d, site))
                 ? t("detail.aiYou", { site })
                 : t("detail.aiNotYou", { site })}
             </p>
           )}
-          <p className="note">{t("detail.aiNote")}</p>
-        </>
+          <p className="qd-note">{t("detail.aiNote")}</p>
+        </section>
       )}
 
-      <h3>{t("detail.sourceHeading")}</h3>
-      <div className="header-sub" style={{ flexDirection: "column", gap: 3 }}>
-        <span>{t("detail.updated", { date: formatDate(node.updated_at) })}</span>
-        {node.source_file && (
-          <span className="result-domain">{node.source_file}</span>
-        )}
+      {/* --- when, and how -------------------------------------------- */}
+      {/* When THIS question's results were fetched. A question that was never
+          checked has no such moment, and "Updated: -" would be a field
+          pretending to be a fact. */}
+      {hasData && (
+        <p className="qd-updated">
+          {t("detail.updated", { date: formatDate(node.updated_at) })}
+          {!tree.threshold_validated &&
+            ` · ${t("notice.provisionalThreshold")} ${tree.threshold.toFixed(2)}`}
+        </p>
+      )}
+      <details className="qd-tech">
+        <summary>{t("detail.sourceHeading")}</summary>
+        {node.source_file && <span className="qd-domain">{node.source_file}</span>}
         {/* Archive trees predate the relevance gate and omit the field. */}
-        {node.reach != null && (
-          <span>{t("detail.relevance", { value: node.reach.toFixed(2) })}</span>
-        )}
+        {node.reach != null && <span>{t("detail.relevance", { value: node.reach.toFixed(2) })}</span>}
         <span>
-          {t("detail.matching", {
-            strategy: tree.strategy,
-            threshold: tree.threshold.toFixed(2),
-          })}
+          {t("detail.matching", { strategy: tree.strategy, threshold: tree.threshold.toFixed(2) })}
           {!tree.threshold_validated && ` ${t("detail.unvalidated")}`}
         </span>
-      </div>
+      </details>
     </aside>
   );
 }
