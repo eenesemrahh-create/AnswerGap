@@ -442,12 +442,18 @@ export const tr: Messages = {
     noMatch: "“{query}” ile eşleşen analiz yok.",
     unanswered: "cevapsız",
     notChecked: "Henüz kontrol edilmedi",
+    jobReady: "hazır.",
+    jobOpen: "Ağacı aç",
+    jobLost:
+      "— arama sürerken sayfa yenilendi ve sonucu henüz görünmedi. Aşağıdaki analizlerinde yoksa tekrar ara: tamamlanmış bir aramayı yeniden çalıştırmak ücretsizdir.",
   },
 
   strip: {
     left: "kredi kaldı",
     upgrade: "Yükselt",
     choosePlan: "Plan seç",
+    jobRunning: "“{seed}” aranıyor…",
+    jobReady: "“{seed}” hazır",
   },
 
   error: {

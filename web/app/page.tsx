@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -10,7 +10,6 @@ import {
   fetchMeta,
   fetchPricing,
   fetchTrees,
-  search as runSearch,
 } from "@/lib/api";
 import { captureTokenFromHash, token } from "@/lib/auth";
 import { requestSignIn } from "@/lib/signin-request";
@@ -22,7 +21,6 @@ import { en as pricingEn } from "@/content/marketing/pricing/en";
  *  decide whether its comparison table still lines up. */
 const FALLBACK_IDS = ["starter", "lite", "pro"] as const;
 import {
-  isDryRun,
   type Country,
   type Meta,
   type Plan,
@@ -34,6 +32,7 @@ import { AccountMenu } from "@/components/AccountMenu";
 import { CreditStrip } from "@/components/CreditStrip";
 import { SavedAnalyses } from "@/components/SavedAnalyses";
 import { useMe } from "@/lib/me";
+import { clearSearch, jobError, startSearch, useSearchJob } from "@/lib/search-job";
 import { NavMenu } from "@/components/NavMenu";
 import { ErrorNote } from "@/components/ErrorNote";
 
@@ -67,27 +66,44 @@ export default function Landing() {
   // i18n defaults below), non-empty array when the admin has saved something.
   const [plans, setPlans] = useState<Plan[] | null>(null);
 
-  // Search state is kept apart from `error`: a failed crawl must not blank
-  // out the saved analyses that are already on screen.
-  const [busy, setBusy] = useState(false);
-  /* Seconds since the search started, for the waiting panel below.
-   *
-   * Measured from a TIMESTAMP rather than by incrementing a counter: a
-   * background tab has its timers throttled to about once a minute, so a
-   * counter would drift and tell somebody who switched away that 4 seconds
-   * had passed during a 40-second crawl. */
-  const [elapsed, setElapsed] = useState(0);
+  /* THE SEARCH IN FLIGHT LIVES OUTSIDE THIS PAGE (`lib/search-job.ts`), so
+   * leaving for another page and coming back shows it still running - or
+   * finished - instead of an idle box while the server keeps crawling. */
+  const job = useSearchJob();
+  const busy = job?.status === "running" || job?.status === "recovering";
+  const searchError = job?.status === "failed" ? jobError(job) : null;
+
+  /* Seconds since the search started, measured from the job's own timestamp
+   * rather than counted: a background tab throttles timers, and a reader
+   * coming back from another page must see the real elapsed time. */
+  const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     if (!busy) return;
-    const started = Date.now();
-    setElapsed(0);
-    const tick = setInterval(
-      () => setElapsed(Math.round((Date.now() - started) / 1000)),
-      1000
-    );
+    const tick = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(tick);
   }, [busy]);
-  const [searchError, setSearchError] = useState<ApiError | null>(null);
+  const elapsed = job ? Math.max(0, Math.round((now - job.startedAt) / 1000)) : 0;
+
+  /* Finished while this page was mounted -> go straight to the tree, as
+   * before. Finished while the reader was elsewhere -> do NOT yank them
+   * anywhere; the "ready" card below says so when they come back. */
+  const mountedAt = useRef(0);
+  const routedFor = useRef<string | null>(null);
+  // Declared before the effect that reads it: effects run in order.
+  useEffect(() => {
+    mountedAt.current = Date.now();
+  }, []);
+  useEffect(() => {
+    if (job?.status !== "done" || !job.slug) return;
+    if ((job.finishedAt ?? 0) >= mountedAt.current && routedFor.current !== job.slug) {
+      routedFor.current = job.slug;
+      clearSearch();
+      router.push(`/tree/${encodeURIComponent(job.slug)}`);
+      return;
+    }
+    // Ready from before: make sure it is in the list below too.
+    fetchTrees().then(setTrees).catch(() => {});
+  }, [job, router]);
 
   // Which market to search. Defaults to the US and is remembered per browser.
   const [locationCode, setLocationCode] = useState<number>(2840);
@@ -218,20 +234,10 @@ export default function Landing() {
       return;
     }
 
-    setBusy(true);
-    setSearchError(null);
-    try {
-      const result = await runSearch({
-        seed: term,
-        location_code: locationCode,
-        language_code: languageCode,
-      });
-      if (isDryRun(result)) return;
-      router.push(`/tree/${encodeURIComponent(result.slug)}`);
-    } catch (e) {
-      setSearchError(e instanceof ApiError ? e : new ApiError("http", {}));
-      setBusy(false);
-    }
+    /* Routing to the tree happens in the effect above, not here: this
+     * await outlives the page if the reader navigates away, and pushing a
+     * route from a page that is gone would drag them back to it. */
+    await startSearch({ seed: term, location: locationCode, language: languageCode });
   };
 
   const rememberMarket = (location: number, language: string) => {
@@ -416,7 +422,7 @@ export default function Landing() {
           <div className="mkt-waiting" role="status" aria-live="polite">
             <span className="mkt-waiting-bar" aria-hidden />
             <p className="mkt-waiting-title">
-              {t("market.hero.searching")} &ldquo;{seed.trim()}&rdquo;
+              {t("market.hero.searching")} &ldquo;{job?.seed ?? seed.trim()}&rdquo;
             </p>
             <p className="mkt-waiting-hint">{t("landing.searchingHint")}</p>
             {/* Held back for a few seconds: a counter that appears at 0 and
@@ -498,6 +504,37 @@ export default function Landing() {
             </button>
           </div>
         </div>
+
+        {/* Finished while the reader was on another page. */}
+        {job?.status === "done" && job.slug && (
+          <div className="home-job home-job-done" role="status">
+            <span>
+              <b>&ldquo;{job.seed}&rdquo;</b> {t("home.jobReady")}
+            </span>
+            <span className="home-job-actions">
+              <Link href={`/tree/${encodeURIComponent(job.slug)}`} onClick={() => clearSearch()}>
+                {t("home.jobOpen")} →
+              </Link>
+              <button type="button" onClick={() => clearSearch()} aria-label={t("detail.close")}>
+                ×
+              </button>
+            </span>
+          </div>
+        )}
+        {/* The tab was reloaded or closed mid-search and the tree has not
+            appeared in the list. Not "failed": we cannot tell, so we say so. */}
+        {job?.status === "lost" && (
+          <div className="home-job" role="status">
+            <span>
+              <b>&ldquo;{job.seed}&rdquo;</b> {t("home.jobLost")}
+            </span>
+            <span className="home-job-actions">
+              <button type="button" onClick={() => clearSearch()} aria-label={t("detail.close")}>
+                ×
+              </button>
+            </span>
+          </div>
+        )}
 
         {searchError && (
           <div

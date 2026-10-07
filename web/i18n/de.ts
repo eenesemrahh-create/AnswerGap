@@ -447,12 +447,18 @@ export const de: Messages = {
     noMatch: "Keine Analyse passt zu „{query}“.",
     unanswered: "unbeantwortet",
     notChecked: "Noch nicht geprüft",
+    jobReady: "ist fertig.",
+    jobOpen: "Baum öffnen",
+    jobLost:
+      "— die Seite wurde während der Suche neu geladen, und ihr Ergebnis ist noch nicht aufgetaucht. Wenn es unten nicht bei Ihren Analysen steht, suchen Sie erneut: Eine abgeschlossene Suche kostet beim zweiten Mal nichts.",
   },
 
   strip: {
     left: "Credits übrig",
     upgrade: "Upgrade",
     choosePlan: "Tarif wählen",
+    jobRunning: "„{seed}“ wird gesucht…",
+    jobReady: "„{seed}“ ist fertig",
   },
 
   error: {

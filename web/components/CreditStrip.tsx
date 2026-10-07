@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { planName, useMe } from "@/lib/me";
+import { clearSearch, useSearchJob } from "@/lib/search-job";
 import { useDayFormat, useI18n } from "@/i18n";
 
 /**
@@ -23,7 +25,28 @@ export function CreditStrip() {
   const { t } = useI18n();
   const formatDay = useDayFormat();
   const { me, known, plans } = useMe();
+  const job = useSearchJob();
+  const pathname = usePathname();
   if (!known || !me) return null;
+  /* The search in flight, on every page but the search page itself - which
+     shows the full waiting panel. Running links back to it; ready links
+     straight to the tree. */
+  const showJob = job && pathname !== "/";
+  const jobChip =
+    showJob && (job.status === "running" || job.status === "recovering") ? (
+      <Link className="credit-strip-job is-running" href="/">
+        <i aria-hidden />
+        {t("strip.jobRunning", { seed: job.seed })}
+      </Link>
+    ) : showJob && job.status === "done" && job.slug ? (
+      <Link
+        className="credit-strip-job is-done"
+        href={`/tree/${encodeURIComponent(job.slug)}`}
+        onClick={() => clearSearch()}
+      >
+        {t("strip.jobReady", { seed: job.seed })} →
+      </Link>
+    ) : null;
 
   const sub = me.subscription?.active ? me.subscription : null;
   const until = sub?.current_period_end ?? me.period?.end ?? null;
@@ -54,6 +77,7 @@ export function CreditStrip() {
             </>
           )}
         </span>
+        {jobChip}
         <Link className="credit-strip-cta" href="/account/subscription">
           {sub ? t("strip.upgrade") : t("strip.choosePlan")}
         </Link>

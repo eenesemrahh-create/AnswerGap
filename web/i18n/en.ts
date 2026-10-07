@@ -513,6 +513,10 @@ export const en = {
     noMatch: "No analysis matches “{query}”.",
     unanswered: "unanswered",
     notChecked: "Not checked yet",
+    jobReady: "is ready.",
+    jobOpen: "Open the tree",
+    jobLost:
+      "— this page was reloaded during the search, and its result has not shown up yet. If it is not in your analyses below, search again: a search that did finish costs nothing to run twice.",
   },
 
   /* The strip under the nav on every signed-in page. */
@@ -520,6 +524,8 @@ export const en = {
     left: "credits left",
     upgrade: "Upgrade",
     choosePlan: "Choose a plan",
+    jobRunning: "Searching “{seed}”…",
+    jobReady: "“{seed}” is ready",
   },
 
   error: {

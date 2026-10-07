@@ -448,12 +448,18 @@ export const es: Messages = {
     noMatch: "Ningún análisis coincide con «{query}».",
     unanswered: "sin respuesta",
     notChecked: "Aún sin comprobar",
+    jobReady: "está lista.",
+    jobOpen: "Abrir el árbol",
+    jobLost:
+      "— la página se recargó durante la búsqueda y su resultado aún no aparece. Si no está en tus análisis de abajo, vuelve a buscar: repetir una búsqueda ya terminada no cuesta nada.",
   },
 
   strip: {
     left: "créditos restantes",
     upgrade: "Mejorar plan",
     choosePlan: "Elegir un plan",
+    jobRunning: "Buscando «{seed}»…",
+    jobReady: "«{seed}» está lista",
   },
 
   error: {

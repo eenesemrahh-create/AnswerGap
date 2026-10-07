@@ -451,12 +451,18 @@ export const fr: Messages = {
     noMatch: "Aucune analyse ne correspond à « {query} ».",
     unanswered: "sans réponse",
     notChecked: "Pas encore vérifiée",
+    jobReady: "est prête.",
+    jobOpen: "Ouvrir l'arbre",
+    jobLost:
+      "— la page a été rechargée pendant la recherche et son résultat n'est pas encore apparu. S'il n'est pas dans vos analyses ci-dessous, relancez-la : une recherche déjà terminée ne coûte rien la deuxième fois.",
   },
 
   strip: {
     left: "crédits restants",
     upgrade: "Changer d'offre",
     choosePlan: "Choisir une offre",
+    jobRunning: "Recherche de « {seed} »…",
+    jobReady: "« {seed} » est prête",
   },
 
   error: {
