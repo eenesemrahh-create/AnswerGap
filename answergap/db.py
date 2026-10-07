@@ -960,6 +960,17 @@ MIGRATIONS: list[tuple[str, str]] = [
             ON usage_event (tree_slug, created_at DESC) WHERE tree_slug IS NOT NULL;
         """,
     ),
+    (
+        "0016_serp_task_round",
+        """
+        -- Which paid ROUND of tree analysis a task belongs to (2026-10-07: a
+        -- tree is analysed in at most two flat-priced rounds). On the receipt
+        -- itself, so "how many rounds has this tree used" is answered by the
+        -- same rows that prove what was spent - no counter to fall out of step.
+        -- NULL for tasks queued before rounds existed, and for any other kind.
+        ALTER TABLE serp_task ADD COLUMN IF NOT EXISTS round SMALLINT;
+        """,
+    ),
 ]
 
 
@@ -1811,6 +1822,7 @@ def task_insert(
     status: str = "posted",
     error: str | None = None,
     user_id: int | None = None,
+    round_no: int | None = None,
 ) -> None:
     """Write down a queued task. Called immediately after the POST succeeds.
 
@@ -1829,13 +1841,14 @@ def task_insert(
             INSERT INTO serp_task (task_id, cache_key, keyword, question_id,
                                    crawl_id, tree_slug, language_code,
                                    location_code, status, cost, error,
-                                   user_id)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                   user_id, round)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (task_id) DO NOTHING
             """,
             (
                 task_id, cache_key, keyword, question_id, crawl_id, tree_slug,
                 language_code, location_code, status, cost, error, user_id,
+                round_no,
             ),
         )
         conn.commit()
@@ -1860,13 +1873,31 @@ def task_finish(task_id: str, *, error: str | None = None) -> None:
         conn.commit()
 
 
+def rounds_used(tree_slug: str) -> int:
+    """How many paid analysis rounds this tree has had. 0, 1 or 2.
+
+    Read off the task receipts: a round counts once any of its tasks was
+    actually posted (a failed post has no task id and bought nothing).
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT COALESCE(MAX(round), 0) AS used
+              FROM serp_task
+             WHERE tree_slug = %s AND round IS NOT NULL AND task_id IS NOT NULL
+            """,
+            (tree_slug,),
+        )
+        return int(cur.fetchone()["used"])
+
+
 def tasks_for_tree(tree_slug: str, limit: int = 200) -> list[dict]:
     """Every task ever queued for a tree, newest first. Drives the progress UI."""
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
             SELECT task_id, cache_key, keyword, status, cost, error,
-                   posted_at, completed_at
+                   posted_at, completed_at, round
               FROM serp_task
              WHERE tree_slug = %s
              ORDER BY posted_at DESC, id DESC

@@ -493,9 +493,23 @@ SEARCHES the question as its own seed (`POST /api/tree/{slug}/question/{q}/check
 gap score (organic results) AND its own question tree (PAA block), and the
 reader is sent to that tree. The verdict shows on the box they clicked as well.
 
-- **Batch checks and deep search are OFF in the UI** (`BATCH_AND_DEEP_ENABLED`
-  in `TreeScreen.tsx`). Endpoints and components are kept; they come back one
-  at a time, each priced on the one-query-one-credit rule.
+- **The tree is analysed in at most TWO flat-priced ROUNDS** (same day):
+  round 1 = every unanalysed question, **2 credits**; round 2 = what round 1
+  added, **3 credits**; no round 3 (`POST /api/tree/{slug}/round`,
+  `live.queue_round`, `gate.FLAT_PRICES`, `AnalyseRounds.tsx`). Each analysis
+  brings that question's own PAA block, so a round GROWS the tree — ~2.5–3 new
+  questions per analysis — and "analyse until nothing is left" has no cost
+  ceiling, which is why it stops at two. Caps `live.ROUND_CAPS = {1: 40, 2: 80}`
+  bound a round on a big tree (worst case both full ≈ $0.072). The round is
+  written on every `serp_task` receipt (migration `0016`); `db.rounds_used`
+  reads the next round off those. A flat price is never trimmed to the
+  balance, and a round that needs no request costs 0. What round 2 adds stays
+  grey and the screen says how many.
+  Estimated cost, Standard queue: round 1 ~$0.009, round 2 ~$0.024 — against
+  2 / 3 credits ($0.080 / $0.120 at Pro's $0.040 a credit). Confirm on the
+  first real rounds.
+- **Old batch checks and deep search stay OFF** (`BATCH_AND_DEEP_ENABLED` in
+  `TreeScreen.tsx`, `BatchScore` kept for deep search's return).
 - **`crawl` now persists the seed's score to `gap_score`.** It was computed for
   free in `build_from_response` but never saved — `save_tree` writes edges,
   not scores — so it vanished on reload and no other tree could see it.

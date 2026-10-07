@@ -192,6 +192,16 @@ export const fr: Messages = {
     allChecked: "Toutes les questions ont été vérifiées.",
   },
 
+  rounds: {
+    first: "Analyser et agrandir l'arbre · 2 crédits",
+    second: "L'agrandir encore une fois · 3 crédits",
+    confirmCount: "{count} questions à analyser",
+    grows: "Chaque question analysée apporte ses propres questions, l'arbre grandit donc.",
+    leftOut: "{count} autres dépassent la limite de ce tour et restent non analysées.",
+    limit: "Limite de tours atteinte · {count} questions non analysées",
+    limitNone: "Limite de tours atteinte",
+  },
+
   deep: {
     open: "Ouvrir les branches fermées",
     openCount: "Ouvrir {count} branches fermées",
@@ -443,6 +453,8 @@ export const fr: Messages = {
       "Cette offre n'est pas encore achetable — nous finalisons sa " +
       "configuration de paiement. Écrivez-nous et nous nous en occupons.",
     noSuchPlan: "Cette offre n'est plus proposée.",
+    roundLimit: "Cet arbre a déjà utilisé ses deux tours d'analyse.",
+    roundInFlight: "Les résultats du tour précédent arrivent encore. Réessayez une fois qu'ils sont là.",
     noCustomer: "Il n'y a rien à gérer pour l'instant : ce compte n'a jamais été facturé.",
     paymentsOff: "Les paiements ne sont pas encore activés.",
     signedOut: "Vous êtes déconnecté. Connectez-vous pour continuer.",

@@ -185,7 +185,7 @@ def decide(identity: Identity, state: State, *, action: str, units: int) -> Deci
         needed = credit_cost(action, units)
         if state.balance >= needed:
             return Decision(True, ALLOWED, affordable_units=units)
-        if state.balance > 0:
+        if state.balance > 0 and action not in FLAT_PRICES:
             # Trim, do not refuse. A batch of ten against a balance of three
             # should buy what three credits covers, and say so. Refusing
             # outright would be right only if we knew the exact billable count
@@ -254,6 +254,20 @@ QUEUED_ACTIONS = frozenset({"batch", "deep"})
 #: profitable one we sell.
 QUEUED_CREDITS_PER_REQUEST = 0.5
 
+#: Actions sold at ONE price however many requests they turn out to need.
+#:
+#: Since 2026-10-07 the tree is analysed in at most two ROUNDS: the first
+#: analyses every question not yet checked (and the tree grows, because each
+#: analysis brings the question's own PAA block), the second analyses what the
+#: first added. A round is a promise about the TREE, not about a count of
+#: requests, so it is priced as one thing. Measured cost per round is in
+#: `live.ROUND_CAPS`; both prices clear it several times over on the cheapest
+#: credit we sell.
+#:
+#: A flat action is never TRIMMED to the balance. Half a round is not what
+#: was bought; it is all or nothing.
+FLAT_PRICES = {"round1": 2, "round2": 3}
+
 
 def credit_cost(action: str, requests: int | None) -> int:
     """What `requests` of `action` cost the customer, in credits.
@@ -276,7 +290,13 @@ def credit_cost(action: str, requests: int | None) -> int:
     skips nine already-scored questions posts one task and costs one credit.
     """
     live = credits_for(requests)
-    if live == 0 or action not in QUEUED_ACTIONS:
+    if live == 0:
+        # Nothing reached DataForSEO - every question was already analysed,
+        # or cached - so nothing is charged, flat price or not.
+        return 0
+    if action in FLAT_PRICES:
+        return FLAT_PRICES[action]
+    if action not in QUEUED_ACTIONS:
         return live
     return math.ceil(live * QUEUED_CREDITS_PER_REQUEST)
 
@@ -291,6 +311,10 @@ def requests_for(action: str, credits: int | None) -> int:
     negative on a path whose whole job is to avoid that.
     """
     budget = credits_for(credits)
+    if action in FLAT_PRICES:
+        # All or nothing: the whole round when the balance covers its price.
+        # The caller caps the round itself, so "unbounded" here is safe.
+        return 10**6 if budget >= FLAT_PRICES[action] else 0
     if budget == 0 or action not in QUEUED_ACTIONS:
         return budget
     return math.floor(budget / QUEUED_CREDITS_PER_REQUEST)

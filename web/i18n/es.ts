@@ -191,6 +191,16 @@ export const es: Messages = {
     allChecked: "Todas las preguntas están comprobadas.",
   },
 
+  rounds: {
+    first: "Analizar y ampliar el árbol · 2 créditos",
+    second: "Ampliarlo una vez más · 3 créditos",
+    confirmCount: "{count} preguntas por analizar",
+    grows: "Cada pregunta analizada trae sus propias preguntas, así que el árbol crece.",
+    leftOut: "{count} más superan el límite de esta ronda y quedan sin analizar.",
+    limit: "Límite de rondas alcanzado · {count} preguntas sin analizar",
+    limitNone: "Límite de rondas alcanzado",
+  },
+
   deep: {
     open: "Abrir ramas cerradas",
     openCount: "Abrir {count} ramas cerradas",
@@ -439,6 +449,8 @@ export const es: Messages = {
       "Este plan todavía no se puede comprar — aún estamos terminando de " +
       "configurar su pago. Escríbenos y lo resolvemos contigo.",
     noSuchPlan: "Ese plan ya no está disponible.",
+    roundLimit: "Este árbol ya usó sus dos rondas de análisis.",
+    roundInFlight: "Los resultados de la ronda anterior aún están llegando. Inténtalo cuando terminen.",
     noCustomer: "Aún no hay nada que gestionar: a esta cuenta nunca se le ha facturado.",
     paymentsOff: "Los pagos todavía no están activados.",
     signedOut: "Has cerrado sesión. Inicia sesión para continuar.",

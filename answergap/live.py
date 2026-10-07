@@ -1260,6 +1260,7 @@ def queue_scores(
     max_items: int | None = None,
     user_id: int | None = None,
     click_depth: int | None = None,
+    round_no: int | None = None,
 ) -> dict:
     """Queue gap scoring for several questions on the Standard queue.
 
@@ -1376,6 +1377,7 @@ def queue_scores(
             status="posted" if row["task_id"] else "failed",
             error=None if row["task_id"] else row.get("status_message"),
             user_id=user_id,
+            round_no=round_no,
         )
 
     plan["posted"] = [
@@ -1384,6 +1386,77 @@ def queue_scores(
         for r in posted
     ]
     plan["spend"] = round(sum(r.get("cost") or 0 for r in posted), 6)
+    return plan
+
+
+# ---------------------------------------------------------------- rounds
+#
+# 2026-10-07: the tree is analysed in at most TWO flat-priced rounds.
+#
+#   round 1   every question not yet analysed            2 credits
+#   round 2   what round 1 added to the tree             3 credits
+#
+# Each analysis also brings the question's own PAA block, so a round GROWS the
+# tree - measured at ~2.5-3 new questions per analysis (knight online 11 -> 27
+# new; teeth whitening 19 -> 34 nodes after 5). That is why the rounds stop at
+# two: "analyse until nothing is left" has no upper bound on cost.
+#
+# The caps bound a round on an unusually big tree. Worst case, both rounds
+# full: 120 x $0.0006 = $0.072, under what five credits bring on the cheapest
+# plan. Questions past a cap stay unanalysed and are counted as such.
+ROUND_CAPS = {1: 40, 2: 80}
+MAX_ROUNDS = len(ROUND_CAPS)
+
+
+class RoundLimit(Exception):
+    """The tree has had every round it can have."""
+
+
+class RoundInFlight(Exception):
+    """The previous round is still arriving; opening another would buy twice."""
+
+
+def next_round(tree: dict) -> int:
+    """1 or 2 - or MAX_ROUNDS + 1 once both are spent."""
+    return db.rounds_used(tree["slug"]) + 1 if db.available() else 1
+
+
+def queue_round(
+    tree: dict,
+    *,
+    dry_run: bool = False,
+    postback_url: str | None = None,
+    user_id: int | None = None,
+) -> dict:
+    """Analyse every question the tree has not analysed yet, as one round.
+
+    A thin layer over `queue_scores`, like `queue_expansions`: candidates,
+    in-flight filter, receipts and ingest are the same machinery. What a round
+    adds is its NUMBER - written on every receipt, which is how the next call
+    knows which round it is - and its cap.
+    """
+    round_no = next_round(tree)
+    if round_no > MAX_ROUNDS:
+        raise RoundLimit(tree["slug"])
+    if db.available() and any(
+        t["status"] == "posted" for t in db.tasks_for_tree(tree["slug"])
+    ):
+        raise RoundInFlight(tree["slug"])
+
+    cap = ROUND_CAPS[round_no]
+    unanalysed = [n for n in tree["nodes"] if not n.get("results_checked")]
+    plan = queue_scores(
+        tree,
+        question_slugs=[n["slug"] for n in scoring_candidates(tree, cap)],
+        dry_run=dry_run,
+        postback_url=postback_url,
+        user_id=user_id,
+        round_no=round_no,
+    )
+    plan["action"] = f"round{round_no}"
+    plan["round"] = round_no
+    # Past the cap: still unanalysed after this round, and said so.
+    plan["left_out"] = max(0, len(unanalysed) - plan["count"])
     return plan
 
 

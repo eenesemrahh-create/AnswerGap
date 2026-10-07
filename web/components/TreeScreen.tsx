@@ -24,6 +24,7 @@ import { QuestionDetail } from "./QuestionDetail";
 import { NoQuestions, RelatedSeeds } from "./RelatedSeeds";
 import { Notice } from "./Badge";
 import { BatchScore } from "./BatchScore";
+import { AnalyseRounds } from "./AnalyseRounds";
 
 /* See the note where it is used. */
 const BATCH_AND_DEEP_ENABLED = false;
@@ -365,6 +366,19 @@ export function TreeScreen({ slug }: { slug: string }) {
             </button>
           ))}
         </div>
+
+        {/* The paid way to analyse the tree since 2026-10-07: two flat-priced
+            rounds, each of which grows it. Needs the database, like every
+            queued request, so it is not offered where `meta` says there is
+            none to record the receipts in. */}
+        {meta && tree.source === "live" && !noQuestions && (
+          <AnalyseRounds
+            slug={slug}
+            roundsUsed={tree.rounds_used ?? 0}
+            unanalysed={tree.nodes.filter((n) => n.depth > 0 && !n.results_checked).length}
+            onFinished={reload}
+          />
+        )}
 
         {/* Off since 2026-10-07: one query is one credit, and the only way to
             check a question is to search it. Batch checks (half a credit

@@ -313,6 +313,38 @@ def test_checking_a_question_colours_it_in_the_tree_it_came_from(
     assert root["status"] == result["node"]["status"]
 
 
+def _task(task_id: str | None, round_no: int | None, slug: str = "t-en-2840") -> None:
+    db.task_insert(
+        task_id=task_id,
+        cache_key=f"paa-2840-en-{task_id or 'failed'}",
+        keyword="Question?",
+        tree_slug=slug,
+        language_code="en",
+        location_code=2840,
+        status="posted" if task_id else "failed",
+        round_no=round_no,
+    )
+
+
+def test_rounds_used_is_read_off_the_receipts() -> None:
+    """2026-10-07: which analysis round comes next is the highest round on a
+    task actually posted for this tree."""
+    assert db.rounds_used("t-en-2840") == 0
+    _task("a", 1)
+    _task("b", 1)
+    assert db.rounds_used("t-en-2840") == 1
+    _task("c", 2)
+    assert db.rounds_used("t-en-2840") == 2
+    assert db.rounds_used("other-en-2840") == 0
+    assert {t["round"] for t in db.tasks_for_tree("t-en-2840")} == {1, 2}
+
+
+def test_a_failed_post_or_an_old_batch_task_is_not_a_round() -> None:
+    _task(None, 1)        # rejected by DataForSEO: nothing was bought
+    _task("old", None)    # queued before rounds existed
+    assert db.rounds_used("t-en-2840") == 0
+
+
 def test_an_external_admin_act_is_audited() -> None:
     db.admin_log(actor="op@example.com", action="ci_rerun", detail={"run_id": 42})
     rows = db.admin_actions(limit=5)

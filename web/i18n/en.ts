@@ -230,6 +230,17 @@ export const en = {
     allChecked: "Every question has been checked.",
   },
 
+  // Analysis rounds, 2026-10-07. At most two, flat-priced; each grows the tree.
+  rounds: {
+    first: "Analyse and grow the tree · 2 credits",
+    second: "Grow it once more · 3 credits",
+    confirmCount: "{count} questions to analyse",
+    grows: "Each analysed question brings its own questions with it, so the tree grows.",
+    leftOut: "{count} more are past this round's limit and stay unanalysed.",
+    limit: "Round limit reached · {count} questions not analysed",
+    limitNone: "Round limit reached",
+  },
+
   // Deep search. The copy says what it DOES and never promises a count:
   // "~100 questions" is an average of a competitor's shape, and the measured
   // figure here is 83 on a six-branch budget. A number on the button would be
@@ -506,6 +517,8 @@ export const en = {
       "This plan cannot be bought yet — we are still finishing its payment " +
       "setup. Get in touch and we will sort it out for you.",
     noSuchPlan: "That plan is no longer available.",
+    roundLimit: "This tree has had both of its analysis rounds.",
+    roundInFlight: "The previous round's results are still arriving. Try again once they are in.",
     noCustomer: "There is nothing to manage yet — this account has never been billed.",
     paymentsOff: "Payments are not switched on yet.",
     // One key per ErrorKind, in all five locales. Errors render as

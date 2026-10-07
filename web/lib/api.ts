@@ -11,6 +11,7 @@ import type {
   Me,
   Meta,
   Plan,
+  RoundPlan,
   ScoreResult,
   SearchLanguage,
   SearchResult,
@@ -67,7 +68,10 @@ export type ErrorKind =
   | "planNotPurchasable"
   | "noSuchPlan"
   | "noCustomer"
-  | "paymentsOff";
+  | "paymentsOff"
+  // --- analysis rounds -------------------------------------------------
+  | "roundLimit"
+  | "roundInFlight";
 
 export class ApiError extends Error {
   constructor(
@@ -128,6 +132,10 @@ const CODES: Record<string, ErrorKind> = {
   noSuchPlan: "noSuchPlan",
   noCustomer: "noCustomer",
   noKey: "paymentsOff",
+  // A tree is analysed in at most two rounds; the second refusal is a click
+  // that arrived while the previous round's results were still coming in.
+  roundLimit: "roundLimit",
+  roundInFlight: "roundInFlight",
 };
 
 function kindFor(status: number, code?: string): ErrorKind {
@@ -275,6 +283,14 @@ export const scoreBatch = (
  * polled exactly like a batch, because it is the same transaction - and each
  * expansion is also a gap score for the question it expands, at no extra cost.
  */
+/**
+ * Analyse every question the tree has not analysed yet, as one round. Round 1
+ * is 2 credits, round 2 is 3, there is no round 3. Priced by the API; a dry
+ * run returns the price and the count without spending anything.
+ */
+export const analyseRound = (slug: string, input: { dry_run?: boolean }) =>
+  post<RoundPlan>(`/api/tree/${slug}/round`, input);
+
 export const deepSearch = (
   slug: string,
   input: { budget?: number; dry_run?: boolean }

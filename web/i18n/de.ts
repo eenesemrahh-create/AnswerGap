@@ -191,6 +191,16 @@ export const de: Messages = {
     allChecked: "Alle Fragen wurden geprüft.",
   },
 
+  rounds: {
+    first: "Baum analysieren und erweitern · 2 Credits",
+    second: "Noch einmal erweitern · 3 Credits",
+    confirmCount: "{count} Fragen werden analysiert",
+    grows: "Jede analysierte Frage bringt ihre eigenen Fragen mit, daher wächst der Baum.",
+    leftOut: "{count} weitere liegen über dem Limit dieser Runde und bleiben unanalysiert.",
+    limit: "Rundenlimit erreicht · {count} Fragen nicht analysiert",
+    limitNone: "Rundenlimit erreicht",
+  },
+
   deep: {
     open: "Geschlossene Zweige öffnen",
     openCount: "{count} geschlossene Zweige öffnen",
@@ -437,6 +447,8 @@ export const de: Messages = {
       "Dieser Tarif kann noch nicht gekauft werden — wir richten die Zahlung " +
       "dafür noch ein. Melden Sie sich bei uns, wir kümmern uns darum.",
     noSuchPlan: "Diesen Tarif gibt es nicht mehr.",
+    roundLimit: "Dieser Baum hat beide Analyserunden bereits genutzt.",
+    roundInFlight: "Die Ergebnisse der vorigen Runde treffen noch ein. Versuchen Sie es danach erneut.",
     noCustomer:
       "Es gibt noch nichts zu verwalten — für dieses Konto wurde nie abgerechnet.",
     paymentsOff: "Zahlungen sind noch nicht freigeschaltet.",

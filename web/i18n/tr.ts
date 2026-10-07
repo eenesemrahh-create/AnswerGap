@@ -190,6 +190,16 @@ export const tr: Messages = {
     allChecked: "Bütün sorular kontrol edilmiş.",
   },
 
+  rounds: {
+    first: "Ağacı analiz et ve büyüt · 2 kredi",
+    second: "Bir kez daha büyüt · 3 kredi",
+    confirmCount: "{count} soru analiz edilecek",
+    grows: "Analiz edilen her soru kendi sorularını da getirir, bu yüzden ağaç büyür.",
+    leftOut: "{count} soru bu turun sınırını aşıyor ve analiz edilmeden kalacak.",
+    limit: "Tur sınırına ulaşıldı · {count} soru analiz edilmedi",
+    limitNone: "Tur sınırına ulaşıldı",
+  },
+
   deep: {
     open: "Kapalı dalları aç",
     openCount: "{count} kapalı dalı aç",
@@ -431,6 +441,8 @@ export const tr: Messages = {
       "Bu plan henüz satın alınamıyor — ödeme kurulumunu tamamlamadık. " +
       "Bize yazın, sizin için halledelim.",
     noSuchPlan: "Bu plan artık sunulmuyor.",
+    roundLimit: "Bu ağaç iki analiz turunun ikisini de kullandı.",
+    roundInFlight: "Önceki turun sonuçları hâlâ geliyor. Tamamlanınca tekrar deneyin.",
     noCustomer: "Yönetilecek bir şey yok — bu hesaba hiç fatura kesilmemiş.",
     paymentsOff: "Ödemeler henüz açık değil.",
     signedOut: "Çıkış yapılmış durumdasınız. Devam etmek için giriş yapın.",

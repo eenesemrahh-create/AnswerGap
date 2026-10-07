@@ -76,6 +76,9 @@ export interface TreeSummary {
 
 export interface Tree extends TreeSummary {
   nodes: Node[];
+  /** Paid analysis rounds this tree has had: 0, 1 or 2. Absent on an API
+   *  older than rounds, which reads as none. */
+  rounds_used?: number;
   /** Requests actually billed by the call that produced this tree. */
   billable_calls?: number;
   estimated_spend?: number;
@@ -352,6 +355,15 @@ export interface BatchPlan {
  * step name them: "open these three questions" is a claim somebody can check
  * before spending, where "queue 6 requests" is not.
  */
+/** One paid round of tree analysis. `credits` is the flat price (2 or 3),
+ *  or 0 when nothing needed a request. */
+export interface RoundPlan extends BatchPlan {
+  action: "round1" | "round2";
+  round: 1 | 2;
+  /** Unanalysed questions past this round's cap; still grey afterwards. */
+  left_out: number;
+}
+
 export interface DeepPlan extends BatchPlan {
   action?: "deep";
   expanding?: { slug: string; question: string; depth: number }[];

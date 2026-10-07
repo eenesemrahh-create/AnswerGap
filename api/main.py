@@ -491,7 +491,20 @@ def tree(slug: str, http_request: Request) -> dict:
     the row under.
     """
     who = auth.identity(http_request)
-    return _authorize_tree(slug, who)
+    found = _authorize_tree(slug, who)
+    # Which paid analysis round comes next is drawn from this, so it travels
+    # with the tree rather than costing the screen a second request. A copy:
+    # `found` may be the cached object in `_LIVE`, which is not ours to grow.
+    return {**found, "rounds_used": _rounds_used(found)}
+
+
+def _rounds_used(found: dict) -> int:
+    if found.get("source") != "live" or not db.available():
+        return 0
+    try:
+        return db.rounds_used(found["slug"])
+    except Exception:  # noqa: BLE001 - a missing count must not hide the tree
+        return 0
 
 
 @app.get("/api/tree/{slug}/question/{question_slug}")
@@ -919,6 +932,77 @@ def score_batch(slug: str, request: BatchScoreRequest, http_request: Request) ->
         auth.record(
             who,
             action="batch",
+            billable_calls=posted,
+            spend=result.get("spend", 0.0),
+            tree_slug=slug,
+        )
+    return result
+
+
+class RoundRequest(BaseModel):
+    dry_run: bool = False
+
+
+@app.post("/api/tree/{slug}/round")
+def analyse_round(slug: str, request: RoundRequest, http_request: Request) -> dict:
+    """Analyse every question the tree has not analysed yet: one ROUND.
+
+    Since 2026-10-07 this replaces "check top 10" in the interface. Round 1
+    costs 2 credits, round 2 costs 3, there is no round 3 (`gate.FLAT_PRICES`,
+    `live.ROUND_CAPS`). A round grows the tree, because each analysis also
+    brings that question's own PAA block - round 2 is what analyses those.
+
+    Gated like `score-batch`: ownership, archives refused, the database
+    required (a queued task is paid at post time and its id must be written
+    down first). Then the round's own two refusals - all rounds spent, or the
+    previous round still arriving - BEFORE credits, so neither costs anything.
+
+    A flat price is never trimmed to the balance: half a round is not what was
+    bought. And a round that turns out to need no request at all - everything
+    already analysed - costs nothing.
+    """
+    who = auth.identity(http_request)
+    found = _authorize_tree(slug, who)
+    if found.get("source") != "live":
+        raise HTTPException(
+            409,
+            "Archived Phase 0 trees are fixed evidence and are not re-scored. "
+            "Run a live search for this seed instead.",
+        )
+    if not db.available():
+        raise HTTPException(
+            503,
+            "Analysis rounds need the database: a queued task is paid for at "
+            "post time, so its id has to be written down before the result "
+            "can go missing.",
+        )
+    round_no = live.next_round(found)
+    if round_no > live.MAX_ROUNDS:
+        raise HTTPException(409, {"code": "roundLimit", "rounds": live.MAX_ROUNDS})
+    action = f"round{round_no}"
+    if not request.dry_run:
+        auth.check(who, action=action, units=live.ROUND_CAPS[round_no])
+
+    try:
+        result = _run(
+            lambda: live.queue_round(
+                found,
+                dry_run=request.dry_run,
+                postback_url=_postback_url(),
+                user_id=who.user_id,
+            )
+        )
+    except live.RoundLimit as e:
+        raise HTTPException(409, {"code": "roundLimit", "rounds": live.MAX_ROUNDS}) from e
+    except live.RoundInFlight as e:
+        raise HTTPException(409, {"code": "roundInFlight"}) from e
+    result["callback"] = bool(_postback_url())
+    result["credits"] = gate.credit_cost(action, result.get("count", 0))
+    if not request.dry_run:
+        posted = sum(1 for p in (result.get("posted") or []) if p.get("task_id"))
+        auth.record(
+            who,
+            action=action,
             billable_calls=posted,
             spend=result.get("spend", 0.0),
             tree_slug=slug,
