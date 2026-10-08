@@ -83,6 +83,7 @@ export const en = {
     pngRepeatNote: "×N = Google showed this question under N different branches",
     seeds: "Related searches",
     tree: "Tree",
+    showDetails: "Show details",
     table: "Table",
     searchPlaceholder: "Filter questions…",
     showing: "{shown} of {total} questions",

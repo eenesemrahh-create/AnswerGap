@@ -58,6 +58,7 @@ export const fr: Messages = {
     pngRepeatNote: "×N = Google a affiché cette question sous N branches différentes",
     seeds: "Recherches associées",
     tree: "Arbre",
+    showDetails: "Afficher les détails",
     table: "Tableau",
     searchPlaceholder: "Filtrer les questions…",
     showing: "{shown} sur {total} questions",

@@ -5011,3 +5011,59 @@ table.gt { font-size: 13.5px; }
   .gt tbody tr:not(.gt-row) td { padding: 14px; }
 }
 
+/* ======================================== compact title band, 2026-10-08
+ * Folds to one line once the reader is working below it (see `compact` in
+ * TreeScreen). The honesty labels stay: smaller, never hidden - CLAUDE.md's
+ * "last updated on every result" and "never claim live" do not stop applying
+ * because somebody scrolled. Only the crawl diff / developer extras go.
+ */
+.tree-head { transition: padding .18s ease; }
+.tree-title { transition: font-size .18s ease; }
+.tree-head.is-compact { padding: 8px 20px; align-items: center; }
+.tree-head.is-compact .tree-head-main { cursor: pointer; }
+.tree-head.is-compact .tree-head-main { flex-wrap: nowrap; gap: 0; min-width: 0; }
+.tree-head.is-compact .tree-title {
+  flex: 0 1 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 17px;
+  letter-spacing: -0.015em;
+}
+.tree-head.is-compact .tree-meta { flex: none; flex-wrap: nowrap; white-space: nowrap; font-size: 12px; }
+.tree-head.is-compact .tree-meta:first-of-type::before { content: "·"; margin: 0 10px; color: var(--text-faint); }
+.tree-head.is-compact .tree-head-extras { display: none; }
+.tree-head-open {
+  all: unset;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.tree-head-open:hover { background: var(--surface-2); color: var(--text); }
+.tree-head-open:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.tree-head-open svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Too narrow for one line: the title and its facts on one row, the honesty
+   labels on a second - two short lines instead of four. */
+@media (max-width: 1100px) {
+  .tree-head.is-compact .tree-head-main { flex-wrap: wrap; row-gap: 2px; }
+  .tree-head.is-compact .tree-meta { flex-wrap: wrap; white-space: normal; flex: 0 1 auto; }
+  .tree-head.is-compact .tree-meta-honest { flex: 1 1 100%; }
+  .tree-head.is-compact .tree-meta-honest::before { content: none; }
+}
+@media (max-width: 720px) {
+  .tree-head.is-compact { padding: 6px 12px; flex-direction: row; align-items: center; gap: 10px; }
+  .tree-head.is-compact .tree-title { font-size: 15px; flex: 1 1 100%; }
+  .tree-head.is-compact .tree-meta { font-size: 11px; }
+  .tree-head.is-compact .tree-meta:first-of-type::before { content: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tree-head, .tree-title { transition: none; }
+}
+

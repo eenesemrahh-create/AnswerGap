@@ -57,6 +57,7 @@ export const de: Messages = {
     pngRepeatNote: "×N = Google zeigte diese Frage unter N verschiedenen Zweigen",
     seeds: "Ähnliche Suchanfragen",
     tree: "Baum",
+    showDetails: "Details anzeigen",
     table: "Tabelle",
     searchPlaceholder: "Fragen filtern…",
     showing: "{shown} von {total} Fragen",

@@ -57,6 +57,7 @@ export const tr: Messages = {
     pngRepeatNote: "×N = Google bu soruyu N farklı dalda gösterdi",
     seeds: "İlgili aramalar",
     tree: "Ağaç",
+    showDetails: "Ayrıntıları göster",
     table: "Tablo",
     searchPlaceholder: "Sorularda filtrele…",
     showing: "{total} sorudan {shown} tanesi",

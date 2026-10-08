@@ -44,6 +44,11 @@ export function TreeScreen({ slug }: { slug: string }) {
   const [tree, setTree] = useState<Tree | null>(null);
   const [error, setError] = useState<ApiError | null>(null);
   const [view, setView] = useState<View>("tree");
+  /* The title band folds to one line once the reader is working below it:
+     scrolling the table or the related searches, or handling the tree. It
+     costs ~100px on a laptop and a third of a phone, and by then it has been
+     read. Clicking it, or scrolling back to the top, opens it again. */
+  const [compact, setCompact] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [hidden, setHidden] = useState<Set<Status>>(new Set());
@@ -291,9 +296,29 @@ export function TreeScreen({ slug }: { slug: string }) {
       </header>
       <CreditStrip />
 
-      <section className="tree-head">
-        <div className="tree-head-main">
-          <h1 className="tree-title">{tree.seed}</h1>
+      <section className={`tree-head${compact ? " is-compact" : ""}`}>
+        {/* Only the title side opens it: the round button beside it must do
+            its own job without the band jumping open under the pointer. */}
+        <div
+          className="tree-head-main"
+          onClick={compact ? () => setCompact(false) : undefined}
+        >
+          <h1 className="tree-title">
+            {tree.seed}
+            {compact && (
+              <button
+                type="button"
+                className="tree-head-open"
+                aria-expanded={false}
+                aria-label={t("toolbar.showDetails")}
+                title={t("toolbar.showDetails")}
+              >
+                <svg viewBox="0 0 20 20" aria-hidden>
+                  <path d="m6 8 4 4 4-4" />
+                </svg>
+              </button>
+            )}
+          </h1>
           <div className="tree-meta">
             <span>{t("landing.questionCount", { count: questionCount })}</span>
             <span>{tree.language_name}</span>
@@ -432,7 +457,16 @@ export function TreeScreen({ slug }: { slug: string }) {
 
       <div className="body-row">
         <main className="main">
-          <div className="canvas">
+          <div
+            className="canvas"
+            onScrollCapture={(e) => {
+              const top = (e.target as HTMLElement).scrollTop;
+              if (top > 48) setCompact(true);
+              else if (top === 0) setCompact(false);
+            }}
+            onPointerDownCapture={view === "tree" ? () => setCompact(true) : undefined}
+            onWheelCapture={view === "tree" ? () => setCompact(true) : undefined}
+          >
             {noQuestions && view !== "seeds" && (
               <NoQuestions phrases={tree.related_searches ?? []} />
             )}

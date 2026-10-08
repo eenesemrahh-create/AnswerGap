@@ -57,6 +57,7 @@ export const es: Messages = {
     pngRepeatNote: "×N = Google mostró esta pregunta en N ramas distintas",
     seeds: "Búsquedas relacionadas",
     tree: "Árbol",
+    showDetails: "Mostrar detalles",
     table: "Tabla",
     searchPlaceholder: "Filtrar preguntas…",
     showing: "{shown} de {total} preguntas",
