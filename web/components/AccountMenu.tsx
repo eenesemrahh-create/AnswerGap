@@ -9,7 +9,7 @@ import { LocalePicker } from "./LocalePicker";
 import { ThemeToggle } from "./ThemeToggle";
 import { captureTokenFromHash } from "@/lib/auth";
 import { onSignInRequest } from "@/lib/signin-request";
-import type { Me, Meta } from "@/lib/types";
+import type { Me, Meta, Plan } from "@/lib/types";
 import { useDayFormat, useI18n } from "@/i18n";
 
 /**
@@ -51,15 +51,12 @@ export function AccountMenu({
   onSessionChange?: () => void;
 }) {
   const { t, locale } = useI18n();
-  const formatDay = useDayFormat();
   /* From the shared store (`lib/me.ts`), so this menu, the credit strip under
      the nav and the account pages all show the same balance from one request.
      `known` is the three-state guard this component has always needed: until
      `/api/me` answers, render NOTHING rather than a signed-out guess - drawing
      Sign in first and correcting it made it flash on every page load. */
   const { me, known, plans } = useMe();
-  const [open, setOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [dialog, setDialog] = useState(false);
   const [dialogMode, setDialogMode] = useState<
@@ -75,24 +72,6 @@ export function AccountMenu({
   const load = useCallback(() => {
     void loadMe(true);
   }, []);
-
-  /* The panel closes on a click anywhere else and on Escape, like every
-     menu a reader has used before. */
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (e: MouseEvent) => {
-      if (!menuRef.current?.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
 
   /* Something elsewhere on the page hit a wall that only signing in clears —
      today the search box, which refuses to spend a request it knows will be
@@ -290,71 +269,109 @@ export function AccountMenu({
         </span>
       )}
       {notice && <span className="account-failed">{notice}</span>}
-      {/* THE AVATAR OPENS A PANEL, 2026-10-07 (modelled on AlsoAsked's).
-          Who you are, what you have left and until when, the four account
-          pages, and Sign out at the bottom - one place for all of it rather
-          than an avatar link plus a loose Sign out button beside it. Deleting
-          the account is still NOT in here: it lives on Settings, under its
-          own heading, a long way from anything routine. */}
-      <div className="acct-menu" ref={menuRef}>
-        <button
-          className="account-who acct-menu-trigger"
-          onClick={() => setOpen((v) => !v)}
-          aria-haspopup="menu"
-          aria-expanded={open}
-          title={t("auth.signedInAs", { email: me.email })}
-          aria-label={t("auth.account")}
-        >
-          <Avatar me={me} size={30} />
-        </button>
-        {open && (
-          <div className="acct-menu-panel" role="menu">
-            <div className="acct-menu-head">
-              <Avatar me={me} size={40} />
-              <div className="acct-menu-who">
-                <b>{me.name || me.email.split("@")[0]}</b>
-                <span>{me.email}</span>
-              </div>
-            </div>
-            <Link href="/account/subscription" className="acct-menu-credits" onClick={() => setOpen(false)}>
-              <span>
-                <b>{me.credits}</b> {t("strip.left")}
-              </span>
-              <em>
-                {me.subscription?.active
-                  ? planName(plans, me.subscription.plan_id)
-                  : t("account.noPlan")}
-                {me.subscription?.active && me.subscription.current_period_end
-                  ? ` · ${formatDay(me.subscription.current_period_end)}`
-                  : ""}
-              </em>
-              {me.period && (
-                <i className="acct-menu-meter">
-                  <i style={{ width: `${Math.max(0, 1 - me.period.fraction) * 100}%` }} />
-                </i>
-              )}
-            </Link>
-            <nav className="acct-menu-links">
-              {[
-                ["/account", t("account.navOverview")],
-                ["/account/profile", t("account.navProfile")],
-                ["/account/subscription", t("account.navSubscription")],
-                ["/account/settings", t("account.navSettings")],
-                ["/", t("account.navSearches")],
-              ].map(([href, label]) => (
-                <Link key={href} href={href} role="menuitem" onClick={() => setOpen(false)}>
-                  {label}
-                  <span aria-hidden>›</span>
-                </Link>
-              ))}
-            </nav>
-            <button className="acct-menu-signout" onClick={signOut} role="menuitem">
-              {t("auth.signOut")}
-            </button>
-          </div>
-        )}
-      </div>
+      <AccountPanel me={me} plans={plans} />
       {dialogEl}
+    </div>
+  );
+}
+
+/**
+ * The avatar and the panel it opens: who you are, what you have left and
+ * until when, the account pages, and Sign out.
+ *
+ * Its own component since 2026-10-08 so every page draws the SAME menu: the
+ * app pages through `AccountMenu`, the server-rendered marketing and legal
+ * pages through `SessionTools`. Before that the marketing pages had an older
+ * avatar link with a loose Sign out button beside it.
+ */
+export function AccountPanel({ me, plans }: { me: Me; plans: Plan[] }) {
+  const { t } = useI18n();
+  const formatDay = useDayFormat();
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  /* The panel closes on a click anywhere else and on Escape, like every
+     menu a reader has used before. */
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      if (!menuRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  /* THE AVATAR OPENS A PANEL, 2026-10-07 (modelled on AlsoAsked's).
+     Who you are, what you have left and until when, the four account pages,
+     and Sign out at the bottom - one place for all of it rather than an
+     avatar link plus a loose Sign out button beside it. Deleting the account
+     is still NOT in here: it lives on Settings, under its own heading, a long
+     way from anything routine. */
+  return (
+    <div className="acct-menu" ref={menuRef}>
+      <button
+        className="account-who acct-menu-trigger"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        title={t("auth.signedInAs", { email: me.email })}
+        aria-label={t("auth.account")}
+      >
+        <Avatar me={me} size={30} />
+      </button>
+      {open && (
+        <div className="acct-menu-panel" role="menu">
+          <div className="acct-menu-head">
+            <Avatar me={me} size={40} />
+            <div className="acct-menu-who">
+              <b>{me.name || me.email.split("@")[0]}</b>
+              <span>{me.email}</span>
+            </div>
+          </div>
+          <Link href="/account/subscription" className="acct-menu-credits" onClick={() => setOpen(false)}>
+            <span>
+              <b>{me.credits}</b> {t("strip.left")}
+            </span>
+            <em>
+              {me.subscription?.active
+                ? planName(plans, me.subscription.plan_id)
+                : t("account.noPlan")}
+              {me.subscription?.active && me.subscription.current_period_end
+                ? ` · ${formatDay(me.subscription.current_period_end)}`
+                : ""}
+            </em>
+            {me.period && (
+              <i className="acct-menu-meter">
+                <i style={{ width: `${Math.max(0, 1 - me.period.fraction) * 100}%` }} />
+              </i>
+            )}
+          </Link>
+          <nav className="acct-menu-links">
+            {[
+              ["/account", t("account.navOverview")],
+              ["/account/profile", t("account.navProfile")],
+              ["/account/subscription", t("account.navSubscription")],
+              ["/account/settings", t("account.navSettings")],
+              ["/", t("account.navSearches")],
+            ].map(([href, label]) => (
+              <Link key={href} href={href} role="menuitem" onClick={() => setOpen(false)}>
+                {label}
+                <span aria-hidden>›</span>
+              </Link>
+            ))}
+          </nav>
+          <button className="acct-menu-signout" onClick={signOut} role="menuitem">
+            {t("auth.signOut")}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

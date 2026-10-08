@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { fetchMe, signOut } from "@/lib/api";
 import { token } from "@/lib/auth";
-import type { Me } from "@/lib/types";
-import { useI18n } from "@/i18n";
+import { useMe } from "@/lib/me";
+import { AccountPanel } from "./AccountMenu";
 
 /**
  * The right-hand end of the nav on pages that are SERVER components.
@@ -31,48 +29,21 @@ import { useI18n } from "@/i18n";
  * Not `AccountMenu`, which owns the sign-in dialog and every post-sign-in
  * return path (`#token=`, `?reset=`, `?verified=1`). Those belong on the pages
  * the API actually redirects to, and mounting them here would put four
- * URL-scrubbing branches on a marketing page that never sees one.
+ * URL-scrubbing branches on a marketing page that never sees one. Since
+ * 2026-10-08 it draws the SAME avatar panel `AccountMenu` does
+ * (`AccountPanel`), so a signed-in reader sees one menu on every page.
  */
 export function SessionTools({ children }: { children: React.ReactNode }) {
-  const { t } = useI18n();
-  const [me, setMe] = useState<Me | null>(null);
-  const [known, setKnown] = useState(false);
-
-  /* Read in an EFFECT, never during render. `token()` reads localStorage,
-     which does not exist while Next prerenders these pages - so a render-time
-     read would disagree with the server's HTML and hydrate wrong. */
-  useEffect(() => {
-    if (!token()) {
-      setKnown(true);
-      return;
-    }
-    fetchMe()
-      .then(setMe)
-      .catch(() => setMe(null))
-      .finally(() => setKnown(true));
-  }, []);
+  /* The shared store, so the credit strip under the nav and this menu answer
+     from ONE `/api/me` request - and `known` is the three-state guard above. */
+  const { me, known, plans } = useMe();
 
   if (!known) return null;
   if (!me) return <>{children}</>;
 
   return (
     <div className="account">
-      <Link
-        className="account-who"
-        href="/account"
-        title={t("auth.signedInAs", { email: me.email })}
-        aria-label={t("auth.account")}
-      >
-        {me.picture_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img className="account-avatar" src={me.picture_url} alt="" />
-        ) : (
-          <i className="account-avatar account-avatar-blank" />
-        )}
-      </Link>
-      <button className="account-signout" onClick={signOut}>
-        {t("auth.signOut")}
-      </button>
+      <AccountPanel me={me} plans={plans} />
     </div>
   );
 }

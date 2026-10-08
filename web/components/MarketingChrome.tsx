@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { NavMenu } from "./NavMenu";
 import { SessionTools } from "./SessionTools";
+import { CreditStrip } from "./CreditStrip";
 import type { ChromeContent } from "@/content/marketing/chrome";
 import { marketingPath, type MarketingPage } from "@/lib/marketing";
 import { legalPath } from "@/lib/legal";
@@ -39,10 +40,12 @@ export function MarketingNav({
 }: {
   chrome: ChromeContent;
   locale: Locale;
-  /** Marked `aria-current`, so the reader can see where they are. */
-  current: MarketingPage;
+  /** Marked `aria-current`, so the reader can see where they are. Absent on
+   *  pages that are not in the menu (the legal documents). */
+  current?: MarketingPage;
 }) {
   return (
+    <>
     <nav className="mkt-nav">
       <div className="mkt-nav-inner">
         <Link href="/" className="mkt-brand">
@@ -90,6 +93,11 @@ export function MarketingNav({
         </div>
       </div>
     </nav>
+    {/* Credits and plan period, as under the landing's nav: the same strip
+        on every page a signed-in reader can reach. Draws nothing for anybody
+        else, so the server HTML a crawler reads is unchanged. */}
+    <CreditStrip />
+    </>
   );
 }
 

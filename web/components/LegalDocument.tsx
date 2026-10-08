@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { MarketingNav } from "./MarketingChrome";
+import { CHROME } from "@/content/marketing/chrome";
 import { fill, type Block, type LegalDocumentShape } from "@/content/legal/blocks";
 import { LEGAL_DOCS, legalPath, type LegalDoc } from "@/lib/legal";
 import { LOCALES, LOCALE_NAMES, LOCALE_TAGS, type Locale } from "@/i18n/types";
@@ -36,17 +38,11 @@ export function LegalDocument({
 
   return (
     <div className="mkt-page">
-      <nav className="mkt-nav">
-        <div className="mkt-nav-inner">
-          <Link href="/" className="mkt-brand">
-            <span className="mkt-brand-tile" aria-hidden>
-              A
-            </span>
-            AnswerGap
-          </Link>
-          {/* No theme toggle: theme and language are set on `/account` only. */}
-        </div>
-      </nav>
+      {/* The same nav as every marketing page since 2026-10-08, in the
+          document's language - the reason this file once built its own
+          (a client-picked locale) was solved by `MarketingNav` taking the
+          locale as a prop. */}
+      <MarketingNav chrome={CHROME[locale]} locale={locale} />
 
       {/* `lang` sits HERE rather than on <html>, which the root layout
           hard-codes to "en". `lang` is a global attribute and the nearest
