@@ -15,7 +15,7 @@ import { SITE_URL } from "@/lib/legal";
  * page is a `website`.
  */
 
-export const MARKETING_PAGES = ["pricing", "solutions", "contact"] as const;
+export const MARKETING_PAGES = ["pricing", "solutions", "ai-seo", "contact"] as const;
 export type MarketingPage = (typeof MARKETING_PAGES)[number];
 
 export function isMarketingPage(value: string): value is MarketingPage {

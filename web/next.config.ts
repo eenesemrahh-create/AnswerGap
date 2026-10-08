@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
       { source: "/pricing/en", destination: "/pricing", permanent: true },
       { source: "/solutions/en", destination: "/solutions", permanent: true },
       { source: "/contact/en", destination: "/contact", permanent: true },
+      { source: "/ai-seo/en", destination: "/ai-seo", permanent: true },
     ];
   },
 };

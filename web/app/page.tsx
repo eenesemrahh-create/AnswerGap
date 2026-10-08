@@ -278,7 +278,7 @@ export default function Landing() {
           items={[
             { label: t("market.nav.pricing"), href: marketingPath("pricing", locale) },
             { label: t("market.nav.solutions"), href: marketingPath("solutions", locale) },
-            { label: t("market.nav.aiSeo"), href: "/#built-for" },
+            { label: t("market.nav.aiSeo"), href: marketingPath("ai-seo", locale) },
             { label: t("market.nav.blog") },
             { label: t("market.nav.contact"), href: marketingPath("contact", locale) },
           ]}

@@ -221,3 +221,89 @@ export interface ContactShape {
     readonly privacy: string;
   };
 }
+
+/** A card led by one big figure: the measurement first, then what it means. */
+export interface FigureCard {
+  /** Short and visual — "32 / 32", "Above #1". Rendered large. */
+  readonly figure: string;
+  readonly title: string;
+  readonly desc: string;
+}
+
+/** One row of the illustrative question list on the AI SEO page. */
+export interface DemoRow {
+  readonly question: string;
+  readonly status: "gap" | "weak" | "covered";
+  /** The status word, as the product prints it. */
+  readonly label: string;
+  readonly matching: number;
+  readonly checked: number;
+  /** The AI Overview pill, e.g. "AI 5 · you". */
+  readonly ai: string;
+  /** True when the pill should carry the "this is you" emphasis. */
+  readonly you: boolean;
+}
+
+/**
+ * `/ai-seo`: what changed in search, what the product measures about it, what
+ * to do, and - deliberately - what it does not measure. Every figure on it is
+ * one this repository measured; see the header comment of `ai-seo/en.ts`.
+ */
+export interface AiSeoShape {
+  readonly title: string;
+  readonly description: string;
+  readonly hero: Hero;
+  readonly heroPrimary: string;
+  readonly heroSecondary: string;
+  readonly shift: {
+    readonly eyebrow: string;
+    readonly heading: string;
+    readonly lead: string;
+    readonly cards: readonly [FigureCard, FigureCard, FigureCard];
+  };
+  readonly product: {
+    readonly eyebrow: string;
+    readonly heading: string;
+    readonly lead: string;
+    readonly points: readonly [Card, Card, Card];
+    readonly demo: {
+      /** "Example" - the mock must never read as a real result. */
+      readonly badge: string;
+      readonly seed: string;
+      readonly pagesLabel: string;
+      readonly rows: readonly [DemoRow, DemoRow, DemoRow];
+      readonly note: string;
+    };
+  };
+  /** The dark band: four numbered steps. */
+  readonly playbook: {
+    readonly head: string;
+    readonly headTinted: string;
+    readonly headTail: string;
+    readonly lead: string;
+    readonly steps: readonly [Card, Card, Card, Card];
+  };
+  /** Six cells, three by two. */
+  readonly citable: {
+    readonly eyebrow: string;
+    readonly heading: string;
+    readonly lead: string;
+    readonly cards: readonly [Card, Card, Card, Card, Card, Card];
+  };
+  readonly limits: {
+    readonly eyebrow: string;
+    readonly heading: string;
+    readonly lead: string;
+    readonly items: readonly [Card, Card, Card, Card];
+  };
+  readonly faq: {
+    readonly heading: string;
+    readonly items: readonly Card[];
+  };
+  readonly cta: {
+    readonly head: string;
+    readonly lead: string;
+    readonly primary: string;
+    readonly secondary: string;
+  };
+}

@@ -9,10 +9,10 @@ import type { ChromeShape } from "../blocks";
  * reuse it for exactly that reason: a row of links that go nowhere is worse
  * than a shorter row. Every entry below resolves to a page that exists.
  *
- * `nav.aiSeo` and `nav.blog` are the two the design asks for that have no
- * page yet. They are kept in the shape, because the translations should be
- * written once rather than in a second pass, and the nav renders them as
- * plain text rather than as links until there is somewhere to go.
+ * `nav.blog` is the one the design asks for that has no page yet (`/ai-seo`
+ * landed 2026-10-08). It is kept in the shape, because the translations should
+ * be written once rather than in a second pass, and the nav renders it as
+ * plain text rather than as a link until there is somewhere to go.
  */
 export const en = {
   nav: {

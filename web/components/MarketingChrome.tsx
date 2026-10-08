@@ -66,9 +66,8 @@ export function MarketingNav({
               current: current === "pricing" },
             { label: chrome.nav.solutions, href: marketingPath("solutions", locale),
               current: current === "solutions" },
-            /* Anchors a section of the LANDING, so it needs the leading `/` -
-               from `/pricing` a bare `#built-for` would scroll to nothing. */
-            { label: chrome.nav.aiSeo, href: "/#built-for" },
+            { label: chrome.nav.aiSeo, href: marketingPath("ai-seo", locale),
+              current: current === "ai-seo" },
             { label: chrome.nav.blog },
             { label: chrome.nav.contact, href: marketingPath("contact", locale),
               current: current === "contact" },
@@ -131,6 +130,9 @@ export function MarketingFooter({
               <Link href={marketingPath("pricing", locale)}>
                 {chrome.footer.links.pricing}
               </Link>
+            </li>
+            <li>
+              <Link href={marketingPath("ai-seo", locale)}>{chrome.nav.aiSeo}</Link>
             </li>
           </ul>
         </div>
