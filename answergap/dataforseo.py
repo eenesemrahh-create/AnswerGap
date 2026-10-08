@@ -191,6 +191,11 @@ class Client:
                 )
             elif top in (40200, 40202):
                 hint = "\n  -> Insufficient balance. Add credit to the account."
+            # The same transient codes arrive at the TOP level too: a
+            # `50000 Internal Server Error` there used to fail the search
+            # outright, without the retry a task-level one gets.
+            if top in RETRYABLE_TASK_CODES:
+                raise TransientError(f"{path} -> status_code={top}: {message}")
             raise DataForSEOError(f"{path} -> status_code={top}: {message}{hint}")
 
         for task in data.get("tasks") or []:

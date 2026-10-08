@@ -513,6 +513,14 @@ untracked reference images (see "Do not touch" below).
   verdict buttons (still BELOW the evidence, still equal weight), then the AI
   Overview chips. The fetch time and a folded "Source" section come last.
 
+**Fixed 2026-10-08: a TOP-LEVEL DataForSEO `50000 Internal Server Error`
+failed the search with no retry.** `_check_status` retried the transient codes
+only when they arrived per task; the same codes at the top of the response
+raised a plain `DataForSEOError`. Both levels now raise `TransientError`
+(3 attempts, 3s/6s backoff); auth and balance errors stay final. Pinned by
+`tests/test_dataforseo_status.py`. The outage itself was DataForSEO's, and a
+failed request is not charged.
+
 **Measured and recorded in docs/HISTORY.md:** the AlsoAsked comparisons
 (breast cancer, filter coffee), and Voyage embeddings. voyage-4-large
 reached paraphrase F1 0.81 against 0.46 for lexical matching. Lexical
@@ -536,8 +544,11 @@ The "37 of 42" round that looked stuck was DataForSEO queue delay, not a bug.
    in this repo - see the header of `ai-seo/en.ts`). Its FAQ says "every
    search is one credit", which `/pricing` (item 16) still contradicts.
    Known nit: `text-transform: uppercase` under Turkish renders "OVERVİEW".
-3. Parked by the operator: the "cache search.png" feature (the operator will
-   say when); widening the first search; bulk, API, MCP and pay-as-you-go
+3. Parked by the operator: **deep search, cancelled 2026-10-08** ("ileride
+   düşünebiliriz") - stays off behind `BATCH_AND_DEEP_ENABLED`; its old
+   4-credit price came from the retired half-credit queue rule, so reviving it
+   means re-pricing under one-query-one-credit. The "cache search.png" feature
+   (the operator will say when); widening the first search; bulk, API, MCP and pay-as-you-go
    ("do nothing for now"); skipping paraphrases inside rounds with
    embeddings; tuning the drift floor.
 
