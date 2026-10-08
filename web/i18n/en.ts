@@ -118,6 +118,8 @@ export const en = {
     aiYouHint: "{site} is among the sources cited",
     aiUnknown: "unknown",
     aiUnknownHint: "Google's AI answer was loaded after the page and its sources could not be read. Unknown, not uncited.",
+    sortBy: "Sort by",
+    volumeNote: "Search volume: no data yet, because Google Ads is not connected. Until it is, branches (how many parents a question appeared under) are the interest signal.",
   },
 
   ai: {

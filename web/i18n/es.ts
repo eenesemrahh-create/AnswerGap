@@ -92,6 +92,8 @@ export const es: Messages = {
     aiYouHint: "{site} está entre las fuentes citadas",
     aiUnknown: "desconocido",
     aiUnknownHint: "La respuesta de IA de Google se carga después de la página y sus fuentes no pudieron leerse. Desconocido, no sin citas.",
+    sortBy: "Ordenar por",
+    volumeNote: "Volumen de búsqueda: aún sin datos, porque Google Ads no está conectado. Hasta entonces, las ramas (bajo cuántas preguntas apareció una pregunta) son la señal de interés.",
   },
 
   ai: {

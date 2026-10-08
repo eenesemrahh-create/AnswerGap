@@ -92,6 +92,8 @@ export const tr: Messages = {
     aiYouHint: "{site} kaynak gösterilen siteler arasında",
     aiUnknown: "bilinmiyor",
     aiUnknownHint: "Google'ın AI cevabı sayfadan sonra yükleniyor ve kaynakları okunamadı. Kaynaksız değil, bilinmiyor.",
+    sortBy: "Sırala",
+    volumeNote: "Arama hacmi: henüz veri yok, çünkü Google Ads bağlı değil. Bağlanana kadar ilgi sinyali dal sayısı (bir sorunun kaç farklı sorunun altında çıktığı).",
   },
 
   ai: {

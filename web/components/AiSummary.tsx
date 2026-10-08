@@ -76,17 +76,17 @@ export function AiSummary({
           {top.length > 0 && (
             <ol className="ai-domains">
               {top.map(([domain, count]) => (
-                <li key={domain}>
-                  <span
-                    className={
-                      site && citesSite(domain, site) ? "tag tag-you" : "tag"
-                    }
-                  >
-                    {domain}
-                  </span>
-                  <span className="muted">
-                    {t("ai.citedIn", { count, checked })}
-                  </span>
+                <li
+                  key={domain}
+                  className={site && citesSite(domain, site) ? "is-you" : undefined}
+                  title={t("ai.citedIn", { count, checked })}
+                >
+                  <i aria-hidden>{domain.replace(/^www\./, "").charAt(0).toUpperCase()}</i>
+                  <span className="ai-domain-name">{domain.replace(/^www\./, "")}</span>
+                  <b>
+                    {count}/{checked}
+                  </b>
+                  <span className="sr-only">{t("ai.citedIn", { count, checked })}</span>
                 </li>
               ))}
             </ol>

@@ -92,6 +92,8 @@ export const de: Messages = {
     aiYouHint: "{site} ist unter den zitierten Quellen",
     aiUnknown: "unbekannt",
     aiUnknownHint: "Googles KI-Antwort wird nach der Seite geladen; ihre Quellen konnten nicht gelesen werden. Unbekannt, nicht unzitiert.",
+    sortBy: "Sortieren nach",
+    volumeNote: "Suchvolumen: noch keine Daten, weil Google Ads nicht verbunden ist. Bis dahin sind die Zweige (unter wie vielen Fragen eine Frage auftauchte) das Interessensignal.",
   },
 
   ai: {

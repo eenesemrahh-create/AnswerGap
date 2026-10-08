@@ -93,6 +93,8 @@ export const fr: Messages = {
     aiYouHint: "{site} fait partie des sources citées",
     aiUnknown: "inconnu",
     aiUnknownHint: "La réponse IA de Google se charge après la page et ses sources n'ont pas pu être lues. Inconnu, pas non cité.",
+    sortBy: "Trier par",
+    volumeNote: "Volume de recherche : pas encore de données, car Google Ads n'est pas connecté. En attendant, les branches (sous combien de questions une question est apparue) servent de signal d'intérêt.",
   },
 
   ai: {
