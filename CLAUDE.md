@@ -484,6 +484,74 @@ defensible asset over time.
 
 # Current state — resume here
 
+## Session checkpoint, 2026-10-08 — START HERE
+
+Everything below is committed and pushed to `main`; the last push was
+`7b8619c`, and CI passed. The working tree is clean apart from the
+untracked reference images (see "Do not touch" below).
+
+**Done between 2026-10-06 and 2026-10-07**, in commit order:
+- Tree zoom: a 25–400% `<select>`, plus a fix for +/- buttons that could not be clicked (`.zoom`
+  needed z-index above `.tree-canvas`). Variable node heights (up to 3 lines), and a PNG
+  export with a header/footer frame and an opaque dark background.
+- Pricing model "one query, one credit", check-this-question-as-seed, and the
+  2/3-credit analysis rounds. See the next section.
+- `ccf52f7` Account area: `/account/{profile,subscription,settings}`,
+  avatar menu (`AccountMenu`), `CreditStrip` (credits + plan period on every
+  page), `web/lib/me.ts` (shared `useMe()`).
+- `0edce75` Tree screen in three layers: app bar, title band (honesty
+  labels + `AnalyseRounds`), toolbar with export at the end.
+- `eaed9cb` Member home: greeting, market pills, three stat tiles,
+  sortable/filterable `SavedAnalyses`.
+- `44761a5` A search survives navigation and reload. `web/lib/search-job.ts`
+  keeps it in memory and in localStorage; after a reload it recovers by polling
+  `/api/trees` for 3 minutes. A `pagehide` guard stops a reload being
+  recorded as "failed". Shown as a chip in `CreditStrip` and as a card on the
+  home page.
+- `7b8619c` Question detail panel (`.qd`): verdict card with one dot per
+  page first, then the single primary action, then the result rows, then the
+  verdict buttons (still BELOW the evidence, still equal weight), then the AI
+  Overview chips. The fetch time and a folded "Source" section come last.
+
+**Measured and recorded in docs/HISTORY.md:** the AlsoAsked comparisons
+(breast cancer, filter coffee), and Voyage embeddings. voyage-4-large
+reached paraphrase F1 0.81 against 0.46 for lexical matching. Lexical
+matching is still better at drift (AUC 0.91). `VOYAGE_API_KEY` is in `.env`.
+The "37 of 42" round that looked stuck was DataForSEO queue delay, not a bug.
+
+**Open, waiting for the operator to choose (do not start unprompted):**
+1. **Pricing page and landing copy for the new credit model.** This is the
+   recommended next step. `/pricing` still sells features that do not exist
+   (bulk, API, MCP, pay-as-you-go, deep search) and still shows "24-hour
+   history". See item 16 below.
+2. Design candidates still left: the Blog (no brief image exists; ask
+   whether it opens with real posts or structure first), an OG image, and
+   the phone toolbar on the tree screen (three rows, ~130px).
+   **Done 2026-10-08:** the table view in the panel's language (`GapTable`:
+   one dot per page checked, tree pills, cards on a phone; the all-"no data"
+   Volume column replaced by one note under the table); a title band that
+   folds to one line on scroll/tree interaction (`compact` in `TreeScreen`,
+   honesty labels kept); and `/ai-seo` in five languages
+   (`content/marketing/ai-seo/`, FAQPage JSON-LD, every figure on it measured
+   in this repo - see the header of `ai-seo/en.ts`). Its FAQ says "every
+   search is one credit", which `/pricing` (item 16) still contradicts.
+   Known nit: `text-transform: uppercase` under Turkish renders "OVERVİEW".
+3. Parked by the operator: the "cache search.png" feature (the operator will
+   say when); widening the first search; bulk, API, MCP and pay-as-you-go
+   ("do nothing for now"); skipping paraphrases inside rounds with
+   embeddings; tuning the drift floor.
+
+**Do not touch:** the untracked root PNGs, `yapılacak ekranlar/`,
+`telefon görünümü/` and `cache search.png` are reference briefs. Never
+`git add -A` them and never delete them. Commit and push only when the
+operator says "push et".
+
+**Local verification setup:** the api runs on :8000 (`python -m uvicorn
+api.main:app --port 8000`) and the web app on :3000 (`cd web && npm run
+dev`). UI is checked with headless Chrome over CDP, stubbing `/api/me` and
+`/api/pricing` and rewriting `/api/meta` to `accounts_enabled=true`, at
+1280 and 390 px wide, in light and dark.
+
 ## One query, one credit — 2026-10-07, read this first
 
 **The operator simplified pricing: every query is one credit, and for now that
