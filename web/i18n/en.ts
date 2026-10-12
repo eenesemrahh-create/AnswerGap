@@ -493,7 +493,7 @@ export const en = {
     hello: "Hello, {name}",
     overviewLead: "Your credits, your plan and your account at a glance.",
     newSearch: "Start a new search",
-    newSearchLead: "One search is one credit. Cached results are free.",
+    newSearchLead: "Each new search is one credit. Reopening one you already ran is free.",
     noAllowance: "No monthly allowance. A plan adds credits every month.",
     overdrawn: "Your balance is {count}: the next credits you receive cover it first.",
     changePlan: "Change plan",
@@ -531,6 +531,30 @@ export const en = {
     jobReady: "“{seed}” is ready",
   },
 
+  refresh: {
+    live: "Live",
+    title: "Search this again for the newest data (1 credit)",
+    busy: "Another search is still running",
+    confirm: "Fetch the newest data? Uses 1 credit.",
+    yes: "Update",
+    no: "Cancel",
+    running: "Updating…",
+    processing: "Processing…",
+    processingNote: "Collecting the questions and checking the results. This takes a little while.",
+    saved: "Saved",
+  },
+
+  repeat: {
+    title: "You already searched “{seed}”",
+    lead: "Open your saved result, or fetch the newest data.",
+    leadDated: "Your saved result is from {date}. Open it, or fetch the newest data.",
+    open: "Open saved result",
+    openNote: "Free · opens at once",
+    update: "Update with newest data",
+    updateNote: "1 credit · searched again",
+    cancel: "Cancel",
+  },
+
   error: {
     invalidEmail: "That does not look like an email address.",
     badCredentials: "That email and password do not match an account.",
@@ -560,6 +584,7 @@ export const en = {
       "Search is temporarily unavailable. We have been notified and are on it. No credit was used.",
     searchFailed:
       "The search could not be completed. No credit was used - please try again in a minute.",
+    alreadySearched: "You already searched this. Open it from your list, or update it.",
     badRequest: "That request cannot be run as asked.",
     /* Billing refusals. THE FIRST ONE IS OURS, NOT THE READER'S: the card is
        published and priced on the page, and nobody has finished connecting it

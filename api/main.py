@@ -501,7 +501,10 @@ def tree(slug: str, http_request: Request) -> dict:
     # Which paid analysis round comes next is drawn from this, so it travels
     # with the tree rather than costing the screen a second request. A copy:
     # `found` may be the cached object in `_LIVE`, which is not ours to grow.
-    return {**found, "rounds_used": _rounds_used(found)}
+    return {**found, "rounds_used": _rounds_used(found),
+            # When the data is from. `updated_at` is when anybody last
+            # searched it, and a cache hit moves that without new data.
+            "fetched_at": found.get("fetched_at") or live.tree_fetched_at(found)}
 
 
 def _rounds_used(found: dict) -> int:
@@ -530,7 +533,10 @@ class SearchRequest(BaseModel):
     seed: str = Field(min_length=1, max_length=200)
     location_code: int = DEFAULT_LOCATION_CODE
     language_code: str = "en"
-    # CLAUDE.md pricing: cached results are free, "refresh now" costs a credit.
+    # Per-account pricing (2026-10-12): an account's FIRST search of a seed
+    # costs a credit even when it is served from the cache; asking again for
+    # one it already has is refused with `alreadySearched` unless `refresh`,
+    # which re-buys the data from Google and costs a credit too.
     refresh: bool = False
     # CLAUDE.md operating rule: always be able to see the plan and the cost
     # before spending anything.
@@ -630,6 +636,16 @@ def search(request: SearchRequest, http_request: Request) -> dict:
     """
     _guard(request.language_code)
     who = auth.identity(http_request)
+    if not request.dry_run and not request.refresh and who.user_id and db.available():
+        # Theirs already: reopening it is free and needs no search at all, and
+        # running one would charge them for what they have. The web app asks
+        # "open it, or update it for a credit?" on this answer.
+        slug = live.tree_slug(request.seed.strip(), request.location_code,
+                              request.language_code)
+        searched = db.user_searched_at(slug, who.user_id)
+        if searched:
+            raise HTTPException(409, {"code": "alreadySearched", "slug": slug,
+                                      "searched_at": searched.isoformat()})
     if not request.dry_run:
         auth.check(who, action="search", units=1)
     result = _run(
@@ -648,15 +664,17 @@ def search(request: SearchRequest, http_request: Request) -> dict:
     )
     if not result.get("dry_run"):
         _LIVE[result["slug"]] = result
-        # Charged on what was ACTUALLY bought. A cache hit reports zero billable
-        # calls and therefore costs no credit - CLAUDE.md's pricing rule falling
-        # out of the measurement rather than being asserted separately.
+        # ONE CREDIT PER SEARCH, cache hit or not (2026-10-12). This used to be
+        # "charged on what was actually bought", which made a seed somebody
+        # else had searched free for everybody after them. `billable_calls`
+        # still records what reached DataForSEO, for Reports.
         auth.record(
             who,
             action="search",
             billable_calls=result.get("billable_calls", 0),
             spend=result.get("estimated_spend", 0.0),
             tree_slug=result.get("slug"),
+            credits=1,
         )
     return result
 
@@ -752,6 +770,16 @@ def check_question_endpoint(
         raise HTTPException(404, f"No question: {question_slug}")
 
     auth.check(who, action="search", units=1)
+    # Free only if this account already searched that question as a seed; a
+    # new one is a search like any other - one credit, cache hit or not.
+    node = next(n for n in found["nodes"] if n.get("slug") == question_slug)
+    owned_before = bool(
+        who.user_id and db.available() and db.user_searched_at(
+            live.tree_slug(node["question"].strip(), found["location_code"],
+                           found["language_code"]),
+            who.user_id,
+        )
+    )
     try:
         result = _run(
             lambda: live.check_question(
@@ -771,6 +799,7 @@ def check_question_endpoint(
         spend=result.get("estimated_spend", 0.0),
         tree_slug=result["slug"],
         question_slug=question_slug,
+        credits=0 if owned_before else 1,
     )
     return {
         "slug": result["slug"],

@@ -82,8 +82,12 @@ export interface Tree extends TreeSummary {
   /** Requests actually billed by the call that produced this tree. */
   billable_calls?: number;
   estimated_spend?: number;
-  /** True when the crawl was served from cache and cost nothing. */
+  /** True when the crawl was served from cache (it still cost a credit if it
+   *  was this account's first search of the seed). */
   from_cache?: boolean;
+  /** When the seed's data was fetched from Google. `updated_at` is when
+   *  anybody last searched it, which a cache hit moves without new data. */
+  fetched_at?: string | null;
 }
 
 /** `POST /api/search` with `dry_run: true` — the plan and its price, no data. */

@@ -432,7 +432,7 @@ export const fr: Messages = {
     hello: "Bonjour, {name}",
     overviewLead: "Vos crédits, votre offre et votre compte en un coup d'œil.",
     newSearch: "Lancer une nouvelle recherche",
-    newSearchLead: "Une recherche coûte un crédit. Les résultats en cache sont gratuits.",
+    newSearchLead: "Chaque nouvelle recherche coûte un crédit. Rouvrir une recherche déjà faite est gratuit.",
     noAllowance: "Pas d'allocation mensuelle. Une offre ajoute des crédits chaque mois.",
     overdrawn: "Votre solde est de {count} : les prochains crédits le couvrent d'abord.",
     changePlan: "Changer d'offre",
@@ -468,6 +468,30 @@ export const fr: Messages = {
     jobReady: "« {seed} » est prête",
   },
 
+  refresh: {
+    live: "Live",
+    title: "Relancer la recherche pour les données les plus récentes (1 crédit)",
+    busy: "Une autre recherche est encore en cours",
+    confirm: "Récupérer les données les plus récentes ? Utilise 1 crédit.",
+    yes: "Mettre à jour",
+    no: "Annuler",
+    running: "Mise à jour…",
+    processing: "Traitement en cours…",
+    processingNote: "Collecte des questions et vérification des résultats. Cela prend un peu de temps.",
+    saved: "Enregistré",
+  },
+
+  repeat: {
+    title: "Vous avez déjà recherché « {seed} »",
+    lead: "Ouvrez votre résultat enregistré ou récupérez les données les plus récentes.",
+    leadDated: "Votre résultat enregistré date du {date}. Ouvrez-le ou récupérez les données les plus récentes.",
+    open: "Ouvrir le résultat enregistré",
+    openNote: "Gratuit · s’ouvre immédiatement",
+    update: "Mettre à jour avec les données récentes",
+    updateNote: "1 crédit · nouvelle recherche",
+    cancel: "Annuler",
+  },
+
   error: {
     invalidEmail: "Cela ne ressemble pas à une adresse e-mail.",
     badCredentials:
@@ -498,6 +522,7 @@ export const fr: Messages = {
       "La recherche est temporairement indisponible. Nous avons été prévenus et nous nous en occupons. Aucun crédit n’a été utilisé.",
     searchFailed:
       "La recherche n’a pas pu aboutir. Aucun crédit n’a été utilisé - réessayez dans une minute.",
+    alreadySearched: "Vous avez déjà fait cette recherche. Ouvrez-la depuis votre liste ou mettez-la à jour.",
     badRequest: "Cette requête ne peut pas être exécutée telle quelle.",
     planNotPurchasable:
       "Cette offre n'est pas encore achetable — nous finalisons sa " +

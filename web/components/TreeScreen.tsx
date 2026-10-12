@@ -32,6 +32,8 @@ import { AccountMenu } from "./AccountMenu";
 import { CreditStrip } from "./CreditStrip";
 import { DevPanel } from "./DevPanel";
 import { CrawlDiff } from "./CrawlDiff";
+import { RefreshSearch } from "./RefreshSearch";
+import { clearSearch } from "@/lib/search-job";
 
 type View = "tree" | "table" | "seeds";
 
@@ -322,7 +324,25 @@ export function TreeScreen({ slug }: { slug: string }) {
           <div className="tree-meta">
             <span>{t("landing.questionCount", { count: questionCount })}</span>
             <span>{tree.language_name}</span>
-            <span>{t("detail.updated", { date: formatDate(tree.updated_at) })}</span>
+            {/* The date the DATA is from. `updated_at` moves whenever anybody
+                searches the seed, cache hit or not, so it is only the fallback. */}
+            <span>
+              {t("detail.updated", { date: formatDate(tree.fetched_at ?? tree.updated_at) })}
+            </span>
+            {tree.source === "live" && tree.location_code != null && (
+              <span className="tree-meta-live">
+                <RefreshSearch
+                  seed={tree.seed}
+                  location={tree.location_code}
+                  language={tree.language_code}
+                  onDone={(done) => {
+                    // Same seed, same market, so the same slug: reload in place.
+                    clearSearch();
+                    if (done === slug) void reload();
+                  }}
+                />
+              </span>
+            )}
           </div>
           <div className="tree-meta tree-meta-honest">
             {/* CLAUDE.md accuracy rule: never claim "live data". A live crawl
@@ -481,7 +501,7 @@ export function TreeScreen({ slug }: { slug: string }) {
                 subtitle={[
                   t("landing.questionCount", { count: questionCount }),
                   tree.language_name,
-                  t("detail.updated", { date: formatDate(tree.updated_at) }),
+                  t("detail.updated", { date: formatDate(tree.fetched_at ?? tree.updated_at) }),
                 ].join(" · ")}
                 exportRef={treeRef}
               />

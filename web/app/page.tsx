@@ -31,6 +31,7 @@ import { useI18n } from "@/i18n";
 import { AccountMenu } from "@/components/AccountMenu";
 import { CreditStrip } from "@/components/CreditStrip";
 import { SavedAnalyses } from "@/components/SavedAnalyses";
+import { RepeatSearchDialog } from "@/components/RepeatSearchDialog";
 import { useMe } from "@/lib/me";
 import { clearSearch, jobError, startSearch, useSearchJob } from "@/lib/search-job";
 import { NavMenu } from "@/components/NavMenu";
@@ -65,6 +66,13 @@ export default function Landing() {
   // `null` while loading, `[]` when no admin has set plans (falls back to
   // i18n defaults below), non-empty array when the admin has saved something.
   const [plans, setPlans] = useState<Plan[] | null>(null);
+  /* A search the reader already has: asked "open it free, or update it for a
+   * credit?" instead of being run again. */
+  const [repeat, setRepeat] = useState<{
+    seed: string;
+    slug: string;
+    savedAt: string | null;
+  } | null>(null);
 
   /* THE SEARCH IN FLIGHT LIVES OUTSIDE THIS PAGE (`lib/search-job.ts`), so
    * leaving for another page and coming back shows it still running - or
@@ -234,10 +242,47 @@ export default function Landing() {
       return;
     }
 
+    /* Already theirs: ask rather than run it. Checked here against the list
+     * the page already has, and again by the server (`alreadySearched`) for
+     * a list that is stale or not loaded yet. Reopening needs no search and
+     * no wait; only a NEW search goes through the processing step. */
+    const mine = trees?.find(
+      (tree) =>
+        tree.seed.trim().toLocaleLowerCase() === term.toLocaleLowerCase() &&
+        tree.language_code === languageCode &&
+        tree.location_code === locationCode
+    );
+    if (mine) {
+      setRepeat({ seed: term, slug: mine.slug, savedAt: mine.updated_at });
+      return;
+    }
+
     /* Routing to the tree happens in the effect above, not here: this
      * await outlives the page if the reader navigates away, and pushing a
      * route from a page that is gone would drag them back to it. */
-    await startSearch({ seed: term, location: locationCode, language: languageCode });
+    try {
+      await startSearch({ seed: term, location: locationCode, language: languageCode });
+    } catch (e) {
+      if (e instanceof ApiError && e.kind === "alreadySearched") {
+        setRepeat({
+          seed: term,
+          slug: String(e.values.slug),
+          savedAt: e.values.searched_at ? String(e.values.searched_at) : null,
+        });
+      }
+    }
+  };
+
+  const updateRepeat = () => {
+    if (!repeat) return;
+    const { seed: term } = repeat;
+    setRepeat(null);
+    void startSearch({
+      seed: term,
+      location: locationCode,
+      language: languageCode,
+      refresh: true,
+    }).catch(() => {});
   };
 
   const rememberMarket = (location: number, language: string) => {
@@ -587,15 +632,30 @@ export default function Landing() {
               </Link>
             )}
           </section>
-          <SavedAnalyses trees={trees} />
+          <SavedAnalyses trees={trees} job={job} />
         </>
+      )}
+      {/* A first-ever search still gets its "processing" card. */}
+      {trees && trees.length === 0 && busy && <SavedAnalyses trees={[]} job={job} />}
+      {repeat && (
+        <RepeatSearchDialog
+          seed={repeat.seed}
+          savedAt={repeat.savedAt}
+          onOpen={() => {
+            const slug = repeat.slug;
+            setRepeat(null);
+            router.push(`/tree/${encodeURIComponent(slug)}`);
+          }}
+          onUpdate={updateRepeat}
+          onCancel={() => setRepeat(null)}
+        />
       )}
 
       {/* An empty state is only meaningful when we know the API answered but
           returned no rows - `trees` is `null` while loading. And only for
           somebody who can search: a signed-out visitor's list is always
           empty, and "you have no analyses yet" is not a pitch. */}
-      {trees && trees.length === 0 && showSearch && (
+      {trees && trees.length === 0 && showSearch && !busy && (
         <section className="mkt-saved">
           <div className="empty-state" style={{ maxWidth: 640, margin: "0 auto" }}>
             <b>{t("landing.emptyTitle")}</b>

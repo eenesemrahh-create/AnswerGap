@@ -3,7 +3,9 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { STATUSES, STATUS_COLOR, type Status, type TreeSummary } from "@/lib/types";
+import type { SearchJob } from "@/lib/search-job";
 import { useDateFormat, useI18n } from "@/i18n";
+import { RefreshSearch } from "./RefreshSearch";
 
 type Sort = "newest" | "questions" | "gaps";
 
@@ -25,7 +27,15 @@ export function questionsIn(tree: TreeSummary): number {
  * whole claim; the other three statuses sit beside it, smaller. Counts are
  * over questions, never nodes.
  */
-export function SavedAnalyses({ trees }: { trees: TreeSummary[] }) {
+export function SavedAnalyses({
+  trees,
+  job = null,
+}: {
+  trees: TreeSummary[];
+  /** The search in flight, drawn as a "processing" card ahead of the list -
+   *  the way AlsoAsked shows "In progress" in its history until it is ready. */
+  job?: SearchJob | null;
+}) {
   const { t } = useI18n();
   const formatDate = useDateFormat();
   const [query, setQuery] = useState("");
@@ -44,6 +54,7 @@ export function SavedAnalyses({ trees }: { trees: TreeSummary[] }) {
     );
     return list;
   }, [trees, query, sort]);
+  const pending = job && (job.status === "running" || job.status === "recovering") ? job : null;
 
   return (
     <section className="home-analyses">
@@ -73,10 +84,21 @@ export function SavedAnalyses({ trees }: { trees: TreeSummary[] }) {
         </div>
       </div>
 
-      {shown.length === 0 ? (
+      {shown.length === 0 && !pending ? (
         <p className="home-nomatch">{t("home.noMatch", { query: query.trim() })}</p>
       ) : (
         <div className="home-grid">
+          {pending && (
+            <div className="home-card home-card-pending" role="status">
+              <div className="home-card-top">
+                <b className="home-card-title">{pending.seed}</b>
+              </div>
+              <span className="home-card-processing">
+                <i className="refresh-dot" aria-hidden /> {t("refresh.processing")}
+              </span>
+              <span className="home-muted home-card-meta">{t("refresh.processingNote")}</span>
+            </div>
+          )}
           {shown.map((tree) => (
             <AnalysisCard key={tree.slug} tree={tree} updated={formatDate(tree.updated_at)} />
           ))}
@@ -95,9 +117,14 @@ function AnalysisCard({ tree, updated }: { tree: TreeSummary; updated: string })
      which is exactly the claim CLAUDE.md forbids: unknown is not answered. */
   const checked = total - (tree.status_counts.no_data ?? 0);
   return (
-    <Link href={`/tree/${tree.slug}`} className="home-card">
+    <div className="home-card">
       <div className="home-card-top">
-        <b className="home-card-title">{tree.seed}</b>
+        {/* The title link is stretched over the whole card (CSS ::after), so
+            the card still opens with one click while the Live button inside it
+            stays a separate control - a button nested in a link is invalid. */}
+        <Link href={`/tree/${tree.slug}`} className="home-card-title home-card-link">
+          {tree.seed}
+        </Link>
         <span className="home-card-arrow" aria-hidden>→</span>
       </div>
       <span className="home-muted home-card-meta">
@@ -122,7 +149,19 @@ function AnalysisCard({ tree, updated }: { tree: TreeSummary; updated: string })
           ))}
         </span>
       </div>
-    </Link>
+      {tree.location_code != null && (
+        <div className="home-card-actions">
+          <span className="home-card-saved">
+            <i aria-hidden /> {t("refresh.saved")}
+          </span>
+          <RefreshSearch
+            seed={tree.seed}
+            location={tree.location_code}
+            language={tree.language_code}
+          />
+        </div>
+      )}
+    </div>
   );
 }
 

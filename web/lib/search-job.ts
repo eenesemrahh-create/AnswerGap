@@ -45,6 +45,12 @@ const KEY = "answergap.search";
  *  takes 30-60 s; three minutes covers a slow one with room to spare. */
 const RECOVERY_WINDOW_MS = 3 * 60 * 1000;
 const POLL_MS = 5000;
+/** A new search is shown as "processing" for at least this long, even when
+ *  its answer came straight from the cache (operator's call, 2026-10-12):
+ *  an uncached search takes 30-60 s, and a product that sometimes answers
+ *  instantly teaches people to expect it. Reopening a saved search never
+ *  comes through here, so it is never delayed. */
+export const MIN_PROCESSING_MS = 15000;
 
 let job: SearchJob | null = null;
 let loaded = false;
@@ -139,28 +145,42 @@ async function recover() {
   }
 }
 
-/** Start a search. Resolves with the tree's slug, or null if it failed. */
+/** Start a search. Resolves with the tree's slug, or null if it failed.
+ *
+ * THROWS `alreadySearched` instead of recording a failure: that is not an
+ * error but a question for the reader ("open it free, or update it for a
+ * credit?"), so the caller catches it and asks. `refresh` is that update. */
 export async function startSearch(input: {
   seed: string;
   location: number;
   language: string;
+  refresh?: boolean;
 }): Promise<string | null> {
   load();
-  set({ ...input, startedAt: Date.now(), status: "running" });
+  const { refresh, ...where } = input;
+  const startedAt = Date.now();
+  set({ ...where, startedAt, status: "running" });
   try {
     const result = await runSearch({
       seed: input.seed,
       location_code: input.location,
       language_code: input.language,
+      refresh: refresh || undefined,
     });
     if (isDryRun(result)) {
       set(null);
       return null;
     }
+    const wait = startedAt + MIN_PROCESSING_MS - Date.now();
+    if (wait > 0) await new Promise((r) => setTimeout(r, wait));
     set({ ...job!, status: "done", slug: result.slug, finishedAt: Date.now() });
     return result.slug;
   } catch (e) {
     if (unloading) return null; // see `unloading` above
+    if (e instanceof ApiError && e.kind === "alreadySearched") {
+      set(null);
+      throw e;
+    }
     const err = e instanceof ApiError ? e : new ApiError("http", {});
     set({
       ...job!,

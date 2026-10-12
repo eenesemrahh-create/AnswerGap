@@ -423,7 +423,7 @@ export const tr: Messages = {
     hello: "Merhaba, {name}",
     overviewLead: "Kredilerin, planın ve hesabın tek bakışta.",
     newSearch: "Yeni bir arama başlat",
-    newSearchLead: "Bir arama bir kredi. Önbellekteki sonuçlar ücretsiz.",
+    newSearchLead: "Her yeni arama bir kredi. Daha önce yaptığın bir aramayı açmak ücretsiz.",
     noAllowance: "Aylık kredi hakkın yok. Bir plan her ay kredi ekler.",
     overdrawn: "Bakiyen {count}: bir sonraki gelen krediler önce bunu kapatır.",
     changePlan: "Planı değiştir",
@@ -459,6 +459,30 @@ export const tr: Messages = {
     jobReady: "“{seed}” hazır",
   },
 
+  refresh: {
+    live: "Live",
+    title: "En güncel veriler için tekrar ara (1 kredi)",
+    busy: "Başka bir arama hâlâ sürüyor",
+    confirm: "En güncel veriler getirilsin mi? 1 kredi kullanılır.",
+    yes: "Güncelle",
+    no: "Vazgeç",
+    running: "Güncelleniyor…",
+    processing: "İşleniyor…",
+    processingNote: "Sorular toplanıyor ve sonuçlar kontrol ediliyor. Bu biraz sürer.",
+    saved: "Kayıtlı",
+  },
+
+  repeat: {
+    title: "“{seed}” aramasını zaten yaptın",
+    lead: "Kayıtlı sonucunu aç ya da en güncel verileri getir.",
+    leadDated: "Kayıtlı sonucun {date} tarihli. Açabilir ya da en güncel verileri getirebilirsin.",
+    open: "Kayıtlı sonucu aç",
+    openNote: "Ücretsiz · hemen açılır",
+    update: "En güncel verilerle güncelle",
+    updateNote: "1 kredi · yeniden aranır",
+    cancel: "Vazgeç",
+  },
+
   error: {
     invalidEmail: "Bu bir e-posta adresine benzemiyor.",
     badCredentials: "Bu e-posta ve parola bir hesapla eşleşmiyor.",
@@ -486,6 +510,7 @@ export const tr: Messages = {
       "Arama geçici olarak kullanılamıyor. Haberdar edildik, ilgileniyoruz. Krediniz düşülmedi.",
     searchFailed:
       "Arama tamamlanamadı. Krediniz düşülmedi - lütfen bir dakika sonra tekrar deneyin.",
+    alreadySearched: "Bu aramayı zaten yaptın. Listenden açabilir ya da güncelleyebilirsin.",
     badRequest: "Bu istek, istendiği şekliyle çalıştırılamaz.",
     planNotPurchasable:
       "Bu plan henüz satın alınamıyor — ödeme kurulumunu tamamlamadık. " +

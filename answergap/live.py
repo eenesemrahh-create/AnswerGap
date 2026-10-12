@@ -94,7 +94,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from . import db, embeddings, languages, paths
@@ -925,7 +925,7 @@ def crawl(
         raise ValueError("empty seed")
 
     key = cache_key(seed, location_code, language_code)
-    if refresh:
+    if refresh or _stale(key):
         _invalidate(key)
 
     client = _client(max_requests=1, dry_run=dry_run)
@@ -975,6 +975,8 @@ def crawl(
     # Not `cache_hits > 0`: a stale hit that was then re-bought is not a
     # result from the cache.
     tree["from_cache"] = client.billable_calls == 0
+    # When the DATA is from, which a cache hit does not move.
+    tree["fetched_at"] = tree_fetched_at(tree)
     # OWNERSHIP, not attribution - "list this user's searches" and "let them
     # back into their own tree by slug". Set here, on the insert, and never on
     # the scoring path: live.score updates an EXISTING crawl row, so writing
@@ -1020,6 +1022,48 @@ _SCORE_FIELDS = (
     "ai_state",
     "updated_at",
 )
+
+
+# A cached seed response older than this is bought again rather than served
+# (operator's rule, 2026-10-12): a month-old question set is no longer what
+# Google shows. Applies to a NEW search; reopening one's own saved search
+# never reaches `crawl` at all.
+CACHE_MAX_AGE_DAYS = 30
+
+
+def _stale(key: str) -> bool:
+    """Is the cached response for `key` older than CACHE_MAX_AGE_DAYS?"""
+    fetched = fetched_at(key)
+    if fetched is None:
+        return False
+    return datetime.now(timezone.utc) - fetched > timedelta(days=CACHE_MAX_AGE_DAYS)
+
+
+def fetched_at(key: str):
+    """When the response cached under `key` was bought (aware datetime), or None.
+
+    Postgres keeps `serp_snapshot.fetched_at`; the filesystem backend only has
+    the file's modification time, which is when it was written - the same
+    thing for a file nothing ever rewrites in place.
+    """
+    if db.available():
+        try:
+            return db.snapshot_fetched_at(key)
+        except Exception:  # noqa: BLE001 - a missing date must not fail a search
+            return None
+    path = SERP_DIR / f"{key}.json"
+    if not path.exists():
+        return None
+    return datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
+
+
+def tree_fetched_at(tree: dict) -> str | None:
+    """The date a tree's seed response was bought, as ISO text, or None."""
+    try:
+        when = fetched_at(cache_key(tree["seed"], tree["location_code"], tree["language_code"]))
+    except Exception:  # noqa: BLE001
+        return None
+    return when.isoformat() if when else None
 
 
 def check_question(

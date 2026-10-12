@@ -75,7 +75,10 @@ export type ErrorKind =
   // --- the search provider ----------------------------------------------
   // Sent as codes so the provider's own words never reach a customer.
   | "searchUnavailable"
-  | "searchFailed";
+  | "searchFailed"
+  // This account already ran this search: open it free, or update it for a
+  // credit. Carries `slug` and `searched_at` in the error's values.
+  | "alreadySearched";
 
 export class ApiError extends Error {
   constructor(
@@ -142,6 +145,7 @@ const CODES: Record<string, ErrorKind> = {
   roundInFlight: "roundInFlight",
   searchUnavailable: "searchUnavailable",
   searchFailed: "searchFailed",
+  alreadySearched: "alreadySearched",
 };
 
 function kindFor(status: number, code?: string): ErrorKind {
@@ -165,16 +169,25 @@ function kindFor(status: number, code?: string): ErrorKind {
  */
 async function parseError(
   response: Response
-): Promise<{ detail?: string; code?: string }> {
+): Promise<{ detail?: string; code?: string; extra?: Record<string, string | number> }> {
   try {
     const body = await response.json();
     const detail = (body as { detail?: unknown }).detail;
     if (typeof detail === "string") return { detail };
     if (detail && typeof detail === "object") {
-      const d = detail as { code?: unknown; message?: unknown };
+      const d = detail as Record<string, unknown>;
+      // Plain string/number fields beside the code (e.g. `alreadySearched`'s
+      // slug and date) travel on as the error's values.
+      const extra: Record<string, string | number> = {};
+      for (const [k, v] of Object.entries(d)) {
+        if (k !== "code" && k !== "message" && (typeof v === "string" || typeof v === "number")) {
+          extra[k] = v;
+        }
+      }
       return {
         code: typeof d.code === "string" ? d.code : undefined,
         detail: typeof d.message === "string" ? d.message : undefined,
+        extra,
       };
     }
     return {};
@@ -204,10 +217,10 @@ async function get<T>(path: string): Promise<T> {
     throw new ApiError("unreachable", { url: BASE });
   }
   if (!response.ok) {
-    const { detail, code } = await parseError(response);
+    const { detail, code, extra } = await parseError(response);
     throw new ApiError(
       kindFor(response.status, code),
-      { status: response.status, statusText: response.statusText, path },
+      { ...extra, status: response.status, statusText: response.statusText, path },
       detail
     );
   }
@@ -227,10 +240,10 @@ async function post<T>(path: string, payload?: unknown): Promise<T> {
     throw new ApiError("unreachable", { url: BASE });
   }
   if (!response.ok) {
-    const { detail, code } = await parseError(response);
+    const { detail, code, extra } = await parseError(response);
     throw new ApiError(
       kindFor(response.status, code),
-      { status: response.status, statusText: response.statusText, path },
+      { ...extra, status: response.status, statusText: response.statusText, path },
       detail
     );
   }
@@ -241,7 +254,8 @@ export interface SearchInput {
   seed: string;
   location_code: number;
   language_code: string;
-  /** Cached crawls are free; a refresh re-fetches and costs a credit. */
+  /** Re-buy the data from Google: one credit. Without it, a search this
+   *  account already ran is refused with `alreadySearched`. */
   refresh?: boolean;
   /** Returns the request plan and its price without spending anything. */
   dry_run?: boolean;

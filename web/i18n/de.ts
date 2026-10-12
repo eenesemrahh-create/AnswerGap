@@ -428,7 +428,7 @@ export const de: Messages = {
     hello: "Hallo, {name}",
     overviewLead: "Ihre Credits, Ihr Tarif und Ihr Konto auf einen Blick.",
     newSearch: "Neue Suche starten",
-    newSearchLead: "Eine Suche kostet einen Credit. Zwischengespeicherte Ergebnisse sind kostenlos.",
+    newSearchLead: "Jede neue Suche kostet einen Credit. Eine bereits durchgeführte Suche erneut zu öffnen ist kostenlos.",
     noAllowance: "Kein monatliches Kontingent. Ein Tarif fügt jeden Monat Credits hinzu.",
     overdrawn: "Ihr Guthaben ist {count}: Die nächsten Credits gleichen das zuerst aus.",
     changePlan: "Tarif wechseln",
@@ -464,6 +464,30 @@ export const de: Messages = {
     jobReady: "„{seed}“ ist fertig",
   },
 
+  refresh: {
+    live: "Live",
+    title: "Erneut suchen für die neuesten Daten (1 Credit)",
+    busy: "Eine andere Suche läuft noch",
+    confirm: "Neueste Daten abrufen? Kostet 1 Credit.",
+    yes: "Aktualisieren",
+    no: "Abbrechen",
+    running: "Wird aktualisiert…",
+    processing: "Wird verarbeitet…",
+    processingNote: "Die Fragen werden gesammelt und die Ergebnisse geprüft. Das dauert einen Moment.",
+    saved: "Gespeichert",
+  },
+
+  repeat: {
+    title: "Sie haben „{seed}“ bereits gesucht",
+    lead: "Öffnen Sie Ihr gespeichertes Ergebnis oder rufen Sie die neuesten Daten ab.",
+    leadDated: "Ihr gespeichertes Ergebnis ist vom {date}. Öffnen Sie es oder rufen Sie die neuesten Daten ab.",
+    open: "Gespeichertes Ergebnis öffnen",
+    openNote: "Kostenlos · öffnet sofort",
+    update: "Mit neuesten Daten aktualisieren",
+    updateNote: "1 Credit · wird erneut gesucht",
+    cancel: "Abbrechen",
+  },
+
   error: {
     invalidEmail: "Das sieht nicht nach einer E-Mail-Adresse aus.",
     badCredentials: "E-Mail und Passwort passen zu keinem Konto.",
@@ -492,6 +516,7 @@ export const de: Messages = {
       "Die Suche ist vorübergehend nicht verfügbar. Wir wurden benachrichtigt und kümmern uns darum. Es wurde kein Credit verbraucht.",
     searchFailed:
       "Die Suche konnte nicht abgeschlossen werden. Es wurde kein Credit verbraucht - bitte versuchen Sie es in einer Minute erneut.",
+    alreadySearched: "Diese Suche haben Sie bereits durchgeführt. Öffnen Sie sie in Ihrer Liste oder aktualisieren Sie sie.",
     badRequest: "Diese Anfrage kann so nicht ausgeführt werden.",
     planNotPurchasable:
       "Dieser Tarif kann noch nicht gekauft werden — wir richten die Zahlung " +

@@ -1728,6 +1728,41 @@ def snapshot_get(cache_key: str) -> dict | None:
         return unpack(row["payload_gz"]) if row else None
 
 
+def snapshot_fetched_at(cache_key: str):
+    """When the cached response for this key was bought, or None if uncached.
+
+    The date the DATA is from, as opposed to when somebody last searched -
+    every search writes a crawl row, cache hit or not, so `crawl.created_at`
+    says "searched", never "fetched from Google".
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT fetched_at FROM serp_snapshot WHERE cache_key = %s",
+            (cache_key,),
+        )
+        row = cur.fetchone()
+        return row["fetched_at"] if row else None
+
+
+def user_searched_at(slug: str, user_id: int):
+    """When this account last searched this tree, or None if it never has.
+
+    The question behind per-account pricing (2026-10-12): a seed somebody
+    ELSE searched is a new search for this account and costs a credit; one
+    this account already searched is theirs to reopen for free.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT max(created_at) AS at FROM crawl
+             WHERE slug = %s AND user_id = %s
+            """,
+            (slug, user_id),
+        )
+        row = cur.fetchone()
+        return row["at"] if row else None
+
+
 def snapshot_put(
     cache_key: str,
     payload: dict,

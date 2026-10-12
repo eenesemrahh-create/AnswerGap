@@ -465,7 +465,17 @@ defensible asset over time.
 
 ## Pricing principles
 
-- Cached results are free; "refresh now" costs 1 credit.
+- ~~Cached results are free.~~ **REVERSED 2026-10-12 by the operator: credits
+  are per ACCOUNT.** An account's first search of a seed costs 1 credit even
+  when served from the cache (another user's search no longer makes it free).
+  Searching it again is refused with `alreadySearched`; the web asks "open
+  saved (free, instant)" or "update (1 credit, `refresh`)". A "Live" button on
+  each saved card and next to the tree's date does the same update. A cached
+  seed response older than 30 days (`live.CACHE_MAX_AGE_DAYS`) is bought
+  again. A NEW search shows as "processing" for at least 15 s
+  (`MIN_PROCESSING_MS`) even from the cache; reopening is never delayed.
+  The tree's date is now `fetched_at` (when the data came from Google), not
+  the last crawl row. `billable_calls` still counts real provider requests.
 - Depth is plan-bound.
 - Every plan can buy extra credits — gating that behind an upgrade drives churn.
 - Do not restrict search history (AlsoAsked's 24-hour lock is bad practice).

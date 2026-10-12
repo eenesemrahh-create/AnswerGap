@@ -429,7 +429,7 @@ export const es: Messages = {
     hello: "Hola, {name}",
     overviewLead: "Tus créditos, tu plan y tu cuenta de un vistazo.",
     newSearch: "Empezar una búsqueda nueva",
-    newSearchLead: "Una búsqueda es un crédito. Los resultados en caché son gratis.",
+    newSearchLead: "Cada búsqueda nueva es un crédito. Volver a abrir una que ya hiciste es gratis.",
     noAllowance: "Sin asignación mensual. Un plan añade créditos cada mes.",
     overdrawn: "Tu saldo es {count}: los próximos créditos lo cubren primero.",
     changePlan: "Cambiar de plan",
@@ -465,6 +465,30 @@ export const es: Messages = {
     jobReady: "«{seed}» está lista",
   },
 
+  refresh: {
+    live: "Live",
+    title: "Buscar de nuevo para obtener los datos más recientes (1 crédito)",
+    busy: "Otra búsqueda sigue en curso",
+    confirm: "¿Obtener los datos más recientes? Usa 1 crédito.",
+    yes: "Actualizar",
+    no: "Cancelar",
+    running: "Actualizando…",
+    processing: "Procesando…",
+    processingNote: "Recopilando las preguntas y revisando los resultados. Tarda un poco.",
+    saved: "Guardado",
+  },
+
+  repeat: {
+    title: "Ya buscaste “{seed}”",
+    lead: "Abre tu resultado guardado u obtén los datos más recientes.",
+    leadDated: "Tu resultado guardado es del {date}. Ábrelo u obtén los datos más recientes.",
+    open: "Abrir resultado guardado",
+    openNote: "Gratis · se abre al instante",
+    update: "Actualizar con los datos más recientes",
+    updateNote: "1 crédito · se busca de nuevo",
+    cancel: "Cancelar",
+  },
+
   error: {
     invalidEmail: "Eso no parece una dirección de correo.",
     badCredentials:
@@ -494,6 +518,7 @@ export const es: Messages = {
       "La búsqueda no está disponible temporalmente. Ya lo sabemos y estamos en ello. No se ha usado ningún crédito.",
     searchFailed:
       "No se pudo completar la búsqueda. No se ha usado ningún crédito; vuelve a intentarlo en un minuto.",
+    alreadySearched: "Ya hiciste esta búsqueda. Ábrela desde tu lista o actualízala.",
     badRequest: "Esa petición no se puede ejecutar tal como se ha pedido.",
     planNotPurchasable:
       "Este plan todavía no se puede comprar — aún estamos terminando de " +

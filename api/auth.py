@@ -223,8 +223,16 @@ def record(
     spend: float,
     tree_slug: str | None = None,
     question_slug: str | None = None,
+    credits: int | None = None,
 ) -> None:
-    """Write down what was actually bought. Charges only for real requests."""
+    """Write down what was done, and charge for it.
+
+    `credits` overrides the price drawn from `billable_calls`. A search is
+    priced PER ACCOUNT, not per provider request (2026-10-12): one credit for
+    an account's first search of a seed whether or not the answer came from
+    the cache. `billable_calls` stays the count of requests that really
+    reached DataForSEO, so Reports still tells cost from revenue.
+    """
     if not accounts_enabled():
         return
     # Priced BY ACTION, because the queues cost us different money: a batch
@@ -232,7 +240,8 @@ def record(
     # on Live at $0.0020. `credit_cost` is where that 3.3x turns into half a
     # credit; `billable_calls` is still the count of requests that really
     # reached DataForSEO, so a cache hit is still free.
-    credits = gate.credit_cost(action, billable_calls)
+    if credits is None:
+        credits = gate.credit_cost(action, billable_calls)
     try:
         db.record_usage(
             user_id=who.user_id,
