@@ -126,7 +126,10 @@ export const post = <T,>(path: string, body?: unknown) =>
 
 /** Money, always at four decimals: a request costs $0.0026 and two decimals
  *  would round the entire product's unit economics to zero. */
-export const money = (value: number) => `$${(value ?? 0).toFixed(4)}`;
+export const money = (value: number) =>
+  // Number(), as `usd` below does: a NUMERIC the api forgot to cast arrives
+  // as "0.0026", and "0".toFixed() took the whole Users page down.
+  `$${Number(value ?? 0).toFixed(4)}`;
 
 export const when = (iso: string | null | undefined) =>
   iso ? new Date(iso).toLocaleString() : "—";

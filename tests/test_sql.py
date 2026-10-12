@@ -1256,6 +1256,11 @@ def test_the_user_list_says_what_each_account_is_on_and_filters_by_it() -> None:
     idle = _google(sub="idle", email="idle@example.com", credits=0)
 
     everyone = {r["id"]: r for r in db.admin_users()}
+    # Numbers, not Decimals: a Decimal reaches the page as a string, and
+    # "0".toFixed() crashed the whole Users page.
+    for key in ("balance", "searches", "spend_usd"):
+        assert isinstance(everyone[paying["id"]][key], (int, float)), key
+    assert isinstance(db.admin_user_detail(paying["id"])["balance"], (int, float))
     assert everyone[paying["id"]]["plan_id"] == "pro"
     assert everyone[paying["id"]]["plan_live"] is True
     assert everyone[paying["id"]]["plan_livemode"] is False

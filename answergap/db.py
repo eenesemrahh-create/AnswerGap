@@ -3166,7 +3166,11 @@ def admin_users(
                 "offset": offset,
             },
         )
-        return [dict(r) for r in cur.fetchall()]
+        # `balance` and `spend_usd` are sums, so NUMERIC, so Decimal - which a
+        # `-> dict` endpoint serialises as a STRING. The page calls `.toFixed`
+        # on spend, and "0".toFixed took the whole Users page down for as long
+        # as it had a single row.
+        return _as_floats([dict(r) for r in cur.fetchall()])
 
 
 def period_usage(user_id: int) -> dict | None:
@@ -3690,7 +3694,10 @@ def admin_user_detail(user_id: int) -> dict | None:
             {"uid": user_id, "live": list(LIVE_SUBSCRIPTION_STATUSES)},
         )
         row = cur.fetchone()
-        return dict(row) if row else None
+        if not row:
+            return None
+        # A sum, so Decimal, so a string in JSON - see `admin_users`.
+        return _as_floats([dict(row)])[0]
 
 
 # --------------------------------------------------------------- reporting
