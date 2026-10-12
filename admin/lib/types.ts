@@ -37,6 +37,15 @@ export interface UserRow {
   balance: number;
   searches: number;
   spend_usd: number;
+  /** The live plan if there is one, else the newest; all null with none.
+   *  Absent on the detail endpoint, which carries `subscriptions` instead. */
+  plan_id?: string | null;
+  plan_status?: string | null;
+  plan_source?: "stripe" | "admin" | null;
+  /** Stripe's mode for a paid plan; null for an assigned one or an old row. */
+  plan_livemode?: boolean | null;
+  plan_live?: boolean | null;
+  plan_period_end?: string | null;
 }
 
 export interface LedgerRow {
@@ -88,6 +97,9 @@ export interface SubscriptionRow {
   granted_by: string | null;
   note: string | null;
   created_at: string;
+  /** Stripe's mode. Null on an assigned plan, and on rows from before it was
+   *  recorded. A sandbox plan grants real credits here, so it is shown. */
+  livemode: boolean | null;
   /**
    * Entitled RIGHT NOW. Not the same as `status === "active"`: nothing
    * renews an assigned plan, so one whose period has passed still says
@@ -179,6 +191,20 @@ export interface UserDetail extends UserRow {
    *  on this page is "why does this person have what they have", and a trial
    *  assigned in March is half the answer to a complaint made in June. */
   subscriptions: SubscriptionRow[];
+  /** Stripe events attributed to this account, newest first, with what each
+   *  did - the answer to "I paid and got nothing". */
+  payments: UserPayment[];
+}
+
+export interface UserPayment {
+  event_id: string;
+  kind: string;
+  livemode: boolean;
+  amount_cents: number | null;
+  currency: string | null;
+  status: string | null;
+  effect: string | null;
+  created_at: string;
 }
 
 export interface AdminAction {
@@ -542,6 +568,16 @@ export interface PaymentEvent {
   status: string | null;
   object_id: string | null;
   created_at: string;
+  /** What the subscription handler did with it; null for events it ignores,
+   *  and for events stored before this was recorded. */
+  effect: string | null;
+  processed_at: string | null;
+  user_id: number | null;
+  user_email: string | null;
+  user_name: string | null;
+  /** A lifecycle event, so "Process again" can do something with it. */
+  processable: boolean;
+  redacted: boolean;
 }
 
 export interface StripeStatus {

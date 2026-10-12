@@ -2,9 +2,10 @@
 
 import { makeT, type Locale } from "@/lib/i18n";
 
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import type { StripeStatus } from "@/lib/types";
-import { loadStripe, startTestPayment } from "./actions";
+import { loadStripe, processEvent, startTestPayment } from "./actions";
 
 /* Server codes to catalogue KEYS, for the same reason as the CI board: this
    map is module scope and `t` is not available there. */
@@ -25,6 +26,18 @@ const money = (cents: number | null, currency: string | null) =>
 
 const when = (iso: string) => new Date(iso).toLocaleString();
 
+/* The events the webhook endpoint has to be subscribed to. Shown on the page
+   because a destination missing `invoice.paid` takes the money and grants
+   nothing, and nothing else on screen would say so. */
+const WEBHOOK_EVENTS = [
+  "checkout.session.completed",
+  "customer.subscription.created",
+  "customer.subscription.updated",
+  "customer.subscription.deleted",
+  "invoice.paid",
+  "invoice.payment_failed",
+];
+
 export function StripePanel({
   initial,
   locale,
@@ -39,6 +52,7 @@ export function StripePanel({
   const [asking, setAsking] = useState(false);
   const [pending, startTransition] = useTransition();
   const busy = useRef(false);
+  const [processing, setProcessing] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     if (busy.current) return;
@@ -80,6 +94,21 @@ export function StripePanel({
         setMessage(ERRORS[result.error ?? ""]
             ? t(ERRORS[result.error ?? ""])
             : t("panel.errRefused", { code: String(result.error) }));
+      }
+    });
+
+  const reprocess = (eventId: string) =>
+    startTransition(async () => {
+      setMessage(null);
+      setProcessing(eventId);
+      try {
+        const out = await processEvent(eventId);
+        setMessage(t("panel.processed", { effect: out.effect ?? "—" }));
+        await refresh();
+      } catch (err) {
+        setMessage(t("panel.processFailed", { code: String(err) }));
+      } finally {
+        setProcessing(null);
       }
     });
 
@@ -163,15 +192,16 @@ export function StripePanel({
       <h2>{t("panel.received")}</h2>
       <p className="sub">
         {t("panel.writtenBy")}{" "}
-        <code>{data.webhook_url ?? t("panel.noBaseUrl")}</code>.
-        Nothing here grants credits yet.
+        <code>{data.webhook_url ?? t("panel.noBaseUrl")}</code>.{" "}
+        {t("panel.receivedLead")}
       </p>
       <div className="tablewrap">
         <table>
           <thead>
             <tr>
               <th>{t("panel.when")}</th><th>{t("panel.event")}</th><th>{t("panel.mode")}</th><th className="num">{t("panel.amount")}</th>
-              <th>{t("panel.status")}</th><th>{t("panel.email")}</th><th>{t("panel.object")}</th>
+              <th>{t("panel.status")}</th><th>{t("panel.user")}</th><th>{t("panel.effect")}</th>
+              <th>{t("panel.object")}</th><th />
             </tr>
           </thead>
           <tbody>
@@ -186,17 +216,43 @@ export function StripePanel({
                 </td>
                 <td className="num">{money(e.amount_cents, e.currency)}</td>
                 <td>{e.status ?? "—"}</td>
-                <td>{e.email ?? "—"}</td>
+                <td>
+                  {e.user_id ? (
+                    <Link href={`/users/${e.user_id}`}>
+                      {e.user_name || e.user_email || `#${e.user_id}`}
+                    </Link>
+                  ) : (
+                    e.email ?? "—"
+                  )}
+                </td>
+                {/* The handler's own words. Anything but "granted …" or a
+                    status on a lifecycle event is the thing to look at. */}
+                <td>
+                  {e.effect ? (
+                    <span className={/^(granted|already granted|status|past_due)/.test(e.effect)
+                      ? undefined : "neg"}>
+                      {e.effect}
+                    </span>
+                  ) : "—"}
+                </td>
                 <td><code>{e.object_id ?? "—"}</code></td>
+                <td>
+                  {e.processable && !e.redacted && (
+                    <button
+                      className="linkish"
+                      disabled={pending}
+                      onClick={() => reprocess(e.event_id)}
+                    >
+                      {processing === e.event_id ? t("panel.processing") : t("panel.process")}
+                    </button>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
         {data.events.length === 0 && (
-          <p className="empty">
-            Nothing yet. A payment shows up here within seconds of Stripe sending its
-            webhook — if it never does, the endpoint or its secret is the thing to check.
-          </p>
+          <p className="empty">{t("panel.emptyEvents")}</p>
         )}
       </div>
 
@@ -206,8 +262,12 @@ export function StripePanel({
         {t("panel.and")}{" "}
         <code>STRIPE_WEBHOOK_SECRET</code>. The second comes from Stripe →
         Developers → Webhooks → add an endpoint pointing at{" "}
-        <code>{data.webhook_url ?? "<api>/api/stripe/webhook"}</code>, subscribed to{" "}
-        <code>checkout.session.completed</code>. Until it is set, every webhook is
+        <code>{data.webhook_url ?? "<api>/api/stripe/webhook"}</code>.{" "}
+        {t("panel.eventsToSend")}{" "}
+        {WEBHOOK_EVENTS.map((name, i) => (
+          <span key={name}>{i > 0 && ", "}<code>{name}</code></span>
+        ))}
+        . Until it is set, every webhook is
         refused — which is deliberate: an unsigned one would let anyone invent a
         payment on this page. The publishable key is not needed anywhere; Checkout is
         hosted by Stripe, so no card detail ever reaches our servers.

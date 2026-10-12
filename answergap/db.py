@@ -971,6 +971,25 @@ MIGRATIONS: list[tuple[str, str]] = [
         ALTER TABLE serp_task ADD COLUMN IF NOT EXISTS round SMALLINT;
         """,
     ),
+    (
+        "0017_payment_effect",
+        """
+        -- WHAT AN EVENT DID, beside the event. The first test payment through
+        -- a new webhook destination granted nothing, and the only record of
+        -- why was one line in a deploy log. `effect` is the handler's own
+        -- answer ("granted 100", "UNATTRIBUTED", "not a subscription",
+        -- "ERROR"), rewritten when an admin processes the event again.
+        ALTER TABLE payment_event ADD COLUMN IF NOT EXISTS effect TEXT;
+        ALTER TABLE payment_event ADD COLUMN IF NOT EXISTS processed_at TIMESTAMPTZ;
+
+        -- Test or live, on the subscription itself. A sandbox subscription
+        -- grants real credits in this database, so an operator has to be
+        -- able to tell it from a paying customer at a glance. NULL on rows
+        -- written before this column, and on admin-assigned plans, which
+        -- involve no Stripe mode at all.
+        ALTER TABLE subscription ADD COLUMN IF NOT EXISTS livemode BOOLEAN;
+        """,
+    ),
 ]
 
 
@@ -3072,7 +3091,7 @@ def admin_overview() -> dict:
 
 
 def admin_users(
-    *, q: str = "", status: str = "", limit: int = 50, offset: int = 0
+    *, q: str = "", status: str = "", plan: str = "", limit: int = 50, offset: int = 0
 ) -> list[dict]:
     """The user list with balance and spend, in ONE statement.
 
@@ -3095,16 +3114,38 @@ def admin_users(
                        (password_hash IS NOT NULL) AS has_password,
                        (google_sub IS NOT NULL) AS has_google
                   FROM app_user
-                 WHERE (%(q)s = '' OR email ILIKE '%%' || %(q)s || '%%')
+                 WHERE (%(q)s = '' OR email ILIKE '%%' || %(q)s || '%%'
+                                   OR name ILIKE '%%' || %(q)s || '%%')
                    AND (%(status)s = '' OR status = %(status)s)
+                   -- The plan filter runs BEFORE the page is cut, or "who is
+                   -- subscribed" would only ever search the newest fifty.
+                   AND (%(plan)s = ''
+                        OR (%(plan)s = 'none') <> EXISTS (
+                               SELECT 1 FROM subscription s
+                                WHERE s.user_id = app_user.id AND (s.status = ANY(%(live)s) AND NOT (s.source = 'admin' AND s.current_period_end IS NOT NULL AND s.current_period_end < now()))))
                  ORDER BY created_at DESC, id DESC
                  LIMIT %(limit)s OFFSET %(offset)s
             )
             SELECT p.*,
                    COALESCE(l.balance, 0)  AS balance,
                    COALESCE(v.searches, 0) AS searches,
-                   COALESCE(v.spend_usd, 0) AS spend_usd
+                   COALESCE(v.spend_usd, 0) AS spend_usd,
+                   -- What the account is on: the live plan if there is one,
+                   -- else the newest, so a lapsed plan still says what it was.
+                   sub.plan_id            AS plan_id,
+                   sub.status             AS plan_status,
+                   sub.source             AS plan_source,
+                   sub.livemode           AS plan_livemode,
+                   sub.live               AS plan_live,
+                   sub.current_period_end AS plan_period_end
               FROM page p
+              LEFT JOIN LATERAL (
+                    SELECT plan_id, status, source, livemode, current_period_end,
+                           (status = ANY(%(live)s) AND NOT (source = 'admin' AND current_period_end IS NOT NULL AND current_period_end < now())) AS live
+                      FROM subscription WHERE user_id = p.id
+                     ORDER BY (status = ANY(%(live)s) AND NOT (source = 'admin' AND current_period_end IS NOT NULL AND current_period_end < now())) DESC, created_at DESC
+                     LIMIT 1
+              ) sub ON true
               LEFT JOIN LATERAL (
                     SELECT sum(delta) AS balance
                       FROM credit_ledger WHERE user_id = p.id
@@ -3116,7 +3157,14 @@ def admin_users(
               ) v ON true
              ORDER BY p.created_at DESC, p.id DESC
             """,
-            {"q": q or "", "status": status or "", "limit": limit, "offset": offset},
+            {
+                "q": q or "",
+                "status": status or "",
+                "plan": plan or "",
+                "live": list(LIVE_SUBSCRIPTION_STATUSES),
+                "limit": limit,
+                "offset": offset,
+            },
         )
         return [dict(r) for r in cur.fetchall()]
 
@@ -3620,14 +3668,22 @@ def admin_user_detail(user_id: int) -> dict | None:
                         SELECT id, stripe_subscription_id, plan_id, status,
                                credits_per_period, current_period_end,
                                cancel_at_period_end, source, granted_by, note,
-                               created_at,
+                               created_at, livemode,
                                (status = ANY(%(live)s)
                                 AND NOT (source = 'admin'
                                          AND current_period_end IS NOT NULL
                                          AND current_period_end < now())) AS live
                           FROM subscription WHERE user_id = u.id
                          ORDER BY created_at DESC LIMIT 20) x), '[]')
-                     AS subscriptions
+                     AS subscriptions,
+                   -- The Stripe events this account's money produced, with what
+                   -- each one did. "I paid and got nothing" is answered here.
+                   COALESCE((SELECT json_agg(x) FROM (
+                        SELECT event_id, kind, livemode, amount_cents, currency,
+                               status, effect, created_at
+                          FROM payment_event WHERE user_id = u.id
+                         ORDER BY created_at DESC, id DESC LIMIT 50) x), '[]')
+                     AS payments
               FROM app_user u
              WHERE u.id = %(uid)s
             """,
@@ -4056,6 +4112,7 @@ def subscription_upsert(
     credits_per_period: int,
     current_period_end: str | None,
     cancel_at_period_end: bool,
+    livemode: bool | None = None,
 ) -> None:
     """Mirror one Stripe subscription. Called from every lifecycle webhook.
 
@@ -4075,10 +4132,10 @@ def subscription_upsert(
             INSERT INTO subscription (
                 user_id, stripe_subscription_id, plan_id, stripe_price_id,
                 status, credits_per_period, current_period_end,
-                cancel_at_period_end
+                cancel_at_period_end, livemode
             )
             VALUES (%(uid)s, %(sid)s, %(plan)s, %(price)s, %(status)s,
-                    %(credits)s, %(period_end)s, %(cancel)s)
+                    %(credits)s, %(period_end)s, %(cancel)s, %(livemode)s)
             ON CONFLICT (stripe_subscription_id) DO UPDATE SET
                 plan_id = COALESCE(EXCLUDED.plan_id, subscription.plan_id),
                 stripe_price_id =
@@ -4091,6 +4148,7 @@ def subscription_upsert(
                 current_period_end =
                     COALESCE(EXCLUDED.current_period_end, subscription.current_period_end),
                 cancel_at_period_end = EXCLUDED.cancel_at_period_end,
+                livemode = COALESCE(EXCLUDED.livemode, subscription.livemode),
                 updated_at = now()
             """,
             {
@@ -4102,6 +4160,7 @@ def subscription_upsert(
                 "credits": int(credits_per_period or 0),
                 "period_end": current_period_end,
                 "cancel": bool(cancel_at_period_end),
+                "livemode": livemode,
             },
         )
         conn.commit()
@@ -4145,7 +4204,7 @@ def subscription_for_user(user_id: int) -> dict | None:
             f"""
             SELECT stripe_subscription_id, plan_id, stripe_price_id, status,
                    credits_per_period, current_period_end, cancel_at_period_end,
-                   source, granted_by, note, created_at,
+                   source, granted_by, note, created_at, livemode,
                    ({_LIVE_SUBSCRIPTION_SQL}) AS live
               FROM subscription
              WHERE user_id = %(uid)s
@@ -4173,7 +4232,7 @@ def subscriptions_for_user(user_id: int, limit: int = 20) -> list[dict]:
             f"""
             SELECT id, stripe_subscription_id, plan_id, stripe_price_id, status,
                    credits_per_period, current_period_end, cancel_at_period_end,
-                   source, granted_by, note, created_at,
+                   source, granted_by, note, created_at, livemode,
                    ({_LIVE_SUBSCRIPTION_SQL}) AS live
               FROM subscription
              WHERE user_id = %(uid)s
@@ -4853,21 +4912,62 @@ def payment_event_put(record: dict, payload: dict) -> bool:
         return bool(row)
 
 
-def payment_events(limit: int = 50) -> list[dict]:
+def payment_events(limit: int = 50, lifecycle: tuple[str, ...] = ()) -> list[dict]:
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
-            SELECT event_id, kind, livemode, amount_cents, currency, email,
-                   status, object_id, created_at,
+            SELECT e.event_id, e.kind, e.livemode, e.amount_cents, e.currency,
+                   e.email, e.status, e.object_id, e.created_at, e.effect,
+                   e.processed_at, e.user_id,
+                   u.email AS user_email, u.name AS user_name,
+                   -- Whether "process again" can do anything: only the
+                   -- lifecycle events move credits or plans.
+                   (e.kind = ANY(%(lifecycle)s)) AS processable,
                    -- The FLAG, never the payload itself: the raw event is 30 KB
                    -- of Stripe and belongs in no list view. Without this the
                    -- only proof an erasure redacted anything is invisible to
                    -- the operator who has to answer for it.
-                   (payload -> 'redacted' IS NOT NULL) AS redacted
-              FROM payment_event
-             ORDER BY created_at DESC, id DESC
-             LIMIT %s
+                   (e.payload -> 'redacted' IS NOT NULL) AS redacted
+              FROM payment_event e
+              LEFT JOIN app_user u ON u.id = e.user_id
+             ORDER BY e.created_at DESC, e.id DESC
+             LIMIT %(limit)s
             """,
-            (limit,),
+            {"limit": limit, "lifecycle": list(lifecycle)},
         )
         return [dict(r) for r in cur.fetchall()]
+
+
+def payment_event_payload(event_id: str) -> dict | None:
+    """The stored Stripe event, as Stripe sent it, for processing it again."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT payload FROM payment_event WHERE event_id = %s", (event_id,)
+        )
+        row = cur.fetchone()
+    if not row or row["payload"] is None:
+        return None
+    payload = row["payload"]
+    return json.loads(payload) if isinstance(payload, str) else payload
+
+
+def payment_event_set_effect(
+    event_id: str, effect: str | None, *, user_id: int | None = None
+) -> None:
+    """Write down what handling an event did, and whose it turned out to be.
+
+    `user_id` only fills a blank: an event attributed once is not
+    re-attributed by a later pass that happens to resolve differently.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE payment_event
+               SET effect = %(effect)s,
+                   processed_at = now(),
+                   user_id = COALESCE(user_id, %(uid)s)
+             WHERE event_id = %(eid)s
+            """,
+            {"effect": (effect or "")[:200] or None, "uid": user_id, "eid": event_id},
+        )
+        conn.commit()

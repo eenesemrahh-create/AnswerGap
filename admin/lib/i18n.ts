@@ -79,6 +79,12 @@ const en = {
     lastSeen: "Last seen",
     searches: "Searches",
     signIn: "Sign-in",
+    name: "Name",
+    plan: "Plan",
+    test: "test",
+    live: "live",
+    assigned: "assigned",
+    lapsed: "lapsed",
   },
 
   overview: {
@@ -117,7 +123,10 @@ const en = {
     lead:
       "Balance and spend come back with the list in one query — never one " +
       "query per row.",
-    searchPlaceholder: "Search by email",
+    searchPlaceholder: "Search by email or name",
+    anyPlan: "Any plan",
+    subscribed: "On a plan",
+    noPlan: "No plan",
   },
 
   /* One account's activity, aggregated. The per-user answer to what Reports
@@ -174,6 +183,9 @@ const en = {
   },
 
   userDetail: {
+    paymentsHeading: "Stripe payments",
+    noPayments: "No Stripe event has been attributed to this account.",
+    allPayments: "All payments, and Process again →",
     joinedAt: "joined",
     lastSeenAt: "last seen",
     creditsCard: "Credits",
@@ -562,6 +574,22 @@ const en = {
       "Stripe rejected the request as invalid — see the api log for its own " +
       "message.",
     errRefused: "Stripe refused ({code}).",
+    user: "Account",
+    effect: "What it did",
+    process: "Process again",
+    processing: "Processing…",
+    processed: "Processed: {effect}",
+    processFailed: "Could not process this event ({code}).",
+    receivedLead:
+      "invoice.paid is the event that grants a plan's credits, every month. " +
+      "\"What it did\" is the handler's own answer; when it is not " +
+      "\"granted …\", fix the cause (a missing price id on the plan card, " +
+      "say) and press Process again. Pressing it twice never pays twice.",
+    emptyEvents:
+      "Nothing yet. A payment shows up here within seconds of Stripe sending " +
+      "its webhook — if it never does, the endpoint or its secret is the " +
+      "thing to check.",
+    eventsToSend: "Send these events to it:",
   },
 
   noAccessDetail: {
@@ -766,6 +794,12 @@ const tr: Messages = {
     lastSeen: "Son görülme",
     searches: "Arama",
     signIn: "Giriş yolu",
+    name: "İsim",
+    plan: "Plan",
+    test: "test",
+    live: "canlı",
+    assigned: "atanmış",
+    lapsed: "süresi dolmuş",
   },
 
   overview: {
@@ -804,7 +838,10 @@ const tr: Messages = {
     lead:
       "Bakiye ve harcama listeyle birlikte tek sorguda gelir — satır başına " +
       "bir sorgu asla.",
-    searchPlaceholder: "E-posta ile ara",
+    searchPlaceholder: "E-posta ya da isimle ara",
+    anyPlan: "Tüm planlar",
+    subscribed: "Planı olanlar",
+    noPlan: "Planı olmayanlar",
   },
 
   activity: {
@@ -856,6 +893,9 @@ const tr: Messages = {
   },
 
   userDetail: {
+    paymentsHeading: "Stripe ödemeleri",
+    noPayments: "Bu hesaba bağlanmış bir Stripe olayı yok.",
+    allPayments: "Tüm ödemeler ve Yeniden işle →",
     joinedAt: "katıldı",
     lastSeenAt: "son görülme",
     creditsCard: "Kredi",
@@ -1239,6 +1279,22 @@ const tr: Messages = {
       "Stripe isteği geçersiz bularak reddetti — kendi mesajı için api " +
       "günlüğüne bakın.",
     errRefused: "Stripe reddetti ({code}).",
+    user: "Hesap",
+    effect: "Ne yaptı",
+    process: "Yeniden işle",
+    processing: "İşleniyor…",
+    processed: "İşlendi: {effect}",
+    processFailed: "Bu olay işlenemedi ({code}).",
+    receivedLead:
+      "Planın kredilerini her ay yükleyen olay invoice.paid. \"Ne yaptı\" " +
+      "sütunu, olayı işleyen kodun kendi cevabı; \"granted …\" değilse " +
+      "sebebini düzelt (örneğin plan kartında eksik fiyat kimliği) ve " +
+      "Yeniden işle'ye bas. İki kez basmak asla iki kez kredi yüklemez.",
+    emptyEvents:
+      "Henüz bir şey yok. Bir ödeme, Stripe webhook'u gönderdikten birkaç " +
+      "saniye sonra burada görünür — hiç görünmüyorsa endpoint adresini ya " +
+      "da gizli anahtarı kontrol et.",
+    eventsToSend: "Şu olayları gönderecek şekilde ayarla:",
   },
 
   noAccessDetail: {

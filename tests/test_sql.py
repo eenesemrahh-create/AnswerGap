@@ -1243,6 +1243,55 @@ def test_the_user_detail_carries_every_subscription() -> None:
     assert {r["source"] for r in rows} == {"admin", "stripe"}
 
 
+
+def test_the_user_list_says_what_each_account_is_on_and_filters_by_it() -> None:
+    """The plan filter runs before the page is cut, and the row carries the
+    live plan with its mode, so a sandbox subscriber is visible as one."""
+    paying = _subscriber("paying@example.com")
+    db.subscription_upsert(
+        user_id=paying["id"], stripe_subscription_id="sub_list", plan_id="pro",
+        stripe_price_id="price_pro", status="active", credits_per_period=1000,
+        current_period_end=None, cancel_at_period_end=False, livemode=False,
+    )
+    idle = _google(sub="idle", email="idle@example.com", credits=0)
+
+    everyone = {r["id"]: r for r in db.admin_users()}
+    assert everyone[paying["id"]]["plan_id"] == "pro"
+    assert everyone[paying["id"]]["plan_live"] is True
+    assert everyone[paying["id"]]["plan_livemode"] is False
+    assert everyone[idle["id"]]["plan_id"] is None
+
+    subscribed = {r["id"] for r in db.admin_users(plan="subscribed")}
+    without = {r["id"] for r in db.admin_users(plan="none")}
+    assert paying["id"] in subscribed and paying["id"] not in without
+    assert idle["id"] in without and idle["id"] not in subscribed
+
+
+def test_a_later_event_without_a_mode_keeps_the_one_recorded() -> None:
+    user = _subscriber()
+    for mode in (True, None):
+        db.subscription_upsert(
+            user_id=user["id"], stripe_subscription_id="sub_mode", plan_id="pro",
+            stripe_price_id="price_pro", status="active", credits_per_period=1000,
+            current_period_end=None, cancel_at_period_end=False, livemode=mode,
+        )
+    assert db.admin_user_detail(user["id"])["subscriptions"][0]["livemode"] is True
+
+
+def test_an_event_records_what_it_did_and_whose_it_was() -> None:
+    user = _subscriber()
+    record = {**_event("evt_fx"), "kind": "invoice.paid"}
+    db.payment_event_put(record, {"id": "evt_fx", "type": "invoice.paid"})
+    db.payment_event_set_effect("evt_fx", "granted 100", user_id=user["id"])
+
+    listed = next(e for e in db.payment_events(lifecycle=("invoice.paid",))
+                  if e["event_id"] == "evt_fx")
+    assert listed["effect"] == "granted 100"
+    assert listed["processable"] is True
+    assert listed["user_email"] == "sub@example.com"
+    assert db.payment_event_payload("evt_fx")["type"] == "invoice.paid"
+    assert db.admin_user_detail(user["id"])["payments"][0]["effect"] == "granted 100"
+
 def test_the_stripe_customer_link_is_one_account_only() -> None:
     """The webhook's only way back to an account. Two users sharing a customer
     id would hand a renewal to whichever one the query happened to return."""

@@ -34,7 +34,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from answergap import db, entitlements, gate, live
 from answergap import tree as tree_mod
 
-from . import ci, stripe
+from . import billing, ci, stripe
 from .auth import ADMIN_EMAILS, PUBLIC_BASE_URL, WEB_BASE_URL, require_admin
 
 router = APIRouter(prefix="/api/admin")
@@ -298,16 +298,24 @@ def users(
     request: Request,
     q: str = "",
     status: str = "",
+    plan: str = "",
     limit: int = 50,
     offset: int = 0,
 ) -> dict:
-    """The user list, with balance and attributed spend per row."""
+    """The user list, with balance, attributed spend and current plan per row.
+
+    `plan`: "" for everyone, "subscribed" for accounts on a live plan, "none"
+    for the rest.
+    """
     require_admin(request)
     if status not in ("", gate.STATUS_ACTIVE, gate.STATUS_SUSPENDED):
+        raise HTTPException(400, {"code": "badRequest"})
+    if plan not in ("", "subscribed", "none"):
         raise HTTPException(400, {"code": "badRequest"})
     rows = db.admin_users(
         q=q.strip()[:200],
         status=status,
+        plan=plan,
         limit=max(1, min(200, limit)),
         offset=max(0, offset),
     )
@@ -865,10 +873,49 @@ def stripe_status(request: Request) -> dict:
             out["error"] = exc.code
     if db.available():
         try:
-            out["events"] = db.payment_events(limit=25)
+            out["events"] = db.payment_events(
+                limit=50, lifecycle=stripe.SUBSCRIPTION_EVENTS
+            )
         except Exception as exc:  # noqa: BLE001 - the page still has a job to do
             print(f"[stripe] events: {type(exc).__name__}: {exc}", flush=True)
     return out
+
+
+_EVENT_ID_RE = re.compile(r"evt_[A-Za-z0-9]{1,100}")
+
+
+@router.post("/stripe/event/{event_id}/process")
+def stripe_event_process(request: Request, event_id: str) -> dict:
+    """Run a stored Stripe event through the subscription handler again.
+
+    For the event that arrived and did nothing - an unknown event shape, a
+    plan with no price id yet, a user who could not be resolved. Stripe's own
+    "Resend" cannot help with those: the event is already stored, and the
+    webhook deliberately does not reconsider an event it has seen.
+
+    SAFE TO PRESS TWICE. It runs the SAME function the webhook runs, and the
+    credit grant inside it is guarded by the unique index on the invoice, so
+    a second press answers "already granted" rather than paying twice.
+    Audited before it runs, like every other act that can move credits.
+    """
+    who = require_admin(request)
+    if not _EVENT_ID_RE.fullmatch(event_id):
+        raise HTTPException(400, {"code": "badRequest"})
+    event = db.payment_event_payload(event_id)
+    if not event or event.get("redacted"):
+        raise HTTPException(404, {"code": "notFound"})
+    if (event.get("type") or "") not in stripe.SUBSCRIPTION_EVENTS:
+        raise HTTPException(409, {"code": "notProcessable"})
+    db.admin_log(
+        actor=who.email or "",
+        action="stripe_event_process",
+        detail={"event_id": event_id, "kind": event.get("type"),
+                "livemode": bool(event.get("livemode"))},
+    )
+    effect = billing.apply_subscription_event(event)
+    user_id = billing.resolve_stripe_user(event)
+    db.payment_event_set_effect(event_id, effect, user_id=user_id)
+    return {"effect": effect, "user_id": user_id}
 
 
 @router.post("/stripe/test-payment")

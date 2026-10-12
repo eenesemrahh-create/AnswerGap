@@ -142,7 +142,19 @@ export function PlanPanel({
               <tr key={s.id}>
                 <td>{when(s.created_at)}</td>
                 <td>{planName(s.plan_id)}</td>
-                <td>{s.source === "admin" ? t("plan.assign") : t("plan.stripeManaged")}</td>
+                <td>
+                  {s.source === "admin" ? t("plan.assign") : t("plan.stripeManaged")}
+                  {/* A sandbox subscription grants real credits here, so it
+                      must never read as a paying customer. */}
+                  {s.source === "stripe" && s.livemode !== null && (
+                    <>
+                      {" "}
+                      <span className={`pill ${s.livemode ? "active" : "ci-run"}`}>
+                        {s.livemode ? t("common.live") : t("common.test")}
+                      </span>
+                    </>
+                  )}
+                </td>
                 <td>
                   {s.live ? (
                     <span className="pill active">{s.status}</span>

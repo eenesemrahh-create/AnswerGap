@@ -156,6 +156,50 @@ export default async function UserPage({
         locale={locale}
       />
 
+      {/* Right under the plan: "I paid and got nothing" is answered by the
+          event's own effect, and Stripe's page links back here. */}
+      <h3>{t("userDetail.paymentsHeading")}</h3>
+      <div className="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>{t("common.when")}</th>
+              <th>{t("panel.event")}</th>
+              <th>{t("panel.mode")}</th>
+              <th className="num">{t("panel.amount")}</th>
+              <th>{t("common.status")}</th>
+              <th>{t("panel.effect")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(u.payments ?? []).map((e) => (
+              <tr key={e.event_id}>
+                <td>{when(e.created_at)}</td>
+                <td>{e.kind}</td>
+                <td>
+                  <span className={`pill ${e.livemode ? "active" : "ci-run"}`}>
+                    {e.livemode ? t("common.live") : t("common.test")}
+                  </span>
+                </td>
+                <td className="num">
+                  {e.amount_cents === null
+                    ? "—"
+                    : `${(e.amount_cents / 100).toFixed(2)} ${(e.currency ?? "").toUpperCase()}`}
+                </td>
+                <td>{e.status ?? "—"}</td>
+                <td>{e.effect ?? "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {(u.payments ?? []).length === 0 && (
+          <p className="empty">{t("userDetail.noPayments")}</p>
+        )}
+      </div>
+      <p className="sub">
+        <Link href="/stripe">{t("userDetail.allPayments")}</Link>
+      </p>
+
       <h2>{t("userDetail.account")}</h2>
       <form className="row" action={status}>
         <input

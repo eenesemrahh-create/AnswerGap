@@ -20,7 +20,7 @@ from fastapi import HTTPException
 from pydantic import ValidationError
 
 from answergap import db
-from api import admin, main
+from api import admin, billing, main
 
 
 # ------------------------------------------------------------ the fixtures
@@ -237,13 +237,13 @@ def test_a_one_off_invoice_is_not_a_subscription(wired) -> None:
 
 
 def test_a_price_maps_to_its_plan(wired) -> None:
-    assert (main._plan_for_price("price_lite") or {}).get("id") == "lite"
-    assert (main._plan_for_price("price_lite_yr") or {}).get("id") == "lite"
+    assert (billing.plan_for_price("price_lite") or {}).get("id") == "lite"
+    assert (billing.plan_for_price("price_lite_yr") or {}).get("id") == "lite"
 
 
 def test_an_unknown_price_is_not_a_plan(wired) -> None:
-    assert main._plan_for_price("price_nope") is None
-    assert main._plan_for_price(None) is None
+    assert billing.plan_for_price("price_nope") is None
+    assert billing.plan_for_price(None) is None
 
 
 def test_checkout_refuses_a_price_the_browser_supplies() -> None:
@@ -376,3 +376,60 @@ def test_revoking_names_the_row_and_the_user(admin_wired) -> None:
     assert admin_wired["revoked"] == [
         {"user_id": 7, "subscription_id": 12, "actor": "op@example.com"}
     ]
+
+
+# ------------------------------------------- test or live, and "process again"
+
+
+def test_the_mode_of_the_event_is_written_onto_the_subscription(wired) -> None:
+    """A sandbox subscription grants real credits in this database, so the
+    admin has to be able to tell it from a paying customer."""
+    main._apply_subscription_event({**_subscription_event(), "livemode": False})
+    main._apply_subscription_event({**_subscription_event(), "livemode": True})
+    assert [u["livemode"] for u in wired["upserts"]] == [False, True]
+
+
+@pytest.fixture
+def stored(monkeypatch, wired):
+    """One stored event, and a record of what the endpoint wrote back."""
+    state = {"payload": {**_invoice_event(), "id": "evt_2", "livemode": False},
+             "effects": [], "audit": []}
+    monkeypatch.setattr(admin, "require_admin",
+                        lambda request: SimpleNamespace(email="op@example.com"))
+    monkeypatch.setattr(db, "payment_event_payload",
+                        lambda eid: state["payload"] if eid == "evt_2" else None)
+    monkeypatch.setattr(db, "payment_event_set_effect",
+                        lambda eid, effect, user_id=None:
+                        state["effects"].append((eid, effect, user_id)))
+    monkeypatch.setattr(db, "admin_log", lambda **kw: state["audit"].append(kw))
+    return state
+
+
+def test_processing_a_stored_invoice_again_grants_its_credits(stored, wired) -> None:
+    out = admin.stripe_event_process(_Req(), "evt_2")
+    assert out == {"effect": "granted 300", "user_id": 7}
+    assert stored["effects"] == [("evt_2", "granted 300", 7)]
+    assert stored["audit"][0]["action"] == "stripe_event_process"
+
+
+def test_processing_twice_never_pays_twice(stored, wired) -> None:
+    admin.stripe_event_process(_Req(), "evt_2")
+    again = admin.stripe_event_process(_Req(), "evt_2")
+    assert again["effect"] == "already granted"
+    assert len(wired["grants"]) == 1
+
+
+def test_only_lifecycle_events_can_be_processed(stored) -> None:
+    stored["payload"] = {"id": "evt_2", "type": "checkout.session.completed",
+                         "data": {"object": {}}}
+    with pytest.raises(HTTPException) as exc:
+        admin.stripe_event_process(_Req(), "evt_2")
+    assert exc.value.status_code == 409
+    assert stored["audit"] == []
+
+
+@pytest.mark.parametrize("event_id", ["evt_missing", "not-an-event", "evt_../x"])
+def test_an_unknown_or_malformed_event_is_refused(stored, event_id) -> None:
+    with pytest.raises(HTTPException) as exc:
+        admin.stripe_event_process(_Req(), event_id)
+    assert exc.value.status_code in (400, 404)
