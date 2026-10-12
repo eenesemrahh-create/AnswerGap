@@ -610,7 +610,9 @@ def assign_plan(request: Request, user_id: int, payload: AssignPlanRequest) -> d
         raise HTTPException(404, {"code": "unknownPlan"})
 
     credits = (
-        payload.credits if payload.credits is not None else int(plan.get("credits") or 0)
+        payload.credits
+        if payload.credits is not None
+        else int(billing.plan_credits(payload.plan_id, card=plan) or 0)
     )
     result = db.subscription_assign(
         user_id=user_id,
@@ -649,6 +651,68 @@ class EraseRequest(BaseModel):
     recorded here would outlive the erasure meant to remove it."""
 
     reason: str = Field(default="", max_length=200)
+
+
+class CancelSubscriptionRequest(BaseModel):
+    # "now" ends it immediately - what testing needs, so another plan can be
+    # bought straight away. "period_end" lets a paying customer keep what
+    # they paid for until the period runs out.
+    when: Literal["now", "period_end"] = "now"
+
+
+@router.post("/user/{user_id}/subscription/{subscription_id}/cancel")
+def cancel_subscription(
+    request: Request, user_id: int, subscription_id: int,
+    payload: CancelSubscriptionRequest | None = None,
+) -> dict:
+    """Cancel a PAID subscription, at Stripe, from the account page.
+
+    This reverses "a paid subscription cannot be ended from the admin". That
+    rule existed because ending our row alone would leave Stripe charging the
+    card and the next webhook reinstating it - so this ends it AT STRIPE
+    first, and only mirrors it here once Stripe has accepted. The webhook that
+    follows confirms the same thing.
+
+    Credits already granted are not taken back, as with an assigned plan.
+    An assigned plan has its own revoke; it never went near Stripe.
+    """
+    who = require_admin(request)
+    payload = payload or CancelSubscriptionRequest()
+    row = db.subscription_for_admin(user_id=user_id, subscription_id=subscription_id)
+    if not row:
+        raise HTTPException(404, {"code": "notFound"})
+    if row.get("source") != "stripe" or not row.get("stripe_subscription_id"):
+        raise HTTPException(409, {"code": "notStripe"})
+    if row.get("status") == "canceled":
+        raise HTTPException(409, {"code": "alreadyCancelled"})
+    at_period_end = payload.when == "period_end"
+    try:
+        result = stripe.cancel_subscription(
+            row["stripe_subscription_id"], at_period_end=at_period_end
+        )
+    except stripe.StripeError as exc:
+        # Nothing is written: the row must not claim a cancellation Stripe
+        # did not perform. The code says why (wrong mode's key, already gone).
+        print(f"[stripe] cancel {row['stripe_subscription_id']}: {exc}", flush=True)
+        raise HTTPException(502, {"code": exc.code}) from exc
+    db.subscription_mark_cancelled(
+        subscription_id=subscription_id, user_id=user_id,
+        at_period_end=at_period_end, actor=who.email or "",
+        stripe_subscription_id=row["stripe_subscription_id"],
+    )
+    return {"cancelled": True, "at_period_end": at_period_end, **result}
+
+
+@router.get("/user/{user_id}/log")
+def user_log(request: Request, user_id: int, source: str = "", limit: int = 200) -> dict:
+    """Everything that happened to this account: checkouts opened and failed,
+    Stripe events with what they did, searches, credit movements and every
+    admin act - newest first."""
+    require_admin(request)
+    if source and source not in db.USER_LOG_SOURCES:
+        raise HTTPException(400, {"code": "badRequest"})
+    return {"entries": db.user_log(user_id, source=source, limit=limit),
+            "sources": list(db.USER_LOG_SOURCES)}
 
 
 @router.post("/user/{user_id}/erase")
@@ -771,6 +835,71 @@ def put_pricing(request: Request, payload: PricingRequest) -> dict:
         actor=who.email or "",
     )
     return {"plans": [p.model_dump() for p in payload.plans]}
+
+
+# --------------------------------------------------- subscription features
+#
+# WHAT A PLAN GRANTS, kept apart from what its card says. The card is copy an
+# operator rewords and translates; this is the contract billing acts on.
+# Credits are the first feature; each new one is a field on `PlanFeatures`.
+
+
+class PlanFeatures(BaseModel):
+    """One plan's features. Add a field here to add a feature."""
+
+    # Granted on EVERY paid renewal, at the figure saved here at that moment
+    # (see `billing.plan_credits`). 0 is a real answer: "grants nothing".
+    credits: int = Field(ge=0, le=1_000_000)
+
+
+class PlanFeaturesRequest(BaseModel):
+    features: dict[str, PlanFeatures] = Field(max_length=PRICING_MAX_PLANS * 4)
+
+
+@router.get("/plan-features")
+def get_plan_features(request: Request) -> dict:
+    """Every plan with what it grants today.
+
+    `legacy` is the credit figure the plan's pricing card carried before this
+    page existed - what billing falls back to until the plan is saved here.
+    """
+    require_admin(request)
+    cards = _pricing_plans()
+    return {
+        "plans": [
+            {"id": c.get("id"), "name": c.get("name") or c.get("id"),
+             "enabled": bool(c.get("enabled"))}
+            for c in cards if c.get("id")
+        ],
+        "features": billing.plan_features(),
+        "legacy": {c["id"]: int(c.get("credits") or 0) for c in cards if c.get("id")},
+    }
+
+
+@router.post("/plan-features")
+def put_plan_features(request: Request, payload: PlanFeaturesRequest) -> dict:
+    """Save what plans grant. Append-only, like every `app_setting`.
+
+    MERGED, never replaced. A plan whose card was deleted may still have
+    paying subscribers renewing on it, and saving the page without that row
+    must not quietly turn their renewals into zero credits.
+
+    An id that is not a plan is refused: a features row for `strater` would
+    be saved, shown nowhere, and grant nothing to anyone.
+    """
+    who = require_admin(request)
+    known = {c.get("id") for c in _pricing_plans()}
+    unknown = sorted(set(payload.features) - known)
+    if unknown:
+        raise HTTPException(400, {"code": "unknownPlan", "detail": ", ".join(unknown)})
+    merged = {**billing.plan_features(),
+              **{pid: f.model_dump() for pid, f in payload.features.items()}}
+    db.setting_put(
+        key=gate.SETTING_PLAN_FEATURES,
+        value=json.dumps(merged, ensure_ascii=False, sort_keys=True),
+        actor=who.email or "",
+    )
+    return {"features": merged}
 
 
 @router.get("/actions")

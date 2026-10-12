@@ -349,12 +349,12 @@ function PlanCard({
       </label>
 
       {/* WHAT THE CARD ACTUALLY SELLS, as opposed to what it says.
-          Everything above is copy; these three are the plan's behaviour.
 
-          `credits` is a real field rather than something read out of
-          "300 credits per month" - that bullet is a sentence an operator will
-          reword or translate, and a regex over it would hand somebody the
-          wrong number of credits the first time they did.
+          Credits used to be a field here. They moved to the Subscription
+          features page (2026-10-12): the card is copy, the features page is
+          the contract, and one number in two places is one number that can
+          disagree with itself. `plan.credits` still travels with the card so
+          plans never saved on that page keep granting what they did.
 
           The two price ids are PASTED from the Stripe dashboard. Nothing here
           mints billable objects: a product that could create its own prices
@@ -363,19 +363,10 @@ function PlanCard({
           and the card then still renders and still advertises - it just
           answers `planNotPurchasable` at checkout instead of sending somebody
           to a broken Stripe page. */}
-      <label className="edit-field">
-        {t("editor.credits")}
-        <input
-          className="edit-inline"
-          type="number"
-          min={0}
-          placeholder={t("editor.creditsHint")}
-          value={plan.credits}
-          onChange={(e) =>
-            onChange({ credits: Math.max(0, Number(e.target.value) || 0) })
-          }
-        />
-      </label>
+      <p className="edit-field">
+        {t("editor.credits")}:{" "}
+        <a href="/settings/plans" className="linkish">{t("editor.creditsMoved")}</a>
+      </p>
       <label className="edit-field">
         {t("editor.stripePrice")}
         <input

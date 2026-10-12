@@ -810,3 +810,26 @@ export interface SearchDetail {
     nodes: SearchNode[];
   } | null;
 }
+
+/** `GET /api/admin/plan-features` - what each plan grants. */
+export interface PlanFeaturesState {
+  plans: { id: string; name: string; enabled: boolean }[];
+  /** Saved on the Subscription features page, keyed by plan id. */
+  features: Record<string, { credits: number }>;
+  /** The credits a plan's pricing card carried before that page existed;
+   *  billing falls back to it until the plan is saved there. */
+  legacy: Record<string, number>;
+}
+
+/** One line of `GET /api/admin/user/{id}/log`. */
+export interface UserLogEntry {
+  source: "account" | "payment" | "usage" | "credit" | "admin";
+  kind: string;
+  detail: Record<string, unknown>;
+  created_at: string;
+}
+
+export interface UserLog {
+  entries: UserLogEntry[];
+  sources: string[];
+}

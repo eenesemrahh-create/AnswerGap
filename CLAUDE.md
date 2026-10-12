@@ -682,9 +682,14 @@ so it is worth knowing how each hazard was answered:
   account at first checkout, with our own metadata as a fallback. Never the
   email: an address can be changed, shared, or belong to somebody else by the
   time a renewal arrives a month later.
-- **`credits_per_period` is COPIED onto the subscription at purchase**, never
-  looked up at renewal. Editing a plan card prices new sales; it must not
-  silently re-price somebody's existing agreement.
+- ~~`credits_per_period` is COPIED onto the subscription at purchase.~~
+  **REVERSED 2026-10-12 by the operator:** every renewal grants the plan's
+  CURRENT credits, existing subscribers included - raising or lowering a
+  plan reaches them at their next renewal. The figure lives on the admin's
+  **Settings → Subscription features** page (`plan_features` setting,
+  `billing.plan_credits`), NOT on the pricing card; a plan never saved there
+  falls back to its card's old `credits`. The row's `credits_per_period` is
+  now a display copy, refreshed on every event.
 - **The price id is looked up server-side from the plan id.** A client that
   could name its own Stripe price could name a cheaper one. `GET /api/pricing`
   strips the price ids for the same reason.
@@ -705,10 +710,17 @@ this person on" a question every screen has to ask twice and merge.
   not run, and the moment a plan lapses is exactly when somebody is looking at
   it. `_LIVE_SUBSCRIPTION_SQL` is the one definition; `live` travels out to
   both the admin and `/api/me`.
-- **A paid subscription cannot be ended from the admin.** `source = 'admin'`
-  is in the WHERE clause and the button is not drawn. Otherwise Stripe keeps
-  charging the card and the next webhook reinstates the row — a cancellation
-  that visibly undoes itself.
+- **A paid subscription is cancelled AT STRIPE, never by editing our row.**
+  Since 2026-10-12 the account page can cancel one (now, or at period end):
+  `stripe.cancel_subscription` first, and only once Stripe accepts is the row
+  mirrored and `cancel_subscription` audited. Editing the row alone would
+  leave Stripe charging the card and the next webhook reinstating it.
+  `subscription_revoke_assigned` still refuses paid rows.
+- **Per-account log** on the admin user page: `db.user_log` UNIONs
+  `account_event` (checkout opened / refused, portal), `payment_event` (with
+  each event's `effect`, e.g. `card declined: insufficient_funds`),
+  `usage_event`, `credit_ledger` and `admin_action`. A Stripe customer is now
+  created BEFORE the first checkout so a declined first card is attributable.
 - Revoking **does not claw back credits**. They may have been spent, and a
   balance that goes negative because somebody ended a trial is a bill for work
   already delivered.

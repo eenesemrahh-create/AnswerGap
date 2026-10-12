@@ -61,6 +61,10 @@ SETTING_SIGNUP_CREDITS = "signup_credits"
 # defaults for its locale - a fresh install without a manual seed still shows
 # a pricing section. See `api/admin.py` for the shape and validation.
 SETTING_PRICING_PLANS = "pricing_plans"
+# JSON object keyed by plan id: what each plan GRANTS, as opposed to what its
+# marketing card says. Edited on the admin's "Subscription features" page;
+# `credits` is the first feature. See `api/billing.py:plan_credits`.
+SETTING_PLAN_FEATURES = "plan_features"
 DEFAULT_SIGNUP_CREDITS = 10
 
 

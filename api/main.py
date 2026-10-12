@@ -44,6 +44,7 @@ from answergap import tree as tree_mod
 from answergap.tree import STRATEGY, THRESHOLD, all_trees
 
 from . import admin, auth, stripe
+from . import billing
 from .billing import (  # old names: the webhook below and the tests use them
     apply_subscription_event as _apply_subscription_event,
     resolve_stripe_user as _resolve_stripe_user,
@@ -1465,6 +1466,8 @@ async def stripe_webhook(http_request: Request) -> dict:
     # reconsidered - a second guard behind the one on the ledger, which is
     # the one that actually decides.
     moved = _apply_subscription_event(event) if stored else None
+    if stored and moved is None:
+        moved = billing.describe_failure(event)
     if moved is not None:
         # Beside the event, so the admin's payment list can say what it did
         # without anybody reading a deploy log. Best-effort: Stripe is owed a

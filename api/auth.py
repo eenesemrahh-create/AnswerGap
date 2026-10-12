@@ -635,6 +635,20 @@ def billing_checkout(request: Request, payload: CheckoutRequest) -> dict:
         raise HTTPException(409, {"code": "planNotPurchasable"})
 
     base = (WEB_BASE_URL or "").rstrip("/")
+    customer_id = row.get("stripe_customer_id")
+    if not customer_id:
+        # Created HERE rather than by Checkout, so a card declined on the
+        # first attempt still raises events naming a customer we can map to
+        # this account. A failure is not fatal: Checkout can still create one.
+        try:
+            customer_id = stripe.create_customer(user_id=who.user_id, email=row.get("email"))
+            if customer_id:
+                db.stripe_customer_attach(user_id=who.user_id, customer_id=customer_id)
+        except Exception as exc:  # noqa: BLE001
+            print(f"[billing] customer not created: {exc}", flush=True)
+            customer_id = None
+    detail = {"plan_id": payload.plan_id, "cycle": payload.cycle, "price_id": price_id,
+              "mode": stripe.mode()}
     try:
         session = stripe.subscription_checkout(
             price_id=price_id,
@@ -642,13 +656,26 @@ def billing_checkout(request: Request, payload: CheckoutRequest) -> dict:
             cancel_url=f"{base}/account?billing=cancelled",
             user_id=who.user_id,
             email=row.get("email"),
-            customer_id=row.get("stripe_customer_id"),
+            customer_id=customer_id,
         )
     except Exception as exc:  # noqa: BLE001 - Stripe's refusal is not our 500
+        _log_account(who.user_id, "checkout_failed",
+                     {**detail, "error": getattr(exc, "code", type(exc).__name__)})
         raise HTTPException(502, {"code": "stripeFailed"}) from exc
     if not session.get("url"):
+        _log_account(who.user_id, "checkout_failed", {**detail, "error": "noUrl"})
         raise HTTPException(502, {"code": "stripeFailed"})
+    _log_account(who.user_id, "checkout_started", {**detail, "session_id": session.get("id")})
     return {"url": session["url"]}
+
+
+def _log_account(user_id: int, kind: str, detail: dict) -> None:
+    """One line in the account log the admin reads. Never fails the request:
+    losing a log line is bad, losing the customer's checkout over it is worse."""
+    try:
+        db.account_event_put(user_id=user_id, kind=kind, detail=detail)
+    except Exception as exc:  # noqa: BLE001
+        print(f"[account-log] {kind} for {user_id} not written: {exc}", flush=True)
 
 
 @router.post("/api/billing/portal")
@@ -680,6 +707,7 @@ def billing_portal(request: Request) -> dict:
         raise HTTPException(502, {"code": "stripeFailed"}) from exc
     if not session.get("url"):
         raise HTTPException(502, {"code": "stripeFailed"})
+    _log_account(who.user_id, "portal_opened", {})
     return {"url": session["url"]}
 
 

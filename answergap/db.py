@@ -990,6 +990,28 @@ MIGRATIONS: list[tuple[str, str]] = [
         ALTER TABLE subscription ADD COLUMN IF NOT EXISTS livemode BOOLEAN;
         """,
     ),
+    (
+        "0018_account_event",
+        """
+        -- THINGS WE DID ON SOMEBODY'S BEHALF THAT NO OTHER TABLE RECORDS: a
+        -- checkout opened (and which plan), a checkout Stripe refused to
+        -- open, the billing portal opened, a subscription cancelled from the
+        -- admin. Together with usage_event, credit_ledger, payment_event and
+        -- admin_action it is the per-account log on the admin's user page.
+        --
+        -- `detail` holds ids and codes, never an address or a name, so an
+        -- erasure has nothing in it to redact.
+        CREATE TABLE IF NOT EXISTS account_event (
+            id         BIGSERIAL PRIMARY KEY,
+            user_id    BIGINT NOT NULL REFERENCES app_user(id) ON DELETE RESTRICT,
+            kind       TEXT NOT NULL,
+            detail     JSONB,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+        CREATE INDEX IF NOT EXISTS account_event_user_idx
+            ON account_event (user_id, created_at DESC);
+        """,
+    ),
 ]
 
 
@@ -4490,6 +4512,130 @@ def subscription_revoke_assigned(
             )
         conn.commit()
         return changed
+
+
+def account_event_put(*, user_id: int, kind: str, detail: dict | None = None) -> None:
+    """One line in the account's log. Best-effort at every call site: losing a
+    log line is bad, losing the customer's checkout over it is worse."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "INSERT INTO account_event (user_id, kind, detail) VALUES (%s, %s, %s)",
+            (user_id, kind, json.dumps(detail or {}, ensure_ascii=False)),
+        )
+        conn.commit()
+
+
+def subscription_for_admin(*, user_id: int, subscription_id: int) -> dict | None:
+    """One subscription row, only if it belongs to this account."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT id, user_id, stripe_subscription_id, plan_id, status, source,
+                   livemode, cancel_at_period_end, current_period_end
+              FROM subscription
+             WHERE id = %s AND user_id = %s
+            """,
+            (subscription_id, user_id),
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+
+def subscription_mark_cancelled(
+    *, subscription_id: int, user_id: int, at_period_end: bool, actor: str,
+    stripe_subscription_id: str,
+) -> None:
+    """Mirror a cancellation Stripe has just ACCEPTED, and audit it.
+
+    Called only after Stripe answered, so the row never says "cancelled"
+    about a subscription that is still charging. The webhook that follows
+    says the same thing again, which the upsert absorbs.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        if at_period_end:
+            cur.execute(
+                """
+                UPDATE subscription SET cancel_at_period_end = TRUE, updated_at = now()
+                 WHERE id = %s AND user_id = %s
+                """,
+                (subscription_id, user_id),
+            )
+        else:
+            cur.execute(
+                """
+                UPDATE subscription SET status = 'canceled', updated_at = now()
+                 WHERE id = %s AND user_id = %s
+                """,
+                (subscription_id, user_id),
+            )
+        cur.execute(
+            """
+            INSERT INTO admin_action (actor, action, target_user, detail)
+            VALUES (%s, 'cancel_subscription', %s,
+                    jsonb_build_object('subscription_id', %s::bigint,
+                                       'stripe_subscription_id', %s::text,
+                                       'at_period_end', %s::boolean))
+            """,
+            (actor, user_id, subscription_id, stripe_subscription_id, at_period_end),
+        )
+        conn.commit()
+
+
+# Where each line of an account's log comes from. The admin page filters on
+# these, so they are a closed list rather than whatever a table is called.
+USER_LOG_SOURCES = ("account", "payment", "usage", "credit", "admin")
+
+
+def user_log(user_id: int, *, source: str = "", limit: int = 200) -> list[dict]:
+    """Everything that happened to one account, newest first, from FIVE tables.
+
+    One UNION rather than a new table every writer must remember to fill: each
+    of these already records its own facts, and a log copied from them would
+    be one more thing that can disagree with them.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT * FROM (
+                SELECT 'account' AS source, kind, detail, created_at
+                  FROM account_event WHERE user_id = %(uid)s
+                UNION ALL
+                SELECT 'payment', kind,
+                       jsonb_build_object('livemode', livemode,
+                                          'amount_cents', amount_cents,
+                                          'currency', currency,
+                                          'status', status,
+                                          'effect', effect,
+                                          'event_id', event_id),
+                       created_at
+                  FROM payment_event WHERE user_id = %(uid)s
+                UNION ALL
+                SELECT 'usage', action,
+                       jsonb_build_object('outcome', outcome,
+                                          'credits', credits,
+                                          'spend_usd', spend_usd::float8,
+                                          'tree_slug', tree_slug,
+                                          'question_slug', question_slug),
+                       created_at
+                  FROM usage_event WHERE user_id = %(uid)s
+                UNION ALL
+                SELECT 'credit', reason,
+                       jsonb_build_object('delta', delta, 'ref', ref, 'note', note),
+                       created_at
+                  FROM credit_ledger WHERE user_id = %(uid)s
+                UNION ALL
+                SELECT 'admin', action,
+                       COALESCE(detail, '{}'::jsonb) || jsonb_build_object('actor', actor),
+                       created_at
+                  FROM admin_action WHERE target_user = %(uid)s
+            ) log
+             WHERE %(source)s = '' OR log.source = %(source)s
+             ORDER BY created_at DESC
+             LIMIT %(limit)s
+            """,
+            {"uid": user_id, "source": source or "", "limit": max(1, min(int(limit), 1000))},
+        )
+        return [dict(r) for r in cur.fetchall()]
 
 
 def credit_history(user_id: int, limit: int = 50) -> list[dict]:

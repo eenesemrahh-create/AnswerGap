@@ -205,6 +205,38 @@ def subscription_checkout(
     return {"id": data.get("id"), "url": data.get("url")}
 
 
+def create_customer(*, user_id: int, email: str | None) -> str:
+    """A Stripe customer for this account, created BEFORE its first checkout.
+
+    So that every event Stripe raises about this person's money - a declined
+    card included, which never produces a subscription - names a customer we
+    can map back to the account. Letting Checkout create the customer meant a
+    failed first attempt belonged to nobody.
+    """
+    form = {"metadata[answergap_user_id]": str(user_id)}
+    if email:
+        form["email"] = email
+    data = _request("POST", "/v1/customers", form)
+    return str(data.get("id") or "")
+
+
+def cancel_subscription(subscription_id: str, *, at_period_end: bool) -> dict:
+    """Cancel a subscription AT STRIPE - now, or when the paid period ends.
+
+    The only honest way to end a paid plan: ending our row alone would leave
+    Stripe charging the card and the next renewal webhook reinstating it.
+    """
+    if at_period_end:
+        data = _request(
+            "POST", f"/v1/subscriptions/{subscription_id}",
+            {"cancel_at_period_end": "true"},
+        )
+    else:
+        data = _request("DELETE", f"/v1/subscriptions/{subscription_id}")
+    return {"status": data.get("status"),
+            "cancel_at_period_end": bool(data.get("cancel_at_period_end"))}
+
+
 def billing_portal(*, customer_id: str, return_url: str) -> dict:
     """A link to Stripe's own billing portal.
 
@@ -359,6 +391,9 @@ INTERESTING = (
     "payment_intent.succeeded",
     "payment_intent.payment_failed",
     "charge.refunded",
+    # Somebody opened a checkout and walked away; Stripe expires it after a
+    # day. The account log shows it as "tried, did not buy".
+    "checkout.session.expired",
     # --- subscriptions -------------------------------------------------
     # `invoice.paid` is the one that hands out credits, and it covers BOTH
     # the first month and every renewal - Stripe raises it for the initial

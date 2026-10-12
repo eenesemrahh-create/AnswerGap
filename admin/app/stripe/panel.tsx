@@ -36,6 +36,9 @@ const WEBHOOK_EVENTS = [
   "customer.subscription.deleted",
   "invoice.paid",
   "invoice.payment_failed",
+  // So a declined card and an abandoned checkout reach the account log.
+  "payment_intent.payment_failed",
+  "checkout.session.expired",
 ];
 
 export function StripePanel({

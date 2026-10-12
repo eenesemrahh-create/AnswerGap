@@ -400,6 +400,10 @@ const en = {
       "The pricing section on the marketing landing reads from a separate " +
       "setting — plan cards with name, price and features.",
     editPricing: "Edit pricing plans →",
+    editPlanFeatures: "Edit subscription features →",
+    planFeaturesLead:
+      "What each plan grants - credits first, more to come. Separate from " +
+      "the cards above, which are only what the plans say.",
   },
 
   audit: {
@@ -424,10 +428,10 @@ const en = {
   stripe: {
     title: "Payments",
     lead:
-      "The smallest slice that proves the pipe: the secret key can read the " +
-      "account, Checkout opens a session, and the signed webhook comes back " +
-      "with the money. Plans and credit grants are not wired to any of this " +
-      "yet — a successful payment is recorded, and nothing else happens.",
+      "Every Stripe event the signed webhook delivered, and what it did. " +
+      "invoice.paid starts or renews a plan and grants the credits set on " +
+      "Settings → Subscription features. The test-payment button below is a " +
+      "one-off $1 pipe check: it buys no plan and grants nothing.",
   },
 
   signin: {
@@ -471,6 +475,7 @@ const en = {
     featuresHeadingHint: "e.g. Best value for money",
     credits: "Credits per period",
     creditsHint: "what one paid month grants",
+    creditsMoved: "set on the Subscription features page →",
     stripePrice: "Stripe price (monthly)",
     stripePriceAnnual: "Stripe price (annual)",
     capabilities: "What this plan unlocks",
@@ -615,6 +620,61 @@ const en = {
       "traceback — the admin service only sees the status.",
     hintOther: "Check the api service's log for the matching request.",
     bodyInLog: "The full response body is in this service's log, prefixed",
+  },
+
+  cancel: {
+    now: "Cancel now",
+    periodEnd: "Cancel at period end",
+    confirmNow:
+      "Cancel this subscription at Stripe now? It ends immediately; credits " +
+      "already granted stay.",
+    confirmPeriodEnd:
+      "Cancel at the end of the paid period? It keeps running until then and " +
+      "does not renew.",
+    liveWarning: "This is a LIVE subscription - a real paying customer.",
+    yes: "Yes, cancel at Stripe",
+    working: "Cancelling…",
+    scheduled: "ends at period end",
+    failed: "Could not cancel. See the api log.",
+  },
+
+  log: {
+    heading: "Account log",
+    lead:
+      "Everything that happened to this account, newest first: checkouts " +
+      "opened or refused, every Stripe event and what it did (a declined " +
+      "card shows its decline code), searches, credit movements and admin acts.",
+    all: "All",
+    where: "Source",
+    what: "Event",
+    raw: "all fields",
+    empty: "Nothing recorded yet.",
+    source: {
+      account: "checkout",
+      payment: "Stripe",
+      usage: "search",
+      credit: "credits",
+      admin: "admin",
+    },
+  },
+
+  planFeatures: {
+    back: "← Settings",
+    title: "Subscription features",
+    lead:
+      "What each plan grants. Billing reads this page, not the pricing " +
+      "cards. Credits are the first feature; more will be added as columns.",
+    noPlans: "There are no plans yet. Create them on the pricing page first.",
+    published: "Published",
+    yes: "yes",
+    no: "no",
+    credits: "Credits per renewal",
+    notSaved: "from the card - not saved here yet",
+    renewalNote:
+      "Every paid renewal grants the number saved here at that moment, " +
+      "including for people already subscribed. Raising it reaches them at " +
+      "their next renewal - and so does lowering it. 0 means the plan grants " +
+      "no credits.",
   },
 
   pricing: {
@@ -1110,6 +1170,10 @@ const tr: Messages = {
       "Pazarlama sayfasındaki fiyatlandırma bölümü ayrı bir ayardan okunur — " +
       "ad, fiyat ve özellikleriyle plan kartları.",
     editPricing: "Fiyat planlarını düzenle →",
+    editPlanFeatures: "Abonelik özelliklerini düzenle →",
+    planFeaturesLead:
+      "Her planın ne verdiği: önce kredi, sonra diğerleri. Yukarıdaki " +
+      "kartlardan ayrı; kartlar yalnızca planların ne söylediğidir.",
   },
 
   audit: {
@@ -1134,10 +1198,11 @@ const tr: Messages = {
   stripe: {
     title: "Ödemeler",
     lead:
-      "Boruyu kanıtlayan en küçük dilim: gizli anahtar hesabı okuyabiliyor, " +
-      "Checkout bir oturum açıyor ve imzalı webhook parayla geri dönüyor. " +
-      "Planlar ve kredi tanımlama henüz bunların hiçbirine bağlı değil — " +
-      "başarılı bir ödeme kaydediliyor ve başka hiçbir şey olmuyor.",
+      "İmzalı webhook'un getirdiği her Stripe olayı ve ne yaptığı. " +
+      "invoice.paid bir planı başlatır ya da yeniler ve Ayarlar → Abonelik " +
+      "özellikleri'nde girilen krediyi yükler. Aşağıdaki test ödemesi düğmesi " +
+      "tek seferlik 1 dolarlık bir altyapı denemesidir: plan satın almaz, " +
+      "kredi yüklemez.",
   },
 
   signin: {
@@ -1181,6 +1246,7 @@ const tr: Messages = {
     featuresHeadingHint: "örn. En iyi fiyat/performans",
     credits: "Dönem başına kredi",
     creditsHint: "bir ödenmiş ayın verdiği kredi",
+    creditsMoved: "Abonelik özellikleri sayfasında ayarlanır →",
     stripePrice: "Stripe fiyatı (aylık)",
     stripePriceAnnual: "Stripe fiyatı (yıllık)",
     capabilities: "Bu planın açtıkları",
@@ -1321,6 +1387,60 @@ const tr: Messages = {
       "günlüğünde — admin servisi yalnızca durum kodunu görüyor.",
     hintOther: "İlgili istek için api servisinin günlüğüne bakın.",
     bodyInLog: "Yanıtın tamamı bu servisin günlüğünde, şu önekle:",
+  },
+
+  cancel: {
+    now: "Hemen iptal et",
+    periodEnd: "Dönem sonunda iptal et",
+    confirmNow:
+      "Bu abonelik Stripe'ta şimdi iptal edilsin mi? Hemen sona erer; " +
+      "yüklenmiş krediler kalır.",
+    confirmPeriodEnd:
+      "Ödenmiş dönemin sonunda iptal edilsin mi? O zamana kadar sürer ve " +
+      "yenilenmez.",
+    liveWarning: "Bu CANLI bir abonelik - gerçekten ödeme yapan bir müşteri.",
+    yes: "Evet, Stripe'ta iptal et",
+    working: "İptal ediliyor…",
+    scheduled: "dönem sonunda bitecek",
+    failed: "İptal edilemedi. Api loguna bak.",
+  },
+
+  log: {
+    heading: "Hesap günlüğü",
+    lead:
+      "Bu hesapta olan her şey, en yeni en üstte: açılan ya da açılamayan " +
+      "ödeme sayfaları, her Stripe olayı ve ne yaptığı (reddedilen kart, ret " +
+      "kodunu gösterir), aramalar, kredi hareketleri ve admin işlemleri.",
+    all: "Tümü",
+    where: "Kaynak",
+    what: "Olay",
+    raw: "tüm alanlar",
+    empty: "Henüz kayıt yok.",
+    source: {
+      account: "ödeme sayfası",
+      payment: "Stripe",
+      usage: "arama",
+      credit: "kredi",
+      admin: "admin",
+    },
+  },
+
+  planFeatures: {
+    back: "← Ayarlar",
+    title: "Abonelik özellikleri",
+    lead:
+      "Her planın ne verdiği. Ödeme sistemi fiyat kartlarını değil bu sayfayı " +
+      "okur. İlk özellik kredi; yenileri sütun olarak eklenecek.",
+    noPlans: "Henüz plan yok. Önce fiyatlandırma sayfasında oluştur.",
+    published: "Yayında",
+    yes: "evet",
+    no: "hayır",
+    credits: "Yenileme başına kredi",
+    notSaved: "karttan geliyor - burada henüz kaydedilmedi",
+    renewalNote:
+      "Her ödenmiş yenilemede, o anda burada kayıtlı olan sayı yüklenir; " +
+      "mevcut aboneler dahil. Artırırsan bir sonraki yenilemelerinde onlara " +
+      "da ulaşır, azaltırsan da öyle. 0, planın kredi vermediği anlamına gelir.",
   },
 
   pricing: {

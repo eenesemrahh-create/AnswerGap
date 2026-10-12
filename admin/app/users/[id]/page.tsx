@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { get, money, when } from "@/lib/api";
 import { getLocale, translator } from "@/lib/locale";
-import type { Pricing, UserActivity, UserDetail } from "@/lib/types";
+import type { Pricing, UserActivity, UserDetail, UserLog } from "@/lib/types";
+import { AccountLog } from "./AccountLog";
 import { grantCredits, revokeTokens, setStatus } from "../actions";
 import { Activity } from "./Activity";
 import { EraseAccount } from "./EraseAccount";
@@ -19,11 +20,17 @@ export default async function UserPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ months?: string }>;
+  searchParams: Promise<{ months?: string; log?: string }>;
 }) {
   const { id } = await params;
   const userId = Number(id);
-  const asked = Number((await searchParams).months);
+  const query = await searchParams;
+  const asked = Number(query.months);
+  // Checked here as well as by the api: an unknown value would be a 400 there,
+  // and a 400 takes the whole page to /api-error over a typo in a URL.
+  const logSource = ["account", "payment", "usage", "credit", "admin"].includes(query.log ?? "")
+    ? (query.log as string)
+    : "";
   // Anything unrecognised falls back to a year rather than being passed
   // through. A window nobody chose is how a total quietly answers a different
   // question from the one the heading claims.
@@ -47,10 +54,13 @@ export default async function UserPage({
   // separate call rather than more fields on the detail: that statement is
   // already four `json_agg` windows wide, and folding three more breakdowns
   // into it would make the whole page hostage to the slowest number on it.
-  const [u, pricing, activity] = await Promise.all([
+  const [u, pricing, activity, log] = await Promise.all([
     get<UserDetail>(`/api/admin/user/${userId}`),
     get<Pricing>("/api/admin/pricing"),
     get<UserActivity>(`/api/admin/user/${userId}/activity?months=${months}`),
+    get<UserLog>(
+      `/api/admin/user/${userId}/log${logSource ? `?source=${encodeURIComponent(logSource)}` : ""}`
+    ),
   ]);
 
   const grant = grantCredits.bind(null, userId);
@@ -199,6 +209,15 @@ export default async function UserPage({
       <p className="sub">
         <Link href="/stripe">{t("userDetail.allPayments")}</Link>
       </p>
+
+      <AccountLog
+        userId={userId}
+        entries={log.entries}
+        sources={log.sources}
+        source={log.sources.includes(logSource) ? logSource : ""}
+        months={months}
+        locale={locale}
+      />
 
       <h2>{t("userDetail.account")}</h2>
       <form className="row" action={status}>

@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n";
 import { makeT } from "@/lib/i18n";
 import type { Plan, SubscriptionRow } from "@/lib/types";
 import { assignPlan, revokePlan } from "../actions";
+import { CancelSubscription } from "./CancelSubscription";
 
 /**
  * What plan this account is on, and how to put it on another one without
@@ -167,15 +168,23 @@ export function PlanPanel({
                 <td>{s.granted_by ?? "—"}</td>
                 <td>{s.note ?? "—"}</td>
                 <td>
-                  {/* Only an assigned, still-live row can be ended here. A
-                      paid one is Stripe's; a already-ended one has nothing
-                      left to do. */}
+                  {/* An assigned row is ended here directly. A paid one is
+                      cancelled AT STRIPE (see CancelSubscription), never by
+                      editing our row alone. */}
                   {s.source === "admin" && s.live ? (
                     <form action={revokePlan.bind(null, userId, s.id)}>
                       <button className="act warn" type="submit">
                         {t("plan.revoke")}
                       </button>
                     </form>
+                  ) : s.source === "stripe" && s.status !== "canceled" ? (
+                    <CancelSubscription
+                      userId={userId}
+                      subscriptionId={s.id}
+                      endsAtPeriodEnd={s.cancel_at_period_end}
+                      livemode={s.livemode}
+                      locale={locale}
+                    />
                   ) : (
                     "—"
                   )}

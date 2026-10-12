@@ -129,18 +129,56 @@ def test_the_grant_is_keyed_on_the_invoice(wired) -> None:
     assert [g["invoice_id"] for g in wired["grants"]] == ["in_123", "in_456"]
 
 
-def test_credits_come_from_the_agreement_not_the_price_list(monkeypatch, wired) -> None:
-    """The plan now advertises a different number; the renewal pays what was
-    agreed when it was bought. Re-pricing an existing subscription silently is
-    the failure this guards.
+def test_a_renewal_grants_the_plans_current_credits(monkeypatch, wired) -> None:
+    """THE OPERATOR'S CHOICE, 2026-10-12: a renewal pays the plan's figure
+    TODAY, not the one recorded when it was bought. This used to be the
+    opposite rule, and this test used to pin the opposite answer.
 
-    Patched through `monkeypatch` rather than by assigning to the module: the
-    first version of this test rebound `db.settings_all` permanently and would
-    have leaked a 50-credit plan into every test that ran after it.
+    Patched through `monkeypatch` rather than by assigning to the module, so
+    a 50-credit plan cannot leak into the tests that run after this one.
     """
     cheaper = PLANS.replace('"credits":300', '"credits":50')
     monkeypatch.setattr(db, "settings_all", lambda: {"pricing_plans": cheaper})
     wired["row"]["credits_per_period"] = 300
+    assert main._apply_subscription_event(_invoice_event()) == "granted 50"
+
+
+def test_the_features_page_outranks_the_card(monkeypatch, wired) -> None:
+    monkeypatch.setattr(db, "settings_all", lambda: {
+        "pricing_plans": PLANS,
+        "plan_features": '{"lite": {"credits": 450}}',
+    })
+    assert main._apply_subscription_event(_invoice_event()) == "granted 450"
+    assert wired["upserts"][-1]["credits_per_period"] == 450
+
+
+def test_zero_on_the_features_page_grants_nothing(monkeypatch, wired) -> None:
+    """A deliberate 0 is an answer, not a blank: it must not fall back to the
+    card's figure or to what the row recorded last month."""
+    monkeypatch.setattr(db, "settings_all", lambda: {
+        "pricing_plans": PLANS,
+        "plan_features": '{"lite": {"credits": 0}}',
+    })
+    assert main._apply_subscription_event(_invoice_event()) == (
+        "paid, but this plan grants no credits"
+    )
+    assert wired["grants"] == []
+
+
+def test_a_plan_nobody_priced_keeps_what_the_row_recorded(monkeypatch, wired) -> None:
+    """No features entry and no card figure: the last known amount stands,
+    so a missing setting never zeroes a paying customer's renewal."""
+    monkeypatch.setattr(db, "settings_all", lambda: {
+        "pricing_plans": PLANS.replace('"credits":300,', ''),
+    })
+    wired["row"]["credits_per_period"] = 120
+    assert main._apply_subscription_event(_invoice_event()) == "granted 120"
+
+
+def test_a_corrupt_features_setting_does_not_break_billing(monkeypatch, wired) -> None:
+    monkeypatch.setattr(db, "settings_all", lambda: {
+        "pricing_plans": PLANS, "plan_features": "{not json",
+    })
     assert main._apply_subscription_event(_invoice_event()) == "granted 300"
 
 
@@ -433,3 +471,210 @@ def test_an_unknown_or_malformed_event_is_refused(stored, event_id) -> None:
     with pytest.raises(HTTPException) as exc:
         admin.stripe_event_process(_Req(), event_id)
     assert exc.value.status_code in (400, 404)
+
+
+# ------------------------------------------------- the features page itself
+
+
+@pytest.fixture
+def features_wired(monkeypatch):
+    state = {"settings": {"pricing_plans": PLANS,
+                          "plan_features": '{"retired": {"credits": 70}}'},
+             "puts": []}
+    monkeypatch.setattr(admin, "require_admin",
+                        lambda request: SimpleNamespace(email="op@example.com"))
+    monkeypatch.setattr(db, "settings_all", lambda: state["settings"])
+
+    def put(*, key, value, actor):
+        state["puts"].append((key, value, actor))
+        state["settings"] = {**state["settings"], key: value}
+
+    monkeypatch.setattr(db, "setting_put", put)
+    return state
+
+
+def test_saving_features_keeps_plans_the_form_did_not_send(features_wired) -> None:
+    """A retired plan still renews for the people on it; saving the page
+    without its row must not zero their renewals."""
+    out = admin.put_plan_features(
+        _Req(), admin.PlanFeaturesRequest(features={"lite": {"credits": 250}})
+    )
+    assert out["features"] == {"lite": {"credits": 250}, "retired": {"credits": 70}}
+    assert features_wired["puts"][0][0] == "plan_features"
+    assert billing.plan_credits("lite") == 250
+
+
+def test_features_for_a_plan_that_does_not_exist_are_refused(features_wired) -> None:
+    with pytest.raises(HTTPException) as exc:
+        admin.put_plan_features(
+            _Req(), admin.PlanFeaturesRequest(features={"strater": {"credits": 1}})
+        )
+    assert exc.value.status_code == 400
+    assert features_wired["puts"] == []
+
+
+def test_negative_credits_never_reach_the_setting() -> None:
+    with pytest.raises(ValidationError):
+        admin.PlanFeaturesRequest(features={"lite": {"credits": -5}})
+
+
+def test_the_page_shows_the_cards_figure_until_the_plan_is_saved(features_wired) -> None:
+    out = admin.get_plan_features(_Req())
+    assert {p["id"] for p in out["plans"]} == {"lite", "draft"}
+    assert out["legacy"]["lite"] == 300
+    assert out["features"] == {"retired": {"credits": 70}}
+
+
+# ------------------------------------------ cancelling from the account page
+
+
+@pytest.fixture
+def cancel_wired(monkeypatch):
+    state = {"row": {"id": 5, "user_id": 7, "stripe_subscription_id": "sub_123",
+                     "source": "stripe", "status": "active"},
+             "stripe": [], "marked": []}
+    monkeypatch.setattr(admin, "require_admin",
+                        lambda request: SimpleNamespace(email="op@example.com"))
+    monkeypatch.setattr(db, "subscription_for_admin",
+                        lambda user_id, subscription_id:
+                        state["row"] if (user_id, subscription_id) == (7, 5) else None)
+
+    def cancel(sid, at_period_end):
+        state["stripe"].append((sid, at_period_end))
+        return {"status": "active" if at_period_end else "canceled",
+                "cancel_at_period_end": at_period_end}
+
+    monkeypatch.setattr(admin.stripe, "cancel_subscription", cancel)
+    monkeypatch.setattr(db, "subscription_mark_cancelled",
+                        lambda **kw: state["marked"].append(kw))
+    return state
+
+
+def test_cancelling_now_ends_it_at_stripe_then_here(cancel_wired) -> None:
+    out = admin.cancel_subscription(_Req(), 7, 5, admin.CancelSubscriptionRequest())
+    assert cancel_wired["stripe"] == [("sub_123", False)]
+    assert cancel_wired["marked"][0]["at_period_end"] is False
+    assert cancel_wired["marked"][0]["actor"] == "op@example.com"
+    assert out["status"] == "canceled"
+
+
+def test_cancelling_at_period_end_keeps_what_was_paid_for(cancel_wired) -> None:
+    admin.cancel_subscription(
+        _Req(), 7, 5, admin.CancelSubscriptionRequest(when="period_end")
+    )
+    assert cancel_wired["stripe"] == [("sub_123", True)]
+
+
+def test_a_refused_cancellation_writes_nothing(monkeypatch, cancel_wired) -> None:
+    """The row must never say cancelled about a subscription still charging."""
+    def refuse(sid, at_period_end):
+        raise admin.stripe.StripeError("invalidRequest", 404, "No such subscription")
+
+    monkeypatch.setattr(admin.stripe, "cancel_subscription", refuse)
+    with pytest.raises(HTTPException) as exc:
+        admin.cancel_subscription(_Req(), 7, 5, admin.CancelSubscriptionRequest())
+    assert exc.value.status_code == 502
+    assert cancel_wired["marked"] == []
+
+
+@pytest.mark.parametrize("change, code", [
+    ({"source": "admin", "stripe_subscription_id": None}, 409),
+    ({"status": "canceled"}, 409),
+])
+def test_what_cannot_be_cancelled_at_stripe_is_refused(cancel_wired, change, code) -> None:
+    cancel_wired["row"].update(change)
+    with pytest.raises(HTTPException) as exc:
+        admin.cancel_subscription(_Req(), 7, 5, admin.CancelSubscriptionRequest())
+    assert exc.value.status_code == code
+    assert cancel_wired["stripe"] == []
+
+
+def test_another_accounts_subscription_is_not_found(cancel_wired) -> None:
+    with pytest.raises(HTTPException) as exc:
+        admin.cancel_subscription(_Req(), 8, 5, admin.CancelSubscriptionRequest())
+    assert exc.value.status_code == 404
+
+
+# ------------------------------------------------- what a failure is called
+
+
+def test_a_declined_card_is_described_in_stripes_own_codes() -> None:
+    event = {"type": "payment_intent.payment_failed", "data": {"object": {
+        "last_payment_error": {"code": "card_declined", "decline_code": "insufficient_funds",
+                               "message": "Your card has insufficient funds."}}}}
+    assert billing.describe_failure(event) == (
+        "card declined: insufficient_funds - Your card has insufficient funds."
+    )
+
+
+def test_an_abandoned_checkout_is_called_that() -> None:
+    assert billing.describe_failure(
+        {"type": "checkout.session.expired", "data": {"object": {}}}
+    ) == "checkout abandoned"
+
+
+def test_an_expired_checkout_is_attributed_by_its_reference(monkeypatch) -> None:
+    monkeypatch.setattr(db, "user_by_stripe_customer", lambda cid: None)
+    event = {"type": "checkout.session.expired",
+             "data": {"object": {"client_reference_id": "7", "customer": None}}}
+    assert billing.resolve_stripe_user(event) == 7
+
+
+# ------------------------------------------- what a checkout leaves behind
+
+from api import auth  # noqa: E402
+
+
+@pytest.fixture
+def checkout_wired(monkeypatch):
+    state = {"log": [], "attached": [], "sessions": [], "fail": False}
+    monkeypatch.setattr(auth, "accounts_enabled", lambda: True)
+    monkeypatch.setattr(auth, "identity",
+                        lambda request: SimpleNamespace(signed_in=True, user_id=7))
+    monkeypatch.setattr(db, "user_for_gate", lambda uid: {
+        "status": "active", "email_verified": True, "email": "a@example.com",
+        "stripe_customer_id": None})
+    monkeypatch.setattr(auth.stripe, "mode", lambda: "test")
+    monkeypatch.setattr(auth, "_published_plan",
+                        lambda pid: {"id": pid, "stripe_price_id": "price_lite"})
+    monkeypatch.setattr(auth.stripe, "create_customer", lambda **kw: "cus_new")
+    monkeypatch.setattr(db, "stripe_customer_attach",
+                        lambda **kw: state["attached"].append(kw))
+    monkeypatch.setattr(db, "account_event_put", lambda **kw: state["log"].append(kw))
+
+    def session(**kw):
+        if state["fail"]:
+            raise auth.stripe.StripeError("invalidRequest", 400, "No such price")
+        state["sessions"].append(kw)
+        return {"id": "cs_1", "url": "https://checkout.stripe.com/x"}
+
+    monkeypatch.setattr(auth.stripe, "subscription_checkout", session)
+    return state
+
+
+def test_a_checkout_creates_the_customer_first_and_logs_the_attempt(checkout_wired) -> None:
+    """The customer exists before the card is typed, so even a declined first
+    attempt raises events we can map back to this account."""
+    out = auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))
+    assert out["url"].startswith("https://checkout.stripe.com")
+    assert checkout_wired["attached"] == [{"user_id": 7, "customer_id": "cus_new"}]
+    assert checkout_wired["sessions"][0]["customer_id"] == "cus_new"
+    entry = checkout_wired["log"][0]
+    assert entry["kind"] == "checkout_started"
+    assert entry["detail"]["plan_id"] == "lite" and entry["detail"]["session_id"] == "cs_1"
+
+
+def test_a_checkout_stripe_refuses_is_logged_as_failed(checkout_wired) -> None:
+    checkout_wired["fail"] = True
+    with pytest.raises(HTTPException):
+        auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))
+    assert checkout_wired["log"][0]["kind"] == "checkout_failed"
+    assert checkout_wired["log"][0]["detail"]["error"] == "invalidRequest"
+
+
+def test_a_broken_log_never_costs_the_customer_their_checkout(monkeypatch, checkout_wired) -> None:
+    def boom(**kw):
+        raise RuntimeError("database away")
+
+    monkeypatch.setattr(db, "account_event_put", boom)
+    assert auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))["url"]

@@ -1297,6 +1297,50 @@ def test_an_event_records_what_it_did_and_whose_it_was() -> None:
     assert db.payment_event_payload("evt_fx")["type"] == "invoice.paid"
     assert db.admin_user_detail(user["id"])["payments"][0]["effect"] == "granted 100"
 
+
+def test_the_account_log_gathers_all_five_sources() -> None:
+    """Checkouts, Stripe events, searches, credits and admin acts - one list,
+    newest first, filterable by where each line came from."""
+    user = _subscriber()
+    db.account_event_put(user_id=user["id"], kind="checkout_started",
+                         detail={"plan_id": "lite"})
+    db.payment_event_put({**_event("evt_log"), "kind": "payment_intent.payment_failed",
+                          "user_id": user["id"]},
+                         {"id": "evt_log"})
+    db.payment_event_set_effect("evt_log", "card declined: insufficient_funds")
+    _assign(user["id"])
+
+    entries = db.user_log(user["id"])
+    sources = {e["source"] for e in entries}
+    assert {"account", "payment", "credit", "admin"} <= sources
+    failed = next(e for e in entries if e["source"] == "payment")
+    assert failed["detail"]["effect"] == "card declined: insufficient_funds"
+    assert [e["created_at"] for e in entries] == sorted(
+        (e["created_at"] for e in entries), reverse=True)
+
+    only = db.user_log(user["id"], source="account")
+    assert [e["kind"] for e in only] == ["checkout_started"]
+
+
+def test_a_cancellation_is_mirrored_and_audited() -> None:
+    user = _subscriber()
+    _paid(user["id"], sid="sub_cancel")
+    row = next(r for r in db.admin_user_detail(user["id"])["subscriptions"]
+               if r["stripe_subscription_id"] == "sub_cancel")
+    found = db.subscription_for_admin(user_id=user["id"], subscription_id=row["id"])
+    assert found["source"] == "stripe"
+    assert db.subscription_for_admin(user_id=user["id"] + 999,
+                                     subscription_id=row["id"]) is None
+
+    db.subscription_mark_cancelled(subscription_id=row["id"], user_id=user["id"],
+                                   at_period_end=False, actor="op@example.com",
+                                   stripe_subscription_id="sub_cancel")
+    after = db.subscription_for_admin(user_id=user["id"], subscription_id=row["id"])
+    assert after["status"] == "canceled"
+    admin_lines = db.user_log(user["id"], source="admin")
+    assert admin_lines[0]["kind"] == "cancel_subscription"
+    assert admin_lines[0]["detail"]["actor"] == "op@example.com"
+
 def test_the_stripe_customer_link_is_one_account_only() -> None:
     """The webhook's only way back to an account. Two users sharing a customer
     id would hand a renewal to whichever one the query happened to return."""

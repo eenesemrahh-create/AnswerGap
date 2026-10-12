@@ -44,6 +44,12 @@ export default async function SettingsPage() {
           {t("settings.editPricing")}
         </Link>
       </p>
+      <p className="sub">{t("settings.planFeaturesLead")}</p>
+      <p>
+        <Link href="/settings/plans" className="linkish">
+          {t("settings.editPlanFeatures")}
+        </Link>
+      </p>
     </>
   );
 }

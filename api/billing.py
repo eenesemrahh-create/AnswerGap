@@ -38,7 +38,7 @@ def resolve_stripe_user(event: dict) -> int | None:
         if row:
             return int(row["id"])
     hinted = stripe._metadata_user_id(obj)
-    if hinted is None and (event.get("type") or "") == "checkout.session.completed":
+    if hinted is None and (event.get("type") or "").startswith("checkout.session."):
         raw = obj.get("client_reference_id")
         try:
             hinted = int(raw) if raw else None
@@ -66,6 +66,53 @@ def plan_for_price(price_id: str | None) -> dict | None:
         if price_id in (plan.get("stripe_price_id"), plan.get("stripe_price_id_annual")):
             return plan
     return None
+
+
+def plan_features() -> dict[str, dict]:
+    """What each plan grants, keyed by plan id. Empty when never saved.
+
+    Separate from the pricing cards on purpose: a card is marketing copy an
+    operator rewords, translates and reorders; this is the contract the
+    billing code acts on.
+    """
+    try:
+        data = json.loads(db.settings_all().get(gate.SETTING_PLAN_FEATURES, "") or "{}")
+    except Exception:  # noqa: BLE001 - billing must not break on a bad setting
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def plan_credits(plan_id: str | None, *, card: dict | None = None) -> int | None:
+    """How many credits one paid period of this plan grants, AS OF NOW.
+
+    THE OPERATOR'S CHOICE (2026-10-12): every renewal grants the plan's
+    CURRENT figure, so raising a plan's credits reaches existing subscribers
+    at their next renewal - and so does lowering it. This replaced copying
+    the figure onto the subscription at purchase.
+
+    The Subscription features page is the source. A plan with no entry there
+    falls back to the `credits` its pricing card carried before that page
+    existed, so nothing already sold stops granting on the day this ships.
+    None means "nobody has said": the caller keeps what it already had.
+    """
+    if not plan_id:
+        return None
+    entry = plan_features().get(plan_id)
+    if isinstance(entry, dict) and entry.get("credits") is not None:
+        try:
+            return max(0, int(entry["credits"]))
+        except (TypeError, ValueError):
+            return None
+    if card is None:
+        try:
+            cards = json.loads(db.settings_all().get(gate.SETTING_PRICING_PLANS, "") or "[]")
+        except Exception:  # noqa: BLE001
+            cards = []
+        card = next(
+            (c for c in cards if isinstance(c, dict) and c.get("id") == plan_id), None
+        ) if isinstance(cards, list) else None
+    legacy = (card or {}).get("credits")
+    return int(legacy) if legacy else None
 
 
 def apply_subscription_event(event: dict) -> str | None:
@@ -111,18 +158,24 @@ def apply_subscription_event(event: dict) -> str | None:
             )
             return "past_due"
 
+        plan_id = (plan or {}).get("id") or (known or {}).get("plan_id")
+        current = plan_credits(plan_id, card=plan)
+
         db.subscription_upsert(
             user_id=user_id,
             stripe_subscription_id=subscription_id,
-            plan_id=(plan or {}).get("id") or (known or {}).get("plan_id"),
+            plan_id=plan_id,
             stripe_price_id=found.get("price_id"),
             # An invoice does not carry a status; keep the one we had, and
             # treat a paid invoice as proof the subscription is running.
             status=found.get("status")
             or ("active" if kind == "invoice.paid" else (known or {}).get("status"))
             or "active",
+            # Kept on the row so the account pages can draw "N credits per
+            # month" without asking which plan setting is current.
             credits_per_period=int(
-                (plan or {}).get("credits") or (known or {}).get("credits_per_period") or 0
+                current if current is not None
+                else (known or {}).get("credits_per_period") or 0
             ),
             current_period_end=stripe_time(found.get("current_period_end")),
             cancel_at_period_end=bool(
@@ -136,10 +189,10 @@ def apply_subscription_event(event: dict) -> str | None:
         if kind != "invoice.paid":
             return f"status {found.get('status') or 'updated'}"
 
-        # THE GRANT. Read back rather than reusing `plan`, so the credits are
-        # the ones on the agreement and not the ones on today's pricing page.
+        # THE GRANT: the plan's figure TODAY (see `plan_credits`), falling
+        # back to what the row last recorded when no plan setting answers.
         row = db.subscription_by_stripe_id(subscription_id) or {}
-        credits = int(row.get("credits_per_period") or 0)
+        credits = int(current if current is not None else row.get("credits_per_period") or 0)
         if credits <= 0:
             return "paid, but this plan grants no credits"
         granted = db.subscription_credit(
@@ -154,6 +207,23 @@ def apply_subscription_event(event: dict) -> str | None:
             "Subscription event %s failed", event.get("id")
         )
         return "ERROR"
+
+
+def describe_failure(event: dict) -> str | None:
+    """What went wrong, in Stripe's own codes, for a payment that did not
+    happen. Written as the event's effect so the account log can say "card
+    declined: insufficient_funds" rather than only "payment failed".
+    """
+    kind = event.get("type") or ""
+    obj = ((event.get("data") or {}).get("object")) or {}
+    if kind == "checkout.session.expired":
+        return "checkout abandoned"
+    if kind in ("payment_intent.payment_failed", "checkout.session.async_payment_failed"):
+        error = obj.get("last_payment_error") or {}
+        code = error.get("decline_code") or error.get("code") or "unknown"
+        message = (error.get("message") or "").strip()
+        return f"card declined: {code}" + (f" - {message}" if message else "")
+    return None
 
 
 def stripe_time(value) -> str | None:

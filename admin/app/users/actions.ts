@@ -59,6 +59,17 @@ export async function revokePlan(userId: number, subscriptionId: number) {
   revalidatePath(`/users/${userId}`);
 }
 
+/** Cancel a PAID subscription at Stripe: now, or when the paid period ends.
+ *  The api cancels at Stripe first and only then mirrors it here. */
+export async function cancelSubscription(
+  userId: number,
+  subscriptionId: number,
+  when: "now" | "period_end"
+): Promise<void> {
+  await post(`/api/admin/user/${userId}/subscription/${subscriptionId}/cancel`, { when });
+  revalidatePath(`/users/${userId}`);
+}
+
 export async function setStatus(userId: number, formData: FormData) {
   const status = String(formData.get("status") ?? "");
   if (status !== "active" && status !== "suspended") return;
