@@ -494,6 +494,10 @@ export const fr: Messages = {
     noCredentials: "Les identifiants DataForSEO sont absents. Copiez .env.example vers .env, remplissez-le, puis redémarrez le backend.",
     budget: "Le plafond de requêtes a été atteint ; l’exploration s’est arrêtée plutôt que de dépenser davantage.",
     upstream: "DataForSEO est injoignable, ou a renvoyé une erreur. Une requête échouée n’est pas facturée.",
+    searchUnavailable:
+      "La recherche est temporairement indisponible. Nous avons été prévenus et nous nous en occupons. Aucun crédit n’a été utilisé.",
+    searchFailed:
+      "La recherche n’a pas pu aboutir. Aucun crédit n’a été utilisé - réessayez dans une minute.",
     badRequest: "Cette requête ne peut pas être exécutée telle quelle.",
     planNotPurchasable:
       "Cette offre n'est pas encore achetable — nous finalisons sa " +

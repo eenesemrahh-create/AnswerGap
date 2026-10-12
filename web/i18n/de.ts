@@ -488,6 +488,10 @@ export const de: Messages = {
     noCredentials: "DataForSEO-Zugangsdaten fehlen. .env.example nach .env kopieren, ausfüllen und das Backend neu starten.",
     budget: "Das Anfragelimit wurde erreicht; der Crawl wurde gestoppt, statt mehr auszugeben.",
     upstream: "DataForSEO war nicht erreichbar oder hat einen Fehler geliefert. Eine fehlgeschlagene Anfrage wird nicht berechnet.",
+    searchUnavailable:
+      "Die Suche ist vorübergehend nicht verfügbar. Wir wurden benachrichtigt und kümmern uns darum. Es wurde kein Credit verbraucht.",
+    searchFailed:
+      "Die Suche konnte nicht abgeschlossen werden. Es wurde kein Credit verbraucht - bitte versuchen Sie es in einer Minute erneut.",
     badRequest: "Diese Anfrage kann so nicht ausgeführt werden.",
     planNotPurchasable:
       "Dieser Tarif kann noch nicht gekauft werden — wir richten die Zahlung " +

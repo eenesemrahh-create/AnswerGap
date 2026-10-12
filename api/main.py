@@ -19,6 +19,7 @@ Run:
 from __future__ import annotations
 
 import gzip
+from html import escape as html_escape
 import hmac
 import json
 import logging
@@ -36,6 +37,7 @@ from answergap import db, entitlements, gate, labels, live, mailer
 from answergap.dataforseo import (
     LIVE_COST_PER_REQUEST,
     STANDARD_COST_PER_REQUEST,
+    AccountBlocked,
     BudgetExceeded,
     DataForSEOError,
 )
@@ -550,6 +552,13 @@ def _run(action):
 
     Node-level fault tolerance is mandatory (CLAUDE.md), and the first half of
     that is not pretending a transient upstream failure is our own 500.
+
+    THE CUSTOMER NEVER SEES THE PROVIDER'S WORDS (2026-10-12). They used to
+    get DataForSEO's own message - "unusual activity in your DataForSEO
+    account ... reach out to support@dataforseo.com" - which names our
+    supplier, tells them to email it about OUR account, and helps nobody.
+    They now get a code and a sentence; the full message goes to the log and,
+    for an account-level refusal, to the operators by email.
     """
     try:
         return action()
@@ -557,8 +566,52 @@ def _run(action):
         raise HTTPException(503, str(e)) from e
     except BudgetExceeded as e:
         raise HTTPException(429, str(e)) from e
+    except AccountBlocked as e:
+        print(f"[provider] ACCOUNT REFUSED ({e.code}): {e}", flush=True)
+        _alert_operators(e)
+        raise HTTPException(503, {"code": "searchUnavailable"}) from e
     except DataForSEOError as e:
-        raise HTTPException(502, str(e)) from e
+        print(f"[provider] request failed: {e}", flush=True)
+        raise HTTPException(502, {"code": "searchFailed"}) from e
+
+
+# At most one alert per this many seconds per refusal code. A paused account
+# refuses every customer's search, and one mail is information where fifty
+# are noise.
+_ALERT_EVERY = 3600
+_alerted: dict = {}
+
+
+def _alert_operators(error: AccountBlocked) -> None:
+    """Tell the people in ADMIN_EMAILS that searching is down, and why.
+
+    Never raises: the customer is already getting an error, and a failed
+    alert must not turn it into a different one.
+    """
+    now = time.time()
+    if now - _alerted.get(error.code, 0) < _ALERT_EVERY:
+        return
+    _alerted[error.code] = now
+    text = (
+        "Searches are being refused because DataForSEO refused the account, "
+        f"not the request (status {error.code}).\n\n{error}\n\n"
+        "Every customer's search fails until this is fixed. Requests are held "
+        "back for 10 minutes at a time so they do not add to the problem. "
+        "40201 means DataForSEO paused the account for 'unusual activity' - "
+        "only their support (support@dataforseo.com) can lift it. 40200/40202 "
+        "mean the balance is empty; 40100/40104 mean the credentials or the "
+        "account verification."
+    )
+    for address in sorted(auth.ADMIN_EMAILS):
+        try:
+            mailer.send(
+                to=address,
+                subject=f"[AnswerGap] Searches are down: DataForSEO {error.code}",
+                text=text,
+                html=f"<pre style=\"white-space:pre-wrap\">{html_escape(text)}</pre>",
+            )
+        except Exception as exc:  # noqa: BLE001
+            print(f"[provider] alert to {address} failed: {exc}", flush=True)
 
 
 @app.post("/api/search")

@@ -134,6 +134,14 @@ do not propose it.
 - Use `location_code`, never `location_name` (a spelling change breaks it).
 - `location_code` values are Google Geo Target IDs, so the same number works
   against the Ads API. Do not write a mapping table.
+- **Account refusals are not request failures.** `40201` ("unusual
+  activity", 2026-09-17 and again 2026-10-12), `40104`, `40200/40202` and
+  `40100` raise `AccountBlocked`: no retry, the customer gets the code
+  `searchUnavailable` (never the provider's words), `ADMIN_EMAILS` get one
+  mail per hour, and `dataforseo` holds every request back for 10 minutes
+  (`provider_pause`) rather than hammering a paused account. Only
+  support@dataforseo.com can lift a 40201. An `HTTP 5xx` is now retried like
+  a `50000` in a 200.
 - **Node-level fault tolerance is mandatory.** A single `40101 Internal SE
   Server Error` killed a 16-request run during Phase 0.5. One transient error
   must not abandon a 70-node crawl — retry with backoff, and let a node fail

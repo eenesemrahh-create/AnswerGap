@@ -57,6 +57,46 @@ class TransientError(DataForSEOError):
 
 RETRYABLE_TASK_CODES = {40101, 40102, 40103, 50000, 50100, 50200}
 
+# Refusals about OUR ACCOUNT, not about the request: wrong credentials, an
+# unverified account, no balance, or access paused for "unusual activity"
+# (40201 - seen 2026-09-17 and again 2026-10-12). Retrying cannot fix any of
+# them, every customer hits the same wall, and only the operator can act.
+ACCOUNT_CODES = {40100, 40104, 40200, 40201, 40202}
+
+
+class AccountBlocked(DataForSEOError):
+    """DataForSEO refused the ACCOUNT. Nothing a retry or the customer can fix."""
+
+    def __init__(self, message: str, code: int | None = None):
+        super().__init__(message)
+        self.code = code
+
+
+# THE BREAKER. Once the account is refused, every further request is refused
+# here for PAUSE_SECONDS without being sent. Sending them anyway costs nothing
+# (a refused call is not billed) but it is exactly the "unusual activity" a
+# paused account is being watched for, and each one makes a customer wait for
+# an answer that is already known.
+PAUSE_SECONDS = 600
+_pause: dict = {"until": 0.0, "code": None, "message": ""}
+
+
+def provider_pause() -> dict | None:
+    """The current pause, or None. For the operator's screens and the API."""
+    if _pause["until"] <= time.time():
+        return None
+    return {"code": _pause["code"], "message": _pause["message"],
+            "until": _pause["until"]}
+
+
+def clear_pause() -> None:
+    """Let the next request through, e.g. once support has lifted the block."""
+    _pause.update(until=0.0, code=None, message="")
+
+
+def _note_pause(error: "AccountBlocked") -> None:
+    _pause.update(until=time.time() + PAUSE_SECONDS, code=error.code, message=str(error))
+
 
 class BudgetExceeded(RuntimeError):
     """Hit the configured request ceiling. Guards against burning credit."""
@@ -126,6 +166,18 @@ class Client:
         return "Basic " + base64.b64encode(raw).decode("ascii")
 
     def _http(self, method: str, path: str, payload: object | None) -> dict:
+        paused = provider_pause()
+        if paused:
+            raise AccountBlocked(
+                f"{path} -> not sent, account paused: {paused['message']}", paused["code"]
+            )
+        try:
+            return self._http_once(method, path, payload)
+        except AccountBlocked as e:
+            _note_pause(e)
+            raise
+
+    def _http_once(self, method: str, path: str, payload: object | None) -> dict:
         body = json.dumps(payload).encode("utf-8") if payload is not None else None
         request = urllib.request.Request(
             BASE_URL + path,
@@ -148,9 +200,22 @@ class Client:
 
                 detail_raw = gzip.decompress(detail_raw)
             detail = detail_raw.decode("utf-8", "replace")[:800]
-            raise DataForSEOError(f"HTTP {e.code} — {path}\n{detail}") from e
+            message = f"HTTP {e.code} — {path}\n{detail}"
+            try:
+                code = json.loads(detail).get("status_code")
+            except (ValueError, AttributeError):
+                code = None
+            # The body says the same things a 200 does - read it the same way.
+            # A `HTTP 500` carrying `50000` used to fail the search outright
+            # with no retry (2026-10-12), because only a 200's codes were read.
+            if code in ACCOUNT_CODES:
+                raise AccountBlocked(message, code) from e
+            if e.code >= 500 or code in RETRYABLE_TASK_CODES:
+                raise TransientError(message) from e
+            raise DataForSEOError(message) from e
         except urllib.error.URLError as e:
-            raise DataForSEOError(f"Network error — {path}: {e.reason}") from e
+            # Could not connect at all. Worth the same short retry as a 5xx.
+            raise TransientError(f"Network error — {path}: {e.reason}") from e
         except (TimeoutError, OSError) as e:
             # A READ timeout does not arrive as URLError. urllib wraps failures
             # to CONNECT in one, but once the socket is open a slow response
@@ -196,6 +261,8 @@ class Client:
             # outright, without the retry a task-level one gets.
             if top in RETRYABLE_TASK_CODES:
                 raise TransientError(f"{path} -> status_code={top}: {message}")
+            if top in ACCOUNT_CODES:
+                raise AccountBlocked(f"{path} -> status_code={top}: {message}{hint}", top)
             raise DataForSEOError(f"{path} -> status_code={top}: {message}{hint}")
 
         for task in data.get("tasks") or []:
@@ -206,6 +273,8 @@ class Client:
             message = f"{path} -> task status_code={code}: {task.get('status_message', '?')}"
             if code in RETRYABLE_TASK_CODES:
                 raise TransientError(message)
+            if code in ACCOUNT_CODES:
+                raise AccountBlocked(message, code)
             raise DataForSEOError(message)
 
     def _cached(self, key: str) -> dict | None:

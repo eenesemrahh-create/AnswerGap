@@ -71,7 +71,11 @@ export type ErrorKind =
   | "paymentsOff"
   // --- analysis rounds -------------------------------------------------
   | "roundLimit"
-  | "roundInFlight";
+  | "roundInFlight"
+  // --- the search provider ----------------------------------------------
+  // Sent as codes so the provider's own words never reach a customer.
+  | "searchUnavailable"
+  | "searchFailed";
 
 export class ApiError extends Error {
   constructor(
@@ -136,6 +140,8 @@ const CODES: Record<string, ErrorKind> = {
   // that arrived while the previous round's results were still coming in.
   roundLimit: "roundLimit",
   roundInFlight: "roundInFlight",
+  searchUnavailable: "searchUnavailable",
+  searchFailed: "searchFailed",
 };
 
 function kindFor(status: number, code?: string): ErrorKind {

@@ -556,6 +556,10 @@ export const en = {
     noCredentials: "DataForSEO credentials are missing. Copy .env.example to .env, fill it in, then restart the backend.",
     budget: "The request ceiling was reached, so the crawl stopped rather than spend more.",
     upstream: "DataForSEO could not be reached, or returned an error. A failed request is not charged.",
+    searchUnavailable:
+      "Search is temporarily unavailable. We have been notified and are on it. No credit was used.",
+    searchFailed:
+      "The search could not be completed. No credit was used - please try again in a minute.",
     badRequest: "That request cannot be run as asked.",
     /* Billing refusals. THE FIRST ONE IS OURS, NOT THE READER'S: the card is
        published and priced on the page, and nobody has finished connecting it

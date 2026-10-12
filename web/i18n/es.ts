@@ -490,6 +490,10 @@ export const es: Messages = {
     noCredentials: "Faltan las credenciales de DataForSEO. Copia .env.example a .env, complétalo y reinicia el backend.",
     budget: "Se alcanzó el límite de peticiones; el rastreo se detuvo en lugar de gastar más.",
     upstream: "No se pudo contactar con DataForSEO, o devolvió un error. Una petición fallida no se cobra.",
+    searchUnavailable:
+      "La búsqueda no está disponible temporalmente. Ya lo sabemos y estamos en ello. No se ha usado ningún crédito.",
+    searchFailed:
+      "No se pudo completar la búsqueda. No se ha usado ningún crédito; vuelve a intentarlo en un minuto.",
     badRequest: "Esa petición no se puede ejecutar tal como se ha pedido.",
     planNotPurchasable:
       "Este plan todavía no se puede comprar — aún estamos terminando de " +

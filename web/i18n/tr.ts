@@ -482,6 +482,10 @@ export const tr: Messages = {
     noCredentials: "DataForSEO kimlik bilgileri eksik. .env.example dosyasını .env olarak kopyalayıp doldurun, sonra arka ucu yeniden başlatın.",
     budget: "İstek tavanına ulaşıldı; tarama daha fazla harcamak yerine durdu.",
     upstream: "DataForSEO’ya ulaşılamadı ya da hata döndü. Başarısız istek ücretlendirilmez.",
+    searchUnavailable:
+      "Arama geçici olarak kullanılamıyor. Haberdar edildik, ilgileniyoruz. Krediniz düşülmedi.",
+    searchFailed:
+      "Arama tamamlanamadı. Krediniz düşülmedi - lütfen bir dakika sonra tekrar deneyin.",
     badRequest: "Bu istek, istendiği şekliyle çalıştırılamaz.",
     planNotPurchasable:
       "Bu plan henüz satın alınamıyor — ödeme kurulumunu tamamlamadık. " +
