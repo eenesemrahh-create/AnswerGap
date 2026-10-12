@@ -247,3 +247,73 @@ def test_a_refused_key_is_reported_beside_what_is_known(monkeypatch, as_admin) -
     out = admin.stripe_status(None)
     assert out["error"] == "keyRefused" and out["account"] is None
     assert out["mode"] == "test", "the mode is known from the key, refused or not"
+
+
+# ------------------------------------------------- subscription event shapes
+#
+# A webhook destination is pinned to the API version it was created under.
+# Stripe's 2025-03-31 release moved the invoice's subscription under `parent`
+# and a line's price under `pricing`; reading only the old places turned every
+# `invoice.paid` from a new destination into "not a subscription" - the card
+# was charged and no credits arrived. Both shapes must keep working.
+
+
+def _invoice_paid(obj: dict) -> dict:
+    return {"type": "invoice.paid", "data": {"object": obj}}
+
+
+def test_a_pre_2025_invoice_names_its_subscription_at_the_top() -> None:
+    found = stripe.subscription_from_event(_invoice_paid({
+        "id": "in_old",
+        "customer": "cus_1",
+        "subscription": "sub_1",
+        "subscription_details": {"metadata": {"answergap_user_id": "7"}},
+        "lines": {"data": [{"price": {"id": "price_1"}, "period": {"end": 1800000000}}]},
+    }))
+    assert found["subscription_id"] == "sub_1"
+    assert found["price_id"] == "price_1"
+    assert found["invoice_id"] == "in_old"
+    assert found["current_period_end"] == 1800000000
+    assert found["user_id"] == 7
+
+
+def test_a_2025_invoice_names_its_subscription_under_parent() -> None:
+    found = stripe.subscription_from_event(_invoice_paid({
+        "id": "in_new",
+        "customer": "cus_1",
+        "parent": {
+            "type": "subscription_details",
+            "subscription_details": {
+                "subscription": "sub_2",
+                "metadata": {"answergap_user_id": "9"},
+            },
+        },
+        "lines": {"data": [{
+            "pricing": {"type": "price_details", "price_details": {"price": "price_2"}},
+            "period": {"end": 1800000000},
+        }]},
+    }))
+    assert found is not None, "a paid subscription invoice was read as a one-off"
+    assert found["subscription_id"] == "sub_2"
+    assert found["price_id"] == "price_2"
+    assert found["user_id"] == 9
+
+
+def test_a_one_off_invoice_is_still_not_a_subscription() -> None:
+    assert stripe.subscription_from_event(_invoice_paid({
+        "id": "in_x", "customer": "cus_1", "parent": None, "lines": {"data": []},
+    })) is None
+
+
+def test_a_2025_subscription_keeps_its_period_end_on_the_item() -> None:
+    found = stripe.subscription_from_event({
+        "type": "customer.subscription.created",
+        "data": {"object": {
+            "id": "sub_3",
+            "customer": "cus_1",
+            "status": "active",
+            "items": {"data": [{"price": {"id": "price_3"}, "current_period_end": 1800000000}]},
+        }},
+    })
+    assert found["price_id"] == "price_3"
+    assert found["current_period_end"] == 1800000000

@@ -237,16 +237,23 @@ def subscription_from_event(event: dict) -> dict | None:
     kind = event.get("type") or ""
     obj = ((event.get("data") or {}).get("object")) or {}
 
+    # TWO API VERSIONS, too. A webhook destination is pinned to the version it
+    # was created under, and Stripe's 2025-03-31 release moved the fields this
+    # reads: the invoice's subscription went under `parent`, a line's price
+    # under `pricing`, and the period end from the subscription onto its items.
+    # Reading only the old places made every `invoice.paid` from a new
+    # destination look like a one-off payment - paid, and no credits granted.
     if kind.startswith("customer.subscription."):
         item = ((obj.get("items") or {}).get("data") or [{}])[0]
         return {
             "subscription_id": obj.get("id"),
-            "customer_id": obj.get("customer"),
-            "price_id": (item.get("price") or {}).get("id"),
+            "customer_id": _id(obj.get("customer")),
+            "price_id": _id(item.get("price")),
             # `deleted` arrives with whatever status Stripe last had; the
             # event type is the authority on it being over.
             "status": "canceled" if kind.endswith(".deleted") else obj.get("status"),
-            "current_period_end": obj.get("current_period_end"),
+            "current_period_end": obj.get("current_period_end")
+            or item.get("current_period_end"),
             "cancel_at_period_end": bool(obj.get("cancel_at_period_end")),
             "user_id": _metadata_user_id(obj),
             "invoice_id": None,
@@ -254,15 +261,17 @@ def subscription_from_event(event: dict) -> dict | None:
         }
 
     if kind.startswith("invoice."):
-        subscription_id = obj.get("subscription")
+        details = ((obj.get("parent") or {}).get("subscription_details")) or {}
+        line = ((obj.get("lines") or {}).get("data") or [{}])[0]
+        subscription_id = _id(obj.get("subscription")) or _id(details.get("subscription"))
         if not subscription_id:
             return None
-        line = ((obj.get("lines") or {}).get("data") or [{}])[0]
         period = line.get("period") or {}
+        price_details = ((line.get("pricing") or {}).get("price_details")) or {}
         return {
             "subscription_id": subscription_id,
-            "customer_id": obj.get("customer"),
-            "price_id": (line.get("price") or {}).get("id"),
+            "customer_id": _id(obj.get("customer")),
+            "price_id": _id(line.get("price")) or _id(price_details.get("price")),
             # An invoice does not carry the subscription's status. The caller
             # keeps what it already had for a paid one and marks past_due on
             # a failure, which is what the two handlers below do.
@@ -277,6 +286,13 @@ def subscription_from_event(event: dict) -> dict | None:
     return None
 
 
+def _id(value) -> str | None:
+    """A Stripe reference as its id: a bare id, or an expanded object's `id`."""
+    if isinstance(value, dict):
+        value = value.get("id")
+    return value if isinstance(value, str) and value else None
+
+
 def _metadata_user_id(obj: dict) -> int | None:
     """Our user id, if this object was created with one on it.
 
@@ -284,7 +300,19 @@ def _metadata_user_id(obj: dict) -> int | None:
     trusts, because metadata is only present on objects we created and a
     renewal invoice is created by Stripe.
     """
-    raw = (obj.get("metadata") or {}).get("answergap_user_id")
+    # An invoice carries none of ours itself, but it carries a COPY of the
+    # subscription's metadata - under `parent` since 2025-03-31, under
+    # `subscription_details` before. Without it, an `invoice.paid` that beats
+    # `customer.subscription.created` to the webhook could not be attributed.
+    raw = None
+    for source in (
+        obj.get("metadata"),
+        ((obj.get("parent") or {}).get("subscription_details") or {}).get("metadata"),
+        (obj.get("subscription_details") or {}).get("metadata"),
+    ):
+        raw = (source or {}).get("answergap_user_id")
+        if raw:
+            break
     try:
         return int(raw) if raw else None
     except (TypeError, ValueError):

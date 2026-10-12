@@ -92,7 +92,7 @@ export function PricingPage({
 
               <SessionSwap
             signedIn={
-              <Link href="/account" className="mkt-plan-cta">{plan.cta}</Link>
+              <Link href="/account/subscription" className="mkt-plan-cta">{plan.cta}</Link>
             }
           >
             <Link href="/?auth=signup" className="mkt-plan-cta">
@@ -186,7 +186,7 @@ export function PricingPage({
         <div className="mkt-cta-actions">
           <SessionSwap
             signedIn={
-              <Link href="/account" className="mkt-cta-primary">{cta.primary}</Link>
+              <Link href="/account/subscription" className="mkt-cta-primary">{cta.primary}</Link>
             }
           >
             <Link href="/?auth=signup" className="mkt-cta-primary">
