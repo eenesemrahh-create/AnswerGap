@@ -476,6 +476,18 @@ defensible asset over time.
   (`MIN_PROCESSING_MS`) even from the cache; reopening is never delayed.
   The tree's date is now `fetched_at` (when the data came from Google), not
   the last crawl row. `billable_calls` still counts real provider requests.
+- **Trees and scores are per ACCOUNT (2026-10-13).** The slug is still
+  shared, but a tree is the OWNER's latest crawl of it (`db.load_tree(slug,
+  user_id=…)`), and it shows only scores its owner bought (`gap_score.user_id`,
+  migration 0019, matched with IS NOT DISTINCT FROM so ownerless trees see
+  ownerless scores). A first search starts from what Google returned:
+  `crawl` carries only the caller's OWN previous crawl. Rounds, tasks, jobs
+  and the diff are per crawl / per account; queued results go back to the
+  crawl that posted them (`serp_task.crawl_id`). The SERP cache and labels
+  stay shared. Old scores were attributed only where exactly one account had
+  the question in a tree; the rest stay unattributed and hidden. Old crawls
+  may still hold harvested nodes copied in from other accounts before this
+  change - they cannot be told apart.
 - Depth is plan-bound.
 - Every plan can buy extra credits — gating that behind an upgrade drives churn.
 - Do not restrict search history (AlsoAsked's 24-hour lock is bad practice).

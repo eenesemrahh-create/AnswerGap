@@ -373,19 +373,25 @@ def _live_all(user_id: int | None = None) -> list[dict]:
     return list(_LIVE.values())
 
 
-def _live_one(slug: str) -> dict | None:
+def _live_one(slug: str, who: gate.Identity | None = None) -> dict | None:
+    """The caller's own tree for this slug (2026-10-13), or None.
+
+    With a database the in-memory `_LIVE` is NOT consulted: it is keyed by
+    slug alone and holds whoever last touched the slug in this process, which
+    on per-account trees could be somebody else's tree.
+    """
     if db.available():
         try:
-            found = live.load_tree(slug)
-            if found:
-                return found
+            if who is None:
+                return live.load_tree(slug)
+            return live.load_tree(slug, user_id=who.user_id, anon_id=who.anon_id)
         except Exception:  # noqa: BLE001
-            pass
+            return None
     return _LIVE.get(slug)
 
 
-def _lookup(slug: str) -> dict:
-    found = _live_one(slug) or _BY_SLUG.get(slug)
+def _lookup(slug: str, who: gate.Identity | None = None) -> dict:
+    found = _live_one(slug, who) or _BY_SLUG.get(slug)
     if not found:
         raise HTTPException(404, f"No tree: {slug}")
     return _retally(found)
@@ -433,7 +439,8 @@ def _authorize_tree(slug: str, who: gate.Identity) -> dict:
     without a database was the case that made the whole gate optional at
     the schema level, and it stays optional here for the same reason.
     """
-    found = _lookup(slug)
+    # The CALLER's tree, not the latest by anyone: trees are per account.
+    found = _lookup(slug, who)
     if found.get("source") != "live":
         # The Phase 0 archive is NOT public any more (2026-10-01). It was the
         # demo shown before anyone could sign in, and it now has no reader on
@@ -511,7 +518,7 @@ def _rounds_used(found: dict) -> int:
     if found.get("source") != "live" or not db.available():
         return 0
     try:
-        return db.rounds_used(found["slug"])
+        return db.rounds_used(found["slug"], found.get("crawl_id"))
     except Exception:  # noqa: BLE001 - a missing count must not hide the tree
         return 0
 
@@ -1296,20 +1303,21 @@ def tree_jobs(slug: str, http_request: Request) -> dict:
     if not db.available():
         return {"tasks": [], "spend": 0.0, "swept": None}
     who = auth.identity(http_request)
-    _authorize_tree(slug, who)
+    found = _authorize_tree(slug, who)
     # Three, not ten. Each one is a fetch plus scoring plus a tree write, and
     # ten of them inside a GET timed the request out the first time this ran for
     # real. The sweep is the FALLBACK path - with a callback configured it has
     # nothing to do - so it only has to make progress on each poll, not finish.
     # Cooldown further caps the fallback: at most one sweep per slug per window.
     swept = live.sweep_pending(older_than_seconds=120, limit=3) if _should_sweep(slug) else None
-    tasks = db.tasks_for_tree(slug)
+    # The caller's own crawl's tasks - never another account's on this seed.
+    tasks = db.tasks_for_tree(slug, crawl_id=found.get("crawl_id"))
     return {
         "tasks": tasks,
         "pending": sum(1 for t in tasks if t["status"] == "posted"),
         "done": sum(1 for t in tasks if t["status"] == "done"),
         "failed": sum(1 for t in tasks if t["status"] == "failed"),
-        **db.task_spend(slug),
+        **db.task_spend(slug, crawl_id=found.get("crawl_id")),
         "swept": swept,
     }
 
@@ -1660,7 +1668,8 @@ def tree_diff(slug: str, http_request: Request) -> dict:
         raise HTTPException(503, "No database configured.")
     who = auth.identity(http_request)
     _authorize_tree(slug, who)
-    return db.diff_and_history(slug)
+    # Only this account's own searches of the seed (2026-10-13).
+    return db.diff_and_history(slug, who.user_id)
 
 
 @app.get("/api/dev/timing")

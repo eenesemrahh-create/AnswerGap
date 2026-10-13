@@ -313,6 +313,98 @@ def test_checking_a_question_colours_it_in_the_tree_it_came_from(
     assert root["status"] == result["node"]["status"]
 
 
+
+# ---------------------------------------------- trees and scores per account
+#
+# 2026-10-13: somebody searching a seed for the first time sees the tree as
+# their own search returned it - not grown by other people's rounds, and not
+# coloured by scores other people paid for.
+
+
+def _score(node: dict, *, user_id, status: str = "gap") -> None:
+    db.save_score(
+        normalized=node["id"], question=node["question"], language_code="en",
+        location_code=2840, status=status, matching_pages=0, results_checked=8,
+        results=[], ai_sources=[], ai_state=None, threshold=0.6, strategy="words",
+        user_id=user_id,
+    )
+
+
+def test_a_newcomer_sees_the_first_state_not_somebody_elses_grown_tree() -> None:
+    alice = _google(sub="alice", email="alice@example.com", credits=0)
+    bob = _google(sub="bob", email="bob@example.com", credits=0)
+
+    first = _archive_tree()
+    first["nodes"] = first["nodes"][:4]
+    db.save_tree(first, new_crawl=True, user_id=alice["id"])
+    # Alice's tree grows and is scored: everything she paid for.
+    grown = _archive_tree()
+    db.save_tree(grown, new_crawl=True, user_id=alice["id"])
+    scored = next(n for n in grown["nodes"] if n["depth"] == 1)
+    _score(scored, user_id=alice["id"])
+
+    # Bob searches the same seed for the first time.
+    bobs = _archive_tree()
+    bobs["nodes"] = bobs["nodes"][:4]
+    db.save_tree(bobs, new_crawl=True, user_id=bob["id"])
+
+    seen_by_bob = db.load_tree("teeth-whitening", slugify, user_id=bob["id"])
+    seen_by_alice = db.load_tree("teeth-whitening", slugify, user_id=alice["id"])
+    assert seen_by_bob["node_count"] == 4
+    assert seen_by_alice["node_count"] == len(grown["nodes"])
+    assert all(not n.get("results_checked") for n in seen_by_bob["nodes"])
+    alice_nodes = {n["id"]: n for n in seen_by_alice["nodes"]}
+    assert alice_nodes[scored["id"]]["status"] == "gap"
+
+    # The list is per account in the same way.
+    listed = {t["slug"]: t for t in db.load_trees(slugify, user_id=bob["id"])}
+    assert listed["teeth-whitening"]["node_count"] == 4
+    assert all(not n.get("results_checked") for n in listed["teeth-whitening"]["nodes"])
+
+
+def test_an_accounts_score_shows_on_its_other_trees_only() -> None:
+    """"Check this question" scores a question by searching it; the verdict
+    appears on the same account's tree it was clicked from, nobody else's."""
+    alice = _google(sub="alice2", email="alice2@example.com", credits=0)
+    bob = _google(sub="bob2", email="bob2@example.com", credits=0)
+    db.save_tree(_archive_tree(), new_crawl=True, user_id=alice["id"])
+    db.save_tree(_archive_tree(), new_crawl=True, user_id=bob["id"])
+    node = next(n for n in _archive_tree()["nodes"] if n["depth"] == 1)
+    _score(node, user_id=bob["id"], status="covered")
+
+    bob_view = {n["id"]: n for n in db.load_tree("teeth-whitening", slugify,
+                                                   user_id=bob["id"])["nodes"]}
+    alice_view = {n["id"]: n for n in db.load_tree("teeth-whitening", slugify,
+                                                     user_id=alice["id"])["nodes"]}
+    assert bob_view[node["id"]]["status"] == "covered"
+    assert not alice_view[node["id"]].get("results_checked")
+
+
+def test_rounds_and_tasks_are_counted_per_crawl() -> None:
+    db.task_insert(task_id="mine", cache_key="paa-2840-en-q", keyword="Q?",
+                   tree_slug="t-en-2840", language_code="en", location_code=2840,
+                   status="posted", round_no=1, crawl_id=None)
+    first = db.save_tree(_archive_tree(), new_crawl=True)
+    other = db.save_tree(_archive_tree(), new_crawl=True)
+    db.task_insert(task_id="r1", cache_key="paa-2840-en-r", keyword="R?",
+                   tree_slug="teeth-whitening", language_code="en", location_code=2840,
+                   status="posted", round_no=2, crawl_id=first)
+    assert db.rounds_used("teeth-whitening", first) == 2
+    assert db.rounds_used("teeth-whitening", other) == 0
+    assert [t["task_id"] for t in db.tasks_for_tree("teeth-whitening", crawl_id=other)] == []
+    assert db.task_spend("teeth-whitening", crawl_id=first)["task_count"] == 1
+
+
+def test_erasure_unlinks_the_scores_an_account_bought() -> None:
+    user = _google(sub="gone", email="gone@example.com", credits=0)
+    db.save_tree(_archive_tree(), new_crawl=True, user_id=user["id"])
+    node = next(n for n in _archive_tree()["nodes"] if n["depth"] == 1)
+    _score(node, user_id=user["id"])
+    db.user_erase(user_id=user["id"], actor="op@example.com", reason="test")
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT count(*) AS n FROM gap_score WHERE user_id = %s", (user["id"],))
+        assert cur.fetchone()["n"] == 0
+
 def _task(task_id: str | None, round_no: int | None, slug: str = "t-en-2840") -> None:
     db.task_insert(
         task_id=task_id,

@@ -1012,6 +1012,50 @@ MIGRATIONS: list[tuple[str, str]] = [
             ON account_event (user_id, created_at DESC);
         """,
     ),
+    (
+        "0019_scores_per_user",
+        """
+        -- TREES AND SCORES ARE PER ACCOUNT (operator's rule, 2026-10-13). A
+        -- tree is its owner's latest crawl of the slug, and it shows only the
+        -- gap scores its owner paid for - somebody searching a seed for the
+        -- first time sees the tree as their own search returned it, not as
+        -- other people's analysis rounds grew and coloured it.
+        --
+        -- A score now carries who bought it. NULL is "nobody we can name":
+        -- rows from before this column, and anything bought on a deployment
+        -- without accounts. A tree with no owner (local, no accounts) shows
+        -- exactly those.
+        ALTER TABLE gap_score ADD COLUMN IF NOT EXISTS user_id BIGINT
+            REFERENCES app_user(id) ON DELETE RESTRICT;
+        CREATE INDEX IF NOT EXISTS gap_score_owner_idx
+            ON gap_score (user_id, location_code, question_id, scored_at DESC);
+
+        -- BACKFILL, conservatively. An old score is given to an account only
+        -- when exactly ONE account has that question in a tree in that
+        -- market. Where several do, nobody can say whose money bought it, so
+        -- it stays unattributed and stops showing on anybody's tree - the
+        -- cost of being wrong the other way is showing one person's paid
+        -- work to another, which is what this migration exists to stop.
+        UPDATE gap_score g
+           SET user_id = o.user_id
+          FROM (SELECT e.child_id AS question_id, c.location_code,
+                       min(c.user_id) AS user_id
+                  FROM paa_edge e
+                  JOIN crawl c ON c.id = e.crawl_id
+                 WHERE c.user_id IS NOT NULL
+                 GROUP BY e.child_id, c.location_code
+                HAVING count(DISTINCT c.user_id) = 1) o
+         WHERE g.user_id IS NULL
+           AND g.question_id = o.question_id
+           AND g.location_code = o.location_code;
+
+        -- A tree is picked by (slug, owner) now, on every page load.
+        CREATE INDEX IF NOT EXISTS crawl_slug_owner_idx
+            ON crawl (slug, user_id, created_at DESC);
+        CREATE INDEX IF NOT EXISTS serp_task_crawl_idx
+            ON serp_task (crawl_id, posted_at DESC);
+        """,
+    ),
 ]
 
 
@@ -1410,8 +1454,13 @@ def save_score(
     strategy: str,
     source_key: str | None = None,
     embedding_model: str | None = None,
+    user_id: int | None = None,
 ) -> None:
     """Append a gap score. Never an UPDATE.
+
+    `user_id` is whose money bought it: a tree shows only its owner's scores
+    (2026-10-13). None for an ownerless tree, e.g. a deployment without
+    accounts.
 
     The threshold, strategy and model travel with the row. CLAUDE.md's rule: a
     threshold change or a model swap must not silently rewrite what an older
@@ -1425,8 +1474,8 @@ def save_score(
             INSERT INTO gap_score (question_id, location_code, status,
                                    matching_pages, results_checked, threshold,
                                    strategy, embedding_model, results,
-                                   ai_sources, ai_state, source_key)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                   ai_sources, ai_state, source_key, user_id)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
             (
                 ids[normalized],
@@ -1441,16 +1490,22 @@ def save_score(
                 json.dumps(ai_sources, ensure_ascii=False),
                 ai_state,
                 source_key,
+                user_id,
             ),
         )
         conn.commit()
 
 
-def _latest_scores(cur, location_code: int, question_ids: list[int]) -> dict[int, dict]:
-    """The newest gap score per question. Older rows stay; they just lose.
+def _latest_scores(
+    cur, location_code: int, question_ids: list[int], owner: int | None
+) -> dict[int, dict]:
+    """The newest gap score per question, among the scores OWNER bought.
 
     DISTINCT ON is how "latest wins" is expressed against an append-only table
     without deleting the history that makes it append-only in the first place.
+
+    `owner` is the tree's owner. IS NOT DISTINCT FROM, so an ownerless tree
+    (no accounts) matches the ownerless scores and nothing else.
     """
     if not question_ids:
         return {}
@@ -1461,21 +1516,52 @@ def _latest_scores(cur, location_code: int, question_ids: list[int]) -> dict[int
                results, ai_sources, ai_state, source_key, scored_at
         FROM gap_score
         WHERE location_code = %s AND question_id = ANY(%s)
+          AND user_id IS NOT DISTINCT FROM %s
         ORDER BY question_id, scored_at DESC, id DESC
         """,
-        (location_code, question_ids),
+        (location_code, question_ids, owner),
     )
     return {r["question_id"]: r for r in cur.fetchall()}
 
 
-def load_tree(slug: str, slug_for) -> dict | None:
-    """Rebuild one tree from its most recent crawl."""
+def load_tree(
+    slug: str,
+    slug_for,
+    *,
+    user_id: int | None = None,
+    anon_id: str | None = None,
+    crawl_id: int | None = None,
+) -> dict | None:
+    """Rebuild one tree: the OWNER's most recent crawl of the slug.
+
+    PER ACCOUNT since 2026-10-13. A signed-in caller gets their own latest
+    crawl, a signed-out one the latest made under their browser id, and a
+    caller naming neither (admin screens, a deployment without accounts) the
+    latest by anyone, as before. `crawl_id` picks one crawl exactly - the
+    queue's results go back to the crawl that posted them, not to whichever
+    crawl of the slug is newest when they arrive.
+    """
     with connect() as conn, conn.cursor() as cur:
-        cur.execute(
-            "SELECT * FROM crawl WHERE slug = %s ORDER BY created_at DESC, id DESC"
-            " LIMIT 1",
-            (slug,),
-        )
+        if crawl_id is not None:
+            cur.execute("SELECT * FROM crawl WHERE id = %s", (crawl_id,))
+        elif user_id is not None:
+            cur.execute(
+                "SELECT * FROM crawl WHERE slug = %s AND user_id = %s"
+                " ORDER BY created_at DESC, id DESC LIMIT 1",
+                (slug, user_id),
+            )
+        elif anon_id:
+            cur.execute(
+                "SELECT * FROM crawl WHERE slug = %s AND anon_id = %s"
+                " ORDER BY created_at DESC, id DESC LIMIT 1",
+                (slug, anon_id),
+            )
+        else:
+            cur.execute(
+                "SELECT * FROM crawl WHERE slug = %s ORDER BY created_at DESC, id DESC"
+                " LIMIT 1",
+                (slug,),
+            )
         crawl = cur.fetchone()
         if not crawl:
             return None
@@ -1536,17 +1622,12 @@ def load_trees(slug_for, *, user_id: int | None = None) -> list[dict]:
     Older crawls stay - they are the diff engine's raw material - but the
     product shows the current state, so the read path takes the latest.
 
-    `user_id` makes the LIST private: a slug appears only if that person has a
-    crawl row for it. Two people searching the same seed still share one tree
-    and one cache - the second gets it for free - so what is private is WHO
-    SEARCHED WHAT, which is the part that is actually sensitive. A signed-out
-    caller gets nothing here; the three archive demos are served separately and
-    are public on purpose.
-
-    Note the subquery rather than a WHERE on the outer DISTINCT ON: the tree
-    shown is still the LATEST crawl of that slug, whoever ran it, because the
-    edges are one shared corpus. Filtering the outer query would show a
-    returning user their own stale version of a tree somebody else refreshed.
+    `user_id` makes the list private, and since 2026-10-13 the TREES too:
+    each slug is that person's own latest crawl of it, scored with their own
+    scores. Somebody else refreshing or analysing the same seed changes
+    nothing here. The SERP cache is still shared - that is our cost, not
+    their data. A signed-out caller gets nothing; the archive demos are
+    served separately.
 
     BATCHED. The obvious implementation calls `_assemble` per crawl, which is
     three queries each: with seven trees that is twenty-two round trips on one
@@ -1562,7 +1643,7 @@ def load_trees(slug_for, *, user_id: int | None = None) -> list[dict]:
             """
             SELECT DISTINCT ON (slug) *
               FROM crawl
-             WHERE slug IN (SELECT slug FROM crawl WHERE user_id = %s)
+             WHERE user_id = %s
              ORDER BY slug, created_at DESC, id DESC
             """,
             (user_id,),
@@ -1599,14 +1680,13 @@ def load_trees(slug_for, *, user_id: int | None = None) -> list[dict]:
         for row in cur.fetchall():
             related_by_crawl.setdefault(row["crawl_id"], []).append(row["phrase"])
 
-        # Scores are keyed by question AND market, so one query covers every
-        # tree at once - which is only true because gap_score is not keyed by
-        # tree. The storage shape pays for itself again here.
+        # Scores are keyed by question, market and OWNER - one owner here,
+        # so one query still covers every tree at once.
         question_ids = sorted(
             {r["child_id"] for rows in edges_by_crawl.values() for r in rows}
         )
         markets = sorted({c["location_code"] for c in crawls})
-        scores_by_market = _latest_scores_bulk(cur, markets, question_ids)
+        scores_by_market = _latest_scores_bulk(cur, markets, question_ids, user_id)
 
         trees = []
         for crawl in crawls:
@@ -1623,9 +1703,9 @@ def load_trees(slug_for, *, user_id: int | None = None) -> list[dict]:
 
 
 def _latest_scores_bulk(
-    cur, markets: list[int], question_ids: list[int]
+    cur, markets: list[int], question_ids: list[int], owner: int | None
 ) -> dict[int, dict[int, dict]]:
-    """Newest gap score per (market, question), for every tree in one query."""
+    """Newest gap score per (market, question) that OWNER bought, in one query."""
     if not question_ids or not markets:
         return {}
     cur.execute(
@@ -1635,9 +1715,10 @@ def _latest_scores_bulk(
                results_checked, results, ai_sources, ai_state, source_key, scored_at
           FROM gap_score
          WHERE location_code = ANY(%s) AND question_id = ANY(%s)
+           AND user_id IS NOT DISTINCT FROM %s
          ORDER BY location_code, question_id, scored_at DESC, id DESC
         """,
-        (markets, question_ids),
+        (markets, question_ids, owner),
     )
     out: dict[int, dict[int, dict]] = {}
     for row in cur.fetchall():
@@ -1678,6 +1759,8 @@ def _build(crawl, edge_rows, related, scores_by_qid, slug_for) -> dict:
     }
     tree = recompose(dict(crawl), questions, edges, scores, related, slug_for)
     tree["crawl_id"] = crawl["id"]
+    # Whose tree this is, so every score bought on it is written to them.
+    tree["owner_user_id"] = crawl.get("user_id")
     tree["updated_at"] = (
         crawl["created_at"].isoformat(timespec="seconds")
         if crawl["created_at"]
@@ -1710,7 +1793,8 @@ def _assemble(cur, crawl: dict, slug_for) -> dict:
     related = [r["phrase"] for r in cur.fetchall()]
 
     found = _latest_scores(
-        cur, crawl["location_code"], [r["child_id"] for r in edge_rows]
+        cur, crawl["location_code"], [r["child_id"] for r in edge_rows],
+        crawl.get("user_id"),
     )
     return _build(crawl, edge_rows, related, found, slug_for)
 
@@ -1949,37 +2033,50 @@ def task_finish(task_id: str, *, error: str | None = None) -> None:
         conn.commit()
 
 
-def rounds_used(tree_slug: str) -> int:
+def rounds_used(tree_slug: str, crawl_id: int | None = None) -> int:
     """How many paid analysis rounds this tree has had. 0, 1 or 2.
 
     Read off the task receipts: a round counts once any of its tasks was
     actually posted (a failed post has no task id and bought nothing).
+
+    Per CRAWL when one is given (2026-10-13): trees are per account, so one
+    person's rounds must not use up another's - and a refreshed search is a
+    new crawl with its own two rounds.
     """
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
             SELECT COALESCE(MAX(round), 0) AS used
               FROM serp_task
-             WHERE tree_slug = %s AND round IS NOT NULL AND task_id IS NOT NULL
+             WHERE (CASE WHEN %(crawl)s::bigint IS NULL THEN tree_slug = %(slug)s
+                         ELSE crawl_id = %(crawl)s::bigint END)
+               AND round IS NOT NULL AND task_id IS NOT NULL
             """,
-            (tree_slug,),
+            {"slug": tree_slug, "crawl": crawl_id},
         )
         return int(cur.fetchone()["used"])
 
 
-def tasks_for_tree(tree_slug: str, limit: int = 200) -> list[dict]:
-    """Every task ever queued for a tree, newest first. Drives the progress UI."""
+def tasks_for_tree(
+    tree_slug: str, limit: int = 200, crawl_id: int | None = None
+) -> list[dict]:
+    """Every task ever queued for a tree, newest first. Drives the progress UI.
+
+    Per CRAWL when one is given, so one account never sees - or waits on -
+    another account's tasks for the same seed.
+    """
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
             SELECT task_id, cache_key, keyword, status, cost, error,
                    posted_at, completed_at, round
               FROM serp_task
-             WHERE tree_slug = %s
+             WHERE (CASE WHEN %(crawl)s::bigint IS NULL THEN tree_slug = %(slug)s
+                         ELSE crawl_id = %(crawl)s::bigint END)
              ORDER BY posted_at DESC, id DESC
-             LIMIT %s
+             LIMIT %(limit)s
             """,
-            (tree_slug, limit),
+            {"slug": tree_slug, "crawl": crawl_id, "limit": limit},
         )
         return [
             {
@@ -2017,10 +2114,16 @@ def tasks_pending(older_than_seconds: int = 0, limit: int = 100) -> list[dict]:
         return cur.fetchall()
 
 
-def task_spend(tree_slug: str | None = None) -> dict:
+def task_spend(tree_slug: str | None = None, crawl_id: int | None = None) -> dict:
     """What the queue has actually cost. Reported, never estimated."""
     with connect() as conn, conn.cursor() as cur:
-        if tree_slug:
+        if crawl_id is not None:
+            cur.execute(
+                "SELECT count(*) AS n, COALESCE(sum(cost), 0) AS total"
+                " FROM serp_task WHERE crawl_id = %s",
+                (crawl_id,),
+            )
+        elif tree_slug:
             cur.execute(
                 "SELECT count(*) AS n, COALESCE(sum(cost), 0) AS total"
                 " FROM serp_task WHERE tree_slug = %s",
@@ -2292,20 +2395,24 @@ def crawl_history(slug: str, limit: int = 20) -> list[dict]:
         ]
 
 
-def diff_and_history(slug: str) -> dict:
+def diff_and_history(slug: str, user_id: int | None = None) -> dict:
     """The diff and the crawl history, in ONE connection.
 
     Three separate helpers meant three pooled checkouts and three round trips
     for a 387-byte response. They are still separate functions because they are
     separately meaningful; this is the call the endpoint makes.
+
+    `user_id` keeps it to that account's own crawls: what changed between
+    THEIR two searches, and none of anybody else's searches or spend.
     """
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
             SELECT id, created_at FROM crawl
-             WHERE slug = %s ORDER BY created_at DESC, id DESC LIMIT 2
+             WHERE slug = %s AND (%s::bigint IS NULL OR user_id = %s::bigint)
+             ORDER BY created_at DESC, id DESC LIMIT 2
             """,
-            (slug,),
+            (slug, user_id, user_id),
         )
         crawls = cur.fetchall()
 
@@ -2315,12 +2422,12 @@ def diff_and_history(slug: str) -> dict:
                    count(DISTINCT e.child_id) AS questions
               FROM crawl c
               LEFT JOIN paa_edge e ON e.crawl_id = c.id
-             WHERE c.slug = %s
+             WHERE c.slug = %s AND (%s::bigint IS NULL OR c.user_id = %s::bigint)
              GROUP BY c.id
              ORDER BY c.created_at DESC, c.id DESC
              LIMIT 20
             """,
-            (slug,),
+            (slug, user_id, user_id),
         )
         history = [
             {
@@ -4890,6 +4997,10 @@ def user_erase(*, user_id: int, actor: str, reason: str) -> dict | None:
             (int(user_id),),
         )
         crawls = cur.rowcount
+        # Scores carry their buyer since 2026-10-13; the link goes too.
+        cur.execute(
+            "UPDATE gap_score SET user_id = NULL WHERE user_id = %s", (int(user_id),)
+        )
         cur.execute(
             "UPDATE serp_task SET user_id = NULL WHERE user_id = %s", (int(user_id),)
         )

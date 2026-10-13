@@ -34,13 +34,13 @@ class FakeIdentity:
 def _fixed_lookup(source: str):
     """Return a `_lookup` that always yields a tree with the given source."""
 
-    def _lookup(slug: str) -> dict:
+    def _lookup(slug: str, who=None) -> dict:
         return {"slug": slug, "source": source, "nodes": []}
 
     return _lookup
 
 
-def _missing_lookup(slug: str) -> dict:
+def _missing_lookup(slug: str, who=None) -> dict:
     """A `_lookup` that behaves like the real one for a slug that isn't there."""
     raise HTTPException(404, f"No tree: {slug}")
 

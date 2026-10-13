@@ -319,10 +319,22 @@ def _hydrate(tree: dict | None) -> dict | None:
     return tree
 
 
-def load_tree(slug: str) -> dict | None:
-    """One live tree by slug."""
+def load_tree(
+    slug: str,
+    *,
+    user_id: int | None = None,
+    anon_id: str | None = None,
+    crawl_id: int | None = None,
+) -> dict | None:
+    """One live tree by slug: its OWNER's latest crawl (2026-10-13).
+
+    Name the caller and you get their own tree; name nobody (admin, no
+    accounts) and you get the latest by anyone. `crawl_id` picks one crawl.
+    The filesystem backend has one tree per slug and no owners.
+    """
     if db.available():
-        return _hydrate(db.load_tree(slug, slugify))
+        return _hydrate(db.load_tree(slug, slugify, user_id=user_id,
+                                     anon_id=anon_id, crawl_id=crawl_id))
     path = _tree_path(slug)
     if not path.exists():
         return None
@@ -965,9 +977,18 @@ def crawl(
     # rows - so this carry has shrunk from preventing data LOSS to preserving
     # the current VIEW: harvested nodes live under the crawl that discovered
     # them, and a fresh crawl built from the seed response alone would not show
-    # them again. Gap scores need no carry at all now; they are keyed by
-    # question and market, so they are simply found.
-    previous = load_tree(tree["slug"])
+    # them again.
+    #
+    # THE CALLER'S OWN previous crawl only (2026-10-13). Loading "the latest
+    # by anyone" here copied other people's harvested nodes, related phrases
+    # and scores into a newcomer's first tree - the exact thing per-account
+    # trees exist to stop. A first search starts from what Google returned.
+    tree["owner_user_id"] = user_id
+    previous = (
+        load_tree(tree["slug"], user_id=user_id, anon_id=anon_id)
+        if (user_id is not None or anon_id or not db.available())
+        else None
+    )
     tree = _carry_previous(tree, previous)
 
     tree["billable_calls"] = client.billable_calls
@@ -1232,6 +1253,8 @@ def _persist_score(tree: dict, node: dict, key: str, strategy: str) -> None:
     if not db.available():
         return
     db.save_score(
+        # Whose tree, whose money: the tree shows only its owner's scores.
+        user_id=tree.get("owner_user_id"),
         normalized=node["id"],
         question=node["question"],
         language_code=tree["language_code"],
@@ -1344,7 +1367,7 @@ def queue_scores(
 
     in_flight = {
         t["cache_key"]
-        for t in db.tasks_for_tree(tree["slug"])
+        for t in db.tasks_for_tree(tree["slug"], crawl_id=tree.get("crawl_id"))
         if t["status"] == "posted"
     } if db.available() else set()
 
@@ -1462,7 +1485,7 @@ class RoundInFlight(Exception):
 
 def next_round(tree: dict) -> int:
     """1 or 2 - or MAX_ROUNDS + 1 once both are spent."""
-    return db.rounds_used(tree["slug"]) + 1 if db.available() else 1
+    return db.rounds_used(tree["slug"], tree.get("crawl_id")) + 1 if db.available() else 1
 
 
 def queue_round(
@@ -1483,7 +1506,8 @@ def queue_round(
     if round_no > MAX_ROUNDS:
         raise RoundLimit(tree["slug"])
     if db.available() and any(
-        t["status"] == "posted" for t in db.tasks_for_tree(tree["slug"])
+        t["status"] == "posted"
+        for t in db.tasks_for_tree(tree["slug"], crawl_id=tree.get("crawl_id"))
     ):
         raise RoundInFlight(tree["slug"])
 
@@ -1611,7 +1635,9 @@ def ingest_task(task_id: str, response: dict) -> dict | None:
     if row is None or row["status"] != "posted":
         return None
 
-    tree = load_tree(row["tree_slug"])
+    # Back to the crawl that posted it, not whichever crawl of the slug is
+    # newest now - with per-account trees that could be somebody else's.
+    tree = load_tree(row["tree_slug"], crawl_id=row.get("crawl_id"))
     if tree is None:
         db.task_finish(task_id, error=f"tree gone: {row['tree_slug']}")
         return None

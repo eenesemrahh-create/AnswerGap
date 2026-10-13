@@ -85,8 +85,8 @@ def fake_db(monkeypatch):
     """The four db calls a round makes, with the state a test sets."""
     state = {"rounds_used": 0, "tasks": [], "inserted": []}
     monkeypatch.setattr(db, "available", lambda: True)
-    monkeypatch.setattr(db, "rounds_used", lambda slug: state["rounds_used"])
-    monkeypatch.setattr(db, "tasks_for_tree", lambda slug: state["tasks"])
+    monkeypatch.setattr(db, "rounds_used", lambda slug, crawl_id=None: state["rounds_used"])
+    monkeypatch.setattr(db, "tasks_for_tree", lambda slug, crawl_id=None: state["tasks"])
     monkeypatch.setattr(db, "task_insert", lambda **kw: state["inserted"].append(kw))
 
     class Client:
