@@ -5360,3 +5360,41 @@ table.gt { font-size: 13.5px; }
   cursor: pointer;
 }
 @media (max-width: 480px) { .repeat-choices { grid-template-columns: 1fr; } }
+
+/* A failed Live update, beside the button that was pressed (2026-10-13).
+   It used to surface only under the home page's search box. */
+.refresh-error {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  max-width: 36rem;
+  padding: 6px 10px;
+  border: 1px solid var(--danger-border);
+  border-radius: 10px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 12.5px;
+  line-height: 1.4;
+  white-space: normal;
+}
+.refresh-error-close {
+  flex: none;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+.home-card-actions { flex-wrap: wrap; }
+.tree-head.is-compact .refresh-error { white-space: normal; }
+/* On a card the button keeps its place on the right; a failure takes the
+   full line underneath instead of pushing the button across. */
+.home-card-actions .refresh-wrap { flex: 1; justify-content: flex-end; }
+.home-card-actions .refresh-error { flex-basis: 100%; max-width: none; justify-content: space-between; }
+/* "Saved" stays on the button's line when a failure opens underneath. */
+.home-card-actions { align-items: flex-start; }
+.home-card-saved { min-height: 25px; }

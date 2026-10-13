@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ApiError } from "@/lib/api";
-import { startSearch, useSearchJob } from "@/lib/search-job";
+import { clearSearch, currentSearch, jobError, startSearch, useSearchJob } from "@/lib/search-job";
 import { useI18n } from "@/i18n";
 
 /**
@@ -41,7 +41,21 @@ export function RefreshSearch({
     setError(null);
     try {
       const slug = await startSearch({ seed, location, language, refresh: true });
-      if (slug) onDone?.(slug);
+      if (slug) {
+        onDone?.(slug);
+        return;
+      }
+      /* FAILED: say so HERE, beside the button that was pressed. The search
+         job keeps a failure for the home page's search box, which is the
+         wrong place for this one - the reader is on a card or a tree, and
+         was left looking at a button that did nothing (2026-10-13). So the
+         failure is shown here and taken off the job. */
+      const failed = currentSearch();
+      if (failed?.status === "failed") {
+        const err = jobError(failed);
+        setError(err ? t(`error.${err.kind}`, err.values) : t("auth.failed"));
+        clearSearch();
+      }
     } catch (e) {
       setError(e instanceof ApiError ? t(`error.${e.kind}`, e.values) : t("auth.failed"));
     }
@@ -88,7 +102,23 @@ export function RefreshSearch({
         </svg>
         {t("refresh.live")}
       </button>
-      {error && <span className="refresh-error">{error}</span>}
+      {error && (
+        <span className="refresh-error" role="alert">
+          {error}
+          <button
+            type="button"
+            className="refresh-error-close"
+            aria-label={t("detail.close")}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setError(null);
+            }}
+          >
+            ×
+          </button>
+        </span>
+      )}
     </span>
   );
 }

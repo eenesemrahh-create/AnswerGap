@@ -192,6 +192,14 @@ export async function startSearch(input: {
   }
 }
 
+/** The job as it stands right now, for code that has just awaited
+ *  `startSearch` and needs to know how it ended (a hook's value would be the
+ *  one from before the await). */
+export function currentSearch(): SearchJob | null {
+  load();
+  return job;
+}
+
 /** Forget the job: its tree was opened, or the reader dismissed it. */
 export function clearSearch() {
   set(null);
