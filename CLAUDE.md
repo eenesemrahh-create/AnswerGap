@@ -1403,9 +1403,9 @@ progress polling, developer panel, five locales.
     features - only the credits differ** (`pricing_seed.COMMON_FEATURES`;
     migration 0021 rewrote the stored cards, keeping each credits line).
     Still not true of the page: deep search is switched off, CSV/PNG export
-    need the capability ticked on EVERY plan in Subscription features, and
-    the FAQ's "moving up takes effect immediately" describes plan switching,
-    which the portal no longer offers.
+    need the capability ticked on EVERY plan in Subscription features.
+    The "change my plan" FAQ was rewritten the same day to the new rule
+    (buy the other plan, make it default, the old one stops renewing).
     It also said **"24-hour search history"** on Starter, which contradicts
     the standing rule above: *do not restrict search history — AlsoAsked's
     24-hour lock is bad practice.* That is a product decision to take

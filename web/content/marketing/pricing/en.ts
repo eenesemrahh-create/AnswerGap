@@ -150,9 +150,12 @@ export const en = {
       {
         title: "Can I change my plan later?",
         desc:
-          "Yes, at any time. Moving up takes effect immediately; moving " +
-          "down takes effect at the end of the cycle you have already paid " +
-          "for. Credits you have already bought stay yours.",
+          "Yes, at any time. Buy the new plan from your account page - it " +
+          "starts right away and is billed separately - then make it your " +
+          "default. Your old plan stops renewing at the end of the period " +
+          "you have already paid for, and its credits stay usable until " +
+          "then. Credits are always spent from the plan that ends first, " +
+          "and a plan's unused credits expire when its period ends.",
       },
       {
         title: "Do you offer custom enterprise pricing?",

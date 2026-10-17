@@ -138,9 +138,14 @@ export const fr: PricingContent = {
       {
         title: "Puis-je changer de formule plus tard ?",
         desc:
-          "Oui, à tout moment. Une montée en gamme prend effet immédiatement ; " +
-          "une baisse prend effet à la fin du cycle que vous avez déjà payé. " +
-          "Les crédits que vous avez déjà achetés vous restent acquis.",
+          "Oui, à tout moment. Achetez la nouvelle formule depuis votre page " +
+          "de compte (elle démarre tout de suite et est facturée à part), " +
+          "puis définissez-la comme formule par défaut. Votre ancienne " +
+          "formule ne se renouvelle plus à la fin de la période déjà payée, " +
+          "et ses crédits restent utilisables jusque-là. Les crédits sont " +
+          "toujours consommés d'abord sur la formule qui se termine le plus " +
+          "tôt ; les crédits non utilisés d'une formule expirent à la fin de " +
+          "sa période.",
       },
       {
         title: "Proposez-vous des tarifs sur mesure pour les grands comptes ?",

@@ -135,9 +135,13 @@ export const tr: PricingContent = {
       {
         title: "Planımı sonradan değiştirebilir miyim?",
         desc:
-          "Evet, istediğiniz zaman. Üst plana geçiş hemen yürürlüğe girer; " +
-          "alt plana geçiş, bedelini zaten ödediğiniz dönemin sonunda " +
-          "yürürlüğe girer. Satın aldığınız krediler sizde kalır.",
+          "Evet, istediğiniz zaman. Yeni planı hesap sayfanızdan satın " +
+          "alın; hemen başlar ve ayrıca ücretlendirilir. Ardından onu " +
+          "varsayılan planınız yapın. Eski planınız, bedelini ödediğiniz " +
+          "dönemin sonunda yenilenmez ve kredilerini o zamana kadar " +
+          "kullanabilirsiniz. Krediler her zaman önce dönemi en erken biten " +
+          "plandan düşer; bir planın kullanılmayan kredileri dönemi " +
+          "bittiğinde silinir.",
       },
       {
         title: "Kurumsal özel fiyatlandırma sunuyor musunuz?",

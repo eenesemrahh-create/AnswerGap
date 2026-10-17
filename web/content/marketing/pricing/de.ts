@@ -126,9 +126,13 @@ export const de: PricingContent = {
       {
         title: "Kann ich meinen Tarif später wechseln?",
         desc:
-          "Ja, jederzeit. Ein Wechsel nach oben gilt sofort; ein Wechsel nach " +
-          "unten gilt zum Ende des Zeitraums, den Sie bereits bezahlt haben. " +
-          "Bereits gekaufte Credits bleiben Ihnen erhalten.",
+          "Ja, jederzeit. Kaufen Sie den neuen Tarif auf Ihrer Kontoseite - " +
+          "er beginnt sofort und wird separat abgerechnet - und machen Sie " +
+          "ihn zu Ihrem Standardtarif. Ihr bisheriger Tarif verlängert sich " +
+          "zum Ende des bereits bezahlten Zeitraums nicht mehr, seine Credits " +
+          "bleiben bis dahin nutzbar. Credits werden immer zuerst aus dem " +
+          "Tarif verbraucht, der am frühesten endet; nicht genutzte Credits " +
+          "eines Tarifs verfallen am Ende seines Zeitraums.",
       },
       {
         title: "Gibt es individuelle Enterprise-Preise?",

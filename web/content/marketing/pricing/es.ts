@@ -130,9 +130,13 @@ export const es: PricingContent = {
       {
         title: "¿Puedo cambiar de plan más adelante?",
         desc:
-          "Sí, cuando quieras. Subir de plan surte efecto de inmediato; bajar " +
-          "surte efecto al final del ciclo que ya has pagado. Los créditos " +
-          "que ya hayas comprado siguen siendo tuyos.",
+          "Sí, cuando quieras. Compra el nuevo plan desde tu página de " +
+          "cuenta (empieza al momento y se cobra aparte) y márcalo como " +
+          "predeterminado. Tu plan anterior deja de renovarse al final del " +
+          "periodo que ya has pagado y puedes usar sus créditos hasta " +
+          "entonces. Los créditos siempre se gastan primero del plan que " +
+          "termina antes, y los créditos no usados de un plan caducan al " +
+          "terminar su periodo.",
       },
       {
         title: "¿Ofrecéis precios a medida para empresas?",
