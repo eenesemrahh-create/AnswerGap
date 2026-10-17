@@ -663,6 +663,18 @@ const en = {
       credit: "credits",
       admin: "admin",
     },
+    // Plain words for the plan-ending events, beside their raw code.
+    kinds: {
+      cancel_subscription: "Subscription cancelled by an admin",
+      subscription_clawback: "Unused plan credits removed",
+      cancel_withdrawn: "Customer undid the scheduled cancellation",
+    },
+    whenNow: "ends now",
+    whenPeriodEnd: "ends at period end",
+    clawbackYes: "unused credits will be removed",
+    clawbackNo: "credits kept",
+    clawed: "{credits} removed of {granted} granted this period",
+    withdrawn: "the admin's earlier cancellation no longer removes credits",
   },
 
   planFeatures: {
@@ -1436,6 +1448,17 @@ const tr: Messages = {
       credit: "kredi",
       admin: "admin",
     },
+    kinds: {
+      cancel_subscription: "Abonelik admin tarafından iptal edildi",
+      subscription_clawback: "Kullanılmamış plan kredileri silindi",
+      cancel_withdrawn: "Müşteri planlanan iptali geri aldı",
+    },
+    whenNow: "hemen bitti",
+    whenPeriodEnd: "dönem sonunda bitecek",
+    clawbackYes: "kullanılmamış krediler silinecek",
+    clawbackNo: "krediler kalıyor",
+    clawed: "bu dönem verilen {granted} krediden {credits} silindi",
+    withdrawn: "admin'in önceki iptali artık kredi silmeyecek",
   },
 
   planFeatures: {

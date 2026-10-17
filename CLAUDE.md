@@ -757,7 +757,9 @@ this person on" a question every screen has to ask twice and merge.
   back (`db.subscription_clawback`, ledger reason `subscription_clawback`,
   once per subscription). "Cancel now" takes it now; "cancel at period end"
   takes it when `customer.subscription.deleted` arrives (the audit row
-  carries `clawback: true`). Never below zero; signup, manual grants and
+  carries `clawback: true`; a customer renewing in the portal afterwards
+  writes `cancel_withdrawn`, which voids that mark). All three show in words
+  on the admin user page's account log. Never below zero; signup, manual grants and
   earlier periods stay. A customer's own portal cancellation and erasure
   (which cancels at Stripe since 2026-10-17, `billing.cancel_for_erasure`)
   take nothing.

@@ -64,6 +64,7 @@ export function AccountLog({
                 <td>{when(e.created_at)}</td>
                 <td><span className="pill">{t(`log.source.${e.source}`)}</span></td>
                 <td>
+                  {KINDS.has(e.kind) && <b>{t(`log.kinds.${e.kind}`)} </b>}
                   <code>{e.kind}</code>
                   {e.source === "payment" && typeof e.detail.livemode === "boolean" && (
                     <>
@@ -75,7 +76,7 @@ export function AccountLog({
                   )}
                 </td>
                 <td>
-                  <span className={failed(e) ? "neg" : undefined}>{summary(e)}</span>
+                  <span className={failed(e) ? "neg" : undefined}>{summary(e, t)}</span>
                   {/* Every field, for the case the summary does not cover. */}
                   <details>
                     <summary>{t("log.raw")}</summary>
@@ -96,8 +97,13 @@ export function AccountLog({
 
 const str = (v: unknown) => (v === null || v === undefined || v === "" ? "" : String(v));
 
+/** Kinds with a sentence of their own in the catalogue (`log.kinds`). The
+ *  ending of a plan and what it did to the balance is the part of this log
+ *  an operator reads aloud to a customer, so it is not left as a code. */
+const KINDS = new Set(["cancel_subscription", "subscription_clawback", "cancel_withdrawn"]);
+
 /** One line in plain words, built from the fields each source carries. */
-function summary(e: UserLogEntry): string {
+function summary(e: UserLogEntry, t: ReturnType<typeof makeT>): string {
   const d = e.detail;
   switch (e.source) {
     case "account":
@@ -123,6 +129,23 @@ function summary(e: UserLogEntry): string {
         .join(" · ");
     }
     case "admin":
+      if (e.kind === "cancel_subscription") {
+        return [str(d.actor), d.at_period_end ? t("log.whenPeriodEnd") : t("log.whenNow"),
+                d.clawback ? t("log.clawbackYes") : t("log.clawbackNo"),
+                str(d.stripe_subscription_id)]
+          .filter(Boolean)
+          .join(" · ");
+      }
+      if (e.kind === "subscription_clawback") {
+        return [str(d.actor), t("log.clawed", { credits: str(d.credits), granted: str(d.granted) })]
+          .filter(Boolean)
+          .join(" · ");
+      }
+      if (e.kind === "cancel_withdrawn") {
+        return [str(d.actor), t("log.withdrawn"), str(d.stripe_subscription_id)]
+          .filter(Boolean)
+          .join(" · ");
+      }
       return [str(d.actor), str(d.plan_id), str(d.note) || str(d.reason)]
         .filter(Boolean)
         .join(" · ");

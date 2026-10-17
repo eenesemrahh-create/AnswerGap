@@ -158,6 +158,19 @@ def apply_subscription_event(event: dict) -> str | None:
             )
             return "past_due"
 
+        if (
+            kind == "customer.subscription.updated"
+            and known and known.get("cancel_at_period_end")
+            and found.get("cancel_at_period_end") is False
+            and found.get("status") != "canceled"
+        ):
+            # The scheduled end was undone - the customer renewed in the
+            # portal. An admin's clawback mark from before must not apply to
+            # whatever cancellation comes months later.
+            db.subscription_cancel_withdrawn(
+                user_id=user_id, stripe_subscription_id=subscription_id
+            )
+
         plan_id = (plan or {}).get("id") or (known or {}).get("plan_id")
         current = plan_credits(plan_id, card=plan)
 

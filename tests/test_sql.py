@@ -1338,6 +1338,21 @@ def test_only_an_admin_cancellation_marks_a_clawback() -> None:
     assert db.subscription_cancelled_by_admin("sub_erased") is None
 
 
+def test_a_withdrawn_cancel_no_longer_marks_a_clawback() -> None:
+    """Admin scheduled the end, the customer renewed, the admin later
+    scheduled it again: only the newest, un-withdrawn mark counts."""
+    user = _subscriber()
+    _paid(user["id"], sid="sub_back")
+    row = next(r for r in db.subscriptions_for_user(user["id"]))
+    mark = {"subscription_id": row["id"], "user_id": user["id"], "at_period_end": True,
+            "actor": "op", "stripe_subscription_id": "sub_back", "clawback": True}
+    db.subscription_mark_cancelled(**mark)
+    db.subscription_cancel_withdrawn(user_id=user["id"], stripe_subscription_id="sub_back")
+    assert db.subscription_cancelled_by_admin("sub_back") is None
+    db.subscription_mark_cancelled(**mark)
+    assert db.subscription_cancelled_by_admin("sub_back")["id"] == row["id"]
+
+
 def test_a_paid_plan_outranks_an_assigned_one() -> None:
     """Somebody given a trial who then bought the real thing must see what they
     are paying for - the row with a card behind it, and the one the billing

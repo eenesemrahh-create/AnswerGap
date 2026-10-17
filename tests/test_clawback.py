@@ -99,6 +99,31 @@ def test_only_a_deletion_can_take_credits(wired) -> None:
     assert wired["clawbacks"] == []
 
 
+def test_renewing_in_the_portal_withdraws_the_scheduled_cancel(wired) -> None:
+    """Admin scheduled an end, the customer undid it: the mark is withdrawn so
+    a cancellation months later is treated as the customer's own."""
+    wired["row"] = {**wired["row"], "cancel_at_period_end": True}
+    billing.apply_subscription_event(_subscription_event(cancel_at_period_end=False))
+    assert wired["withdrawn"] == [{"user_id": 7, "stripe_subscription_id": "sub_123"}]
+
+
+def test_a_cancel_still_scheduled_withdraws_nothing(wired) -> None:
+    wired["row"] = {**wired["row"], "cancel_at_period_end": True}
+    billing.apply_subscription_event(_subscription_event(cancel_at_period_end=True))
+    assert wired["withdrawn"] == []
+
+
+def test_a_subscription_never_scheduled_to_end_withdraws_nothing(wired) -> None:
+    billing.apply_subscription_event(_subscription_event(cancel_at_period_end=False))
+    assert wired["withdrawn"] == []
+
+
+def test_the_deletion_itself_is_not_a_withdrawal(wired) -> None:
+    wired["row"] = {**wired["row"], "cancel_at_period_end": True}
+    billing.apply_subscription_event(_deleted())
+    assert wired["withdrawn"] == []
+
+
 def test_erasure_cancels_without_marking_a_clawback(monkeypatch) -> None:
     marked = []
     monkeypatch.setattr(db, "subscriptions_for_user", lambda uid, limit=20: [

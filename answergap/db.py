@@ -4786,6 +4786,16 @@ def subscription_cancelled_by_admin(stripe_subscription_id: str) -> dict | None:
                AND a.detail->>'stripe_subscription_id' = s.stripe_subscription_id
                AND a.detail->>'clawback' = 'true'
              WHERE s.stripe_subscription_id = %s
+               -- A mark the customer has since undone (they renewed in the
+               -- portal) no longer speaks for a later deletion: that one is
+               -- their own cancellation and takes nothing.
+               AND NOT EXISTS (
+                   SELECT 1 FROM admin_action w
+                    WHERE w.action = 'cancel_withdrawn'
+                      AND w.target_user = s.user_id
+                      AND w.detail->>'stripe_subscription_id' = s.stripe_subscription_id
+                      AND w.created_at >= a.created_at
+               )
              ORDER BY a.created_at DESC
              LIMIT 1
             """,
@@ -4793,6 +4803,26 @@ def subscription_cancelled_by_admin(stripe_subscription_id: str) -> dict | None:
         )
         row = cur.fetchone()
         return dict(row) if row else None
+
+
+def subscription_cancel_withdrawn(*, user_id: int, stripe_subscription_id: str) -> None:
+    """Record that a scheduled cancellation was undone (the subscription is
+    renewing again), so an earlier admin clawback mark stops applying.
+
+    In `admin_action` beside the mark it cancels, so the audit page shows
+    both and `subscription_cancelled_by_admin` reads them in one place. The
+    actor is the customer's own act, made in Stripe's portal.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO admin_action (actor, action, target_user, detail)
+            VALUES ('customer (Stripe portal)', 'cancel_withdrawn', %s,
+                    jsonb_build_object('stripe_subscription_id', %s::text))
+            """,
+            (user_id, stripe_subscription_id),
+        )
+        conn.commit()
 
 
 def account_event_put(*, user_id: int, kind: str, detail: dict | None = None) -> None:

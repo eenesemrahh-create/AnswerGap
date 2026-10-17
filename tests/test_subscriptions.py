@@ -96,6 +96,9 @@ def wired(monkeypatch):
                         lambda sid: state["admin_cancel"])
     monkeypatch.setattr(db, "subscription_clawback",
                         lambda **kw: state["clawbacks"].append(kw) or 120)
+    state["withdrawn"] = []
+    monkeypatch.setattr(db, "subscription_cancel_withdrawn",
+                        lambda **kw: state["withdrawn"].append(kw))
 
     def grant(**kw):
         # The real one is guarded by a unique index on the invoice; this
