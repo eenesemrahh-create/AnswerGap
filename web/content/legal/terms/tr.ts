@@ -79,18 +79,12 @@ export const tr: TermsContent = {
             "Bizim tarafımızda başarısız olan bir istek ücretlendirilmez.",
           ],
         },
-        {
-          p: "Hizmet önizlemedeyken hiçbir şey satılmaz: krediler elle tanımlanır ve satın alınamaz. Bu madde, satış açıldığında neyin geçerli olacağını anlatır.",
-        },
       ],
     },
 
     refunds: {
       heading: "5. İade ve iptal",
       body: [
-        {
-          p: "Önizleme sırasında hiçbir şey satılmadığı için henüz iade edilecek bir şey de yok. Satış açıldığında aşağıdakiler geçerli olur.",
-        },
         {
           ul: [
             "Kullanılmamış paket kredileri, satın alma tarihinden itibaren 14 gün içinde iade edilebilir. Harcanmış krediler iade edilmez; çünkü o aramaların bedeli veri sağlayıcımıza ödenmiştir ve geri alınamaz.",

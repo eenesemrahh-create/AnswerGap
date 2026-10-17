@@ -79,18 +79,12 @@ export const es: TermsContent = {
             "Una petición que falla por nuestra parte no se cobra.",
           ],
         },
-        {
-          p: "Mientras el servicio está en vista previa no se vende nada: los créditos se conceden a mano y no se pueden comprar. Este apartado describe lo que se aplicará cuando se abra la venta.",
-        },
       ],
     },
 
     refunds: {
       heading: "5. Reembolsos y cancelación",
       body: [
-        {
-          p: "Durante la vista previa no se vende nada, así que todavía no hay nada que reembolsar. Cuando se abra la venta se aplicará lo siguiente.",
-        },
         {
           ul: [
             "Los créditos de pack no usados pueden reembolsarse dentro de los 14 días siguientes a la compra. Los créditos ya gastados no se reembolsan, porque el coste de esas búsquedas se incurrió con nuestro proveedor de datos y no puede recuperarse.",

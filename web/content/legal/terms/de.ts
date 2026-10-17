@@ -79,18 +79,12 @@ export const de: TermsContent = {
             "Eine Anfrage, die auf unserer Seite fehlschlägt, wird nicht berechnet.",
           ],
         },
-        {
-          p: "Solange der Dienst in der Vorschau ist, wird nichts verkauft: Credits werden manuell vergeben und sind nicht käuflich. Dieser Abschnitt beschreibt, was gilt, sobald der Verkauf startet.",
-        },
       ],
     },
 
     refunds: {
       heading: "5. Erstattung und Kündigung",
       body: [
-        {
-          p: "Während der Vorschau wird nichts verkauft, also gibt es auch noch nichts zu erstatten. Sobald der Verkauf startet, gilt Folgendes.",
-        },
         {
           ul: [
             "Nicht genutzte Paket-Credits können innerhalb von 14 Tagen nach dem Kauf erstattet werden. Bereits verbrauchte Credits werden nicht erstattet, weil die Kosten dieser Suchen bei unserem Datenanbieter angefallen und nicht rückholbar sind.",

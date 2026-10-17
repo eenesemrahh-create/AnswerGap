@@ -79,18 +79,12 @@ export const fr: TermsContent = {
             "Une requête qui échoue de notre côté n'est pas facturée.",
           ],
         },
-        {
-          p: "Tant que le service est en avant-première, rien n'est vendu : les crédits sont attribués à la main et ne sont pas achetables. Cet article décrit ce qui s'appliquera à l'ouverture de la vente.",
-        },
       ],
     },
 
     refunds: {
       heading: "5. Remboursement et résiliation",
       body: [
-        {
-          p: "Rien n'est vendu pendant l'avant-première, il n'y a donc encore rien à rembourser. À l'ouverture de la vente, ce qui suit s'appliquera.",
-        },
         {
           ul: [
             "Les crédits de pack non utilisés peuvent être remboursés dans les 14 jours suivant l'achat. Les crédits déjà dépensés ne sont pas remboursés, car le coût de ces recherches a été engagé auprès de notre fournisseur de données et ne peut être récupéré.",

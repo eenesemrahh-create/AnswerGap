@@ -85,18 +85,12 @@ export const en = {
             "A request that fails on our side is not charged.",
           ],
         },
-        {
-          p: "While the service is in preview nothing is sold: credits are granted by hand and are not purchasable. This section describes what applies once purchasing opens.",
-        },
       ],
     },
 
     refunds: {
       heading: "5. Refunds and cancellation",
       body: [
-        {
-          p: "Nothing is sold during preview, so there is nothing to refund yet. Once purchasing opens, the following applies.",
-        },
         {
           ul: [
             "Unused pack credits can be refunded within 14 days of purchase. Credits already spent are not refunded, because the cost of those searches was incurred with our data provider and cannot be recovered.",
