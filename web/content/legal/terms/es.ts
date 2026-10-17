@@ -12,7 +12,7 @@ export const es: TermsContent = {
   description:
     "El acuerdo entre usted y AnswerGap sobre cuentas, créditos, reembolsos y la exactitud de las puntuaciones de hueco.",
   lead: "Estos términos rigen su uso de AnswerGap. Lea el apartado 6, que explica qué son y qué no son nuestras puntuaciones de hueco.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     parties: {
@@ -69,10 +69,13 @@ export const es: TermsContent = {
         },
         {
           ul: [
-            "Una búsqueda cuesta un crédito. Los resultados que ya hemos recuperado y almacenado son gratuitos: volver a abrirlos no cuesta nada.",
+            "Una búsqueda cuesta un crédito. Volver a abrir una búsqueda que ya ha hecho es gratis; ejecutarla de nuevo para obtener resultados actualizados cuesta un crédito.",
             "Comprobar una pregunta concreta se cobra aparte del descubrimiento de preguntas, porque cada comprobación nos cuesta una petición de búsqueda distinta.",
             "Los créditos pueden venderse en packs puntuales o incluirse en una suscripción periódica. El precio, el número de créditos y el plazo de la suscripción, si lo hay, se muestran antes de pagar.",
-            "Los créditos de pack no caducan mientras su cuenta esté activa.",
+            "Los créditos incluidos en una suscripción se añaden al inicio de cada periodo pagado y solo pueden usarse durante ese periodo. Los créditos no usados al terminar el periodo caducan; no pasan al periodo siguiente.",
+            "Puede tener más de una suscripción a la vez. Cada una se cobra por separado, y los créditos se usan primero de la suscripción cuyo periodo termina antes.",
+            "Los créditos que no proceden de una suscripción —por ejemplo, un crédito de bienvenida o un pack— se usan después de los créditos de suscripción y no caducan mientras su cuenta esté activa.",
+            "Si ponemos fin a una suscripción antes de que termine su periodo —por ejemplo, por un incumplimiento de estas condiciones—, se eliminan los créditos no usados de su periodo actual.",
             "Una petición que falla por nuestra parte no se cobra.",
           ],
         },
@@ -91,7 +94,7 @@ export const es: TermsContent = {
         {
           ul: [
             "Los créditos de pack no usados pueden reembolsarse dentro de los 14 días siguientes a la compra. Los créditos ya gastados no se reembolsan, porque el coste de esas búsquedas se incurrió con nuestro proveedor de datos y no puede recuperarse.",
-            "Una suscripción puede cancelarse en cualquier momento. Continúa hasta el final del periodo ya pagado; no reembolsamos periodos parciales.",
+            "Una suscripción puede cancelarse en cualquier momento. Continúa hasta el final del periodo ya pagado y sus créditos pueden usarse hasta entonces; no reembolsamos periodos parciales.",
             "Si el servicio no entrega aquello por lo que pagó —una búsqueda que falló por nuestra parte o un cargo duplicado—, díganoslo y lo corregiremos.",
           ],
         },

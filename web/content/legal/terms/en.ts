@@ -18,7 +18,7 @@ export const en = {
   description:
     "The agreement between you and AnswerGap covering accounts, credits, refunds and the accuracy of gap scores.",
   lead: "These terms govern your use of AnswerGap. Please read section 6, which explains what our gap scores are and are not.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     parties: {
@@ -75,10 +75,13 @@ export const en = {
         },
         {
           ul: [
-            "A search costs one credit. Results we have already retrieved and cached are free — reopening them does not cost anything.",
+            "A search costs one credit. Reopening a search you have already run is free; running it again for fresh results costs one credit.",
             "Checking an individual question is priced separately from discovering questions, because each check costs us a separate search request.",
             "Credits may be sold as one-off packs, or included in a recurring subscription. The price, the number of credits and any subscription term are shown before you pay.",
-            "Pack credits do not expire while your account is active.",
+            "Credits included in a subscription are added at the start of each paid period and can be used during that period only. Credits left unused when the period ends expire; they do not carry over to the next period.",
+            "You may hold more than one subscription at a time. Each is billed separately, and credits are used first from the subscription whose period ends soonest.",
+            "Credits that do not come from a subscription — for example a welcome grant or a pack — are used after subscription credits and do not expire while your account is active.",
+            "If we end a subscription before its period is over — for example because of a breach of these terms — the unused credits of its current period are removed.",
             "A request that fails on our side is not charged.",
           ],
         },
@@ -97,7 +100,7 @@ export const en = {
         {
           ul: [
             "Unused pack credits can be refunded within 14 days of purchase. Credits already spent are not refunded, because the cost of those searches was incurred with our data provider and cannot be recovered.",
-            "A subscription can be cancelled at any time. It continues to the end of the period you have already paid for; we do not refund part-periods.",
+            "A subscription can be cancelled at any time. It continues to the end of the period you have already paid for, and its credits stay usable until then; we do not refund part-periods.",
             "If the service fails to deliver what you paid for — a search that errored on our side, or a duplicate charge — tell us and we will put it right.",
           ],
         },

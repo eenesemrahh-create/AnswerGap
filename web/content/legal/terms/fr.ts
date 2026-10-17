@@ -12,7 +12,7 @@ export const fr: TermsContent = {
   description:
     "L'accord entre vous et AnswerGap concernant les comptes, les crédits, les remboursements et l'exactitude des scores de lacune.",
   lead: "Ces conditions régissent votre utilisation d'AnswerGap. Veuillez lire l'article 6, qui explique ce que sont et ne sont pas nos scores de lacune.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     parties: {
@@ -69,10 +69,13 @@ export const fr: TermsContent = {
         },
         {
           ul: [
-            "Une recherche coûte un crédit. Les résultats déjà récupérés et mis en cache sont gratuits — les rouvrir ne coûte rien.",
+            "Une recherche coûte un crédit. Rouvrir une recherche déjà effectuée est gratuit ; la relancer pour obtenir des résultats à jour coûte un crédit.",
             "Vérifier une question précise est facturé séparément de la découverte de questions, car chaque vérification nous coûte une requête de recherche distincte.",
             "Les crédits peuvent être vendus en packs ponctuels ou inclus dans un abonnement récurrent. Le prix, le nombre de crédits et la durée éventuelle de l'abonnement sont affichés avant le paiement.",
-            "Les crédits d'un pack n'expirent pas tant que votre compte est actif.",
+            "Les crédits inclus dans un abonnement sont ajoutés au début de chaque période payée et ne peuvent être utilisés que pendant cette période. Les crédits non utilisés à la fin de la période expirent ; ils ne sont pas reportés sur la période suivante.",
+            "Vous pouvez détenir plusieurs abonnements à la fois. Chacun est facturé séparément, et les crédits sont d'abord consommés sur l'abonnement dont la période se termine le plus tôt.",
+            "Les crédits qui ne proviennent pas d'un abonnement — par exemple un crédit de bienvenue ou un pack — sont consommés après les crédits d'abonnement et n'expirent pas tant que votre compte est actif.",
+            "Si nous mettons fin à un abonnement avant la fin de sa période — par exemple en raison d'un manquement aux présentes conditions —, les crédits non utilisés de sa période en cours sont supprimés.",
             "Une requête qui échoue de notre côté n'est pas facturée.",
           ],
         },
@@ -91,7 +94,7 @@ export const fr: TermsContent = {
         {
           ul: [
             "Les crédits de pack non utilisés peuvent être remboursés dans les 14 jours suivant l'achat. Les crédits déjà dépensés ne sont pas remboursés, car le coût de ces recherches a été engagé auprès de notre fournisseur de données et ne peut être récupéré.",
-            "Un abonnement peut être résilié à tout moment. Il court jusqu'à la fin de la période déjà payée ; nous ne remboursons pas les périodes partielles.",
+            "Un abonnement peut être résilié à tout moment. Il court jusqu'à la fin de la période déjà payée, et ses crédits restent utilisables jusque-là ; nous ne remboursons pas les périodes partielles.",
             "Si le service ne fournit pas ce que vous avez payé — une recherche en échec de notre côté, ou un débit en double —, dites-le-nous et nous corrigerons.",
           ],
         },

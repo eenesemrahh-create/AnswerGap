@@ -12,7 +12,7 @@ export const de: TermsContent = {
   description:
     "Die Vereinbarung zwischen Ihnen und AnswerGap zu Konten, Credits, Erstattungen und der Genauigkeit von Gap-Werten.",
   lead: "Diese Bedingungen regeln Ihre Nutzung von AnswerGap. Bitte lesen Sie Abschnitt 6, der erklärt, was unsere Gap-Werte sind und was nicht.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     parties: {
@@ -69,10 +69,13 @@ export const de: TermsContent = {
         },
         {
           ul: [
-            "Eine Suche kostet einen Credit. Bereits abgerufene und zwischengespeicherte Ergebnisse sind kostenlos — sie erneut zu öffnen kostet nichts.",
+            "Eine Suche kostet einen Credit. Eine bereits durchgeführte Suche erneut zu öffnen ist kostenlos; sie für aktuelle Ergebnisse erneut auszuführen kostet einen Credit.",
             "Die Prüfung einer einzelnen Frage wird getrennt von der Fragensuche berechnet, weil uns jede Prüfung eine eigene Suchanfrage kostet.",
             "Credits können als einmalige Pakete verkauft oder in ein wiederkehrendes Abonnement eingeschlossen werden. Preis, Anzahl der Credits und eine etwaige Abonnementlaufzeit werden vor der Zahlung angezeigt.",
-            "Paket-Credits verfallen nicht, solange Ihr Konto aktiv ist.",
+            "In einem Abonnement enthaltene Credits werden zu Beginn jedes bezahlten Zeitraums gutgeschrieben und können nur in diesem Zeitraum genutzt werden. Am Ende des Zeitraums nicht genutzte Credits verfallen; sie werden nicht in den nächsten Zeitraum übertragen.",
+            "Sie können mehrere Abonnements gleichzeitig haben. Jedes wird separat abgerechnet, und Credits werden zuerst aus dem Abonnement verbraucht, dessen Zeitraum am frühesten endet.",
+            "Credits, die nicht aus einem Abonnement stammen — zum Beispiel ein Willkommensguthaben oder ein Paket —, werden nach den Abonnement-Credits verbraucht und verfallen nicht, solange Ihr Konto aktiv ist.",
+            "Beenden wir ein Abonnement vor Ablauf seines Zeitraums — zum Beispiel wegen eines Verstoßes gegen diese Bedingungen —, werden die nicht genutzten Credits des laufenden Zeitraums entfernt.",
             "Eine Anfrage, die auf unserer Seite fehlschlägt, wird nicht berechnet.",
           ],
         },
@@ -91,7 +94,7 @@ export const de: TermsContent = {
         {
           ul: [
             "Nicht genutzte Paket-Credits können innerhalb von 14 Tagen nach dem Kauf erstattet werden. Bereits verbrauchte Credits werden nicht erstattet, weil die Kosten dieser Suchen bei unserem Datenanbieter angefallen und nicht rückholbar sind.",
-            "Ein Abonnement kann jederzeit gekündigt werden. Es läuft bis zum Ende des bereits bezahlten Zeitraums; Teilzeiträume erstatten wir nicht.",
+            "Ein Abonnement kann jederzeit gekündigt werden. Es läuft bis zum Ende des bereits bezahlten Zeitraums, und seine Credits bleiben bis dahin nutzbar; Teilzeiträume erstatten wir nicht.",
             "Wenn der Dienst nicht liefert, wofür Sie bezahlt haben — eine Suche, die auf unserer Seite fehlgeschlagen ist, oder eine doppelte Abbuchung —, sagen Sie uns Bescheid, und wir bringen es in Ordnung.",
           ],
         },

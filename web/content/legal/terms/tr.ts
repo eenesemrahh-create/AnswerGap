@@ -12,7 +12,7 @@ export const tr: TermsContent = {
   description:
     "AnswerGap ile aranızdaki sözleşme: hesaplar, krediler, iadeler ve boşluk skorlarının doğruluğu.",
   lead: "Bu koşullar AnswerGap kullanımınızı düzenler. Boşluk skorlarının ne olduğunu ve ne olmadığını anlatan 6. maddeyi lütfen okuyun.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     parties: {
@@ -69,10 +69,13 @@ export const tr: TermsContent = {
         },
         {
           ul: [
-            "Bir arama bir krediye mal olur. Daha önce çekip önbelleğe aldığımız sonuçlar ücretsizdir — onları yeniden açmak hiçbir şeye mal olmaz.",
+            "Bir arama bir krediye mal olur. Daha önce yaptığınız bir aramayı yeniden açmak ücretsizdir; güncel sonuçlar için yeniden çalıştırmak bir krediye mal olur.",
             "Tek bir soruyu kontrol etmek, soru keşfinden ayrı fiyatlanır; çünkü her kontrol bize ayrı bir arama isteğine mal olur.",
             "Krediler tek seferlik paketler hâlinde satılabilir ya da yinelenen bir aboneliğe dâhil edilebilir. Fiyat, kredi sayısı ve varsa abonelik süresi ödemeden önce gösterilir.",
-            "Paket kredileri, hesabınız etkin olduğu sürece geçerliliğini yitirmez.",
+            "Aboneliğe dâhil krediler, ödenen her dönemin başında eklenir ve yalnızca o dönem içinde kullanılabilir. Dönem sonunda kullanılmamış krediler geçerliliğini yitirir; bir sonraki döneme aktarılmaz.",
+            "Aynı anda birden fazla aboneliğiniz olabilir. Her biri ayrı ücretlendirilir ve krediler önce dönemi en erken biten abonelikten kullanılır.",
+            "Bir abonelikten gelmeyen krediler — örneğin hoş geldin kredisi ya da bir paket — abonelik kredilerinden sonra kullanılır ve hesabınız etkin olduğu sürece geçerliliğini yitirmez.",
+            "Bir aboneliği dönemi bitmeden biz sonlandırırsak — örneğin bu şartların ihlali nedeniyle — o dönemin kullanılmamış kredileri silinir.",
             "Bizim tarafımızda başarısız olan bir istek ücretlendirilmez.",
           ],
         },
@@ -91,7 +94,7 @@ export const tr: TermsContent = {
         {
           ul: [
             "Kullanılmamış paket kredileri, satın alma tarihinden itibaren 14 gün içinde iade edilebilir. Harcanmış krediler iade edilmez; çünkü o aramaların bedeli veri sağlayıcımıza ödenmiştir ve geri alınamaz.",
-            "Abonelik dilediğiniz zaman iptal edilebilir. Ödemesini yaptığınız dönemin sonuna kadar devam eder; dönem artığı iade edilmez.",
+            "Abonelik dilediğiniz zaman iptal edilebilir. Ödemesini yaptığınız dönemin sonuna kadar devam eder ve kredileri o zamana kadar kullanılabilir; dönem artığı iade edilmez.",
             "Hizmet ödediğiniz şeyi vermezse — bizim tarafımızda hata veren bir arama ya da mükerrer bir tahsilat — bize söyleyin, düzeltelim.",
           ],
         },
