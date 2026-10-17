@@ -404,6 +404,20 @@ export const tr: Messages = {
     monthly: "Aylık",
     annual: "Yıllık",
     notPurchasable: "Henüz satışta değil",
+    myPlansHeading: "Planların",
+    myPlansLead: "Krediler önce dönemi en erken biten plandan harcanır; o planın kredileri bitince sıradaki plana geçilir. Bir planın o dönemde kullanılmayan kredileri dönem bitince silinir. Hiçbir plandan gelmeyen krediler en son harcanır.",
+    otherCredits: "Plan dışı krediler (hoş geldin, hediye): {count}, en son harcanır",
+    spendingFrom: "Şu an buradan harcanıyor",
+    creditsLeftOf: "Bu dönem {total} krediden {left} kredi kaldı",
+    burnsOn: "Kullanılmayan krediler {date} tarihinde silinir",
+    defaultBadge: "Varsayılan",
+    makeDefault: "Varsayılan yap",
+    confirmDefault: "{plan} varsayılan planın olsun mu? Diğer planların ({others}) yenilenmeyecek; kredilerini dönemleri bitene kadar kullanabilirsin.",
+    confirmDefaultAlone: "{plan} varsayılan planın olsun mu?",
+    confirmDefaultYes: "Evet, varsayılan yap",
+    chooseAdditional: "{plan} planını ek plan olarak al",
+    additionalWarn: "Mevcut planın devam eder ve bu plan ayrıca ücretlendirilir. Birini varsayılan yaptığında diğerleri dönem sonunda yenilenmez.",
+    additionalYes: "Anladım, ödemeye geç",
     contactUs: "Bize ulaşın",
     seeAllPlans: "Tüm planları gör",
 
@@ -522,6 +536,7 @@ export const tr: Messages = {
     noCustomer: "Yönetilecek bir şey yok — bu hesaba hiç fatura kesilmemiş.",
     paymentsOff: "Ödemeler henüz açık değil.",
     subscriptionCancelFailed: "Aboneliğini iptal edemedik, bu yüzden hesabın silinmedi. Birkaç dakika sonra tekrar dene ya da destek ekibine yaz.",
+    alreadyOnPlan: "Bu plana zaten sahipsin ve yenileniyor. Başka bir plan seç ya da bu planı yönet.",
     signedOut: "Çıkış yapılmış durumdasınız. Devam etmek için giriş yapın.",
     noCredits:
       "Krediniz kalmadı. Bir arama bir kredi harcar; önbellekten gelen " +

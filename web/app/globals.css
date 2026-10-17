@@ -4233,6 +4233,12 @@ a.acct-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift);
 .acct-plan-option .btn { margin-top: auto; }
 .acct-plan-option.is-current { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
 .acct-plan-option-name { font-size: 17px; font-weight: 800; }
+/* Several plans at once: what is being spent from, and which is kept. */
+.acct-pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.acct-pill-row:empty { display: none; }
+/* An inline second step before anything that charges or stops a plan. */
+.acct-confirm { display: flex; flex-direction: column; gap: 8px; margin-top: auto; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--brand-soft); }
+.acct-confirm p { margin: 0; font-size: 13.5px; line-height: 1.5; }
 .acct-plan-price { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; }
 .acct-plan-price em { margin-left: 4px; font-style: normal; font-size: 13px; font-weight: 500; color: var(--text-soft); letter-spacing: 0; }
 

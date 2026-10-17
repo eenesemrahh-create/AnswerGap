@@ -564,6 +564,10 @@ def me(request: Request) -> dict:
         # webhook, so this costs one local query rather than a call to a
         # billing API on the critical path of every page that shows a balance.
         "subscription": subscription,
+        # EVERY plan running now, default first, each with what is left in
+        # its pocket - plus the credits that belong to no plan. The account
+        # page lists these and lets the person choose which plan to keep.
+        **_plans_and_pockets(who.user_id),
         # HOW MUCH OF THIS PERIOD'S ALLOWANCE IS GONE, or null when there is
         # no plan to be a fraction of. Read from the same `db.period_usage`
         # the admin reads, so the bar somebody is shown and the bar an
@@ -633,6 +637,16 @@ def billing_checkout(request: Request, payload: CheckoutRequest) -> dict:
     plan = _published_plan(payload.plan_id)
     if not plan:
         raise HTTPException(404, {"code": "noSuchPlan"})
+    # A DIFFERENT plan beside a running one is allowed (operator's rule,
+    # 2026-10-17: the person picks which to keep). The SAME plan twice, both
+    # renewing, is two charges for one thing and nothing to choose between.
+    try:
+        running = db.live_subscriptions(who.user_id)
+    except Exception:  # noqa: BLE001 - never lose a sale over this check
+        running = []
+    if any(s.get("plan_id") == payload.plan_id and s.get("source") == "stripe"
+           and not s.get("cancel_at_period_end") for s in running):
+        raise HTTPException(409, {"code": "alreadyOnPlan"})
     price_id = (
         plan.get("stripe_price_id_annual")
         if payload.cycle == "annual"
@@ -721,6 +735,105 @@ def billing_portal(request: Request) -> dict:
     return {"url": session["url"]}
 
 
+def _plans_and_pockets(user_id: int) -> dict:
+    """`plans` and `pockets` for /api/me. Never breaks the page: a balance and
+    an address are what that endpoint exists for."""
+    try:
+        live = db.live_subscriptions(user_id)
+        pockets = db.credit_pockets(user_id)
+    except Exception as exc:  # noqa: BLE001
+        print(f"[billing] plans for {user_id} not read: {exc}", flush=True)
+        return {"plans": [], "pockets": None}
+    left: dict[int, dict] = {}
+    for p in pockets["plans"]:
+        entry = left.setdefault(int(p["subscription_id"]),
+                                {"remaining": 0, "expires_at": p["expires_at"]})
+        entry["remaining"] += int(p["remaining"])
+        entry["expires_at"] = min(entry["expires_at"], p["expires_at"])
+    plans = []
+    for sub in live:
+        card = _plan_by_id(sub.get("plan_id")) or {}
+        ends = sub.get("current_period_end")
+        pocket = left.get(int(sub["id"]), {})
+        plans.append({
+            "id": int(sub["id"]),
+            "plan_id": sub.get("plan_id"),
+            "name": card.get("name") or sub.get("plan_id"),
+            "status": sub.get("status"),
+            "source": sub.get("source") or "stripe",
+            "current_period_end": ends.isoformat() if ends else None,
+            "cancel_at_period_end": bool(sub.get("cancel_at_period_end")),
+            "is_default": bool(sub.get("is_default")),
+            "credits_per_period": int(sub.get("credits_per_period") or 0),
+            "credits_left": int(pocket.get("remaining") or 0),
+            "credits_burn_at": pocket.get("expires_at"),
+        })
+    # Spending order, for the sentence that explains it: the plan whose
+    # pocket burns first is the one being spent from.
+    order = sorted((p for p in plans if p["credits_left"] > 0),
+                   key=lambda p: p["credits_burn_at"] or "")
+    return {
+        "plans": plans,
+        "pockets": {
+            "spending_from": order[0]["id"] if order else None,
+            "other": int(pockets["other"]),
+        },
+    }
+
+
+class DefaultPlanRequest(BaseModel):
+    subscription_id: int
+
+
+@router.post("/api/billing/default")
+def billing_default(request: Request, payload: DefaultPlanRequest) -> dict:
+    """Choose the plan to keep. Every OTHER running plan stops renewing.
+
+    THE OPERATOR'S RULE (2026-10-17). Nothing is cancelled now and nothing is
+    refunded: each other plan runs to the end of the period already paid,
+    its credits stay spendable until then, and it simply does not renew.
+
+    STRIPE FIRST, then our rows, then the choice - the same order as every
+    cancellation in this codebase, so no row claims a stop Stripe did not
+    make. If Stripe refuses one, the choice is not saved and the person can
+    retry; the ones already stopped stay stopped, which is harmless on a
+    retry because asking Stripe twice is idempotent.
+    """
+    if not accounts_enabled():
+        raise HTTPException(503, {"code": "accountsOff"})
+    who = identity(request)
+    if not who.signed_in:
+        raise HTTPException(401, {"code": "signedOut"})
+    live = db.live_subscriptions(who.user_id)
+    chosen = next((s for s in live if int(s["id"]) == payload.subscription_id), None)
+    if not chosen:
+        raise HTTPException(404, {"code": "noSuchPlan"})
+    stopped = []
+    for sub in live:
+        if int(sub["id"]) == payload.subscription_id or sub.get("cancel_at_period_end"):
+            continue
+        if sub.get("source") != "stripe" or not sub.get("stripe_subscription_id"):
+            # Nothing renews an assigned plan; it already ends on its date.
+            continue
+        try:
+            stripe.cancel_subscription(sub["stripe_subscription_id"], at_period_end=True)
+        except stripe.StripeError as exc:
+            print(f"[stripe] default plan: stop {sub['stripe_subscription_id']}: {exc}",
+                  flush=True)
+            _log_account(who.user_id, "default_plan_failed",
+                         {"subscription_id": int(sub["id"]), "error": exc.code})
+            raise HTTPException(502, {"code": "stripeFailed"}) from exc
+        db.subscription_mark_ending(user_id=who.user_id, subscription_id=int(sub["id"]))
+        stopped.append(int(sub["id"]))
+    db.subscription_set_default(user_id=who.user_id, subscription_id=payload.subscription_id)
+    _log_account(who.user_id, "default_plan_set", {
+        "subscription_id": payload.subscription_id,
+        "plan_id": chosen.get("plan_id"),
+        "stopped_renewing": stopped,
+    })
+    return {"default": payload.subscription_id, "stopped_renewing": stopped}
+
+
 def _plan_by_id(plan_id: str | None) -> dict | None:
     """One plan by id, PUBLISHED OR NOT.
 
@@ -759,12 +872,21 @@ def _capabilities(user_id: int, *, is_admin: bool, subscription: dict | None) ->
     period has passed still says `active` while `active` here is false. A
     lapsed plan grants nothing, which is the same rule the plan card on the
     account page renders.
+
+    EVERY LIVE PLAN COUNTS, not only the default (operator's rule,
+    2026-10-17): somebody running two plans has paid for both, so they get
+    the widest set either grants until one of them ends.
     """
-    plan = None
-    if subscription and subscription.get("active"):
-        plan = _plan_by_id(subscription.get("plan_id"))
     try:
-        return sorted(entitlements.resolve(plan, is_admin=is_admin))
+        live = db.live_subscriptions(user_id)
+    except Exception:  # noqa: BLE001 - fall back to the one already resolved
+        live = [subscription] if subscription and subscription.get("active") else []
+    try:
+        allowed = set(entitlements.resolve(None, is_admin=is_admin))
+        for sub in live:
+            allowed |= entitlements.resolve(_plan_by_id(sub.get("plan_id")),
+                                            is_admin=is_admin)
+        return sorted(allowed)
     except Exception:  # noqa: BLE001 - never break /api/me over a feature flag
         return sorted(entitlements.FREE)
 
@@ -785,7 +907,7 @@ def _period(user_id: int, subscription: dict | None) -> dict | None:
     if not subscription or not subscription.get("active"):
         return None
     try:
-        found = db.period_usage(user_id)
+        found = db.period_usage(user_id, subscription.get("id"))
     except Exception:  # noqa: BLE001
         return None
     if not found:
@@ -872,6 +994,7 @@ def _subscription_summary(user_id: int) -> dict | None:
         return None
     ends = found.get("current_period_end")
     return {
+        "id": found.get("id"),
         "plan_id": found.get("plan_id"),
         "status": found.get("status"),
         "credits_per_period": int(found.get("credits_per_period") or 0),

@@ -488,6 +488,22 @@ defensible asset over time.
   the question in a tree; the rest stay unattributed and hidden. Old crawls
   may still hold harvested nodes copied in from other accounts before this
   change - they cannot be told apart.
+- **Several plans at once, credit pockets (2026-10-17, operator).** A
+  person may run more than one plan; the SAME plan twice while it renews is
+  refused (`alreadyOnPlan`), and buying beside a paid plan shows a "charged
+  separately" confirm. Each plan period's grant is a POCKET
+  (`credit_ledger.subscription_id` + `expires_at`, migration 0020): spending
+  takes the live pocket ending FIRST, then the next; non-plan credits
+  (signup, manual grants) go LAST and never expire; what a pocket has left
+  BURNS at its period end, written lazily as a `plan_expired` line by
+  `db.expire_credits` (called from `user_for_gate`, `admin_user_detail`,
+  `period_usage`). The balance is still `sum(delta)`; the arithmetic is the
+  pure `answergap/credits.py`, pinned by an invariant test. Grants from
+  before 0020 have no pocket and never expire. `POST /api/billing/default`
+  picks the plan to keep and sets every OTHER paid plan to stop at period
+  end (Stripe first). Capabilities are the union of all live plans. The
+  account page lists every plan, its credits left, which one is being spent
+  from, and the rule in words.
 - Depth is plan-bound.
 - Every plan can buy extra credits — gating that behind an upgrade drives churn.
 - Do not restrict search history (AlsoAsked's 24-hour lock is bad practice).

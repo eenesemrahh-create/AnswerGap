@@ -70,6 +70,7 @@ export type ErrorKind =
   | "noCustomer"
   | "paymentsOff"
   | "subscriptionCancelFailed"
+  | "alreadyOnPlan"
   // --- analysis rounds -------------------------------------------------
   | "roundLimit"
   | "roundInFlight"
@@ -143,6 +144,8 @@ const CODES: Record<string, ErrorKind> = {
   // Erasure ends a paid plan at Stripe first and refuses to erase when Stripe
   // will not confirm - an erased account must never keep being charged.
   subscriptionCancelFailed: "subscriptionCancelFailed",
+  // The same plan bought twice, both renewing: two charges for one thing.
+  alreadyOnPlan: "alreadyOnPlan",
   // A tree is analysed in at most two rounds; the second refusal is a click
   // that arrived while the previous round's results were still coming in.
   roundLimit: "roundLimit",
@@ -424,6 +427,13 @@ export const startCheckout = (planId: string, cycle: "monthly" | "annual") =>
  * Answers `noCustomer` for an account that never bought anything, which is why
  * the button is only drawn for a subscription whose `source` is `stripe`.
  */
+/** Choose the plan to keep; every other running plan stops renewing at the
+ *  end of its period. Nothing is cancelled now and nothing is refunded. */
+export const setDefaultPlan = (subscriptionId: number) =>
+  post<{ default: number; stopped_renewing: number[] }>("/api/billing/default", {
+    subscription_id: subscriptionId,
+  });
+
 export const openBillingPortal = () =>
   post<{ url: string }>("/api/billing/portal", {});
 

@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
+  ApiError,
   openBillingPortal,
   resendVerification,
+  setDefaultPlan,
   startCheckout,
 } from "@/lib/api";
 import { marketingPath } from "@/lib/marketing";
-import { planName, useMe } from "@/lib/me";
+import { loadMe, planName, useMe } from "@/lib/me";
 import type { Me } from "@/lib/types";
 import { useDayFormat, useI18n } from "@/i18n";
 import { Avatar } from "../AccountMenu";
@@ -207,6 +209,101 @@ function PlanCard({ me, compact }: { me: Me; compact?: boolean }) {
   );
 }
 
+/**
+ * Every plan running now, with what is left in its pocket, and the choice
+ * of which to keep (operator's rule, 2026-10-17).
+ *
+ * The explanation sits ABOVE the cards on purpose: "which plan is my credit
+ * coming out of" is the question these cards answer, and the rule has to be
+ * read before the numbers make sense.
+ */
+function MyPlans({ me }: { me: Me }) {
+  const { t } = useI18n();
+  const formatDay = useDayFormat();
+  const list = me.plans ?? [];
+  const [asking, setAsking] = useState<number | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  if (list.length === 0) return null;
+
+  const spendingFrom = me.pockets?.spending_from ?? null;
+  const other = me.pockets?.other ?? 0;
+  const several = list.length > 1;
+
+  const choose = (id: number) => {
+    setBusy(true);
+    setError(null);
+    setDefaultPlan(id)
+      .then(() => loadMe(true))
+      .then(() => setAsking(null))
+      .catch((err) =>
+        setError(err instanceof ApiError ? t(`error.${err.kind}`, err.values) : t("auth.failed"))
+      )
+      .finally(() => setBusy(false));
+  };
+
+  return (
+    <>
+      <h2 className="acct-section-title">{t("account.myPlansHeading")}</h2>
+      <p className="acct-fine">{t("account.myPlansLead")}</p>
+      <div className="acct-plans">
+        {list.map((p) => {
+          const others = list.filter((o) => o.id !== p.id && !o.cancel_at_period_end && o.source === "stripe");
+          return (
+            <div key={p.id} className={`acct-card acct-plan-option${p.is_default ? " is-current" : ""}`}>
+              <b className="acct-plan-option-name">{p.name ?? planName([], p.plan_id)}</b>
+              <span className="acct-muted">
+                {p.source === "admin" ? t("account.given") : t("account.bought")}
+                {p.current_period_end
+                  ? ` · ${
+                      p.cancel_at_period_end
+                        ? t("account.endsOn", { date: formatDay(p.current_period_end) })
+                        : t("account.renews", { date: formatDay(p.current_period_end) })
+                    }`
+                  : ""}
+              </span>
+              <p>{t("account.creditsLeftOf", { left: p.credits_left, total: p.credits_per_period })}</p>
+              {p.credits_burn_at && p.credits_left > 0 && (
+                <p className="acct-muted">{t("account.burnsOn", { date: formatDay(p.credits_burn_at) })}</p>
+              )}
+              {p.status === "past_due" && <p className="acct-plan-warn">{t("account.pastDue")}</p>}
+              <div className="acct-pill-row">
+                {spendingFrom === p.id && <span className="acct-pill ok">{t("account.spendingFrom")}</span>}
+                {p.is_default && <span className="acct-pill">{t("account.defaultBadge")}</span>}
+              </div>
+              {several && !p.is_default && asking !== p.id && (
+                <button className="btn" disabled={busy} onClick={() => setAsking(p.id)}>
+                  {t("account.makeDefault")}
+                </button>
+              )}
+              {asking === p.id && (
+                <div className="acct-confirm">
+                  <p>
+                    {others.length
+                      ? t("account.confirmDefault", {
+                          plan: p.name ?? "",
+                          others: others.map((o) => o.name ?? o.plan_id ?? "").join(", "),
+                        })
+                      : t("account.confirmDefaultAlone", { plan: p.name ?? "" })}
+                  </p>
+                  <button className="btn btn-primary" disabled={busy} onClick={() => choose(p.id)}>
+                    {busy ? t("auth.working") : t("account.confirmDefaultYes")}
+                  </button>
+                  <button className="auth-link" type="button" disabled={busy} onClick={() => setAsking(null)}>
+                    {t("auth.deleteCancel")}
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {other > 0 && <p className="acct-fine">{t("account.otherCredits", { count: other })}</p>}
+      {error && <p className="acct-error">{error}</p>}
+    </>
+  );
+}
+
 /* ================================================================= profile */
 
 export function AccountProfile() {
@@ -298,6 +395,7 @@ export function AccountSubscription() {
   const { t, locale } = useI18n();
   const { plans } = useMe();
   const { busy, error, goTo } = useBilling();
+  const [confirming, setConfirming] = useState<string | null>(null);
 
   return (
     <AccountShell
@@ -308,6 +406,15 @@ export function AccountSubscription() {
       {(me) => {
         const sub = me.subscription ?? null;
         const enabled = plans.filter((p) => p.enabled);
+        const running = me.plans ?? [];
+        // A plan already running and renewing cannot be bought again: that
+        // is two charges for one thing (the API answers `alreadyOnPlan`).
+        const renewing = (id: string) =>
+          running.some((p) => p.plan_id === id && p.source === "stripe" && !p.cancel_at_period_end) ||
+          (running.length === 0 && !!sub?.active && sub.plan_id === id);
+        // Buying beside a paid plan is a SECOND charge, and has to say so
+        // before the card is asked for.
+        const hasPaid = running.some((p) => p.source === "stripe");
         return (
           <>
             <div className="acct-grid acct-grid-2">
@@ -315,12 +422,14 @@ export function AccountSubscription() {
               <CreditsCard me={me} />
             </div>
 
+            <MyPlans me={me} />
+
             {enabled.length > 0 && (
               <>
                 <h2 className="acct-section-title">{t("account.plansHeading")}</h2>
                 <div className="acct-plans">
                   {enabled.map((plan) => {
-                    const isCurrent = sub?.active && sub.plan_id === plan.id;
+                    const isCurrent = renewing(plan.id);
                     return (
                       <div key={plan.id} className={`acct-card acct-plan-option${isCurrent ? " is-current" : ""}`}>
                         <b className="acct-plan-option-name">{plan.name}</b>
@@ -333,13 +442,35 @@ export function AccountSubscription() {
                         )}
                         {isCurrent ? (
                           <span className="acct-pill ok">{t("account.current")}</span>
+                        ) : hasPaid && confirming === plan.id ? (
+                          <div className="acct-confirm">
+                            <p>{t("account.additionalWarn")}</p>
+                            <button
+                              className="btn btn-primary"
+                              onClick={() => goTo(plan.id, () => startCheckout(plan.id, "monthly"))}
+                              disabled={busy !== null}
+                            >
+                              {busy === plan.id ? t("auth.working") : t("account.additionalYes")}
+                            </button>
+                            <button className="auth-link" type="button" onClick={() => setConfirming(null)}>
+                              {t("auth.deleteCancel")}
+                            </button>
+                          </div>
                         ) : (
                           <button
                             className="btn btn-primary"
-                            onClick={() => goTo(plan.id, () => startCheckout(plan.id, "monthly"))}
+                            onClick={() =>
+                              hasPaid
+                                ? setConfirming(plan.id)
+                                : goTo(plan.id, () => startCheckout(plan.id, "monthly"))
+                            }
                             disabled={busy !== null}
                           >
-                            {busy === plan.id ? t("auth.working") : t("account.choose", { plan: plan.name })}
+                            {busy === plan.id
+                              ? t("auth.working")
+                              : hasPaid
+                                ? t("account.chooseAdditional", { plan: plan.name })
+                                : t("account.choose", { plan: plan.name })}
                           </button>
                         )}
                       </div>

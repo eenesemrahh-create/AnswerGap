@@ -263,6 +263,13 @@ export interface Me {
    *  rather than a call to a billing API on the critical path of every page
    *  that shows a balance. */
   subscription?: Subscription | null;
+  /** EVERY plan running now, default first (operator's rule, 2026-10-17:
+   *  several plans may run at once and the person picks which to keep).
+   *  Optional: an older API answers without it. */
+  plans?: MyPlan[];
+  /** Which plan is being spent from, and the credits that belong to no
+   *  plan (spent last). Null when the API could not read them. */
+  pockets?: { spending_from: number | null; other: number } | null;
   /**
    * How much of THIS period's allowance is already spent, or null when there
    * is no live plan to be a fraction of.
@@ -539,6 +546,22 @@ export interface Subscription {
    * whose period has passed still says `active`.
    */
   active: boolean;
+}
+
+/** One running plan and its credit pocket for this period. */
+export interface MyPlan {
+  id: number;
+  plan_id: string | null;
+  name: string | null;
+  status: string;
+  source: "stripe" | "admin";
+  current_period_end: string | null;
+  cancel_at_period_end: boolean;
+  is_default: boolean;
+  credits_per_period: number;
+  /** What is left in this period's pocket. It burns at `credits_burn_at`. */
+  credits_left: number;
+  credits_burn_at: string | null;
 }
 
 /** One line of the credit ledger, as the owner of the balance sees it. */

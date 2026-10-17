@@ -43,6 +43,7 @@ from contextlib import contextmanager
 from decimal import Decimal
 from typing import Any, Iterator
 
+from . import credits as credits_mod
 from . import gate, pricing_seed
 
 try:
@@ -1054,6 +1055,28 @@ MIGRATIONS: list[tuple[str, str]] = [
             ON crawl (slug, user_id, created_at DESC);
         CREATE INDEX IF NOT EXISTS serp_task_crawl_idx
             ON serp_task (crawl_id, posted_at DESC);
+        """,
+    ),
+    (
+        "0020_credit_pockets",
+        """
+        -- CREDIT POCKETS (operator's rule, 2026-10-17). A plan grant now names
+        -- the subscription it came from and the moment its period ends; what
+        -- is left in it then BURNS, written as a `plan_expired` line by
+        -- `expire_credits`. Rows from before this column carry neither and
+        -- never expire - no one loses credits to a rule that did not exist
+        -- when they were granted. The balance is still sum(delta).
+        ALTER TABLE credit_ledger ADD COLUMN IF NOT EXISTS subscription_id BIGINT
+            REFERENCES subscription(id) ON DELETE RESTRICT;
+        ALTER TABLE credit_ledger ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ;
+        -- One burn per pocket, whoever reads first. `ref` is 'lot:<grant id>'.
+        CREATE UNIQUE INDEX IF NOT EXISTS credit_ledger_burn_once
+            ON credit_ledger (ref) WHERE reason = 'plan_expired';
+
+        -- The plan the person chose to keep. Choosing it stops the others
+        -- renewing; it is also the one the screens describe first.
+        ALTER TABLE app_user ADD COLUMN IF NOT EXISTS default_subscription_id BIGINT
+            REFERENCES subscription(id) ON DELETE SET NULL;
         """,
     ),
 ]
@@ -2684,6 +2707,17 @@ def user_upsert(
         return {}
 
 
+def _expire_quietly(user_id: int) -> None:
+    """`expire_credits`, never raising into the read it precedes. A burn
+    that fails this time is written by the next read; a sign-in or a page
+    that fails over it is lost."""
+    try:
+        expire_credits(int(user_id))
+    except Exception as exc:  # noqa: BLE001
+        print(f"[credits] expiry for user {user_id} failed: "
+              f"{type(exc).__name__}: {exc}", flush=True)
+
+
 def user_for_gate(user_id: int) -> dict | None:
     """The row plus its balance, in one round trip.
 
@@ -2691,7 +2725,11 @@ def user_for_gate(user_id: int) -> dict | None:
     suspension take effect immediately rather than whenever a token happens to
     expire. token_epoch comes back for the same reason - it is the only
     revocation there is, since there is no session table.
+
+    Ended plan pockets are burned FIRST, so the balance the gate spends
+    against and /api/me shows never includes credits whose period is over.
     """
+    _expire_quietly(user_id)
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
@@ -3337,72 +3375,52 @@ def admin_users(
         return _as_floats([dict(r) for r in cur.fetchall()])
 
 
-def period_usage(user_id: int) -> dict | None:
-    """How much of the current plan period this account has already spent.
+def period_usage(user_id: int, subscription_id: int | None = None) -> dict | None:
+    """How much of a plan's current pocket this account has already spent.
 
     ONE DEFINITION, TWO SCREENS. The customer's own page and the admin's read
-    the same function, the way `_LIVE_SUBSCRIPTION_SQL` is read by both - a
-    quota the operator sees differently from the person paying for it is worse
-    than no quota at all.
+    the same function - a quota the operator sees differently from the
+    person paying for it is worse than no quota at all.
 
-    Returns `None` when there is no live plan, and that is the honest answer
-    rather than a gap in the data: without an allowance there is no fraction
-    to draw. A balance still exists and is shown on its own.
+    Returns `None` when there is no live plan pocket, and that is the honest
+    answer rather than a gap in the data: without an allowance there is no
+    fraction to draw.
 
-    THE DENOMINATOR IS THE PERIOD'S GRANT, NOT THE BALANCE. Credits roll over
-    and can be topped up by an admin, so `balance / credits_per_period` would
-    routinely exceed 1 and a bar that can read 340% is not a bar. What this
-    measures is "how much of this month's allowance have I used", which is the
-    question somebody actually has.
+    SINCE POCKETS (2026-10-17) the period IS the pocket: it starts at the
+    grant, ends when the plan's period does, and `used` is what has come out
+    of it - by the spending order in answergap/credits.py, not every credit
+    spent since a date. With one plan that is the same number as before;
+    with two it is the right one for each.
 
-    THE PERIOD STARTS WHERE THE LEDGER SAYS IT DID, not at a stored column -
-    there isn't one, and inventing it would mean a migration plus a webhook
-    change to keep it true. A Stripe plan's period begins at its last
-    `subscription` grant; an assigned plan never renews, so its period begins
-    when it was assigned. GREATEST covers both without asking which kind it is.
+    `subscription_id` picks the plan; without it, the one the account page
+    describes first (the default, else the one ending soonest).
     """
+    _expire_quietly(user_id)
+    if subscription_id is None:
+        live = live_subscriptions(user_id)
+        if not live:
+            return None
+        subscription_id = int(live[0]["id"])
     with connect() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"""
-            WITH sub AS (
-                SELECT credits_per_period, current_period_end, created_at
-                  FROM subscription
-                 WHERE user_id = %(uid)s AND ({_LIVE_SUBSCRIPTION_SQL})
-                 ORDER BY (source = 'stripe') DESC, created_at DESC
-                 LIMIT 1
-            ), started AS (
-                SELECT GREATEST(
-                           (SELECT created_at FROM sub),
-                           coalesce((SELECT max(created_at) FROM credit_ledger
-                                      WHERE user_id = %(uid)s
-                                        AND reason = 'subscription'),
-                                    (SELECT created_at FROM sub))
-                       ) AS at
-            )
-            SELECT (SELECT at FROM started)                      AS start_at,
-                   (SELECT current_period_end FROM sub)          AS end_at,
-                   (SELECT credits_per_period FROM sub)::int     AS granted,
-                   coalesce((SELECT sum(credits) FROM usage_event
-                              WHERE user_id = %(uid)s
-                                AND created_at >= (SELECT at FROM started)),
-                            0)::int                              AS used
-              FROM sub
-            """,
-            {"uid": user_id, "live": list(LIVE_SUBSCRIPTION_STATUSES)},
-        )
-        row = cur.fetchone()
-    if not row or not row["granted"]:
+        now = _db_now(cur)
+        rep = credits_mod.replay(_ledger_rows(cur, user_id), now)
+    pockets = [p for p in rep.pockets
+               if p.subscription_id == int(subscription_id) and p.is_plan and p.live(now)]
+    if not pockets:
         return None
-    out = dict(row)
-    out["used"] = max(0, int(out["used"] or 0))
-    # SHAPED HERE, not in each API layer. The customer's meter and the
-    # operator's are the same measurement, and rounding it twice in two files
-    # is how they start disagreeing by a percent in a support conversation.
-    # Clamped at 1: spending past the allowance is possible - credits roll
-    # over and an admin can grant more - and a bar past its own end is a
-    # rendering bug rather than information.
-    out["fraction"] = round(min(1.0, out["used"] / int(out["granted"])), 4)
-    return out
+    current = max(pockets, key=lambda p: (p.created_at, p.id))
+    granted = int(current.granted)
+    # Debt from before the pocket existed is not this period's spending.
+    used = max(0, granted - int(current.remaining) - int(current.repaid))
+    return {
+        "start_at": current.created_at,
+        "end_at": current.expires_at,
+        "granted": granted,
+        "used": used,
+        # Shaped here, not in each API layer, so the two screens cannot round
+        # it differently. Clamped at 1 for the same reason as before.
+        "fraction": round(min(1.0, used / granted), 4) if granted else 0.0,
+    }
 
 
 #: Actions that spend nothing. Kept as a list rather than inferred from
@@ -3799,7 +3817,11 @@ def admin_user_detail(user_id: int) -> dict | None:
 
     Four separate queries in one connection is the shape diff_and_history uses
     and it costs ~600 ms from here. This is the same data for ~150 ms.
+
+    Ended plan pockets are burned first, as in `user_for_gate`, so the
+    operator reads the same balance the customer does.
     """
+    _expire_quietly(user_id)
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
@@ -4373,13 +4395,17 @@ def subscription_for_user(user_id: int) -> dict | None:
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             f"""
-            SELECT stripe_subscription_id, plan_id, stripe_price_id, status,
+            SELECT id, stripe_subscription_id, plan_id, stripe_price_id, status,
                    credits_per_period, current_period_end, cancel_at_period_end,
                    source, granted_by, note, created_at, livemode,
                    ({_LIVE_SUBSCRIPTION_SQL}) AS live
               FROM subscription
              WHERE user_id = %(uid)s
              ORDER BY ({_LIVE_SUBSCRIPTION_SQL}) DESC,
+                      -- The plan the person chose to keep, when they chose.
+                      (id IS NOT DISTINCT FROM (SELECT default_subscription_id
+                                                  FROM app_user
+                                                 WHERE id = %(uid)s)) DESC,
                       (source = 'stripe') DESC,
                       created_at DESC
              LIMIT 1
@@ -4430,7 +4456,7 @@ def subscription_by_stripe_id(stripe_subscription_id: str) -> dict | None:
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
-            SELECT user_id, plan_id, stripe_price_id, status,
+            SELECT id, user_id, plan_id, stripe_price_id, status,
                    credits_per_period, current_period_end, cancel_at_period_end
               FROM subscription
              WHERE stripe_subscription_id = %s
@@ -4461,7 +4487,8 @@ def subscription_set_status(*, stripe_subscription_id: str, status: str) -> None
 
 
 def subscription_credit(
-    *, user_id: int, invoice_id: str, credits: int, note: str | None = None
+    *, user_id: int, invoice_id: str, credits: int, note: str | None = None,
+    subscription_id: int | None = None, expires_at: Any = None,
 ) -> bool:
     """Grant one paid period's credits. True if this call was the one that did.
 
@@ -4480,12 +4507,19 @@ def subscription_credit(
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
-            INSERT INTO credit_ledger (user_id, delta, reason, ref, note)
-            VALUES (%(uid)s, %(delta)s, 'subscription', %(ref)s, %(note)s)
+            INSERT INTO credit_ledger (user_id, delta, reason, ref, note,
+                                       subscription_id, expires_at)
+            VALUES (%(uid)s, %(delta)s, 'subscription', %(ref)s, %(note)s,
+                    %(sub)s, %(ends)s::timestamptz)
             ON CONFLICT (ref) WHERE reason = 'subscription' DO NOTHING
             RETURNING id
             """,
-            {"uid": user_id, "delta": int(credits), "ref": invoice_id, "note": note},
+            # `sub` + `ends` make this grant a pocket that burns when the
+            # paid period ends. Both or neither: a pocket with no end would
+            # never burn, which is what a grant without them already is.
+            {"uid": user_id, "delta": int(credits), "ref": invoice_id, "note": note,
+             "sub": subscription_id if expires_at else None,
+             "ends": expires_at if subscription_id else None},
         )
         granted = cur.fetchone() is not None
         conn.commit()
@@ -4561,12 +4595,16 @@ def subscription_assign(
         )
         created = cur.fetchone()
         if delta:
+            # A POCKET: it names the plan and burns when the plan's period
+            # ends, like a paid period does (see answergap/credits.py).
             cur.execute(
                 """
-                INSERT INTO credit_ledger (user_id, delta, reason, ref, note)
-                VALUES (%s, %s, 'admin_grant', %s, %s)
+                INSERT INTO credit_ledger (user_id, delta, reason, ref, note,
+                                           subscription_id, expires_at)
+                VALUES (%s, %s, 'admin_grant', %s, %s, %s, %s)
                 """,
-                (user_id, delta, actor, f"plan {plan_id}"),
+                (user_id, delta, actor, f"plan {plan_id}",
+                 int(created["id"]), created["current_period_end"]),
             )
         cur.execute(
             """
@@ -4656,40 +4694,123 @@ def subscription_revoke_assigned(
         return changed
 
 
+# ------------------------------------------------------------ credit pockets
+#
+# The rules and the arithmetic live in answergap/credits.py, which is pure.
+# These functions only fetch the ledger, hand it over, and write what it
+# says to write.
+
+
+def _ledger_rows(cur, user_id: int) -> list[dict]:
+    cur.execute(
+        """
+        SELECT id, delta, reason, ref, subscription_id, expires_at, created_at
+          FROM credit_ledger
+         WHERE user_id = %s
+         ORDER BY created_at, id
+        """,
+        (int(user_id),),
+    )
+    return [dict(r) for r in cur.fetchall()]
+
+
+def _db_now(cur):
+    cur.execute("SELECT now() AS now")
+    return cur.fetchone()["now"]
+
+
+def expire_credits(user_id: int) -> int:
+    """Write the burn of every plan pocket whose period has ended. Returns
+    the credits burned (0 is the usual answer).
+
+    Called before the balance is read where it matters - the gate, /api/me,
+    the admin user page - so `sum(delta)` is right when somebody looks.
+    Between a pocket's end and the next read nobody is looking, which is the
+    same argument that has an assigned plan's expiry computed on read.
+
+    CHEAP WHEN THERE IS NOTHING TO DO: one indexed EXISTS. Only when a pocket
+    has ended without a `plan_expired` row is the account locked and its
+    ledger replayed. A burn is written even when it is 0 - that row is what
+    marks the pocket settled, so it is never replayed again. The unique index
+    on `ref` makes two readers racing write one burn.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT 1 FROM credit_ledger l
+             WHERE l.user_id = %(uid)s AND l.delta > 0
+               AND l.subscription_id IS NOT NULL AND l.expires_at <= now()
+               AND NOT EXISTS (SELECT 1 FROM credit_ledger e
+                                WHERE e.reason = 'plan_expired'
+                                  AND e.ref = 'lot:' || l.id)
+             LIMIT 1
+            """,
+            {"uid": int(user_id)},
+        )
+        if not cur.fetchone():
+            conn.rollback()
+            return 0
+        # Serialises against a spend's debit for this account, so the replay
+        # reads a ledger nobody is appending to.
+        cur.execute("SELECT id FROM app_user WHERE id = %s FOR UPDATE", (int(user_id),))
+        rep = credits_mod.replay(_ledger_rows(cur, user_id), _db_now(cur))
+        burned = 0
+        for pocket, amount in rep.to_burn():
+            cur.execute(
+                """
+                INSERT INTO credit_ledger (user_id, delta, reason, ref, note)
+                VALUES (%s, %s, 'plan_expired', %s, 'plan period ended')
+                ON CONFLICT (ref) WHERE reason = 'plan_expired' DO NOTHING
+                """,
+                (int(user_id), -int(amount), f"lot:{pocket.id}"),
+            )
+            burned += int(amount)
+        conn.commit()
+        return burned
+
+
+def credit_pockets(user_id: int) -> dict:
+    """What is left in each pocket, in the order it will be spent.
+
+    `plans` is one entry per live plan pocket (subscription id, granted,
+    remaining, when it burns); `other` is everything that never expires,
+    summed - the signup grant and manual grants - which is spent last.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        now = _db_now(cur)
+        rep = credits_mod.replay(_ledger_rows(cur, user_id), now)
+    live = credits_mod.summary(rep, now)
+    return {
+        "plans": [p for p in live if p["expires_at"]],
+        "other": sum(p["remaining"] for p in live if not p["expires_at"]) - rep.debt,
+    }
+
+
 def subscription_clawback(*, user_id: int, subscription_id: int, actor: str) -> int:
-    """Take back what is left of this period's plan credits. Returns how many.
+    """Take back what is left in this plan's pockets. Returns how many.
 
     THE OPERATOR'S RULE (2026-10-17): when an admin ends a plan - a paid
     subscription cancelled from the panel, or an assigned plan revoked - the
-    unused part of the CURRENT period's grant goes with it. Credits from
-    anywhere else (the signup grant, a manual top-up, earlier periods) stay.
+    unused part of its CURRENT pocket goes with it. Credits from anywhere
+    else stay. Since pockets burn at the end of their period, "this period's
+    unused part" is simply what the plan's live pockets still hold.
 
-    remaining = this period's grant - credits spent since the period began,
-    never below zero and never more than the balance, so a clawback can
-    empty a balance but cannot push it negative.
-
-    The period starts where `period_usage` says it does: an assigned plan at
-    its own creation, a Stripe plan at its latest `subscription` grant since
-    the row was created. The grant is what the LEDGER says was given, not
-    `credits_per_period`: an assigned plan can be created without granting
-    anything, and taking back credits that were never given would be a fine.
-    An assignment's grant is written in the same transaction as the row, so
-    the two share `now()` exactly.
+    Never more than the balance, so a clawback can empty a balance but
+    cannot push it negative.
 
     ONCE PER SUBSCRIPTION. The row is locked FOR UPDATE and an existing
     `subscription_clawback` line for it ends the call, so the admin's
     "cancel now" and the `customer.subscription.deleted` webhook that
     follows it cannot both take credits.
     """
+    expire_credits(user_id)
     ref = f"subscription:{int(subscription_id)}"
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
-            "SELECT id, source, created_at FROM subscription"
-            " WHERE id = %s AND user_id = %s FOR UPDATE",
+            "SELECT id FROM subscription WHERE id = %s AND user_id = %s FOR UPDATE",
             (subscription_id, user_id),
         )
-        sub = cur.fetchone()
-        if not sub:
+        if not cur.fetchone():
             conn.rollback()
             return 0
         cur.execute(
@@ -4700,48 +4821,13 @@ def subscription_clawback(*, user_id: int, subscription_id: int, actor: str) -> 
         if cur.fetchone():
             conn.rollback()
             return 0
-        if sub["source"] == "admin":
-            cur.execute(
-                """
-                SELECT coalesce(sum(delta), 0)::int AS granted,
-                       %(at)s::timestamptz AS started
-                  FROM credit_ledger
-                 WHERE user_id = %(uid)s AND reason = 'admin_grant'
-                   AND created_at = %(at)s AND delta > 0
-                """,
-                {"uid": user_id, "at": sub["created_at"]},
-            )
-        else:
-            cur.execute(
-                """
-                SELECT delta::int AS granted, created_at AS started
-                  FROM credit_ledger
-                 WHERE user_id = %(uid)s AND reason = 'subscription'
-                   AND created_at >= %(at)s
-                 ORDER BY created_at DESC
-                 LIMIT 1
-                """,
-                {"uid": user_id, "at": sub["created_at"]},
-            )
-        period = cur.fetchone()
-        granted = int((period or {}).get("granted") or 0)
-        if granted <= 0:
-            conn.rollback()
-            return 0
-        cur.execute(
-            """
-            SELECT
-              coalesce((SELECT sum(credits) FROM usage_event
-                         WHERE user_id = %(uid)s AND created_at >= %(started)s), 0)::int
-                AS used,
-              coalesce((SELECT sum(delta) FROM credit_ledger
-                         WHERE user_id = %(uid)s), 0)::int AS balance
-            """,
-            {"uid": user_id, "started": period["started"]},
-        )
-        row = cur.fetchone()
-        remaining = max(0, granted - max(0, int(row["used"])))
-        take = min(remaining, max(0, int(row["balance"])))
+        cur.execute("SELECT id FROM app_user WHERE id = %s FOR UPDATE", (int(user_id),))
+        now = _db_now(cur)
+        rep = credits_mod.replay(_ledger_rows(cur, user_id), now)
+        remaining = credits_mod.remaining_for(rep, int(subscription_id), now)
+        granted = sum(p.granted for p in rep.pockets
+                      if p.subscription_id == int(subscription_id) and p.live(now))
+        take = min(remaining, max(0, rep.balance()))
         if take <= 0:
             conn.rollback()
             return 0
@@ -4764,6 +4850,54 @@ def subscription_clawback(*, user_id: int, subscription_id: int, actor: str) -> 
         )
         conn.commit()
         return take
+
+
+def subscription_set_default(*, user_id: int, subscription_id: int) -> None:
+    """Remember which plan this person chose to keep."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "UPDATE app_user SET default_subscription_id = %s WHERE id = %s",
+            (int(subscription_id), int(user_id)),
+        )
+        conn.commit()
+
+
+def subscription_mark_ending(*, user_id: int, subscription_id: int) -> None:
+    """Mirror a "stop at period end" Stripe has just ACCEPTED. The webhook
+    that follows says the same thing again."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE subscription SET cancel_at_period_end = TRUE, updated_at = now()
+             WHERE id = %s AND user_id = %s
+            """,
+            (int(subscription_id), int(user_id)),
+        )
+        conn.commit()
+
+
+def live_subscriptions(user_id: int) -> list[dict]:
+    """Every plan this account has running right now, default first, then
+    the one ending soonest. What the account page lists."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"""
+            SELECT s.id, s.stripe_subscription_id, s.plan_id, s.status, s.source,
+                   s.credits_per_period, s.current_period_end,
+                   s.cancel_at_period_end, s.livemode, s.created_at,
+                   (s.id = u.default_subscription_id) AS is_default
+              -- Filtered in a subquery so the shared definition of "live"
+              -- reads its bare column names against `subscription` alone;
+              -- `app_user` has a `status` of its own.
+              FROM (SELECT * FROM subscription
+                     WHERE user_id = %(uid)s AND ({_LIVE_SUBSCRIPTION_SQL})) s
+              JOIN app_user u ON u.id = s.user_id
+             ORDER BY (s.id = u.default_subscription_id) DESC NULLS LAST,
+                      s.current_period_end ASC NULLS LAST, s.created_at DESC
+            """,
+            {"uid": int(user_id), "live": list(LIVE_SUBSCRIPTION_STATUSES)},
+        )
+        return [dict(r) for r in cur.fetchall()]
 
 
 def subscription_cancelled_by_admin(stripe_subscription_id: str) -> dict | None:

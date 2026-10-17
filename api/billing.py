@@ -228,6 +228,12 @@ def apply_subscription_event(event: dict) -> str | None:
             invoice_id=found["invoice_id"],
             credits=credits,
             note=f"{row.get('plan_id') or 'subscription'} renewal",
+            # A POCKET: this period's credits burn when this period ends
+            # (answergap/credits.py). The invoice line's period is the one
+            # paid for; the row's end is the fallback when a line has none.
+            subscription_id=row.get("id"),
+            expires_at=stripe_time(found.get("current_period_end"))
+            or row.get("current_period_end"),
         )
         return f"granted {credits}" if granted else "already granted"
     except Exception:  # noqa: BLE001 - see the docstring

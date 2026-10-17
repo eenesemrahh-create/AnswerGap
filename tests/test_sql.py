@@ -1308,19 +1308,87 @@ def test_a_plan_assigned_without_credits_takes_nothing_back() -> None:
     assert _balance(user["id"]) == 40
 
 
+def _grant(user_id: int, sub_id: int, invoice: str, credits: int, ends: str) -> None:
+    """A paid period's grant, as the webhook writes it: a pocket that burns
+    at `ends` (a Postgres interval from now, e.g. '30 days' or '-1 day')."""
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT now() + %s::interval AS at", (ends,))
+        at = cur.fetchone()["at"]
+    db.subscription_credit(user_id=user_id, invoice_id=invoice, credits=credits,
+                           subscription_id=sub_id, expires_at=at)
+
+
+def _stripe_row(user_id: int, sid: str = "sub_real") -> int:
+    return int(next(r for r in db.subscriptions_for_user(user_id)
+                    if r["stripe_subscription_id"] == sid)["id"])
+
+
 def test_a_paid_plan_loses_only_the_current_periods_remainder() -> None:
     user = _subscriber()
     _paid(user["id"])
-    sub = db.subscription_by_stripe_id("sub_real")
-    row = next(r for r in db.subscriptions_for_user(user["id"]) if r["source"] == "stripe")
-    db.subscription_credit(user_id=user["id"], invoice_id="in_1", credits=1000)
-    _spend_credits(user["id"], 700)                          # last period's usage
-    db.subscription_credit(user_id=user["id"], invoice_id="in_2", credits=1000)
-    _spend_credits(user["id"], 100)                          # this period: 100 used
-    assert sub is not None
-    taken = db.subscription_clawback(user_id=user["id"], subscription_id=row["id"], actor="op")
+    sub_id = _stripe_row(user["id"])
+    _grant(user["id"], sub_id, "in_1", 1000, "30 days")
+    _spend_credits(user["id"], 100)
+    db.admin_credit(user_id=user["id"], delta=40, note="gift", actor="op")
+    taken = db.subscription_clawback(user_id=user["id"], subscription_id=sub_id, actor="op")
     assert taken == 900
-    assert _balance(user["id"]) == 300               # last period's rollover stays
+    assert _balance(user["id"]) == 40                # the gift stays
+
+
+# --------------------------------------------------------- credit pockets
+
+
+def test_an_ended_pocket_burns_on_the_next_read() -> None:
+    user = _subscriber()
+    _paid(user["id"])
+    sub_id = _stripe_row(user["id"])
+    db.admin_credit(user_id=user["id"], delta=10, note=None, actor="op")
+    _grant(user["id"], sub_id, "in_old", 300, "-1 second")
+    assert _balance(user["id"]) == 310               # nobody has read yet
+    row = db.user_for_gate(user["id"])               # a read burns it
+    assert int(row["balance"]) == 10
+    assert [r["reason"] for r in _ledger(user["id"])][-1] == "plan_expired"
+    assert db.expire_credits(user["id"]) == 0        # and only once
+
+
+def test_spending_comes_from_the_plan_that_ends_first() -> None:
+    user = _subscriber()
+    _paid(user["id"], sid="sub_a")
+    _paid(user["id"], sid="sub_b")
+    a, b = _stripe_row(user["id"], "sub_a"), _stripe_row(user["id"], "sub_b")
+    _grant(user["id"], a, "in_a", 300, "20 days")
+    _grant(user["id"], b, "in_b", 1000, "5 days")
+    _spend_credits(user["id"], 50)
+    pockets = {p["subscription_id"]: p["remaining"]
+               for p in db.credit_pockets(user["id"])["plans"]}
+    assert pockets == {a: 300, b: 950}
+
+
+def test_the_chosen_plan_is_listed_first_and_described() -> None:
+    user = _subscriber()
+    _paid(user["id"], sid="sub_a")
+    _paid(user["id"], sid="sub_b")
+    b = _stripe_row(user["id"], "sub_b")
+    db.subscription_set_default(user_id=user["id"], subscription_id=b)
+    live = db.live_subscriptions(user["id"])
+    assert live[0]["id"] == b and live[0]["is_default"] is True
+    assert db.subscription_for_user(user["id"])["stripe_subscription_id"] == "sub_b"
+    db.subscription_mark_ending(user_id=user["id"], subscription_id=_stripe_row(user["id"], "sub_a"))
+    ending = {r["stripe_subscription_id"]: r["cancel_at_period_end"] for r in live}
+    assert ending  # read before the mark; re-read below
+    again = {r["stripe_subscription_id"]: r["cancel_at_period_end"]
+             for r in db.live_subscriptions(user["id"])}
+    assert again == {"sub_a": True, "sub_b": False}
+
+
+def test_the_meter_reads_the_current_pocket() -> None:
+    user = _subscriber()
+    _paid(user["id"])
+    sub_id = _stripe_row(user["id"])
+    _grant(user["id"], sub_id, "in_1", 300, "30 days")
+    _spend_credits(user["id"], 30)
+    found = db.period_usage(user["id"], sub_id)
+    assert (found["granted"], found["used"]) == (300, 30)
 
 
 def test_only_an_admin_cancellation_marks_a_clawback() -> None:

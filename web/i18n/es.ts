@@ -410,6 +410,20 @@ export const es: Messages = {
     monthly: "Mensual",
     annual: "Anual",
     notPurchasable: "Aún no disponible",
+    myPlansHeading: "Tus planes",
+    myPlansLead: "Los créditos se gastan primero del plan cuyo periodo termina antes; cuando se agotan, se pasa al siguiente plan. Los créditos que un plan no usa en su periodo se eliminan al terminar el periodo. Los créditos que no vienen de ningún plan se gastan al final.",
+    otherCredits: "Créditos sin plan (bienvenida, regalos): {count}, se gastan al final",
+    spendingFrom: "Gastando de aquí ahora",
+    creditsLeftOf: "Quedan {left} de {total} créditos este periodo",
+    burnsOn: "Los créditos no usados se eliminan el {date}",
+    defaultBadge: "Predeterminado",
+    makeDefault: "Hacer predeterminado",
+    confirmDefault: "¿Hacer {plan} tu plan predeterminado? Tus otros planes ({others}) no se renovarán; puedes usar sus créditos hasta que termine su periodo.",
+    confirmDefaultAlone: "¿Hacer {plan} tu plan predeterminado?",
+    confirmDefaultYes: "Sí, hacerlo predeterminado",
+    chooseAdditional: "Añadir {plan} como segundo plan",
+    additionalWarn: "Tu plan actual sigue activo y este plan se cobra aparte. Cuando elijas uno como predeterminado, los demás dejarán de renovarse al final de su periodo.",
+    additionalYes: "Entendido, continuar al pago",
     contactUs: "Contáctanos",
     seeAllPlans: "Ver todos los planes",
 
@@ -530,6 +544,7 @@ export const es: Messages = {
     noCustomer: "Aún no hay nada que gestionar: a esta cuenta nunca se le ha facturado.",
     paymentsOff: "Los pagos todavía no están activados.",
     subscriptionCancelFailed: "No pudimos cancelar tu suscripción, así que tu cuenta no se eliminó. Inténtalo de nuevo en unos minutos o escribe a soporte.",
+    alreadyOnPlan: "Ya tienes este plan y se renueva. Elige otro plan o gestiona este.",
     signedOut: "Has cerrado sesión. Inicia sesión para continuar.",
     noCredits:
       "No te quedan créditos. Una búsqueda cuesta un crédito; los resultados " +

@@ -409,6 +409,20 @@ export const de: Messages = {
     monthly: "Monatlich",
     annual: "Jährlich",
     notPurchasable: "Noch nicht verfügbar",
+    myPlansHeading: "Deine Pläne",
+    myPlansLead: "Credits werden zuerst aus dem Plan verbraucht, dessen Zeitraum am frühesten endet; sind sie aufgebraucht, kommt der nächste Plan an die Reihe. Credits, die ein Plan in seinem Zeitraum nicht verbraucht, verfallen am Ende des Zeitraums. Credits aus keinem Plan werden zuletzt verbraucht.",
+    otherCredits: "Credits ohne Plan (Willkommen, Geschenke): {count}, zuletzt verbraucht",
+    spendingFrom: "Wird gerade verbraucht",
+    creditsLeftOf: "Noch {left} von {total} Credits in diesem Zeitraum",
+    burnsOn: "Nicht verbrauchte Credits verfallen am {date}",
+    defaultBadge: "Standard",
+    makeDefault: "Als Standard festlegen",
+    confirmDefault: "{plan} als Standard festlegen? Deine anderen Pläne ({others}) verlängern sich nicht; ihre Credits kannst du bis zum Ende ihres Zeitraums nutzen.",
+    confirmDefaultAlone: "{plan} als Standard festlegen?",
+    confirmDefaultYes: "Ja, als Standard festlegen",
+    chooseAdditional: "{plan} als zweiten Plan hinzufügen",
+    additionalWarn: "Dein aktueller Plan läuft weiter und dieser Plan wird zusätzlich berechnet. Legst du einen als Standard fest, verlängern sich die anderen am Ende ihres Zeitraums nicht.",
+    additionalYes: "Verstanden, weiter zur Zahlung",
     contactUs: "Kontakt aufnehmen",
     seeAllPlans: "Alle Tarife ansehen",
 
@@ -529,6 +543,7 @@ export const de: Messages = {
       "Es gibt noch nichts zu verwalten — für dieses Konto wurde nie abgerechnet.",
     paymentsOff: "Zahlungen sind noch nicht freigeschaltet.",
     subscriptionCancelFailed: "Wir konnten dein Abonnement nicht kündigen, daher wurde dein Konto nicht gelöscht. Versuche es in ein paar Minuten erneut oder schreib dem Support.",
+    alreadyOnPlan: "Diesen Plan hast du bereits und er verlängert sich. Wähle einen anderen Plan oder verwalte diesen.",
     signedOut: "Sie sind abgemeldet. Melden Sie sich an, um fortzufahren.",
     noCredits:
       "Kein Guthaben mehr. Eine Suche kostet ein Credit; Ergebnisse aus dem " +

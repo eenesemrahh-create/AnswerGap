@@ -413,6 +413,20 @@ export const fr: Messages = {
     monthly: "Mensuel",
     annual: "Annuel",
     notPurchasable: "Pas encore disponible",
+    myPlansHeading: "Vos forfaits",
+    myPlansLead: "Les crédits sont d'abord pris sur le forfait dont la période se termine le plus tôt ; une fois épuisés, le forfait suivant prend le relais. Les crédits qu'un forfait n'utilise pas pendant sa période sont supprimés à la fin de celle-ci. Les crédits ne venant d'aucun forfait sont utilisés en dernier.",
+    otherCredits: "Crédits hors forfait (bienvenue, cadeaux) : {count}, utilisés en dernier",
+    spendingFrom: "Utilisé en ce moment",
+    creditsLeftOf: "{left} crédits sur {total} restants pour cette période",
+    burnsOn: "Les crédits non utilisés sont supprimés le {date}",
+    defaultBadge: "Par défaut",
+    makeDefault: "Définir par défaut",
+    confirmDefault: "Définir {plan} comme forfait par défaut ? Vos autres forfaits ({others}) ne seront pas renouvelés ; vous pouvez utiliser leurs crédits jusqu'à la fin de leur période.",
+    confirmDefaultAlone: "Définir {plan} comme forfait par défaut ?",
+    confirmDefaultYes: "Oui, définir par défaut",
+    chooseAdditional: "Ajouter {plan} comme second forfait",
+    additionalWarn: "Votre forfait actuel continue et ce forfait est facturé en plus. Quand vous en choisissez un par défaut, les autres ne sont plus renouvelés à la fin de leur période.",
+    additionalYes: "J'ai compris, passer au paiement",
     contactUs: "Nous contacter",
     seeAllPlans: "Voir toutes les offres",
 
@@ -534,6 +548,7 @@ export const fr: Messages = {
     noCustomer: "Il n'y a rien à gérer pour l'instant : ce compte n'a jamais été facturé.",
     paymentsOff: "Les paiements ne sont pas encore activés.",
     subscriptionCancelFailed: "Nous n'avons pas pu résilier votre abonnement, votre compte n'a donc pas été supprimé. Réessayez dans quelques minutes ou écrivez au support.",
+    alreadyOnPlan: "Vous avez déjà ce forfait et il se renouvelle. Choisissez-en un autre ou gérez celui-ci.",
     signedOut: "Vous êtes déconnecté. Connectez-vous pour continuer.",
     noCredits:
       "Plus de crédits. Une recherche coûte un crédit ; les résultats en " +

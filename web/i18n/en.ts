@@ -473,6 +473,20 @@ export const en = {
     /* A card that is advertised but has no Stripe price behind it yet. Said
        plainly on the button rather than left to fail at checkout. */
     notPurchasable: "Not available yet",
+    myPlansHeading: "Your plans",
+    myPlansLead: "Credits are spent from the plan whose period ends first; when that plan's credits run out, the next plan is used. Credits a plan does not use in its period are removed when the period ends. Credits that came from no plan are spent last.",
+    otherCredits: "Credits from no plan (welcome, gifts): {count}, spent last",
+    spendingFrom: "Spending from now",
+    creditsLeftOf: "{left} of {total} credits left this period",
+    burnsOn: "Unused credits are removed on {date}",
+    defaultBadge: "Default",
+    makeDefault: "Make default",
+    confirmDefault: "Make {plan} your default? Your other plans ({others}) will not renew; you can use their credits until their period ends.",
+    confirmDefaultAlone: "Make {plan} your default?",
+    confirmDefaultYes: "Yes, make it default",
+    chooseAdditional: "Add {plan} as a second plan",
+    additionalWarn: "Your current plan keeps running and this plan is charged separately. When you make one of them your default, the others stop renewing at the end of their period.",
+    additionalYes: "I understand, continue to payment",
     contactUs: "Get in touch",
     seeAllPlans: "See all plans",
 
@@ -601,6 +615,7 @@ export const en = {
     noCustomer: "There is nothing to manage yet — this account has never been billed.",
     paymentsOff: "Payments are not switched on yet.",
     subscriptionCancelFailed: "We could not cancel your subscription, so your account was not deleted. Try again in a few minutes, or write to support.",
+    alreadyOnPlan: "You already have this plan and it renews. Choose a different plan, or manage this one.",
     // One key per ErrorKind, in all five locales. Errors render as
     // t(`error.${kind}`) and a missing key would print its own name to a
     // customer at the worst possible moment.
