@@ -19,7 +19,7 @@ export const en = {
   description:
     "What AnswerGap collects, who else receives it, what stays private from other customers, and what survives deleting your account.",
   lead: "This explains what we collect and why, in the plain terms we would want from somebody else. Section 5 covers what other customers can and cannot see; section 7 covers what deleting your account does and does not remove.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     scope: {
@@ -54,6 +54,7 @@ export const en = {
             "Which questions you asked us to check, and the search results we retrieved for them.",
             "A ledger of every credit added to or spent from your account, and why.",
             "Usage records: what was done, whether it succeeded or was refused, how many credits it used and what it cost us.",
+            "If you subscribe: the plans you hold, their status and billing periods, which plan you chose as your default, the identifier our payment provider gives your customer record, and a log of billing events — for example a checkout started, a payment received or declined with the reason the provider gives, or a plan cancelled.",
           ],
         },
         {
@@ -96,7 +97,7 @@ export const en = {
             "Our search data provider receives the keyword or question text you searched. It does not receive your email address, your IP address or any account identifier.",
             "Our semantic matching provider, when that feature is enabled, receives question text and the titles and addresses of search results. It receives no identifiers.",
             "Our email provider receives your address and the message, so that verification and password-reset mail can be delivered.",
-            "Our payment provider receives what you enter on its own hosted checkout page.",
+            "Our payment provider receives your email address and an internal account number when we set up your customer record before your first checkout, and whatever you enter on its own hosted checkout page. It tells us when a payment succeeds or fails, and when a subscription starts, renews or ends.",
             "Google receives nothing beyond the sign-in exchange, and only if you choose to sign in with Google.",
             "Our hosting provider runs the service; our mailbox provider holds any mail you send to support.",
           ],
@@ -119,7 +120,7 @@ export const en = {
         {
           ul: [
             "Your list of searches is private. Another customer cannot see which keywords you searched or open your saved analyses. Asking for an analysis that is not yours returns “not found” rather than “not allowed”, because the mere existence of a search is itself information.",
-            "The question data is shared. Questions, their scores, cached search results and gap verdicts live in one corpus shared by everyone, not in a private copy per account. If you and another customer search the same keyword you see the same tree, and the second search costs nothing because the first already paid for it. This is what keeps the service affordable.",
+            "The underlying search data is shared. The questions and search results we retrieve from our data provider are kept in one store used for every customer, not in a private copy per account, so a search you run may be answered from data first retrieved for another customer, and the other way round. What you build from it is yours: your question trees and the gap checks you paid for are shown only to you, and another customer searching the same keyword still pays for their own search.",
             "Verdicts you give with the “is this really a gap?” buttons are stored without your account attached, and are used to improve how the scoring works.",
             "If you are signed out, access to your own analyses rests on the random identifier in your browser. That keeps them away from strangers, but it is not cryptographic protection — clear your browser storage and you lose access to them.",
           ],
@@ -146,11 +147,14 @@ export const en = {
           p: "You can delete your account yourself from your account settings, or ask us to do it at {email}. Deletion removes your name, your profile picture, your password, your saved preferences, and the link between you and the searches you ran.",
         },
         {
+          p: "If you have a paid subscription, deleting your account first cancels it with our payment provider, immediately, so that you are not charged again. The rest of the current period is not refunded. If the cancellation cannot be completed, the account is not deleted and you are asked to try again.",
+        },
+        {
           p: "Two things are deliberately kept, and we would rather tell you than let you assume otherwise:",
         },
         {
           ul: [
-            "Your email address, so that if you come back we can recognise the account and restore any credit balance you had paid for.",
+            "Your email address, so that if you come back we can recognise the account and restore any credits you had that have not expired.",
             "Your payment records — the amounts, dates and currency — which tax and accounting rules require us to retain.",
           ],
         },

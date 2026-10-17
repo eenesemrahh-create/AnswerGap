@@ -6,7 +6,7 @@ export const es: PrivacyContent = {
   description:
     "Qué recoge AnswerGap, quién más lo recibe, qué queda oculto al resto de la clientela y qué sobrevive al borrar su cuenta.",
   lead: "Aquí explicamos qué recogemos y por qué, con la claridad que querríamos de cualquier otro. El apartado 5 trata de lo que otras personas pueden ver y lo que no; el 7, de lo que borrar su cuenta elimina y lo que no.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     scope: {
@@ -41,6 +41,7 @@ export const es: PrivacyContent = {
             "Qué preguntas nos pidió comprobar y qué resultados de búsqueda recuperamos para ellas.",
             "Un registro de cada crédito añadido o gastado en su cuenta, y por qué.",
             "Registros de uso: qué se hizo, si funcionó o fue rechazado, cuántos créditos consumió y cuánto nos costó.",
+            "Si se suscribe: los planes que tiene, su estado y sus periodos de facturación, qué plan eligió como predeterminado, el identificador que nuestro proveedor de pagos da a su ficha de cliente y un registro de los eventos de facturación —por ejemplo, un pago iniciado, un pago recibido o rechazado con el motivo que indique el proveedor, o un plan cancelado.",
           ],
         },
         {
@@ -83,7 +84,7 @@ export const es: PrivacyContent = {
             "Nuestro proveedor de datos de búsqueda recibe la palabra clave o el texto de la pregunta. No recibe su correo, ni su IP, ni identificador alguno de cuenta.",
             "Nuestro proveedor de coincidencia semántica, cuando esa función está activa, recibe el texto de las preguntas y los títulos y direcciones de los resultados. No recibe identificadores.",
             "Nuestro proveedor de correo recibe su dirección y el mensaje, para que lleguen los correos de verificación y de restablecimiento.",
-            "Nuestro proveedor de pagos recibe lo que usted introduce en su propia página de pago.",
+            "Nuestro proveedor de pagos recibe su dirección de correo y un número de cuenta interno cuando creamos su ficha de cliente antes de su primer pago, y lo que usted introduce en su propia página de pago. Nos avisa cuando un pago se completa o falla, y cuando una suscripción empieza, se renueva o termina.",
             "Google no recibe nada más allá del intercambio de inicio de sesión, y solo si elige entrar con Google.",
             "Nuestro proveedor de alojamiento ejecuta el servicio; el de buzón guarda lo que escriba a soporte.",
           ],
@@ -106,7 +107,7 @@ export const es: PrivacyContent = {
         {
           ul: [
             "Su lista de búsquedas es privada. Otra persona no puede ver qué palabras buscó ni abrir sus análisis guardados. Pedir un análisis ajeno devuelve «no encontrado» y no «no permitido», porque la mera existencia de una búsqueda ya es información.",
-            "Los datos de preguntas son compartidos. Las preguntas, sus puntuaciones, los resultados en caché y los veredictos de hueco viven en un corpus común a toda la clientela, no en una copia privada por cuenta. Si usted y otra persona buscan la misma palabra, verán el mismo árbol, y la segunda búsqueda no cuesta nada porque la primera ya la pagó. Eso es lo que mantiene asequible el servicio.",
+            "Los datos de búsqueda de base son compartidos. Las preguntas y los resultados de búsqueda que obtenemos de nuestro proveedor de datos se guardan en un único almacén para toda la clientela, no en una copia privada por cuenta; por eso una búsqueda suya puede responderse con datos obtenidos primero para otra persona, y al revés. Lo que construye a partir de ellos es suyo: sus árboles de preguntas y las comprobaciones de hueco que pagó solo se le muestran a usted, y otra persona que busque la misma palabra paga su propia búsqueda.",
             "Los veredictos que da con los botones de «¿esto es realmente un hueco?» se guardan sin vincularse a su cuenta y sirven para mejorar el funcionamiento de la puntuación.",
             "Si ha cerrado sesión, el acceso a sus propios análisis depende del identificador aleatorio del navegador. Eso los mantiene lejos de desconocidos, pero no es protección criptográfica: si borra el almacenamiento del navegador, pierde el acceso.",
           ],
@@ -133,11 +134,14 @@ export const es: PrivacyContent = {
           p: "Puede borrar su cuenta usted misma o usted mismo desde los ajustes, o pedírnoslo en {email}. El borrado elimina su nombre, su foto de perfil, su contraseña, sus preferencias guardadas y el vínculo entre usted y las búsquedas que hizo.",
         },
         {
+          p: "Si tiene una suscripción de pago, borrar la cuenta la cancela primero con nuestro proveedor de pagos, de inmediato, para que no se le vuelva a cobrar. El resto del periodo en curso no se reembolsa. Si la cancelación no puede completarse, la cuenta no se borra y se le pide que lo intente de nuevo.",
+        },
+        {
           p: "Dos cosas se conservan a propósito, y preferimos decírselo antes que dejar que lo suponga:",
         },
         {
           ul: [
-            "Su dirección de correo, para que si vuelve podamos reconocer la cuenta y devolverle el saldo de créditos que hubiera pagado.",
+            "Su dirección de correo, para que si vuelve podamos reconocer la cuenta y devolverle los créditos que tuviera y no hayan caducado.",
             "Sus registros de pago —importes, fechas y moneda—, que las normas fiscales y contables nos obligan a conservar.",
           ],
         },

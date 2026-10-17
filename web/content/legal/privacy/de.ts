@@ -6,7 +6,7 @@ export const de: PrivacyContent = {
   description:
     "Was AnswerGap erhebt, wer es sonst noch bekommt, was vor anderen Kundinnen und Kunden verborgen bleibt und was das Löschen des Kontos übrig lässt.",
   lead: "Hier steht, was wir erheben und warum — so klar, wie wir es selbst von anderen erwarten würden. Abschnitt 5 erklärt, was andere sehen können und was nicht; Abschnitt 7, was das Löschen Ihres Kontos entfernt und was nicht.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     scope: {
@@ -41,6 +41,7 @@ export const de: PrivacyContent = {
             "Welche Fragen Sie prüfen ließen und welche Suchergebnisse wir dafür abgerufen haben.",
             "Ein Verzeichnis aller Credits, die Ihrem Konto gutgeschrieben oder von ihm abgebucht wurden, samt Grund.",
             "Nutzungsdaten: was getan wurde, ob es gelang oder abgelehnt wurde, wie viele Credits es verbrauchte und was es uns kostete.",
+            "Wenn Sie ein Abonnement abschließen: Ihre Tarife, deren Status und Abrechnungszeiträume, welchen Tarif Sie als Standard gewählt haben, die Kennung, die unser Zahlungsanbieter Ihrem Kundendatensatz gibt, und ein Protokoll der Abrechnungsvorgänge — etwa ein gestarteter Bezahlvorgang, eine eingegangene oder mit der Begründung des Anbieters abgelehnte Zahlung oder ein gekündigter Tarif.",
           ],
         },
         {
@@ -83,7 +84,7 @@ export const de: PrivacyContent = {
             "Unser Anbieter für Suchdaten erhält den gesuchten Begriff oder Fragetext. Er erhält weder Ihre E-Mail-Adresse noch Ihre IP-Adresse noch irgendeine Kontokennung.",
             "Unser Anbieter für semantischen Abgleich erhält, wenn diese Funktion aktiv ist, Fragetexte sowie Titel und Adressen von Suchergebnissen. Kennungen erhält er keine.",
             "Unser E-Mail-Anbieter erhält Ihre Adresse und die Nachricht, damit Bestätigungs- und Passwortmails zugestellt werden können.",
-            "Unser Zahlungsanbieter erhält, was Sie auf seiner eigenen Bezahlseite eingeben.",
+            "Unser Zahlungsanbieter erhält Ihre E-Mail-Adresse und eine interne Kontonummer, wenn wir vor Ihrem ersten Bezahlvorgang Ihren Kundendatensatz anlegen, sowie alles, was Sie auf seiner eigenen Bezahlseite eingeben. Er teilt uns mit, wenn eine Zahlung gelingt oder fehlschlägt und wenn ein Abonnement beginnt, sich verlängert oder endet.",
             "Google erhält nichts über den Anmeldevorgang hinaus, und auch das nur, wenn Sie sich mit Google anmelden.",
             "Unser Hosting-Anbieter betreibt den Dienst; unser Postfachanbieter verwahrt, was Sie an den Support schreiben.",
           ],
@@ -106,7 +107,7 @@ export const de: PrivacyContent = {
         {
           ul: [
             "Ihre Liste von Suchanfragen ist privat. Andere können nicht sehen, wonach Sie gesucht haben, und Ihre gespeicherten Analysen nicht öffnen. Die Abfrage einer fremden Analyse antwortet „nicht gefunden“ statt „nicht erlaubt“, weil schon die Existenz einer Suche eine Information ist.",
-            "Die Fragendaten sind gemeinsam. Fragen, ihre Werte, zwischengespeicherte Suchergebnisse und Gap-Bewertungen liegen in einem von allen geteilten Bestand, nicht in einer privaten Kopie je Konto. Suchen Sie und jemand anderes denselben Begriff, sehen Sie denselben Baum, und die zweite Suche kostet nichts, weil die erste bereits bezahlt wurde. Das hält den Dienst bezahlbar.",
+            "Die zugrunde liegenden Suchdaten sind gemeinsam. Die Fragen und Suchergebnisse, die wir von unserem Datenanbieter abrufen, liegen in einem Bestand für alle Kunden, nicht in einer privaten Kopie je Konto; eine Suche von Ihnen kann daher mit Daten beantwortet werden, die zuerst für einen anderen Kunden abgerufen wurden, und umgekehrt. Was Sie daraus aufbauen, gehört Ihnen: Ihre Fragenbäume und die von Ihnen bezahlten Gap-Prüfungen werden nur Ihnen angezeigt, und ein anderer Kunde, der denselben Begriff sucht, bezahlt seine eigene Suche.",
             "Bewertungen, die Sie über die Schaltflächen „Ist das wirklich eine Lücke?“ abgeben, werden ohne Bezug zu Ihrem Konto gespeichert und dienen dazu, die Bewertung zu verbessern.",
             "Sind Sie abgemeldet, stützt sich der Zugang zu Ihren eigenen Analysen auf die zufällige Kennung im Browser. Das hält sie von Fremden fern, ist aber kein kryptografischer Schutz — löschen Sie den Browserspeicher, verlieren Sie den Zugang.",
           ],
@@ -133,11 +134,14 @@ export const de: PrivacyContent = {
           p: "Sie können Ihr Konto selbst in den Kontoeinstellungen löschen oder uns unter {email} darum bitten. Das Löschen entfernt Ihren Namen, Ihr Profilbild, Ihr Passwort, Ihre gespeicherten Einstellungen und die Verbindung zwischen Ihnen und Ihren Suchanfragen.",
         },
         {
+          p: "Haben Sie ein bezahltes Abonnement, kündigt das Löschen Ihres Kontos es zuerst bei unserem Zahlungsanbieter, und zwar sofort, damit Ihnen nichts mehr berechnet wird. Der Rest des laufenden Zeitraums wird nicht erstattet. Kann die Kündigung nicht abgeschlossen werden, wird das Konto nicht gelöscht und Sie werden gebeten, es erneut zu versuchen.",
+        },
+        {
           p: "Zwei Dinge behalten wir bewusst, und wir sagen es Ihnen lieber, als es Sie vermuten zu lassen:",
         },
         {
           ul: [
-            "Ihre E-Mail-Adresse, damit wir das Konto wiedererkennen und ein von Ihnen bezahltes Credit-Guthaben zurückgeben können, falls Sie wiederkommen.",
+            "Ihre E-Mail-Adresse, damit wir das Konto wiedererkennen und Ihre noch nicht verfallenen Credits zurückgeben können, falls Sie wiederkommen.",
             "Ihre Zahlungsbelege — Beträge, Daten und Währung —, die wir nach Steuer- und Buchhaltungsrecht aufbewahren müssen.",
           ],
         },

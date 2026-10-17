@@ -6,7 +6,7 @@ export const tr: PrivacyContent = {
   description:
     "AnswerGap neyi topluyor, başka kimlere gidiyor, diğer müşterilerden ne gizli kalıyor ve hesabınızı sildiğinizde ne kalıyor.",
   lead: "Neyi neden topladığımızı, bir başkasından duymak isteyeceğimiz açıklıkta anlatıyoruz. 5. madde diğer müşterilerin neyi görüp göremediğini, 7. madde hesap silmenin neyi sildiğini ve neyi silmediğini anlatır.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     scope: {
@@ -41,6 +41,7 @@ export const tr: PrivacyContent = {
             "Hangi soruları kontrol etmemizi istediğiniz ve onlar için çektiğimiz arama sonuçları.",
             "Hesabınıza eklenen ve hesabınızdan harcanan her kredinin ve gerekçesinin kaydı.",
             "Kullanım kayıtları: ne yapıldığı, başarılı olup olmadığı ya da reddedilip reddedilmediği, kaç kredi harcandığı ve bize neye mal olduğu.",
+            "Abone olursanız: sahip olduğunuz planlar, durumları ve fatura dönemleri, varsayılan olarak seçtiğiniz plan, ödeme sağlayıcımızın müşteri kaydınıza verdiği tanımlayıcı ve ödeme olaylarının kaydı — örneğin başlatılan bir ödeme, alınan ya da sağlayıcının belirttiği gerekçeyle reddedilen bir ödeme veya iptal edilen bir plan.",
           ],
         },
         {
@@ -83,7 +84,7 @@ export const tr: PrivacyContent = {
             "Arama verisi sağlayıcımız, aradığınız anahtar kelime ya da soru metnini alır. E-posta adresinizi, IP adresinizi veya herhangi bir hesap tanımlayıcısını almaz.",
             "Anlamsal eşleştirme sağlayıcımız, bu özellik etkinken soru metnini ve arama sonuçlarının başlık ile adreslerini alır. Hiçbir tanımlayıcı almaz.",
             "E-posta sağlayıcımız, doğrulama ve parola sıfırlama postası iletilebilsin diye adresinizi ve mesajı alır.",
-            "Ödeme sağlayıcımız, kendi barındırdığı ödeme sayfasına girdiklerinizi alır.",
+            "Ödeme sağlayıcımız, ilk ödemenizden önce müşteri kaydınızı oluştururken e-posta adresinizi ve dahili bir hesap numarasını, ayrıca kendi barındırdığı ödeme sayfasına girdiklerinizi alır. Bir ödemenin başarılı ya da başarısız olduğunu ve bir aboneliğin başladığını, yenilendiğini ya da sona erdiğini bize bildirir.",
             "Google, yalnızca Google ile giriş yapmayı seçerseniz ve yalnızca giriş alışverişi kadarını alır.",
             "Barındırma sağlayıcımız hizmeti çalıştırır; posta kutusu sağlayıcımız destek adresine yazdıklarınızı tutar.",
           ],
@@ -106,7 +107,7 @@ export const tr: PrivacyContent = {
         {
           ul: [
             "Arama listeniz size özeldir. Başka bir müşteri hangi kelimeleri arattığınızı göremez ve kayıtlı analizlerinizi açamaz. Size ait olmayan bir analiz istendiğinde “izin yok” değil “bulunamadı” döner; çünkü bir aramanın var olması bile başlı başına bilgidir.",
-            "Soru verisi ortaktır. Sorular, skorları, önbelleğe alınmış arama sonuçları ve boşluk kararları hesap başına özel bir kopyada değil, herkesin paylaştığı tek bir havuzda durur. Siz ve başka bir müşteri aynı kelimeyi ararsanız aynı ağacı görürsünüz ve ikinci arama hiçbir şeye mal olmaz; çünkü bedelini ilki ödemiştir. Hizmeti uygun fiyatlı tutan şey budur.",
+            "Arka plandaki arama verisi ortaktır. Veri sağlayıcımızdan aldığımız sorular ve arama sonuçları hesap başına özel bir kopyada değil, tüm müşteriler için kullanılan tek bir depoda tutulur; bu yüzden yaptığınız bir arama, önce başka bir müşteri için alınmış veriyle yanıtlanabilir, tersi de geçerlidir. Bu veriden kurduklarınız ise size aittir: soru ağaçlarınız ve ödemesini yaptığınız boşluk kontrolleri yalnızca size gösterilir; aynı kelimeyi arayan başka bir müşteri de kendi aramasının bedelini öder.",
             "“Bu gerçekten bir boşluk mu?” düğmeleriyle verdiğiniz kararlar hesabınıza bağlanmadan saklanır ve skorlamanın nasıl çalıştığını iyileştirmek için kullanılır.",
             "Çıkış yapmışsanız kendi analizlerinize erişiminiz tarayıcınızdaki rastgele tanımlayıcıya dayanır. Bu onları yabancılardan uzak tutar ama kriptografik bir koruma değildir — tarayıcı deponuzu temizlerseniz erişiminizi kaybedersiniz.",
           ],
@@ -133,11 +134,14 @@ export const tr: PrivacyContent = {
           p: "Hesabınızı hesap ayarlarınızdan kendiniz silebilir ya da {email} adresinden bizden silmemizi isteyebilirsiniz. Silme işlemi adınızı, profil fotoğrafınızı, parolanızı, kayıtlı tercihlerinizi ve sizinle yaptığınız aramalar arasındaki bağı kaldırır.",
         },
         {
+          p: "Ücretli bir aboneliğiniz varsa, hesabınızı silmek önce bu aboneliği ödeme sağlayıcımızda hemen iptal eder; böylece yeniden ücretlendirilmezsiniz. İçinde bulunulan dönemin kalanı iade edilmez. İptal tamamlanamazsa hesap silinmez ve yeniden denemeniz istenir.",
+        },
+        {
           p: "İki şey bilinçli olarak saklanır; varsaymanıza bırakmaktansa size söylemeyi tercih ederiz:",
         },
         {
           ul: [
-            "E-posta adresiniz — geri döndüğünüzde hesabı tanıyıp ödemesini yaptığınız kredi bakiyesini iade edebilelim diye.",
+            "E-posta adresiniz — geri döndüğünüzde hesabı tanıyıp süresi dolmamış kredilerinizi geri verebilelim diye.",
             "Ödeme kayıtlarınız — tutarlar, tarihler ve para birimi — vergi ve muhasebe kuralları bunları saklamamızı gerektirdiği için.",
           ],
         },

@@ -6,7 +6,7 @@ export const fr: PrivacyContent = {
   description:
     "Ce qu'AnswerGap collecte, qui d'autre le reçoit, ce qui reste invisible aux autres clients et ce qui subsiste après la suppression de votre compte.",
   lead: "Voici ce que nous collectons et pourquoi, avec la clarté que nous attendrions nous-mêmes. L'article 5 traite de ce que les autres peuvent voir ou non ; l'article 7, de ce que la suppression de votre compte efface et de ce qu'elle laisse.",
-  effective: "2026-09-20",
+  effective: "2026-10-17",
 
   sections: {
     scope: {
@@ -41,6 +41,7 @@ export const fr: PrivacyContent = {
             "Les questions que vous nous avez demandé de vérifier et les résultats de recherche que nous avons récupérés pour elles.",
             "Un registre de chaque crédit ajouté ou dépensé sur votre compte, et de son motif.",
             "Des relevés d'usage : ce qui a été fait, si cela a réussi ou été refusé, combien de crédits cela a consommé et ce que cela nous a coûté.",
+            "Si vous vous abonnez : les formules que vous détenez, leur statut et leurs périodes de facturation, la formule choisie par défaut, l'identifiant que notre prestataire de paiement attribue à votre fiche client, et un journal des événements de facturation — par exemple un paiement lancé, un paiement reçu ou refusé avec le motif indiqué par le prestataire, ou une formule résiliée.",
           ],
         },
         {
@@ -83,7 +84,7 @@ export const fr: PrivacyContent = {
             "Notre fournisseur de données de recherche reçoit le mot-clé ou le texte de la question. Il ne reçoit ni votre e-mail, ni votre adresse IP, ni aucun identifiant de compte.",
             "Notre fournisseur de correspondance sémantique, lorsque cette fonction est active, reçoit le texte des questions ainsi que les titres et adresses des résultats. Il ne reçoit aucun identifiant.",
             "Notre fournisseur d'e-mail reçoit votre adresse et le message, afin que les courriers de vérification et de réinitialisation puissent être remis.",
-            "Notre prestataire de paiement reçoit ce que vous saisissez sur sa propre page de paiement.",
+            "Notre prestataire de paiement reçoit votre adresse e-mail et un numéro de compte interne lorsque nous créons votre fiche client avant votre premier paiement, ainsi que ce que vous saisissez sur sa propre page de paiement. Il nous indique quand un paiement aboutit ou échoue, et quand un abonnement commence, se renouvelle ou prend fin.",
             "Google ne reçoit rien au-delà de l'échange de connexion, et seulement si vous choisissez de vous connecter avec Google.",
             "Notre hébergeur fait tourner le service ; notre fournisseur de messagerie conserve ce que vous écrivez au support.",
           ],
@@ -106,7 +107,7 @@ export const fr: PrivacyContent = {
         {
           ul: [
             "Votre liste de recherches est privée. Personne d'autre ne peut voir quels mots vous avez recherchés ni ouvrir vos analyses enregistrées. Demander une analyse qui n'est pas la vôtre renvoie « introuvable » et non « interdit », car l'existence même d'une recherche est déjà une information.",
-            "Les données de questions sont communes. Les questions, leurs scores, les résultats en cache et les verdicts de lacune vivent dans un corpus partagé par tous, et non dans une copie privée par compte. Si une autre personne et vous recherchez le même mot, vous voyez le même arbre, et la seconde recherche ne coûte rien puisque la première l'a déjà payée. C'est ce qui garde le service abordable.",
+            "Les données de recherche sous-jacentes sont communes. Les questions et les résultats de recherche que nous obtenons de notre fournisseur de données sont conservés dans un seul stock utilisé pour toute la clientèle, et non dans une copie privée par compte ; une de vos recherches peut donc être servie à partir de données d'abord obtenues pour une autre personne, et inversement. Ce que vous en construisez vous appartient : vos arbres de questions et les vérifications de lacune que vous avez payées ne sont montrés qu'à vous, et une autre personne qui recherche le même mot paie sa propre recherche.",
             "Les verdicts donnés via les boutons « est-ce vraiment une lacune ? » sont enregistrés sans lien avec votre compte et servent à améliorer le fonctionnement du score.",
             "Si vous êtes déconnecté, l'accès à vos propres analyses repose sur l'identifiant aléatoire du navigateur. Cela les tient à l'écart des inconnus, mais ce n'est pas une protection cryptographique : videz le stockage du navigateur et vous en perdez l'accès.",
           ],
@@ -133,11 +134,14 @@ export const fr: PrivacyContent = {
           p: "Vous pouvez supprimer votre compte vous-même depuis ses paramètres, ou nous le demander à {email}. La suppression efface votre nom, votre photo de profil, votre mot de passe, vos préférences enregistrées et le lien entre vous et les recherches que vous avez lancées.",
         },
         {
+          p: "Si vous avez un abonnement payant, la suppression du compte le résilie d'abord auprès de notre prestataire de paiement, immédiatement, afin que vous ne soyez plus débité. Le reste de la période en cours n'est pas remboursé. Si la résiliation ne peut pas aboutir, le compte n'est pas supprimé et il vous est demandé de réessayer.",
+        },
+        {
           p: "Deux choses sont délibérément conservées, et nous préférons vous le dire plutôt que vous laisser le supposer :",
         },
         {
           ul: [
-            "Votre adresse e-mail, afin que si vous revenez nous puissions reconnaître le compte et vous restituer un solde de crédits que vous auriez payé.",
+            "Votre adresse e-mail, afin que si vous revenez nous puissions reconnaître le compte et vous restituer les crédits non expirés que vous aviez.",
             "Vos justificatifs de paiement — montants, dates et devise —, que les règles fiscales et comptables nous imposent de conserver.",
           ],
         },
