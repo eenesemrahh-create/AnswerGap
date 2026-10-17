@@ -4239,6 +4239,77 @@ a.acct-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift);
 /* An inline second step before anything that charges or stops a plan. */
 .acct-confirm { display: flex; flex-direction: column; gap: 8px; margin-top: auto; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--brand-soft); }
 .acct-confirm p { margin: 0; font-size: 13.5px; line-height: 1.5; }
+/* The plans someone is running: what is left in each, as a bar. */
+.acct-mine { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.acct-mine-card { gap: 6px; overflow: hidden; }
+.acct-mine-card.is-spending {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--grad) border-box;
+  border: 1.5px solid transparent;
+  box-shadow: var(--shadow-lift);
+}
+.acct-fine + .acct-mine { margin-top: 18px; }
+.acct-mine-head { display: grid; gap: 8px; }
+.acct-mine-head .acct-pill { white-space: nowrap; }
+.acct-mine-name { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+.acct-mine-sub { font-size: 13px; }
+.acct-mine-count { display: flex; align-items: baseline; gap: 6px; margin-top: 12px; }
+.acct-mine-count b {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.acct-mine-count span { color: var(--text-soft); font-size: 13.5px; font-weight: 600; }
+.acct-mine-bar { position: relative; height: 10px; border-radius: var(--r-pill); background: var(--surface-2); overflow: hidden; }
+.acct-mine-bar > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: var(--grad);
+  transition: width .6s ease;
+}
+/* The pocket being spent from glints, so "which one" reads at a glance. */
+.acct-mine-card.is-spending .acct-mine-bar > i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .45), transparent);
+  transform: translateX(-100%);
+  animation: acct-glint 2.4s ease-in-out infinite;
+}
+@keyframes acct-glint { to { transform: translateX(100%); } }
+.acct-mine-card.is-ending .acct-mine-bar > i { background: var(--text-faint); }
+.acct-mine-card.is-ending .acct-mine-count b { background: none; color: var(--text-soft); }
+.acct-mine-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; color: var(--text-soft); font-size: 12.5px; }
+.acct-mine-btn { margin-top: 12px; align-self: flex-start; }
+.acct-mine-renew { margin: 8px 0 0; padding: 8px 12px; border-radius: 10px; background: var(--brand-soft); color: var(--brand-strong); font-size: 12.5px; line-height: 1.45; }
+.acct-pill-star { background: var(--surface-2); color: var(--text); }
+.acct-pill-live { display: inline-flex; align-items: center; gap: 6px; }
+.acct-pill-live > i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: acct-pulse 1.6s ease-in-out infinite; }
+@keyframes acct-pulse { 50% { opacity: .35; transform: scale(.75); } }
+.acct-mine-other {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px 18px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-xl);
+  color: var(--text-soft);
+  font-size: 13.5px;
+}
+.acct-mine-other b { font-size: 22px; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) {
+  .acct-mine-card.is-spending .acct-mine-bar > i::after, .acct-pill-live > i { animation: none; }
+}
 .acct-plan-price { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; }
 .acct-plan-price em { margin-left: 4px; font-style: normal; font-size: 13px; font-weight: 500; color: var(--text-soft); letter-spacing: 0; }
 

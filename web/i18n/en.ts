@@ -446,7 +446,7 @@ export const en = {
     pastDue: "The last payment did not go through. Update your card to keep the plan.",
     manage: "Manage billing",
     manageLead:
-      "Cancel, switch plan, change your card or download invoices. Opens Stripe.",
+      "Cancel, change your card or download invoices. Opens Stripe.",
 
     creditsHeading: "Credits",
     balanceLead: "One search costs one credit. Cached results are free.",
@@ -481,9 +481,14 @@ export const en = {
     burnsOn: "Unused credits are removed on {date}",
     defaultBadge: "Default",
     makeDefault: "Make default",
+    ofTotalLeft: "of {total} credits left",
+    usedCount: "{count} used",
     confirmDefault: "Make {plan} your default? Your other plans ({others}) will not renew; you can use their credits until their period ends.",
     confirmDefaultAlone: "Make {plan} your default?",
     confirmDefaultYes: "Yes, make it default",
+    defaultRenewsNote: "{plan} will renew automatically every month. You can stop that any time under “{manage}”.",
+    autoRenewHint: "Renews automatically every month · stop it any time under “{manage}”",
+    cancelStep: "Cancel",
     chooseAdditional: "Add {plan} as a second plan",
     additionalWarn: "Your current plan keeps running and this plan is charged separately. When you make one of them your default, the others stop renewing at the end of their period.",
     additionalYes: "I understand, continue to payment",

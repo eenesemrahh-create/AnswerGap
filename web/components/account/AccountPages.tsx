@@ -246,13 +246,32 @@ function MyPlans({ me }: { me: Me }) {
     <>
       <h2 className="acct-section-title">{t("account.myPlansHeading")}</h2>
       <p className="acct-fine">{t("account.myPlansLead")}</p>
-      <div className="acct-plans">
+      <div className="acct-plans acct-mine">
         {list.map((p) => {
           const others = list.filter((o) => o.id !== p.id && !o.cancel_at_period_end && o.source === "stripe");
+          const total = Math.max(0, p.credits_per_period);
+          const left = Math.max(0, Math.min(p.credits_left, total || p.credits_left));
+          const share = total > 0 ? left / total : 0;
+          const spending = spendingFrom === p.id;
           return (
-            <div key={p.id} className={`acct-card acct-plan-option${p.is_default ? " is-current" : ""}`}>
-              <b className="acct-plan-option-name">{p.name ?? planName([], p.plan_id)}</b>
-              <span className="acct-muted">
+            <div
+              key={p.id}
+              className={`acct-card acct-mine-card${spending ? " is-spending" : ""}${
+                p.cancel_at_period_end ? " is-ending" : ""
+              }`}
+            >
+              <div className="acct-mine-head">
+                <b className="acct-mine-name">{p.name ?? planName([], p.plan_id)}</b>
+                <div className="acct-pill-row">
+                  {p.is_default && <span className="acct-pill acct-pill-star">★ {t("account.defaultBadge")}</span>}
+                  {spending && (
+                    <span className="acct-pill ok acct-pill-live">
+                      <i aria-hidden /> {t("account.spendingFrom")}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <span className="acct-muted acct-mine-sub">
                 {p.source === "admin" ? t("account.given") : t("account.bought")}
                 {p.current_period_end
                   ? ` · ${
@@ -262,17 +281,34 @@ function MyPlans({ me }: { me: Me }) {
                     }`
                   : ""}
               </span>
-              <p>{t("account.creditsLeftOf", { left: p.credits_left, total: p.credits_per_period })}</p>
-              {p.credits_burn_at && p.credits_left > 0 && (
-                <p className="acct-muted">{t("account.burnsOn", { date: formatDay(p.credits_burn_at) })}</p>
+
+              <div className="acct-mine-count">
+                <b>{left}</b>
+                <span>{t("account.ofTotalLeft", { total })}</span>
+              </div>
+              <div
+                className="acct-mine-bar"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={total}
+                aria-valuenow={left}
+                aria-label={t("account.creditsLeftOf", { left, total })}
+              >
+                <i style={{ width: `${share * 100}%` }} />
+              </div>
+              <div className="acct-mine-foot">
+                <span>{t("account.usedCount", { count: Math.max(0, total - left) })}</span>
+                {p.credits_burn_at && left > 0 && (
+                  <span>{t("account.burnsOn", { date: formatDay(p.credits_burn_at) })}</span>
+                )}
+              </div>
+
+              {p.is_default && p.source === "stripe" && !p.cancel_at_period_end && (
+                <p className="acct-mine-renew">{t("account.autoRenewHint", { manage: t("account.manage") })}</p>
               )}
               {p.status === "past_due" && <p className="acct-plan-warn">{t("account.pastDue")}</p>}
-              <div className="acct-pill-row">
-                {spendingFrom === p.id && <span className="acct-pill ok">{t("account.spendingFrom")}</span>}
-                {p.is_default && <span className="acct-pill">{t("account.defaultBadge")}</span>}
-              </div>
               {several && !p.is_default && asking !== p.id && (
-                <button className="btn" disabled={busy} onClick={() => setAsking(p.id)}>
+                <button className="btn acct-mine-btn" disabled={busy} onClick={() => setAsking(p.id)}>
                   {t("account.makeDefault")}
                 </button>
               )}
@@ -286,11 +322,17 @@ function MyPlans({ me }: { me: Me }) {
                         })
                       : t("account.confirmDefaultAlone", { plan: p.name ?? "" })}
                   </p>
+                  {/* The plan kept RENEWS - including one that was set to
+                      stop - so that is said before the button, with where
+                      to stop it again. */}
+                  {p.source === "stripe" && (
+                    <p>{t("account.defaultRenewsNote", { plan: p.name ?? "", manage: t("account.manage") })}</p>
+                  )}
                   <button className="btn btn-primary" disabled={busy} onClick={() => choose(p.id)}>
                     {busy ? t("auth.working") : t("account.confirmDefaultYes")}
                   </button>
                   <button className="auth-link" type="button" disabled={busy} onClick={() => setAsking(null)}>
-                    {t("auth.deleteCancel")}
+                    {t("account.cancelStep")}
                   </button>
                 </div>
               )}
@@ -298,7 +340,12 @@ function MyPlans({ me }: { me: Me }) {
           );
         })}
       </div>
-      {other > 0 && <p className="acct-fine">{t("account.otherCredits", { count: other })}</p>}
+      {other > 0 && (
+        <div className="acct-mine-other">
+          <b>{other}</b>
+          <span>{t("account.otherCredits", { count: other })}</span>
+        </div>
+      )}
       {error && <p className="acct-error">{error}</p>}
     </>
   );
@@ -453,7 +500,7 @@ export function AccountSubscription() {
                               {busy === plan.id ? t("auth.working") : t("account.additionalYes")}
                             </button>
                             <button className="auth-link" type="button" onClick={() => setConfirming(null)}>
-                              {t("auth.deleteCancel")}
+                              {t("account.cancelStep")}
                             </button>
                           </div>
                         ) : (

@@ -386,7 +386,7 @@ export const de: Messages = {
       "Die letzte Zahlung ist fehlgeschlagen. Aktualisieren Sie Ihre Karte, um den Tarif zu behalten.",
     manage: "Abrechnung verwalten",
     manageLead:
-      "Kündigen, Tarif wechseln, Karte ändern oder Rechnungen herunterladen. Öffnet Stripe.",
+      "Kündigen, Karte ändern oder Rechnungen herunterladen. Öffnet Stripe.",
 
     creditsHeading: "Guthaben",
     balanceLead:
@@ -417,9 +417,14 @@ export const de: Messages = {
     burnsOn: "Nicht verbrauchte Credits verfallen am {date}",
     defaultBadge: "Standard",
     makeDefault: "Als Standard festlegen",
+    ofTotalLeft: "von {total} Credits übrig",
+    usedCount: "{count} verbraucht",
     confirmDefault: "{plan} als Standard festlegen? Deine anderen Pläne ({others}) verlängern sich nicht; ihre Credits kannst du bis zum Ende ihres Zeitraums nutzen.",
     confirmDefaultAlone: "{plan} als Standard festlegen?",
     confirmDefaultYes: "Ja, als Standard festlegen",
+    defaultRenewsNote: "{plan} verlängert sich automatisch jeden Monat. Du kannst das jederzeit unter „{manage}“ beenden.",
+    autoRenewHint: "Verlängert sich automatisch jeden Monat · jederzeit unter „{manage}“ beendbar",
+    cancelStep: "Abbrechen",
     chooseAdditional: "{plan} als zweiten Plan hinzufügen",
     additionalWarn: "Dein aktueller Plan läuft weiter und dieser Plan wird zusätzlich berechnet. Legst du einen als Standard fest, verlängern sich die anderen am Ende ihres Zeitraums nicht.",
     additionalYes: "Verstanden, weiter zur Zahlung",

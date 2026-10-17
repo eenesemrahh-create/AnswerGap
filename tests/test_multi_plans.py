@@ -73,7 +73,19 @@ def chooser(monkeypatch):
         state["stripe"].append((sid, at_period_end))
         return {}
 
+    def resume(sid):
+        if state["fail"]:
+            raise auth.stripe.StripeError("stripeDown", 503, "")
+        state["stripe"].append((sid, "resume"))
+        return {}
+
     monkeypatch.setattr(auth.stripe, "cancel_subscription", cancel)
+    monkeypatch.setattr(auth.stripe, "resume_subscription", resume)
+    state["renewing"], state["withdrawn"] = [], []
+    monkeypatch.setattr(db, "subscription_mark_renewing",
+                        lambda **kw: state["renewing"].append(kw["subscription_id"]))
+    monkeypatch.setattr(db, "subscription_cancel_withdrawn",
+                        lambda **kw: state["withdrawn"].append(kw["stripe_subscription_id"]))
     monkeypatch.setattr(db, "subscription_mark_ending",
                         lambda **kw: state["ending"].append(kw["subscription_id"]))
     monkeypatch.setattr(db, "subscription_set_default",
@@ -95,6 +107,37 @@ def test_an_assigned_plan_and_one_already_ending_are_left_alone(chooser) -> None
     chooser["live"][1]["cancel_at_period_end"] = True
     auth.billing_default(_Req(), auth.DefaultPlanRequest(subscription_id=3))
     assert chooser["stripe"] == [("sub_1", True)]
+
+
+def test_a_stopped_plan_made_default_renews_again(chooser) -> None:
+    """The plan chosen to keep renews: if it was set to stop, the stop is
+    undone at Stripe first, then the others stop."""
+    chooser["live"][1]["cancel_at_period_end"] = True     # pro was stopped
+    out = auth.billing_default(_Req(), auth.DefaultPlanRequest(subscription_id=2))
+    assert chooser["stripe"] == [("sub_2", "resume"), ("sub_1", True)]
+    assert chooser["renewing"] == [2] and chooser["withdrawn"] == ["sub_2"]
+    assert out["resumed"] is True and out["stopped_renewing"] == [1]
+
+
+def test_a_renewing_default_is_not_touched(chooser) -> None:
+    out = auth.billing_default(_Req(), auth.DefaultPlanRequest(subscription_id=2))
+    assert ("sub_2", "resume") not in chooser["stripe"]
+    assert out["resumed"] is False and chooser["renewing"] == []
+
+
+def test_an_assigned_plan_made_default_is_not_sent_to_stripe(chooser) -> None:
+    chooser["live"][2]["cancel_at_period_end"] = True
+    out = auth.billing_default(_Req(), auth.DefaultPlanRequest(subscription_id=3))
+    assert out["resumed"] is False
+
+
+def test_a_refused_resume_saves_nothing(chooser) -> None:
+    chooser["live"][1]["cancel_at_period_end"] = True
+    chooser["fail"] = True
+    with pytest.raises(HTTPException) as e:
+        auth.billing_default(_Req(), auth.DefaultPlanRequest(subscription_id=2))
+    assert e.value.status_code == 502
+    assert chooser["renewing"] == [] and chooser["default"] == [] and chooser["ending"] == []
 
 
 def test_a_plan_that_is_not_yours_or_not_running_is_refused(chooser) -> None:

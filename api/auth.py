@@ -787,7 +787,7 @@ class DefaultPlanRequest(BaseModel):
 
 @router.post("/api/billing/default")
 def billing_default(request: Request, payload: DefaultPlanRequest) -> dict:
-    """Choose the plan to keep. Every OTHER running plan stops renewing.
+    """Choose the plan to keep. It renews; every OTHER running plan stops.
 
     THE OPERATOR'S RULE (2026-10-17). Nothing is cancelled now and nothing is
     refunded: each other plan runs to the end of the period already paid,
@@ -808,6 +808,31 @@ def billing_default(request: Request, payload: DefaultPlanRequest) -> dict:
     chosen = next((s for s in live if int(s["id"]) == payload.subscription_id), None)
     if not chosen:
         raise HTTPException(404, {"code": "noSuchPlan"})
+    # The plan chosen to KEEP renews. If it was set to stop - an earlier
+    # default chose another plan, or the customer cancelled it in the
+    # portal - that stop is undone at Stripe first. The customer can stop it
+    # again from the portal whenever they like.
+    resumed = False
+    if (chosen.get("source") == "stripe" and chosen.get("stripe_subscription_id")
+            and chosen.get("cancel_at_period_end")):
+        try:
+            stripe.resume_subscription(chosen["stripe_subscription_id"])
+        except stripe.StripeError as exc:
+            print(f"[stripe] default plan: resume {chosen['stripe_subscription_id']}: {exc}",
+                  flush=True)
+            _log_account(who.user_id, "default_plan_failed",
+                         {"subscription_id": int(chosen["id"]), "error": exc.code})
+            raise HTTPException(502, {"code": "stripeFailed"}) from exc
+        db.subscription_mark_renewing(user_id=who.user_id, subscription_id=int(chosen["id"]))
+        # Same as renewing in the portal: an admin's clawback mark from
+        # before no longer speaks for whatever cancellation comes later. The
+        # webhook would record it too, but it compares against the row this
+        # call has just mirrored, so it would not see the change.
+        db.subscription_cancel_withdrawn(
+            user_id=who.user_id, stripe_subscription_id=chosen["stripe_subscription_id"],
+            actor="customer (default plan)",
+        )
+        resumed = True
     stopped = []
     for sub in live:
         if int(sub["id"]) == payload.subscription_id or sub.get("cancel_at_period_end"):
@@ -829,9 +854,11 @@ def billing_default(request: Request, payload: DefaultPlanRequest) -> dict:
     _log_account(who.user_id, "default_plan_set", {
         "subscription_id": payload.subscription_id,
         "plan_id": chosen.get("plan_id"),
+        "resumed": resumed,
         "stopped_renewing": stopped,
     })
-    return {"default": payload.subscription_id, "stopped_renewing": stopped}
+    return {"default": payload.subscription_id, "resumed": resumed,
+            "stopped_renewing": stopped}
 
 
 def _plan_by_id(plan_id: str | None) -> dict | None:

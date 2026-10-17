@@ -4936,6 +4936,19 @@ def subscription_mark_ending(*, user_id: int, subscription_id: int) -> None:
         conn.commit()
 
 
+def subscription_mark_renewing(*, user_id: int, subscription_id: int) -> None:
+    """Mirror a resume Stripe has just ACCEPTED: the plan renews again."""
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE subscription SET cancel_at_period_end = FALSE, updated_at = now()
+             WHERE id = %s AND user_id = %s
+            """,
+            (int(subscription_id), int(user_id)),
+        )
+        conn.commit()
+
+
 def live_subscriptions(user_id: int) -> list[dict]:
     """Every plan this account has running right now, default first, then
     the one ending soonest. What the account page lists."""
@@ -4999,7 +5012,10 @@ def subscription_cancelled_by_admin(stripe_subscription_id: str) -> dict | None:
         return dict(row) if row else None
 
 
-def subscription_cancel_withdrawn(*, user_id: int, stripe_subscription_id: str) -> None:
+def subscription_cancel_withdrawn(
+    *, user_id: int, stripe_subscription_id: str,
+    actor: str = "customer (Stripe portal)",
+) -> None:
     """Record that a scheduled cancellation was undone (the subscription is
     renewing again), so an earlier admin clawback mark stops applying.
 
@@ -5011,10 +5027,10 @@ def subscription_cancel_withdrawn(*, user_id: int, stripe_subscription_id: str) 
         cur.execute(
             """
             INSERT INTO admin_action (actor, action, target_user, detail)
-            VALUES ('customer (Stripe portal)', 'cancel_withdrawn', %s,
+            VALUES (%s, 'cancel_withdrawn', %s,
                     jsonb_build_object('stripe_subscription_id', %s::text))
             """,
-            (user_id, stripe_subscription_id),
+            (actor, user_id, stripe_subscription_id),
         )
         conn.commit()
 

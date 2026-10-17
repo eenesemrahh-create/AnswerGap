@@ -387,7 +387,7 @@ export const es: Messages = {
       "El último pago no se completó. Actualiza tu tarjeta para conservar el plan.",
     manage: "Gestionar facturación",
     manageLead:
-      "Cancela, cambia de plan, actualiza tu tarjeta o descarga facturas. Abre Stripe.",
+      "Cancela, actualiza tu tarjeta o descarga facturas. Abre Stripe.",
 
     creditsHeading: "Créditos",
     balanceLead:
@@ -418,9 +418,14 @@ export const es: Messages = {
     burnsOn: "Los créditos no usados se eliminan el {date}",
     defaultBadge: "Predeterminado",
     makeDefault: "Hacer predeterminado",
+    ofTotalLeft: "de {total} créditos restantes",
+    usedCount: "{count} usados",
     confirmDefault: "¿Hacer {plan} tu plan predeterminado? Tus otros planes ({others}) no se renovarán; puedes usar sus créditos hasta que termine su periodo.",
     confirmDefaultAlone: "¿Hacer {plan} tu plan predeterminado?",
     confirmDefaultYes: "Sí, hacerlo predeterminado",
+    defaultRenewsNote: "{plan} se renovará automáticamente cada mes. Puedes detenerlo cuando quieras en «{manage}».",
+    autoRenewHint: "Se renueva automáticamente cada mes · puedes detenerlo cuando quieras en «{manage}»",
+    cancelStep: "Cancelar",
     chooseAdditional: "Añadir {plan} como segundo plan",
     additionalWarn: "Tu plan actual sigue activo y este plan se cobra aparte. Cuando elijas uno como predeterminado, los demás dejarán de renovarse al final de su periodo.",
     additionalYes: "Entendido, continuar al pago",

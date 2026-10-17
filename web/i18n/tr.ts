@@ -382,7 +382,7 @@ export const tr: Messages = {
     pastDue: "Son ödeme alınamadı. Planın sürmesi için kartınızı güncelleyin.",
     manage: "Ödemeleri yönet",
     manageLead:
-      "İptal edin, plan değiştirin, kartınızı güncelleyin ya da faturalarınızı indirin. Stripe açılır.",
+      "İptal edin, kartınızı güncelleyin ya da faturalarınızı indirin. Stripe açılır.",
 
     creditsHeading: "Krediler",
     balanceLead: "Bir arama bir kredi. Önbellekten gelen sonuçlar ücretsiz.",
@@ -412,9 +412,14 @@ export const tr: Messages = {
     burnsOn: "Kullanılmayan krediler {date} tarihinde silinir",
     defaultBadge: "Varsayılan",
     makeDefault: "Varsayılan yap",
+    ofTotalLeft: "/ {total} kredi kaldı",
+    usedCount: "{count} kullanıldı",
     confirmDefault: "{plan} varsayılan planın olsun mu? Diğer planların ({others}) yenilenmeyecek; kredilerini dönemleri bitene kadar kullanabilirsin.",
     confirmDefaultAlone: "{plan} varsayılan planın olsun mu?",
     confirmDefaultYes: "Evet, varsayılan yap",
+    defaultRenewsNote: "{plan} her ay otomatik olarak yenilenir. Yenilemeyi istediğin zaman “{manage}” bölümünden durdurabilirsin.",
+    autoRenewHint: "Her ay otomatik yenilenir · istediğin zaman “{manage}” bölümünden durdurabilirsin",
+    cancelStep: "Vazgeç",
     chooseAdditional: "{plan} planını ek plan olarak al",
     additionalWarn: "Mevcut planın devam eder ve bu plan ayrıca ücretlendirilir. Birini varsayılan yaptığında diğerleri dönem sonunda yenilenmez.",
     additionalYes: "Anladım, ödemeye geç",

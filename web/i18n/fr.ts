@@ -390,7 +390,7 @@ export const fr: Messages = {
       "Le dernier paiement n'est pas passé. Mettez votre carte à jour pour conserver l'offre.",
     manage: "Gérer la facturation",
     manageLead:
-      "Résilier, changer d'offre, modifier votre carte ou télécharger vos factures. Ouvre Stripe.",
+      "Résilier, modifier votre carte ou télécharger vos factures. Ouvre Stripe.",
 
     creditsHeading: "Crédits",
     balanceLead:
@@ -421,9 +421,14 @@ export const fr: Messages = {
     burnsOn: "Les crédits non utilisés sont supprimés le {date}",
     defaultBadge: "Par défaut",
     makeDefault: "Définir par défaut",
+    ofTotalLeft: "crédits restants sur {total}",
+    usedCount: "{count} utilisés",
     confirmDefault: "Définir {plan} comme forfait par défaut ? Vos autres forfaits ({others}) ne seront pas renouvelés ; vous pouvez utiliser leurs crédits jusqu'à la fin de leur période.",
     confirmDefaultAlone: "Définir {plan} comme forfait par défaut ?",
     confirmDefaultYes: "Oui, définir par défaut",
+    defaultRenewsNote: "{plan} sera renouvelé automatiquement chaque mois. Vous pouvez l'arrêter à tout moment dans « {manage} ».",
+    autoRenewHint: "Renouvelé automatiquement chaque mois · arrêtez-le à tout moment dans « {manage} »",
+    cancelStep: "Annuler",
     chooseAdditional: "Ajouter {plan} comme second forfait",
     additionalWarn: "Votre forfait actuel continue et ce forfait est facturé en plus. Quand vous en choisissez un par défaut, les autres ne sont plus renouvelés à la fin de leur période.",
     additionalYes: "J'ai compris, passer au paiement",

@@ -237,6 +237,20 @@ def cancel_subscription(subscription_id: str, *, at_period_end: bool) -> dict:
             "cancel_at_period_end": bool(data.get("cancel_at_period_end"))}
 
 
+def resume_subscription(subscription_id: str) -> dict:
+    """Undo a "cancel at period end": the subscription renews again.
+
+    Only possible while the period is still running - a subscription Stripe
+    has already ended cannot be resumed, and Stripe refuses it.
+    """
+    data = _request(
+        "POST", f"/v1/subscriptions/{subscription_id}",
+        {"cancel_at_period_end": "false"},
+    )
+    return {"status": data.get("status"),
+            "cancel_at_period_end": bool(data.get("cancel_at_period_end"))}
+
+
 def billing_portal(*, customer_id: str, return_url: str) -> dict:
     """A link to Stripe's own billing portal.
 
