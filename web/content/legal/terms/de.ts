@@ -171,7 +171,7 @@ export const de: TermsContent = {
       heading: "10. Verfügbarkeit",
       body: [
         {
-          p: "Der Dienst wird wie er ist als Vorschau angeboten, ohne Verfügbarkeitszusage. Wir können Teile davon ändern, aussetzen oder einstellen.",
+          p: "Der Dienst wird so angeboten, wie er ist, ohne Verfügbarkeitszusage. Wir können Teile davon ändern, aussetzen oder einstellen.",
         },
         {
           p: "Bevor wir etwas zurückziehen, wofür Sie bezahlt haben, kündigen wir dies angemessen an und erstatten Credits, die Sie dadurch nicht nutzen können.",

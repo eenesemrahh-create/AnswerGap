@@ -171,7 +171,7 @@ export const es: TermsContent = {
       heading: "10. Disponibilidad",
       body: [
         {
-          p: "El servicio se ofrece tal cual, en vista previa, sin compromiso de disponibilidad. Podemos cambiar, suspender o descontinuar cualquier parte de él.",
+          p: "El servicio se ofrece tal cual, sin compromiso de disponibilidad. Podemos cambiar, suspender o descontinuar cualquier parte de él.",
         },
         {
           p: "Avisaremos con antelación razonable antes de retirar algo que usted haya pagado, y reembolsaremos los créditos que por ello no pueda usar.",

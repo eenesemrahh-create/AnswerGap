@@ -177,7 +177,7 @@ export const en = {
       heading: "10. Availability",
       body: [
         {
-          p: "The service is offered as it is, in preview, with no uptime commitment. We may change, suspend or discontinue any part of it.",
+          p: "The service is offered as it is, with no uptime commitment. We may change, suspend or discontinue any part of it.",
         },
         {
           p: "We will give reasonable notice before withdrawing something you have paid for, and will refund credits you cannot use as a result.",

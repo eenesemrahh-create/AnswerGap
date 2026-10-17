@@ -174,7 +174,7 @@ export const fr: TermsContent = {
       heading: "10. Disponibilité",
       body: [
         {
-          p: "Le service est proposé en l'état, en avant-première, sans engagement de disponibilité. Nous pouvons modifier, suspendre ou arrêter toute partie de celui-ci.",
+          p: "Le service est proposé en l'état, sans engagement de disponibilité. Nous pouvons modifier, suspendre ou arrêter toute partie de celui-ci.",
         },
         {
           p: "Nous préviendrons dans un délai raisonnable avant de retirer quelque chose que vous avez payé, et rembourserons les crédits que vous ne pourrez alors pas utiliser.",

@@ -171,7 +171,7 @@ export const tr: TermsContent = {
       heading: "10. Erişilebilirlik",
       body: [
         {
-          p: "Hizmet, önizleme hâlinde, olduğu gibi ve çalışma süresi taahhüdü olmaksızın sunulur. Herhangi bir bölümünü değiştirebilir, askıya alabilir veya sonlandırabiliriz.",
+          p: "Hizmet, olduğu gibi ve çalışma süresi taahhüdü olmaksızın sunulur. Herhangi bir bölümünü değiştirebilir, askıya alabilir veya sonlandırabiliriz.",
         },
         {
           p: "Ödemesini yaptığınız bir şeyi geri çekmeden önce makul bir süre önceden haber verir ve bu yüzden kullanamadığınız kredileri iade ederiz.",
