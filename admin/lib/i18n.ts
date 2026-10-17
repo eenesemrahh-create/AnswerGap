@@ -271,8 +271,8 @@ const en = {
     noPricingPlans:
       "No plans are defined. Add them in Settings → Pricing before assigning one.",
     creditsKept:
-      "Ending a plan does not take back credits already granted — they may " +
-      "have been spent. Use the credits form above to claw them back.",
+      "Ending a plan removes the unused part of this period's plan credits. " +
+      "Credits already spent, and credits from anywhere else, stay.",
   },
 
   erase: {
@@ -631,11 +631,13 @@ const en = {
     now: "Cancel now",
     periodEnd: "Cancel at period end",
     confirmNow:
-      "Cancel this subscription at Stripe now? It ends immediately; credits " +
-      "already granted stay.",
+      "Cancel this subscription at Stripe now? It ends immediately, and the " +
+      "unused part of this period's plan credits is removed now. Credits from " +
+      "elsewhere (signup, manual grants, earlier periods) stay.",
     confirmPeriodEnd:
       "Cancel at the end of the paid period? It keeps running until then and " +
-      "does not renew.",
+      "does not renew. Whatever is left of this period's plan credits is " +
+      "removed when the period ends.",
     liveWarning: "This is a LIVE subscription - a real paying customer.",
     yes: "Yes, cancel at Stripe",
     working: "Cancelling…",
@@ -1042,8 +1044,8 @@ const tr: Messages = {
     noPricingPlans:
       "Tanımlı plan yok. Atama yapmadan önce Ayarlar → Fiyatlandırma'dan ekleyin.",
     creditsKept:
-      "Planı sonlandırmak verilmiş kredileri geri almaz — harcanmış " +
-      "olabilirler. Geri almak için yukarıdaki kredi formunu kullanın.",
+      "Planı sonlandırmak bu dönemin kullanılmamış plan kredilerini siler. " +
+      "Harcanmış krediler ve başka yerden gelen krediler kalır.",
   },
 
   erase: {
@@ -1403,11 +1405,12 @@ const tr: Messages = {
     now: "Hemen iptal et",
     periodEnd: "Dönem sonunda iptal et",
     confirmNow:
-      "Bu abonelik Stripe'ta şimdi iptal edilsin mi? Hemen sona erer; " +
-      "yüklenmiş krediler kalır.",
+      "Bu abonelik Stripe'ta şimdi iptal edilsin mi? Hemen sona erer ve bu " +
+      "dönemin kullanılmamış plan kredileri hemen silinir. Başka yerden gelen " +
+      "krediler (kayıt, elle verilen, önceki dönemler) kalır.",
     confirmPeriodEnd:
       "Ödenmiş dönemin sonunda iptal edilsin mi? O zamana kadar sürer ve " +
-      "yenilenmez.",
+      "yenilenmez. Bu dönemin plan kredilerinden kalanlar dönem bitince silinir.",
     liveWarning: "Bu CANLI bir abonelik - gerçekten ödeme yapan bir müşteri.",
     yes: "Evet, Stripe'ta iptal et",
     working: "İptal ediliyor…",

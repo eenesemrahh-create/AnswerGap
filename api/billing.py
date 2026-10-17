@@ -186,6 +186,21 @@ def apply_subscription_event(event: dict) -> str | None:
             livemode=bool(event.get("livemode")),
         )
 
+        if kind == "customer.subscription.deleted":
+            # The end of a plan an ADMIN cancelled "at period end": the
+            # customer kept the credits until now, and what is left goes now.
+            # A cancellation made in the customer's own portal, or by
+            # erasure, has no clawback mark and takes nothing.
+            marked = db.subscription_cancelled_by_admin(subscription_id)
+            if marked:
+                taken = db.subscription_clawback(
+                    user_id=int(marked["user_id"]),
+                    subscription_id=int(marked["id"]),
+                    actor=marked.get("actor") or "stripe",
+                )
+                if taken:
+                    return f"status canceled, clawed back {taken}"
+
         if kind != "invoice.paid":
             return f"status {found.get('status') or 'updated'}"
 

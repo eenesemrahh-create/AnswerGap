@@ -4624,10 +4624,10 @@ def subscription_revoke_assigned(
     operator would see a cancellation undo itself and the customer would see
     a charge for a plan the panel said was over.
 
-    Credits already granted are NOT taken back. They may have been spent, and
-    a balance that goes negative because somebody ended a trial is a bill for
-    work already delivered. Clawing them back is `admin_credit` with a
-    negative delta - a separate, deliberate act with its own audit row.
+    Credits are not touched HERE. The revoke endpoint follows this with
+    `subscription_clawback`, which takes only the unused part of the plan's
+    grant and never pushes a balance below zero - credits already spent were
+    work already delivered.
     """
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
@@ -4654,6 +4654,145 @@ def subscription_revoke_assigned(
             )
         conn.commit()
         return changed
+
+
+def subscription_clawback(*, user_id: int, subscription_id: int, actor: str) -> int:
+    """Take back what is left of this period's plan credits. Returns how many.
+
+    THE OPERATOR'S RULE (2026-10-17): when an admin ends a plan - a paid
+    subscription cancelled from the panel, or an assigned plan revoked - the
+    unused part of the CURRENT period's grant goes with it. Credits from
+    anywhere else (the signup grant, a manual top-up, earlier periods) stay.
+
+    remaining = this period's grant - credits spent since the period began,
+    never below zero and never more than the balance, so a clawback can
+    empty a balance but cannot push it negative.
+
+    The period starts where `period_usage` says it does: an assigned plan at
+    its own creation, a Stripe plan at its latest `subscription` grant since
+    the row was created. The grant is what the LEDGER says was given, not
+    `credits_per_period`: an assigned plan can be created without granting
+    anything, and taking back credits that were never given would be a fine.
+    An assignment's grant is written in the same transaction as the row, so
+    the two share `now()` exactly.
+
+    ONCE PER SUBSCRIPTION. The row is locked FOR UPDATE and an existing
+    `subscription_clawback` line for it ends the call, so the admin's
+    "cancel now" and the `customer.subscription.deleted` webhook that
+    follows it cannot both take credits.
+    """
+    ref = f"subscription:{int(subscription_id)}"
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            "SELECT id, source, created_at FROM subscription"
+            " WHERE id = %s AND user_id = %s FOR UPDATE",
+            (subscription_id, user_id),
+        )
+        sub = cur.fetchone()
+        if not sub:
+            conn.rollback()
+            return 0
+        cur.execute(
+            "SELECT 1 FROM credit_ledger"
+            " WHERE user_id = %s AND reason = 'subscription_clawback' AND ref = %s",
+            (user_id, ref),
+        )
+        if cur.fetchone():
+            conn.rollback()
+            return 0
+        if sub["source"] == "admin":
+            cur.execute(
+                """
+                SELECT coalesce(sum(delta), 0)::int AS granted,
+                       %(at)s::timestamptz AS started
+                  FROM credit_ledger
+                 WHERE user_id = %(uid)s AND reason = 'admin_grant'
+                   AND created_at = %(at)s AND delta > 0
+                """,
+                {"uid": user_id, "at": sub["created_at"]},
+            )
+        else:
+            cur.execute(
+                """
+                SELECT delta::int AS granted, created_at AS started
+                  FROM credit_ledger
+                 WHERE user_id = %(uid)s AND reason = 'subscription'
+                   AND created_at >= %(at)s
+                 ORDER BY created_at DESC
+                 LIMIT 1
+                """,
+                {"uid": user_id, "at": sub["created_at"]},
+            )
+        period = cur.fetchone()
+        granted = int((period or {}).get("granted") or 0)
+        if granted <= 0:
+            conn.rollback()
+            return 0
+        cur.execute(
+            """
+            SELECT
+              coalesce((SELECT sum(credits) FROM usage_event
+                         WHERE user_id = %(uid)s AND created_at >= %(started)s), 0)::int
+                AS used,
+              coalesce((SELECT sum(delta) FROM credit_ledger
+                         WHERE user_id = %(uid)s), 0)::int AS balance
+            """,
+            {"uid": user_id, "started": period["started"]},
+        )
+        row = cur.fetchone()
+        remaining = max(0, granted - max(0, int(row["used"])))
+        take = min(remaining, max(0, int(row["balance"])))
+        if take <= 0:
+            conn.rollback()
+            return 0
+        cur.execute(
+            """
+            INSERT INTO credit_ledger (user_id, delta, reason, ref, note)
+            VALUES (%s, %s, 'subscription_clawback', %s, 'plan ended by an admin')
+            """,
+            (user_id, -take, ref),
+        )
+        cur.execute(
+            """
+            INSERT INTO admin_action (actor, action, target_user, detail)
+            VALUES (%s, 'subscription_clawback', %s,
+                    jsonb_build_object('subscription_id', %s::bigint,
+                                       'credits', %s::int,
+                                       'granted', %s::int))
+            """,
+            (actor, user_id, subscription_id, take, granted),
+        )
+        conn.commit()
+        return take
+
+
+def subscription_cancelled_by_admin(stripe_subscription_id: str) -> dict | None:
+    """The row behind a Stripe subscription an admin cancelled with a
+    clawback, or None. Read by the webhook when `customer.subscription.deleted`
+    arrives, which is how a cancellation set for the END of the period takes
+    its credits when that end comes, rather than when the button was pressed.
+
+    Erasure also writes `cancel_subscription`, with `clawback` false, so an
+    erased account keeps the balance its revival promises.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT s.id, s.user_id, a.actor
+              FROM subscription s
+              JOIN admin_action a
+                ON a.action = 'cancel_subscription'
+               AND a.target_user = s.user_id
+               AND a.detail->>'stripe_subscription_id' = s.stripe_subscription_id
+               AND a.detail->>'clawback' = 'true'
+             WHERE s.stripe_subscription_id = %s
+             ORDER BY a.created_at DESC
+             LIMIT 1
+            """,
+            (stripe_subscription_id,),
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
 
 
 def account_event_put(*, user_id: int, kind: str, detail: dict | None = None) -> None:
@@ -4685,7 +4824,7 @@ def subscription_for_admin(*, user_id: int, subscription_id: int) -> dict | None
 
 def subscription_mark_cancelled(
     *, subscription_id: int, user_id: int, at_period_end: bool, actor: str,
-    stripe_subscription_id: str,
+    stripe_subscription_id: str, clawback: bool = False,
 ) -> None:
     """Mirror a cancellation Stripe has just ACCEPTED, and audit it.
 
@@ -4716,9 +4855,13 @@ def subscription_mark_cancelled(
             VALUES (%s, 'cancel_subscription', %s,
                     jsonb_build_object('subscription_id', %s::bigint,
                                        'stripe_subscription_id', %s::text,
-                                       'at_period_end', %s::boolean))
+                                       'at_period_end', %s::boolean,
+                                       -- Read back by `subscription_cancelled_by_admin`
+                                       -- when the period-end deletion arrives.
+                                       'clawback', %s::boolean))
             """,
-            (actor, user_id, subscription_id, stripe_subscription_id, at_period_end),
+            (actor, user_id, subscription_id, stripe_subscription_id, at_period_end,
+             bool(clawback)),
         )
         conn.commit()
 

@@ -642,7 +642,29 @@ def revoke_plan(request: Request, user_id: int, subscription_id: int) -> dict:
     changed = db.subscription_revoke_assigned(
         user_id=user_id, subscription_id=subscription_id, actor=who.email or ""
     )
-    return {"user_id": user_id, "subscription_id": subscription_id, "changed": changed}
+    # Only when THIS call ended it, so revoking twice cannot take twice -
+    # `subscription_clawback` guards that as well.
+    clawed = _clawback(user_id, subscription_id, who.email or "") if changed else 0
+    return {"user_id": user_id, "subscription_id": subscription_id,
+            "changed": changed, "clawed_back": clawed}
+
+
+def _clawback(user_id: int, subscription_id: int, actor: str) -> int | None:
+    """Take back the rest of this period's plan credits; None if it failed.
+
+    Never fails the cancellation it follows: by now Stripe (or our row) has
+    already ended the plan, and refusing to say so over a ledger write would
+    tell the operator the plan is still running. A None in the reply means
+    "check the balance by hand".
+    """
+    try:
+        return db.subscription_clawback(
+            user_id=user_id, subscription_id=subscription_id, actor=actor
+        )
+    except Exception as exc:  # noqa: BLE001
+        print(f"[billing] clawback for subscription {subscription_id} failed: "
+              f"{type(exc).__name__}: {exc}", flush=True)
+        return None
 
 
 class EraseRequest(BaseModel):
@@ -673,7 +695,9 @@ def cancel_subscription(
     first, and only mirrors it here once Stripe has accepted. The webhook that
     follows confirms the same thing.
 
-    Credits already granted are not taken back, as with an assigned plan.
+    THE UNUSED PART OF THIS PERIOD'S CREDITS IS TAKEN BACK (operator's rule,
+    2026-10-17) - now, or when the period ends; see `db.subscription_clawback`.
+    A cancellation the customer makes in Stripe's portal takes nothing.
     An assigned plan has its own revoke; it never went near Stripe.
     """
     who = require_admin(request)
@@ -699,8 +723,14 @@ def cancel_subscription(
         subscription_id=subscription_id, user_id=user_id,
         at_period_end=at_period_end, actor=who.email or "",
         stripe_subscription_id=row["stripe_subscription_id"],
+        clawback=True,
     )
-    return {"cancelled": True, "at_period_end": at_period_end, **result}
+    # The unused part of this period's credits goes with the plan. "Now"
+    # takes it now; "period end" lets them use it until the period runs out,
+    # and the `customer.subscription.deleted` webhook takes what is left then.
+    clawed = None if at_period_end else _clawback(user_id, subscription_id, who.email or "")
+    return {"cancelled": True, "at_period_end": at_period_end,
+            "clawed_back": clawed, **result}
 
 
 @router.get("/user/{user_id}/log")

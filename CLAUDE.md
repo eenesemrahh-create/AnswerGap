@@ -751,9 +751,16 @@ this person on" a question every screen has to ask twice and merge.
   each event's `effect`, e.g. `card declined: insufficient_funds`),
   `usage_event`, `credit_ledger` and `admin_action`. A Stripe customer is now
   created BEFORE the first checkout so a declined first card is attributable.
-- Revoking **does not claw back credits**. They may have been spent, and a
-  balance that goes negative because somebody ended a trial is a bill for work
-  already delivered.
+- ~~Revoking **does not claw back credits**.~~ **REVERSED 2026-10-17 by the
+  operator:** when an ADMIN ends a plan (revoke an assigned one, or cancel a
+  paid one from the panel) the unused part of THIS period's grant is taken
+  back (`db.subscription_clawback`, ledger reason `subscription_clawback`,
+  once per subscription). "Cancel now" takes it now; "cancel at period end"
+  takes it when `customer.subscription.deleted` arrives (the audit row
+  carries `clawback: true`). Never below zero; signup, manual grants and
+  earlier periods stay. A customer's own portal cancellation and erasure
+  (which cancels at Stripe since 2026-10-17, `billing.cancel_for_erasure`)
+  take nothing.
 
 **`/account` replaces `AccountDialog`, which is deleted.** The dialog was the
 right shape for an address, a balance and a delete button, and the wrong shape

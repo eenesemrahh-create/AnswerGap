@@ -89,6 +89,13 @@ def wired(monkeypatch):
                         lambda **kw: state["upserts"].append(kw))
     monkeypatch.setattr(db, "subscription_set_status",
                         lambda **kw: state["status"].append(kw))
+    # No admin cancellation behind these events unless a test says so.
+    state["admin_cancel"] = None
+    state["clawbacks"] = []
+    monkeypatch.setattr(db, "subscription_cancelled_by_admin",
+                        lambda sid: state["admin_cancel"])
+    monkeypatch.setattr(db, "subscription_clawback",
+                        lambda **kw: state["clawbacks"].append(kw) or 120)
 
     def grant(**kw):
         # The real one is guarded by a unique index on the invoice; this
@@ -325,6 +332,9 @@ def admin_wired(monkeypatch):
     monkeypatch.setattr(db, "subscription_assign", assign)
     monkeypatch.setattr(db, "subscription_revoke_assigned",
                         lambda **kw: state["revoked"].append(kw) or True)
+    state["clawbacks"] = []
+    monkeypatch.setattr(db, "subscription_clawback",
+                        lambda **kw: state["clawbacks"].append(kw) or 40)
     return state
 
 
@@ -547,6 +557,9 @@ def cancel_wired(monkeypatch):
     monkeypatch.setattr(admin.stripe, "cancel_subscription", cancel)
     monkeypatch.setattr(db, "subscription_mark_cancelled",
                         lambda **kw: state["marked"].append(kw))
+    state["clawbacks"] = []
+    monkeypatch.setattr(db, "subscription_clawback",
+                        lambda **kw: state["clawbacks"].append(kw) or 180)
     return state
 
 

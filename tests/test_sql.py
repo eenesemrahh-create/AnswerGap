@@ -1253,6 +1253,91 @@ def test_a_paid_subscription_cannot_be_revoked_from_the_admin() -> None:
     assert db.subscription_by_stripe_id("sub_real")["status"] == "active"
 
 
+# ------------------------------------- clawback when an admin ends a plan
+#
+# The operator's rule (2026-10-17): an admin ending a plan takes back the
+# unused part of THIS period's grant, and nothing else.
+
+
+def _spend_credits(user_id: int, credits: int) -> None:
+    db.record_usage(
+        user_id=user_id, ip_hash=None, anon_id=None, action="search",
+        outcome="ok", credits=credits, spend_usd=0.0, tree_slug="t",
+    )
+
+
+def test_a_revoked_assigned_plan_loses_only_its_unused_credits() -> None:
+    user = _subscriber()
+    sub = _assign(user["id"])                       # +300 from the plan
+    db.admin_credit(user_id=user["id"], delta=50, note="gift", actor="op")
+    _spend_credits(user["id"], 120)                          # balance 230
+    taken = db.subscription_clawback(
+        user_id=user["id"], subscription_id=sub["subscription_id"], actor="op"
+    )
+    assert taken == 180                              # 300 granted - 120 used
+    assert _balance(user["id"]) == 50                # the gift stays
+
+
+def test_a_clawback_happens_once() -> None:
+    user = _subscriber()
+    sub = _assign(user["id"])
+    args = {"user_id": user["id"], "subscription_id": sub["subscription_id"],
+            "actor": "op"}
+    assert db.subscription_clawback(**args) == 300
+    assert db.subscription_clawback(**args) == 0
+    assert _balance(user["id"]) == 0
+
+
+def test_a_clawback_never_pushes_the_balance_negative() -> None:
+    user = _subscriber()
+    sub = _assign(user["id"])
+    db.admin_credit(user_id=user["id"], delta=-250, note=None, actor="op")
+    assert db.subscription_clawback(
+        user_id=user["id"], subscription_id=sub["subscription_id"], actor="op"
+    ) == 50
+    assert _balance(user["id"]) == 0
+
+
+def test_a_plan_assigned_without_credits_takes_nothing_back() -> None:
+    user = _subscriber()
+    db.admin_credit(user_id=user["id"], delta=40, note=None, actor="op")
+    sub = _assign(user["id"], grant_credits=False)
+    assert db.subscription_clawback(
+        user_id=user["id"], subscription_id=sub["subscription_id"], actor="op"
+    ) == 0
+    assert _balance(user["id"]) == 40
+
+
+def test_a_paid_plan_loses_only_the_current_periods_remainder() -> None:
+    user = _subscriber()
+    _paid(user["id"])
+    sub = db.subscription_by_stripe_id("sub_real")
+    row = next(r for r in db.subscriptions_for_user(user["id"]) if r["source"] == "stripe")
+    db.subscription_credit(user_id=user["id"], invoice_id="in_1", credits=1000)
+    _spend_credits(user["id"], 700)                          # last period's usage
+    db.subscription_credit(user_id=user["id"], invoice_id="in_2", credits=1000)
+    _spend_credits(user["id"], 100)                          # this period: 100 used
+    assert sub is not None
+    taken = db.subscription_clawback(user_id=user["id"], subscription_id=row["id"], actor="op")
+    assert taken == 900
+    assert _balance(user["id"]) == 300               # last period's rollover stays
+
+
+def test_only_an_admin_cancellation_marks_a_clawback() -> None:
+    user = _subscriber()
+    _paid(user["id"], sid="sub_admin")
+    _paid(user["id"], sid="sub_erased")
+    rows = {r["stripe_subscription_id"]: r for r in db.subscriptions_for_user(user["id"])}
+    for sid, claw in (("sub_admin", True), ("sub_erased", False)):
+        db.subscription_mark_cancelled(
+            subscription_id=rows[sid]["id"], user_id=user["id"], at_period_end=True,
+            actor="op", stripe_subscription_id=sid, clawback=claw,
+        )
+    marked = db.subscription_cancelled_by_admin("sub_admin")
+    assert marked["id"] == rows["sub_admin"]["id"] and marked["actor"] == "op"
+    assert db.subscription_cancelled_by_admin("sub_erased") is None
+
+
 def test_a_paid_plan_outranks_an_assigned_one() -> None:
     """Somebody given a trial who then bought the real thing must see what they
     are paying for - the row with a card behind it, and the one the billing
