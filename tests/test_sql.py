@@ -1076,6 +1076,41 @@ def _stored_plans() -> list:
     return json.loads(raw) if raw.strip() else []
 
 
+def _run_0021() -> None:
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute(dict(db.MIGRATIONS)["0021_same_features_on_every_plan"])
+        conn.commit()
+
+
+def test_0021_keeps_each_credits_line_and_gives_every_plan_the_same_rest() -> None:
+    from answergap.pricing_seed import COMMON_FEATURES
+    old = [
+        {"id": "starter", "features": ["100 credits per month", "24-hour search history"]},
+        {"id": "pro", "features": ["1,000 credits per month", "Bulk searches",
+                                   "API access", "Pay-as-you-go credits", "MCP server"]},
+        {"id": "odd", "name": "no features key"},
+    ]
+    db.setting_put(key=gate.SETTING_PRICING_PLANS, value=json.dumps(old), actor="op")
+    _run_0021()
+    plans = _stored_plans()
+    assert plans[0]["features"] == ["100 credits per month", *COMMON_FEATURES]
+    assert plans[1]["features"] == ["1,000 credits per month", *COMMON_FEATURES]
+    assert plans[2] == old[2]
+    _run_0021()                                     # again: nothing new written
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT count(*) AS n FROM app_setting WHERE setting_key = %s",
+                    (gate.SETTING_PRICING_PLANS,))
+        assert cur.fetchone()["n"] == 2
+
+
+def test_0021_leaves_no_plans_and_bad_json_alone() -> None:
+    _run_0021()
+    assert _stored_plans() == []
+    db.setting_put(key=gate.SETTING_PRICING_PLANS, value="not json", actor="op")
+    _run_0021()                                     # does not raise
+    assert db.settings_all()[gate.SETTING_PRICING_PLANS] == "not json"
+
+
 def test_the_seed_fills_a_database_that_has_no_plans() -> None:
     _run_seed_0012()
     assert [p["id"] for p in _stored_plans()] == ["starter", "lite", "pro"]

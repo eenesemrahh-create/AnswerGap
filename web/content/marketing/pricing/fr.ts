@@ -56,7 +56,9 @@ export const fr: PricingContent = {
         "Toutes les régions",
         "Toutes les langues",
         "Export d'image PNG",
-        "Historique de recherche de 24 heures",
+        "Historique de recherche illimité",
+        "Recherche approfondie",
+        "Export de données CSV",
       ],
     },
     {
@@ -76,7 +78,7 @@ export const fr: PricingContent = {
         "Toutes les régions",
         "Toutes les langues",
         "Export d'image PNG",
-        "Historique de recherche d'un mois",
+        "Historique de recherche illimité",
         "Recherche approfondie",
         "Export de données CSV",
       ],
@@ -98,13 +100,9 @@ export const fr: PricingContent = {
         "Toutes les régions",
         "Toutes les langues",
         "Export d'image PNG",
-        "Historique de recherche d'un an",
+        "Historique de recherche illimité",
         "Recherche approfondie",
         "Export de données CSV",
-        "Recherches en lot",
-        "Accès à l'API",
-        "Crédits à la demande",
-        "Serveur MCP",
       ],
     },
   ],
@@ -119,16 +117,9 @@ export const fr: PricingContent = {
       { label: "Toutes les régions", values: [true, true, true] },
       { label: "Toutes les langues", values: [true, true, true] },
       { label: "Export d'image PNG", values: [true, true, true] },
-      {
-        label: "Historique de recherche",
-        values: ["24 heures", "1 mois", "1 an"],
-      },
-      { label: "Recherche approfondie", values: [false, true, true] },
-      { label: "Export de données CSV", values: [false, true, true] },
-      { label: "Recherches en lot", values: [false, false, true] },
-      { label: "Accès à l'API", values: [false, false, true] },
-      { label: "Crédits à la demande", values: [false, false, true] },
-      { label: "Serveur MCP", values: [false, false, true] },
+      { label: "Historique de recherche illimité", values: [true, true, true] },
+      { label: "Recherche approfondie", values: [true, true, true] },
+      { label: "Export de données CSV", values: [true, true, true] },
     ],
   },
 
@@ -150,13 +141,6 @@ export const fr: PricingContent = {
           "Oui, à tout moment. Une montée en gamme prend effet immédiatement ; " +
           "une baisse prend effet à la fin du cycle que vous avez déjà payé. " +
           "Les crédits que vous avez déjà achetés vous restent acquis.",
-      },
-      {
-        title: "Comment fonctionne l'accès à l'API ?",
-        desc:
-          "La formule Pro inclut l'accès à l'API et un serveur MCP, afin que " +
-          "vos propres outils et assistants puissent lancer des recherches et " +
-          "lire les résultats directement, sans passer par cette interface.",
       },
       {
         title: "Proposez-vous des tarifs sur mesure pour les grands comptes ?",

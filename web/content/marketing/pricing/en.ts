@@ -12,8 +12,13 @@ import type { PricingShape } from "../blocks";
  * below is copy transcribed from the approved design; none of it is invented,
  * and none of it is currently true:
  *
- *   - Deep search, CSV export, PNG export, bulk searches, API access,
- *     MCP server, pay-as-you-go credits — none are built.
+ *   - Deep search is built but switched off (`BATCH_AND_DEEP_ENABLED`).
+ *     CSV and PNG export are gated by the plan's capabilities, set on the
+ *     admin's Subscription features page - every plan must tick them for
+ *     this page to be true.
+ *   - Bulk searches, API access, pay-as-you-go credits and the MCP server
+ *     were removed from the page on 2026-10-17 (operator): not built.
+ *     Since then every plan offers the same features; only credits differ.
  *   - Monthly subscriptions. Nothing charges on a cycle; the Stripe webhook
  *     records a payment and grants no credits yet.
  *   - The 7-day trial. There is no trial state in the schema.
@@ -68,7 +73,9 @@ export const en = {
         "All regions",
         "All languages",
         "PNG image export",
-        "24-hour search history",
+        "Unlimited search history",
+        "Deep search",
+        "CSV data export",
       ],
     },
     {
@@ -86,7 +93,7 @@ export const en = {
         "All regions",
         "All languages",
         "PNG image export",
-        "1-month search history",
+        "Unlimited search history",
         "Deep search",
         "CSV data export",
       ],
@@ -106,13 +113,9 @@ export const en = {
         "All regions",
         "All languages",
         "PNG image export",
-        "1-year search history",
+        "Unlimited search history",
         "Deep search",
         "CSV data export",
-        "Bulk searches",
-        "API access",
-        "Pay-as-you-go credits",
-        "MCP server",
       ],
     },
   ],
@@ -127,13 +130,9 @@ export const en = {
       { label: "All regions", values: [true, true, true] },
       { label: "All languages", values: [true, true, true] },
       { label: "PNG image export", values: [true, true, true] },
-      { label: "Search history", values: ["24 hours", "1 month", "1 year"] },
-      { label: "Deep search", values: [false, true, true] },
-      { label: "CSV data export", values: [false, true, true] },
-      { label: "Bulk searches", values: [false, false, true] },
-      { label: "API access", values: [false, false, true] },
-      { label: "Pay-as-you-go credits", values: [false, false, true] },
-      { label: "MCP server", values: [false, false, true] },
+      { label: "Unlimited search history", values: [true, true, true] },
+      { label: "Deep search", values: [true, true, true] },
+      { label: "CSV data export", values: [true, true, true] },
     ],
   },
 
@@ -154,13 +153,6 @@ export const en = {
           "Yes, at any time. Moving up takes effect immediately; moving " +
           "down takes effect at the end of the cycle you have already paid " +
           "for. Credits you have already bought stay yours.",
-      },
-      {
-        title: "How does the API access work?",
-        desc:
-          "Pro includes API access and an MCP server, so your own tools and " +
-          "assistants can run searches and read results directly rather " +
-          "than through this interface.",
       },
       {
         title: "Do you offer custom enterprise pricing?",

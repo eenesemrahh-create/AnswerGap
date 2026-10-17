@@ -109,6 +109,22 @@ def test_both_seeds_carry_the_same_plans() -> None:
     assert json.loads(eleven) == json.loads(twelve) == SEED_PLANS
 
 
+def test_every_seeded_plan_offers_the_same_features_but_credits() -> None:
+    """Operator, 2026-10-17: only the credits differ between plans."""
+    from answergap.pricing_seed import COMMON_FEATURES
+    for plan in SEED_PLANS:
+        assert plan["features"][1:] == COMMON_FEATURES
+        assert "credits" in plan["features"][0]
+
+
+def test_the_removed_features_are_on_no_card() -> None:
+    gone = ("Bulk", "API", "Pay-as-you-go", "MCP")
+    source = EN.read_text(encoding="utf-8")
+    for word in gone:
+        assert not any(word in f for p in SEED_PLANS for f in p["features"])
+        assert f'"{word}' not in source
+
+
 def test_the_cards_are_seeded_published() -> None:
     """A seed nobody can see looks like a seed that failed."""
     assert all(p["enabled"] for p in SEED_PLANS)

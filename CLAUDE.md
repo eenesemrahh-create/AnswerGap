@@ -1398,7 +1398,15 @@ progress polling, developer panel, five locales.
     reachable from the nav, so either the copy changes or the features do
     before anyone is driven to it. The full list is in the header comment of
     `web/content/marketing/pricing/en.ts`.
-    It also says **"24-hour search history"** on Starter, which contradicts
+    **2026-10-17 (operator): bulk searches, API access, pay-as-you-go and
+    the MCP server are OFF the cards, and every plan lists the same
+    features - only the credits differ** (`pricing_seed.COMMON_FEATURES`;
+    migration 0021 rewrote the stored cards, keeping each credits line).
+    Still not true of the page: deep search is switched off, CSV/PNG export
+    need the capability ticked on EVERY plan in Subscription features, and
+    the FAQ's "moving up takes effect immediately" describes plan switching,
+    which the portal no longer offers.
+    It also said **"24-hour search history"** on Starter, which contradicts
     the standing rule above: *do not restrict search history — AlsoAsked's
     24-hour lock is bad practice.* That is a product decision to take
     deliberately, not one to inherit from a mockup.

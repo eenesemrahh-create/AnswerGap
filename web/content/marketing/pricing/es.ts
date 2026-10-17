@@ -53,7 +53,9 @@ export const es: PricingContent = {
         "Todas las regiones",
         "Todos los idiomas",
         "Exportación de imagen PNG",
-        "Historial de búsquedas de 24 horas",
+        "Historial de búsquedas ilimitado",
+        "Búsqueda profunda",
+        "Exportación de datos en CSV",
       ],
     },
     {
@@ -71,7 +73,7 @@ export const es: PricingContent = {
         "Todas las regiones",
         "Todos los idiomas",
         "Exportación de imagen PNG",
-        "Historial de búsquedas de 1 mes",
+        "Historial de búsquedas ilimitado",
         "Búsqueda profunda",
         "Exportación de datos en CSV",
       ],
@@ -91,13 +93,9 @@ export const es: PricingContent = {
         "Todas las regiones",
         "Todos los idiomas",
         "Exportación de imagen PNG",
-        "Historial de búsquedas de 1 año",
+        "Historial de búsquedas ilimitado",
         "Búsqueda profunda",
         "Exportación de datos en CSV",
-        "Búsquedas por lotes",
-        "Acceso a la API",
-        "Créditos de pago por uso",
-        "Servidor MCP",
       ],
     },
   ],
@@ -112,13 +110,9 @@ export const es: PricingContent = {
       { label: "Todas las regiones", values: [true, true, true] },
       { label: "Todos los idiomas", values: [true, true, true] },
       { label: "Exportación de imagen PNG", values: [true, true, true] },
-      { label: "Historial de búsquedas", values: ["24 horas", "1 mes", "1 año"] },
-      { label: "Búsqueda profunda", values: [false, true, true] },
-      { label: "Exportación de datos en CSV", values: [false, true, true] },
-      { label: "Búsquedas por lotes", values: [false, false, true] },
-      { label: "Acceso a la API", values: [false, false, true] },
-      { label: "Créditos de pago por uso", values: [false, false, true] },
-      { label: "Servidor MCP", values: [false, false, true] },
+      { label: "Historial de búsquedas ilimitado", values: [true, true, true] },
+      { label: "Búsqueda profunda", values: [true, true, true] },
+      { label: "Exportación de datos en CSV", values: [true, true, true] },
     ],
   },
 
@@ -139,13 +133,6 @@ export const es: PricingContent = {
           "Sí, cuando quieras. Subir de plan surte efecto de inmediato; bajar " +
           "surte efecto al final del ciclo que ya has pagado. Los créditos " +
           "que ya hayas comprado siguen siendo tuyos.",
-      },
-      {
-        title: "¿Cómo funciona el acceso a la API?",
-        desc:
-          "Pro incluye acceso a la API y un servidor MCP, así que tus propias " +
-          "herramientas y asistentes pueden lanzar búsquedas y leer los " +
-          "resultados directamente, sin pasar por esta interfaz.",
       },
       {
         title: "¿Ofrecéis precios a medida para empresas?",

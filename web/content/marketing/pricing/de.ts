@@ -49,7 +49,9 @@ export const de: PricingContent = {
         "Alle Regionen",
         "Alle Sprachen",
         "PNG-Bildexport",
-        "24 Stunden Suchverlauf",
+        "Unbegrenzter Suchverlauf",
+        "Tiefe Suche",
+        "CSV-Datenexport",
       ],
     },
     {
@@ -67,7 +69,7 @@ export const de: PricingContent = {
         "Alle Regionen",
         "Alle Sprachen",
         "PNG-Bildexport",
-        "1 Monat Suchverlauf",
+        "Unbegrenzter Suchverlauf",
         "Tiefe Suche",
         "CSV-Datenexport",
       ],
@@ -87,13 +89,9 @@ export const de: PricingContent = {
         "Alle Regionen",
         "Alle Sprachen",
         "PNG-Bildexport",
-        "1 Jahr Suchverlauf",
+        "Unbegrenzter Suchverlauf",
         "Tiefe Suche",
         "CSV-Datenexport",
-        "Massensuchen",
-        "API-Zugang",
-        "Credits nach Verbrauch",
-        "MCP-Server",
       ],
     },
   ],
@@ -108,13 +106,9 @@ export const de: PricingContent = {
       { label: "Alle Regionen", values: [true, true, true] },
       { label: "Alle Sprachen", values: [true, true, true] },
       { label: "PNG-Bildexport", values: [true, true, true] },
-      { label: "Suchverlauf", values: ["24 Stunden", "1 Monat", "1 Jahr"] },
-      { label: "Tiefe Suche", values: [false, true, true] },
-      { label: "CSV-Datenexport", values: [false, true, true] },
-      { label: "Massensuchen", values: [false, false, true] },
-      { label: "API-Zugang", values: [false, false, true] },
-      { label: "Credits nach Verbrauch", values: [false, false, true] },
-      { label: "MCP-Server", values: [false, false, true] },
+      { label: "Unbegrenzter Suchverlauf", values: [true, true, true] },
+      { label: "Tiefe Suche", values: [true, true, true] },
+      { label: "CSV-Datenexport", values: [true, true, true] },
     ],
   },
 
@@ -135,13 +129,6 @@ export const de: PricingContent = {
           "Ja, jederzeit. Ein Wechsel nach oben gilt sofort; ein Wechsel nach " +
           "unten gilt zum Ende des Zeitraums, den Sie bereits bezahlt haben. " +
           "Bereits gekaufte Credits bleiben Ihnen erhalten.",
-      },
-      {
-        title: "Wie funktioniert der API-Zugang?",
-        desc:
-          "Pro enthält API-Zugang und einen MCP-Server, damit Ihre eigenen " +
-          "Werkzeuge und Assistenten Suchen ausführen und Ergebnisse direkt " +
-          "lesen können, statt über diese Oberfläche.",
       },
       {
         title: "Gibt es individuelle Enterprise-Preise?",

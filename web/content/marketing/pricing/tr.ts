@@ -56,7 +56,9 @@ export const tr: PricingContent = {
         "Tüm bölgeler",
         "Tüm diller",
         "PNG görsel dışa aktarma",
-        "24 saatlik arama geçmişi",
+        "Sınırsız arama geçmişi",
+        "Derin arama",
+        "CSV veri dışa aktarma",
       ],
     },
     {
@@ -75,7 +77,7 @@ export const tr: PricingContent = {
         "Tüm bölgeler",
         "Tüm diller",
         "PNG görsel dışa aktarma",
-        "1 aylık arama geçmişi",
+        "Sınırsız arama geçmişi",
         "Derin arama",
         "CSV veri dışa aktarma",
       ],
@@ -96,13 +98,9 @@ export const tr: PricingContent = {
         "Tüm bölgeler",
         "Tüm diller",
         "PNG görsel dışa aktarma",
-        "1 yıllık arama geçmişi",
+        "Sınırsız arama geçmişi",
         "Derin arama",
         "CSV veri dışa aktarma",
-        "Toplu aramalar",
-        "API erişimi",
-        "Kullandıkça öde kredileri",
-        "MCP sunucusu",
       ],
     },
   ],
@@ -117,13 +115,9 @@ export const tr: PricingContent = {
       { label: "Tüm bölgeler", values: [true, true, true] },
       { label: "Tüm diller", values: [true, true, true] },
       { label: "PNG görsel dışa aktarma", values: [true, true, true] },
-      { label: "Arama geçmişi", values: ["24 saat", "1 ay", "1 yıl"] },
-      { label: "Derin arama", values: [false, true, true] },
-      { label: "CSV veri dışa aktarma", values: [false, true, true] },
-      { label: "Toplu aramalar", values: [false, false, true] },
-      { label: "API erişimi", values: [false, false, true] },
-      { label: "Kullandıkça öde kredileri", values: [false, false, true] },
-      { label: "MCP sunucusu", values: [false, false, true] },
+      { label: "Sınırsız arama geçmişi", values: [true, true, true] },
+      { label: "Derin arama", values: [true, true, true] },
+      { label: "CSV veri dışa aktarma", values: [true, true, true] },
     ],
   },
 
@@ -144,13 +138,6 @@ export const tr: PricingContent = {
           "Evet, istediğiniz zaman. Üst plana geçiş hemen yürürlüğe girer; " +
           "alt plana geçiş, bedelini zaten ödediğiniz dönemin sonunda " +
           "yürürlüğe girer. Satın aldığınız krediler sizde kalır.",
-      },
-      {
-        title: "API erişimi nasıl çalışıyor?",
-        desc:
-          "Pro planı API erişimi ve bir MCP sunucusu içerir; böylece kendi " +
-          "araçlarınız ve asistanlarınız aramaları bu arayüz üzerinden " +
-          "değil, doğrudan çalıştırıp sonuçları okuyabilir.",
       },
       {
         title: "Kurumsal özel fiyatlandırma sunuyor musunuz?",

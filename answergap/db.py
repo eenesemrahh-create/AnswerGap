@@ -142,6 +142,7 @@ def connect() -> Iterator[Any]:
 # appear inside JSON produced by `json.dumps`, so the quoting is unambiguous.
 SETTING_PRICING_PLANS_KEY = gate.SETTING_PRICING_PLANS
 _SEED_PRICING_JSON = json.dumps(pricing_seed.SEED_PLANS, ensure_ascii=False)
+_COMMON_FEATURES_JSON = json.dumps(pricing_seed.COMMON_FEATURES)
 
 
 def _count_questions(nodes: list[dict]) -> int:
@@ -1077,6 +1078,54 @@ MIGRATIONS: list[tuple[str, str]] = [
         -- renewing; it is also the one the screens describe first.
         ALTER TABLE app_user ADD COLUMN IF NOT EXISTS default_subscription_id BIGINT
             REFERENCES subscription(id) ON DELETE SET NULL;
+        """,
+    ),
+    (
+        "0021_same_features_on_every_plan",
+        # OPERATOR, 2026-10-17: take bulk searches, API access, pay-as-you-go
+        # credits and the MCP server off the cards (none is built), and every
+        # plan offers the same features - only the credits differ.
+        #
+        # The stored cards are the operator's content, so this keeps each
+        # card's own credits line and replaces only the rest of its bullets
+        # with `pricing_seed.COMMON_FEATURES`. Appended as a NEW setting row,
+        # like every edit, so the previous cards stay in the history. Nothing
+        # is written when there are no cards, and a value that does not parse
+        # is left alone rather than failing the deploy.
+        f"""
+        DO $mig$
+        DECLARE
+            cur text;
+            next_value jsonb;
+        BEGIN
+            SELECT setting_value INTO cur FROM app_setting
+             WHERE setting_key = '{SETTING_PRICING_PLANS_KEY}'
+             ORDER BY created_at DESC, id DESC LIMIT 1;
+            IF cur IS NULL OR btrim(cur) IN ('', '[]') THEN
+                RETURN;
+            END IF;
+            SELECT jsonb_agg(
+                     CASE WHEN jsonb_typeof(card->'features') = 'array' THEN
+                       jsonb_set(card, '{{features}}',
+                         COALESCE((SELECT jsonb_agg(f ORDER BY n)
+                                     FROM jsonb_array_elements(card->'features')
+                                          WITH ORDINALITY e(f, n)
+                                    WHERE (f #>> '{{}}') ~* 'credit'
+                                      AND (f #>> '{{}}') !~* 'pay-as-you-go'),
+                                  '[]'::jsonb)
+                         || $common${_COMMON_FEATURES_JSON}$common$::jsonb)
+                     ELSE card END
+                     ORDER BY i)
+              INTO next_value
+              FROM jsonb_array_elements(cur::jsonb) WITH ORDINALITY c(card, i);
+            IF next_value IS NOT NULL AND next_value <> cur::jsonb THEN
+                INSERT INTO app_setting (setting_key, setting_value, set_by)
+                VALUES ('{SETTING_PRICING_PLANS_KEY}', next_value::text, 'migration 0021');
+            END IF;
+        EXCEPTION WHEN others THEN
+            RAISE NOTICE 'migration 0021 left pricing_plans alone: %', SQLERRM;
+        END
+        $mig$;
         """,
     ),
 ]

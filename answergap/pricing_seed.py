@@ -21,14 +21,28 @@ file and fails when the ids, prices or feature counts stop matching. The
 translations are deliberately NOT checked against it: they carry the same
 plans in four other languages and only the numbers have to agree.
 
-Everything a card says about what the product DOES is taken verbatim from the
-approved design, and most of it is not built yet - deep search, exports, API
-access, the MCP server, subscriptions, the trial. The header comment of
-`web/content/marketing/pricing/en.ts` lists them, and CLAUDE.md item 16 is the
-standing reminder that this page promises them.
+Everything a card says about what the product DOES was taken from the
+approved design; what is still not true of it (deep search is switched off,
+exports are gated by plan capabilities, the trial) is listed in the header
+comment of `web/content/marketing/pricing/en.ts`, and CLAUDE.md item 16 is
+the standing reminder that this page promises them.
 """
 
 from __future__ import annotations
+
+#: What every plan offers besides its credits (operator, 2026-10-17: "the
+#: rest is the same on every plan"). Bulk searches, API access, pay-as-you-go
+#: credits and the MCP server were taken off the cards the same day - none is
+#: built. Migration 0021 rewrites the stored cards to this list.
+COMMON_FEATURES: list[str] = [
+    "Unlimited users",
+    "All regions",
+    "All languages",
+    "PNG image export",
+    "Unlimited search history",
+    "Deep search",
+    "CSV data export",
+]
 
 # `enabled: True` on all three: a seed nobody can see is a seed that looks
 # like it failed. The operator can unpublish any of them in one click.
@@ -54,7 +68,9 @@ SEED_PLANS: list[dict] = [
             "All regions",
             "All languages",
             "PNG image export",
-            "24-hour search history",
+            "Unlimited search history",
+            "Deep search",
+            "CSV data export",
         ],
         "cta": "Start 7-Day Trial",
         "badge": None,
@@ -82,7 +98,7 @@ SEED_PLANS: list[dict] = [
             "All regions",
             "All languages",
             "PNG image export",
-            "1-month search history",
+            "Unlimited search history",
             "Deep search",
             "CSV data export",
         ],
@@ -110,13 +126,9 @@ SEED_PLANS: list[dict] = [
             "All regions",
             "All languages",
             "PNG image export",
-            "1-year search history",
+            "Unlimited search history",
             "Deep search",
             "CSV data export",
-            "Bulk searches",
-            "API access",
-            "Pay-as-you-go credits",
-            "MCP server",
         ],
         "cta": "Go Pro",
         "badge": None,
