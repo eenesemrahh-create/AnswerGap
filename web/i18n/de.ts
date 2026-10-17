@@ -314,6 +314,7 @@ export const de: Messages = {
     deleteRemoves: "Entfernt: dein Name, dein Bild, dein Passwort, deine gespeicherten Einstellungen und die Verbindung zwischen dir und jeder Suche. Deine gespeicherten Analysen gehören dir dann nicht mehr.",
     deleteKeeps: "Behalten: deine E-Mail-Adresse, damit wir dich bei einer Rückkehr wiedererkennen, und deine Zahlungsbelege, die wir steuerlich aufbewahren müssen.",
     deleteRevives: "Meldest du dich mit dieser Adresse erneut an, kommt das Konto zurück und bezahlte Credits sind noch da. Die Suchen nicht.",
+    deleteSubscription: "Dein bezahlter Plan wird sofort gekündigt und nicht erneut abgerechnet. Der Rest des laufenden Zeitraums wird nicht erstattet.",
     deleteConfirmPassword: "Zum Bestätigen dein Passwort eingeben",
     deleteConfirmEmail: "Zum Bestätigen {email} eingeben",
     deleteSubmit: "Mein Konto löschen",
@@ -527,6 +528,7 @@ export const de: Messages = {
     noCustomer:
       "Es gibt noch nichts zu verwalten — für dieses Konto wurde nie abgerechnet.",
     paymentsOff: "Zahlungen sind noch nicht freigeschaltet.",
+    subscriptionCancelFailed: "Wir konnten dein Abonnement nicht kündigen, daher wurde dein Konto nicht gelöscht. Versuche es in ein paar Minuten erneut oder schreib dem Support.",
     signedOut: "Sie sind abgemeldet. Melden Sie sich an, um fortzufahren.",
     noCredits:
       "Kein Guthaben mehr. Eine Suche kostet ein Credit; Ergebnisse aus dem " +

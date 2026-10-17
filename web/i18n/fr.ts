@@ -318,6 +318,7 @@ export const fr: Messages = {
     deleteRemoves: "Supprimé : votre nom, votre photo, votre mot de passe, vos préférences et le lien entre vous et chacune de vos recherches. Vos analyses enregistrées cessent d'être les vôtres.",
     deleteKeeps: "Conservé : votre adresse e-mail, pour vous reconnaître si vous revenez, et vos justificatifs de paiement, que la fiscalité nous impose de garder.",
     deleteRevives: "Si vous vous réinscrivez avec cette adresse, le compte revient et les crédits payés sont toujours là. Les recherches, non.",
+    deleteSubscription: "Votre forfait payant est résilié immédiatement et ne vous sera plus facturé. Le reste de la période en cours n'est pas remboursé.",
     deleteConfirmPassword: "Saisissez votre mot de passe pour confirmer",
     deleteConfirmEmail: "Saisissez {email} pour confirmer",
     deleteSubmit: "Supprimer mon compte",
@@ -532,6 +533,7 @@ export const fr: Messages = {
     roundInFlight: "Les résultats du tour précédent arrivent encore. Réessayez une fois qu'ils sont là.",
     noCustomer: "Il n'y a rien à gérer pour l'instant : ce compte n'a jamais été facturé.",
     paymentsOff: "Les paiements ne sont pas encore activés.",
+    subscriptionCancelFailed: "Nous n'avons pas pu résilier votre abonnement, votre compte n'a donc pas été supprimé. Réessayez dans quelques minutes ou écrivez au support.",
     signedOut: "Vous êtes déconnecté. Connectez-vous pour continuer.",
     noCredits:
       "Plus de crédits. Une recherche coûte un crédit ; les résultats en " +

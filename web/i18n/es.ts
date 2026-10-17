@@ -315,6 +315,7 @@ export const es: Messages = {
     deleteRemoves: "Se elimina: tu nombre, tu foto, tu contraseña, tus preferencias guardadas y el vínculo entre tú y cada búsqueda que has hecho. Tus análisis guardados dejan de ser tuyos.",
     deleteKeeps: "Se conserva: tu dirección de correo, para reconocerte si vuelves, y tus registros de pago, que las normas fiscales nos obligan a guardar.",
     deleteRevives: "Si vuelves a registrarte con esta dirección, la cuenta regresa y los créditos que pagaste siguen ahí. Las búsquedas no.",
+    deleteSubscription: "Tu plan de pago se cancela de inmediato y no se te volverá a cobrar. El resto del periodo actual no se reembolsa.",
     deleteConfirmPassword: "Escribe tu contraseña para confirmar",
     deleteConfirmEmail: "Escribe {email} para confirmar",
     deleteSubmit: "Eliminar mi cuenta",
@@ -528,6 +529,7 @@ export const es: Messages = {
     roundInFlight: "Los resultados de la ronda anterior aún están llegando. Inténtalo cuando terminen.",
     noCustomer: "Aún no hay nada que gestionar: a esta cuenta nunca se le ha facturado.",
     paymentsOff: "Los pagos todavía no están activados.",
+    subscriptionCancelFailed: "No pudimos cancelar tu suscripción, así que tu cuenta no se eliminó. Inténtalo de nuevo en unos minutos o escribe a soporte.",
     signedOut: "Has cerrado sesión. Inicia sesión para continuar.",
     noCredits:
       "No te quedan créditos. Una búsqueda cuesta un crédito; los resultados " +

@@ -84,6 +84,7 @@ export function EraseAccount({
             <b>{t("erase.warnTitle")}</b> {t("erase.warnBody", { email })}
           </p>
           <p>{t("erase.warnKeeps")}</p>
+          <p>{t("erase.warnStripe")}</p>
           <p>{t("erase.warnPayments")}</p>
           <label className="row" style={{ marginTop: 8 }}>
             <input

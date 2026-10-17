@@ -363,6 +363,7 @@ export const en = {
     deleteRemoves: "Removed: your name, your picture, your password, your saved preferences, and the link between you and every search you have run. Your saved analyses stop being yours.",
     deleteKeeps: "Kept: your email address, so we can recognise you if you return, and your payment records, which tax rules require us to retain.",
     deleteRevives: "If you sign up again with this address, the account comes back and any credits you paid for are still there. The searches are not.",
+    deleteSubscription: "Your paid plan is cancelled immediately and you will not be charged again. The rest of the current period is not refunded.",
     deleteConfirmPassword: "Enter your password to confirm",
     deleteConfirmEmail: "Type {email} to confirm",
     deleteSubmit: "Delete my account",
@@ -599,6 +600,7 @@ export const en = {
     roundInFlight: "The previous round's results are still arriving. Try again once they are in.",
     noCustomer: "There is nothing to manage yet — this account has never been billed.",
     paymentsOff: "Payments are not switched on yet.",
+    subscriptionCancelFailed: "We could not cancel your subscription, so your account was not deleted. Try again in a few minutes, or write to support.",
     // One key per ErrorKind, in all five locales. Errors render as
     // t(`error.${kind}`) and a missing key would print its own name to a
     // customer at the worst possible moment.

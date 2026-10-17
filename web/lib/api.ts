@@ -69,6 +69,7 @@ export type ErrorKind =
   | "noSuchPlan"
   | "noCustomer"
   | "paymentsOff"
+  | "subscriptionCancelFailed"
   // --- analysis rounds -------------------------------------------------
   | "roundLimit"
   | "roundInFlight"
@@ -139,6 +140,9 @@ const CODES: Record<string, ErrorKind> = {
   noSuchPlan: "noSuchPlan",
   noCustomer: "noCustomer",
   noKey: "paymentsOff",
+  // Erasure ends a paid plan at Stripe first and refuses to erase when Stripe
+  // will not confirm - an erased account must never keep being charged.
+  subscriptionCancelFailed: "subscriptionCancelFailed",
   // A tree is analysed in at most two rounds; the second refusal is a click
   // that arrived while the previous round's results were still coming in.
   roundLimit: "roundLimit",

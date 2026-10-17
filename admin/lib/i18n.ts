@@ -295,6 +295,9 @@ const en = {
       "The address and the payment amounts are kept deliberately. If this " +
       "person signs up again with the same address, the account revives and " +
       "any credit balance they paid for comes back.",
+    warnStripe:
+      "Any paid subscription is cancelled at Stripe first, immediately and " +
+      "without a refund. If Stripe will not confirm it, nothing is erased.",
     warnPayments:
       "Payments are matched by email address only — there is no other link — " +
       "so a checkout completed under a different address will not be redacted. " +
@@ -308,7 +311,9 @@ const en = {
       "Erased. {crawls} searches unlinked, {events} usage rows unattributed, " +
       "{payments} payment payloads redacted, {creds} live credentials deleted.",
     alreadyDone: "Already erased — nothing was written.",
-    failed: "The API refused. Check the api service log.",
+    failed:
+      "The API refused and nothing was erased. If the person has a paid plan, " +
+      "Stripe may not have confirmed its cancellation. Check the api service log.",
   },
 
   reports: {
@@ -1061,6 +1066,9 @@ const tr: Messages = {
       "Adres ve ödeme tutarları bilinçli olarak saklanır. Bu kişi aynı adresle " +
       "tekrar kaydolursa hesap canlanır ve ödemesini yaptığı kredi bakiyesi " +
       "geri gelir.",
+    warnStripe:
+      "Ücretli bir abonelik varsa önce Stripe'ta hemen ve iade yapılmadan " +
+      "iptal edilir. Stripe bunu onaylamazsa hiçbir şey silinmez.",
     warnPayments:
       "Ödemeler yalnızca e-posta adresiyle eşleştirilir — başka bir bağ yok — " +
       "yani farklı bir adresle tamamlanmış bir ödeme redakte edilmez. " +
@@ -1076,7 +1084,9 @@ const tr: Messages = {
       "sahipsizleştirildi, {payments} ödeme içeriği redakte edildi, {creds} " +
       "canlı kimlik bilgisi silindi.",
     alreadyDone: "Zaten silinmiş — hiçbir şey yazılmadı.",
-    failed: "API reddetti. api servisinin günlüğüne bakın.",
+    failed:
+      "API reddetti ve hiçbir şey silinmedi. Kişinin ücretli bir planı varsa " +
+      "Stripe iptali onaylamamış olabilir. api servisinin günlüğüne bakın.",
   },
 
   reports: {

@@ -209,6 +209,61 @@ def apply_subscription_event(event: dict) -> str | None:
         return "ERROR"
 
 
+# Statuses in which Stripe will never charge the card again. Everything else -
+# `active`, `trialing`, `past_due`, `unpaid`, `incomplete`, `paused` - can still
+# turn into a charge, so erasure cancels it.
+FINISHED_STATUSES = ("canceled", "incomplete_expired")
+
+
+class ErasureCancelFailed(Exception):
+    """Stripe would not confirm a cancellation, so the erasure must not run."""
+
+
+def cancel_for_erasure(user_id: int, *, actor: str) -> list[str]:
+    """End every paid subscription AT STRIPE before an account is erased.
+
+    Without this an erased customer kept being charged every month: the
+    erasure blanked the account, the subscription stayed live at Stripe, and
+    each renewal granted credits to a row nobody could sign in to.
+
+    Cancelled NOW, not at period end. A subscription left running to the end
+    of its period would outlive the account it belongs to, and the person has
+    just asked for that account to go. No refund is issued here; the delete
+    screen says so before they confirm.
+
+    ALL OR NOTHING, in Stripe's favour of caution: if any cancellation fails
+    this raises and the caller does not erase. An erased account still being
+    charged is the bug being fixed; a refusal the person can retry is not.
+    A subscription Stripe no longer knows (404) is already not charging, so it
+    counts as done. Assigned plans never went near Stripe and are left to the
+    erasure itself.
+    """
+    rows = db.subscriptions_for_user(int(user_id), limit=100)
+    paid = [
+        r for r in rows
+        if r.get("source", "stripe") == "stripe"
+        and r.get("stripe_subscription_id")
+        and r.get("status") not in FINISHED_STATUSES
+    ]
+    if paid and stripe.mode() == "missing":
+        raise ErasureCancelFailed("noKey")
+    cancelled: list[str] = []
+    for row in paid:
+        sub_id = row["stripe_subscription_id"]
+        try:
+            stripe.cancel_subscription(sub_id, at_period_end=False)
+        except stripe.StripeError as exc:
+            if exc.status != 404:
+                print(f"[stripe] erasure cancel {sub_id}: {exc}", flush=True)
+                raise ErasureCancelFailed(exc.code) from exc
+        db.subscription_mark_cancelled(
+            subscription_id=int(row["id"]), user_id=int(user_id),
+            at_period_end=False, actor=actor, stripe_subscription_id=sub_id,
+        )
+        cancelled.append(sub_id)
+    return cancelled
+
+
 def describe_failure(event: dict) -> str | None:
     """What went wrong, in Stripe's own codes, for a payment that did not
     happen. Written as the event's effect so the account log can say "card

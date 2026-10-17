@@ -40,7 +40,8 @@ from answergap import db, entitlements, gate, mailer, oauth, passwords, tokens
 
 # `stripe` imports nothing but the standard library, so a sibling importing it
 # cannot cycle - the same check made before `db` was allowed to import `gate`.
-from . import stripe
+# `billing` imports only `stripe` and `answergap`, never this module.
+from . import billing, stripe
 
 router = APIRouter()
 
@@ -1472,6 +1473,14 @@ def erase_account(request: Request, payload: EraseRequest) -> JSONResponse:
         proven = gate.normalize_email(payload.confirm) == email
     if not proven:
         raise HTTPException(403, {"code": "badCredentials"})
+
+    # BEFORE the erasure: a paid plan left running at Stripe keeps charging
+    # the card of an account that no longer exists. If Stripe will not confirm
+    # the cancellation, nothing is erased and the person can try again.
+    try:
+        billing.cancel_for_erasure(int(who.user_id), actor=email)
+    except billing.ErasureCancelFailed as exc:
+        raise HTTPException(502, {"code": "subscriptionCancelFailed"}) from exc
 
     result = db.user_erase(
         user_id=int(who.user_id),

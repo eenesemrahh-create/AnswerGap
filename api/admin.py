@@ -732,6 +732,12 @@ def erase_user(request: Request, user_id: int, payload: EraseRequest) -> dict:
     who = require_admin(request)
     if not db.admin_user_detail(user_id):
         raise HTTPException(404, {"code": "notFound"})
+    # Same rule as the self-service route: end the paid plan at Stripe first,
+    # or the erased person keeps being charged.
+    try:
+        billing.cancel_for_erasure(user_id, actor=who.email or "")
+    except billing.ErasureCancelFailed as exc:
+        raise HTTPException(502, {"code": "subscriptionCancelFailed"}) from exc
     result = db.user_erase(
         user_id=user_id, actor=who.email or "", reason=payload.reason
     )

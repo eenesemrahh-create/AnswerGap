@@ -311,6 +311,7 @@ export const tr: Messages = {
     deleteRemoves: "Silinenler: adın, fotoğrafın, parolan, kayıtlı tercihlerin ve seninle yaptığın her arama arasındaki bağ. Kayıtlı analizlerin artık senin olmaktan çıkar.",
     deleteKeeps: "Saklananlar: geri dönersen seni tanıyabilmemiz için e-posta adresin, ve vergi kurallarının saklamamızı gerektirdiği ödeme kayıtların.",
     deleteRevives: "Bu adresle tekrar kaydolursan hesap geri gelir ve ödemesini yaptığın krediler yerinde durur. Aramalar geri gelmez.",
+    deleteSubscription: "Ücretli planın hemen iptal edilir ve kartından bir daha ücret alınmaz. İçinde bulunduğun dönemin kalanı iade edilmez.",
     deleteConfirmPassword: "Onaylamak için parolanı gir",
     deleteConfirmEmail: "Onaylamak için {email} yaz",
     deleteSubmit: "Hesabımı sil",
@@ -520,6 +521,7 @@ export const tr: Messages = {
     roundInFlight: "Önceki turun sonuçları hâlâ geliyor. Tamamlanınca tekrar deneyin.",
     noCustomer: "Yönetilecek bir şey yok — bu hesaba hiç fatura kesilmemiş.",
     paymentsOff: "Ödemeler henüz açık değil.",
+    subscriptionCancelFailed: "Aboneliğini iptal edemedik, bu yüzden hesabın silinmedi. Birkaç dakika sonra tekrar dene ya da destek ekibine yaz.",
     signedOut: "Çıkış yapılmış durumdasınız. Devam etmek için giriş yapın.",
     noCredits:
       "Krediniz kalmadı. Bir arama bir kredi harcar; önbellekten gelen " +

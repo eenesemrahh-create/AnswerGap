@@ -68,6 +68,13 @@ export function DeleteAccount({ me }: { me: Me }) {
           given up is what the decision is actually about. */}
       <p className="account-muted">{t("auth.deleteRemoves")}</p>
       <p className="account-muted">{t("auth.deleteKeeps")}</p>
+      {/* Only for a plan somebody pays for: erasure cancels it at Stripe,
+          and the person must know that before, not after. */}
+      {me.subscription?.active && me.subscription.source === "stripe" ? (
+        <p className="account-muted">
+          <b>{t("auth.deleteSubscription")}</b>
+        </p>
+      ) : null}
       <p className="account-fine">{t("auth.deleteRevives")}</p>
 
       <label className="auth-field">
