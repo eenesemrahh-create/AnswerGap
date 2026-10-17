@@ -3883,7 +3883,18 @@ def admin_user_detail(user_id: int) -> dict | None:
         if not row:
             return None
         # A sum, so Decimal, so a string in JSON - see `admin_users`.
-        return _as_floats([dict(row)])[0]
+        out = _as_floats([dict(row)])[0]
+        # Which plan the credits went out of. A second, cheap query on the
+        # same connection: the replay is Python, so it cannot ride the
+        # json_agg above.
+        now = _db_now(cur)
+        usage = credits_mod.usage_by_plan(
+            credits_mod.replay(_ledger_rows(cur, user_id), now), now
+        )
+        for s in out.get("subscriptions") or []:
+            s["credit_usage"] = usage["plans"].get(s.get("id"))
+        out["other_credit_usage"] = usage["other"]
+        return out
 
 
 # --------------------------------------------------------------- reporting

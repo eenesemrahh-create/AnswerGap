@@ -181,3 +181,75 @@ def test_after_every_burn_the_plain_sum_is_the_pockets() -> None:
         now = day(t + rnd.random() * 40)
         led.burn(now)
         assert led.total() == credits.replay(led.rows, now).balance()
+
+
+# ---------------------------------------------- per-plan analysis (admin)
+
+
+def test_usage_by_plan_says_which_plan_each_spend_came_from() -> None:
+    led = Ledger()
+    led.add(day(0), 10, "signup")
+    led.plan(day(0), 100, sub=1, ends=day(10))
+    led.plan(day(0), 300, sub=2, ends=day(30))
+    led.add(day(1), -40)
+    led.add(day(2), -80)          # 60 empties plan 1, 20 comes out of plan 2
+    out = credits.usage_by_plan(credits.replay(led.rows, day(3)), day(3))
+    one, two = out["plans"][1]["period"], out["plans"][2]["period"]
+    assert (one["spent"], one["remaining"]) == (100, 0)
+    assert (two["spent"], two["remaining"]) == (20, 280)
+    assert (out["other"]["spent"], out["other"]["remaining"]) == (0, 10)
+
+
+def test_usage_by_plan_shows_the_latest_period_and_the_total() -> None:
+    led = Ledger()
+    led.plan(day(0), 100, sub=1, ends=day(30))
+    led.add(day(5), -30)
+    led.plan(day(30), 100, sub=1, ends=day(60))
+    led.burn(day(30))
+    led.add(day(31), -5)
+    out = credits.usage_by_plan(credits.replay(led.rows, day(32)), day(32))["plans"][1]
+    assert out["period"]["spent"] == 5 and out["period"]["live"] is True
+    assert out["total_spent"] == 35 and out["periods"] == 2
+
+
+def test_usage_by_plan_separates_burned_clawed_and_removed() -> None:
+    led = Ledger()
+    led.plan(day(0), 100, sub=1, ends=day(10))
+    led.add(day(1), -10)
+    led.add(day(2), -5, credits.REVOKE)
+    led.add(day(3), -20, credits.CLAWBACK, ref="subscription:1")
+    rep = credits.replay(led.rows, day(11))
+    p = credits.usage_by_plan(rep, day(11))["plans"][1]["period"]
+    assert (p["spent"], p["removed"], p["clawed"], p["burned"], p["remaining"]) \
+        == (10, 5, 20, 65, 0)
+    assert p["live"] is False
+
+
+def test_every_pocket_accounts_for_all_it_was_granted() -> None:
+    """granted = remaining + spent + removed + clawed + burned + repaid, on
+    random ledgers - so the admin's columns always add up."""
+    rnd = random.Random(11)
+    for _ in range(300):
+        led = Ledger()
+        t = 0.0
+        for _ in range(rnd.randint(1, 25)):
+            t += rnd.random() * 6
+            kind = rnd.random()
+            if kind < 0.2:
+                led.plan(day(t), rnd.choice([50, 300]), sub=rnd.randint(1, 3),
+                         ends=day(t + rnd.choice([5, 15, 30])))
+            elif kind < 0.3:
+                led.add(day(t), rnd.randint(1, 30), "admin_grant")
+            elif kind < 0.35:
+                led.add(day(t), -rnd.randint(1, 60), credits.CLAWBACK,
+                        ref=f"subscription:{rnd.randint(1, 3)}")
+            elif kind < 0.4:
+                led.add(day(t), -rnd.randint(1, 20), credits.REVOKE)
+            elif kind < 0.5:
+                led.burn(day(t))
+            else:
+                led.add(day(t), -rnd.randint(1, 3))
+        now = day(t + rnd.random() * 40)
+        for p in credits.replay(led.rows, now).pockets:
+            assert p.granted == (p.remaining + p.spent + p.removed + p.clawed
+                                 + p.burned + p.repaid)

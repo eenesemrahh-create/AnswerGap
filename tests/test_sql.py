@@ -1391,6 +1391,21 @@ def test_the_meter_reads_the_current_pocket() -> None:
     assert (found["granted"], found["used"]) == (300, 30)
 
 
+def test_the_admin_page_says_which_plan_the_credits_came_from() -> None:
+    user = _subscriber()
+    _paid(user["id"], sid="sub_a")
+    _paid(user["id"], sid="sub_b")
+    a, b = _stripe_row(user["id"], "sub_a"), _stripe_row(user["id"], "sub_b")
+    _grant(user["id"], a, "in_a", 100, "5 days")
+    _grant(user["id"], b, "in_b", 300, "20 days")
+    _spend_credits(user["id"], 130)                  # 100 from a, 30 from b
+    detail = db.admin_user_detail(user["id"])
+    usage = {s["id"]: s["credit_usage"] for s in detail["subscriptions"]}
+    assert (usage[a]["period"]["spent"], usage[a]["period"]["remaining"]) == (100, 0)
+    assert (usage[b]["period"]["spent"], usage[b]["period"]["remaining"]) == (30, 270)
+    assert detail["other_credit_usage"]["spent"] == 0
+
+
 def test_only_an_admin_cancellation_marks_a_clawback() -> None:
     user = _subscriber()
     _paid(user["id"], sid="sub_admin")

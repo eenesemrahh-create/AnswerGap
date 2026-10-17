@@ -107,6 +107,32 @@ export interface SubscriptionRow {
    * the moment a plan lapses is exactly when somebody is looking at it.
    */
   live: boolean;
+  /** Where this plan's credits went, replayed from the ledger. Null for a
+   *  plan that never granted a pocket (rows from before 0020, or none yet). */
+  credit_usage?: PlanCreditUsage | null;
+}
+
+/** granted = remaining + spent + removed + clawed + burned + repaid. */
+export interface CreditCounts {
+  granted: number;
+  spent: number;
+  /** An admin's manual revoke. */
+  removed: number;
+  /** Taken back when an admin ended the plan. */
+  clawed: number;
+  /** Left unused when the period ended. */
+  burned: number;
+  /** Used at grant time to clear a negative balance. */
+  repaid: number;
+  remaining: number;
+}
+
+export interface PlanCreditUsage {
+  /** The latest period: this one while the plan is live. */
+  period: CreditCounts & { expires_at: string | null; live: boolean };
+  /** Spent from this plan over every period it had. */
+  total_spent: number;
+  periods: number;
 }
 
 /**
@@ -191,6 +217,8 @@ export interface UserDetail extends UserRow {
    *  on this page is "why does this person have what they have", and a trial
    *  assigned in March is half the answer to a complaint made in June. */
   subscriptions: SubscriptionRow[];
+  /** Credits that came from no plan (signup, manual grants, pre-0020). */
+  other_credit_usage?: CreditCounts;
   /** Stripe events attributed to this account, newest first, with what each
    *  did - the answer to "I paid and got nothing". */
   payments: UserPayment[];

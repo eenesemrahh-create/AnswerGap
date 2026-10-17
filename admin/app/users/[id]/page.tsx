@@ -162,6 +162,7 @@ export default async function UserPage({
       <PlanPanel
         userId={userId}
         subscriptions={u.subscriptions ?? []}
+        otherCredits={u.other_credit_usage ?? null}
         plans={pricing.plans}
         locale={locale}
       />

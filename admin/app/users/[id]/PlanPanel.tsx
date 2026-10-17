@@ -1,7 +1,7 @@
 import { when } from "@/lib/api";
 import type { Locale } from "@/lib/i18n";
 import { makeT } from "@/lib/i18n";
-import type { Plan, SubscriptionRow } from "@/lib/types";
+import type { CreditCounts, Plan, SubscriptionRow } from "@/lib/types";
 import { assignPlan, revokePlan } from "../actions";
 import { CancelSubscription } from "./CancelSubscription";
 
@@ -28,11 +28,13 @@ import { CancelSubscription } from "./CancelSubscription";
 export function PlanPanel({
   userId,
   subscriptions,
+  otherCredits,
   plans,
   locale,
 }: {
   userId: number;
   subscriptions: SubscriptionRow[];
+  otherCredits: CreditCounts | null;
   plans: Plan[];
   locale: Locale;
 }) {
@@ -48,6 +50,16 @@ export function PlanPanel({
 
   const planName = (id: string | null) =>
     plans.find((p) => p.id === id)?.name ?? id ?? t("common.none");
+
+  // Spending order: the period that ends first is spent first.
+  const livePlans = subscriptions
+    .filter((s) => s.live && s.credit_usage?.period.live)
+    .sort((a, b) =>
+      (a.credit_usage!.period.expires_at ?? "").localeCompare(
+        b.credit_usage!.period.expires_at ?? "",
+      ),
+    );
+  const hasOther = !!otherCredits && otherCredits.granted > 0;
 
   return (
     <>
@@ -132,6 +144,8 @@ export function PlanPanel({
               <th>{t("plan.source")}</th>
               <th>{t("plan.status")}</th>
               <th className="num">{t("common.credits")}</th>
+              <th className="num">{t("plan.spentPeriod")}</th>
+              <th className="num">{t("plan.spentTotal")}</th>
               <th>{t("plan.periodEnd")}</th>
               <th>{t("plan.grantedBy")}</th>
               <th>{t("userDetail.note")}</th>
@@ -164,6 +178,30 @@ export function PlanPanel({
                   )}
                 </td>
                 <td className="num">{s.credits_per_period}</td>
+                <td className="num">
+                  {s.credit_usage ? (
+                    <>
+                      {s.credit_usage.period.spent} / {s.credit_usage.period.granted}
+                      <br />
+                      <small className="soft">{leftover(s.credit_usage.period, t)}</small>
+                    </>
+                  ) : (
+                    "—"
+                  )}
+                </td>
+                <td className="num">
+                  {s.credit_usage ? (
+                    <>
+                      {s.credit_usage.total_spent}
+                      <br />
+                      <small className="soft">
+                        {t("plan.periods", { n: s.credit_usage.periods })}
+                      </small>
+                    </>
+                  ) : (
+                    "—"
+                  )}
+                </td>
                 <td>{when(s.current_period_end)}</td>
                 <td>{s.granted_by ?? "—"}</td>
                 <td>{s.note ?? "—"}</td>
@@ -196,8 +234,77 @@ export function PlanPanel({
         {subscriptions.length === 0 && <p className="empty">{t("plan.noPlans")}</p>}
       </div>
       <p className="sub">{t("plan.creditsKept")}</p>
+
+      {/* "Which plan did this person spend from?" - the live plans in the
+          order they are spent, then the credits from no plan. */}
+      {(livePlans.length > 0 || hasOther) && (
+        <>
+          <h3>{t("plan.usageHeading")}</h3>
+          <p className="sub">{t("plan.usageNote")}</p>
+          <div className="tablewrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>{t("plan.plan")}</th>
+                  <th className="num">{t("plan.granted")}</th>
+                  <th className="num">{t("plan.spent")}</th>
+                  <th className="num">{t("plan.remaining")}</th>
+                  <th>{t("plan.burnsOn")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {livePlans.map((s) => {
+                  const p = s.credit_usage!.period;
+                  return (
+                    <tr key={s.id}>
+                      <td>{planName(s.plan_id)}</td>
+                      <td className="num">{p.granted}</td>
+                      <td className="num">
+                        <b>{p.spent}</b>
+                        {p.removed + p.clawed + p.repaid > 0 && (
+                          <>
+                            <br />
+                            <small className="soft">{leftover({ ...p, burned: 0, remaining: 0 }, t)}</small>
+                          </>
+                        )}
+                      </td>
+                      <td className="num">{p.remaining}</td>
+                      <td>{when(p.expires_at)}</td>
+                    </tr>
+                  );
+                })}
+                {hasOther && otherCredits && (
+                  <tr>
+                    <td>{t("plan.otherCredits")}</td>
+                    <td className="num">{otherCredits.granted}</td>
+                    <td className="num">
+                      <b>{otherCredits.spent}</b>
+                    </td>
+                    <td className="num">{otherCredits.remaining}</td>
+                    <td>{t("plan.neverBurns")}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
     </>
   );
+}
+
+/** The small line under "spent / granted": where the rest of it went. */
+function leftover(
+  p: { remaining: number; burned: number; clawed: number; removed: number; repaid: number },
+  t: ReturnType<typeof makeT>,
+): string {
+  const parts: string[] = [];
+  if (p.remaining > 0) parts.push(t("plan.leftRemaining", { n: p.remaining }));
+  if (p.burned > 0) parts.push(t("plan.leftBurned", { n: p.burned }));
+  if (p.clawed > 0) parts.push(t("plan.leftClawed", { n: p.clawed }));
+  if (p.removed > 0) parts.push(t("plan.leftRemoved", { n: p.removed }));
+  if (p.repaid > 0) parts.push(t("plan.leftRepaid", { n: p.repaid }));
+  return parts.join(" · ");
 }
 
 /**

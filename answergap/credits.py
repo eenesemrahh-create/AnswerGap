@@ -32,6 +32,7 @@ from datetime import datetime
 
 EXPIRED = "plan_expired"
 CLAWBACK = "subscription_clawback"
+REVOKE = "admin_revoke"
 
 
 @dataclass
@@ -47,6 +48,13 @@ class Pocket:
     settled: bool = False           # a `plan_expired` row exists for it
     expired: bool = False           # its period has ended (replayed)
     repaid: int = 0                 # taken at grant time to clear earlier debt
+    # Where the rest went, for the admin's per-plan analysis. `spent` is
+    # searches and analyses; `removed` an admin's manual revoke; `clawed` an
+    # admin ending the plan. granted = remaining + spent + removed + clawed
+    # + burned + repaid.
+    spent: int = 0
+    removed: int = 0
+    clawed: int = 0
 
     @property
     def is_plan(self) -> bool:
@@ -98,7 +106,8 @@ def replay(rows: list[dict], now: datetime) -> Replay:
                 p.burned = p.remaining
                 p.remaining = 0
 
-    def take(amount: int, at: datetime, only_subscription: int | None = None) -> int:
+    def take(amount: int, at: datetime, only_subscription: int | None = None,
+             kind: str = "spent") -> int:
         """Take up to `amount` from live pockets in spending order."""
         left = amount
         for p in sorted(out.pockets, key=_order):
@@ -110,6 +119,7 @@ def replay(rows: list[dict], now: datetime) -> Replay:
                 continue
             got = min(p.remaining, left)
             p.remaining -= got
+            setattr(p, kind, getattr(p, kind) + got)
             left -= got
         return left
 
@@ -147,11 +157,15 @@ def replay(rows: list[dict], now: datetime) -> Replay:
 
         if delta < 0:
             amount = -delta
+            kind = "spent"
             if reason == CLAWBACK:
+                kind = "clawed"
                 ref = row.get("ref") or ""
                 sid = int(ref.split(":", 1)[1]) if ref.startswith("subscription:") else None
-                amount = take(amount, at, only_subscription=sid) if sid else amount
-            out.debt += take(amount, at)
+                amount = take(amount, at, only_subscription=sid, kind=kind) if sid else amount
+            elif reason == REVOKE:
+                kind = "removed"
+            out.debt += take(amount, at, kind=kind)
 
     expire_until(now)
     return out
@@ -161,6 +175,43 @@ def remaining_for(rep: Replay, subscription_id: int, now: datetime) -> int:
     """What is still spendable in one plan's live pockets."""
     return sum(p.remaining for p in rep.pockets
                if p.subscription_id == subscription_id and p.live(now))
+
+
+def _counts(pockets: list[Pocket]) -> dict:
+    return {
+        "granted": sum(p.granted for p in pockets),
+        "spent": sum(p.spent for p in pockets),
+        "removed": sum(p.removed for p in pockets),
+        "clawed": sum(p.clawed for p in pockets),
+        "burned": sum(p.burned for p in pockets),
+        "repaid": sum(p.repaid for p in pockets),
+        "remaining": sum(p.remaining for p in pockets),
+    }
+
+
+def usage_by_plan(rep: Replay, now: datetime) -> dict:
+    """Per subscription: what its LATEST period granted and where it went,
+    plus what was spent from it over all its periods. And the same for the
+    credits that came from no plan.
+
+    For the operator's "which plan did this person spend from" question.
+    The latest pocket is this period's while the plan is live, and the last
+    one it ever had once it is over.
+    """
+    plans: dict[int, dict] = {}
+    for sid in {p.subscription_id for p in rep.pockets if p.is_plan}:
+        mine = sorted((p for p in rep.pockets if p.subscription_id == sid and p.is_plan),
+                      key=lambda p: (p.created_at, p.id))
+        last = mine[-1]
+        plans[sid] = {
+            "period": {**_counts([last]),
+                       "expires_at": last.expires_at.isoformat() if last.expires_at else None,
+                       "live": last.live(now)},
+            "total_spent": sum(p.spent for p in mine),
+            "periods": len(mine),
+        }
+    other = [p for p in rep.pockets if not p.is_plan]
+    return {"plans": plans, "other": _counts(other), "debt": rep.debt}
 
 
 def summary(rep: Replay, now: datetime) -> list[dict]:

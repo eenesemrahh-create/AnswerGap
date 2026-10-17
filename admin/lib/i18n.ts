@@ -273,6 +273,25 @@ const en = {
     creditsKept:
       "Ending a plan removes the unused part of this period's plan credits. " +
       "Credits already spent, and credits from anywhere else, stay.",
+    spentPeriod: "Spent this period",
+    spentTotal: "Spent in total",
+    periods: "{n} periods",
+    leftRemaining: "{n} left",
+    leftBurned: "{n} burned",
+    leftClawed: "{n} taken back",
+    leftRemoved: "{n} removed by hand",
+    leftRepaid: "{n} cleared a negative balance",
+    usageHeading: "This period's credits",
+    usageNote:
+      "Live plans in spending order: the one whose period ends first is spent " +
+      "first. Credits from no plan (signup, manual grants, older credits) go " +
+      "last and never burn.",
+    granted: "Granted",
+    spent: "Spent",
+    remaining: "Left",
+    burnsOn: "Rest burns on",
+    otherCredits: "Credits from no plan",
+    neverBurns: "never",
   },
 
   erase: {
@@ -1058,6 +1077,24 @@ const tr: Messages = {
     creditsKept:
       "Planı sonlandırmak bu dönemin kullanılmamış plan kredilerini siler. " +
       "Harcanmış krediler ve başka yerden gelen krediler kalır.",
+    spentPeriod: "Bu dönem harcanan",
+    spentTotal: "Toplam harcanan",
+    periods: "{n} dönem",
+    leftRemaining: "{n} kaldı",
+    leftBurned: "{n} yandı",
+    leftClawed: "{n} geri alındı",
+    leftRemoved: "{n} elle düşüldü",
+    leftRepaid: "{n} eksi bakiyeyi kapattı",
+    usageHeading: "Bu dönem kredi dağılımı",
+    usageNote:
+      "Aktif planlar harcanma sırasıyla: önce dönemi en erken biten. Plan dışı " +
+      "krediler (hoş geldin, elle verilen, eski krediler) en son harcanır ve yanmaz.",
+    granted: "Verilen",
+    spent: "Harcanan",
+    remaining: "Kalan",
+    burnsOn: "Kalanı yanar",
+    otherCredits: "Plan dışı krediler",
+    neverBurns: "yanmaz",
   },
 
   erase: {
