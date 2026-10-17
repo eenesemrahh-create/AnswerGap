@@ -217,6 +217,18 @@ def apply_subscription_event(event: dict) -> str | None:
         if kind != "invoice.paid":
             return f"status {found.get('status') or 'updated'}"
 
+        # ONLY A NEW SUBSCRIPTION OR A RENEWAL PAYS A PERIOD'S CREDITS.
+        # A plan change raises its own invoice (`subscription_update`) for
+        # the prorated difference; granting a full period on it handed out a
+        # free month every time somebody switched plans. And never a $0
+        # invoice: a downgrade's credit note or a 100% coupon paid nothing.
+        # A missing field (an older event) is not a refusal.
+        reason = found.get("billing_reason")
+        if reason and reason not in ("subscription_create", "subscription_cycle"):
+            return f"paid ({reason}), no credits"
+        if found.get("amount_paid") == 0:
+            return "paid $0, no credits"
+
         # THE GRANT: the plan's figure TODAY (see `plan_credits`), falling
         # back to what the row last recorded when no plan setting answers.
         row = db.subscription_by_stripe_id(subscription_id) or {}

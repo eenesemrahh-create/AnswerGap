@@ -294,7 +294,7 @@ def subscription_from_event(event: dict) -> dict | None:
 
     if kind.startswith("invoice."):
         details = ((obj.get("parent") or {}).get("subscription_details")) or {}
-        line = ((obj.get("lines") or {}).get("data") or [{}])[0]
+        line = _period_line((obj.get("lines") or {}).get("data") or [])
         subscription_id = _id(obj.get("subscription")) or _id(details.get("subscription"))
         if not subscription_id:
             return None
@@ -313,9 +313,41 @@ def subscription_from_event(event: dict) -> dict | None:
             "user_id": _metadata_user_id(obj),
             "invoice_id": obj.get("id"),
             "quantity": line.get("quantity"),
+            # Why this invoice exists, and what was actually paid. The grant
+            # reads both: only a new subscription or a renewal pays a
+            # period's credits, and never a $0 invoice (see billing.py).
+            "billing_reason": obj.get("billing_reason"),
+            "amount_paid": obj.get("amount_paid"),
         }
 
     return None
+
+
+def _is_proration(line: dict) -> bool:
+    """A line that adjusts for a mid-period plan change, in either API
+    version: `proration` on the line before 2025-03-31, under
+    `parent.subscription_item_details` after."""
+    if line.get("proration"):
+        return True
+    item = ((line.get("parent") or {}).get("subscription_item_details")) or {}
+    return bool(item.get("proration"))
+
+
+def _period_line(lines: list) -> dict:
+    """The line that names the plan being paid for.
+
+    NOT simply the first. On an invoice raised by a plan change the first
+    line is usually the credit for the unused time on the OLD plan, so
+    reading it attributed an upgrade to the plan being left - and granted
+    that plan's credits. The first non-proration line is the period itself;
+    an invoice made only of prorations falls back to the last line, which is
+    the new plan's charge.
+    """
+    lines = [line for line in lines if isinstance(line, dict)]
+    if not lines:
+        return {}
+    plain = [line for line in lines if not _is_proration(line)]
+    return plain[0] if plain else lines[-1]
 
 
 def _id(value) -> str | None:

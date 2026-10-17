@@ -504,6 +504,12 @@ defensible asset over time.
   end (Stripe first). Capabilities are the union of all live plans. The
   account page lists every plan, its credits left, which one is being spent
   from, and the rule in words.
+  **Changing plan = buy the other as an extra plan and make it default.**
+  "Switch plan" is meant to be OFF in Stripe's customer portal. As a guard,
+  `invoice.paid` grants only on `billing_reason` subscription_create /
+  subscription_cycle with `amount_paid` > 0, and the plan is read from the
+  first NON-proration line (`stripe._period_line`) - the first line of a
+  plan-change invoice is the old plan's credit.
 - Depth is plan-bound.
 - Every plan can buy extra credits — gating that behind an upgrade drives churn.
 - Do not restrict search history (AlsoAsked's 24-hour lock is bad practice).
