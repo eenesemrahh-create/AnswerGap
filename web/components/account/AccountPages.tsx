@@ -495,14 +495,18 @@ export function AccountSubscription() {
                         {isCurrent ? (
                           <>
                             <span className="acct-pill ok">{t("account.current")}</span>
-                            {/* Ending: say how to keep it, instead of a buy
-                                button that would charge a second time. */}
-                            {mine && ending && (
+                            {/* Renewing (the default, or every plan while no
+                                default is chosen): when it renews. Ending: how
+                                to keep it, instead of a buy button that would
+                                charge a second time. */}
+                            {mine?.current_period_end && (
                               <p className="acct-muted acct-plan-hint">
-                                {t(mine.is_default ? "account.endingRenewInPortal" : "account.endingMakeDefault", {
-                                  date: formatDay(mine.current_period_end!),
-                                  manage: t("account.manage"),
-                                })}
+                                {ending
+                                  ? t(mine.is_default ? "account.endingRenewInPortal" : "account.endingMakeDefault", {
+                                      date: formatDay(mine.current_period_end),
+                                      manage: t("account.manage"),
+                                    })
+                                  : t("account.renews", { date: formatDay(mine.current_period_end) })}
                               </p>
                             )}
                           </>
