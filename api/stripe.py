@@ -241,8 +241,18 @@ def cancel_subscription(subscription_id: str, *, at_period_end: bool) -> dict:
 
 
 def subscription_status(subscription_id: str) -> str | None:
-    """One subscription's status as Stripe has it now."""
-    return _request("GET", f"/v1/subscriptions/{subscription_id}").get("status")
+    """One subscription's status as Stripe has it now.
+
+    One Stripe no longer has at all is `canceled`: deleting a Test Clock
+    deletes its customer and every subscription on it, and a deleted
+    subscription answers 404.
+    """
+    try:
+        return _request("GET", f"/v1/subscriptions/{subscription_id}").get("status")
+    except StripeError as exc:
+        if exc.status == 404:
+            return "canceled"
+        raise
 
 
 #: Subscription statuses that still hold the plan. NOT `incomplete`: that is

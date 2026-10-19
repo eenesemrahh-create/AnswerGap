@@ -721,10 +721,15 @@ def cancel_subscription(
             row["stripe_subscription_id"], at_period_end=at_period_end
         )
     except stripe.StripeError as exc:
-        # Nothing is written: the row must not claim a cancellation Stripe
-        # did not perform. The code says why (wrong mode's key, already gone).
         print(f"[stripe] cancel {row['stripe_subscription_id']}: {exc}", flush=True)
-        raise HTTPException(502, {"code": exc.code}) from exc
+        result = _cancel_what_stripe_no_longer_runs(row["stripe_subscription_id"])
+        if result is None:
+            # Nothing is written: the row must not claim a cancellation
+            # Stripe did not perform. The code says why (wrong mode's key).
+            raise HTTPException(502, {"code": exc.code}) from exc
+        # Over at Stripe already, or never paid and now cancelled there:
+        # either way it ends NOW, whatever was asked.
+        at_period_end = False
     db.subscription_mark_cancelled(
         subscription_id=subscription_id, user_id=user_id,
         at_period_end=at_period_end, actor=who.email or "",
@@ -737,6 +742,30 @@ def cancel_subscription(
     clawed = None if at_period_end else _clawback(user_id, subscription_id, who.email or "")
     return {"cancelled": True, "at_period_end": at_period_end,
             "clawed_back": clawed, **result}
+
+
+def _cancel_what_stripe_no_longer_runs(stripe_subscription_id: str) -> dict | None:
+    """When Stripe refuses a cancel, find out whether there is anything left
+    to cancel (2026-10-19). Our row lags a webhook; Stripe does not.
+
+    - gone or over (`canceled`, `incomplete_expired`, deleted with its Test
+      Clock): nothing to do at Stripe, the row just has to say so;
+    - `incomplete` (first payment never went through): Stripe will not set
+      a period-end stop on it, but cancelling it now is allowed;
+    - anything still held, or Stripe unreachable: None, the refusal stands.
+    """
+    try:
+        status = stripe.subscription_status(stripe_subscription_id)
+    except stripe.StripeError:
+        return None
+    if status == "incomplete":
+        try:
+            return stripe.cancel_subscription(stripe_subscription_id, at_period_end=False)
+        except stripe.StripeError:
+            return None
+    if status and status not in stripe.HOLDING_STATUSES:
+        return {"status": status, "cancel_at_period_end": False, "already_over_at_stripe": True}
+    return None
 
 
 @router.get("/user/{user_id}/log")

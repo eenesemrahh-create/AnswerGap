@@ -594,13 +594,56 @@ def test_cancelling_at_period_end_keeps_what_was_paid_for(cancel_wired) -> None:
 def test_a_refused_cancellation_writes_nothing(monkeypatch, cancel_wired) -> None:
     """The row must never say cancelled about a subscription still charging."""
     def refuse(sid, at_period_end):
-        raise admin.stripe.StripeError("invalidRequest", 404, "No such subscription")
+        raise admin.stripe.StripeError("invalidRequest", 400, "refused")
 
     monkeypatch.setattr(admin.stripe, "cancel_subscription", refuse)
+    monkeypatch.setattr(admin.stripe, "subscription_status", lambda sid: "active")
     with pytest.raises(HTTPException) as exc:
         admin.cancel_subscription(_Req(), 7, 5, admin.CancelSubscriptionRequest())
     assert exc.value.status_code == 502
     assert cancel_wired["marked"] == []
+
+
+@pytest.mark.parametrize("held", ["canceled", "incomplete_expired"])
+def test_a_plan_already_over_at_stripe_is_ended_here(monkeypatch, cancel_wired, held) -> None:
+    """Deleting a Test Clock deletes its subscriptions; the row lags. Stripe
+    refusing then is not a reason to leave the plan running here."""
+    def refuse(sid, at_period_end):
+        raise admin.stripe.StripeError("invalidRequest", 404, "No such subscription")
+
+    monkeypatch.setattr(admin.stripe, "cancel_subscription", refuse)
+    monkeypatch.setattr(admin.stripe, "subscription_status", lambda sid: held)
+    out = admin.cancel_subscription(
+        _Req(), 7, 5, admin.CancelSubscriptionRequest(when="period_end"))
+    assert out["already_over_at_stripe"] is True and out["at_period_end"] is False
+    assert cancel_wired["marked"][0]["at_period_end"] is False
+
+
+def test_a_never_paid_plan_is_cancelled_now_at_stripe(monkeypatch, cancel_wired) -> None:
+    """Stripe will not put a period-end stop on an `incomplete` subscription,
+    but it does cancel one outright."""
+    calls = []
+
+    def cancel(sid, at_period_end):
+        calls.append(at_period_end)
+        if at_period_end:
+            raise admin.stripe.StripeError("invalidRequest", 400, "incomplete")
+        return {"status": "canceled", "cancel_at_period_end": False}
+
+    monkeypatch.setattr(admin.stripe, "cancel_subscription", cancel)
+    monkeypatch.setattr(admin.stripe, "subscription_status", lambda sid: "incomplete")
+    out = admin.cancel_subscription(
+        _Req(), 7, 5, admin.CancelSubscriptionRequest(when="period_end"))
+    assert calls == [True, False] and out["status"] == "canceled"
+    assert cancel_wired["marked"][0]["at_period_end"] is False
+
+
+def test_a_subscription_stripe_does_not_have_reads_as_canceled(monkeypatch) -> None:
+    def missing(method, path, form=None):
+        raise admin.stripe.StripeError("invalidRequest", 404, "No such subscription")
+
+    monkeypatch.setattr(admin.stripe, "_request", missing)
+    assert admin.stripe.subscription_status("sub_gone") == "canceled"
 
 
 @pytest.mark.parametrize("change, code", [
