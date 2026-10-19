@@ -4540,6 +4540,39 @@ a.acct-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift);
   outline: 0;
 }
 .home-cost { color: var(--text-faint); font-size: 12.5px; }
+
+/* Signed-out searching (2026-10-19): what is left, the way to all of it, and
+   the Turnstile challenge (invisible unless Cloudflare wants a click). */
+.home-anon { display: grid; justify-items: center; gap: 8px; margin: 14px auto 0; max-width: 720px; text-align: center; }
+.home-anon p { margin: 0; color: var(--text-soft); font-size: 14px; }
+.home-anon .auth-link { font-weight: 700; }
+.turnstile-box:empty { display: none; }
+
+/* A signed-out tree: the questions below the top level never arrived, so
+   these boxes are decoration, not hidden data. */
+.tree-preview {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 12px 24px 0;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  background: var(--grad-soft), var(--surface);
+}
+.tree-preview-ghosts { display: grid; gap: 6px; flex: none; }
+.tree-preview-ghosts i { display: block; width: 92px; height: 12px; border-radius: 6px; background: var(--border-strong); filter: blur(2px); opacity: .7; }
+.tree-preview-ghosts i:nth-child(2) { width: 70px; }
+.tree-preview-ghosts i:nth-child(3) { width: 82px; }
+.tree-preview-text { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.tree-preview-text b { font-size: 15px; }
+.tree-preview-text span { color: var(--text-soft); font-size: 13.5px; line-height: 1.45; }
+.tree-preview .btn { flex: none; }
+@media (max-width: 760px) {
+  .tree-preview { flex-wrap: wrap; margin: 10px 16px 0; }
+  .tree-preview-ghosts { display: none; }
+  .tree-preview .btn { width: 100%; }
+}
 .home-try { margin-top: 0; justify-content: flex-end; }
 .home-try .mkt-try-chip {
   padding: 5px 12px;

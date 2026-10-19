@@ -607,6 +607,9 @@ export const en = {
     searchFailed:
       "The search could not be completed. No credit was used - please try again in a minute.",
     alreadySearched: "You already searched this. Open it from your list, or update it.",
+    anonLimit: "You have used today’s free search. Create a free account to keep searching.",
+    anonDailyFull: "Today’s free searches are all used. Create a free account to search now.",
+    captchaFailed: "We could not confirm this search came from a person. Please try again.",
     badRequest: "That request cannot be run as asked.",
     /* Billing refusals. THE FIRST ONE IS OURS, NOT THE READER'S: the card is
        published and priced on the page, and nobody has finished connecting it
@@ -641,6 +644,16 @@ export const en = {
     loading: "Loading…",
   },
 
+  anon: {
+    freeLeft: "Try it free, no account needed: {count} search left today.",
+    usedUp: "You have used today’s free search.",
+    dailyFull: "Today’s free searches are all used.",
+    usedUpReason: "A free account shows the whole question tree and keeps your searches.",
+    signUpFree: "Create a free account",
+    verifying: "Checking…",
+    previewTitle: "{count} of {total} questions are hidden in this preview",
+    previewBody: "Create a free account to see the whole tree and check which questions nobody answers. This search moves into your account at no cost.",
+  },
   theme: {
     light: "Switch to dark",
     dark: "Follow the system",

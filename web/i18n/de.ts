@@ -539,6 +539,9 @@ export const de: Messages = {
     searchFailed:
       "Die Suche konnte nicht abgeschlossen werden. Es wurde kein Credit verbraucht - bitte versuchen Sie es in einer Minute erneut.",
     alreadySearched: "Diese Suche haben Sie bereits durchgeführt. Öffnen Sie sie in Ihrer Liste oder aktualisieren Sie sie.",
+    anonLimit: "Sie haben die kostenlose Suche für heute genutzt. Legen Sie ein kostenloses Konto an, um weiterzusuchen.",
+    anonDailyFull: "Die kostenlosen Suchen für heute sind aufgebraucht. Legen Sie ein kostenloses Konto an, um sofort zu suchen.",
+    captchaFailed: "Wir konnten nicht bestätigen, dass diese Suche von einem Menschen kommt. Bitte versuchen Sie es erneut.",
     badRequest: "Diese Anfrage kann so nicht ausgeführt werden.",
     planNotPurchasable:
       "Dieser Tarif kann noch nicht gekauft werden — wir richten die Zahlung " +
@@ -564,6 +567,16 @@ export const de: Messages = {
     loading: "Wird geladen…",
   },
 
+  anon: {
+    freeLeft: "Kostenlos testen, ohne Konto: heute noch {count} Suche.",
+    usedUp: "Sie haben die kostenlose Suche für heute genutzt.",
+    dailyFull: "Die kostenlosen Suchen für heute sind aufgebraucht.",
+    usedUpReason: "Mit einem kostenlosen Konto sehen Sie den ganzen Fragenbaum und Ihre Suchen bleiben gespeichert.",
+    signUpFree: "Kostenloses Konto anlegen",
+    verifying: "Wird geprüft…",
+    previewTitle: "{count} von {total} Fragen sind in dieser Vorschau verborgen",
+    previewBody: "Legen Sie ein kostenloses Konto an, um den ganzen Baum zu sehen und zu prüfen, welche Fragen niemand beantwortet. Diese Suche wird kostenlos in Ihr Konto übernommen.",
+  },
   theme: {
     light: "Zu Dunkel wechseln",
     dark: "Dem System folgen",

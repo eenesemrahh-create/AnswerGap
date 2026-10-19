@@ -304,10 +304,26 @@ def test_a_missing_email_is_never_an_admin() -> None:
 # ------------------------------------------------------------- anon ip hash
 
 
-def test_the_client_address_is_the_first_forwarded_entry() -> None:
-    """Everything after the first entry is our own proxies, not the caller."""
+def test_internal_hops_on_the_right_are_skipped() -> None:
+    """A platform's own internal proxies append private addresses; counting
+    from one of them would put every visitor on one key."""
     salt = b"salt"
     assert gate.anon_ip_hash("1.2.3.4, 10.0.0.1", salt) == gate.anon_ip_hash(" 1.2.3.4 ", salt)
+    assert gate.client_ip("1.2.3.4, 100.64.0.7, 192.168.1.1") == "1.2.3.4"
+
+
+def test_a_forged_left_entry_cannot_change_the_address() -> None:
+    """Until 2026-10-19 the FIRST entry was read, so anybody could pick a new
+    address per request by writing the header. The edge appends the address
+    it saw on the right, and that is the one read now."""
+    assert gate.client_ip("6.6.6.6, 1.2.3.4") == "1.2.3.4"
+    assert gate.client_ip("6.6.6.6, 7.7.7.7, 1.2.3.4, 10.0.0.2") == "1.2.3.4"
+
+
+def test_trusted_hops_counts_public_proxies_from_the_right() -> None:
+    assert gate.client_ip("1.2.3.4, 5.6.7.8", trusted_hops=2) == "1.2.3.4"
+    # More hops than entries: the leftmost, never nothing.
+    assert gate.client_ip("1.2.3.4", trusted_hops=3) == "1.2.3.4"
 
 
 def test_the_raw_address_never_appears_in_the_key() -> None:

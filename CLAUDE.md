@@ -521,6 +521,28 @@ defensible asset over time.
   subscription_cycle with `amount_paid` > 0, and the plan is read from the
   first NON-proration line (`stripe._period_line`) - the first line of a
   plan-change invoice is the old plan's credit.
+- **Signed-out searching is back, bounded (2026-10-19, operator).** The
+  2026-09-23 removal (`b5f6134`) was right that a per-visitor counter is no
+  limit - site data and networks reset it. What makes this one safe is the
+  **DAILY TOTAL** for all signed-out visitors (`anonymous_daily_total`,
+  default 50 ≈ $0.13/day), which no number of browsers can get past. Order in
+  `/api/search`: off (`anonymous_searches_per_visitor` = 0, the default, or
+  Turnstile keys missing) → 401 `signedOut`; Cloudflare Turnstile token
+  (`api/turnstile.py`, header `X-AG-Turnstile`, fail closed) → 403
+  `captchaFailed`; `max(browser, address)` ≥ per visitor → 429 `anonLimit`;
+  total ≥ daily total → 429 `anonDailyFull`. Every allowed signed-out search
+  counts, cache hit or not. Only `search` - checks, rounds, exports stay
+  behind an account. The visitor gets a **preview cut on the server**
+  (`main._preview` inside `_authorize_tree`: seed + depth 1; the rest is a
+  count, never sent). Signing in calls `POST /api/account/claim-anon`
+  (`db.claim_anon_work`: the browser's ownerless crawls + a COPY of the seed
+  score). A NEW setting key on purpose: an old database may still hold the
+  retired `anonymous_daily_searches = 1`.
+  **The address is now read from the RIGHT of X-Forwarded-For**
+  (`gate.client_ip`, private/internal hops skipped, `TRUSTED_PROXY_HOPS`
+  default 1); reading the first entry let anybody forge a new address per
+  request. Check it with admin `GET /api/admin/ip-check` after a deploy - if
+  `client_ip` is not your address, every visitor shares one counter.
 - Depth is plan-bound.
 - Every plan can buy extra credits — gating that behind an upgrade drives churn.
 - Do not restrict search history (AlsoAsked's 24-hour lock is bad practice).

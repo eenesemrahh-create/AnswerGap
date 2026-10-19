@@ -34,8 +34,10 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from answergap import db, entitlements, gate, live
 from answergap import tree as tree_mod
 
-from . import billing, ci, stripe
-from .auth import ADMIN_EMAILS, PUBLIC_BASE_URL, WEB_BASE_URL, require_admin
+from . import billing, ci, stripe, turnstile
+from .auth import (
+    ADMIN_EMAILS, PUBLIC_BASE_URL, TRUSTED_PROXY_HOPS, WEB_BASE_URL, require_admin,
+)
 
 router = APIRouter(prefix="/api/admin")
 
@@ -76,6 +78,9 @@ class StatusRequest(BaseModel):
 
 class SettingsRequest(BaseModel):
     signup_credits: int | None = None
+    # Signed-out searching (2026-10-19). 0 per visitor = off.
+    anon_per_visitor: int | None = None
+    anon_daily_total: int | None = None
 
 
 class Plan(BaseModel):
@@ -812,7 +817,36 @@ def put_settings(request: Request, payload: SettingsRequest) -> dict:
         if not 0 <= value <= SIGNUP_CREDITS_MAX:
             raise HTTPException(400, {"code": "outOfRange"})
         db.setting_put(key=gate.SETTING_SIGNUP_CREDITS, value=str(value), actor=actor)
+    for value, key, top in (
+        (payload.anon_per_visitor, gate.SETTING_ANON_PER_VISITOR, gate.ANON_PER_VISITOR_MAX),
+        (payload.anon_daily_total, gate.SETTING_ANON_DAILY_TOTAL, gate.ANON_DAILY_TOTAL_MAX),
+    ):
+        if value is None:
+            continue
+        if not 0 <= value <= top:
+            raise HTTPException(400, {"code": "outOfRange"})
+        db.setting_put(key=key, value=str(value), actor=actor)
     return _settings()
+
+
+@router.get("/ip-check")
+def ip_check(request: Request) -> dict:
+    """What address the api reads for THIS request, for setting
+    `TRUSTED_PROXY_HOPS`. The admin's own address only, shown to the admin.
+
+    If `client_ip` is not the address a "what is my IP" site shows, the
+    per-visitor limit for signed-out searches is keyed on the wrong thing - a
+    proxy's address would put every visitor on one counter.
+    """
+    require_admin(request)
+    forwarded = request.headers.get("x-forwarded-for")
+    return {
+        "forwarded_for": forwarded,
+        "x_real_ip": request.headers.get("x-real-ip"),
+        "trusted_hops": TRUSTED_PROXY_HOPS,
+        "client_ip": gate.client_ip(forwarded, TRUSTED_PROXY_HOPS),
+        "turnstile_configured": turnstile.configured(),
+    }
 
 
 @router.get("/pricing")
@@ -1160,4 +1194,15 @@ def _settings() -> dict:
             lo=0,
             hi=SIGNUP_CREDITS_MAX,
         ),
+        gate.SETTING_ANON_PER_VISITOR: gate.setting_int(
+            rows, gate.SETTING_ANON_PER_VISITOR,
+            default=gate.DEFAULT_ANON_PER_VISITOR, lo=0, hi=gate.ANON_PER_VISITOR_MAX,
+        ),
+        gate.SETTING_ANON_DAILY_TOTAL: gate.setting_int(
+            rows, gate.SETTING_ANON_DAILY_TOTAL,
+            default=gate.DEFAULT_ANON_DAILY_TOTAL, lo=0, hi=gate.ANON_DAILY_TOTAL_MAX,
+        ),
+        # Without both Turnstile keys the per-visitor number is ignored and
+        # signed-out searching stays off; the settings page says so.
+        "turnstile_configured": turnstile.configured(),
     }

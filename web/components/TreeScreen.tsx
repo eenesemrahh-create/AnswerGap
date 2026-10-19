@@ -34,6 +34,7 @@ import { DevPanel } from "./DevPanel";
 import { CrawlDiff } from "./CrawlDiff";
 import { RefreshSearch } from "./RefreshSearch";
 import { clearSearch } from "@/lib/search-job";
+import { requestSignIn } from "@/lib/signin-request";
 
 type View = "tree" | "table" | "seeds";
 
@@ -294,7 +295,9 @@ export function TreeScreen({ slug }: { slug: string }) {
           </span>
           AnswerGap
         </Link>
-        {meta && <AccountMenu meta={meta} />}
+        {/* Signing in from a preview claims the search (AccountMenu does that
+            first), so reloading then shows the whole tree. */}
+        {meta && <AccountMenu meta={meta} onSessionChange={reload} />}
       </header>
       <CreditStrip />
 
@@ -329,7 +332,7 @@ export function TreeScreen({ slug }: { slug: string }) {
             <span>
               {t("detail.updated", { date: formatDate(tree.fetched_at ?? tree.updated_at) })}
             </span>
-            {tree.source === "live" && tree.location_code != null && (
+            {tree.source === "live" && tree.location_code != null && !tree.preview && (
               <span className="tree-meta-live">
                 <RefreshSearch
                   seed={tree.seed}
@@ -375,7 +378,7 @@ export function TreeScreen({ slug }: { slug: string }) {
           </div>
           {(tree.source === "live" || meta) && (
             <div className="tree-head-extras">
-              {tree.source === "live" && <CrawlDiff slug={slug} />}
+              {tree.source === "live" && !tree.preview && <CrawlDiff slug={slug} />}
               {meta && <DevPanel meta={meta} slug={slug} />}
             </div>
           )}
@@ -384,7 +387,7 @@ export function TreeScreen({ slug }: { slug: string }) {
             rounds, each of which grows it. The page's one primary action, so
             it sits beside the title rather than among the view controls.
             Needs the database, like every queued request. */}
-        {meta && tree.source === "live" && !noQuestions && (
+        {meta && tree.source === "live" && !noQuestions && !tree.preview && (
           <div className="tree-head-action">
             <AnalyseRounds
               slug={slug}
@@ -474,6 +477,35 @@ export function TreeScreen({ slug }: { slug: string }) {
           )}
         </div>
       </div>
+
+      {/* A signed-out search (2026-10-19): the server sent the seed and the
+          top level only. Say how much more there is, and the way to it. The
+          boxes are decoration - the hidden questions never reached this page. */}
+      {tree.preview && (
+        <div className="tree-preview" role="note">
+          <div className="tree-preview-ghosts" aria-hidden>
+            <i />
+            <i />
+            <i />
+          </div>
+          <div className="tree-preview-text">
+            <b>
+              {t("anon.previewTitle", {
+                count: tree.hidden_questions ?? 0,
+                total: questionCount,
+              })}
+            </b>
+            <span>{t("anon.previewBody")}</span>
+          </div>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => requestSignIn({ mode: "signup", reason: t("anon.usedUpReason") })}
+          >
+            {t("anon.signUpFree")}
+          </button>
+        </div>
+      )}
 
       <div className="body-row">
         <main className="main">

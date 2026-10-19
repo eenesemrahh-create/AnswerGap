@@ -88,6 +88,11 @@ export interface Tree extends TreeSummary {
   /** When the seed's data was fetched from Google. `updated_at` is when
    *  anybody last searched it, which a cache hit moves without new data. */
   fetched_at?: string | null;
+  /** A signed-out visitor's view (2026-10-19): only the seed and the top
+   *  level arrive; the rest is counted, never sent. */
+  preview?: boolean;
+  hidden_questions?: number;
+  hidden_related?: number;
 }
 
 /** `POST /api/search` with `dry_run: true` — the plan and its price, no data. */
@@ -201,6 +206,9 @@ export interface Meta {
    * must not draw a button whose only possible answer is 503.
    */
   google_enabled?: boolean;
+  /** Cloudflare Turnstile's PUBLIC key, for the challenge a signed-out search
+   *  needs (2026-10-19). Null when not configured, which keeps it off. */
+  turnstile_site_key?: string | null;
   /**
    * `"resend"` (mail really goes out) or `"console"` (it is printed to the
    * server log). Shown to a developer so that "no verification mail arrived"

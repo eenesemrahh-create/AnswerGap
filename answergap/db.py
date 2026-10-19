@@ -2808,6 +2808,107 @@ def user_for_gate(user_id: int) -> dict | None:
         return dict(row) if row else None
 
 
+def anon_counters(*, anon_id: str | None, ip_hash: str | None) -> dict:
+    """Signed-out searching (2026-10-19): both settings and today's three
+    counters in ONE round trip - the browser's, the address's, and every
+    signed-out visitor's together.
+
+    EVERY allowed signed-out search counts, cache hit or not (the operator's
+    rule; the first allowance, retired 2026-09-23, counted only paid ones).
+    `user_id IS NULL` keeps a signed-in person's searches from spending the
+    allowance of everybody behind the same address. `anon_id = NULL` matches no
+    rows, so a client that omits the header has no browser counter and the IP
+    counter is what catches it.
+
+    The settings are read here rather than cached in the process: a cache would
+    be per replica and hand the operator an "it has not taken effect" mystery,
+    for a saving of nothing on a query already being made.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT
+              (SELECT setting_value FROM app_setting
+                WHERE setting_key = %(k_visitor)s
+                ORDER BY created_at DESC, id DESC LIMIT 1) AS per_visitor,
+              (SELECT setting_value FROM app_setting
+                WHERE setting_key = %(k_total)s
+                ORDER BY created_at DESC, id DESC LIMIT 1) AS daily_total,
+              (SELECT count(*) FROM usage_event
+                WHERE anon_id = %(anon)s AND user_id IS NULL
+                  AND day_utc = (now() AT TIME ZONE 'utc')::date
+                  AND action = 'search' AND outcome = 'allowed') AS by_browser,
+              (SELECT count(*) FROM usage_event
+                WHERE ip_hash = %(ip)s AND user_id IS NULL
+                  AND day_utc = (now() AT TIME ZONE 'utc')::date
+                  AND action = 'search' AND outcome = 'allowed') AS by_ip,
+              (SELECT count(*) FROM usage_event
+                WHERE user_id IS NULL
+                  AND day_utc = (now() AT TIME ZONE 'utc')::date
+                  AND action = 'search' AND outcome = 'allowed') AS total
+            """,
+            {"anon": anon_id, "ip": ip_hash,
+             "k_visitor": gate.SETTING_ANON_PER_VISITOR,
+             "k_total": gate.SETTING_ANON_DAILY_TOTAL},
+        )
+        row = cur.fetchone() or {}
+        return {
+            "per_visitor": row.get("per_visitor"),
+            "daily_total": row.get("daily_total"),
+            "by_browser": int(row.get("by_browser") or 0),
+            "by_ip": int(row.get("by_ip") or 0),
+            "total": int(row.get("total") or 0),
+        }
+
+
+def claim_anon_work(*, user_id: int, anon_id: str | None) -> int:
+    """Give a person who just signed in the searches they ran signed out.
+
+    Matched on the browser id the sign-in request carried - the same claim
+    `can_access` already accepts - and only crawls nobody owns yet. The seed's
+    score is COPIED to the person (a tree shows only its owner's scores since
+    2026-10-13); the ownerless row stays, because other signed-out trees can
+    show it too. Writes no credits: the search was free and stays free.
+    Returns how many crawls were claimed; 0 on a second call.
+    """
+    if not anon_id:
+        return 0
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            UPDATE crawl SET user_id = %s
+             WHERE anon_id = %s AND user_id IS NULL
+            RETURNING seed_question, location_code, created_at
+            """,
+            (int(user_id), anon_id),
+        )
+        claimed = cur.fetchall()
+        for c in claimed:
+            # The seed score `live.crawl` wrote moments after this crawl.
+            cur.execute(
+                """
+                INSERT INTO gap_score (question_id, location_code, status,
+                                       matching_pages, results_checked, threshold,
+                                       strategy, embedding_model, results,
+                                       ai_sources, ai_state, source_key, user_id,
+                                       scored_at)
+                SELECT question_id, location_code, status, matching_pages,
+                       results_checked, threshold, strategy, embedding_model,
+                       results, ai_sources, ai_state, source_key, %s, scored_at
+                  FROM gap_score
+                 WHERE question_id = %s AND location_code = %s AND user_id IS NULL
+                   AND scored_at BETWEEN %s - interval '10 minutes'
+                                     AND %s + interval '10 minutes'
+                 ORDER BY scored_at DESC
+                 LIMIT 1
+                """,
+                (int(user_id), c["seed_question"], c["location_code"],
+                 c["created_at"], c["created_at"]),
+            )
+        conn.commit()
+        return len(claimed)
+
+
 def record_usage(
     *,
     user_id: int | None,

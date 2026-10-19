@@ -1861,3 +1861,52 @@ def test_search_detail_names_who_spent_what_and_hides_the_counter_keys() -> None
 
 def test_search_detail_of_a_slug_nobody_searched_is_none() -> None:
     assert db.admin_search_detail("never-searched") is None
+
+
+# ------------------------------------------------ signed-out searching (2026-10-19)
+
+
+def _anon_search(anon: str, ip: str, *, user_id=None, outcome: str = "allowed",
+                 action: str = "search") -> None:
+    db.record_usage(user_id=user_id, ip_hash=ip, anon_id=anon, action=action,
+                    outcome=outcome, credits=1, spend_usd=0.0, tree_slug="t")
+
+
+def test_anon_counters_count_every_allowed_signed_out_search() -> None:
+    db.setting_put(key=gate.SETTING_ANON_PER_VISITOR, value="2", actor="op")
+    db.setting_put(key=gate.SETTING_ANON_DAILY_TOTAL, value="40", actor="op")
+    _anon_search("b1", "ip1")
+    _anon_search("b1", "ip2")                      # same browser, new address
+    _anon_search("b2", "ip1")                      # new browser, same address
+    _anon_search("b3", "ip3", outcome="refused_anon_limit")   # refusals do not count
+    _anon_search("b4", "ip4", action="score")      # only searches count
+    user = _google(sub="anon-u", email="u@example.com")
+    _anon_search("b1", "ip1", user_id=user["id"])  # a signed-in search is not theirs
+    got = db.anon_counters(anon_id="b1", ip_hash="ip1")
+    assert (got["per_visitor"], got["daily_total"]) == ("2", "40")
+    assert (got["by_browser"], got["by_ip"], got["total"]) == (2, 2, 3)
+
+
+def test_signing_in_claims_the_search_and_its_seed_score() -> None:
+    tree = _archive_tree()
+    db.save_tree(tree, new_crawl=True, anon_id="browser-x")
+    seed = next(n for n in tree["nodes"] if n["depth"] == 0)
+    _score(seed, user_id=None)
+    other = _archive_tree()
+    db.save_tree(other, new_crawl=True, anon_id="browser-y")
+    user = _google(sub="claimer", email="claimer@example.com")
+
+    assert db.claim_anon_work(user_id=user["id"], anon_id="browser-x") == 1
+    mine = db.load_tree("teeth-whitening", slugify, user_id=user["id"])
+    assert mine is not None
+    assert {n["id"]: n for n in mine["nodes"]}[seed["id"]]["status"] == "gap"
+    # Idempotent, and another browser's search is not touched.
+    assert db.claim_anon_work(user_id=user["id"], anon_id="browser-x") == 0
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT user_id FROM crawl WHERE anon_id = 'browser-y'")
+        assert cur.fetchone()["user_id"] is None
+
+
+def test_a_claim_with_no_browser_id_claims_nothing() -> None:
+    user = _google(sub="nobody", email="nobody@example.com")
+    assert db.claim_anon_work(user_id=user["id"], anon_id=None) == 0

@@ -541,6 +541,9 @@ export const es: Messages = {
     searchFailed:
       "No se pudo completar la búsqueda. No se ha usado ningún crédito; vuelve a intentarlo en un minuto.",
     alreadySearched: "Ya hiciste esta búsqueda. Ábrela desde tu lista o actualízala.",
+    anonLimit: "Ya usaste la búsqueda gratuita de hoy. Crea una cuenta gratuita para seguir buscando.",
+    anonDailyFull: "Las búsquedas gratuitas de hoy se han agotado. Crea una cuenta gratuita para buscar ahora.",
+    captchaFailed: "No pudimos confirmar que esta búsqueda venga de una persona. Inténtalo de nuevo.",
     badRequest: "Esa petición no se puede ejecutar tal como se ha pedido.",
     planNotPurchasable:
       "Este plan todavía no se puede comprar — aún estamos terminando de " +
@@ -565,6 +568,16 @@ export const es: Messages = {
     loading: "Cargando…",
   },
 
+  anon: {
+    freeLeft: "Pruébalo gratis, sin cuenta: te queda {count} búsqueda hoy.",
+    usedUp: "Ya usaste la búsqueda gratuita de hoy.",
+    dailyFull: "Las búsquedas gratuitas de hoy se han agotado.",
+    usedUpReason: "Con una cuenta gratuita ves el árbol de preguntas completo y tus búsquedas se guardan.",
+    signUpFree: "Crear una cuenta gratuita",
+    verifying: "Comprobando…",
+    previewTitle: "{count} de {total} preguntas están ocultas en esta vista previa",
+    previewBody: "Crea una cuenta gratuita para ver el árbol completo y comprobar qué preguntas nadie responde. Esta búsqueda pasa a tu cuenta sin coste.",
+  },
   theme: {
     light: "Cambiar a oscuro",
     dark: "Seguir al sistema",

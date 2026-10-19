@@ -45,7 +45,7 @@ from answergap.languages import DEFAULT_LOCATION_CODE, LANGUAGES
 from answergap import tree as tree_mod
 from answergap.tree import STRATEGY, THRESHOLD, all_trees
 
-from . import admin, auth, stripe
+from . import admin, auth, stripe, turnstile
 from . import billing
 from .billing import (  # old names: the webhook below and the tests use them
     apply_subscription_event as _apply_subscription_event,
@@ -238,6 +238,10 @@ def meta(http_request: Request) -> dict:
         # Google button that can only ever answer 503. A door that is visibly
         # there and does not open is worse than one that was never drawn.
         "google_enabled": auth.google_enabled(),
+        # The PUBLIC Turnstile key, for the widget a signed-out search needs.
+        # From the environment, so still no query on this healthcheck path;
+        # whether signed-out searching is on is `/api/anon-search`.
+        "turnstile_site_key": turnstile.site_key(),
         # `resend` or `console`. NOT a secret - it says which transport is
         # wired, never the key - and it is the one thing that distinguishes
         # "the verification mail is in your inbox" from "the verification mail
@@ -453,8 +457,43 @@ def _authorize_tree(slug: str, who: gate.Identity) -> dict:
     if not db.available():
         return found
     if db.can_access(slug, user_id=who.user_id, anon_id=who.anon_id):
-        return found
+        # A signed-out reader gets the PREVIEW, on every path that reads a
+        # tree through here - the tree, one question, labels, the diff.
+        return _preview(found) if _previewing(who) else found
     raise HTTPException(404, f"No tree: {slug}")
+
+
+#: How much of a signed-out search shows (2026-10-19): the seed and its
+#: verdict, the top-level questions, and this many related searches.
+PREVIEW_DEPTH = 1
+PREVIEW_RELATED = 3
+
+
+def _previewing(who: gate.Identity) -> bool:
+    return auth.accounts_enabled() and not who.signed_in
+
+
+def _preview(found: dict) -> dict:
+    """The part of a tree a signed-out visitor sees. A COPY: `found` may be
+    the cached object in `_LIVE`.
+
+    CUT HERE, NOT BLURRED IN THE BROWSER. A blur over data the page already
+    holds is a blur anybody can turn off; the questions below the first level
+    never leave the server, only how many there are. The totals stay whole,
+    because "15 questions found" is the honest headline and the reason to sign
+    up.
+    """
+    nodes = found.get("nodes") or []
+    shown = [n for n in nodes if int(n.get("depth") or 0) <= PREVIEW_DEPTH]
+    related = list(found.get("related_searches") or [])
+    return {
+        **found,
+        "nodes": shown,
+        "related_searches": related[:PREVIEW_RELATED],
+        "preview": True,
+        "hidden_questions": len(nodes) - len(shown),
+        "hidden_related": max(0, len(related) - PREVIEW_RELATED),
+    }
 
 
 @app.get("/api/trees")
@@ -654,6 +693,8 @@ def search(request: SearchRequest, http_request: Request) -> dict:
             raise HTTPException(409, {"code": "alreadySearched", "slug": slug,
                                       "searched_at": searched.isoformat()})
     if not request.dry_run:
+        if _previewing(who):
+            _challenge(who, http_request)
         auth.check(who, action="search", units=1)
     result = _run(
         lambda: live.crawl(
@@ -683,7 +724,45 @@ def search(request: SearchRequest, http_request: Request) -> dict:
             tree_slug=result.get("slug"),
             credits=1,
         )
+        if _previewing(who):
+            return _preview(result)
     return result
+
+
+def _challenge(who: gate.Identity, http_request: Request) -> None:
+    """A signed-out search must come from a person: Turnstile, BEFORE the
+    allowance is counted (2026-10-19).
+
+    Only while the feature is on - when it is off the gate's own refusal says
+    "sign in", which is the true sentence. A failed challenge is recorded like
+    every refusal, so "how many bots tried" can be read off `usage_event`.
+    """
+    if auth.anon_state(who).anon_per_visitor <= 0:
+        return
+    token = http_request.headers.get(turnstile.HEADER)
+    if not turnstile.verify(token, remote_ip=gate.client_ip(
+            http_request.headers.get("x-forwarded-for"), auth.TRUSTED_PROXY_HOPS)):
+        raise auth._refuse(who, "search", "refused_captcha", 403, "captchaFailed")
+
+
+@app.get("/api/anon-search")
+def anon_search(http_request: Request) -> dict:
+    """Is signed-out searching on, and how many are left today for THIS
+    visitor. For the landing page, which shows the search box to a signed-out
+    visitor only when this says so. Not on `/api/meta`, because that is the
+    healthcheck path and must not query the database.
+    """
+    who = auth.identity(http_request)
+    if not auth.accounts_enabled() or who.signed_in:
+        return {"enabled": False, "remaining": 0}
+    state = auth.anon_state(who)
+    if state.anon_per_visitor <= 0:
+        return {"enabled": False, "remaining": 0}
+    used = max(state.anon_used_browser, state.anon_used_ip)
+    full = state.anon_used_total >= state.anon_daily_total
+    return {"enabled": True,
+            "remaining": 0 if full else max(0, state.anon_per_visitor - used),
+            "daily_full": full}
 
 
 @app.post("/api/tree/{slug}/question/{question_slug}/score")
@@ -1376,9 +1455,7 @@ def contact(payload: ContactRequest, http_request: Request) -> dict:
     console backend on a laptop with no RESEND_API_KEY prints it instead,
     which is the intended local behaviour.
     """
-    ip_hash = gate.anon_ip_hash(
-        http_request.headers.get("x-forwarded-for"), auth.ANON_IP_SALT
-    )
+    ip_hash = auth.ip_hash_of(http_request)
     # Counted BEFORE the address is validated, like the pay probe counts
     # before comparing its token: otherwise a malformed body is a free
     # request and the limit is one `@` away from meaning nothing.
@@ -1471,9 +1548,7 @@ def pay_probe_session(payload: PayProbeRequest, http_request: Request) -> dict:
     """Mint one Checkout Session for the amount the visitor typed."""
     if not PAY_PROBE_TOKEN:
         raise HTTPException(404, {"code": "notFound"})
-    ip_hash = gate.anon_ip_hash(
-        http_request.headers.get("x-forwarded-for"), auth.ANON_IP_SALT
-    )
+    ip_hash = auth.ip_hash_of(http_request)
     # Counted BEFORE the token is compared, so guessing the token is itself
     # rate limited rather than free.
     if not auth._rate_ok(

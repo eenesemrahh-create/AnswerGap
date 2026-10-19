@@ -5,12 +5,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ApiError,
+  claimAnonWork,
+  fetchAnonSearch,
   fetchCountries,
   fetchLanguages,
   fetchMeta,
   fetchPricing,
   fetchTrees,
+  type AnonSearch,
 } from "@/lib/api";
+import { Turnstile, type TurnstileHandle } from "@/components/Turnstile";
 import { captureTokenFromHash, token } from "@/lib/auth";
 import { requestSignIn } from "@/lib/signin-request";
 import { marketingPath } from "@/lib/marketing";
@@ -128,7 +132,7 @@ export default function Landing() {
      * here first means the very first `/api/meta` already knows who is
      * asking. Must run before the `hasToken` effect below, which it does:
      * effects run in declaration order. */
-    captureTokenFromHash();
+    const signedInJustNow = captureTokenFromHash();
 
     /* A related-search chip on a tree page links here with the phrase attached.
      * Read straight off `location` rather than through useSearchParams, which
@@ -137,7 +141,10 @@ export default function Landing() {
     const prefill = new URLSearchParams(window.location.search).get("seed");
     if (prefill) setSeed(prefill);
 
-    Promise.all([fetchTrees(), fetchMeta()])
+    /* A search run signed out moves into the account BEFORE the list is
+     * read, so it is there (2026-10-19). Resolves at once otherwise. */
+    (signedInJustNow ? claimAnonWork() : Promise.resolve(null))
+      .then(() => Promise.all([fetchTrees(), fetchMeta()]))
       .then(([treeList, metaData]) => {
         setTrees(treeList);
         setMeta(metaData);
@@ -201,9 +208,22 @@ export default function Landing() {
    * screen for somebody the API treats as anonymous. That correction is a
    * flicker only for a reader whose session is actually dead, which is a
    * different and much rarer thing than showing everyone the wrong hero. */
+  /* SIGNED-OUT SEARCHING (2026-10-19). Only when the api says it is on - an
+   * admin set searches per visitor above 0 and Turnstile is configured - and
+   * then with the challenge's one-time token on every search. */
+  const signedOut = !!meta?.accounts_enabled && meta.role === "anonymous";
+  const [anon, setAnon] = useState<AnonSearch | null>(null);
+  const [captcha, setCaptcha] = useState<string | null>(null);
+  const challenge = useRef<TurnstileHandle>(null);
+  useEffect(() => {
+    if (!signedOut || !meta?.turnstile_site_key) return;
+    fetchAnonSearch().then(setAnon).catch(() => setAnon(null));
+  }, [signedOut, meta?.turnstile_site_key]);
+  const anonSearching = signedOut && !!anon?.enabled && !!meta?.turnstile_site_key;
+
   const showSearch =
     meta !== null
-      ? !meta.accounts_enabled || meta.role !== "anonymous"
+      ? !meta.accounts_enabled || meta.role !== "anonymous" || anonSearching
       : hasToken === true;
 
   const submit = async (event: React.FormEvent) => {
@@ -237,8 +257,23 @@ export default function Landing() {
      * had one pressed search and got a form demanding an email and a new
      * password - which reads as being sent to reset a password, and is
      * exactly what it was reported as. */
-    if (meta?.accounts_enabled && meta.role === "anonymous") {
-      requestSignIn({ mode: "signin", reason: t("auth.whySearch") });
+    if (signedOut) {
+      // Off, or today's free searches are used: an account is the way on.
+      if (!anonSearching || !anon || anon.remaining <= 0) {
+        requestSignIn({
+          mode: anonSearching ? "signup" : "signin",
+          reason: anonSearching ? t("anon.usedUpReason") : t("auth.whySearch"),
+        });
+        return;
+      }
+      // The challenge has not answered yet; the button says so.
+      if (!captcha) return;
+      const used = captcha;
+      challenge.current?.reset(); // one use per token
+      await startSearch({
+        seed: term, location: locationCode, language: languageCode, turnstile: used,
+      }).catch(() => {});
+      fetchAnonSearch().then(setAnon).catch(() => {});
       return;
     }
 
@@ -438,16 +473,54 @@ export default function Landing() {
           />
           <button
             type="submit"
-            disabled={busy || !seed.trim() || meta?.live_crawl_available === false}
+            disabled={
+              busy ||
+              !seed.trim() ||
+              meta?.live_crawl_available === false ||
+              (anonSearching && (anon?.remaining ?? 0) > 0 && !captcha)
+            }
             title={
               meta?.live_crawl_available === false
                 ? t("landing.searchDisabledHint")
                 : undefined
             }
           >
-            {busy ? t("market.hero.searching") : t("market.hero.searchCta")}
+            {busy
+              ? t("market.hero.searching")
+              : anonSearching && (anon?.remaining ?? 0) > 0 && !captcha
+                ? t("anon.verifying")
+                : t("market.hero.searchCta")}
           </button>
         </form>
+
+        {/* Signed out: how many free searches are left, the way to all of
+            it, and the challenge every signed-out search must pass. */}
+        {anonSearching && anon && meta?.turnstile_site_key && (
+          <div className="home-anon">
+            <p>
+              {anon.daily_full
+                ? t("anon.dailyFull")
+                : anon.remaining > 0
+                  ? t("anon.freeLeft", { count: anon.remaining })
+                  : t("anon.usedUp")}{" "}
+              <button
+                type="button"
+                className="auth-link"
+                onClick={() => requestSignIn({ mode: "signup", reason: t("anon.usedUpReason") })}
+              >
+                {t("anon.signUpFree")}
+              </button>
+            </p>
+            {anon.remaining > 0 && (
+              <Turnstile
+                ref={challenge}
+                siteKey={meta.turnstile_site_key}
+                locale={locale}
+                onToken={setCaptcha}
+              />
+            )}
+          </div>
+        )}
 
         {/* A crawl takes 30-60 seconds, and until now the only sign of it was
             a disabled button whose label changed. That is not enough for a
@@ -529,7 +602,8 @@ export default function Landing() {
                 ))}
               </select>
             </label>
-            <span className="home-cost">{t("account.newSearchLead")}</span>
+            {/* "One credit" means nothing to somebody with no account. */}
+            {!signedOut && <span className="home-cost">{t("account.newSearchLead")}</span>}
           </div>
           <div className="mkt-try home-try">
             <span>{t("market.hero.tryLabel")}</span>
@@ -655,7 +729,7 @@ export default function Landing() {
           returned no rows - `trees` is `null` while loading. And only for
           somebody who can search: a signed-out visitor's list is always
           empty, and "you have no analyses yet" is not a pitch. */}
-      {trees && trees.length === 0 && showSearch && !busy && (
+      {trees && trees.length === 0 && showSearch && !signedOut && !busy && (
         <section className="mkt-saved">
           <div className="empty-state" style={{ maxWidth: 640, margin: "0 auto" }}>
             <b>{t("landing.emptyTitle")}</b>
@@ -674,8 +748,9 @@ export default function Landing() {
 
       {/* --- The pitch: signed-out visitors only ---------------------
           A member came back to search, not to be sold to. The footer stays
-          for everybody. */}
-      {!showSearch && (
+          for everybody. A signed-out visitor who can try a search
+          (2026-10-19) still gets the pitch below the box. */}
+      {(!showSearch || signedOut) && (
       <>
       {/* --- How it works ------------------------------------------- */}
       <section id="how-it-works" className="mkt-section">

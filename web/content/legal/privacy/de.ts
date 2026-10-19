@@ -6,7 +6,7 @@ export const de: PrivacyContent = {
   description:
     "Was AnswerGap erhebt, wer es sonst noch bekommt, was vor anderen Kundinnen und Kunden verborgen bleibt und was das Löschen des Kontos übrig lässt.",
   lead: "Hier steht, was wir erheben und warum — so klar, wie wir es selbst von anderen erwarten würden. Abschnitt 5 erklärt, was andere sehen können und was nicht; Abschnitt 7, was das Löschen Ihres Kontos entfernt und was nicht.",
-  effective: "2026-10-17",
+  effective: "2026-10-19",
 
   sections: {
     scope: {
@@ -54,7 +54,7 @@ export const de: PrivacyContent = {
       heading: "3. Cookies und was Ihr Browser behält",
       body: [
         {
-          p: "Die AnswerGap-Website setzt keine Cookies. Es gibt keine Analyse-Software, keinen Tag-Manager und kein Skript von Dritten. Schriften werden von unserer eigenen Domain ausgeliefert, statt bei jemandem abgerufen zu werden.",
+          p: "Die AnswerGap-Website setzt keine eigenen Cookies. Es gibt keine Analyse-Software und keinen Tag-Manager. Das einzige Skript von Dritten ist Cloudflare Turnstile; es wird nur mit dem Suchfeld für nicht angemeldete Besucher geladen, um Menschen von automatisiertem Verkehr zu unterscheiden (siehe Abschnitt 4). Schriften werden von unserer eigenen Domain ausgeliefert, statt bei jemandem abgerufen zu werden.",
         },
         {
           p: "Ihr Browser behält einige Werte lokal auf Ihrem Gerät, die wir aus der Ferne nicht lesen können:",
@@ -87,6 +87,7 @@ export const de: PrivacyContent = {
             "Unser Zahlungsanbieter erhält Ihre E-Mail-Adresse und eine interne Kontonummer, wenn wir vor Ihrem ersten Bezahlvorgang Ihren Kundendatensatz anlegen, sowie alles, was Sie auf seiner eigenen Bezahlseite eingeben. Er teilt uns mit, wenn eine Zahlung gelingt oder fehlschlägt und wenn ein Abonnement beginnt, sich verlängert oder endet.",
             "Google erhält nichts über den Anmeldevorgang hinaus, und auch das nur, wenn Sie sich mit Google anmelden.",
             "Unser Hosting-Anbieter betreibt den Dienst; unser Postfachanbieter verwahrt, was Sie an den Support schreiben.",
+            "Cloudflare erhält über seine Turnstile-Prüfung Ihre IP-Adresse und technische Signale Ihres Browsers, wenn Sie ohne Konto suchen, um zu bestätigen, dass die Anfrage von einem Menschen kommt. Es erhält keine Kontokennung.",
           ],
         },
         {
@@ -109,7 +110,7 @@ export const de: PrivacyContent = {
             "Ihre Liste von Suchanfragen ist privat. Andere können nicht sehen, wonach Sie gesucht haben, und Ihre gespeicherten Analysen nicht öffnen. Die Abfrage einer fremden Analyse antwortet „nicht gefunden“ statt „nicht erlaubt“, weil schon die Existenz einer Suche eine Information ist.",
             "Die zugrunde liegenden Suchdaten sind gemeinsam. Die Fragen und Suchergebnisse, die wir von unserem Datenanbieter abrufen, liegen in einem Bestand für alle Kunden, nicht in einer privaten Kopie je Konto; eine Suche von Ihnen kann daher mit Daten beantwortet werden, die zuerst für einen anderen Kunden abgerufen wurden, und umgekehrt. Was Sie daraus aufbauen, gehört Ihnen: Ihre Fragenbäume und die von Ihnen bezahlten Gap-Prüfungen werden nur Ihnen angezeigt, und ein anderer Kunde, der denselben Begriff sucht, bezahlt seine eigene Suche.",
             "Bewertungen, die Sie über die Schaltflächen „Ist das wirklich eine Lücke?“ abgeben, werden ohne Bezug zu Ihrem Konto gespeichert und dienen dazu, die Bewertung zu verbessern.",
-            "Sind Sie abgemeldet, stützt sich der Zugang zu Ihren eigenen Analysen auf die zufällige Kennung im Browser. Das hält sie von Fremden fern, ist aber kein kryptografischer Schutz — löschen Sie den Browserspeicher, verlieren Sie den Zugang.",
+            "Sind Sie abgemeldet, stützt sich der Zugang zu Ihren eigenen Analysen auf die zufällige Kennung im Browser. Das hält sie von Fremden fern, ist aber kein kryptografischer Schutz — löschen Sie den Browserspeicher, verlieren Sie den Zugang. Legen Sie ein Konto an oder melden Sie sich an, werden die in diesem Browser abgemeldet durchgeführten Suchen in Ihr Konto übernommen.",
           ],
         },
       ],

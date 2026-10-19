@@ -80,7 +80,13 @@ export type ErrorKind =
   | "searchFailed"
   // This account already ran this search: open it free, or update it for a
   // credit. Carries `slug` and `searched_at` in the error's values.
-  | "alreadySearched";
+  | "alreadySearched"
+  // --- signed-out searching (2026-10-19) ----------------------------------
+  // Today's free searches for this visitor are used; everybody's are used;
+  // the bot check did not pass.
+  | "anonLimit"
+  | "anonDailyFull"
+  | "captchaFailed";
 
 export class ApiError extends Error {
   constructor(
@@ -103,13 +109,11 @@ export class ApiError extends Error {
 const CODES: Record<string, ErrorKind> = {
   signedOut: "signedOut",
   noCredits: "noCredits",
-  // Retired with the anonymous daily allowance on 2026-09-23, and kept here
-  // pointing at `signedOut` on purpose: web and api deploy separately, so a
-  // browser holding the new bundle can still be answered by the old API for a
-  // few minutes. Dropping the row would send that refusal to the 429 fallback
-  // and tell the reader the crawl ran out of budget, when what they need is
-  // the sign-in button — which is exactly what `signedOut` shows them.
-  anonLimit: "signedOut",
+  // Signed-out searching, back on 2026-10-19. Each has its own message: the
+  // 429 fallback would tell the reader the crawl ran out of budget.
+  anonLimit: "anonLimit",
+  anonDailyFull: "anonDailyFull",
+  captchaFailed: "captchaFailed",
   suspended: "suspended",
   // Something raised inside the request. Sent by the catch-all middleware in
   // `api/main.py`, which exists because Starlette answers an unhandled
@@ -234,12 +238,16 @@ async function get<T>(path: string): Promise<T> {
   return (await response.json()) as T;
 }
 
-async function post<T>(path: string, payload?: unknown): Promise<T> {
+async function post<T>(
+  path: string,
+  payload?: unknown,
+  extraHeaders?: Record<string, string>
+): Promise<T> {
   let response: Response;
   try {
     response = await fetch(`${BASE}${path}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
+      headers: { "Content-Type": "application/json", ...authHeaders(), ...extraHeaders },
       body: JSON.stringify(payload ?? {}),
       cache: "no-store",
     });
@@ -268,8 +276,28 @@ export interface SearchInput {
   dry_run?: boolean;
 }
 
-export const search = (input: SearchInput) =>
-  post<SearchResult>("/api/search", input);
+/** `turnstile`: the one-time Cloudflare token a SIGNED-OUT search must carry
+ *  (2026-10-19). Ignored for a signed-in one. */
+export const search = (input: SearchInput, turnstile?: string) =>
+  post<SearchResult>(
+    "/api/search",
+    input,
+    turnstile ? { "X-AG-Turnstile": turnstile } : undefined
+  );
+
+/** Whether a signed-out visitor may search, and how many are left today. */
+export interface AnonSearch {
+  enabled: boolean;
+  remaining: number;
+  daily_full?: boolean;
+}
+
+export const fetchAnonSearch = () => get<AnonSearch>("/api/anon-search");
+
+/** Move the searches this browser ran signed out onto the account that just
+ *  signed in. Best-effort: a failure only means they stay with the browser. */
+export const claimAnonWork = () =>
+  post<{ claimed: number }>("/api/account/claim-anon").catch(() => ({ claimed: 0 }));
 
 /**
  * "Check this question": search it as its own seed. One credit, or zero if

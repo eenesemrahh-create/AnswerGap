@@ -6,7 +6,7 @@ export const fr: PrivacyContent = {
   description:
     "Ce qu'AnswerGap collecte, qui d'autre le reçoit, ce qui reste invisible aux autres clients et ce qui subsiste après la suppression de votre compte.",
   lead: "Voici ce que nous collectons et pourquoi, avec la clarté que nous attendrions nous-mêmes. L'article 5 traite de ce que les autres peuvent voir ou non ; l'article 7, de ce que la suppression de votre compte efface et de ce qu'elle laisse.",
-  effective: "2026-10-17",
+  effective: "2026-10-19",
 
   sections: {
     scope: {
@@ -54,7 +54,7 @@ export const fr: PrivacyContent = {
       heading: "3. Cookies et ce que garde votre navigateur",
       body: [
         {
-          p: "Le site AnswerGap ne dépose aucun cookie. Il n'y a ni outil de mesure d'audience, ni gestionnaire de balises, ni script tiers d'aucune sorte. Les polices sont servies depuis notre propre domaine plutôt que demandées ailleurs.",
+          p: "Le site AnswerGap ne dépose aucun cookie propre. Il n'y a ni outil de mesure d'audience ni gestionnaire de balises. Le seul script tiers est Cloudflare Turnstile, chargé uniquement avec le champ de recherche proposé à un visiteur non connecté, pour distinguer les personnes du trafic automatisé (voir l'article 4). Les polices sont servies depuis notre propre domaine plutôt que demandées ailleurs.",
         },
         {
           p: "Votre navigateur conserve localement, sur votre appareil, quelques valeurs que nous ne pouvons pas lire à distance :",
@@ -87,6 +87,7 @@ export const fr: PrivacyContent = {
             "Notre prestataire de paiement reçoit votre adresse e-mail et un numéro de compte interne lorsque nous créons votre fiche client avant votre premier paiement, ainsi que ce que vous saisissez sur sa propre page de paiement. Il nous indique quand un paiement aboutit ou échoue, et quand un abonnement commence, se renouvelle ou prend fin.",
             "Google ne reçoit rien au-delà de l'échange de connexion, et seulement si vous choisissez de vous connecter avec Google.",
             "Notre hébergeur fait tourner le service ; notre fournisseur de messagerie conserve ce que vous écrivez au support.",
+            "Cloudflare, par sa vérification Turnstile, reçoit votre adresse IP et des signaux techniques de votre navigateur lorsque vous cherchez sans compte, afin de confirmer que la requête vient d'une personne. Il ne reçoit aucun identifiant de compte.",
           ],
         },
         {
@@ -109,7 +110,7 @@ export const fr: PrivacyContent = {
             "Votre liste de recherches est privée. Personne d'autre ne peut voir quels mots vous avez recherchés ni ouvrir vos analyses enregistrées. Demander une analyse qui n'est pas la vôtre renvoie « introuvable » et non « interdit », car l'existence même d'une recherche est déjà une information.",
             "Les données de recherche sous-jacentes sont communes. Les questions et les résultats de recherche que nous obtenons de notre fournisseur de données sont conservés dans un seul stock utilisé pour toute la clientèle, et non dans une copie privée par compte ; une de vos recherches peut donc être servie à partir de données d'abord obtenues pour une autre personne, et inversement. Ce que vous en construisez vous appartient : vos arbres de questions et les vérifications de lacune que vous avez payées ne sont montrés qu'à vous, et une autre personne qui recherche le même mot paie sa propre recherche.",
             "Les verdicts donnés via les boutons « est-ce vraiment une lacune ? » sont enregistrés sans lien avec votre compte et servent à améliorer le fonctionnement du score.",
-            "Si vous êtes déconnecté, l'accès à vos propres analyses repose sur l'identifiant aléatoire du navigateur. Cela les tient à l'écart des inconnus, mais ce n'est pas une protection cryptographique : videz le stockage du navigateur et vous en perdez l'accès.",
+            "Si vous êtes déconnecté, l'accès à vos propres analyses repose sur l'identifiant aléatoire du navigateur. Cela les tient à l'écart des inconnus, mais ce n'est pas une protection cryptographique : videz le stockage du navigateur et vous en perdez l'accès. Lorsque vous créez un compte ou vous connectez, les recherches faites dans ce navigateur sans être connecté passent dans votre compte.",
           ],
         },
       ],

@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import ipaddress
 import math
 from dataclasses import dataclass
 
@@ -24,11 +25,13 @@ from dataclasses import dataclass
 # answered later from rows that were never inserted.
 ALLOWED = "allowed"
 REFUSED_NO_CREDITS = "refused_no_credits"
-# `refused_anon_limit` was retired on 2026-09-23 with the anonymous allowance.
-# The constant is gone; the VALUE is not, because rows written before that date
-# still carry it and rewriting history to tidy up a vocabulary would be the one
-# thing an append-only usage log must never do. Any report reading `outcome`
-# has to keep recognising it.
+# Retired on 2026-09-23 with the first anonymous allowance and brought back on
+# 2026-10-19 with the second; rows from both eras carry the same value.
+REFUSED_ANON_LIMIT = "refused_anon_limit"
+# Every signed-out visitor together has used today's free searches. Distinct
+# from the per-visitor limit, because "you have used yours" and "everybody has
+# used theirs" are different sentences and different numbers to watch.
+REFUSED_ANON_DAILY_FULL = "refused_anon_daily_full"
 REFUSED_SUSPENDED = "refused_suspended"
 REFUSED_SIGNED_OUT = "refused_signed_out"
 # Added with password accounts. Distinct from REFUSED_NO_CREDITS on purpose:
@@ -66,6 +69,28 @@ SETTING_PRICING_PLANS = "pricing_plans"
 # `credits` is the first feature. See `api/billing.py:plan_credits`.
 SETTING_PLAN_FEATURES = "plan_features"
 DEFAULT_SIGNUP_CREDITS = 10
+
+# SIGNED-OUT SEARCHES (operator, 2026-10-19). Off by default: 0 per visitor.
+#
+# The per-visitor limit is a speed bump, not an identity - clearing site data
+# resets the browser id and a new address resets the IP, which is exactly why
+# the first allowance was retired on 2026-09-23. What makes this one safe is the
+# DAILY TOTAL across every signed-out visitor: however many browsers somebody
+# goes through, the day cannot cost more than `total x $0.0026`. Turnstile (in
+# `api/turnstile.py`) is what stops a script emptying that total every morning.
+# A NEW key, not the retired `anonymous_daily_searches`: a database from before
+# 2026-09-23 may still hold that one set to 1, and reusing it would switch the
+# feature on by itself the moment this shipped.
+SETTING_ANON_PER_VISITOR = "anonymous_searches_per_visitor"
+SETTING_ANON_DAILY_TOTAL = "anonymous_daily_total"
+DEFAULT_ANON_PER_VISITOR = 0
+DEFAULT_ANON_DAILY_TOTAL = 50
+ANON_PER_VISITOR_MAX = 20
+ANON_DAILY_TOTAL_MAX = 5000
+
+# Signed-out visitors may discover, never analyse: checking a question, the
+# rounds, exports and deep search all stay behind an account.
+ANONYMOUS_ACTIONS = frozenset({"search"})
 
 
 @dataclass(frozen=True)
@@ -106,6 +131,12 @@ class State:
     # caller written before password accounts existed keeps its old behaviour.
     email_verified: bool = True
     balance: int = 0
+    # Signed-out searching. `anon_per_visitor` 0 means the feature is off.
+    anon_per_visitor: int = DEFAULT_ANON_PER_VISITOR
+    anon_daily_total: int = DEFAULT_ANON_DAILY_TOTAL
+    anon_used_browser: int = 0
+    anon_used_ip: int = 0
+    anon_used_total: int = 0
 
 
 @dataclass(frozen=True)
@@ -207,22 +238,26 @@ def decide(identity: Identity, state: State, *, action: str, units: int) -> Deci
             info={"balance": state.balance, "needed": needed},
         )
 
-    # Signed out, and that is the end of it. Changed 2026-09-23: there used to
-    # be a daily allowance here, one free search per browser and per IP, and
-    # `action` decided whether a signed-out visitor could reach it - discovery
-    # yes, scoring no.
-    #
-    # It is gone because the free search was the only place this product spent
-    # real money on somebody it could not name. Two hashed counters are a speed
-    # bump, not an identity: clearing site data resets one and any new address
-    # resets the other, so the bill was bounded by how much trouble a stranger
-    # felt like going to. An account makes the spend attributable, and that is
-    # the whole requirement.
-    #
-    # `action` therefore no longer changes this answer - it is still taken
-    # because the caller records it on `usage_event`, and because a refusal
-    # worth counting is a refusal worth knowing the shape of.
-    return Decision(False, REFUSED_SIGNED_OUT, "signedOut", 401)
+    # SIGNED OUT. Off (0 per visitor), or anything but a search: sign in.
+    # The 2026-09-23 removal said why a per-visitor counter alone was never a
+    # limit; the daily total below is what makes this one a limit.
+    if action not in ANONYMOUS_ACTIONS or state.anon_per_visitor <= 0:
+        return Decision(False, REFUSED_SIGNED_OUT, "signedOut", 401)
+
+    # Either counter refuses: clearing site data defeats the browser id, a new
+    # address defeats the IP, and needing both under the limit makes the cheap
+    # bypasses cost something.
+    used = max(state.anon_used_browser, state.anon_used_ip)
+    if used >= state.anon_per_visitor:
+        return Decision(
+            False, REFUSED_ANON_LIMIT, "anonLimit", 429,
+            info={"used": used, "limit": state.anon_per_visitor},
+        )
+    # The ceiling that holds whatever the counters above can be talked out of.
+    # Nothing about the total is personal, so the reply carries no number.
+    if state.anon_used_total >= state.anon_daily_total:
+        return Decision(False, REFUSED_ANON_DAILY_FULL, "anonDailyFull", 429)
+    return Decision(True, ALLOWED, affordable_units=units)
 
 
 def credits_for(billable_calls: int | None) -> int:
@@ -384,21 +419,60 @@ def is_admin(email: str | None, admin_emails: frozenset[str]) -> bool:
     return bool(normalized) and normalized in admin_emails
 
 
-def anon_ip_hash(forwarded_for: str | None, salt: bytes) -> str | None:
+def client_ip(forwarded_for: str | None, trusted_hops: int = 1) -> str | None:
+    """The caller's address out of X-Forwarded-For.
+
+    COUNTED FROM THE RIGHT, by the number of proxies we trust (`TRUSTED_PROXY_
+    HOPS`, default 1: Railway's edge). Each proxy APPENDS the address it saw, so
+    the entries on the left are whatever the client chose to send - reading the
+    FIRST one, as this did until 2026-10-19, let anybody pick a fresh address
+    per request by writing the header themselves. With one trusted proxy the
+    rightmost entry is the one that proxy saw, which the client cannot forge.
+
+    PRIVATE AND INTERNAL ADDRESSES ON THE RIGHT ARE SKIPPED first: those are
+    a platform's own internal hops (10.x, 100.64/10, ...), and counting from
+    one of them would put every visitor on the same key. A client cannot use
+    this to hide - what it writes lands on the LEFT of the address the edge
+    appends.
+
+    Too many hops configured falls back to the leftmost entry rather than to
+    nothing: a wrong setting must not hand every visitor the same key.
+    """
+    parts = [p.strip() for p in (forwarded_for or "").split(",") if p.strip()]
+    while len(parts) > 1 and _internal(parts[-1]):
+        parts.pop()
+    if not parts:
+        return None
+    hops = max(1, int(trusted_hops or 1))
+    return parts[-hops] if hops <= len(parts) else parts[0]
+
+
+_SHARED = ipaddress.ip_network("100.64.0.0/10")  # carrier-grade NAT, platform-internal
+
+
+def _internal(address: str) -> bool:
+    try:
+        ip = ipaddress.ip_address(address)
+    except ValueError:
+        return False
+    return (ip.is_private or ip.is_loopback or ip.is_link_local
+            or (ip.version == 4 and ip in _SHARED))
+
+
+def anon_ip_hash(forwarded_for: str | None, salt: bytes, trusted_hops: int = 1) -> str | None:
     """Key an anonymous counter on the caller's address without storing it.
 
-    Takes the FIRST entry of X-Forwarded-For - that is the client, everything
-    after it is proxies. Railway terminates in front of uvicorn (started without
-    --proxy-headers, see railway.json), so `request.client.host` is the proxy
-    and this header is the only address there is.
+    Railway terminates in front of uvicorn (started without --proxy-headers,
+    see railway.json), so `request.client.host` is the proxy and this header is
+    the only address there is; `client_ip` says which entry of it to trust.
 
     The raw address never reaches the database. It is only ever needed as a
     counter key, and hashing costs nothing.
     """
-    first = (forwarded_for or "").split(",")[0].strip()
-    if not first:
+    ip = client_ip(forwarded_for, trusted_hops)
+    if not ip:
         return None
-    return hmac.new(salt, first.encode(), hashlib.sha256).hexdigest()[:32]
+    return hmac.new(salt, ip.encode(), hashlib.sha256).hexdigest()[:32]
 
 
 def setting_int(

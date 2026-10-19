@@ -30,6 +30,37 @@ export default async function SettingsPage() {
         <button className="act" type="submit">{t("common.save")}</button>
       </form>
 
+      <h2>{t("settings.anonHeading")}</h2>
+      {!s.turnstile_configured && <p className="notice">{t("settings.anonNoTurnstile")}</p>}
+      <form className="row" action={saveSettings}>
+        <label>
+          {t("settings.anonPerVisitor")}
+          <br />
+          <input
+            name="anon_per_visitor"
+            type="number"
+            min={0}
+            max={20}
+            defaultValue={s.anonymous_searches_per_visitor ?? 0}
+          />
+        </label>
+        <label>
+          {t("settings.anonDailyTotal")}
+          <br />
+          <input
+            name="anon_daily_total"
+            type="number"
+            min={0}
+            max={5000}
+            defaultValue={s.anonymous_daily_total ?? 50}
+          />
+        </label>
+        <button className="act" type="submit">{t("common.save")}</button>
+      </form>
+      <p className="sub">
+        {t("settings.anonCost", { usd: ((s.anonymous_daily_total ?? 50) * 0.0026).toFixed(2) })}
+      </p>
+
       <h2>{t("settings.explainHeading")}</h2>
       <p className="sub">{t("settings.explainSignedOut")}</p>
       <p className="sub">

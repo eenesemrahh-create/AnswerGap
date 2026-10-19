@@ -533,6 +533,9 @@ export const tr: Messages = {
     searchFailed:
       "Arama tamamlanamadı. Krediniz düşülmedi - lütfen bir dakika sonra tekrar deneyin.",
     alreadySearched: "Bu aramayı zaten yaptın. Listenden açabilir ya da güncelleyebilirsin.",
+    anonLimit: "Bugünkü ücretsiz aramanı kullandın. Aramaya devam etmek için ücretsiz hesap aç.",
+    anonDailyFull: "Bugünkü ücretsiz aramaların hepsi kullanıldı. Hemen aramak için ücretsiz hesap aç.",
+    captchaFailed: "Bu aramanın bir kişiden geldiğini doğrulayamadık. Lütfen tekrar dene.",
     badRequest: "Bu istek, istendiği şekliyle çalıştırılamaz.",
     planNotPurchasable:
       "Bu plan henüz satın alınamıyor — ödeme kurulumunu tamamlamadık. " +
@@ -557,6 +560,16 @@ export const tr: Messages = {
     loading: "Yükleniyor…",
   },
 
+  anon: {
+    freeLeft: "Hesap açmadan ücretsiz dene: bugün {count} arama hakkın var.",
+    usedUp: "Bugünkü ücretsiz aramanı kullandın.",
+    dailyFull: "Bugünkü ücretsiz aramaların hepsi kullanıldı.",
+    usedUpReason: "Ücretsiz hesapla soru ağacının tamamını görürsün ve aramaların saklanır.",
+    signUpFree: "Ücretsiz hesap aç",
+    verifying: "Doğrulanıyor…",
+    previewTitle: "Bu önizlemede {total} sorudan {count} tanesi gizli",
+    previewBody: "Ağacın tamamını görmek ve hangi soruları kimsenin yanıtlamadığını kontrol etmek için ücretsiz hesap aç. Bu arama ücretsiz olarak hesabına aktarılır.",
+  },
   theme: {
     light: "Koyu temaya geç",
     dark: "Sistemi izle",

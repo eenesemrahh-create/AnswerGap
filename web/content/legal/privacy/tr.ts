@@ -6,7 +6,7 @@ export const tr: PrivacyContent = {
   description:
     "AnswerGap neyi topluyor, başka kimlere gidiyor, diğer müşterilerden ne gizli kalıyor ve hesabınızı sildiğinizde ne kalıyor.",
   lead: "Neyi neden topladığımızı, bir başkasından duymak isteyeceğimiz açıklıkta anlatıyoruz. 5. madde diğer müşterilerin neyi görüp göremediğini, 7. madde hesap silmenin neyi sildiğini ve neyi silmediğini anlatır.",
-  effective: "2026-10-17",
+  effective: "2026-10-19",
 
   sections: {
     scope: {
@@ -54,7 +54,7 @@ export const tr: PrivacyContent = {
       heading: "3. Çerezler ve tarayıcınızda kalanlar",
       body: [
         {
-          p: "AnswerGap web sitesi hiç çerez kullanmıyor. Hiçbir analiz aracı, etiket yöneticisi ya da üçüncü taraf betiği yok. Yazı tipleri başkasından çekilmek yerine kendi alan adımızdan sunuluyor.",
+          p: "AnswerGap web sitesi kendi çerezini kullanmıyor. Hiçbir analiz aracı ya da etiket yöneticisi yok. Tek üçüncü taraf betiği Cloudflare Turnstile'dır; yalnızca giriş yapmamış bir ziyaretçiye gösterilen arama kutusuyla birlikte, insanları otomatik trafikten ayırmak için yüklenir (bkz. madde 4). Yazı tipleri başkasından çekilmek yerine kendi alan adımızdan sunuluyor.",
         },
         {
           p: "Tarayıcınız cihazınızda birkaç değeri yerel olarak tutar; bunları uzaktan okuyamayız:",
@@ -87,6 +87,7 @@ export const tr: PrivacyContent = {
             "Ödeme sağlayıcımız, ilk ödemenizden önce müşteri kaydınızı oluştururken e-posta adresinizi ve dahili bir hesap numarasını, ayrıca kendi barındırdığı ödeme sayfasına girdiklerinizi alır. Bir ödemenin başarılı ya da başarısız olduğunu ve bir aboneliğin başladığını, yenilendiğini ya da sona erdiğini bize bildirir.",
             "Google, yalnızca Google ile giriş yapmayı seçerseniz ve yalnızca giriş alışverişi kadarını alır.",
             "Barındırma sağlayıcımız hizmeti çalıştırır; posta kutusu sağlayıcımız destek adresine yazdıklarınızı tutar.",
+            "Cloudflare, Turnstile doğrulaması aracılığıyla, hesap olmadan arama yaptığınızda isteğin bir kişiden geldiğini doğrulamak için IP adresinizi ve tarayıcınızdan teknik sinyaller alır. Hiçbir hesap tanımlayıcısı almaz.",
           ],
         },
         {
@@ -109,7 +110,7 @@ export const tr: PrivacyContent = {
             "Arama listeniz size özeldir. Başka bir müşteri hangi kelimeleri arattığınızı göremez ve kayıtlı analizlerinizi açamaz. Size ait olmayan bir analiz istendiğinde “izin yok” değil “bulunamadı” döner; çünkü bir aramanın var olması bile başlı başına bilgidir.",
             "Arka plandaki arama verisi ortaktır. Veri sağlayıcımızdan aldığımız sorular ve arama sonuçları hesap başına özel bir kopyada değil, tüm müşteriler için kullanılan tek bir depoda tutulur; bu yüzden yaptığınız bir arama, önce başka bir müşteri için alınmış veriyle yanıtlanabilir, tersi de geçerlidir. Bu veriden kurduklarınız ise size aittir: soru ağaçlarınız ve ödemesini yaptığınız boşluk kontrolleri yalnızca size gösterilir; aynı kelimeyi arayan başka bir müşteri de kendi aramasının bedelini öder.",
             "“Bu gerçekten bir boşluk mu?” düğmeleriyle verdiğiniz kararlar hesabınıza bağlanmadan saklanır ve skorlamanın nasıl çalıştığını iyileştirmek için kullanılır.",
-            "Çıkış yapmışsanız kendi analizlerinize erişiminiz tarayıcınızdaki rastgele tanımlayıcıya dayanır. Bu onları yabancılardan uzak tutar ama kriptografik bir koruma değildir — tarayıcı deponuzu temizlerseniz erişiminizi kaybedersiniz.",
+            "Çıkış yapmışsanız kendi analizlerinize erişiminiz tarayıcınızdaki rastgele tanımlayıcıya dayanır. Bu onları yabancılardan uzak tutar ama kriptografik bir koruma değildir — tarayıcı deponuzu temizlerseniz erişiminizi kaybedersiniz. Hesap açtığınızda ya da giriş yaptığınızda, bu tarayıcıda giriş yapmadan yaptığınız aramalar hesabınıza aktarılır.",
           ],
         },
       ],

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ApiError, resendVerification, signOut } from "@/lib/api";
+import { ApiError, claimAnonWork, resendVerification, signOut } from "@/lib/api";
 import Link from "next/link";
 import { loadMe, planName, useMe } from "@/lib/me";
 import { SignInDialog } from "./SignInDialog";
@@ -95,7 +95,8 @@ export function AccountMenu({
     // anonymous - this strip only mounts once `meta` exists - so the page is
     // told, exactly as after a dialog sign-in. The landing captures the hash
     // itself before its first request; this covers every other page.
-    if (captureTokenFromHash()) onSessionChange?.();
+    // Claimed FIRST, so the page refetches a tree that is already theirs.
+    if (captureTokenFromHash()) void claimAnonWork().then(() => onSessionChange?.());
 
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
@@ -220,7 +221,9 @@ export function AccountMenu({
        * never had the bug: it reloads the page. */
       onSignedIn={() => {
         load();
-        onSessionChange?.();
+        // A search run signed out moves into the account before the page
+        // looks again (2026-10-19), so it opens whole rather than as a preview.
+        void claimAnonWork().then(() => onSessionChange?.());
       }}
     />
   );

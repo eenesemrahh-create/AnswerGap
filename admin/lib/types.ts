@@ -10,6 +10,10 @@ export interface Overview {
 
 export interface Settings {
   signup_credits: number;
+  /** Signed-out searches (2026-10-19). 0 per visitor = off. */
+  anonymous_searches_per_visitor?: number;
+  anonymous_daily_total?: number;
+  turnstile_configured?: boolean;
 }
 
 export interface UserRow {

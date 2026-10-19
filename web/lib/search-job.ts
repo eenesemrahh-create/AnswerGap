@@ -155,18 +155,23 @@ export async function startSearch(input: {
   location: number;
   language: string;
   refresh?: boolean;
+  /** Turnstile token, for a signed-out search (2026-10-19). One use. */
+  turnstile?: string;
 }): Promise<string | null> {
   load();
-  const { refresh, ...where } = input;
+  const { refresh, turnstile, ...where } = input;
   const startedAt = Date.now();
   set({ ...where, startedAt, status: "running" });
   try {
-    const result = await runSearch({
-      seed: input.seed,
-      location_code: input.location,
-      language_code: input.language,
-      refresh: refresh || undefined,
-    });
+    const result = await runSearch(
+      {
+        seed: input.seed,
+        location_code: input.location,
+        language_code: input.language,
+        refresh: refresh || undefined,
+      },
+      turnstile
+    );
     if (isDryRun(result)) {
       set(null);
       return null;

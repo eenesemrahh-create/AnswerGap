@@ -6,7 +6,7 @@ export const es: PrivacyContent = {
   description:
     "Qué recoge AnswerGap, quién más lo recibe, qué queda oculto al resto de la clientela y qué sobrevive al borrar su cuenta.",
   lead: "Aquí explicamos qué recogemos y por qué, con la claridad que querríamos de cualquier otro. El apartado 5 trata de lo que otras personas pueden ver y lo que no; el 7, de lo que borrar su cuenta elimina y lo que no.",
-  effective: "2026-10-17",
+  effective: "2026-10-19",
 
   sections: {
     scope: {
@@ -54,7 +54,7 @@ export const es: PrivacyContent = {
       heading: "3. Cookies y lo que guarda su navegador",
       body: [
         {
-          p: "El sitio de AnswerGap no usa cookies. No hay analítica, ni gestor de etiquetas, ni ningún script de terceros. Las tipografías se sirven desde nuestro propio dominio en lugar de pedirse a nadie.",
+          p: "El sitio de AnswerGap no usa cookies propias. No hay analítica ni gestor de etiquetas. El único script de terceros es Cloudflare Turnstile, que se carga solo con el buscador que se muestra a quien no ha iniciado sesión, para distinguir a las personas del tráfico automatizado (véase el apartado 4). Las tipografías se sirven desde nuestro propio dominio en lugar de pedirse a nadie.",
         },
         {
           p: "Su navegador guarda localmente, en su dispositivo, unos pocos valores que no podemos leer en remoto:",
@@ -87,6 +87,7 @@ export const es: PrivacyContent = {
             "Nuestro proveedor de pagos recibe su dirección de correo y un número de cuenta interno cuando creamos su ficha de cliente antes de su primer pago, y lo que usted introduce en su propia página de pago. Nos avisa cuando un pago se completa o falla, y cuando una suscripción empieza, se renueva o termina.",
             "Google no recibe nada más allá del intercambio de inicio de sesión, y solo si elige entrar con Google.",
             "Nuestro proveedor de alojamiento ejecuta el servicio; el de buzón guarda lo que escriba a soporte.",
+            "Cloudflare, mediante su comprobación Turnstile, recibe su dirección IP y señales técnicas de su navegador cuando busca sin cuenta, para confirmar que la petición viene de una persona. No recibe ningún identificador de cuenta.",
           ],
         },
         {
@@ -109,7 +110,7 @@ export const es: PrivacyContent = {
             "Su lista de búsquedas es privada. Otra persona no puede ver qué palabras buscó ni abrir sus análisis guardados. Pedir un análisis ajeno devuelve «no encontrado» y no «no permitido», porque la mera existencia de una búsqueda ya es información.",
             "Los datos de búsqueda de base son compartidos. Las preguntas y los resultados de búsqueda que obtenemos de nuestro proveedor de datos se guardan en un único almacén para toda la clientela, no en una copia privada por cuenta; por eso una búsqueda suya puede responderse con datos obtenidos primero para otra persona, y al revés. Lo que construye a partir de ellos es suyo: sus árboles de preguntas y las comprobaciones de hueco que pagó solo se le muestran a usted, y otra persona que busque la misma palabra paga su propia búsqueda.",
             "Los veredictos que da con los botones de «¿esto es realmente un hueco?» se guardan sin vincularse a su cuenta y sirven para mejorar el funcionamiento de la puntuación.",
-            "Si ha cerrado sesión, el acceso a sus propios análisis depende del identificador aleatorio del navegador. Eso los mantiene lejos de desconocidos, pero no es protección criptográfica: si borra el almacenamiento del navegador, pierde el acceso.",
+            "Si ha cerrado sesión, el acceso a sus propios análisis depende del identificador aleatorio del navegador. Eso los mantiene lejos de desconocidos, pero no es protección criptográfica: si borra el almacenamiento del navegador, pierde el acceso. Cuando crea una cuenta o inicia sesión, las búsquedas hechas en este navegador sin sesión pasan a su cuenta.",
           ],
         },
       ],

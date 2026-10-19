@@ -407,12 +407,23 @@ const en = {
     signupLabel: "Credits for a new account",
     explainHeading: "What this actually does",
     explainSignedOut:
-      "Signing in is required before any search. There used to be one free " +
-      "search a day for signed-out visitors, counted against a browser id and " +
-      "a hashed IP; it was retired on 23 September 2026 because both are " +
-      "resettable — clearing site data defeats one, a new network defeats the " +
-      "other — so it was a speed bump rather than a limit, and it was the only " +
-      "place the product spent real money on somebody it could not name.",
+      "Signed-out visitors may search only while “searches per visitor” is " +
+      "above 0 and Turnstile is configured. Each search must pass Cloudflare " +
+      "Turnstile, then the per-visitor limit (browser id or address, whichever " +
+      "is higher), then the daily total for all signed-out visitors together. " +
+      "The per-visitor limit can be reset by clearing site data or changing " +
+      "network; the DAILY TOTAL cannot, so it is what bounds the bill " +
+      "(total × about $0.0026 a day). The visitor sees a preview: the seed and " +
+      "the top-level questions; signing up shows the rest and moves the search " +
+      "into the account for free.",
+    anonHeading: "Signed-out searches",
+    anonPerVisitor: "Searches per visitor per day (0 = off)",
+    anonDailyTotal: "Daily total for all signed-out visitors",
+    anonCost: "At most about ${usd} a day.",
+    anonNoTurnstile:
+      "Turnstile is not configured (TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY " +
+      "on the api service), so signed-out searching stays off whatever is set " +
+      "here.",
     explainSignup:
       "is granted once, by the same statement that creates the account. " +
       "Existing accounts are unaffected. A search costs one credit; a cached " +
@@ -1213,13 +1224,23 @@ const tr: Messages = {
     signupLabel: "Yeni hesaba verilen kredi",
     explainHeading: "Bu aslında ne yapıyor",
     explainSignedOut:
-      "Herhangi bir aramadan önce giriş yapmak zorunludur. Eskiden çıkış " +
-      "yapmış ziyaretçiler için günde bir ücretsiz arama vardı; bir tarayıcı " +
-      "kimliğine ve özetlenmiş bir IP'ye karşı sayılıyordu. 23 Eylül 2026'da " +
-      "kaldırıldı, çünkü ikisi de sıfırlanabilir — site verisini temizlemek " +
-      "birini, yeni bir ağ diğerini aşar — yani bir limitten çok bir hız " +
-      "kesiciydi ve ürünün adını bilmediği birine gerçek para harcadığı tek " +
-      "yerdi.",
+      "Üye olmayan ziyaretçiler yalnızca “ziyaretçi başı arama” 0'dan büyükse " +
+      "ve Turnstile ayarlıysa arama yapabilir. Her arama önce Cloudflare " +
+      "Turnstile'dan, sonra ziyaretçi başı sınırdan (tarayıcı kimliği ya da " +
+      "adres, hangisi yüksekse), sonra tüm üyeliksiz ziyaretçilerin günlük " +
+      "toplamından geçmelidir. Ziyaretçi başı sınır site verisini silerek ya da " +
+      "ağ değiştirerek sıfırlanabilir; GÜNLÜK TOPLAM sıfırlanamaz, faturayı " +
+      "sınırlayan odur (toplam × yaklaşık $0.0026/gün). Ziyaretçi bir önizleme " +
+      "görür: tohum ve ilk seviye sorular; üye olunca gerisi açılır ve arama " +
+      "ücretsiz olarak hesaba aktarılır.",
+    anonHeading: "Üyeliksiz aramalar",
+    anonPerVisitor: "Ziyaretçi başı günlük arama (0 = kapalı)",
+    anonDailyTotal: "Tüm üyeliksiz ziyaretçiler için günlük toplam",
+    anonCost: "Günde en fazla yaklaşık ${usd}.",
+    anonNoTurnstile:
+      "Turnstile ayarlı değil (api servisinde TURNSTILE_SITE_KEY ve " +
+      "TURNSTILE_SECRET_KEY), bu yüzden burada ne ayarlanırsa ayarlansın " +
+      "üyeliksiz arama kapalı kalır.",
     explainSignup:
       "hesabı oluşturan aynı ifadeyle bir kez verilir. Mevcut hesaplar " +
       "etkilenmez. Bir arama bir krediye mal olur; önbellekten gelen sonuç " +

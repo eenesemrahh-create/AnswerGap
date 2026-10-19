@@ -19,7 +19,7 @@ export const en = {
   description:
     "What AnswerGap collects, who else receives it, what stays private from other customers, and what survives deleting your account.",
   lead: "This explains what we collect and why, in the plain terms we would want from somebody else. Section 5 covers what other customers can and cannot see; section 7 covers what deleting your account does and does not remove.",
-  effective: "2026-10-17",
+  effective: "2026-10-19",
 
   sections: {
     scope: {
@@ -67,7 +67,7 @@ export const en = {
       heading: "3. Cookies and what your browser keeps",
       body: [
         {
-          p: "The AnswerGap website sets no cookies. There is no analytics, no tag manager, and no third-party script of any kind. Fonts are served from our own domain rather than fetched from anyone else.",
+          p: "The AnswerGap website sets no cookies of its own. There is no analytics and no tag manager. The one third-party script is Cloudflare Turnstile, loaded only with the search box shown to a visitor who is not signed in, to tell people from automated traffic (see section 4). Fonts are served from our own domain rather than fetched from anyone else.",
         },
         {
           p: "Your browser keeps a few values locally, on your device, which we cannot read remotely:",
@@ -100,6 +100,7 @@ export const en = {
             "Our payment provider receives your email address and an internal account number when we set up your customer record before your first checkout, and whatever you enter on its own hosted checkout page. It tells us when a payment succeeds or fails, and when a subscription starts, renews or ends.",
             "Google receives nothing beyond the sign-in exchange, and only if you choose to sign in with Google.",
             "Our hosting provider runs the service; our mailbox provider holds any mail you send to support.",
+            "Cloudflare, through its Turnstile check, receives your IP address and technical signals from your browser when you search without an account, to confirm the request comes from a person. It receives no account identifier.",
           ],
         },
         {
@@ -122,7 +123,7 @@ export const en = {
             "Your list of searches is private. Another customer cannot see which keywords you searched or open your saved analyses. Asking for an analysis that is not yours returns “not found” rather than “not allowed”, because the mere existence of a search is itself information.",
             "The underlying search data is shared. The questions and search results we retrieve from our data provider are kept in one store used for every customer, not in a private copy per account, so a search you run may be answered from data first retrieved for another customer, and the other way round. What you build from it is yours: your question trees and the gap checks you paid for are shown only to you, and another customer searching the same keyword still pays for their own search.",
             "Verdicts you give with the “is this really a gap?” buttons are stored without your account attached, and are used to improve how the scoring works.",
-            "If you are signed out, access to your own analyses rests on the random identifier in your browser. That keeps them away from strangers, but it is not cryptographic protection — clear your browser storage and you lose access to them.",
+            "If you are signed out, access to your own analyses rests on the random identifier in your browser. That keeps them away from strangers, but it is not cryptographic protection — clear your browser storage and you lose access to them. When you create an account or sign in, searches run in this browser while signed out move into your account.",
           ],
         },
       ],

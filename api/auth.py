@@ -41,7 +41,7 @@ from answergap import db, entitlements, gate, mailer, oauth, passwords, tokens
 # `stripe` imports nothing but the standard library, so a sibling importing it
 # cannot cycle - the same check made before `db` was allowed to import `gate`.
 # `billing` imports only `stripe` and `answergap`, never this module.
-from . import billing, stripe
+from . import billing, stripe, turnstile
 
 router = APIRouter()
 
@@ -79,6 +79,22 @@ ANON_IP_SALT = (
 )
 
 ANON_HEADER = "x-ag-anon"
+
+# How many proxies sit in front of uvicorn and append to X-Forwarded-For. One
+# on Railway (its edge); `gate.client_ip` reads that many entries from the
+# RIGHT. Check it with the admin's "IP check" (GET /api/admin/ip-check): if
+# the address shown is not yours, this number is wrong.
+try:
+    TRUSTED_PROXY_HOPS = max(1, int(os.environ.get("TRUSTED_PROXY_HOPS", "1")))
+except ValueError:
+    TRUSTED_PROXY_HOPS = 1
+
+
+def ip_hash_of(request: Request) -> str | None:
+    """The hashed caller address - the one key every counter shares."""
+    return gate.anon_ip_hash(
+        request.headers.get("x-forwarded-for"), ANON_IP_SALT, TRUSTED_PROXY_HOPS
+    )
 
 
 def accounts_enabled() -> bool:
@@ -127,7 +143,7 @@ def identity(request: Request) -> gate.Identity:
     endpoint loads the row and re-checks the epoch and the status.
     """
     anon_id = (request.headers.get(ANON_HEADER) or "").strip()[:64] or None
-    ip_hash = gate.anon_ip_hash(request.headers.get("x-forwarded-for"), ANON_IP_SALT)
+    ip_hash = ip_hash_of(request)
 
     header = request.headers.get("authorization") or ""
     token = header[7:].strip() if header.lower().startswith("bearer ") else ""
@@ -195,12 +211,13 @@ def check(who: gate.Identity, *, action: str, units: int) -> gate.Decision:
             email_verified=bool(row.get("email_verified", True)),
             balance=int(row.get("balance") or 0),
         )
+    elif action in gate.ANONYMOUS_ACTIONS:
+        # Signed-out searching (2026-10-19): the two settings and the three
+        # counters in one round trip.
+        state = anon_state(who)
     else:
-        # No query at all any more. A signed-out visitor used to cost one round
-        # trip here to count their daily allowance against two hashed keys;
-        # since the allowance was retired the gate refuses them on identity
-        # alone, so asking the database anything would be spending a query to
-        # learn nothing.
+        # Nothing a signed-out visitor may do here, so no query: the gate
+        # refuses them on identity alone.
         state = gate.State(accounts_enabled=True)
 
     decision = gate.decide(who, state, action=action, units=units)
@@ -214,6 +231,35 @@ def check(who: gate.Identity, *, action: str, units: int) -> gate.Decision:
             info=decision.info,
         )
     return decision
+
+
+def anon_state(who: gate.Identity) -> gate.State:
+    """The signed-out allowance and today's counters, as the gate wants them.
+
+    Turnstile not configured means the feature is OFF whatever the setting
+    says: the daily total is what bounds the bill, but without the challenge a
+    script could empty it every morning and leave nothing for people.
+    """
+    counters = db.anon_counters(anon_id=who.anon_id, ip_hash=who.ip_hash)
+    per_visitor = gate.setting_int(
+        {gate.SETTING_ANON_PER_VISITOR: counters.get("per_visitor")},
+        gate.SETTING_ANON_PER_VISITOR,
+        default=gate.DEFAULT_ANON_PER_VISITOR, lo=0, hi=gate.ANON_PER_VISITOR_MAX,
+    )
+    if not turnstile.configured():
+        per_visitor = 0
+    return gate.State(
+        accounts_enabled=True,
+        anon_per_visitor=per_visitor,
+        anon_daily_total=gate.setting_int(
+            {gate.SETTING_ANON_DAILY_TOTAL: counters.get("daily_total")},
+            gate.SETTING_ANON_DAILY_TOTAL,
+            default=gate.DEFAULT_ANON_DAILY_TOTAL, lo=0, hi=gate.ANON_DAILY_TOTAL_MAX,
+        ),
+        anon_used_browser=int(counters.get("by_browser") or 0),
+        anon_used_ip=int(counters.get("by_ip") or 0),
+        anon_used_total=int(counters.get("total") or 0),
+    )
 
 
 def record(
@@ -1682,6 +1728,23 @@ def erase_account(request: Request, payload: EraseRequest) -> JSONResponse:
     # The client's token is already dead - erasure bumped the epoch - and this
     # is what tells it to stop holding one.
     return JSONResponse({"status": "erased"})
+
+
+@router.post("/api/account/claim-anon")
+def claim_anon(request: Request) -> dict:
+    """Move the searches this browser ran signed out onto the account.
+
+    Called by the web app right after any sign-in, whichever door it came
+    through: the Google and mail-link doors arrive by redirect, which carries
+    no `x-ag-anon` header, so the claim cannot ride on the sign-in itself. The
+    browser id is the claim - the same one `can_access` already honours.
+    """
+    if not accounts_enabled():
+        raise HTTPException(503, {"code": "accountsOff"})
+    who = identity(request)
+    if not who.signed_in:
+        raise HTTPException(401, {"code": "signedOut"})
+    return {"claimed": db.claim_anon_work(user_id=int(who.user_id), anon_id=who.anon_id)}
 
 
 def _issue(user: dict) -> str:
