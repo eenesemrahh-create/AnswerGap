@@ -432,7 +432,7 @@ export const fr: Messages = {
     endingMakeDefault: "Ce forfait se termine le {date}. Pour le garder, choisissez « Définir par défaut » ci-dessus ; inutile de le racheter.",
     endingRenewInPortal: "Ce forfait se termine le {date}. Pour le garder, renouvelez-le dans « {manage} » ; inutile de le racheter.",
     chooseAdditional: "Ajouter {plan} comme second forfait",
-    additionalWarn: "Votre forfait actuel continue et ce forfait est facturé en plus. Quand vous en choisissez un par défaut, les autres ne sont plus renouvelés à la fin de leur période.",
+    additionalWarn: "Votre forfait actuel continue et ce forfait est facturé en plus. Seul votre forfait par défaut se renouvelle chaque mois : celui-ci se termine après sa première période. Pour qu'il se renouvelle, définissez-le par défaut ; vos autres forfaits s'arrêtent alors à la fin de leur période.",
     additionalYes: "J'ai compris, passer au paiement",
     contactUs: "Nous contacter",
     seeAllPlans: "Voir toutes les offres",

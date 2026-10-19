@@ -428,7 +428,7 @@ export const de: Messages = {
     endingMakeDefault: "Dieser Plan endet am {date}. Um ihn zu behalten, wähle oben „Als Standard festlegen“; du musst ihn nicht erneut kaufen.",
     endingRenewInPortal: "Dieser Plan endet am {date}. Um ihn zu behalten, verlängere ihn unter „{manage}“; du musst ihn nicht erneut kaufen.",
     chooseAdditional: "{plan} als zweiten Plan hinzufügen",
-    additionalWarn: "Dein aktueller Plan läuft weiter und dieser Plan wird zusätzlich berechnet. Legst du einen als Standard fest, verlängern sich die anderen am Ende ihres Zeitraums nicht.",
+    additionalWarn: "Dein aktueller Plan läuft weiter und dieser Plan wird zusätzlich berechnet. Nur dein Standardplan verlängert sich jeden Monat: dieser endet nach seinem ersten Zeitraum. Soll er sich verlängern, lege ihn als Standard fest; deine anderen Pläne enden dann am Ende ihres Zeitraums.",
     additionalYes: "Verstanden, weiter zur Zahlung",
     contactUs: "Kontakt aufnehmen",
     seeAllPlans: "Alle Tarife ansehen",

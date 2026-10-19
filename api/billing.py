@@ -199,6 +199,19 @@ def apply_subscription_event(event: dict) -> str | None:
             livemode=bool(event.get("livemode")),
         )
 
+        # A NEW PAID PLAN: only the default renews (operator, 2026-10-19).
+        # The first moment it is running is either event, whichever comes
+        # first; `_settle_new_plan` is a no-op the second time.
+        settled = None
+        if kind == "customer.subscription.created" or (
+            kind == "invoice.paid" and found.get("billing_reason") == "subscription_create"
+        ):
+            try:
+                settled = _settle_new_plan(user_id, subscription_id)
+            except Exception:  # noqa: BLE001 - never at the cost of the grant below
+                logging.getLogger("answergap.api").exception(
+                    "Settling new plan %s failed", subscription_id)
+
         if kind == "customer.subscription.deleted":
             # The end of a plan an ADMIN cancelled "at period end": the
             # customer kept the credits until now, and what is left goes now.
@@ -215,7 +228,7 @@ def apply_subscription_event(event: dict) -> str | None:
                     return f"status canceled, clawed back {taken}"
 
         if kind != "invoice.paid":
-            return f"status {found.get('status') or 'updated'}"
+            return f"status {found.get('status') or 'updated'}" + (f"; {settled}" if settled else "")
 
         # ONLY A NEW SUBSCRIPTION OR A RENEWAL PAYS A PERIOD'S CREDITS.
         # A plan change raises its own invoice (`subscription_update`) for
@@ -247,12 +260,65 @@ def apply_subscription_event(event: dict) -> str | None:
             expires_at=stripe_time(found.get("current_period_end"))
             or row.get("current_period_end"),
         )
-        return f"granted {credits}" if granted else "already granted"
+        out = f"granted {credits}" if granted else "already granted"
+        return out + (f"; {settled}" if settled else "")
     except Exception:  # noqa: BLE001 - see the docstring
         logging.getLogger("answergap.api").exception(
             "Subscription event %s failed", event.get("id")
         )
         return "ERROR"
+
+
+def _settle_new_plan(user_id: int, stripe_subscription_id: str) -> str | None:
+    """ONLY THE DEFAULT RENEWS (operator, 2026-10-19).
+
+    A plan bought beside a renewing default is set at Stripe to stop at the
+    end of its first period; the customer keeps it renewing by making it the
+    default, which stops the others instead. With no renewing paid plan
+    beside it, the new one simply becomes the default.
+
+    An account from before defaults existed has renewing plans and no
+    default: the OLDEST renewing one is taken as the default, so buying a
+    second plan never silently stops the one the person already had.
+
+    Idempotent - it runs on whichever of `customer.subscription.created` and
+    the first `invoice.paid` arrives first, and does nothing the second time.
+    Never raises: a refusal from Stripe is logged and the plan is left
+    renewing, which the person can still settle by choosing a default.
+    """
+    live = db.live_subscriptions(user_id)
+    new = next((s for s in live if s.get("stripe_subscription_id") == stripe_subscription_id), None)
+    if not new or new.get("is_default") or new.get("cancel_at_period_end"):
+        return None
+    others = [s for s in live
+              if s.get("source") == "stripe" and s.get("stripe_subscription_id")
+              and not s.get("cancel_at_period_end") and int(s["id"]) != int(new["id"])]
+    if not others:
+        db.subscription_set_default(user_id=user_id, subscription_id=int(new["id"]))
+        return "made default"
+    keep = next((s for s in others if s.get("is_default")), None) or min(
+        others, key=lambda s: (str(s.get("created_at") or ""), int(s["id"])))
+    if not keep.get("is_default"):
+        db.subscription_set_default(user_id=user_id, subscription_id=int(keep["id"]))
+    try:
+        stripe.cancel_subscription(stripe_subscription_id, at_period_end=True)
+    except stripe.StripeError as exc:
+        print(f"[stripe] extra plan {stripe_subscription_id} left renewing: {exc}", flush=True)
+        _account_event(user_id, "extra_plan_stop_failed",
+                       {"subscription_id": int(new["id"]), "error": exc.code})
+        return "extra plan: Stripe refused the stop, still renewing"
+    db.subscription_mark_ending(user_id=user_id, subscription_id=int(new["id"]))
+    _account_event(user_id, "extra_plan_not_renewing",
+                   {"subscription_id": int(new["id"]), "plan_id": new.get("plan_id"),
+                    "default": int(keep["id"])})
+    return "extra plan, stops at period end"
+
+
+def _account_event(user_id: int, kind: str, detail: dict) -> None:
+    try:
+        db.account_event_put(user_id=user_id, kind=kind, detail=detail)
+    except Exception as exc:  # noqa: BLE001 - a lost log line never fails billing
+        print(f"[account-log] {kind} for {user_id} not written: {exc}", flush=True)
 
 
 # Statuses in which Stripe will never charge the card again. Everything else -

@@ -429,7 +429,7 @@ export const es: Messages = {
     endingMakeDefault: "Este plan termina el {date}. Para conservarlo, elige «Hacer predeterminado» arriba; no hace falta volver a comprarlo.",
     endingRenewInPortal: "Este plan termina el {date}. Para conservarlo, renuévalo en «{manage}»; no hace falta volver a comprarlo.",
     chooseAdditional: "Añadir {plan} como segundo plan",
-    additionalWarn: "Tu plan actual sigue activo y este plan se cobra aparte. Cuando elijas uno como predeterminado, los demás dejarán de renovarse al final de su periodo.",
+    additionalWarn: "Tu plan actual sigue activo y este plan se cobra aparte. Solo tu plan predeterminado se renueva cada mes: este termina tras su primer periodo. Para que se renueve, hazlo predeterminado; tus otros planes terminarán entonces al final de su periodo.",
     additionalYes: "Entendido, continuar al pago",
     contactUs: "Contáctanos",
     seeAllPlans: "Ver todos los planes",

@@ -496,7 +496,12 @@ defensible asset over time.
   webhook, so checkout ALSO asks Stripe (`stripe.customer_held_prices`,
   monthly and annual price both) and expires any checkout for the same
   plan still open in another tab (sessions carry `answergap_price_id`);
-  if Stripe cannot be asked, no checkout opens, and buying beside a paid plan shows a "charged
+  if Stripe cannot be asked, no checkout opens. **ONLY THE DEFAULT RENEWS
+  (2026-10-19):** a plan bought beside a renewing default is set at Stripe
+  to stop after its first period (`billing._settle_new_plan`, on
+  `customer.subscription.created` or the first `invoice.paid`); with no
+  default, the oldest renewing plan is taken as it; with nothing renewing,
+  the new plan becomes the default, and buying beside a paid plan shows a "charged
   separately" confirm. Each plan period's grant is a POCKET
   (`credit_ledger.subscription_id` + `expires_at`, migration 0020): spending
   takes the live pocket ending FIRST, then the next; non-plan credits

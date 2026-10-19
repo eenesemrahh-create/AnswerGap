@@ -492,7 +492,7 @@ export const en = {
     endingMakeDefault: "This plan ends on {date}. To keep it, choose “Make default” above; there is no need to buy it again.",
     endingRenewInPortal: "This plan ends on {date}. To keep it, renew it under “{manage}”; there is no need to buy it again.",
     chooseAdditional: "Add {plan} as a second plan",
-    additionalWarn: "Your current plan keeps running and this plan is charged separately. When you make one of them your default, the others stop renewing at the end of their period.",
+    additionalWarn: "Your current plan keeps running and this plan is charged separately. Only your default plan renews each month: this one ends after its first period. To keep it renewing, make it your default; your other plans then stop at the end of their period.",
     additionalYes: "I understand, continue to payment",
     contactUs: "Get in touch",
     seeAllPlans: "See all plans",

@@ -423,7 +423,7 @@ export const tr: Messages = {
     endingMakeDefault: "Bu plan {date} tarihinde bitiyor. Devam ettirmek için yukarıda “Varsayılan yap”ı seç; yeniden satın alman gerekmez.",
     endingRenewInPortal: "Bu plan {date} tarihinde bitiyor. Devam ettirmek için “{manage}” bölümünden yenileyebilirsin; yeniden satın alman gerekmez.",
     chooseAdditional: "{plan} planını ek plan olarak al",
-    additionalWarn: "Mevcut planın devam eder ve bu plan ayrıca ücretlendirilir. Birini varsayılan yaptığında diğerleri dönem sonunda yenilenmez.",
+    additionalWarn: "Mevcut planın devam eder ve bu plan ayrıca ücretlendirilir. Yalnızca varsayılan planın her ay yenilenir: bu plan ilk döneminin sonunda biter. Yenilenmesini istersen onu varsayılan yap; o zaman diğer planların dönem sonunda durur.",
     additionalYes: "Anladım, ödemeye geç",
     contactUs: "Bize ulaşın",
     seeAllPlans: "Tüm planları gör",
