@@ -502,7 +502,11 @@ defensible asset over time.
   `customer.subscription.created` or the first `invoice.paid`); with no
   default, the oldest renewing plan is taken as it; with nothing renewing,
   the new plan becomes the default, and buying beside a paid plan shows a "charged
-  separately" confirm. Each plan period's grant is a POCKET
+  separately" confirm. Only an `active`/`trialing` plan can be made default
+  (`planPaymentFailed`); a FIRST payment that fails is `incomplete`, not
+  `past_due` (it was never paid, and Stripe refuses to update it), and a
+  plan Stripe will not stop because it is no longer held is synced and
+  skipped (2026-10-19). Each plan period's grant is a POCKET
   (`credit_ledger.subscription_id` + `expires_at`, migration 0020): spending
   takes the live pocket ending FIRST, then the next; non-plan credits
   (signup, manual grants) go LAST and never expire; what a pocket has left

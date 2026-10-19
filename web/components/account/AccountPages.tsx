@@ -307,7 +307,8 @@ function MyPlans({ me }: { me: Me }) {
                 <p className="acct-mine-renew">{t("account.autoRenewHint", { manage: t("account.manage") })}</p>
               )}
               {p.status === "past_due" && <p className="acct-plan-warn">{t("account.pastDue")}</p>}
-              {several && !p.is_default && asking !== p.id && (
+              {several && !p.is_default && asking !== p.id
+                && (p.status === "active" || p.status === "trialing") && (
                 <button className="btn acct-mine-btn" disabled={busy} onClick={() => setAsking(p.id)}>
                   {t("account.makeDefault")}
                 </button>

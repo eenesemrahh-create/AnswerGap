@@ -234,6 +234,16 @@ def test_a_failed_payment_only_moves_the_status(wired) -> None:
     assert wired["upserts"] == []
 
 
+def test_a_failed_first_payment_is_incomplete_not_past_due(wired) -> None:
+    """A card declined at the very first payment never paid for the plan:
+    Stripe holds it `incomplete`, and so must we, or it shows as a live plan
+    that can be made the default (2026-10-19, prebably@)."""
+    assert main._apply_subscription_event(_invoice_event(
+        kind="invoice.payment_failed", billing_reason="subscription_create",
+    )) == "incomplete"
+    assert wired["status"] == [{"stripe_subscription_id": "sub_123", "status": "incomplete"}]
+
+
 def test_a_deleted_subscription_is_canceled_whatever_it_says(wired) -> None:
     """Stripe sends the object with its last status; the event type is the
     authority on it being over."""

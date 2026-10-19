@@ -554,6 +554,8 @@ export const de: Messages = {
     paymentsOff: "Zahlungen sind noch nicht freigeschaltet.",
     subscriptionCancelFailed: "Wir konnten dein Abonnement nicht kündigen, daher wurde dein Konto nicht gelöscht. Versuche es in ein paar Minuten erneut oder schreib dem Support.",
     alreadyOnPlan: "Diesen Plan hast du bereits. Endet er, lege ihn unter „Deine Pläne“ als Standard fest, um ihn zu behalten; oder wähle einen anderen Plan.",
+    planPaymentFailed: "Die Zahlung für diesen Plan ist nicht durchgegangen, daher kann er nicht Ihr Standard werden. Aktualisieren Sie zuerst Ihre Karte unter „Abrechnung verwalten“ oder wählen Sie einen bezahlten Plan.",
+    stripeFailed: "Der Zahlungsanbieter hat die Änderung nicht angenommen. Es wurde nichts geändert; versuchen Sie es in ein paar Minuten erneut.",
     signedOut: "Sie sind abgemeldet. Melden Sie sich an, um fortzufahren.",
     noCredits:
       "Kein Guthaben mehr. Eine Suche kostet ein Credit; Ergebnisse aus dem " +

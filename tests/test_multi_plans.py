@@ -242,6 +242,36 @@ def test_a_stripe_refusal_saves_no_choice(chooser) -> None:
     assert chooser["log"][-1]["kind"] == "default_plan_failed"
 
 
+def test_a_plan_whose_payment_failed_cannot_be_made_default(chooser) -> None:
+    chooser["live"][1]["status"] = "past_due"
+    with pytest.raises(HTTPException) as e:
+        auth.billing_default(_Req(), auth.DefaultPlanRequest(subscription_id=2))
+    assert e.value.detail["code"] == "planPaymentFailed"
+    assert chooser["stripe"] == [] and chooser["default"] == []
+
+
+def test_a_plan_stripe_will_not_stop_because_it_never_ran_is_skipped(chooser, monkeypatch) -> None:
+    """Our row said past_due, Stripe says incomplete and refuses the update:
+    nothing to stop, so take Stripe's status and keep the choice."""
+    def cancel(sid, at_period_end):
+        raise auth.stripe.StripeError("resource_missing", 400, "")
+    monkeypatch.setattr(auth.stripe, "cancel_subscription", cancel)
+    monkeypatch.setattr(auth.stripe, "subscription_status", lambda sid: "incomplete")
+    synced = []
+    monkeypatch.setattr(db, "subscription_set_status", lambda **kw: synced.append(kw))
+    out = auth.billing_default(_Req(), auth.DefaultPlanRequest(subscription_id=2))
+    assert synced == [{"stripe_subscription_id": "sub_1", "status": "incomplete"}]
+    assert chooser["default"] == [2] and out["stopped_renewing"] == []
+
+
+def test_a_refusal_on_a_plan_that_still_runs_still_blocks(chooser, monkeypatch) -> None:
+    chooser["fail"] = True
+    monkeypatch.setattr(auth.stripe, "subscription_status", lambda sid: "active")
+    with pytest.raises(HTTPException) as e:
+        auth.billing_default(_Req(), auth.DefaultPlanRequest(subscription_id=2))
+    assert e.value.detail["code"] == "stripeFailed" and chooser["default"] == []
+
+
 # ------------------------------------------------------------ capabilities
 
 

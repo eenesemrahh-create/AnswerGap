@@ -555,6 +555,8 @@ export const es: Messages = {
     paymentsOff: "Los pagos todavía no están activados.",
     subscriptionCancelFailed: "No pudimos cancelar tu suscripción, así que tu cuenta no se eliminó. Inténtalo de nuevo en unos minutos o escribe a soporte.",
     alreadyOnPlan: "Ya tienes este plan. Si va a terminar, hazlo predeterminado en «Tus planes» para conservarlo; o elige otro plan.",
+    planPaymentFailed: "El pago de este plan no se completó, así que no puede ser tu plan predeterminado. Actualiza tu tarjeta en «Gestionar facturación» o elige un plan pagado.",
+    stripeFailed: "El proveedor de pagos no aceptó el cambio. No se cambió nada; inténtalo de nuevo en unos minutos.",
     signedOut: "Has cerrado sesión. Inicia sesión para continuar.",
     noCredits:
       "No te quedan créditos. Una búsqueda cuesta un crédito; los resultados " +

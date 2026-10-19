@@ -240,6 +240,11 @@ def cancel_subscription(subscription_id: str, *, at_period_end: bool) -> dict:
             "cancel_at_period_end": bool(data.get("cancel_at_period_end"))}
 
 
+def subscription_status(subscription_id: str) -> str | None:
+    """One subscription's status as Stripe has it now."""
+    return _request("GET", f"/v1/subscriptions/{subscription_id}").get("status")
+
+
 #: Subscription statuses that still hold the plan. NOT `incomplete`: that is
 #: a first payment that has not gone through (an abandoned 3D Secure, say),
 #: and counting it would lock the person out of retrying for a day.

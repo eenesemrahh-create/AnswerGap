@@ -559,6 +559,8 @@ export const fr: Messages = {
     paymentsOff: "Les paiements ne sont pas encore activés.",
     subscriptionCancelFailed: "Nous n'avons pas pu résilier votre abonnement, votre compte n'a donc pas été supprimé. Réessayez dans quelques minutes ou écrivez au support.",
     alreadyOnPlan: "Vous avez déjà ce forfait. S'il se termine, définissez-le par défaut dans « Vos forfaits » pour le garder ; ou choisissez-en un autre.",
+    planPaymentFailed: "Le paiement de ce forfait n'a pas abouti, il ne peut donc pas être votre forfait par défaut. Mettez d'abord à jour votre carte dans « Gérer la facturation », ou choisissez un forfait payé.",
+    stripeFailed: "Le prestataire de paiement n'a pas accepté la modification. Rien n'a été changé ; réessayez dans quelques minutes.",
     signedOut: "Vous êtes déconnecté. Connectez-vous pour continuer.",
     noCredits:
       "Plus de crédits. Une recherche coûte un crédit ; les résultats en " +

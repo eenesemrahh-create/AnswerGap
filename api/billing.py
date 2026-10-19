@@ -153,10 +153,17 @@ def apply_subscription_event(event: dict) -> str | None:
         if kind == "invoice.payment_failed":
             # Carries no items and no period, so nothing but the status may
             # be written from it.
+            # A FIRST payment that failed is not a plan that fell behind: it
+            # was never paid. Stripe holds that subscription as `incomplete`
+            # and refuses to update it, so marking it past_due (live) put an
+            # unpaid plan on the account page, let it be made the default,
+            # and made the next "make default" fail at Stripe (2026-10-19).
+            status = ("incomplete" if found.get("billing_reason") == "subscription_create"
+                      else "past_due")
             db.subscription_set_status(
-                stripe_subscription_id=subscription_id, status="past_due"
+                stripe_subscription_id=subscription_id, status=status
             )
-            return "past_due"
+            return status
 
         if (
             kind == "customer.subscription.updated"

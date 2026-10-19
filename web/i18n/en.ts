@@ -626,6 +626,8 @@ export const en = {
     paymentsOff: "Payments are not switched on yet.",
     subscriptionCancelFailed: "We could not cancel your subscription, so your account was not deleted. Try again in a few minutes, or write to support.",
     alreadyOnPlan: "You already have this plan. If it is ending, make it your default under “Your plans” to keep it; or choose a different plan.",
+    planPaymentFailed: "This plan’s payment did not go through, so it cannot be your default. Update your card under “Manage billing” first, or choose a paid plan.",
+    stripeFailed: "The payment provider did not accept the change. Nothing was changed; try again in a few minutes.",
     // One key per ErrorKind, in all five locales. Errors render as
     // t(`error.${kind}`) and a missing key would print its own name to a
     // customer at the worst possible moment.

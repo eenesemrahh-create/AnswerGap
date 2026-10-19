@@ -877,6 +877,10 @@ def billing_default(request: Request, payload: DefaultPlanRequest) -> dict:
     chosen = next((s for s in live if int(s["id"]) == payload.subscription_id), None)
     if not chosen:
         raise HTTPException(404, {"code": "noSuchPlan"})
+    if chosen.get("status") not in ("active", "trialing"):
+        # Its last payment did not go through. Keeping it would stop the
+        # plans that ARE paid and leave only one the card cannot pay for.
+        raise HTTPException(409, {"code": "planPaymentFailed"})
     # The plan chosen to KEEP renews. If it was set to stop - an earlier
     # default chose another plan, or the customer cancelled it in the
     # portal - that stop is undone at Stripe first. The customer can stop it
@@ -914,6 +918,15 @@ def billing_default(request: Request, payload: DefaultPlanRequest) -> dict:
         except stripe.StripeError as exc:
             print(f"[stripe] default plan: stop {sub['stripe_subscription_id']}: {exc}",
                   flush=True)
+            # Stripe refuses to update a subscription that is over or was
+            # never paid (`incomplete`, `canceled`) - there is nothing to
+            # stop. Our row only lags behind a webhook, so take Stripe's word
+            # for it and carry on rather than block the choice.
+            held = _stripe_status(sub["stripe_subscription_id"])
+            if held and held not in stripe.HOLDING_STATUSES:
+                db.subscription_set_status(
+                    stripe_subscription_id=sub["stripe_subscription_id"], status=held)
+                continue
             _log_account(who.user_id, "default_plan_failed",
                          {"subscription_id": int(sub["id"]), "error": exc.code})
             raise HTTPException(502, {"code": "stripeFailed"}) from exc
@@ -928,6 +941,14 @@ def billing_default(request: Request, payload: DefaultPlanRequest) -> dict:
     })
     return {"default": payload.subscription_id, "resumed": resumed,
             "stopped_renewing": stopped}
+
+
+def _stripe_status(subscription_id: str) -> str | None:
+    """What Stripe says a subscription's status is; None if it cannot say."""
+    try:
+        return stripe.subscription_status(subscription_id)
+    except stripe.StripeError:
+        return None
 
 
 def _plan_by_id(plan_id: str | None) -> dict | None:

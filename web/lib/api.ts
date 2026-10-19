@@ -71,6 +71,8 @@ export type ErrorKind =
   | "paymentsOff"
   | "subscriptionCancelFailed"
   | "alreadyOnPlan"
+  | "planPaymentFailed"
+  | "stripeFailed"
   // --- analysis rounds -------------------------------------------------
   | "roundLimit"
   | "roundInFlight"
@@ -150,6 +152,11 @@ const CODES: Record<string, ErrorKind> = {
   subscriptionCancelFailed: "subscriptionCancelFailed",
   // The same plan bought twice, both renewing: two charges for one thing.
   alreadyOnPlan: "alreadyOnPlan",
+  // A plan whose payment did not go through cannot be the one kept; and
+  // Stripe refusing a change is Stripe, not the search provider - unmapped,
+  // the 502 fell back to "DataForSEO could not be reached" (2026-10-19).
+  planPaymentFailed: "planPaymentFailed",
+  stripeFailed: "stripeFailed",
   // A tree is analysed in at most two rounds; the second refusal is a click
   // that arrived while the previous round's results were still coming in.
   roundLimit: "roundLimit",

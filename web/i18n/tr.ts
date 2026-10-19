@@ -547,6 +547,8 @@ export const tr: Messages = {
     paymentsOff: "Ödemeler henüz açık değil.",
     subscriptionCancelFailed: "Aboneliğini iptal edemedik, bu yüzden hesabın silinmedi. Birkaç dakika sonra tekrar dene ya da destek ekibine yaz.",
     alreadyOnPlan: "Bu plana zaten sahipsin. Bitecekse, “Planların” bölümünden varsayılan yaparak devam ettirebilirsin; ya da başka bir plan seç.",
+    planPaymentFailed: "Bu planın ödemesi alınamadı, bu yüzden varsayılan yapılamaz. Önce “Ödemeleri yönet” bölümünden kartını güncelle ya da ödemesi yapılmış bir plan seç.",
+    stripeFailed: "Ödeme sağlayıcısı bu değişikliği kabul etmedi. Hiçbir şey değişmedi; birkaç dakika sonra tekrar dene.",
     signedOut: "Çıkış yapılmış durumdasınız. Devam etmek için giriş yapın.",
     noCredits:
       "Krediniz kalmadı. Bir arama bir kredi harcar; önbellekten gelen " +
