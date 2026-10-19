@@ -295,8 +295,8 @@ export function TreeScreen({ slug }: { slug: string }) {
           </span>
           AnswerGap
         </Link>
-        {/* Signing in from a preview claims the search (AccountMenu does that
-            first), so reloading then shows the whole tree. */}
+        {/* Signing in from a preview reloads the tree; the search itself stays
+            with the browser (nothing moves to the account). */}
         {meta && <AccountMenu meta={meta} onSessionChange={reload} />}
       </header>
       <CreditStrip />
@@ -484,7 +484,9 @@ export function TreeScreen({ slug }: { slug: string }) {
         <div className="tree-preview" role="note">
           <div className="tree-preview-text">
             <b>{t("anon.previewTitle")}</b>
-            <span>{t("anon.previewBody")}</span>
+            {/* No questions: the API did not count it against the visitor's
+                free search, so say that, and what to try instead. */}
+            <span>{t(noQuestions ? "anon.previewEmpty" : "anon.previewBody")}</span>
           </div>
           <button
             type="button"

@@ -221,7 +221,7 @@ def endpoint(monkeypatch):
 
     def crawl(seed, location_code, language_code, **kw):
         state["crawls"] += 1
-        return {**_tree(), "billable_calls": 1, "estimated_spend": 0.0026}
+        return {**_tree(), "billable_calls": 1, "estimated_spend": 0.0026, **state.get("extra", {})}
 
     monkeypatch.setattr(main.live, "crawl", crawl)
     return state
@@ -237,6 +237,20 @@ def test_a_signed_out_search_returns_a_preview_and_is_recorded(endpoint) -> None
     assert out["preview"] is True
     allowed = [r for r in endpoint["records"] if r["outcome"] == "allowed"]
     assert allowed and allowed[0]["user_id"] is None and allowed[0]["anon_id"] == "browser-1"
+
+
+def test_a_search_with_questions_uses_the_free_search(endpoint) -> None:
+    _search()
+    assert [r["credits"] for r in endpoint["records"] if r["outcome"] == "allowed"] == [1]
+
+
+def test_a_search_google_showed_no_questions_for_does_not(endpoint) -> None:
+    """Credits 0 is what `anon_counters` leaves out of the visitor's own count;
+    the row is still written, so the daily total still counts it."""
+    endpoint["extra"] = {"question_count": 0}
+    out = _search()
+    assert out["preview"] is True
+    assert [r["credits"] for r in endpoint["records"] if r["outcome"] == "allowed"] == [0]
 
 
 def test_a_failed_challenge_spends_nothing(endpoint) -> None:

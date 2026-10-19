@@ -571,6 +571,8 @@ export const tr: Messages = {
     verifying: "Doğrulanıyor…",
     previewTitle: "Üye olmadan yaptığın ücretsiz arama",
     previewBody: "Ağacın ve tablonun ilk halini görüyorsun. Soruları analiz etmek, ağacı genişletmek ve PNG/CSV olarak indirmek için ücretsiz hesap aç.",
+    previewEmpty: "Google bu arama için hiç soru göstermedi, bu yüzden ücretsiz arama hakkın kullanılmadı. Bir soru ya da birkaç kelime dene, örneğin “filtre kahve nasıl demlenir”.",
+    hint: "İpucu: Soru biçiminde ya da birkaç kelimelik aramalar en iyi sonucu verir (“filtre kahve nasıl demlenir”). Marka adları ve tek kelimeler için Google çoğu zaman soru göstermez.",
   },
   theme: {
     light: "Koyu temaya geç",

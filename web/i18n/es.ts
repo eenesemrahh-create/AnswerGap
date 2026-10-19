@@ -579,6 +579,8 @@ export const es: Messages = {
     verifying: "Comprobando…",
     previewTitle: "Tu búsqueda gratuita, sin cuenta",
     previewBody: "Ves el árbol y la tabla tal como los devolvió la búsqueda. Crea una cuenta gratuita para analizar preguntas, ampliar el árbol y descargar PNG/CSV.",
+    previewEmpty: "Google no mostró preguntas para esta búsqueda, así que no se ha usado tu búsqueda gratuita. Prueba una pregunta o unas pocas palabras, como «cómo preparar café de filtro».",
+    hint: "Consejo: las preguntas o unas pocas palabras funcionan mejor («cómo preparar café de filtro»). Para marcas y palabras sueltas Google a menudo no muestra preguntas.",
   },
   theme: {
     light: "Cambiar a oscuro",

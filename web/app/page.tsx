@@ -539,6 +539,9 @@ export default function Landing() {
                 ? t("anon.freeNote")
                 : resetsIn(anon.resets_at, now, locale, t)}
             </span>
+            {anon.remaining > 0 && !anon.daily_full && (
+              <span className="home-anon-note home-anon-hint">{t("anon.hint")}</span>
+            )}
             <button
               type="button"
               className={anon.remaining > 0 ? "auth-link" : "btn btn-primary"}

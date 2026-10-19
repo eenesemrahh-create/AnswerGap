@@ -583,6 +583,8 @@ export const fr: Messages = {
     verifying: "Vérification…",
     previewTitle: "Votre recherche gratuite, sans compte",
     previewBody: "Vous voyez l'arbre et le tableau tels que la recherche les a renvoyés. Créez un compte gratuit pour analyser les questions, agrandir l'arbre et télécharger en PNG/CSV.",
+    previewEmpty: "Google n'a montré aucune question pour cette recherche, votre recherche gratuite n'a donc pas été utilisée. Essayez une question ou quelques mots, comme « comment préparer un café filtre ».",
+    hint: "Astuce : les questions ou quelques mots donnent les meilleurs résultats (« comment préparer un café filtre »). Pour les marques et les mots isolés, Google n'affiche souvent aucune question.",
   },
   theme: {
     light: "Passer au sombre",

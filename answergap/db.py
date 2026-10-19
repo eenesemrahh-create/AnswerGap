@@ -2834,7 +2834,9 @@ def anon_counters(*, anon_id: str | None, ip_hash: str | None) -> dict:
     `user_id IS NULL` keeps a signed-in person's searches from spending the
     allowance of everybody behind the same address. `anon_id = NULL` matches no
     rows, so a client that omits the header has no browser counter and the IP
-    counter is what catches it.
+    counter is what catches it. A search that found no questions is written
+    with credits 0 and does not use the visitor's allowance; the daily total
+    still counts it.
 
     The settings are read here rather than cached in the process: a cache would
     be per replica and hand the operator an "it has not taken effect" mystery,
@@ -2853,11 +2855,13 @@ def anon_counters(*, anon_id: str | None, ip_hash: str | None) -> dict:
               (SELECT count(*) FROM usage_event
                 WHERE anon_id = %(anon)s AND user_id IS NULL
                   AND day_utc = (now() AT TIME ZONE 'utc')::date
-                  AND action = 'search' AND outcome = 'allowed') AS by_browser,
+                  AND action = 'search' AND outcome = 'allowed'
+                  AND credits > 0) AS by_browser,
               (SELECT count(*) FROM usage_event
                 WHERE ip_hash = %(ip)s AND user_id IS NULL
                   AND day_utc = (now() AT TIME ZONE 'utc')::date
-                  AND action = 'search' AND outcome = 'allowed') AS by_ip,
+                  AND action = 'search' AND outcome = 'allowed'
+                  AND credits > 0) AS by_ip,
               (SELECT count(*) FROM usage_event
                 WHERE user_id IS NULL
                   AND day_utc = (now() AT TIME ZONE 'utc')::date

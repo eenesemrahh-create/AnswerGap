@@ -710,7 +710,12 @@ def search(request: SearchRequest, http_request: Request) -> dict:
             billable_calls=result.get("billable_calls", 0),
             spend=result.get("estimated_spend", 0.0),
             tree_slug=result.get("slug"),
-            credits=1,
+            # A signed-out search that found NO questions does not use the
+            # visitor's free search (2026-10-19, operator): one-word and brand
+            # searches often have no "People Also Ask" block, and the visitor
+            # would leave with nothing. Credits 0 marks it; the daily TOTAL
+            # still counts it, so the cost ceiling is unchanged.
+            credits=0 if _previewing(who) and not result.get("question_count") else 1,
         )
         if _previewing(who):
             return _preview(result)

@@ -655,6 +655,8 @@ export const en = {
     verifying: "Checking…",
     previewTitle: "Your free search, without an account",
     previewBody: "You are seeing the tree and table as the search returned them. Create a free account to analyse questions, grow the tree and download PNG/CSV.",
+    previewEmpty: "Google showed no questions for this search, so it did not use your free search. Try a question or a few words, like “how to brew filter coffee”.",
+    hint: "Tip: questions or a few words work best (“how to brew filter coffee”). Brand names and single words often have no questions on Google.",
   },
   theme: {
     light: "Switch to dark",

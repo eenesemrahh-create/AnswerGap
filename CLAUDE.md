@@ -531,7 +531,10 @@ defensible asset over time.
   (`api/turnstile.py`, header `X-AG-Turnstile`, fail closed) → 403
   `captchaFailed`; `max(browser, address)` ≥ per visitor → 429 `anonLimit`;
   total ≥ daily total → 429 `anonDailyFull`. Every allowed signed-out search
-  counts, cache hit or not. Only `search` - checks, rounds, exports, verdicts
+  counts, cache hit or not - except that one Google showed NO questions for
+  (brand names, single words) is written with credits 0 and does not use the
+  visitor's own search; the daily total still counts it, and the home page
+  hints at question-shaped searches. Only `search` - checks, rounds, exports, verdicts
   stay behind an account. The visitor sees the WHOLE tree and table as the
   search returned them, marked `preview` (`main._preview` inside
   `_authorize_tree`; the screen drops every action on it), and finds it again

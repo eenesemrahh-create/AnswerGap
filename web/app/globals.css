@@ -4557,6 +4557,7 @@ a.acct-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift);
 }
 .home-anon-title { font-size: 16px; font-weight: 800; }
 .home-anon-note { color: var(--text-soft); font-size: 13.5px; line-height: 1.45; }
+.home-anon-hint { font-style: italic; }
 .home-anon .auth-link { font-weight: 700; }
 .home-anon.is-used { border-color: var(--brand); }
 .home-anon .btn { margin-top: 4px; }

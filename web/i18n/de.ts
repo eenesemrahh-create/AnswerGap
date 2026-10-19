@@ -578,6 +578,8 @@ export const de: Messages = {
     verifying: "Wird geprüft…",
     previewTitle: "Ihre kostenlose Suche ohne Konto",
     previewBody: "Sie sehen Baum und Tabelle so, wie die Suche sie geliefert hat. Legen Sie ein kostenloses Konto an, um Fragen zu analysieren, den Baum zu erweitern und PNG/CSV herunterzuladen.",
+    previewEmpty: "Google hat zu dieser Suche keine Fragen gezeigt, deshalb wurde Ihre kostenlose Suche nicht verbraucht. Versuchen Sie eine Frage oder ein paar Wörter, etwa „Filterkaffee richtig aufbrühen“.",
+    hint: "Tipp: Fragen oder ein paar Wörter funktionieren am besten („Filterkaffee richtig aufbrühen“). Zu Markennamen und einzelnen Wörtern zeigt Google oft keine Fragen.",
   },
   theme: {
     light: "Zu Dunkel wechseln",

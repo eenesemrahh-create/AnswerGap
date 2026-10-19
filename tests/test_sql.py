@@ -1867,9 +1867,9 @@ def test_search_detail_of_a_slug_nobody_searched_is_none() -> None:
 
 
 def _anon_search(anon: str, ip: str, *, user_id=None, outcome: str = "allowed",
-                 action: str = "search") -> None:
+                 action: str = "search", credits: int = 1) -> None:
     db.record_usage(user_id=user_id, ip_hash=ip, anon_id=anon, action=action,
-                    outcome=outcome, credits=1, spend_usd=0.0, tree_slug="t")
+                    outcome=outcome, credits=credits, spend_usd=0.0, tree_slug="t")
 
 
 def test_anon_counters_count_every_allowed_signed_out_search() -> None:
@@ -1882,9 +1882,10 @@ def test_anon_counters_count_every_allowed_signed_out_search() -> None:
     _anon_search("b4", "ip4", action="score")      # only searches count
     user = _google(sub="anon-u", email="u@example.com")
     _anon_search("b1", "ip1", user_id=user["id"])  # a signed-in search is not theirs
+    _anon_search("b1", "ip1", credits=0)           # found no questions: not theirs, still total
     got = db.anon_counters(anon_id="b1", ip_hash="ip1")
     assert (got["per_visitor"], got["daily_total"]) == ("2", "40")
-    assert (got["by_browser"], got["by_ip"], got["total"]) == (2, 2, 3)
+    assert (got["by_browser"], got["by_ip"], got["total"]) == (2, 2, 4)
 
 
 def test_a_signed_out_visitor_lists_only_their_browsers_ownerless_searches() -> None:
