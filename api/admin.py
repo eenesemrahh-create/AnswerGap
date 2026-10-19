@@ -24,6 +24,7 @@ structurally absent rather than forbidden by a check somebody could remove.
 from __future__ import annotations
 
 import json
+import os
 import re
 from datetime import date
 from typing import Literal
@@ -852,6 +853,23 @@ def ip_check(request: Request, chain: str | None = None) -> dict:
         "client_ip": gate.client_ip(forwarded, TRUSTED_PROXY_HOPS),
         "turnstile_configured": turnstile.configured(),
     }
+
+
+_ENV_NAME = re.compile(r"^[A-Z][A-Z0-9_]{1,63}$")
+
+
+@router.get("/env")
+def env_status(request: Request, names: str = "") -> dict:
+    """Which of these environment variables are SET on the api service.
+
+    Booleans only - never a value, not even a prefix: the admin's Variables
+    page (admin/lib/env-catalog.ts) says what each one is for, and this
+    says whether it is there. The names come from that catalogue, so the
+    page and this answer cannot list different variables.
+    """
+    require_admin(request)
+    wanted = [n for n in (p.strip() for p in names.split(",")) if _ENV_NAME.match(n)][:80]
+    return {"set": {n: bool((os.environ.get(n) or "").strip()) for n in wanted}}
 
 
 @router.get("/anon-usage")

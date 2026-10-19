@@ -850,3 +850,11 @@ label.inline { display: inline-flex; align-items: center; gap: 6px; color: var(-
 .anon-bar > span { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--text-soft); }
 .anon-key { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; }
 .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; word-break: break-all; }
+
+/* Variables page (/env). */
+.pill.warn { color: var(--gap); border-color: currentColor; }
+.env-soft { color: var(--text-soft); font-size: 12.5px; }
+.env-table td { vertical-align: top; line-height: 1.45; }
+.env-table td:first-child { min-width: 220px; }
+.env-table td:first-child .pill { margin-top: 4px; }
+.env-table code { font-size: 12px; word-break: break-all; }

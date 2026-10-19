@@ -576,7 +576,50 @@ defensible asset over time.
 
 # Current state — resume here
 
-## Session checkpoint, 2026-10-08 — START HERE
+## Session checkpoint, 2026-10-19 — START HERE
+
+Everything below is pushed to `main` and CI is green up to `5ac150d`, plus
+the Variables page (this commit). Work since 2026-10-17, in order:
+
+- **Payments hardened for launch.** Erasure cancels Stripe first; an admin
+  ending a plan claws back the period's unused credits (a portal renewal
+  voids the mark); several plans at once with credit POCKETS that burn at
+  period end; **only the default plan renews** (`billing._settle_new_plan`);
+  making a stopped plan default resumes it at Stripe; the same paid plan
+  cannot be bought twice, ending ones included, and checkout asks Stripe and
+  expires another tab's open session. All in "Pricing principles" above.
+- **Admin:** per-plan spend columns on the user page; a Variables page
+  (below); signed-out searching stats on Settings.
+- **Customer screens:** plan cards with credit bars on the account page;
+  pricing cards show the same features on every plan (bulk, API,
+  pay-as-you-go, MCP removed); Terms and Privacy rewritten for subscription
+  credits, erasure and Turnstile.
+- **Signed-out searching is back, bounded** - see "Pricing principles".
+  Production needs `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` and
+  `TRUSTED_PROXY_HOPS=2` on the api, then a per-visitor number above 0 on
+  admin Settings.
+
+**The operator's test guide** is a Claude artifact,
+https://claude.ai/artifact/9mWJgnGf5VYX5ibt8YXKev (scenario groups H0, A, B,
+M, T, C, D, E, F, G, H, U, L). Keep it in step when payment or signed-out
+behaviour changes. Period-end behaviour is tested with Stripe **Test
+Clocks** (group T); resetting the billing anchor no longer grants credits.
+
+**ENVIRONMENT VARIABLES HAVE ONE CATALOGUE:** `admin/lib/env-catalog.ts`,
+rendered on admin `/env` with set/not-set from `GET /api/admin/env` (never a
+value). Add every new variable there in the same change -
+`tests/test_env_catalog.py` fails while one the code reads is missing.
+
+**Known slip:** commit `3565e85` (signed-out searching) carries the previous
+commit's message ("Only the default plan renews…"); the code in it is right.
+Not rewritten, because that needs a force push.
+
+Still open: refunds and disputes (`charge.refunded`) do not claw back or
+cancel; the annual price shows but checkout is monthly only; `/pay` and
+`PAY_PROBE_TOKEN` are to be deleted; Stripe's customer portal settings
+must be repeated in Live mode.
+
+## Session checkpoint, 2026-10-08
 
 Everything below is committed and pushed to `main`; the last push was
 `7b8619c`, and CI passed. The working tree is clean apart from the
