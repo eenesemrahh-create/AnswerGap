@@ -569,14 +569,16 @@ export const es: Messages = {
   },
 
   anon: {
-    freeLeft: "Pruébalo gratis, sin cuenta: te queda {count} búsqueda hoy.",
-    usedUp: "Ya usaste la búsqueda gratuita de hoy.",
+    freeTitle: "Sin cuenta tienes {count} búsqueda gratuita al día",
+    freeNote: "Puedes ver el árbol de preguntas y la tabla. Analizar preguntas, ampliar el árbol y exportar es para miembros.",
+    usedTitle: "Ya usaste la búsqueda gratuita de hoy",
+    resetsIn: "Tu próxima búsqueda gratuita llega en {hours} h {minutes} min, a las {clock}. Crea una cuenta gratuita para buscar ahora.",
     dailyFull: "Las búsquedas gratuitas de hoy se han agotado.",
     usedUpReason: "Con una cuenta gratuita ves el árbol de preguntas completo y tus búsquedas se guardan.",
     signUpFree: "Crear una cuenta gratuita",
     verifying: "Comprobando…",
-    previewTitle: "{count} de {total} preguntas están ocultas en esta vista previa",
-    previewBody: "Crea una cuenta gratuita para ver el árbol completo y comprobar qué preguntas nadie responde. Esta búsqueda pasa a tu cuenta sin coste.",
+    previewTitle: "Tu búsqueda gratuita, sin cuenta",
+    previewBody: "Ves el árbol y la tabla tal como los devolvió la búsqueda. Crea una cuenta gratuita para analizar preguntas, ampliar el árbol y descargar PNG/CSV.",
   },
   theme: {
     light: "Cambiar a oscuro",

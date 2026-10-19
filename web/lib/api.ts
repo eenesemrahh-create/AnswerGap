@@ -288,16 +288,16 @@ export const search = (input: SearchInput, turnstile?: string) =>
 /** Whether a signed-out visitor may search, and how many are left today. */
 export interface AnonSearch {
   enabled: boolean;
+  /** Free searches a visitor gets per day. */
+  allowance?: number;
   remaining: number;
   daily_full?: boolean;
+  /** When the allowance comes back: the next UTC midnight, ISO. */
+  resets_at?: string;
 }
 
 export const fetchAnonSearch = () => get<AnonSearch>("/api/anon-search");
 
-/** Move the searches this browser ran signed out onto the account that just
- *  signed in. Best-effort: a failure only means they stay with the browser. */
-export const claimAnonWork = () =>
-  post<{ claimed: number }>("/api/account/claim-anon").catch(() => ({ claimed: 0 }));
 
 /**
  * "Check this question": search it as its own seed. One credit, or zero if

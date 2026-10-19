@@ -7,11 +7,12 @@
   every signed-out visitor - the ceiling that holds however many browsers
   somebody goes through.
 - Only `search`; everything that analyses stays behind an account.
-- The visitor gets a PREVIEW, cut on the server: the seed and the top-level
-  questions; the rest never leaves, only how many there are.
-- Signing in afterwards claims the search (`/api/account/claim-anon`).
+- The visitor sees the whole tree as the search returned it, marked as a
+  read-only PREVIEW: no verdicts, no analysis, no exports.
+- The visitor's own free searches list on the home page (by browser id);
+  nothing moves to an account on sign-up (operator, 2026-10-19).
 
-SQL for the counters and the claim is in tests/test_sql.py (CI only).
+SQL for the counters and the list is in tests/test_sql.py (CI only).
 """
 
 from __future__ import annotations
@@ -178,15 +179,20 @@ def _tree() -> dict:
             "related_searches": [f"r{i}" for i in range(8)]}
 
 
-def test_the_preview_cuts_on_the_server() -> None:
+def test_the_preview_is_the_whole_first_tree_marked_read_only() -> None:
     full = _tree()
     out = main._preview(full)
     assert out["preview"] is True
-    assert [n["depth"] for n in out["nodes"]] == [0, 1, 1, 1, 1]
-    assert out["hidden_questions"] == 11 and out["question_count"] == 15
-    assert "SECRET" not in json.dumps(out), "a hidden question's text must never leave"
-    assert out["related_searches"] == ["r0", "r1", "r2"] and out["hidden_related"] == 5
-    assert len(full["nodes"]) == 16, "the cached tree is not ours to cut"
+    assert len(out["nodes"]) == 16 and len(out["related_searches"]) == 8
+    assert "preview" not in full, "the cached tree is not ours to mark"
+
+
+def test_a_signed_out_visitor_cannot_give_verdicts(monkeypatch) -> None:
+    monkeypatch.setattr(auth, "identity", lambda request: _anon())
+    monkeypatch.setattr(main, "_authorize_tree", lambda slug, who: {**_tree(), "preview": True})
+    with pytest.raises(HTTPException) as e:
+        main.label_question("t", "seed", main.LabelRequest(label="G"), SimpleNamespace())
+    assert e.value.status_code == 401
 
 
 def test_a_signed_out_reader_gets_the_preview_on_every_read_path(monkeypatch) -> None:
@@ -228,7 +234,7 @@ def _search() -> dict:
 
 def test_a_signed_out_search_returns_a_preview_and_is_recorded(endpoint) -> None:
     out = _search()
-    assert out["preview"] is True and "SECRET" not in json.dumps(out)
+    assert out["preview"] is True
     allowed = [r for r in endpoint["records"] if r["outcome"] == "allowed"]
     assert allowed and allowed[0]["user_id"] is None and allowed[0]["anon_id"] == "browser-1"
 
@@ -253,28 +259,9 @@ def test_switched_off_says_sign_in_without_asking_cloudflare(endpoint, monkeypat
 def test_the_landing_learns_what_is_left(endpoint, monkeypatch) -> None:
     monkeypatch.setattr(auth, "anon_state",
                         lambda who: _on(anon_per_visitor=2, anon_used_ip=1))
-    assert main.anon_search(SimpleNamespace(headers={})) == {
-        "enabled": True, "remaining": 1, "daily_full": False}
+    got = main.anon_search(SimpleNamespace(headers={}))
+    assert (got["enabled"], got["allowance"], got["remaining"], got["daily_full"]) == (
+        True, 2, 1, False)
+    assert got["resets_at"].endswith("T00:00:00+00:00"), "the next UTC midnight"
     monkeypatch.setattr(auth, "anon_state", lambda who: _on(anon_used_total=50))
     assert main.anon_search(SimpleNamespace(headers={}))["remaining"] == 0
-
-
-# ---------------------------------------------------------------- the claim
-
-
-def test_signing_in_claims_this_browsers_searches(monkeypatch) -> None:
-    calls = []
-    monkeypatch.setattr(auth, "accounts_enabled", lambda: True)
-    monkeypatch.setattr(auth, "identity",
-                        lambda request: Identity(user_id=7, anon_id="browser-1"))
-    monkeypatch.setattr(db, "claim_anon_work", lambda **kw: calls.append(kw) or 1)
-    assert auth.claim_anon(SimpleNamespace()) == {"claimed": 1}
-    assert calls == [{"user_id": 7, "anon_id": "browser-1"}]
-
-
-def test_a_signed_out_claim_is_refused(monkeypatch) -> None:
-    monkeypatch.setattr(auth, "accounts_enabled", lambda: True)
-    monkeypatch.setattr(auth, "identity", lambda request: _anon())
-    with pytest.raises(HTTPException) as e:
-        auth.claim_anon(SimpleNamespace())
-    assert e.value.status_code == 401

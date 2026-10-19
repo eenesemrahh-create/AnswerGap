@@ -120,12 +120,15 @@ export function QuestionDetail({
   // Scoring costs one SERP request per question, so it is offered only where it
   // can actually run: a live tree with an unscored question. Archived Phase 0
   // trees are fixed evidence and the API refuses to re-score them.
-  const canScore = tree.source === "live" && !hasData;
+  // A signed-out free search is look-only (2026-10-19): no checks, no
+  // verdicts. The server refuses both anyway; this keeps the buttons away.
+  const readOnly = !!tree.preview;
+  const canScore = tree.source === "live" && !hasData && !readOnly;
   /* A question already checked still has a tree of its own to open. The same
      call: free when that search is cached, one credit if it was scored by the
      old in-place route and so has no tree yet. Not offered on the seed - its
      tree is the one on screen. */
-  const canOpenTree = tree.source === "live" && hasData && node.depth > 0;
+  const canOpenTree = tree.source === "live" && hasData && node.depth > 0 && !readOnly;
 
   const verdict = verdicts[node.slug] ?? null;
   /* The metric calls anything below the threshold a gap; `weak` is the same
@@ -241,7 +244,7 @@ export function QuestionDetail({
           it?" can only be asked once the titles have been read. Both buttons
           carry equal weight - nudging either way biases the labels this
           exists to collect. */}
-      {hasData && (
+      {hasData && !readOnly && (
         <section className="qd-section qd-ask">
           <h3>{t("verdict.heading")}</h3>
           <p className="qd-note">{t("verdict.ask")}</p>

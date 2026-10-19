@@ -294,6 +294,37 @@ const en = {
     neverBurns: "never",
   },
 
+  anonUsage: {
+    ipHeading: "Is the visitor's address read correctly?",
+    ipRead: "Address the api reads for you",
+    ipCompare: "Compare with a “what is my IP” site. If it differs, every visitor shares one counter: change TRUSTED_PROXY_HOPS on the api.",
+    ipChain: "X-Forwarded-For your browser produced",
+    ipHops: "TRUSTED_PROXY_HOPS = {hops} (entries counted from the right)",
+    heading: "Signed-out searches, last 30 days",
+    today: "Today (UTC): {allowed} searched, {refused} refused, {addresses} different addresses, {spend} spent.",
+    chartLabel: "Signed-out searches per day",
+    barTitle: "{allowed} searched, {refused} refused, {spend}",
+    legendAllowed: "searched",
+    legendRefused: "refused (limit, daily total or bot check)",
+    recentHeading: "Latest signed-out searches",
+    recentNote:
+      "The address is shown as a short code (ip·…): the raw address is never stored, but the same address always gets the same code. br·… is the browser.",
+    seed: "Keyword",
+    result: "Result",
+    address: "Address",
+    browser: "Browser",
+    cost: "Cost",
+    none: "No signed-out searches yet.",
+    unavailable: "Could not load this from the api.",
+    outcome: {
+      allowed: "searched",
+      refused_anon_limit: "visitor limit",
+      refused_anon_daily_full: "daily total full",
+      refused_captcha: "bot check failed",
+      refused_signed_out: "off",
+    },
+  },
+
   erase: {
     heading: "Erase",
     already:
@@ -1106,6 +1137,37 @@ const tr: Messages = {
     burnsOn: "Kalanı yanar",
     otherCredits: "Plan dışı krediler",
     neverBurns: "yanmaz",
+  },
+
+  anonUsage: {
+    ipHeading: "Ziyaretçinin adresi doğru okunuyor mu?",
+    ipRead: "API'nin senin için okuduğu adres",
+    ipCompare: "Bir “what is my IP” sitesiyle karşılaştır. Farklıysa tüm ziyaretçiler tek sayaçta toplanır: api'de TRUSTED_PROXY_HOPS'u değiştir.",
+    ipChain: "Tarayıcının oluşturduğu X-Forwarded-For",
+    ipHops: "TRUSTED_PROXY_HOPS = {hops} (sağdan sayılan giriş)",
+    heading: "Üyeliksiz aramalar, son 30 gün",
+    today: "Bugün (UTC): {allowed} arama, {refused} red, {addresses} farklı adres, {spend} harcama.",
+    chartLabel: "Günlük üyeliksiz aramalar",
+    barTitle: "{allowed} arama, {refused} red, {spend}",
+    legendAllowed: "arama yapıldı",
+    legendRefused: "reddedildi (ziyaretçi sınırı, günlük toplam ya da bot kontrolü)",
+    recentHeading: "Son üyeliksiz aramalar",
+    recentNote:
+      "Adres kısa bir kodla gösterilir (ip·…): gerçek adres hiç saklanmaz, ama aynı adres her zaman aynı kodu alır. br·… tarayıcıdır.",
+    seed: "Kelime",
+    result: "Sonuç",
+    address: "Adres",
+    browser: "Tarayıcı",
+    cost: "Maliyet",
+    none: "Henüz üyeliksiz arama yok.",
+    unavailable: "Bu bilgi API'den alınamadı.",
+    outcome: {
+      allowed: "arama yapıldı",
+      refused_anon_limit: "ziyaretçi sınırı",
+      refused_anon_daily_full: "günlük toplam dolu",
+      refused_captcha: "bot kontrolü geçilemedi",
+      refused_signed_out: "kapalı",
+    },
   },
 
   erase: {

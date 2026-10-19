@@ -8,6 +8,38 @@ export interface Overview {
   settings: Settings;
 }
 
+/** GET /api/admin/ip-check - the address the api reads for a chain. */
+export interface IpCheck {
+  forwarded_for: string;
+  trusted_hops: number;
+  client_ip: string | null;
+  turnstile_configured: boolean;
+}
+
+/** GET /api/admin/anon-usage - signed-out searches, by UTC day and latest. */
+export interface AnonUsage {
+  daily: {
+    day: string;
+    allowed: number;
+    refused_limit: number;
+    refused_full: number;
+    refused_captcha: number;
+    spend_usd: number;
+    addresses: number;
+    browsers: number;
+  }[];
+  recent: {
+    created_at: string;
+    outcome: string;
+    spend_usd: number;
+    tree_slug: string | null;
+    seed: string | null;
+    /** The start of the stored keyed hash - never an address. */
+    ip_code: string | null;
+    browser_code: string | null;
+  }[];
+}
+
 export interface Settings {
   signup_credits: number;
   /** Signed-out searches (2026-10-19). 0 per visitor = off. */

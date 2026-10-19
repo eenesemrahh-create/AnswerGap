@@ -80,7 +80,7 @@ def test_archive_tree_stays_open_without_accounts(monkeypatch) -> None:
 
 def test_tree_list_carries_no_archive_when_accounts_are_on(monkeypatch) -> None:
     monkeypatch.setattr(main, "_TREES", [{"slug": "demo", "seed": "demo"}])
-    monkeypatch.setattr(main, "_live_all", lambda user_id=None: [])
+    monkeypatch.setattr(main, "_live_all", lambda user_id=None, anon_id=None: [])
     monkeypatch.setattr(main, "_summary", lambda t: {"slug": t["slug"]})
     monkeypatch.setattr(main.auth, "identity", lambda request: FakeIdentity(user_id=7))
     monkeypatch.setattr(main.auth, "accounts_enabled", lambda: True)

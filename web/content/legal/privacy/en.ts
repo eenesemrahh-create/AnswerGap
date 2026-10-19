@@ -123,7 +123,7 @@ export const en = {
             "Your list of searches is private. Another customer cannot see which keywords you searched or open your saved analyses. Asking for an analysis that is not yours returns “not found” rather than “not allowed”, because the mere existence of a search is itself information.",
             "The underlying search data is shared. The questions and search results we retrieve from our data provider are kept in one store used for every customer, not in a private copy per account, so a search you run may be answered from data first retrieved for another customer, and the other way round. What you build from it is yours: your question trees and the gap checks you paid for are shown only to you, and another customer searching the same keyword still pays for their own search.",
             "Verdicts you give with the “is this really a gap?” buttons are stored without your account attached, and are used to improve how the scoring works.",
-            "If you are signed out, access to your own analyses rests on the random identifier in your browser. That keeps them away from strangers, but it is not cryptographic protection — clear your browser storage and you lose access to them. When you create an account or sign in, searches run in this browser while signed out move into your account.",
+            "If you are signed out, access to your own analyses rests on the random identifier in your browser. That keeps them away from strangers, but it is not cryptographic protection — clear your browser storage and you lose access to them.",
           ],
         },
       ],

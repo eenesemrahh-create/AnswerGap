@@ -561,14 +561,16 @@ export const tr: Messages = {
   },
 
   anon: {
-    freeLeft: "Hesap açmadan ücretsiz dene: bugün {count} arama hakkın var.",
-    usedUp: "Bugünkü ücretsiz aramanı kullandın.",
+    freeTitle: "Üye olmadan günde {count} ücretsiz arama hakkın var",
+    freeNote: "Soru ağacını ve tabloyu görebilirsin. Soruları analiz etmek, ağacı genişletmek ve dışa aktarmak üyelere açık.",
+    usedTitle: "Bugünkü ücretsiz aramanı kullandın",
+    resetsIn: "Yeni hakkın {hours} sa {minutes} dk sonra gelir (saat {clock}). Beklemeden aramak için ücretsiz hesap aç.",
     dailyFull: "Bugünkü ücretsiz aramaların hepsi kullanıldı.",
     usedUpReason: "Ücretsiz hesapla soru ağacının tamamını görürsün ve aramaların saklanır.",
     signUpFree: "Ücretsiz hesap aç",
     verifying: "Doğrulanıyor…",
-    previewTitle: "Bu önizlemede {total} sorudan {count} tanesi gizli",
-    previewBody: "Ağacın tamamını görmek ve hangi soruları kimsenin yanıtlamadığını kontrol etmek için ücretsiz hesap aç. Bu arama ücretsiz olarak hesabına aktarılır.",
+    previewTitle: "Üye olmadan yaptığın ücretsiz arama",
+    previewBody: "Ağacın ve tablonun ilk halini görüyorsun. Soruları analiz etmek, ağacı genişletmek ve PNG/CSV olarak indirmek için ücretsiz hesap aç.",
   },
   theme: {
     light: "Koyu temaya geç",

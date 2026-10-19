@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ApiError,
-  claimAnonWork,
   fetchAnonSearch,
   fetchCountries,
   fetchLanguages,
@@ -42,6 +41,21 @@ import { NavMenu } from "@/components/NavMenu";
 import { ErrorNote } from "@/components/ErrorNote";
 
 const MARKET_KEY = "answergap.market";
+
+/** "Your next free search in 6 h 12 min, at 03:00" - in the visitor's own
+ *  time. The allowance is per UTC day, so it returns at UTC midnight. */
+function resetsIn(
+  iso: string | undefined,
+  now: number,
+  locale: string,
+  t: (key: string, values?: Record<string, string | number>) => string
+): string {
+  if (!iso) return "";
+  const at = new Date(iso);
+  const minutes = Math.max(0, Math.round((at.getTime() - now) / 60000));
+  const clock = at.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
+  return t("anon.resetsIn", { hours: Math.floor(minutes / 60), minutes: minutes % 60, clock });
+}
 
 /**
  * Marketing landing page.
@@ -132,7 +146,7 @@ export default function Landing() {
      * here first means the very first `/api/meta` already knows who is
      * asking. Must run before the `hasToken` effect below, which it does:
      * effects run in declaration order. */
-    const signedInJustNow = captureTokenFromHash();
+    captureTokenFromHash();
 
     /* A related-search chip on a tree page links here with the phrase attached.
      * Read straight off `location` rather than through useSearchParams, which
@@ -141,10 +155,7 @@ export default function Landing() {
     const prefill = new URLSearchParams(window.location.search).get("seed");
     if (prefill) setSeed(prefill);
 
-    /* A search run signed out moves into the account BEFORE the list is
-     * read, so it is there (2026-10-19). Resolves at once otherwise. */
-    (signedInJustNow ? claimAnonWork() : Promise.resolve(null))
-      .then(() => Promise.all([fetchTrees(), fetchMeta()]))
+    Promise.all([fetchTrees(), fetchMeta()])
       .then(([treeList, metaData]) => {
         setTrees(treeList);
         setMeta(metaData);
@@ -220,6 +231,12 @@ export default function Landing() {
     fetchAnonSearch().then(setAnon).catch(() => setAnon(null));
   }, [signedOut, meta?.turnstile_site_key]);
   const anonSearching = signedOut && !!anon?.enabled && !!meta?.turnstile_site_key;
+  // "Next free search in …" moves on its own, a minute at a time.
+  useEffect(() => {
+    if (!anonSearching) return;
+    const tick = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(tick);
+  }, [anonSearching]);
 
   const showSearch =
     meta !== null
@@ -258,6 +275,17 @@ export default function Landing() {
      * password - which reads as being sent to reset a password, and is
      * exactly what it was reported as. */
     if (signedOut) {
+      // Their own free search again: open it, never spend another.
+      const own = trees?.find(
+        (tree) =>
+          tree.seed.trim().toLocaleLowerCase() === term.toLocaleLowerCase() &&
+          tree.language_code === languageCode &&
+          tree.location_code === locationCode
+      );
+      if (own) {
+        router.push(`/tree/${encodeURIComponent(own.slug)}`);
+        return;
+      }
       // Off, or today's free searches are used: an account is the way on.
       if (!anonSearching || !anon || anon.remaining <= 0) {
         requestSignIn({
@@ -274,6 +302,7 @@ export default function Landing() {
         seed: term, location: locationCode, language: languageCode, turnstile: used,
       }).catch(() => {});
       fetchAnonSearch().then(setAnon).catch(() => {});
+      fetchTrees().then(setTrees).catch(() => {});
       return;
     }
 
@@ -493,24 +522,30 @@ export default function Landing() {
           </button>
         </form>
 
-        {/* Signed out: how many free searches are left, the way to all of
-            it, and the challenge every signed-out search must pass. */}
+        {/* Signed out (2026-10-19): ONE free search a day, said plainly, with
+            when it comes back and the way to more; and the challenge every
+            signed-out search must pass. */}
         {anonSearching && anon && meta?.turnstile_site_key && (
-          <div className="home-anon">
-            <p>
+          <div className={`home-anon${anon.remaining > 0 ? "" : " is-used"}`}>
+            <b className="home-anon-title">
               {anon.daily_full
                 ? t("anon.dailyFull")
                 : anon.remaining > 0
-                  ? t("anon.freeLeft", { count: anon.remaining })
-                  : t("anon.usedUp")}{" "}
-              <button
-                type="button"
-                className="auth-link"
-                onClick={() => requestSignIn({ mode: "signup", reason: t("anon.usedUpReason") })}
-              >
-                {t("anon.signUpFree")}
-              </button>
-            </p>
+                  ? t("anon.freeTitle", { count: anon.remaining })
+                  : t("anon.usedTitle")}
+            </b>
+            <span className="home-anon-note">
+              {anon.remaining > 0 && !anon.daily_full
+                ? t("anon.freeNote")
+                : resetsIn(anon.resets_at, now, locale, t)}
+            </span>
+            <button
+              type="button"
+              className={anon.remaining > 0 ? "auth-link" : "btn btn-primary"}
+              onClick={() => requestSignIn({ mode: "signup", reason: t("anon.usedUpReason") })}
+            >
+              {t("anon.signUpFree")}
+            </button>
             {anon.remaining > 0 && (
               <Turnstile
                 ref={challenge}
@@ -706,7 +741,7 @@ export default function Landing() {
               </Link>
             )}
           </section>
-          <SavedAnalyses trees={trees} job={job} />
+          <SavedAnalyses trees={trees} job={job} readOnly={signedOut} />
         </>
       )}
       {/* A first-ever search still gets its "processing" card. */}

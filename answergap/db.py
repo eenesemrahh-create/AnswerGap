@@ -1688,7 +1688,8 @@ def live_tree_count() -> int:
         return cur.fetchone()["n"]
 
 
-def load_trees(slug_for, *, user_id: int | None = None) -> list[dict]:
+def load_trees(slug_for, *, user_id: int | None = None,
+               anon_id: str | None = None) -> list[dict]:
     """Live trees: the most recent crawl of each slug.
 
     Older crawls stay - they are the diff engine's raw material - but the
@@ -1707,19 +1708,34 @@ def load_trees(slug_for, *, user_id: int | None = None) -> list[dict]:
     are, then does the joining in Python where it costs nothing.
     """
     with connect() as conn, conn.cursor() as cur:
-        if user_id is None:
+        if user_id is None and not anon_id:
             # Nobody signed in: no personal list at all. NOT "everything" -
             # an unauthenticated caller must never be the widest audience.
             return []
-        cur.execute(
-            """
-            SELECT DISTINCT ON (slug) *
-              FROM crawl
-             WHERE user_id = %s
-             ORDER BY slug, created_at DESC, id DESC
-            """,
-            (user_id,),
-        )
+        if user_id is None:
+            # A signed-out visitor's own free searches (2026-10-19), by the
+            # browser id that ran them - the same claim `can_access` honours.
+            # Only ownerless crawls: a signed-in person's rows carry their
+            # browser id too, and must not show to whoever uses it next.
+            cur.execute(
+                """
+                SELECT DISTINCT ON (slug) *
+                  FROM crawl
+                 WHERE anon_id = %s AND user_id IS NULL
+                 ORDER BY slug, created_at DESC, id DESC
+                """,
+                (anon_id,),
+            )
+        else:
+            cur.execute(
+                """
+                SELECT DISTINCT ON (slug) *
+                  FROM crawl
+                 WHERE user_id = %s
+                 ORDER BY slug, created_at DESC, id DESC
+                """,
+                (user_id,),
+            )
         crawls = cur.fetchall()
         if not crawls:
             return []
@@ -2861,52 +2877,70 @@ def anon_counters(*, anon_id: str | None, ip_hash: str | None) -> dict:
         }
 
 
-def claim_anon_work(*, user_id: int, anon_id: str | None) -> int:
-    """Give a person who just signed in the searches they ran signed out.
+def admin_anon_usage(*, days: int = 30, recent: int = 100) -> dict:
+    """Signed-out searching for the admin (2026-10-19).
 
-    Matched on the browser id the sign-in request carried - the same claim
-    `can_access` already accepts - and only crawls nobody owns yet. The seed's
-    score is COPIED to the person (a tree shows only its owner's scores since
-    2026-10-13); the ownerless row stays, because other signed-out trees can
-    show it too. Writes no credits: the search was free and stays free.
-    Returns how many crawls were claimed; 0 on a second call.
+    `daily`: one row per UTC day of the last `days`, with every day present
+    (zeros included) so a chart has no gaps that read as missing data. Counts
+    by outcome, the provider spend, and how many distinct addresses and
+    browsers searched.
+
+    `recent`: the latest signed-out search attempts with the seed, the
+    outcome and SHORT CODES for the address and the browser - the first six
+    characters of the stored keyed hash. Never the address: it is not stored.
     """
-    if not anon_id:
-        return 0
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
-            UPDATE crawl SET user_id = %s
-             WHERE anon_id = %s AND user_id IS NULL
-            RETURNING seed_question, location_code, created_at
-            """,
-            (int(user_id), anon_id),
-        )
-        claimed = cur.fetchall()
-        for c in claimed:
-            # The seed score `live.crawl` wrote moments after this crawl.
-            cur.execute(
-                """
-                INSERT INTO gap_score (question_id, location_code, status,
-                                       matching_pages, results_checked, threshold,
-                                       strategy, embedding_model, results,
-                                       ai_sources, ai_state, source_key, user_id,
-                                       scored_at)
-                SELECT question_id, location_code, status, matching_pages,
-                       results_checked, threshold, strategy, embedding_model,
-                       results, ai_sources, ai_state, source_key, %s, scored_at
-                  FROM gap_score
-                 WHERE question_id = %s AND location_code = %s AND user_id IS NULL
-                   AND scored_at BETWEEN %s - interval '10 minutes'
-                                     AND %s + interval '10 minutes'
-                 ORDER BY scored_at DESC
-                 LIMIT 1
-                """,
-                (int(user_id), c["seed_question"], c["location_code"],
-                 c["created_at"], c["created_at"]),
+            WITH days AS (
+                SELECT generate_series(
+                         (now() AT TIME ZONE 'utc')::date - (%(days)s - 1),
+                         (now() AT TIME ZONE 'utc')::date, interval '1 day')::date AS day
+            ), ev AS (
+                SELECT day_utc, outcome, spend_usd, ip_hash, anon_id
+                  FROM usage_event
+                 WHERE user_id IS NULL AND action = 'search'
+                   AND day_utc >= (now() AT TIME ZONE 'utc')::date - (%(days)s - 1)
             )
-        conn.commit()
-        return len(claimed)
+            SELECT d.day,
+                   count(*) FILTER (WHERE e.outcome = 'allowed')              AS allowed,
+                   count(*) FILTER (WHERE e.outcome = 'refused_anon_limit')   AS refused_limit,
+                   count(*) FILTER (WHERE e.outcome = 'refused_anon_daily_full') AS refused_full,
+                   count(*) FILTER (WHERE e.outcome = 'refused_captcha')      AS refused_captcha,
+                   COALESCE(sum(e.spend_usd), 0)                              AS spend_usd,
+                   count(DISTINCT e.ip_hash)                                  AS addresses,
+                   count(DISTINCT e.anon_id)                                  AS browsers
+              FROM days d
+              LEFT JOIN ev e ON e.day_utc = d.day
+             GROUP BY d.day
+             ORDER BY d.day
+            """,
+            {"days": int(days)},
+        )
+        daily = [
+            {**dict(r), "day": r["day"].isoformat(), "spend_usd": float(r["spend_usd"] or 0)}
+            for r in cur.fetchall()
+        ]
+        cur.execute(
+            """
+            SELECT u.created_at, u.outcome, u.spend_usd, u.tree_slug,
+                   left(u.ip_hash, 6) AS ip_code, left(u.anon_id, 6) AS browser_code,
+                   (SELECT c.seed FROM crawl c
+                     WHERE c.slug = u.tree_slug AND c.anon_id = u.anon_id
+                     ORDER BY c.created_at DESC LIMIT 1) AS seed
+              FROM usage_event u
+             WHERE u.user_id IS NULL AND u.action = 'search'
+             ORDER BY u.created_at DESC, u.id DESC
+             LIMIT %s
+            """,
+            (int(recent),),
+        )
+        rows = [
+            {**dict(r), "created_at": r["created_at"].isoformat(),
+             "spend_usd": float(r["spend_usd"] or 0)}
+            for r in cur.fetchall()
+        ]
+        return {"daily": daily, "recent": rows}
 
 
 def record_usage(

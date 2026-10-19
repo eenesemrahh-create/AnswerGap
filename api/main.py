@@ -361,7 +361,7 @@ def pricing() -> dict:
     }
 
 
-def _live_all(user_id: int | None = None) -> list[dict]:
+def _live_all(user_id: int | None = None, anon_id: str | None = None) -> list[dict]:
     """Live trees, read fresh from the database when there is one.
 
     The in-memory `_LIVE` dict is the filesystem backend's cache and it quietly
@@ -371,7 +371,7 @@ def _live_all(user_id: int | None = None) -> list[dict]:
     """
     if db.available():
         try:
-            return live.load_trees(user_id)
+            return live.load_trees(user_id, anon_id)
         except Exception:  # noqa: BLE001 - reported via /api/meta, never fatal
             pass
     return list(_LIVE.values())
@@ -457,16 +457,10 @@ def _authorize_tree(slug: str, who: gate.Identity) -> dict:
     if not db.available():
         return found
     if db.can_access(slug, user_id=who.user_id, anon_id=who.anon_id):
-        # A signed-out reader gets the PREVIEW, on every path that reads a
-        # tree through here - the tree, one question, labels, the diff.
+        # A signed-out reader gets the tree marked as a PREVIEW, on every
+        # path that reads a tree through here.
         return _preview(found) if _previewing(who) else found
     raise HTTPException(404, f"No tree: {slug}")
-
-
-#: How much of a signed-out search shows (2026-10-19): the seed and its
-#: verdict, the top-level questions, and this many related searches.
-PREVIEW_DEPTH = 1
-PREVIEW_RELATED = 3
 
 
 def _previewing(who: gate.Identity) -> bool:
@@ -474,26 +468,17 @@ def _previewing(who: gate.Identity) -> bool:
 
 
 def _preview(found: dict) -> dict:
-    """The part of a tree a signed-out visitor sees. A COPY: `found` may be
-    the cached object in `_LIVE`.
+    """A signed-out visitor's tree: the whole tree AS THE SEARCH RETURNED IT,
+    marked read-only (operator, 2026-10-19 - the first cut, top level only,
+    showed too little to judge the product by). A COPY: `found` may be the
+    cached object in `_LIVE`.
 
-    CUT HERE, NOT BLURRED IN THE BROWSER. A blur over data the page already
-    holds is a blur anybody can turn off; the questions below the first level
-    never leave the server, only how many there are. The totals stay whole,
-    because "15 questions found" is the honest headline and the reason to sign
-    up.
+    `preview` is what the screen keys on to drop every action - analysis
+    rounds, checking a question, verdicts, exports. The server refuses each of
+    those to a signed-out caller on its own; the flag only keeps the buttons
+    from being drawn.
     """
-    nodes = found.get("nodes") or []
-    shown = [n for n in nodes if int(n.get("depth") or 0) <= PREVIEW_DEPTH]
-    related = list(found.get("related_searches") or [])
-    return {
-        **found,
-        "nodes": shown,
-        "related_searches": related[:PREVIEW_RELATED],
-        "preview": True,
-        "hidden_questions": len(nodes) - len(shown),
-        "hidden_related": max(0, len(related) - PREVIEW_RELATED),
-    }
+    return {**found, "preview": True}
 
 
 @app.get("/api/trees")
@@ -512,8 +497,11 @@ def trees(http_request: Request) -> list[dict]:
     as their own history. They still list on a laptop with no accounts.
     """
     who = auth.identity(http_request)
+    # Signed out: the free searches this browser ran (2026-10-19), so the
+    # visitor finds theirs again on the home page.
+    anon = who.anon_id if _previewing(who) else None
     live_trees = sorted(
-        _live_all(who.user_id), key=lambda t: t.get("updated_at") or "", reverse=True
+        _live_all(who.user_id, anon), key=lambda t: t.get("updated_at") or "", reverse=True
     )
     # The archive demos are listed only where there are no accounts - see
     # `_authorize_tree`. With accounts, a list is the caller's own searches
@@ -761,8 +749,20 @@ def anon_search(http_request: Request) -> dict:
     used = max(state.anon_used_browser, state.anon_used_ip)
     full = state.anon_used_total >= state.anon_daily_total
     return {"enabled": True,
+            "allowance": state.anon_per_visitor,
             "remaining": 0 if full else max(0, state.anon_per_visitor - used),
-            "daily_full": full}
+            "daily_full": full,
+            # The counters are per UTC day (`usage_event.day_utc`), so the
+            # allowance comes back at the next UTC midnight. The page shows
+            # it in the visitor's own time.
+            "resets_at": _next_utc_midnight()}
+
+
+def _next_utc_midnight() -> str:
+    from datetime import datetime, timedelta, timezone
+    now = datetime.now(timezone.utc)
+    return (now.replace(hour=0, minute=0, second=0, microsecond=0)
+            + timedelta(days=1)).isoformat()
 
 
 @app.post("/api/tree/{slug}/question/{question_slug}/score")
@@ -946,6 +946,10 @@ def label_question(
     """
     who = auth.identity(http_request)
     found = _authorize_tree(slug, who)
+    if found.get("preview"):
+        # A free search is look-only (2026-10-19): no verdicts from somebody
+        # we cannot name, into a label set that steers the scoring.
+        raise HTTPException(401, {"code": "signedOut"})
     node = next(
         (n for n in found["nodes"] if n["slug"] == question_slug), None
     )

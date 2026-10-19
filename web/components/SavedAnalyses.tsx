@@ -30,8 +30,12 @@ export function questionsIn(tree: TreeSummary): number {
 export function SavedAnalyses({
   trees,
   job = null,
+  readOnly = false,
 }: {
   trees: TreeSummary[];
+  /** A signed-out visitor's free searches (2026-10-19): openable, never
+   *  updated - an update is a paid search. */
+  readOnly?: boolean;
   /** The search in flight, drawn as a "processing" card ahead of the list -
    *  the way AlsoAsked shows "In progress" in its history until it is ready. */
   job?: SearchJob | null;
@@ -100,7 +104,7 @@ export function SavedAnalyses({
             </div>
           )}
           {shown.map((tree) => (
-            <AnalysisCard key={tree.slug} tree={tree} updated={formatDate(tree.updated_at)} />
+            <AnalysisCard key={tree.slug} tree={tree} updated={formatDate(tree.updated_at)} readOnly={readOnly} />
           ))}
         </div>
       )}
@@ -108,7 +112,15 @@ export function SavedAnalyses({
   );
 }
 
-function AnalysisCard({ tree, updated }: { tree: TreeSummary; updated: string }) {
+function AnalysisCard({
+  tree,
+  updated,
+  readOnly,
+}: {
+  tree: TreeSummary;
+  updated: string;
+  readOnly: boolean;
+}) {
   const { t } = useI18n();
   const total = questionsIn(tree);
   const gaps = tree.status_counts.gap ?? 0;
@@ -154,11 +166,13 @@ function AnalysisCard({ tree, updated }: { tree: TreeSummary; updated: string })
           <span className="home-card-saved">
             <i aria-hidden /> {t("refresh.saved")}
           </span>
-          <RefreshSearch
-            seed={tree.seed}
-            location={tree.location_code}
-            language={tree.language_code}
-          />
+          {!readOnly && (
+            <RefreshSearch
+              seed={tree.seed}
+              location={tree.location_code}
+              language={tree.language_code}
+            />
+          )}
         </div>
       )}
     </div>

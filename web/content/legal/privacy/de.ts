@@ -110,7 +110,7 @@ export const de: PrivacyContent = {
             "Ihre Liste von Suchanfragen ist privat. Andere können nicht sehen, wonach Sie gesucht haben, und Ihre gespeicherten Analysen nicht öffnen. Die Abfrage einer fremden Analyse antwortet „nicht gefunden“ statt „nicht erlaubt“, weil schon die Existenz einer Suche eine Information ist.",
             "Die zugrunde liegenden Suchdaten sind gemeinsam. Die Fragen und Suchergebnisse, die wir von unserem Datenanbieter abrufen, liegen in einem Bestand für alle Kunden, nicht in einer privaten Kopie je Konto; eine Suche von Ihnen kann daher mit Daten beantwortet werden, die zuerst für einen anderen Kunden abgerufen wurden, und umgekehrt. Was Sie daraus aufbauen, gehört Ihnen: Ihre Fragenbäume und die von Ihnen bezahlten Gap-Prüfungen werden nur Ihnen angezeigt, und ein anderer Kunde, der denselben Begriff sucht, bezahlt seine eigene Suche.",
             "Bewertungen, die Sie über die Schaltflächen „Ist das wirklich eine Lücke?“ abgeben, werden ohne Bezug zu Ihrem Konto gespeichert und dienen dazu, die Bewertung zu verbessern.",
-            "Sind Sie abgemeldet, stützt sich der Zugang zu Ihren eigenen Analysen auf die zufällige Kennung im Browser. Das hält sie von Fremden fern, ist aber kein kryptografischer Schutz — löschen Sie den Browserspeicher, verlieren Sie den Zugang. Legen Sie ein Konto an oder melden Sie sich an, werden die in diesem Browser abgemeldet durchgeführten Suchen in Ihr Konto übernommen.",
+            "Sind Sie abgemeldet, stützt sich der Zugang zu Ihren eigenen Analysen auf die zufällige Kennung im Browser. Das hält sie von Fremden fern, ist aber kein kryptografischer Schutz — löschen Sie den Browserspeicher, verlieren Sie den Zugang.",
           ],
         },
       ],

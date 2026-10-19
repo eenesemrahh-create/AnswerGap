@@ -830,23 +830,41 @@ def put_settings(request: Request, payload: SettingsRequest) -> dict:
 
 
 @router.get("/ip-check")
-def ip_check(request: Request) -> dict:
-    """What address the api reads for THIS request, for setting
-    `TRUSTED_PROXY_HOPS`. The admin's own address only, shown to the admin.
+def ip_check(request: Request, chain: str | None = None) -> dict:
+    """What address the api reads, for setting `TRUSTED_PROXY_HOPS`. The
+    admin's own address only, shown to the admin.
+
+    `chain` is the X-Forwarded-For the ADMIN SERVICE received from the
+    operator's browser. The admin panel calls this api from its own server,
+    so this request's own header names that server, not the operator; both
+    services sit behind the same Railway edge, so the chain the browser
+    produced there has the same shape a visitor's produces here.
 
     If `client_ip` is not the address a "what is my IP" site shows, the
     per-visitor limit for signed-out searches is keyed on the wrong thing - a
     proxy's address would put every visitor on one counter.
     """
     require_admin(request)
-    forwarded = request.headers.get("x-forwarded-for")
+    forwarded = (chain or request.headers.get("x-forwarded-for") or "")[:500]
     return {
         "forwarded_for": forwarded,
-        "x_real_ip": request.headers.get("x-real-ip"),
         "trusted_hops": TRUSTED_PROXY_HOPS,
         "client_ip": gate.client_ip(forwarded, TRUSTED_PROXY_HOPS),
         "turnstile_configured": turnstile.configured(),
     }
+
+
+@router.get("/anon-usage")
+def anon_usage(request: Request, days: int = 30) -> dict:
+    """Signed-out searches: one row per UTC day, and the latest searches.
+
+    WHO IS A SHORT CODE, NEVER AN ADDRESS. The raw IP is not stored (Privacy
+    Policy section 2); what is shown is the start of the keyed hash already on
+    `usage_event`. The same address always gets the same code, which is what
+    spotting somebody working round the limit needs.
+    """
+    require_admin(request)
+    return db.admin_anon_usage(days=max(1, min(int(days), 90)))
 
 
 @router.get("/pricing")

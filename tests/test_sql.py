@@ -1887,26 +1887,26 @@ def test_anon_counters_count_every_allowed_signed_out_search() -> None:
     assert (got["by_browser"], got["by_ip"], got["total"]) == (2, 2, 3)
 
 
-def test_signing_in_claims_the_search_and_its_seed_score() -> None:
-    tree = _archive_tree()
-    db.save_tree(tree, new_crawl=True, anon_id="browser-x")
-    seed = next(n for n in tree["nodes"] if n["depth"] == 0)
-    _score(seed, user_id=None)
-    other = _archive_tree()
-    db.save_tree(other, new_crawl=True, anon_id="browser-y")
-    user = _google(sub="claimer", email="claimer@example.com")
-
-    assert db.claim_anon_work(user_id=user["id"], anon_id="browser-x") == 1
-    mine = db.load_tree("teeth-whitening", slugify, user_id=user["id"])
-    assert mine is not None
-    assert {n["id"]: n for n in mine["nodes"]}[seed["id"]]["status"] == "gap"
-    # Idempotent, and another browser's search is not touched.
-    assert db.claim_anon_work(user_id=user["id"], anon_id="browser-x") == 0
-    with db.connect() as conn, conn.cursor() as cur:
-        cur.execute("SELECT user_id FROM crawl WHERE anon_id = 'browser-y'")
-        assert cur.fetchone()["user_id"] is None
+def test_a_signed_out_visitor_lists_only_their_browsers_ownerless_searches() -> None:
+    db.save_tree(_archive_tree(), new_crawl=True, anon_id="browser-x")
+    user = _google(sub="lister", email="lister@example.com")
+    # A signed-in person's crawl carries their browser id too; it must not
+    # show to whoever uses that browser signed out.
+    db.save_tree(_archive_tree(), new_crawl=True, user_id=user["id"], anon_id="browser-y")
+    assert [t["slug"] for t in db.load_trees(slugify, anon_id="browser-x")] == ["teeth-whitening"]
+    assert db.load_trees(slugify, anon_id="browser-y") == []
+    assert db.load_trees(slugify) == []
 
 
-def test_a_claim_with_no_browser_id_claims_nothing() -> None:
-    user = _google(sub="nobody", email="nobody@example.com")
-    assert db.claim_anon_work(user_id=user["id"], anon_id=None) == 0
+def test_admin_anon_usage_counts_by_day_and_shows_codes_not_addresses() -> None:
+    _anon_search("browser-aaaaaa", "ipabcdef123")
+    _anon_search("browser-bbbbbb", "ipabcdef123", outcome="refused_anon_limit")
+    _anon_search("browser-cccccc", "ipzzzzzz999", outcome="refused_captcha")
+    got = db.admin_anon_usage(days=7)
+    assert len(got["daily"]) == 7, "every day present, zeros included"
+    today = got["daily"][-1]
+    assert (today["allowed"], today["refused_limit"], today["refused_captcha"]) == (1, 1, 1)
+    assert today["addresses"] == 2
+    codes = {r["ip_code"] for r in got["recent"]}
+    assert codes == {"ipabcd", "ipzzzz"}
+    assert "ipabcdef123" not in json.dumps(got)

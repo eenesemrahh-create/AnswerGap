@@ -88,11 +88,9 @@ export interface Tree extends TreeSummary {
   /** When the seed's data was fetched from Google. `updated_at` is when
    *  anybody last searched it, which a cache hit moves without new data. */
   fetched_at?: string | null;
-  /** A signed-out visitor's view (2026-10-19): only the seed and the top
-   *  level arrive; the rest is counted, never sent. */
+  /** A signed-out visitor's free search (2026-10-19): the whole tree as the
+   *  search returned it, read-only - no analysis, verdicts or exports. */
   preview?: boolean;
-  hidden_questions?: number;
-  hidden_related?: number;
 }
 
 /** `POST /api/search` with `dry_run: true` — the plan and its price, no data. */

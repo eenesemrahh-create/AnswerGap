@@ -110,7 +110,7 @@ export const es: PrivacyContent = {
             "Su lista de búsquedas es privada. Otra persona no puede ver qué palabras buscó ni abrir sus análisis guardados. Pedir un análisis ajeno devuelve «no encontrado» y no «no permitido», porque la mera existencia de una búsqueda ya es información.",
             "Los datos de búsqueda de base son compartidos. Las preguntas y los resultados de búsqueda que obtenemos de nuestro proveedor de datos se guardan en un único almacén para toda la clientela, no en una copia privada por cuenta; por eso una búsqueda suya puede responderse con datos obtenidos primero para otra persona, y al revés. Lo que construye a partir de ellos es suyo: sus árboles de preguntas y las comprobaciones de hueco que pagó solo se le muestran a usted, y otra persona que busque la misma palabra paga su propia búsqueda.",
             "Los veredictos que da con los botones de «¿esto es realmente un hueco?» se guardan sin vincularse a su cuenta y sirven para mejorar el funcionamiento de la puntuación.",
-            "Si ha cerrado sesión, el acceso a sus propios análisis depende del identificador aleatorio del navegador. Eso los mantiene lejos de desconocidos, pero no es protección criptográfica: si borra el almacenamiento del navegador, pierde el acceso. Cuando crea una cuenta o inicia sesión, las búsquedas hechas en este navegador sin sesión pasan a su cuenta.",
+            "Si ha cerrado sesión, el acceso a sus propios análisis depende del identificador aleatorio del navegador. Eso los mantiene lejos de desconocidos, pero no es protección criptográfica: si borra el almacenamiento del navegador, pierde el acceso.",
           ],
         },
       ],

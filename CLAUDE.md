@@ -531,18 +531,25 @@ defensible asset over time.
   (`api/turnstile.py`, header `X-AG-Turnstile`, fail closed) → 403
   `captchaFailed`; `max(browser, address)` ≥ per visitor → 429 `anonLimit`;
   total ≥ daily total → 429 `anonDailyFull`. Every allowed signed-out search
-  counts, cache hit or not. Only `search` - checks, rounds, exports stay
-  behind an account. The visitor gets a **preview cut on the server**
-  (`main._preview` inside `_authorize_tree`: seed + depth 1; the rest is a
-  count, never sent). Signing in calls `POST /api/account/claim-anon`
-  (`db.claim_anon_work`: the browser's ownerless crawls + a COPY of the seed
-  score). A NEW setting key on purpose: an old database may still hold the
-  retired `anonymous_daily_searches = 1`.
+  counts, cache hit or not. Only `search` - checks, rounds, exports, verdicts
+  stay behind an account. The visitor sees the WHOLE tree and table as the
+  search returned them, marked `preview` (`main._preview` inside
+  `_authorize_tree`; the screen drops every action on it), and finds it again
+  on the home page (`/api/trees` lists a signed-out browser's ownerless
+  crawls by `anon_id`). Nothing moves to an account on sign-up (operator,
+  2026-10-19; a claim step was built and removed the same day). The allowance
+  is per UTC day; `/api/anon-search` returns `resets_at`. Admin Settings shows
+  the IP check, a 30-day chart and the latest searches with SHORT CODES
+  (first 6 chars of the keyed hash) - never an address, which is not stored.
+  A NEW setting key on purpose: an old database may still hold the retired
+  `anonymous_daily_searches = 1`.
   **The address is now read from the RIGHT of X-Forwarded-For**
   (`gate.client_ip`, private/internal hops skipped, `TRUSTED_PROXY_HOPS`
   default 1); reading the first entry let anybody forge a new address per
-  request. Check it with admin `GET /api/admin/ip-check` after a deploy - if
-  `client_ip` is not your address, every visitor shares one counter.
+  request. On Railway there is one more public hop after the visitor, so
+  production runs `TRUSTED_PROXY_HOPS=2` (measured 2026-10-19). Check it on
+  admin Settings after any infrastructure change - if the address shown is
+  not yours, every visitor shares one counter.
 - Depth is plan-bound.
 - Every plan can buy extra credits — gating that behind an upgrade drives churn.
 - Do not restrict search history (AlsoAsked's 24-hour lock is bad practice).

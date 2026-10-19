@@ -4543,9 +4543,23 @@ a.acct-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift);
 
 /* Signed-out searching (2026-10-19): what is left, the way to all of it, and
    the Turnstile challenge (invisible unless Cloudflare wants a click). */
-.home-anon { display: grid; justify-items: center; gap: 8px; margin: 14px auto 0; max-width: 720px; text-align: center; }
-.home-anon p { margin: 0; color: var(--text-soft); font-size: 14px; }
+.home-anon {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  margin: 16px auto 0;
+  max-width: 560px;
+  padding: 14px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  background: var(--grad-soft), var(--surface);
+  text-align: center;
+}
+.home-anon-title { font-size: 16px; font-weight: 800; }
+.home-anon-note { color: var(--text-soft); font-size: 13.5px; line-height: 1.45; }
 .home-anon .auth-link { font-weight: 700; }
+.home-anon.is-used { border-color: var(--brand); }
+.home-anon .btn { margin-top: 4px; }
 .turnstile-box:empty { display: none; }
 
 /* A signed-out tree: the questions below the top level never arrived, so
@@ -4560,17 +4574,12 @@ a.acct-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift);
   border-radius: var(--r-xl);
   background: var(--grad-soft), var(--surface);
 }
-.tree-preview-ghosts { display: grid; gap: 6px; flex: none; }
-.tree-preview-ghosts i { display: block; width: 92px; height: 12px; border-radius: 6px; background: var(--border-strong); filter: blur(2px); opacity: .7; }
-.tree-preview-ghosts i:nth-child(2) { width: 70px; }
-.tree-preview-ghosts i:nth-child(3) { width: 82px; }
 .tree-preview-text { display: grid; gap: 2px; flex: 1; min-width: 0; }
 .tree-preview-text b { font-size: 15px; }
 .tree-preview-text span { color: var(--text-soft); font-size: 13.5px; line-height: 1.45; }
 .tree-preview .btn { flex: none; }
 @media (max-width: 760px) {
   .tree-preview { flex-wrap: wrap; margin: 10px 16px 0; }
-  .tree-preview-ghosts { display: none; }
   .tree-preview .btn { width: 100%; }
 }
 .home-try { margin-top: 0; justify-content: flex-end; }

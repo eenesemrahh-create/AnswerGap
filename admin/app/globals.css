@@ -839,3 +839,14 @@ label.inline { display: inline-flex; align-items: center; gap: 6px; color: var(-
 }
 .qcard .qdetail { margin: 0; }
 .qcard-head { margin: 0 0 6px !important; font-size: 14px; }
+
+/* Signed-out searches per day (settings page): one column per UTC day,
+   searches made at the bottom, refusals stacked above. */
+.anon-chart { display: flex; align-items: flex-end; gap: 4px; height: 160px; padding: 8px 0 22px; border-bottom: 1px solid var(--border); }
+.anon-bar { position: relative; flex: 1; height: 100%; display: flex; flex-direction: column-reverse; min-width: 6px; }
+.anon-bar > i { display: block; width: 100%; border-radius: 3px 3px 0 0; }
+.anon-bar-allowed { background: var(--brand); }
+.anon-bar-refused { background: color-mix(in srgb, var(--text-soft) 35%, transparent); }
+.anon-bar > span { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--text-soft); }
+.anon-key { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; word-break: break-all; }

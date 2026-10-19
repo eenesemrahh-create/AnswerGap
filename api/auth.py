@@ -1730,23 +1730,6 @@ def erase_account(request: Request, payload: EraseRequest) -> JSONResponse:
     return JSONResponse({"status": "erased"})
 
 
-@router.post("/api/account/claim-anon")
-def claim_anon(request: Request) -> dict:
-    """Move the searches this browser ran signed out onto the account.
-
-    Called by the web app right after any sign-in, whichever door it came
-    through: the Google and mail-link doors arrive by redirect, which carries
-    no `x-ag-anon` header, so the claim cannot ride on the sign-in itself. The
-    browser id is the claim - the same one `can_access` already honours.
-    """
-    if not accounts_enabled():
-        raise HTTPException(503, {"code": "accountsOff"})
-    who = identity(request)
-    if not who.signed_in:
-        raise HTTPException(401, {"code": "signedOut"})
-    return {"claimed": db.claim_anon_work(user_id=int(who.user_id), anon_id=who.anon_id)}
-
-
 def _issue(user: dict) -> str:
     """Sign a session token. ONE function, so both doors produce the same thing.
 

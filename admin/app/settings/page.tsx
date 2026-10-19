@@ -3,6 +3,7 @@ import { get } from "@/lib/api";
 import { translator } from "@/lib/locale";
 import type { Settings } from "@/lib/types";
 import { saveSettings } from "./actions";
+import { AnonUsagePanel } from "./AnonUsage";
 
 export const dynamic = "force-dynamic";
 
@@ -60,6 +61,7 @@ export default async function SettingsPage() {
       <p className="sub">
         {t("settings.anonCost", { usd: ((s.anonymous_daily_total ?? 50) * 0.0026).toFixed(2) })}
       </p>
+      <AnonUsagePanel />
 
       <h2>{t("settings.explainHeading")}</h2>
       <p className="sub">{t("settings.explainSignedOut")}</p>

@@ -478,23 +478,12 @@ export function TreeScreen({ slug }: { slug: string }) {
         </div>
       </div>
 
-      {/* A signed-out search (2026-10-19): the server sent the seed and the
-          top level only. Say how much more there is, and the way to it. The
-          boxes are decoration - the hidden questions never reached this page. */}
+      {/* A signed-out free search (2026-10-19): the whole tree and table as
+          the search returned them, read-only. Say so, and the way on. */}
       {tree.preview && (
         <div className="tree-preview" role="note">
-          <div className="tree-preview-ghosts" aria-hidden>
-            <i />
-            <i />
-            <i />
-          </div>
           <div className="tree-preview-text">
-            <b>
-              {t("anon.previewTitle", {
-                count: tree.hidden_questions ?? 0,
-                total: questionCount,
-              })}
-            </b>
+            <b>{t("anon.previewTitle")}</b>
             <span>{t("anon.previewBody")}</span>
           </div>
           <button

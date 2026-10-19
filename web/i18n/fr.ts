@@ -573,14 +573,16 @@ export const fr: Messages = {
   },
 
   anon: {
-    freeLeft: "Essayez gratuitement, sans compte : il vous reste {count} recherche aujourd'hui.",
-    usedUp: "Vous avez utilisé la recherche gratuite du jour.",
+    freeTitle: "Sans compte, vous avez {count} recherche gratuite par jour",
+    freeNote: "Vous voyez l'arbre de questions et le tableau. Analyser les questions, agrandir l'arbre et exporter sont réservés aux membres.",
+    usedTitle: "Vous avez utilisé la recherche gratuite du jour",
+    resetsIn: "Votre prochaine recherche gratuite arrive dans {hours} h {minutes} min, à {clock}. Créez un compte gratuit pour chercher maintenant.",
     dailyFull: "Les recherches gratuites du jour sont épuisées.",
     usedUpReason: "Avec un compte gratuit, vous voyez tout l'arbre de questions et vos recherches sont conservées.",
     signUpFree: "Créer un compte gratuit",
     verifying: "Vérification…",
-    previewTitle: "{count} questions sur {total} sont masquées dans cet aperçu",
-    previewBody: "Créez un compte gratuit pour voir tout l'arbre et vérifier quelles questions restent sans réponse. Cette recherche passe dans votre compte sans frais.",
+    previewTitle: "Votre recherche gratuite, sans compte",
+    previewBody: "Vous voyez l'arbre et le tableau tels que la recherche les a renvoyés. Créez un compte gratuit pour analyser les questions, agrandir l'arbre et télécharger en PNG/CSV.",
   },
   theme: {
     light: "Passer au sombre",

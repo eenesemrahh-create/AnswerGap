@@ -110,7 +110,7 @@ export const tr: PrivacyContent = {
             "Arama listeniz size özeldir. Başka bir müşteri hangi kelimeleri arattığınızı göremez ve kayıtlı analizlerinizi açamaz. Size ait olmayan bir analiz istendiğinde “izin yok” değil “bulunamadı” döner; çünkü bir aramanın var olması bile başlı başına bilgidir.",
             "Arka plandaki arama verisi ortaktır. Veri sağlayıcımızdan aldığımız sorular ve arama sonuçları hesap başına özel bir kopyada değil, tüm müşteriler için kullanılan tek bir depoda tutulur; bu yüzden yaptığınız bir arama, önce başka bir müşteri için alınmış veriyle yanıtlanabilir, tersi de geçerlidir. Bu veriden kurduklarınız ise size aittir: soru ağaçlarınız ve ödemesini yaptığınız boşluk kontrolleri yalnızca size gösterilir; aynı kelimeyi arayan başka bir müşteri de kendi aramasının bedelini öder.",
             "“Bu gerçekten bir boşluk mu?” düğmeleriyle verdiğiniz kararlar hesabınıza bağlanmadan saklanır ve skorlamanın nasıl çalıştığını iyileştirmek için kullanılır.",
-            "Çıkış yapmışsanız kendi analizlerinize erişiminiz tarayıcınızdaki rastgele tanımlayıcıya dayanır. Bu onları yabancılardan uzak tutar ama kriptografik bir koruma değildir — tarayıcı deponuzu temizlerseniz erişiminizi kaybedersiniz. Hesap açtığınızda ya da giriş yaptığınızda, bu tarayıcıda giriş yapmadan yaptığınız aramalar hesabınıza aktarılır.",
+            "Çıkış yapmışsanız kendi analizlerinize erişiminiz tarayıcınızdaki rastgele tanımlayıcıya dayanır. Bu onları yabancılardan uzak tutar ama kriptografik bir koruma değildir — tarayıcı deponuzu temizlerseniz erişiminizi kaybedersiniz.",
           ],
         },
       ],

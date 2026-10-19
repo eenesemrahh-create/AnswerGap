@@ -645,14 +645,16 @@ export const en = {
   },
 
   anon: {
-    freeLeft: "Try it free, no account needed: {count} search left today.",
-    usedUp: "You have used today’s free search.",
+    freeTitle: "Without an account you get {count} free search a day",
+    freeNote: "You can see the question tree and the table. Analysing questions, growing the tree and exporting are for members.",
+    usedTitle: "You have used today’s free search",
+    resetsIn: "Your next free search comes in {hours} h {minutes} min, at {clock}. Create a free account to search now.",
     dailyFull: "Today’s free searches are all used.",
     usedUpReason: "A free account shows the whole question tree and keeps your searches.",
     signUpFree: "Create a free account",
     verifying: "Checking…",
-    previewTitle: "{count} of {total} questions are hidden in this preview",
-    previewBody: "Create a free account to see the whole tree and check which questions nobody answers. This search moves into your account at no cost.",
+    previewTitle: "Your free search, without an account",
+    previewBody: "You are seeing the tree and table as the search returned them. Create a free account to analyse questions, grow the tree and download PNG/CSV.",
   },
   theme: {
     light: "Switch to dark",

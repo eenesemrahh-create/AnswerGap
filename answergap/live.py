@@ -344,7 +344,7 @@ def load_tree(
         return None
 
 
-def load_trees(user_id: int | None = None) -> list[dict]:
+def load_trees(user_id: int | None = None, anon_id: str | None = None) -> list[dict]:
     """This person's live trees. Survives a restart, and now a redeploy.
 
     Private by slug ownership - see `db.load_trees`. The filesystem backend
@@ -352,7 +352,7 @@ def load_trees(user_id: int | None = None) -> list[dict]:
     everything; that is local development, where there is one person.
     """
     if db.available():
-        return [_hydrate(t) for t in db.load_trees(slugify, user_id=user_id)]
+        return [_hydrate(t) for t in db.load_trees(slugify, user_id=user_id, anon_id=anon_id)]
     if not TREES_DIR.exists():
         return []
     trees = []
