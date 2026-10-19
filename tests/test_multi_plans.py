@@ -58,6 +58,83 @@ def test_the_same_plan_is_buyable_once_it_has_ended(checkout_wired, monkeypatch)
     assert auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))["url"]
 
 
+@pytest.fixture
+def known_customer(checkout_wired, monkeypatch):
+    """A customer Stripe already knows, and our rows show nothing running -
+    the moment between paying in one tab and the webhook arriving."""
+    monkeypatch.setattr(db, "live_subscriptions", lambda uid: [])
+    monkeypatch.setattr(db, "user_for_gate", lambda uid: {
+        "status": "active", "email_verified": True, "email": "a@example.com",
+        "stripe_customer_id": "cus_1"})
+    monkeypatch.setattr(auth, "_published_plan", lambda pid: {
+        "id": pid, "stripe_price_id": "price_lite", "stripe_price_id_annual": "price_lite_y"})
+    return checkout_wired
+
+
+def test_a_plan_stripe_already_holds_is_refused_before_our_webhook(known_customer) -> None:
+    known_customer["held"] = {"price_lite"}
+    with pytest.raises(HTTPException) as e:
+        auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))
+    assert e.value.detail["code"] == "alreadyOnPlan"
+    assert known_customer["sessions"] == []
+    assert known_customer["log"][-1]["kind"] == "checkout_refused"
+
+
+def test_the_annual_price_counts_as_the_same_plan(known_customer) -> None:
+    known_customer["held"] = {"price_lite_y"}
+    with pytest.raises(HTTPException):
+        auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))
+
+
+def test_another_tabs_open_checkout_for_the_plan_is_closed(known_customer) -> None:
+    known_customer["open"] = [("cs_old", "price_lite"), ("cs_other", "price_pro")]
+    assert auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))["url"]
+    assert known_customer["expired"] == ["cs_old"]          # not the other plan's
+
+
+def test_if_stripe_cannot_be_asked_no_checkout_opens(known_customer, monkeypatch) -> None:
+    def down(cid):
+        raise auth.stripe.StripeError("stripeDown", 503, "")
+    monkeypatch.setattr(auth.stripe, "customer_held_prices", down)
+    with pytest.raises(HTTPException) as e:
+        auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))
+    assert e.value.status_code == 502 and known_customer["sessions"] == []
+
+
+def test_stripe_reads_only_subscriptions_that_still_hold_a_plan(monkeypatch) -> None:
+    from api import stripe as stripe_mod
+
+    def fake(method, path, form=None):
+        assert method == "GET" and "customer=cus_1" in path
+        item = lambda p: {"items": {"data": [{"price": {"id": p}}]}}  # noqa: E731
+        return {"data": [{"status": "active", **item("price_a")},
+                         {"status": "past_due", **item("price_b")},
+                         {"status": "canceled", **item("price_c")},
+                         {"status": "incomplete", **item("price_d")}]}
+    monkeypatch.setattr(stripe_mod, "_request", fake)
+    assert stripe_mod.customer_held_prices("cus_1") == {"price_a", "price_b"}
+
+
+def test_stripe_finds_open_checkouts_by_our_price_tag(monkeypatch) -> None:
+    from api import stripe as stripe_mod
+    monkeypatch.setattr(stripe_mod, "_request", lambda m, p, f=None: {"data": [
+        {"id": "cs_1", "metadata": {"answergap_price_id": "price_a"}},
+        {"id": "cs_2", "metadata": {"answergap_price_id": "price_b"}},
+        {"id": "cs_3", "metadata": {}},
+    ]})
+    assert stripe_mod.open_checkouts_for("cus_1", {"price_a"}) == ["cs_1"]
+
+
+def test_every_checkout_carries_its_price_tag(monkeypatch) -> None:
+    from api import stripe as stripe_mod
+    sent = {}
+    monkeypatch.setattr(stripe_mod, "_request",
+                        lambda m, p, f=None: sent.update(f or {}) or {"id": "cs", "url": "u"})
+    stripe_mod.subscription_checkout(price_id="price_a", success_url="s", cancel_url="c",
+                                     user_id=7, email=None, customer_id="cus_1")
+    assert sent["metadata[answergap_price_id]"] == "price_a"
+
+
 def test_an_assigned_plan_never_blocks_buying_it(checkout_wired, monkeypatch) -> None:
     monkeypatch.setattr(db, "live_subscriptions",
                         lambda uid: [_live(1, "lite", source="admin")])

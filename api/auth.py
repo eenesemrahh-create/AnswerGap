@@ -677,6 +677,25 @@ def billing_checkout(request: Request, payload: CheckoutRequest) -> dict:
             customer_id = None
     detail = {"plan_id": payload.plan_id, "cycle": payload.cycle, "price_id": price_id,
               "mode": stripe.mode()}
+    if customer_id:
+        # THE SAME PLAN TWICE, ACROSS TABS. The check above reads our rows,
+        # which wait for a webhook; this asks Stripe, which already knows a
+        # plan paid for a second ago. Then any checkout for this plan still
+        # open in another tab is closed, so only the newest one can be paid.
+        # Monthly and annual are the same plan.
+        prices = {p for p in (plan.get("stripe_price_id"), plan.get("stripe_price_id_annual")) if p}
+        try:
+            if stripe.customer_held_prices(customer_id) & prices:
+                _log_account(who.user_id, "checkout_refused",
+                             {**detail, "reason": "alreadyOnPlan (Stripe)"})
+                raise HTTPException(409, {"code": "alreadyOnPlan"})
+            for stale in stripe.open_checkouts_for(customer_id, prices):
+                stripe.expire_checkout(stale)
+        except stripe.StripeError as exc:
+            # Fail closed: a retry costs the customer a click, a double
+            # subscription costs them a second charge.
+            _log_account(who.user_id, "checkout_failed", {**detail, "error": exc.code})
+            raise HTTPException(502, {"code": "stripeFailed"}) from exc
     try:
         session = stripe.subscription_checkout(
             price_id=price_id,

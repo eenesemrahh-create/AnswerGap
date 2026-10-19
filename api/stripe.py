@@ -196,6 +196,9 @@ def subscription_checkout(
         # now carries the subscription, not this session.
         "subscription_data[metadata][answergap_user_id]": str(user_id),
         "metadata[answergap_user_id]": str(user_id),
+        # Lets a later checkout for the same plan find this one while it is
+        # still open, and expire it (`open_checkouts_for`).
+        "metadata[answergap_price_id]": price_id,
     }
     if customer_id:
         form["customer"] = customer_id
@@ -235,6 +238,49 @@ def cancel_subscription(subscription_id: str, *, at_period_end: bool) -> dict:
         data = _request("DELETE", f"/v1/subscriptions/{subscription_id}")
     return {"status": data.get("status"),
             "cancel_at_period_end": bool(data.get("cancel_at_period_end"))}
+
+
+#: Subscription statuses that still hold the plan. NOT `incomplete`: that is
+#: a first payment that has not gone through (an abandoned 3D Secure, say),
+#: and counting it would lock the person out of retrying for a day.
+HOLDING_STATUSES = frozenset({"active", "trialing", "past_due", "unpaid"})
+
+
+def customer_held_prices(customer_id: str) -> set[str]:
+    """Every price this customer has a subscription on that is not over.
+
+    Asked of Stripe, not of our rows, because our rows wait for a webhook:
+    a plan paid for seconds ago in another tab is already here and not yet
+    there. That gap is what let the same plan be bought twice.
+    """
+    query = urllib.parse.urlencode({"customer": customer_id, "status": "all", "limit": "100"})
+    data = _request("GET", f"/v1/subscriptions?{query}")
+    held: set[str] = set()
+    for sub in data.get("data") or []:
+        if sub.get("status") not in HOLDING_STATUSES:
+            continue
+        for item in (sub.get("items") or {}).get("data") or []:
+            price = _id(item.get("price"))
+            if price:
+                held.add(price)
+    return held
+
+
+def open_checkouts_for(customer_id: str, price_ids: set[str]) -> list[str]:
+    """Checkout sessions still open for this customer on one of these prices.
+
+    Matched on the `answergap_price_id` we put on every session; one opened
+    before that existed carries none and is left to expire on its own.
+    """
+    query = urllib.parse.urlencode({"customer": customer_id, "status": "open", "limit": "100"})
+    data = _request("GET", f"/v1/checkout/sessions?{query}")
+    return [s["id"] for s in data.get("data") or []
+            if s.get("id") and (s.get("metadata") or {}).get("answergap_price_id") in price_ids]
+
+
+def expire_checkout(session_id: str) -> None:
+    """Close an open Checkout Session so it can no longer be paid."""
+    _request("POST", f"/v1/checkout/sessions/{session_id}/expire", {})
 
 
 def resume_subscription(subscription_id: str) -> dict:

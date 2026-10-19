@@ -665,6 +665,13 @@ def checkout_wired(monkeypatch):
         return {"id": "cs_1", "url": "https://checkout.stripe.com/x"}
 
     monkeypatch.setattr(auth.stripe, "subscription_checkout", session)
+    # What Stripe itself says the customer holds, and the checkouts still
+    # open; both empty unless a test says otherwise.
+    state["held"], state["open"], state["expired"] = set(), [], []
+    monkeypatch.setattr(auth.stripe, "customer_held_prices", lambda cid: state["held"])
+    monkeypatch.setattr(auth.stripe, "open_checkouts_for",
+                        lambda cid, prices: [s for s, p in state["open"] if p in prices])
+    monkeypatch.setattr(auth.stripe, "expire_checkout", lambda sid: state["expired"].append(sid))
     return state
 
 

@@ -492,7 +492,11 @@ defensible asset over time.
   person may run more than one plan; the SAME paid plan twice is refused
   while the first is still running, ENDING ONES INCLUDED (`alreadyOnPlan`,
   2026-10-19: an ending plan comes back by making it default, which resumes
-  it at Stripe; an assigned plan never blocks buying), and buying beside a paid plan shows a "charged
+  it at Stripe; an assigned plan never blocks buying). Our rows wait for a
+  webhook, so checkout ALSO asks Stripe (`stripe.customer_held_prices`,
+  monthly and annual price both) and expires any checkout for the same
+  plan still open in another tab (sessions carry `answergap_price_id`);
+  if Stripe cannot be asked, no checkout opens, and buying beside a paid plan shows a "charged
   separately" confirm. Each plan period's grant is a POCKET
   (`credit_ledger.subscription_id` + `expires_at`, migration 0020): spending
   takes the live pocket ending FIRST, then the next; non-plan credits
