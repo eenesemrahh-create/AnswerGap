@@ -4290,6 +4290,7 @@ a.acct-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift);
 .acct-mine-card.is-ending .acct-mine-count b { background: none; color: var(--text-soft); }
 .acct-mine-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; color: var(--text-soft); font-size: 12.5px; }
 .acct-mine-btn { margin-top: 12px; align-self: flex-start; }
+.acct-plan-hint { margin: 0; font-size: 12.5px; line-height: 1.45; }
 .acct-mine-renew { margin: 8px 0 0; padding: 8px 12px; border-radius: 10px; background: var(--brand-soft); color: var(--brand-strong); font-size: 12.5px; line-height: 1.45; }
 .acct-pill-star { background: var(--surface-2); color: var(--text); }
 .acct-pill-live { display: inline-flex; align-items: center; gap: 6px; }

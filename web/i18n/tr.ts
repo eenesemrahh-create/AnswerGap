@@ -385,7 +385,7 @@ export const tr: Messages = {
       "İptal edin, kartınızı güncelleyin ya da faturalarınızı indirin. Stripe açılır.",
 
     creditsHeading: "Krediler",
-    balanceLead: "Bir arama bir kredi. Önbellekten gelen sonuçlar ücretsiz.",
+    balanceLead: "Bir arama bir kredi. Kayıtlı bir aramanı yeniden açmak ücretsiz.",
     historyHeading: "Geçmiş",
     historyWhen: "Tarih",
     historyChange: "Değişim",
@@ -420,6 +420,8 @@ export const tr: Messages = {
     defaultRenewsNote: "{plan} her ay otomatik olarak yenilenir. Yenilemeyi istediğin zaman “{manage}” bölümünden durdurabilirsin.",
     autoRenewHint: "Her ay otomatik yenilenir · istediğin zaman “{manage}” bölümünden durdurabilirsin",
     cancelStep: "Vazgeç",
+    endingMakeDefault: "Bu plan {date} tarihinde bitiyor. Devam ettirmek için yukarıda “Varsayılan yap”ı seç; yeniden satın alman gerekmez.",
+    endingRenewInPortal: "Bu plan {date} tarihinde bitiyor. Devam ettirmek için “{manage}” bölümünden yenileyebilirsin; yeniden satın alman gerekmez.",
     chooseAdditional: "{plan} planını ek plan olarak al",
     additionalWarn: "Mevcut planın devam eder ve bu plan ayrıca ücretlendirilir. Birini varsayılan yaptığında diğerleri dönem sonunda yenilenmez.",
     additionalYes: "Anladım, ödemeye geç",
@@ -541,7 +543,7 @@ export const tr: Messages = {
     noCustomer: "Yönetilecek bir şey yok — bu hesaba hiç fatura kesilmemiş.",
     paymentsOff: "Ödemeler henüz açık değil.",
     subscriptionCancelFailed: "Aboneliğini iptal edemedik, bu yüzden hesabın silinmedi. Birkaç dakika sonra tekrar dene ya da destek ekibine yaz.",
-    alreadyOnPlan: "Bu plana zaten sahipsin ve yenileniyor. Başka bir plan seç ya da bu planı yönet.",
+    alreadyOnPlan: "Bu plana zaten sahipsin. Bitecekse, “Planların” bölümünden varsayılan yaparak devam ettirebilirsin; ya da başka bir plan seç.",
     signedOut: "Çıkış yapılmış durumdasınız. Devam etmek için giriş yapın.",
     noCredits:
       "Krediniz kalmadı. Bir arama bir kredi harcar; önbellekten gelen " +

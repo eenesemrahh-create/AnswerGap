@@ -390,7 +390,7 @@ export const de: Messages = {
 
     creditsHeading: "Guthaben",
     balanceLead:
-      "Eine Suche kostet ein Guthaben. Ergebnisse aus dem Cache sind kostenlos.",
+      "Eine Suche kostet ein Guthaben. Eine gespeicherte Suche erneut zu öffnen ist kostenlos.",
     historyHeading: "Verlauf",
     historyWhen: "Wann",
     historyChange: "Änderung",
@@ -425,6 +425,8 @@ export const de: Messages = {
     defaultRenewsNote: "{plan} verlängert sich automatisch jeden Monat. Du kannst das jederzeit unter „{manage}“ beenden.",
     autoRenewHint: "Verlängert sich automatisch jeden Monat · jederzeit unter „{manage}“ beendbar",
     cancelStep: "Abbrechen",
+    endingMakeDefault: "Dieser Plan endet am {date}. Um ihn zu behalten, wähle oben „Als Standard festlegen“; du musst ihn nicht erneut kaufen.",
+    endingRenewInPortal: "Dieser Plan endet am {date}. Um ihn zu behalten, verlängere ihn unter „{manage}“; du musst ihn nicht erneut kaufen.",
     chooseAdditional: "{plan} als zweiten Plan hinzufügen",
     additionalWarn: "Dein aktueller Plan läuft weiter und dieser Plan wird zusätzlich berechnet. Legst du einen als Standard fest, verlängern sich die anderen am Ende ihres Zeitraums nicht.",
     additionalYes: "Verstanden, weiter zur Zahlung",
@@ -548,7 +550,7 @@ export const de: Messages = {
       "Es gibt noch nichts zu verwalten — für dieses Konto wurde nie abgerechnet.",
     paymentsOff: "Zahlungen sind noch nicht freigeschaltet.",
     subscriptionCancelFailed: "Wir konnten dein Abonnement nicht kündigen, daher wurde dein Konto nicht gelöscht. Versuche es in ein paar Minuten erneut oder schreib dem Support.",
-    alreadyOnPlan: "Diesen Plan hast du bereits und er verlängert sich. Wähle einen anderen Plan oder verwalte diesen.",
+    alreadyOnPlan: "Diesen Plan hast du bereits. Endet er, lege ihn unter „Deine Pläne“ als Standard fest, um ihn zu behalten; oder wähle einen anderen Plan.",
     signedOut: "Sie sind abgemeldet. Melden Sie sich an, um fortzufahren.",
     noCredits:
       "Kein Guthaben mehr. Eine Suche kostet ein Credit; Ergebnisse aus dem " +

@@ -394,7 +394,7 @@ export const fr: Messages = {
 
     creditsHeading: "Crédits",
     balanceLead:
-      "Une recherche coûte un crédit. Les résultats en cache sont gratuits.",
+      "Une recherche coûte un crédit. Rouvrir une recherche enregistrée est gratuit.",
     historyHeading: "Historique",
     historyWhen: "Quand",
     historyChange: "Variation",
@@ -429,6 +429,8 @@ export const fr: Messages = {
     defaultRenewsNote: "{plan} sera renouvelé automatiquement chaque mois. Vous pouvez l'arrêter à tout moment dans « {manage} ».",
     autoRenewHint: "Renouvelé automatiquement chaque mois · arrêtez-le à tout moment dans « {manage} »",
     cancelStep: "Annuler",
+    endingMakeDefault: "Ce forfait se termine le {date}. Pour le garder, choisissez « Définir par défaut » ci-dessus ; inutile de le racheter.",
+    endingRenewInPortal: "Ce forfait se termine le {date}. Pour le garder, renouvelez-le dans « {manage} » ; inutile de le racheter.",
     chooseAdditional: "Ajouter {plan} comme second forfait",
     additionalWarn: "Votre forfait actuel continue et ce forfait est facturé en plus. Quand vous en choisissez un par défaut, les autres ne sont plus renouvelés à la fin de leur période.",
     additionalYes: "J'ai compris, passer au paiement",
@@ -553,7 +555,7 @@ export const fr: Messages = {
     noCustomer: "Il n'y a rien à gérer pour l'instant : ce compte n'a jamais été facturé.",
     paymentsOff: "Les paiements ne sont pas encore activés.",
     subscriptionCancelFailed: "Nous n'avons pas pu résilier votre abonnement, votre compte n'a donc pas été supprimé. Réessayez dans quelques minutes ou écrivez au support.",
-    alreadyOnPlan: "Vous avez déjà ce forfait et il se renouvelle. Choisissez-en un autre ou gérez celui-ci.",
+    alreadyOnPlan: "Vous avez déjà ce forfait. S'il se termine, définissez-le par défaut dans « Vos forfaits » pour le garder ; ou choisissez-en un autre.",
     signedOut: "Vous êtes déconnecté. Connectez-vous pour continuer.",
     noCredits:
       "Plus de crédits. Une recherche coûte un crédit ; les résultats en " +

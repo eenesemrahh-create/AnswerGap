@@ -638,14 +638,18 @@ def billing_checkout(request: Request, payload: CheckoutRequest) -> dict:
     if not plan:
         raise HTTPException(404, {"code": "noSuchPlan"})
     # A DIFFERENT plan beside a running one is allowed (operator's rule,
-    # 2026-10-17: the person picks which to keep). The SAME plan twice, both
-    # renewing, is two charges for one thing and nothing to choose between.
+    # 2026-10-17: the person picks which to keep). The SAME paid plan twice
+    # is refused while the first is still running - ENDING ONES INCLUDED
+    # (operator, 2026-10-19). One set to stop is brought back by making it
+    # the default, which resumes it at Stripe; buying it again would only be
+    # a second charge for the same period. An ASSIGNED plan never blocks:
+    # paying for the plan you were trialling is the point of a trial.
     try:
         running = db.live_subscriptions(who.user_id)
     except Exception:  # noqa: BLE001 - never lose a sale over this check
         running = []
     if any(s.get("plan_id") == payload.plan_id and s.get("source") == "stripe"
-           and not s.get("cancel_at_period_end") for s in running):
+           for s in running):
         raise HTTPException(409, {"code": "alreadyOnPlan"})
     price_id = (
         plan.get("stripe_price_id_annual")

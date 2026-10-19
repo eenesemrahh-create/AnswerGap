@@ -440,6 +440,7 @@ function ProfileDetails({ me }: { me: Me }) {
 
 export function AccountSubscription() {
   const { t, locale } = useI18n();
+  const formatDay = useDayFormat();
   const { plans } = useMe();
   const { busy, error, goTo } = useBilling();
   const [confirming, setConfirming] = useState<string | null>(null);
@@ -454,11 +455,13 @@ export function AccountSubscription() {
         const sub = me.subscription ?? null;
         const enabled = plans.filter((p) => p.enabled);
         const running = me.plans ?? [];
-        // A plan already running and renewing cannot be bought again: that
-        // is two charges for one thing (the API answers `alreadyOnPlan`).
+        // A paid plan still running cannot be bought again - ending ones
+        // included: those come back by being made default (the API answers
+        // `alreadyOnPlan`). Buying it twice would only charge twice.
+        const owned = (id: string) =>
+          running.find((p) => p.plan_id === id && p.source === "stripe") ?? null;
         const renewing = (id: string) =>
-          running.some((p) => p.plan_id === id && p.source === "stripe" && !p.cancel_at_period_end) ||
-          (running.length === 0 && !!sub?.active && sub.plan_id === id);
+          !!owned(id) || (running.length === 0 && !!sub?.active && sub.plan_id === id);
         // Buying beside a paid plan is a SECOND charge, and has to say so
         // before the card is asked for.
         const hasPaid = running.some((p) => p.source === "stripe");
@@ -477,6 +480,8 @@ export function AccountSubscription() {
                 <div className="acct-plans">
                   {enabled.map((plan) => {
                     const isCurrent = renewing(plan.id);
+                    const mine = owned(plan.id);
+                    const ending = mine?.cancel_at_period_end && mine.current_period_end;
                     return (
                       <div key={plan.id} className={`acct-card acct-plan-option${isCurrent ? " is-current" : ""}`}>
                         <b className="acct-plan-option-name">{plan.name}</b>
@@ -488,7 +493,19 @@ export function AccountSubscription() {
                           <p className="acct-muted">{t("account.planCredits", { count: plan.credits })}</p>
                         )}
                         {isCurrent ? (
-                          <span className="acct-pill ok">{t("account.current")}</span>
+                          <>
+                            <span className="acct-pill ok">{t("account.current")}</span>
+                            {/* Ending: say how to keep it, instead of a buy
+                                button that would charge a second time. */}
+                            {mine && ending && (
+                              <p className="acct-muted acct-plan-hint">
+                                {t(mine.is_default ? "account.endingRenewInPortal" : "account.endingMakeDefault", {
+                                  date: formatDay(mine.current_period_end!),
+                                  manage: t("account.manage"),
+                                })}
+                              </p>
+                            )}
+                          </>
                         ) : hasPaid && confirming === plan.id ? (
                           <div className="acct-confirm">
                             <p>{t("account.additionalWarn")}</p>

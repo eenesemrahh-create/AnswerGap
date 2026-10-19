@@ -449,7 +449,7 @@ export const en = {
       "Cancel, change your card or download invoices. Opens Stripe.",
 
     creditsHeading: "Credits",
-    balanceLead: "One search costs one credit. Cached results are free.",
+    balanceLead: "One search costs one credit. Reopening a saved search is free.",
     historyHeading: "History",
     historyWhen: "When",
     historyChange: "Change",
@@ -489,6 +489,8 @@ export const en = {
     defaultRenewsNote: "{plan} will renew automatically every month. You can stop that any time under “{manage}”.",
     autoRenewHint: "Renews automatically every month · stop it any time under “{manage}”",
     cancelStep: "Cancel",
+    endingMakeDefault: "This plan ends on {date}. To keep it, choose “Make default” above; there is no need to buy it again.",
+    endingRenewInPortal: "This plan ends on {date}. To keep it, renew it under “{manage}”; there is no need to buy it again.",
     chooseAdditional: "Add {plan} as a second plan",
     additionalWarn: "Your current plan keeps running and this plan is charged separately. When you make one of them your default, the others stop renewing at the end of their period.",
     additionalYes: "I understand, continue to payment",
@@ -620,7 +622,7 @@ export const en = {
     noCustomer: "There is nothing to manage yet — this account has never been billed.",
     paymentsOff: "Payments are not switched on yet.",
     subscriptionCancelFailed: "We could not cancel your subscription, so your account was not deleted. Try again in a few minutes, or write to support.",
-    alreadyOnPlan: "You already have this plan and it renews. Choose a different plan, or manage this one.",
+    alreadyOnPlan: "You already have this plan. If it is ending, make it your default under “Your plans” to keep it; or choose a different plan.",
     // One key per ErrorKind, in all five locales. Errors render as
     // t(`error.${kind}`) and a missing key would print its own name to a
     // customer at the worst possible moment.

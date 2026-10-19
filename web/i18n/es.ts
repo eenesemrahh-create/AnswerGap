@@ -391,7 +391,7 @@ export const es: Messages = {
 
     creditsHeading: "Créditos",
     balanceLead:
-      "Una búsqueda cuesta un crédito. Los resultados en caché son gratis.",
+      "Una búsqueda cuesta un crédito. Volver a abrir una búsqueda guardada es gratis.",
     historyHeading: "Historial",
     historyWhen: "Cuándo",
     historyChange: "Cambio",
@@ -426,6 +426,8 @@ export const es: Messages = {
     defaultRenewsNote: "{plan} se renovará automáticamente cada mes. Puedes detenerlo cuando quieras en «{manage}».",
     autoRenewHint: "Se renueva automáticamente cada mes · puedes detenerlo cuando quieras en «{manage}»",
     cancelStep: "Cancelar",
+    endingMakeDefault: "Este plan termina el {date}. Para conservarlo, elige «Hacer predeterminado» arriba; no hace falta volver a comprarlo.",
+    endingRenewInPortal: "Este plan termina el {date}. Para conservarlo, renuévalo en «{manage}»; no hace falta volver a comprarlo.",
     chooseAdditional: "Añadir {plan} como segundo plan",
     additionalWarn: "Tu plan actual sigue activo y este plan se cobra aparte. Cuando elijas uno como predeterminado, los demás dejarán de renovarse al final de su periodo.",
     additionalYes: "Entendido, continuar al pago",
@@ -549,7 +551,7 @@ export const es: Messages = {
     noCustomer: "Aún no hay nada que gestionar: a esta cuenta nunca se le ha facturado.",
     paymentsOff: "Los pagos todavía no están activados.",
     subscriptionCancelFailed: "No pudimos cancelar tu suscripción, así que tu cuenta no se eliminó. Inténtalo de nuevo en unos minutos o escribe a soporte.",
-    alreadyOnPlan: "Ya tienes este plan y se renueva. Elige otro plan o gestiona este.",
+    alreadyOnPlan: "Ya tienes este plan. Si va a terminar, hazlo predeterminado en «Tus planes» para conservarlo; o elige otro plan.",
     signedOut: "Has cerrado sesión. Inicia sesión para continuar.",
     noCredits:
       "No te quedan créditos. Una búsqueda cuesta un crédito; los resultados " +

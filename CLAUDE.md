@@ -489,8 +489,10 @@ defensible asset over time.
   may still hold harvested nodes copied in from other accounts before this
   change - they cannot be told apart.
 - **Several plans at once, credit pockets (2026-10-17, operator).** A
-  person may run more than one plan; the SAME plan twice while it renews is
-  refused (`alreadyOnPlan`), and buying beside a paid plan shows a "charged
+  person may run more than one plan; the SAME paid plan twice is refused
+  while the first is still running, ENDING ONES INCLUDED (`alreadyOnPlan`,
+  2026-10-19: an ending plan comes back by making it default, which resumes
+  it at Stripe; an assigned plan never blocks buying), and buying beside a paid plan shows a "charged
   separately" confirm. Each plan period's grant is a POCKET
   (`credit_ledger.subscription_id` + `expires_at`, migration 0020): spending
   takes the live pocket ending FIRST, then the next; non-plan credits

@@ -43,9 +43,18 @@ def test_the_same_renewing_plan_twice_is_refused(checkout_wired, monkeypatch) ->
     assert checkout_wired["sessions"] == []
 
 
-def test_the_same_plan_is_buyable_once_it_stops_renewing(checkout_wired, monkeypatch) -> None:
+def test_the_same_plan_is_refused_even_while_it_is_ending(checkout_wired, monkeypatch) -> None:
+    """An ending plan comes back by making it default (which resumes it);
+    buying it again would charge twice for the same period."""
     monkeypatch.setattr(db, "live_subscriptions",
                         lambda uid: [_live(1, "lite", ending=True)])
+    with pytest.raises(HTTPException) as e:
+        auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))
+    assert e.value.status_code == 409 and e.value.detail["code"] == "alreadyOnPlan"
+
+
+def test_the_same_plan_is_buyable_once_it_has_ended(checkout_wired, monkeypatch) -> None:
+    monkeypatch.setattr(db, "live_subscriptions", lambda uid: [])
     assert auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))["url"]
 
 
