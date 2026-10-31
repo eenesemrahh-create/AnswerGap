@@ -18,6 +18,7 @@ import hashlib
 import hmac
 import ipaddress
 import math
+import re
 from dataclasses import dataclass
 
 # Outcomes recorded on `usage_event`. Refusals are written down too - "how often
@@ -398,9 +399,13 @@ def looks_like_email(raw: str | None) -> bool:
 
 
 def parse_admin_emails(raw: str | None) -> frozenset[str]:
-    """Parse ADMIN_EMAILS, in the shape ALLOWED_ORIGINS already uses."""
+    """Parse ADMIN_EMAILS: addresses separated by commas, semicolons, spaces or
+    new lines, quotes ignored (2026-10-20). Comma-only read "a@x.com b@y.com"
+    or a quoted list as ONE address that matched nobody, and the second
+    admin could not sign in. No address contains any of these characters."""
+    cleaned = (raw or "").replace('"', " ").replace("'", " ")
     return frozenset(
-        part for part in (normalize_email(p) for p in (raw or "").split(",")) if part
+        part for part in (normalize_email(p) for p in re.split(r"[,;\s]+", cleaned)) if part
     )
 
 

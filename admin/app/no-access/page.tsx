@@ -14,8 +14,17 @@ export const dynamic = "force-dynamic";
  * would redirect a 403 straight back here. `/api/me` answers for any signed-in
  * user, admin or not - and which address is actually signed in is the single
  * fact that resolves this, because ADMIN_EMAILS is matched on exactly that.
+ *
+ * `reason` is the api's own refusal code. `require_admin` has three, and only
+ * `notAdmin` is fixed in Railway: a suspended or unverified account on the
+ * list was told "not in ADMIN_EMAILS" (2026-10-26) and the list was blamed.
  */
-export default async function NoAccess() {
+export default async function NoAccess({
+  searchParams,
+}: {
+  searchParams: Promise<{ reason?: string }>;
+}) {
+  const { reason } = await searchParams;
   const t = await translator();
   let email: string | null = null;
   const token = await sessionToken();
@@ -31,16 +40,21 @@ export default async function NoAccess() {
     }
   }
 
+  const listed = reason === "suspended" || reason === "emailUnverified";
   return (
     <div className="signin">
       <h1>{t("noAccess.title")}</h1>
       <p className="notice">
-        {email
-          ? t("noAccess.signedInAs", { email })
-          : t("noAccess.unknown")}
+        {reason === "suspended"
+          ? t("noAccess.suspended", { email: email ?? "?" })
+          : reason === "emailUnverified"
+            ? t("noAccess.unverified", { email: email ?? "?" })
+            : email
+              ? t("noAccess.signedInAs", { email })
+              : t("noAccess.unknown")}
       </p>
-      <p className="sub">{t("noAccessDetail.listIsTheOnlyWay")}</p>
-      <p className="sub">{t("noAccessDetail.twoChecks")}</p>
+      {!listed && <p className="sub">{t("noAccessDetail.listIsTheOnlyWay")}</p>}
+      {!listed && <p className="sub">{t("noAccessDetail.twoChecks")}</p>}
       <form action="/api/auth/signout" method="post">
         <button className="act" type="submit">{t("nav.signOut")}</button>
       </form>

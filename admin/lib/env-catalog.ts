@@ -108,8 +108,8 @@ export const ENV_CATALOG: EnvVar[] = [
   {
     name: "ADMIN_EMAILS", service: "api", need: "required", secret: false, group: "core",
     what: {
-      en: "The addresses that are admins, comma-separated. The ONLY way to be an admin; the address must also be verified.",
-      tr: "Admin olan e-posta adresleri, virgülle. Admin olmanın TEK yolu; adresin doğrulanmış olması da gerekir.",
+      en: "The addresses that are admins, separated by commas (spaces, semicolons or new lines also work). The ONLY way to be an admin; each address needs its own account on the site with a verified email (or Google sign-in).",
+      tr: "Admin olan e-posta adresleri; virgülle ayır (boşluk, noktalı virgül ya da alt satır da olur). Admin olmanın TEK yolu; her adresin sitede kendi hesabı olmalı ve e-postası doğrulanmış olmalı (ya da Google ile giriş).",
     },
     missing: { en: "Nobody is an admin: this panel cannot sign anyone in.", tr: "Kimse admin olmaz: bu panele kimse giremez." },
   },

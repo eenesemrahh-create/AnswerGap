@@ -554,6 +554,12 @@ const en = {
     title: "Not an admin",
     signedInAs: "Signed in as {email}, which is not in ADMIN_EMAILS.",
     unknown: "This account is not in ADMIN_EMAILS.",
+    suspended:
+      "{email} is in ADMIN_EMAILS, but the account is suspended. Sign in with " +
+      "another admin address, open Users, find this account and reactivate it.",
+    unverified:
+      "{email} is in ADMIN_EMAILS, but the address is not verified. Click the " +
+      "link in the verification mail, or sign in with Google using this address.",
   },
 
   editor: {
@@ -1442,6 +1448,12 @@ const tr: Messages = {
     title: "Admin değil",
     signedInAs: "{email} ile giriş yapıldı; bu adres ADMIN_EMAILS içinde değil.",
     unknown: "Bu hesap ADMIN_EMAILS içinde değil.",
+    suspended:
+      "{email} ADMIN_EMAILS içinde, ama hesap askıya alınmış. Diğer admin " +
+      "adresiyle girip Kullanıcılar sayfasında bu hesabı bulun ve yeniden etkinleştirin.",
+    unverified:
+      "{email} ADMIN_EMAILS içinde, ama adres doğrulanmamış. Doğrulama " +
+      "mailindeki linke tıklayın ya da bu adresle Google ile giriş yapın.",
   },
 
   editor: {

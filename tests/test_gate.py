@@ -12,6 +12,8 @@ two counters precisely because either one alone is trivially reset.
 
 from __future__ import annotations
 
+import pytest
+
 from answergap import gate
 from answergap.gate import Identity, State
 
@@ -292,6 +294,14 @@ def test_admin_matching_ignores_case_and_whitespace() -> None:
     admins = gate.parse_admin_emails("  A@B.com , c@d.com ")
     assert gate.is_admin(" a@b.COM ", admins) is True
     assert gate.is_admin("e@f.com", admins) is False
+
+
+@pytest.mark.parametrize("raw", [
+    "a@b.com,c@d.com", "a@b.com; c@d.com", "a@b.com c@d.com",
+    "a@b.com\nc@d.com", '"a@b.com, c@d.com"', "'a@b.com' 'c@d.com'",
+])
+def test_several_admins_in_any_common_separator(raw) -> None:
+    assert gate.parse_admin_emails(raw) == frozenset({"a@b.com", "c@d.com"})
 
 
 def test_a_missing_email_is_never_an_admin() -> None:

@@ -104,7 +104,16 @@ async function call<T>(path: string, init?: RequestInit): Promise<T> {
   // the first time somebody hit it. An admin panel that answers "a server
   // error occurred" when the real answer is "your address is not on the list"
   // sends its operator hunting through logs for a configuration line.
-  if (response.status === 403) redirect("/no-access");
+  //
+  // The REASON travels with it. `require_admin` refuses for three causes -
+  // not on the list, suspended, address unverified - and a page that names
+  // only the first sent an operator to Railway to fix a list that was right.
+  if (response.status === 403) {
+    const body = (await response.json().catch(() => null)) as
+      { detail?: { code?: string } } | null;
+    const code = body?.detail?.code;
+    redirect(code ? `/no-access?reason=${encodeURIComponent(code)}` : "/no-access");
+  }
 
   // Anything else becomes a page that NAMES the status, rather than a thrown
   // error. Next strips error messages in production - an uncaught throw here

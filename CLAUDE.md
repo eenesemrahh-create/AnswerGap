@@ -583,7 +583,61 @@ defensible asset over time.
 
 # Current state — resume here
 
-## Session checkpoint, 2026-10-19 — START HERE
+## Session checkpoint, 2026-10-30 — START HERE
+
+**Connecting `gettopquestions.com` to the ONE Railway environment, half
+done.** A staging + production split (second Railway environment,
+`production` branch as the approval gate) was planned and **dropped by the
+operator: every push to `main` still goes straight to live.** Do not
+re-propose it unprompted.
+
+Chosen shape - www is canonical, because GoDaddy cannot hold a CNAME at the
+apex and DNS stays at GoDaddy:
+
+| Host | Service | CNAME target (GoDaddy) |
+|---|---|---|
+| `www.gettopquestions.com` | web | `jwfnewll.up.railway.app` |
+| `api.gettopquestions.com` | api | `hwea4iuo.up.railway.app` |
+| `admin.gettopquestions.com` | admin | `v8vncl1h.up.railway.app` |
+
+State at end of 2026-10-30, checked from GoDaddy's ns01, 8.8.8.8 and 1.1.1.1:
+- All three CNAMEs and `_railway-verify.www` TXT resolve correctly. MX
+  (Microsoft 365), its DKIM CNAMEs and Resend's `send.` records untouched.
+- **api works**: `https://api.gettopquestions.com/api/meta` 200, valid cert.
+- **www and admin: no certificate yet** (`SEC_E_WRONG_PRINCIPAL`). Railway
+  said "Incorrect DNS setup, Current: gettopquestions.com" - the OLD www
+  record (GoDaddy's default `@`) cached under a 1 h TTL. Wait; do NOT delete
+  and re-add the domain, it may mint a new target and TXT.
+- **Apex not forwarded**: `gettopquestions.com` still serves GoDaddy's
+  parked `/lander` page. Needs GoDaddy Forwarding → 301 to
+  `https://www.gettopquestions.com`, checking it leaves MX/TXT alone.
+
+**Still to do, in this order:**
+1. Confirm www/admin certificates issued; set up apex forwarding.
+2. Variables (`https://` included, it is dropped on copy from Railway):
+   api `PUBLIC_BASE_URL=https://api.gettopquestions.com`,
+   `WEB_BASE_URL=https://www.gettopquestions.com`, prepend www to
+   `ALLOWED_ORIGINS` and `AUTH_RETURN_ORIGINS` (keep the old railway.app
+   origin until the switch is done); web `NEXT_PUBLIC_API_URL` +
+   `NEXT_PUBLIC_SITE_URL` **then redeploy web** (build-time); admin
+   `API_URL`, `PUBLIC_ADMIN_URL`.
+3. Google OAuth redirect URI
+   `https://api.gettopquestions.com/api/auth/google/callback`; Stripe
+   webhook → `https://api.gettopquestions.com/api/stripe/webhook` (new
+   endpoint = new `STRIPE_WEBHOOK_SECRET`); Turnstile hostname www.
+4. Verify: admin Settings shows YOUR IP (`TRUSTED_PROXY_HOPS=2` must be
+   re-checked after an infrastructure change), mail link returns to www,
+   Google sign-in, admin `/env`. Every user signs in once more on the new
+   origin (session is per-origin `localStorage`).
+5. Then drop the railway.app origins; optionally move the `web/lib/legal.ts`
+   fallback to `https://www.gettopquestions.com`. With api and web now on
+   one registrable domain, the `localStorage` session in `web/lib/auth.ts`
+   can become an httpOnly cookie - a later change, not part of this one.
+
+The operator left two Railway/GoDaddy screenshots in the root
+(`Ekran görüntüsü 2026-10-30 *.png`); ignored by `.gitignore`, no secrets.
+
+## Session checkpoint, 2026-10-19
 
 Everything below is pushed to `main` and CI is green up to `5ac150d`, plus
 the Variables page (this commit). Work since 2026-10-17, in order:
