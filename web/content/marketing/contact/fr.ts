@@ -11,7 +11,7 @@ import type { ContactContent } from "./index";
 export const fr: ContactContent = {
   title: "Contact",
   description:
-    "Échangez avec l'équipe AnswerGap à propos des volumes grands comptes, " +
+    "Échangez avec l'équipe GetTopQuestions à propos des volumes grands comptes, " +
     "de l'accès à l'API ou de tout autre sujet lié à la visibilité dans la " +
     "recherche IA.",
 

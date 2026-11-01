@@ -39,6 +39,7 @@ import { useMe } from "@/lib/me";
 import { clearSearch, jobError, startSearch, useSearchJob } from "@/lib/search-job";
 import { NavMenu } from "@/components/NavMenu";
 import { ErrorNote } from "@/components/ErrorNote";
+import { Examples, Faq, Formats, Workflow } from "@/components/marketing/HomeSections";
 
 const MARKET_KEY = "answergap.market";
 
@@ -270,7 +271,7 @@ export default function Landing() {
      * knows will be refused is worse than one that says why.
      *
      * SIGN IN rather than sign up, which was a real bug and not a taste.
-     * It opened on "Create your AnswerGap account", so somebody who already
+     * It opened on "Create your GetTopQuestions account", so somebody who already
      * had one pressed search and got a form demanding an email and a new
      * password - which reads as being sent to reset a password, and is
      * exactly what it was reported as. */
@@ -380,8 +381,8 @@ export default function Landing() {
       <nav className="mkt-nav">
         <div className="mkt-nav-inner">
           <Link href="/" className="mkt-brand">
-            <span className="mkt-brand-tile" aria-hidden>A</span>
-            AnswerGap
+            <span className="mkt-brand-tile" aria-hidden>G</span>
+            GetTopQuestions
           </Link>
           <NavMenu
           items={[
@@ -820,6 +821,9 @@ export default function Landing() {
       </section>
 
       {/* --- Built for AI Search ------------------------------------ */}
+      <Workflow />
+      <Examples />
+
       <section id="built-for" className="mkt-section">
         <div className="mkt-split">
           <div>
@@ -837,7 +841,7 @@ export default function Landing() {
               <span className="mkt-demo-dots" aria-hidden>
                 <i /><i /><i />
               </span>
-              {t("market.builtFor.demoUrl")}
+              {t("market.builtFor.demoLabel")}
             </div>
             <div className="mkt-demo-row covered">
               <span className="mkt-demo-status" aria-hidden />
@@ -860,9 +864,12 @@ export default function Landing() {
                 <span>{t("market.builtFor.demo3Meta")}</span>
               </div>
             </div>
+            <p className="mkt-demo-note">{t("market.builtFor.demoNote")}</p>
           </div>
         </div>
       </section>
+
+      <Formats />
 
       {/* --- Pricing ------------------------------------------------- *
        * Dynamic when `plans` is a non-empty array (admin has saved), otherwise
@@ -870,6 +877,7 @@ export default function Landing() {
        * admin write still has a pricing section in every locale. */}
       <PricingSection plans={plans} onCta={scrollToTop} />
 
+      <Faq />
 
       {/* --- CTA card ------------------------------------------------ */}
       <div className="mkt-cta">
@@ -893,39 +901,29 @@ export default function Landing() {
         <div className="mkt-footer-inner">
           <div className="mkt-footer-brand">
             <span className="mkt-brand">
-              <span className="mkt-brand-tile" aria-hidden>A</span>
-              AnswerGap
+              <span className="mkt-brand-tile" aria-hidden>G</span>
+              GetTopQuestions
             </span>
             <p>{t("market.footer.tagline")}</p>
           </div>
+          {/* Only pages that exist, the same columns as `MarketingFooter`. */}
           <div className="mkt-footer-col">
             <h4>{t("market.footer.product.heading")}</h4>
             <ul>
               <li><a href="#how-it-works">{t("market.footer.product.features")}</a></li>
-              <li><a href="#pricing">{t("market.footer.product.pricing")}</a></li>
-              <li><a href="#">{t("market.footer.product.api")}</a></li>
-              <li><a href="#">{t("market.footer.product.changelog")}</a></li>
-            </ul>
-          </div>
-          <div className="mkt-footer-col">
-            <h4>{t("market.footer.resources.heading")}</h4>
-            <ul>
-              <li><a href="#">{t("market.footer.resources.blog")}</a></li>
-              <li><a href="#">{t("market.footer.resources.seoGuides")}</a></li>
-              <li><a href="#">{t("market.footer.resources.helpCenter")}</a></li>
-              <li><a href="#">{t("market.footer.resources.community")}</a></li>
+              <li><Link href={marketingPath("solutions", locale)}>{t("market.nav.solutions")}</Link></li>
+              <li><Link href={marketingPath("pricing", locale)}>{t("market.footer.product.pricing")}</Link></li>
+              <li><Link href={marketingPath("ai-seo", locale)}>{t("market.nav.aiSeo")}</Link></li>
             </ul>
           </div>
           <div className="mkt-footer-col">
             <h4>{t("market.footer.company.heading")}</h4>
             <ul>
-              <li><a href="#">{t("market.footer.company.about")}</a></li>
-              <li><a href="#">{t("market.footer.company.contact")}</a></li>
-              {/* The two live links in this column. They are `Link` rather
-                  than `<a href="#">` because these are the URLs handed to
-                  Stripe onboarding and Google OAuth verification, and a
-                  reviewer who lands on the landing page should be able to
-                  reach them the same way a customer would. */}
+              <li><Link href={marketingPath("contact", locale)}>{t("market.footer.company.contact")}</Link></li>
+              {/* These two are the URLs handed to Stripe onboarding and Google
+                  OAuth verification, and a reviewer who lands on the landing
+                  page should be able to reach them the same way a customer
+                  would. */}
               <li><Link href="/privacy">{t("market.footer.company.privacy")}</Link></li>
               <li><Link href="/terms">{t("market.footer.company.terms")}</Link></li>
             </ul>

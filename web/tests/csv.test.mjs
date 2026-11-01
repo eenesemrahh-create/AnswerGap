@@ -149,7 +149,7 @@ test("the filename folds a Turkish seed to something a file system keeps", () =>
 test("a seed with nothing Latin in it still produces a usable name", () => {
   assert.equal(
     csvFilename("日本語", new Date("2026-09-27T12:00:00Z")),
-    "answergap-2026-09-27.csv"
+    "gettopquestions-2026-09-27.csv"
   );
 });
 

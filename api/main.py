@@ -1,4 +1,4 @@
-"""AnswerGap prototype API.
+"""GetTopQuestions prototype API.
 
 Builds its data at startup from the Phase 0 archive under `data/raw/`. There is
 **no database and no live DataForSEO call** — deliberately. The schema belongs to
@@ -120,7 +120,7 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(
-    title="AnswerGap API (prototype)",
+    title="GetTopQuestions API (prototype)",
     description="Question trees built from the Phase 0 archive. Not live data.",
     version="0.2.0",
     lifespan=lifespan,
@@ -646,7 +646,7 @@ def _alert_operators(error: AccountBlocked) -> None:
         try:
             mailer.send(
                 to=address,
-                subject=f"[AnswerGap] Searches are down: DataForSEO {error.code}",
+                subject=f"[GetTopQuestions] Searches are down: DataForSEO {error.code}",
                 text=text,
                 html=f"<pre style=\"white-space:pre-wrap\">{html_escape(text)}</pre>",
             )
@@ -1494,7 +1494,7 @@ def contact(payload: ContactRequest, http_request: Request) -> dict:
         f"Company: {company}\n"
         f"Subject: {subject}\n"
         f"\n{payload.message}\n"
-        f"\n-- \nSent from the AnswerGap contact form. "
+        f"\n-- \nSent from the GetTopQuestions contact form. "
         f"The address above is what the sender typed and is NOT verified.\n"
     )
     html = (
@@ -1502,14 +1502,14 @@ def contact(payload: ContactRequest, http_request: Request) -> dict:
         f"&lt;{mailer._escape(payload.email)}&gt;<br>"
         f"<b>Company:</b> {mailer._escape(company)}</p>"
         f"<p style=\"white-space:pre-wrap\">{mailer._escape(payload.message)}</p>"
-        f"<hr><p style=\"color:#666;font-size:12px\">Sent from the AnswerGap "
+        f"<hr><p style=\"color:#666;font-size:12px\">Sent from the GetTopQuestions "
         f"contact form. The address above is what the sender typed and is "
         f"<b>not verified</b>.</p>"
     )
 
     mailer.send(
         to=to,
-        subject=f"[AnswerGap] {subject}",
+        subject=f"[GetTopQuestions] {subject}",
         text=text,
         html=html,
         reply_to_override=payload.email,

@@ -1,4 +1,11 @@
-# AnswerGap
+# GetTopQuestions
+
+**The product was renamed from AnswerGap on 2026-11-01 (operator).** Everything
+a customer can see says GetTopQuestions; older text below keeps the old name as
+history. Kept on purpose, because renaming them breaks live state: the
+`answergap/` package, `ANSWERGAP_*` variables (set on Railway), `answergap.*`
+localStorage keys (sessions), `answergap_*` Stripe metadata (read back from
+existing subscriptions), the GitHub repo path.
 
 Crawls Google "People Also Ask" recursively into a question tree, checks the
 search results behind each question, and shows **which questions no site

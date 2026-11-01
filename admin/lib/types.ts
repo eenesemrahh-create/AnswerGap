@@ -446,7 +446,7 @@ export const PRICING_MAX_FEATURES = 12;
  * marketing landing the moment an admin saves without reading.
  *
  * The content follows the product's AI Search Visibility positioning so
- * the templates feel native to AnswerGap rather than generic SaaS scaffolding.
+ * the templates feel native to GetTopQuestions rather than generic SaaS scaffolding.
  * Prices and copy are suggestions - the admin edits them in place.
  */
 export const PRICING_TEMPLATES: Plan[] = [

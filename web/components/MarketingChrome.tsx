@@ -50,9 +50,9 @@ export function MarketingNav({
       <div className="mkt-nav-inner">
         <Link href="/" className="mkt-brand">
           <span className="mkt-brand-tile" aria-hidden>
-            A
+            G
           </span>
-          AnswerGap
+          GetTopQuestions
         </Link>
         {/* `NavMenu` draws these inline while they fit and behind a hamburger
             when they do not. They used to be `display: none` below 820px and a
@@ -116,9 +116,9 @@ export function MarketingFooter({
         <div className="mkt-footer-brand">
           <span className="mkt-brand">
             <span className="mkt-brand-tile" aria-hidden>
-              A
+              G
             </span>
-            AnswerGap
+            GetTopQuestions
           </span>
           <p>{chrome.footer.tagline}</p>
         </div>
@@ -168,7 +168,7 @@ export function MarketingFooter({
       </div>
 
       <div className="mkt-footer-bottom">
-        <span>© {year} AnswerGap</span>
+        <span>© {year} GetTopQuestions</span>
       </div>
     </footer>
   );

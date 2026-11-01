@@ -16,7 +16,7 @@ export const es: SolutionsContent = {
   title: "Soluciones",
   description:
     "Cómo los equipos de SEO, las agencias, los medios y las marcas usan " +
-    "AnswerGap para encontrar las preguntas que la búsqueda con IA aún no ha " +
+    "GetTopQuestions para encontrar las preguntas que la búsqueda con IA aún no ha " +
     "respondido.",
 
   hero: {
@@ -25,7 +25,7 @@ export const es: SolutionsContent = {
     headTinted: "búsqueda con IA.",
     headTail: "",
     lead:
-      "AnswerGap ayuda a los equipos a entender qué pregunta la gente, dónde " +
+      "GetTopQuestions ayuda a los equipos a entender qué pregunta la gente, dónde " +
       "se quedan cortas las respuestas de la IA y qué crear para convertirse " +
       "en la fuente que la IA recomienda.",
   },
@@ -37,7 +37,7 @@ export const es: SolutionsContent = {
     heading: "Pensado en torno a tu forma de trabajar.",
     lead:
       "Desde la primera búsqueda de una categoría hasta un programa global de " +
-      "contenidos, AnswerGap da a cada equipo un siguiente paso práctico.",
+      "contenidos, GetTopQuestions da a cada equipo un siguiente paso práctico.",
     cards: [
       {
         title: "Fundadores de SaaS",
@@ -153,7 +153,7 @@ export const es: SolutionsContent = {
       {
         title: "Mapea las preguntas",
         desc:
-          "AnswerGap muestra las búsquedas relacionadas y los huecos que " +
+          "GetTopQuestions muestra las búsquedas relacionadas y los huecos que " +
           "dejan las respuestas de la IA que ya existen.",
       },
       {

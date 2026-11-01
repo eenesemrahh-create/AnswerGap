@@ -10,7 +10,7 @@
  *
  * The cost is honest: localStorage is readable by any script on the page, so an
  * XSS becomes a stolen session. The real fix is a custom domain — with
- * `api.answergap.com` and `app.answergap.com` under one registrable domain the
+ * `api.gettopquestions.com` and `app.gettopquestions.com` under one registrable domain the
  * cookie becomes first-party and this file collapses into an httpOnly cookie.
  * That is a one-module change on the day the domain is bought.
  *

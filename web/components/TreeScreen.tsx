@@ -291,9 +291,9 @@ export function TreeScreen({ slug }: { slug: string }) {
       <header className="app-bar">
         <Link href="/" className="brand">
           <span className="brand-tile" aria-hidden>
-            A
+            G
           </span>
-          AnswerGap
+          GetTopQuestions
         </Link>
         {/* Signing in from a preview reloads the tree; the search itself stays
             with the browser (nothing moves to the account). */}

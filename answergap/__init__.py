@@ -1,4 +1,4 @@
-"""AnswerGap — shared core.
+"""GetTopQuestions — shared core.
 
 Holds the code used by both the validation scripts under `scripts/` and the
 FastAPI app under `api/`. They must share the same normalization, matching and

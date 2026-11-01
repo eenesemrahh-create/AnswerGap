@@ -170,7 +170,7 @@ export const en = {
   cta: {
     heading: "Ready to uncover the answers?",
     lead:
-      "Join leading content teams who use AnswerGap to align their strategy " +
+      "Join leading content teams who use GetTopQuestions to align their strategy " +
       "with AI search intent.",
     primary: "Start your 7-day free trial",
     secondary: "Contact Sales",

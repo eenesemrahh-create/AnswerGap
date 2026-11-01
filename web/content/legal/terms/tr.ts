@@ -10,8 +10,8 @@ import type { TermsContent } from "./index";
 export const tr: TermsContent = {
   title: "Kullanım Koşulları",
   description:
-    "AnswerGap ile aranızdaki sözleşme: hesaplar, krediler, iadeler ve boşluk skorlarının doğruluğu.",
-  lead: "Bu koşullar AnswerGap kullanımınızı düzenler. Boşluk skorlarının ne olduğunu ve ne olmadığını anlatan 6. maddeyi lütfen okuyun.",
+    "GetTopQuestions ile aranızdaki sözleşme: hesaplar, krediler, iadeler ve boşluk skorlarının doğruluğu.",
+  lead: "Bu koşullar GetTopQuestions kullanımınızı düzenler. Boşluk skorlarının ne olduğunu ve ne olmadığını anlatan 6. maddeyi lütfen okuyun.",
   effective: "2026-10-17",
 
   sections: {
@@ -19,7 +19,7 @@ export const tr: TermsContent = {
       heading: "1. Sözleşmenin tarafı kim",
       body: [
         {
-          p: "AnswerGap, Amerika Birleşik Devletleri'nde bir {state} {entity} olan {company} tarafından işletilir. Bu koşullarda “biz” ve “bize” {company} anlamına gelir; “siz”, hizmeti kullanan kişi ya da kuruluştur.",
+          p: "GetTopQuestions, Amerika Birleşik Devletleri'nde bir {state} {entity} olan {company} tarafından işletilir. Bu koşullarda “biz” ve “bize” {company} anlamına gelir; “siz”, hizmeti kullanan kişi ya da kuruluştur.",
         },
         {
           p: "Hesap oluşturarak veya hizmeti kullanarak bu koşulları kabul etmiş olursunuz. Kabul etmiyorsanız hizmeti kullanmayın.",
@@ -34,7 +34,7 @@ export const tr: TermsContent = {
       heading: "2. Hizmet ne yapar",
       body: [
         {
-          p: "AnswerGap, Google'ın “Bunlar da sorulmuş” başlığı altında gösterdiği soruları bir soru ağacına açar, tek tek soruların arkasındaki arama sonuçlarına bakar ve bu soruların hangilerini hiçbir sayfanın iyi cevaplamadığını tahmin eder.",
+          p: "GetTopQuestions, Google'ın “Bunlar da sorulmuş” başlığı altında gösterdiği soruları bir soru ağacına açar, tek tek soruların arkasındaki arama sonuçlarına bakar ve bu soruların hangilerini hiçbir sayfanın iyi cevaplamadığını tahmin eder.",
         },
         {
           p: "Hizmet etkin biçimde geliştirilmektedir. Özellikler değişebilir; bazıları tamamlanmadan önizleme olarak sunulur.",
@@ -65,7 +65,7 @@ export const tr: TermsContent = {
       heading: "4. Krediler, paketler ve abonelikler",
       body: [
         {
-          p: "AnswerGap'teki işler kredi ile ödenir. Sizin adınıza bir arama veri sağlayıcısına ücretli bir istek yaptığımızda bir kredi harcanır.",
+          p: "GetTopQuestions'taki işler kredi ile ödenir. Sizin adınıza bir arama veri sağlayıcısına ücretli bir istek yaptığımızda bir kredi harcanır.",
         },
         {
           ul: [

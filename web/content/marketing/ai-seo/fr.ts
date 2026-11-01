@@ -19,7 +19,7 @@ export const fr = {
     headTail: "",
     lead:
       "Google répond désormais à de nombreuses questions avec un AI Overview " +
-      "et cite quelques sources à côté. AnswerGap montre ce que les gens " +
+      "et cite quelques sources à côté. GetTopQuestions montre ce que les gens " +
       "demandent, quelles questions n'ont aucune page qui y réponde vraiment, " +
       "et quels sites l'IA cite, dont le vôtre.",
   },
@@ -62,7 +62,7 @@ export const fr = {
   },
 
   product: {
-    eyebrow: "Ce que mesure AnswerGap",
+    eyebrow: "Ce que mesure GetTopQuestions",
     heading: "D'un mot-clé à une liste d'occasions à saisir.",
     lead:
       "Trois éléments, lus dans les mêmes résultats Google, affichés côte à " +
@@ -221,7 +221,7 @@ export const fr = {
     heading: "Ce que nous ne prétendons pas.",
     lead:
       "La recherche IA est récente, et beaucoup d'outils y vendent une " +
-      "certitude que personne n'a. Voici exactement ce qu'AnswerGap mesure, " +
+      "certitude que personne n'a. Voici exactement ce que GetTopQuestions mesure, " +
       "et ce qu'il ne mesure pas.",
     items: [
       {
@@ -276,14 +276,14 @@ export const fr = {
           "qu'une page positionnée sur un mot-clé.",
       },
       {
-        title: "Quels moteurs d'IA AnswerGap suit-il ?",
+        title: "Quels moteurs d'IA GetTopQuestions suit-il ?",
         desc:
           "L'AI Overview de Google, lu dans les mêmes résultats de recherche " +
           "que ceux qui servent à trouver les lacunes. Les autres assistants " +
           "ne sont pas suivis aujourd'hui.",
       },
       {
-        title: "Comment AnswerGap décide-t-il qu'une question est une lacune ?",
+        title: "Comment GetTopQuestions décide-t-il qu'une question est une lacune ?",
         desc:
           "Pour chaque question, nous récupérons les résultats de recherche et " +
           "comparons chaque page à la question, puis nous comptons les pages " +

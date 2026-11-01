@@ -15,7 +15,7 @@ export const es = {
     headTail: "",
     lead:
       "Google ya responde muchas preguntas con un AI Overview y nombra unas " +
-      "pocas fuentes a su lado. AnswerGap te muestra qué pregunta la gente, " +
+      "pocas fuentes a su lado. GetTopQuestions te muestra qué pregunta la gente, " +
       "qué preguntas no responde de verdad ninguna página y a qué sitios " +
       "cita la IA, incluido el tuyo.",
   },
@@ -58,7 +58,7 @@ export const es = {
   },
 
   product: {
-    eyebrow: "Qué mide AnswerGap",
+    eyebrow: "Qué mide GetTopQuestions",
     heading: "De una palabra clave a una lista de oportunidades.",
     lead:
       "Tres cosas, leídas de los mismos resultados de Google y mostradas " +
@@ -218,7 +218,7 @@ export const es = {
     lead:
       "La búsqueda con IA es nueva, y muchas herramientas del sector venden " +
       "una certeza que nadie tiene. Esto es exactamente lo que mide " +
-      "AnswerGap, y lo que no.",
+      "GetTopQuestions, y lo que no.",
     items: [
       {
         title: "Solo Google, por ahora",
@@ -270,14 +270,14 @@ export const es = {
           "una página que posiciona para una palabra clave.",
       },
       {
-        title: "¿Qué motores de IA sigue AnswerGap?",
+        title: "¿Qué motores de IA sigue GetTopQuestions?",
         desc:
           "El AI Overview de Google, leído de los mismos resultados de " +
           "búsqueda que usamos para encontrar huecos. Hoy no se siguen otros " +
           "asistentes.",
       },
       {
-        title: "¿Cómo decide AnswerGap que una pregunta es un hueco?",
+        title: "¿Cómo decide GetTopQuestions que una pregunta es un hueco?",
         desc:
           "Para cada pregunta obtenemos los resultados de búsqueda, " +
           "comparamos cada página con la pregunta y contamos las páginas que " +

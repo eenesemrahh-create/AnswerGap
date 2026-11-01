@@ -39,7 +39,7 @@ export const en = {
     headTail: "",
     lead:
       "Google now answers many questions with an AI Overview and names a few " +
-      "sources beside it. AnswerGap shows what people ask, which questions no " +
+      "sources beside it. GetTopQuestions shows what people ask, which questions no " +
       "page really answers, and which sites the AI cites, including yours.",
   },
   heroPrimary: "Start free",
@@ -80,7 +80,7 @@ export const en = {
   },
 
   product: {
-    eyebrow: "What AnswerGap measures",
+    eyebrow: "What GetTopQuestions measures",
     heading: "From one keyword to a list of openings.",
     lead:
       "Three things, read from the same Google results, shown side by side for " +
@@ -233,7 +233,7 @@ export const en = {
     heading: "What we don't claim.",
     lead:
       "AI search is new, and many tools in it sell certainty nobody has. This " +
-      "is exactly what AnswerGap measures, and what it doesn't.",
+      "is exactly what GetTopQuestions measures, and what it doesn't.",
     items: [
       {
         title: "Google only, for now",
@@ -283,13 +283,13 @@ export const en = {
           "a page that ranks for a keyword.",
       },
       {
-        title: "Which AI engines does AnswerGap track?",
+        title: "Which AI engines does GetTopQuestions track?",
         desc:
           "Google's AI Overview, read from the same search results we use to " +
           "find gaps. Other assistants are not tracked today.",
       },
       {
-        title: "How does AnswerGap decide a question is a gap?",
+        title: "How does GetTopQuestions decide a question is a gap?",
         desc:
           "For each question we fetch the search results and compare every " +
           "page against the question, then count the pages that genuinely " +

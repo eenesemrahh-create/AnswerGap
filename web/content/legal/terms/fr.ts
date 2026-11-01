@@ -10,8 +10,8 @@ import type { TermsContent } from "./index";
 export const fr: TermsContent = {
   title: "Conditions d'utilisation",
   description:
-    "L'accord entre vous et AnswerGap concernant les comptes, les crédits, les remboursements et l'exactitude des scores de lacune.",
-  lead: "Ces conditions régissent votre utilisation d'AnswerGap. Veuillez lire l'article 6, qui explique ce que sont et ne sont pas nos scores de lacune.",
+    "L'accord entre vous et GetTopQuestions concernant les comptes, les crédits, les remboursements et l'exactitude des scores de lacune.",
+  lead: "Ces conditions régissent votre utilisation de GetTopQuestions. Veuillez lire l'article 6, qui explique ce que sont et ne sont pas nos scores de lacune.",
   effective: "2026-10-17",
 
   sections: {
@@ -19,7 +19,7 @@ export const fr: TermsContent = {
       heading: "1. Avec qui vous contractez",
       body: [
         {
-          p: "AnswerGap est exploité par {company}, une {entity} de l'État de {state}, États-Unis. Dans ces conditions, « nous » désigne {company} ; « vous » désigne la personne ou l'organisation qui utilise le service.",
+          p: "GetTopQuestions est exploité par {company}, une {entity} de l'État de {state}, États-Unis. Dans ces conditions, « nous » désigne {company} ; « vous » désigne la personne ou l'organisation qui utilise le service.",
         },
         {
           p: "En créant un compte ou en utilisant le service, vous acceptez ces conditions. Si vous ne les acceptez pas, n'utilisez pas le service.",
@@ -34,7 +34,7 @@ export const fr: TermsContent = {
       heading: "2. Ce que fait le service",
       body: [
         {
-          p: "AnswerGap déploie les questions que Google affiche sous « Autres questions posées » en un arbre de questions, examine les résultats de recherche derrière chaque question et estime lesquelles ne sont bien traitées par aucune page.",
+          p: "GetTopQuestions déploie les questions que Google affiche sous « Autres questions posées » en un arbre de questions, examine les résultats de recherche derrière chaque question et estime lesquelles ne sont bien traitées par aucune page.",
         },
         {
           p: "Le service est en développement actif. Les fonctionnalités peuvent changer, et certaines sont proposées en avant-première avant d'être achevées.",
@@ -65,7 +65,7 @@ export const fr: TermsContent = {
       heading: "4. Crédits, packs et abonnements",
       body: [
         {
-          p: "Le travail sur AnswerGap se paie en crédits. Un crédit est consommé lorsque nous adressons, pour votre compte, une requête payante à un fournisseur de données de recherche.",
+          p: "Le travail sur GetTopQuestions se paie en crédits. Un crédit est consommé lorsque nous adressons, pour votre compte, une requête payante à un fournisseur de données de recherche.",
         },
         {
           ul: [

@@ -12,7 +12,7 @@
 
 export const en = {
   brand: {
-    name: "AnswerGap",
+    name: "GetTopQuestions",
     tagline: "Find the questions your competitors never answered.",
   },
 
@@ -24,7 +24,7 @@ export const en = {
       "to your account.",
     headline: "Find the questions your competitors never answered.",
     intro:
-      "AnswerGap expands Google's “People also ask” into a question tree, checks " +
+      "GetTopQuestions expands Google's “People also ask” into a question tree, checks " +
       "the search results behind every question, and shows you which ones no " +
       "page actually targets.",
     searchPlaceholder: "Enter a keyword — e.g. teeth whitening",
@@ -322,7 +322,7 @@ export const en = {
   // the reader has to DECIDE, not what we measured.
   auth: {
     // --- email + password sign-in ----------------------------------
-    signUpTitle: "Create your AnswerGap account",
+    signUpTitle: "Create your GetTopQuestions account",
     tabSignIn: "Sign in",
     tabSignUp: "Create account",
     emailLabel: "Email",
@@ -373,7 +373,7 @@ export const en = {
       "A verification link works once and only for a short while. Enter your address and we will send a fresh one.",
     verifyExpiredSubmit: "Send a new link",
     close: "Close",
-    dialogTitle: "Sign in to AnswerGap",
+    dialogTitle: "Sign in to GetTopQuestions",
     benefitCredits: "Credits to run searches and check questions",
     benefitPrivate: "Your searches stay yours — nobody else sees them",
     benefitScore: "Check any question against the pages that rank for it",
@@ -521,7 +521,7 @@ export const en = {
     changePlan: "Change plan",
     profileLead: "Who you are and how you sign in.",
     subscriptionLead: "Your plan, your credits and the plans you can move to.",
-    settingsLead: "How AnswerGap looks and speaks to you.",
+    settingsLead: "How GetTopQuestions looks and speaks to you.",
     themeLead: "Light, dark, or follow your system.",
     languageLead: "The language of the interface.",
   },
@@ -693,12 +693,13 @@ export const en = {
     },
 
     hero: {
-      eyebrow: "AI search visibility starts here",
-      headlinePre: "Rank and appear in",
-      headlineHighlight: "AI-powered search",
+      eyebrow: "Question gap analysis for content teams",
+      headlinePre: "Find the questions",
+      headlineHighlight: "your competitors never answered",
       sub:
-        "Discover what people ask, identify the answers AI engines need, " +
-        "and create content that gets found, cited, and recommended.",
+        "Enter a topic. We map the questions people ask on Google, check the " +
+        "pages behind each one, and show you which questions no page really " +
+        "targets.",
       /* The heading over the search box, for a reader who is signed in. Short
          on purpose: they came back to work, not to read the pitch again. */
       signedInTitle: "What should we look into?",
@@ -715,31 +716,102 @@ export const en = {
 
     howItWorks: {
       eyebrow: "How it works",
-      title: "Become the answer AI search recommends.",
+      title: "See what search results leave unanswered.",
       sub:
-        "AnswerGap reveals the questions behind AI-driven discovery so you " +
-        "can create useful, structured content before competitors do.",
+        "A question list tells you what people ask. GetTopQuestions also " +
+        "tells you whether anyone has answered it.",
       card1: {
-        label: "Demand Intelligence",
-        title: "Map AI Search Demand",
+        label: "Question Discovery",
+        title: "Map the Question Tree",
         body:
-          "Turn a single topic into a complete map of the questions people " +
-          "ask across every stage of discovery and decision-making.",
+          "Turn one topic into a tree of the questions Google shows in People " +
+          "Also Ask, with each question under the one it came from.",
       },
       card2: {
-        label: "AI Visibility",
-        title: "Find Citation Opportunities",
+        label: "Gap Analysis",
+        title: "Check Who Answers What",
         body:
-          "Identify questions with weak, incomplete, or missing answers — " +
-          "exactly where clearer content has the best chance to be surfaced " +
-          "by AI.",
+          "For each question you check, we fetch the search results and count " +
+          "the pages that actually target it. Few pages means a gap.",
       },
       card3: {
-        label: "Authority",
-        title: "Build Topical Authority",
+        label: "AI Visibility",
+        title: "See What AI Overviews Cite",
         body:
-          "Prioritize connected questions and publish comprehensive answers " +
-          "that search engines and AI assistants can understand and trust.",
+          "When Google answers a checked question with an AI Overview, see " +
+          "which sites it cites and whether yours is one of them.",
+      },
+    },
+
+    workflow: {
+      eyebrow: "The workflow",
+      title: "Topic in. Gaps out. Content from you.",
+      body:
+        "GetTopQuestions is a research tool. It does not write or publish for " +
+        "you, and it does not track rankings. It shows you where the answers " +
+        "are missing, so your writing time goes where it counts.",
+      step1: {
+        label: "01 / Topic",
+        title: "Start with the words your audience uses",
+        body:
+          "Enter a product category, a problem or a plain phrase. Broad is " +
+          "fine. The point is to open the door, not to guess the perfect " +
+          "keyword.",
+        sample: "standing desk",
+      },
+      step2: {
+        label: "02 / Questions",
+        title: "See the questions around it",
+        body:
+          "The questions arrive as a tree, so you can follow how one question " +
+          "leads to the next, the way a curious buyer would.",
+        sample: "Is a standing desk worth it for back pain?",
+      },
+      step3: {
+        label: "03 / Gaps",
+        title: "Find what nobody answered",
+        body:
+          "Check the questions you care about. Each one comes back with the " +
+          "pages that target it, a verdict and follow-up questions of its own.",
+        sample: "0 of 8 pages target this question",
+      },
+      note: "Examples written by our team, not real output from the app.",
+    },
+
+    examples: {
+      eyebrow: "From question to content",
+      title: "What a gap looks like.",
+      sub:
+        "Pick a topic. These are examples written by our team to show how to " +
+        "read a result, not real output from the app.",
+      columnQuestion: "Question people ask",
+      columnPages: "Pages that target it",
+      columnVerdict: "Verdict",
+      columnIdea: "What to do",
+      skipIdea: "Skip it, unless you have something new to add",
+      tab1: {
+        term: "sourdough starter",
+        q1: "Why did my sourdough starter stop rising after a week?",
+        idea1: "A diagnostic checklist: temperature, flour, feeding ratio, timing",
+        q2: "Can I use all-purpose flour for a starter?",
+        idea2: "A direct answer, then the trade-offs, in an FAQ block",
+        q3: "How do you make a sourdough starter?",
+      },
+      tab2: {
+        term: "invoicing software",
+        q1: "Can I send invoices without registering a business?",
+        idea1: "A plain-language guide, split by situation",
+        q2: "Is invoicing software tax deductible?",
+        idea2: "A short answer with worked examples",
+        q3: "What is the best invoicing software?",
+      },
+      tab3: {
+        term: "trail running shoes",
+        q1: "Can you wear trail running shoes on wet rock?",
+        idea1: "A tested comparison with your own photos",
+        q2: "How long do trail running shoes last?",
+        idea2: "A mileage guide with the signs of wear",
+        q3: "What are the best trail running shoes?",
       },
     },
 
@@ -747,20 +819,103 @@ export const en = {
       eyebrow: "Built for AI Search",
       title: "Answer real questions. Get discovered by AI.",
       body:
-        "Search is becoming a conversation. AnswerGap shows you what your " +
-        "audience asks and where current answers fall short, helping your " +
-        "brand earn visibility in AI Overviews, assistants, and traditional " +
-        "search.",
-      point1: "Create clear answers AI systems can extract and cite",
-      point2: "Structure content around real conversational searches",
-      point3: "Cover connected questions to strengthen topical authority",
-      demoUrl: "answergap.com/search",
+        "Search is becoming a conversation. GetTopQuestions shows you what " +
+        "your audience asks and where current answers fall short, so you can " +
+        "write clear answers for AI Overviews, assistants and traditional " +
+        "search. Visibility is never guaranteed, but a question nobody has " +
+        "answered is the right place to start.",
+      point1: "See which sites Google's AI Overview cites for each question you check",
+      point2: "Enter your site and see the questions where you are cited",
+      point3: "Structure content around real conversational searches",
+      demoLabel: "Example: crm",
       demo1Q: "What is the best CRM for small business?",
-      demo1Meta: "Complete answer · High visibility opportunity",
+      demo1Meta: "6 of 8 pages target it",
       demo2Q: "Do I need a CRM if I use Google Workspace?",
-      demo2Meta: "No complete answer · High visibility opportunity",
+      demo2Meta: "0 of 8 pages target it",
       demo3Q: "How to migrate from spreadsheet to CRM?",
-      demo3Meta: "Partial answers · Medium visibility opportunity",
+      demo3Meta: "2 of 8 pages target it",
+      demoNote: "Example written by our team. Not real measurements.",
+    },
+
+    formats: {
+      eyebrow: "Content formats",
+      title: "Let the question choose the format.",
+      body:
+        "The way a question is phrased hints at how it wants to be answered. " +
+        "Clear, well-organized answers tend to serve readers on results pages, " +
+        "in AI Overviews and in assistants alike. There are no guarantees in " +
+        "any of them, but helpful structure is a sound bet.",
+      card1: {
+        title: "FAQ sections",
+        when: "When a question has a short, factual answer.",
+        how: "Lead with the answer in one or two sentences, then add nuance.",
+      },
+      card2: {
+        title: "In-depth guides",
+        when: "When several questions share one underlying problem.",
+        how: "Use each question as a subheading so readers can jump to theirs.",
+      },
+      card3: {
+        title: "Comparison pages",
+        when: "When questions contain \"vs\", \"or\" or \"better\".",
+        how: "Be specific about who each option suits. Tables help.",
+      },
+      card4: {
+        title: "Step-by-step how-tos",
+        when: "When questions start with \"how do I\".",
+        how: "Number the steps and say what done looks like.",
+      },
+      card5: {
+        title: "Short video and social",
+        when: "When the answer is visual or quick to demonstrate.",
+        how: "Put the question on screen in the first seconds.",
+      },
+      card6: {
+        title: "Newsletter and sales notes",
+        when: "When questions reveal objections or hesitation.",
+        how: "Answer the doubt honestly before it becomes a lost reply.",
+      },
+    },
+
+    faq: {
+      eyebrow: "Practical answers",
+      title: "Questions about GetTopQuestions",
+      q1: "What does GetTopQuestions actually do?",
+      a1:
+        "You enter a topic and we show the questions Google surfaces around " +
+        "it as a tree. For the questions you check, we read the search results " +
+        "and show how many pages actually target each one. Few pages means a " +
+        "gap: a question your competitors have not answered.",
+      q2: "How is this different from a question list?",
+      a2:
+        "A list shows what people ask. We also check the search results behind " +
+        "each question, so you can see which ones are already well answered " +
+        "and which are still open.",
+      q3: "Is a gap always a real gap?",
+      a3:
+        "No. The verdict is an estimate based on the titles and addresses of " +
+        "the pages in the search results, and it can be wrong. Every verdict " +
+        "shows the pages behind it, so you can judge for yourself. A question " +
+        "we have not checked is shown as not checked, never as a gap.",
+      q4: "What does a search cost?",
+      a4:
+        "Every search is one credit. Checking a question is a search of its " +
+        "own: it gives you that question's verdict and its own question tree.",
+      q5: "Does it write or publish content for me?",
+      a5:
+        "No. GetTopQuestions helps you decide what to write about. The " +
+        "writing, editing and publishing are yours, which is also where your " +
+        "expertise and voice come in.",
+      q6: "Does it track my rankings?",
+      a6:
+        "No. There is no rank tracking or ongoing monitoring. For a question " +
+        "you check, it shows which sites Google's AI Overview cited at the " +
+        "time of the check.",
+      q7: "Will answering these questions get me into AI Overviews?",
+      a7:
+        "Nobody can promise that. Answering real questions clearly and " +
+        "accurately is a sensible foundation, but placement is decided by " +
+        "those platforms.",
     },
 
     pricing: {
@@ -775,40 +930,26 @@ export const en = {
     },
 
     cta: {
-      title: "Ready to become the answer?",
-      sub:
-        "Find the questions that matter, publish answers AI can understand, " +
-        "and build visibility wherever your audience searches.",
+      title: "Ready to find what nobody answered?",
+      sub: "Start with a topic and leave with the questions your competitors missed.",
       primary: "Start for free",
       secondary: "View pricing",
     },
 
     footer: {
-      tagline:
-        "Find the questions AI search needs answered — and help your brand " +
-        "become the trusted source it recommends.",
+      tagline: "Find the questions your competitors never answered.",
       product: {
         heading: "Product",
         features: "Features",
         pricing: "Pricing",
-        api: "API",
-        changelog: "Changelog",
-      },
-      resources: {
-        heading: "Resources",
-        blog: "Blog",
-        seoGuides: "SEO Guides",
-        helpCenter: "Help Center",
-        community: "Community",
       },
       company: {
         heading: "Company",
-        about: "About",
         contact: "Contact",
         privacy: "Privacy Policy",
         terms: "Terms of Service",
       },
-      copyright: "© {year} AnswerGap. All rights reserved.",
+      copyright: "© {year} GetTopQuestions. All rights reserved.",
     },
 
     saved: {

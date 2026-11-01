@@ -113,7 +113,7 @@ def test_backend_needs_both_key_and_sender(monkeypatch):
     monkeypatch.setenv("RESEND_API_KEY", "re_x")
     monkeypatch.delenv("MAIL_FROM", raising=False)
     assert mailer.available() is False
-    monkeypatch.setenv("MAIL_FROM", "AnswerGap <hi@answergap.com>")
+    monkeypatch.setenv("MAIL_FROM", "GetTopQuestions <hi@gettopquestions.com>")
     assert mailer.available() is True
 
 
@@ -400,7 +400,7 @@ def test_the_send_request_names_itself(monkeypatch) -> None:
         return _Response()
 
     monkeypatch.setenv("RESEND_API_KEY", "re_test")
-    monkeypatch.setenv("MAIL_FROM", "AnswerGap <noreply@send.example.com>")
+    monkeypatch.setenv("MAIL_FROM", "GetTopQuestions <noreply@send.example.com>")
     monkeypatch.setattr(mailer.urllib.request, "urlopen", fake_urlopen)
 
     assert mailer.send(to="a@example.com", subject="s", text="t", html="<p>t</p>") is True

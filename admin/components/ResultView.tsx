@@ -434,7 +434,7 @@ function TreeCanvas({
           },
           counts,
           notes,
-          brand: "AnswerGap",
+          brand: "GetTopQuestions",
         }),
       });
     };

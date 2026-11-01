@@ -59,7 +59,7 @@ export function buildLegalMetadata(
     alternates: { canonical: legalPath(doc, locale), languages },
     openGraph: {
       type: "article",
-      siteName: "AnswerGap",
+      siteName: "GetTopQuestions",
       title: content.title,
       description: content.description,
       url: legalPath(doc, locale),

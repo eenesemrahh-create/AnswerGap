@@ -32,7 +32,7 @@ export function fileSlug(seed: string): string {
 }
 
 /**
- * `<seed>-<date>.<extension>`, or `answergap-<date>` when the seed folds away
+ * `<seed>-<date>.<extension>`, or `gettopquestions-<date>` when the seed folds away
  * to nothing - which a wholly non-Latin seed does entirely.
  */
 export function exportFilename(
@@ -41,5 +41,5 @@ export function exportFilename(
   today: Date = new Date()
 ): string {
   const slug = fileSlug(seed);
-  return `${slug || "answergap"}-${today.toISOString().slice(0, 10)}.${extension}`;
+  return `${slug || "gettopquestions"}-${today.toISOString().slice(0, 10)}.${extension}`;
 }

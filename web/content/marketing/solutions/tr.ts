@@ -18,7 +18,7 @@ export const tr: SolutionsContent = {
   title: "Çözümler",
   description:
     "SEO ekipleri, ajanslar, yayıncılar ve markalar yapay zeka aramasının " +
-    "henüz yanıtlamadığı soruları bulmak için AnswerGap'i nasıl kullanıyor?",
+    "henüz yanıtlamadığı soruları bulmak için GetTopQuestions'ı nasıl kullanıyor?",
 
   hero: {
     eyebrow: "Yapay zeka keşfini şekillendiren her ekip için",
@@ -26,7 +26,7 @@ export const tr: SolutionsContent = {
     headTinted: "Yapay zeka aramasında",
     headTail: "kazanmak için daha çok yol.",
     lead:
-      "AnswerGap, ekiplerin insanların ne sorduğunu, yapay zeka " +
+      "GetTopQuestions, ekiplerin insanların ne sorduğunu, yapay zeka " +
       "yanıtlarının nerede yetersiz kaldığını ve yapay zekanın önerdiği " +
       "kaynak olmak için ne üretmeleri gerektiğini anlamasına yardım eder.",
   },
@@ -38,7 +38,7 @@ export const tr: SolutionsContent = {
     heading: "Çalışma biçiminize göre kurulmuş.",
     lead:
       "İlk kategori aramasından küresel bir içerik programına kadar, " +
-      "AnswerGap her ekibe uygulanabilir bir sonraki adım verir.",
+      "GetTopQuestions her ekibe uygulanabilir bir sonraki adım verir.",
     cards: [
       {
         title: "SaaS kurucuları",
@@ -154,7 +154,7 @@ export const tr: SolutionsContent = {
       {
         title: "Soruların haritasını çıkarın",
         desc:
-          "AnswerGap ilgili aramaları ve mevcut yapay zeka yanıtlarının " +
+          "GetTopQuestions ilgili aramaları ve mevcut yapay zeka yanıtlarının " +
           "içindeki boşlukları ortaya çıkarır.",
       },
       {

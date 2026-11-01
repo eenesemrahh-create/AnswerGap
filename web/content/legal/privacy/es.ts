@@ -4,7 +4,7 @@ import type { PrivacyContent } from "./index";
 export const es: PrivacyContent = {
   title: "Política de Privacidad",
   description:
-    "Qué recoge AnswerGap, quién más lo recibe, qué queda oculto al resto de la clientela y qué sobrevive al borrar su cuenta.",
+    "Qué recoge GetTopQuestions, quién más lo recibe, qué queda oculto al resto de la clientela y qué sobrevive al borrar su cuenta.",
   lead: "Aquí explicamos qué recogemos y por qué, con la claridad que querríamos de cualquier otro. El apartado 5 trata de lo que otras personas pueden ver y lo que no; el 7, de lo que borrar su cuenta elimina y lo que no.",
   effective: "2026-10-19",
 
@@ -13,7 +13,7 @@ export const es: PrivacyContent = {
       heading: "1. A quién afecta",
       body: [
         {
-          p: "Esta política cubre AnswerGap en {site}, operado por {company} en Estados Unidos. {company} decide cómo y por qué se tratan los datos descritos aquí.",
+          p: "Esta política cubre GetTopQuestions en {site}, operado por {company} en Estados Unidos. {company} decide cómo y por qué se tratan los datos descritos aquí.",
         },
         {
           p: "Esta política se publica en varios idiomas. La versión vinculante es la inglesa; si una traducción la contradice, prevalece el texto en inglés.",
@@ -54,7 +54,7 @@ export const es: PrivacyContent = {
       heading: "3. Cookies y lo que guarda su navegador",
       body: [
         {
-          p: "El sitio de AnswerGap no usa cookies propias. No hay analítica ni gestor de etiquetas. El único script de terceros es Cloudflare Turnstile, que se carga solo con el buscador que se muestra a quien no ha iniciado sesión, para distinguir a las personas del tráfico automatizado (véase el apartado 4). Las tipografías se sirven desde nuestro propio dominio en lugar de pedirse a nadie.",
+          p: "El sitio de GetTopQuestions no usa cookies propias. No hay analítica ni gestor de etiquetas. El único script de terceros es Cloudflare Turnstile, que se carga solo con el buscador que se muestra a quien no ha iniciado sesión, para distinguir a las personas del tráfico automatizado (véase el apartado 4). Las tipografías se sirven desde nuestro propio dominio en lugar de pedirse a nadie.",
         },
         {
           p: "Su navegador guarda localmente, en su dispositivo, unos pocos valores que no podemos leer en remoto:",
@@ -171,7 +171,7 @@ export const es: PrivacyContent = {
       heading: "9. Menores",
       body: [
         {
-          p: "AnswerGap no está dirigido a menores de 16 años y no recogemos sus datos a sabiendas. Si cree que un menor ha creado una cuenta, escriba a {email} y la eliminaremos.",
+          p: "GetTopQuestions no está dirigido a menores de 16 años y no recogemos sus datos a sabiendas. Si cree que un menor ha creado una cuenta, escriba a {email} y la eliminaremos.",
         },
       ],
     },

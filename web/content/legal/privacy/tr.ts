@@ -4,7 +4,7 @@ import type { PrivacyContent } from "./index";
 export const tr: PrivacyContent = {
   title: "Gizlilik Politikası",
   description:
-    "AnswerGap neyi topluyor, başka kimlere gidiyor, diğer müşterilerden ne gizli kalıyor ve hesabınızı sildiğinizde ne kalıyor.",
+    "GetTopQuestions neyi topluyor, başka kimlere gidiyor, diğer müşterilerden ne gizli kalıyor ve hesabınızı sildiğinizde ne kalıyor.",
   lead: "Neyi neden topladığımızı, bir başkasından duymak isteyeceğimiz açıklıkta anlatıyoruz. 5. madde diğer müşterilerin neyi görüp göremediğini, 7. madde hesap silmenin neyi sildiğini ve neyi silmediğini anlatır.",
   effective: "2026-10-19",
 
@@ -13,7 +13,7 @@ export const tr: PrivacyContent = {
       heading: "1. Bu politika kimi kapsıyor",
       body: [
         {
-          p: "Bu politika, Amerika Birleşik Devletleri'nde {company} tarafından işletilen {site} adresindeki AnswerGap'i kapsar. Burada anlatılan verinin nasıl ve neden işlendiğine {company} karar verir.",
+          p: "Bu politika, Amerika Birleşik Devletleri'nde {company} tarafından işletilen {site} adresindeki GetTopQuestions'ı kapsar. Burada anlatılan verinin nasıl ve neden işlendiğine {company} karar verir.",
         },
         {
           p: "Bu politika birkaç dilde yayımlanır. Bağlayıcı sürüm İngilizcedir; bir çeviri İngilizce metinle çelişirse İngilizce metin geçerlidir.",
@@ -54,7 +54,7 @@ export const tr: PrivacyContent = {
       heading: "3. Çerezler ve tarayıcınızda kalanlar",
       body: [
         {
-          p: "AnswerGap web sitesi kendi çerezini kullanmıyor. Hiçbir analiz aracı ya da etiket yöneticisi yok. Tek üçüncü taraf betiği Cloudflare Turnstile'dır; yalnızca giriş yapmamış bir ziyaretçiye gösterilen arama kutusuyla birlikte, insanları otomatik trafikten ayırmak için yüklenir (bkz. madde 4). Yazı tipleri başkasından çekilmek yerine kendi alan adımızdan sunuluyor.",
+          p: "GetTopQuestions web sitesi kendi çerezini kullanmıyor. Hiçbir analiz aracı ya da etiket yöneticisi yok. Tek üçüncü taraf betiği Cloudflare Turnstile'dır; yalnızca giriş yapmamış bir ziyaretçiye gösterilen arama kutusuyla birlikte, insanları otomatik trafikten ayırmak için yüklenir (bkz. madde 4). Yazı tipleri başkasından çekilmek yerine kendi alan adımızdan sunuluyor.",
         },
         {
           p: "Tarayıcınız cihazınızda birkaç değeri yerel olarak tutar; bunları uzaktan okuyamayız:",
@@ -171,7 +171,7 @@ export const tr: PrivacyContent = {
       heading: "9. Çocuklar",
       body: [
         {
-          p: "AnswerGap 16 yaşından küçükler için tasarlanmamıştır ve bilerek onların verisini toplamayız. Bir çocuğun hesap açtığını düşünüyorsanız {email} adresine yazın, kaldıralım.",
+          p: "GetTopQuestions 16 yaşından küçükler için tasarlanmamıştır ve bilerek onların verisini toplamayız. Bir çocuğun hesap açtığını düşünüyorsanız {email} adresine yazın, kaldıralım.",
         },
       ],
     },

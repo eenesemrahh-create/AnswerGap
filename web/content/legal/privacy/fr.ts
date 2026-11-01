@@ -4,7 +4,7 @@ import type { PrivacyContent } from "./index";
 export const fr: PrivacyContent = {
   title: "Politique de confidentialité",
   description:
-    "Ce qu'AnswerGap collecte, qui d'autre le reçoit, ce qui reste invisible aux autres clients et ce qui subsiste après la suppression de votre compte.",
+    "Ce que GetTopQuestions collecte, qui d'autre le reçoit, ce qui reste invisible aux autres clients et ce qui subsiste après la suppression de votre compte.",
   lead: "Voici ce que nous collectons et pourquoi, avec la clarté que nous attendrions nous-mêmes. L'article 5 traite de ce que les autres peuvent voir ou non ; l'article 7, de ce que la suppression de votre compte efface et de ce qu'elle laisse.",
   effective: "2026-10-19",
 
@@ -13,7 +13,7 @@ export const fr: PrivacyContent = {
       heading: "1. Qui est concerné",
       body: [
         {
-          p: "Cette politique couvre AnswerGap sur {site}, exploité par {company} aux États-Unis. {company} décide comment et pourquoi les données décrites ici sont traitées.",
+          p: "Cette politique couvre GetTopQuestions sur {site}, exploité par {company} aux États-Unis. {company} décide comment et pourquoi les données décrites ici sont traitées.",
         },
         {
           p: "Cette politique est publiée en plusieurs langues. La version qui fait foi est l'anglaise ; si une traduction s'en écarte, le texte anglais prévaut.",
@@ -54,7 +54,7 @@ export const fr: PrivacyContent = {
       heading: "3. Cookies et ce que garde votre navigateur",
       body: [
         {
-          p: "Le site AnswerGap ne dépose aucun cookie propre. Il n'y a ni outil de mesure d'audience ni gestionnaire de balises. Le seul script tiers est Cloudflare Turnstile, chargé uniquement avec le champ de recherche proposé à un visiteur non connecté, pour distinguer les personnes du trafic automatisé (voir l'article 4). Les polices sont servies depuis notre propre domaine plutôt que demandées ailleurs.",
+          p: "Le site GetTopQuestions ne dépose aucun cookie propre. Il n'y a ni outil de mesure d'audience ni gestionnaire de balises. Le seul script tiers est Cloudflare Turnstile, chargé uniquement avec le champ de recherche proposé à un visiteur non connecté, pour distinguer les personnes du trafic automatisé (voir l'article 4). Les polices sont servies depuis notre propre domaine plutôt que demandées ailleurs.",
         },
         {
           p: "Votre navigateur conserve localement, sur votre appareil, quelques valeurs que nous ne pouvons pas lire à distance :",
@@ -171,7 +171,7 @@ export const fr: PrivacyContent = {
       heading: "9. Enfants",
       body: [
         {
-          p: "AnswerGap ne s'adresse pas aux moins de 16 ans et nous ne collectons pas sciemment leurs données. Si vous pensez qu'un enfant a créé un compte, écrivez à {email} et nous le supprimerons.",
+          p: "GetTopQuestions ne s'adresse pas aux moins de 16 ans et nous ne collectons pas sciemment leurs données. Si vous pensez qu'un enfant a créé un compte, écrivez à {email} et nous le supprimerons.",
         },
       ],
     },

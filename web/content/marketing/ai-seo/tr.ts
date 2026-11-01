@@ -16,7 +16,7 @@ export const tr = {
     headTail: "siz olun.",
     lead:
       "Google artık birçok soruyu bir AI Overview ile cevaplıyor ve yanında " +
-      "yalnızca birkaç kaynak gösteriyor. AnswerGap insanların ne sorduğunu, " +
+      "yalnızca birkaç kaynak gösteriyor. GetTopQuestions insanların ne sorduğunu, " +
       "hangi soruları hiçbir sayfanın gerçekten cevaplamadığını ve yapay " +
       "zekanın hangi siteleri gösterdiğini ortaya koyar; sizinki dahil.",
   },
@@ -59,7 +59,7 @@ export const tr = {
   },
 
   product: {
-    eyebrow: "AnswerGap neyi ölçer",
+    eyebrow: "GetTopQuestions neyi ölçer",
     heading: "Tek bir anahtar kelimeden fırsat listesine.",
     lead:
       "Aynı Google sonuçlarından okunan üç şey; ağaçtaki her soru için yan " +
@@ -213,7 +213,7 @@ export const tr = {
     heading: "Neyi iddia etmiyoruz.",
     lead:
       "Yapay zeka araması yeni ve bu alandaki birçok araç kimsenin sahip " +
-      "olmadığı bir kesinliği satıyor. AnswerGap'in tam olarak neyi ölçtüğü " +
+      "olmadığı bir kesinliği satıyor. GetTopQuestions'ın tam olarak neyi ölçtüğü " +
       "ve neyi ölçmediği şu:",
     items: [
       {
@@ -264,14 +264,14 @@ export const tr = {
           "sayfa yerine, belirli bir soruya açık ve alıntılanabilir bir cevap.",
       },
       {
-        title: "AnswerGap hangi yapay zeka motorlarını izliyor?",
+        title: "GetTopQuestions hangi yapay zeka motorlarını izliyor?",
         desc:
           "Google'ın AI Overview'unu; boşlukları bulmak için kullandığımız " +
           "aynı arama sonuçlarından okuyoruz. Diğer asistanlar bugün " +
           "izlenmiyor.",
       },
       {
-        title: "AnswerGap bir sorunun boşluk olduğuna nasıl karar veriyor?",
+        title: "GetTopQuestions bir sorunun boşluk olduğuna nasıl karar veriyor?",
         desc:
           "Her soru için arama sonuçlarını çekip her sayfayı soruyla " +
           "karşılaştırır, soruyu gerçekten hedefleyen sayfaları sayarız. Az ya " +

@@ -147,7 +147,7 @@ export const de: PricingContent = {
   cta: {
     heading: "Bereit, die Antworten zu finden?",
     lead:
-      "Schließen Sie sich führenden Content-Teams an, die mit AnswerGap ihre " +
+      "Schließen Sie sich führenden Content-Teams an, die mit GetTopQuestions ihre " +
       "Strategie auf die Intention der KI-Suche ausrichten.",
     primary: "7 Tage kostenlos testen",
     secondary: "Vertrieb kontaktieren",

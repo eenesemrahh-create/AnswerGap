@@ -58,7 +58,7 @@ export function buildMarketingMetadata(
     alternates: { canonical: marketingPath(page, locale), languages },
     openGraph: {
       type: "website",
-      siteName: "AnswerGap",
+      siteName: "GetTopQuestions",
       title: content.title,
       description: content.description,
       url: `${SITE_URL}${marketingPath(page, locale)}`,

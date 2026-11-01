@@ -26,7 +26,7 @@ export default async function GuidePage() {
       <h1>AI Overview verisi nereden geliyor?</h1>
       <p className="notice">{t("guide.englishOnly")}</p>
       <p className="sub">
-        AnswerGap hiçbir siteye girip içeriğini okumaz. Bir soruyu Google&apos;a bir kez
+        GetTopQuestions hiçbir siteye girip içeriğini okumaz. Bir soruyu Google&apos;a bir kez
         sorar, Google&apos;ın o gün gösterdiği sonuç sayfasının kopyasını saklar ve bütün
         rakamları o kopyadan sayar. Ekiple paylaşılabilir kopyası:{" "}
         <a href={DOC_URL} target="_blank" rel="noreferrer">Claude dokümanı</a>.

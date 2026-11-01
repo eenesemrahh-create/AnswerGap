@@ -193,11 +193,11 @@ def _mask(address: str) -> str:
 
 SUBJECTS = {
     "erased": {
-        "en": "Your AnswerGap account has been deleted",
-        "tr": "AnswerGap hesabın silindi",
-        "de": "Dein AnswerGap-Konto wurde gelöscht",
-        "es": "Tu cuenta de AnswerGap se ha eliminado",
-        "fr": "Votre compte AnswerGap a été supprimé",
+        "en": "Your GetTopQuestions account has been deleted",
+        "tr": "GetTopQuestions hesabın silindi",
+        "de": "Dein GetTopQuestions-Konto wurde gelöscht",
+        "es": "Tu cuenta de GetTopQuestions se ha eliminado",
+        "fr": "Votre compte GetTopQuestions a été supprimé",
     },
     "verify": {
         "en": "Confirm your email address",
@@ -207,11 +207,11 @@ SUBJECTS = {
         "fr": "Confirmez votre adresse e-mail",
     },
     "reset": {
-        "en": "Reset your AnswerGap password",
-        "tr": "AnswerGap parolanı sıfırla",
-        "de": "AnswerGap-Passwort zurücksetzen",
-        "es": "Restablece tu contraseña de AnswerGap",
-        "fr": "Réinitialisez votre mot de passe AnswerGap",
+        "en": "Reset your GetTopQuestions password",
+        "tr": "GetTopQuestions parolanı sıfırla",
+        "de": "GetTopQuestions-Passwort zurücksetzen",
+        "es": "Restablece tu contraseña de GetTopQuestions",
+        "fr": "Réinitialisez votre mot de passe GetTopQuestions",
     },
 }
 
@@ -295,9 +295,9 @@ BODIES = {
 
 BUTTONS = {
     "erased": {
-        "en": "Go to AnswerGap", "tr": "AnswerGap'e git",
-        "de": "Zu AnswerGap", "es": "Ir a AnswerGap",
-        "fr": "Aller sur AnswerGap",
+        "en": "Go to GetTopQuestions", "tr": "GetTopQuestions'a git",
+        "de": "Zu GetTopQuestions", "es": "Ir a GetTopQuestions",
+        "fr": "Aller sur GetTopQuestions",
     },
     "verify": {
         "en": "Confirm email", "tr": "E-postayı doğrula",
@@ -394,7 +394,7 @@ def _html(
                 border-radius:16px;padding:32px;font-family:-apple-system,
                 'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#17151f;">
     <tr><td style="font-size:20px;font-weight:700;padding-bottom:8px;">
-      AnswerGap
+      GetTopQuestions
     </td></tr>
     <tr><td style="font-size:22px;font-weight:700;padding-bottom:12px;">
       {_escape(heading)}

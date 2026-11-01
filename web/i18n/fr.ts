@@ -2,7 +2,7 @@ import type { Messages } from "./types";
 
 export const fr: Messages = {
   brand: {
-    name: "AnswerGap",
+    name: "GetTopQuestions",
     tagline: "Trouvez les questions auxquelles vos concurrents n'ont jamais répondu.",
   },
 
@@ -15,7 +15,7 @@ export const fr: Messages = {
     headline:
       "Trouvez les questions auxquelles vos concurrents n'ont jamais répondu.",
     intro:
-      "AnswerGap déploie « Autres questions posées » de Google en un arbre de " +
+      "GetTopQuestions déploie « Autres questions posées » de Google en un arbre de " +
       "questions, examine les résultats de recherche derrière chacune et vous " +
       "montre celles qu'aucune page ne cible vraiment.",
     searchPlaceholder: "Saisissez un mot-clé — p. ex. blanchiment dentaire",
@@ -275,7 +275,7 @@ export const fr: Messages = {
 
   auth: {
     // --- connexion par e-mail et mot de passe ------------------------
-    signUpTitle: "Créez votre compte AnswerGap",
+    signUpTitle: "Créez votre compte GetTopQuestions",
     tabSignIn: "Se connecter",
     tabSignUp: "Créer un compte",
     emailLabel: "E-mail",
@@ -328,7 +328,7 @@ export const fr: Messages = {
       "Un lien de vérification ne sert qu'une fois et pour peu de temps. Indiquez votre adresse, nous en enverrons un nouveau.",
     verifyExpiredSubmit: "Envoyer un nouveau lien",
     close: "Fermer",
-    dialogTitle: "Se connecter à AnswerGap",
+    dialogTitle: "Se connecter à GetTopQuestions",
     benefitCredits: "Des crédits pour lancer des recherches et vérifier des questions",
     benefitPrivate: "Vos recherches restent les vôtres — personne d'autre ne les voit",
     benefitScore: "Vérifiez chaque question face aux pages qui se positionnent",
@@ -460,7 +460,7 @@ export const fr: Messages = {
     changePlan: "Changer d'offre",
     profileLead: "Qui vous êtes et comment vous vous connectez.",
     subscriptionLead: "Votre offre, vos crédits et les offres vers lesquelles passer.",
-    settingsLead: "L'apparence d'AnswerGap et sa langue.",
+    settingsLead: "L'apparence de GetTopQuestions et sa langue.",
     themeLead: "Clair, sombre ou selon votre système.",
     languageLead: "La langue de l'interface.",
   },
@@ -610,13 +610,13 @@ export const fr: Messages = {
       menu: "Menu",
     },
     hero: {
-      eyebrow: "La visibilité dans la recherche IA commence ici",
-      headlinePre: "Classe-toi et apparais dans",
-      headlineHighlight: "la recherche propulsée par l'IA",
+      eyebrow: "Analyse des questions sans réponse pour les équipes de contenu",
+      headlinePre: "Trouvez les questions",
+      headlineHighlight: "auxquelles vos concurrents n'ont jamais répondu",
       sub:
-        "Découvre ce que les gens demandent, identifie les réponses dont " +
-        "les moteurs IA ont besoin, et crée du contenu qui est trouvé, cité " +
-        "et recommandé.",
+        "Saisissez un sujet. Nous cartographions les questions posées sur " +
+        "Google, vérifions les pages derrière chacune et vous montrons celles " +
+        "qu'aucune page ne cible vraiment.",
       signedInTitle: "Que faut-il explorer ?",
       searchPlaceholder: "Entre un sujet — ex. blanchiment dentaire",
       searchCta: "Analyser",
@@ -628,55 +628,214 @@ export const fr: Messages = {
     },
     howItWorks: {
       eyebrow: "Comment ça marche",
-      title: "Deviens la réponse que la recherche IA recommande.",
+      title: "Voyez ce que les résultats de recherche laissent sans réponse.",
       sub:
-        "AnswerGap révèle les questions derrière la découverte pilotée par " +
-        "l'IA pour que tu crées du contenu utile et structuré avant tes " +
-        "concurrents.",
+        "Une liste de questions vous dit ce que les gens demandent. " +
+        "GetTopQuestions vous dit aussi si quelqu'un y a déjà répondu.",
       card1: {
-        label: "Intelligence de la demande",
-        title: "Cartographie la demande de recherche IA",
+        label: "Découverte de questions",
+        title: "Cartographiez l'arbre de questions",
         body:
-          "Transforme un seul sujet en une carte complète des questions " +
-          "que les gens posent à chaque étape de la découverte et de la " +
-          "décision.",
+          "Transformez un sujet en arbre des questions que Google affiche dans " +
+          "« Autres questions posées », chacune sous celle dont elle découle.",
       },
       card2: {
-        label: "Visibilité IA",
-        title: "Trouve des opportunités de citation",
+        label: "Analyse des manques",
+        title: "Vérifiez qui répond à quoi",
         body:
-          "Identifie les questions dont les réponses sont faibles, " +
-          "incomplètes ou manquantes — exactement là où un contenu plus " +
-          "clair a le plus de chances d'être mis en avant par l'IA.",
+          "Pour chaque question vérifiée, nous récupérons les résultats et " +
+          "comptons les pages qui la ciblent vraiment. Peu de pages signifie " +
+          "un manque.",
       },
       card3: {
-        label: "Autorité",
-        title: "Construis une autorité thématique",
+        label: "Visibilité IA",
+        title: "Voyez ce que citent les AI Overviews",
         body:
-          "Priorise les questions connectées et publie des réponses " +
-          "complètes que les moteurs de recherche et les assistants IA " +
-          "peuvent comprendre et en qui ils peuvent avoir confiance.",
+          "Quand Google répond à une question vérifiée par une AI Overview, " +
+          "voyez quels sites elle cite et si le vôtre en fait partie.",
       },
     },
+
+    workflow: {
+      eyebrow: "Le déroulé",
+      title: "Un sujet en entrée. Des manques en sortie. Le contenu, c'est vous.",
+      body:
+        "GetTopQuestions est un outil de recherche. Il n'écrit pas et ne publie " +
+        "pas à votre place, et il ne suit pas les positions. Il vous montre où " +
+        "les réponses manquent, pour consacrer votre temps d'écriture à ce qui " +
+        "compte.",
+      step1: {
+        label: "01 / Sujet",
+        title: "Partez des mots de votre audience",
+        body:
+          "Saisissez une catégorie de produit, un problème ou une expression " +
+          "simple. Large, c'est très bien. L'idée est d'ouvrir la porte, pas " +
+          "de deviner le mot-clé parfait.",
+        sample: "bureau assis-debout",
+      },
+      step2: {
+        label: "02 / Questions",
+        title: "Voyez les questions autour",
+        body:
+          "Les questions arrivent sous forme d'arbre : vous suivez comment " +
+          "l'une mène à l'autre, comme le ferait un acheteur curieux.",
+        sample: "Un bureau assis-debout est-il utile contre le mal de dos ?",
+      },
+      step3: {
+        label: "03 / Manques",
+        title: "Trouvez ce que personne n'a traité",
+        body:
+          "Vérifiez les questions qui vous importent. Chacune revient avec les " +
+          "pages qui la ciblent, un verdict et ses propres questions associées.",
+        sample: "0 page sur 8 cible cette question",
+      },
+      note: "Exemples rédigés par notre équipe, pas des résultats réels de l'application.",
+    },
+
+    examples: {
+      eyebrow: "De la question au contenu",
+      title: "À quoi ressemble un manque.",
+      sub:
+        "Choisissez un sujet. Ces exemples ont été rédigés par notre équipe " +
+        "pour montrer comment lire un résultat ; ce ne sont pas des résultats " +
+        "réels de l'application.",
+      columnQuestion: "Question posée",
+      columnPages: "Pages qui la ciblent",
+      columnVerdict: "Verdict",
+      columnIdea: "Que faire",
+      skipIdea: "Passez, sauf si vous avez quelque chose de nouveau à apporter",
+      tab1: {
+        term: "levain",
+        q1: "Pourquoi mon levain ne monte plus après une semaine ?",
+        idea1: "Une liste de diagnostic : température, farine, rafraîchi, timing",
+        q2: "Peut-on faire un levain avec de la farine T55 ?",
+        idea2: "Une réponse directe, puis les compromis, dans un bloc FAQ",
+        q3: "Comment faire un levain ?",
+      },
+      tab2: {
+        term: "logiciel de facturation",
+        q1: "Puis-je facturer sans avoir créé d'entreprise ?",
+        idea1: "Un guide en langage clair, découpé par situation",
+        q2: "Un logiciel de facturation est-il déductible ?",
+        idea2: "Une réponse courte avec des exemples chiffrés",
+        q3: "Quel est le meilleur logiciel de facturation ?",
+      },
+      tab3: {
+        term: "chaussures de trail",
+        q1: "Peut-on courir sur rocher mouillé avec des chaussures de trail ?",
+        idea1: "Un comparatif testé avec vos propres photos",
+        q2: "Combien de temps durent des chaussures de trail ?",
+        idea2: "Un guide du kilométrage avec les signes d'usure",
+        q3: "Quelles sont les meilleures chaussures de trail ?",
+      },
+    },
+
     builtFor: {
       eyebrow: "Conçu pour la recherche IA",
-      title: "Réponds à de vraies questions. Fais-toi découvrir par l'IA.",
+      title: "Répondez à de vraies questions. Soyez découvert par l'IA.",
       body:
-        "La recherche devient une conversation. AnswerGap te montre ce " +
-        "que ton public demande et où les réponses actuelles sont " +
-        "insuffisantes — pour que ta marque gagne en visibilité dans les " +
-        "AI Overviews, les assistants et la recherche classique.",
-      point1: "Crée des réponses claires que l'IA peut extraire et citer",
-      point2: "Structure le contenu autour de vraies recherches conversationnelles",
-      point3: "Couvre les questions liées pour renforcer l'autorité thématique",
-      demoUrl: "answergap.com/recherche",
+        "La recherche devient une conversation. GetTopQuestions vous montre ce " +
+        "que votre audience demande et où les réponses actuelles sont " +
+        "insuffisantes, pour écrire des réponses claires pour les AI Overviews, " +
+        "les assistants et la recherche classique. La visibilité n'est jamais " +
+        "garantie, mais une question sans réponse est le bon point de départ.",
+      point1: "Voyez quels sites l'AI Overview de Google cite pour chaque question vérifiée",
+      point2: "Saisissez votre site et voyez les questions où vous êtes cité",
+      point3: "Structurez le contenu autour de vraies recherches conversationnelles",
+      demoLabel: "Exemple : crm",
       demo1Q: "Quel est le meilleur CRM pour une petite entreprise ?",
-      demo1Meta: "Réponse complète · Forte opportunité de visibilité",
+      demo1Meta: "6 pages sur 8 la ciblent",
       demo2Q: "Ai-je besoin d'un CRM si j'utilise Google Workspace ?",
-      demo2Meta: "Pas de réponse complète · Forte opportunité de visibilité",
-      demo3Q: "Comment migrer d'un tableur à un CRM ?",
-      demo3Meta: "Réponses partielles · Opportunité de visibilité moyenne",
+      demo2Meta: "0 page sur 8 la cible",
+      demo3Q: "Comment passer d'un tableur à un CRM ?",
+      demo3Meta: "2 pages sur 8 la ciblent",
+      demoNote: "Exemple rédigé par notre équipe. Pas de mesures réelles.",
     },
+
+    formats: {
+      eyebrow: "Formats de contenu",
+      title: "Laissez la question choisir le format.",
+      body:
+        "La façon dont une question est formulée indique comment y répondre. " +
+        "Des réponses claires et bien organisées servent le lecteur aussi bien " +
+        "dans les résultats que dans les AI Overviews et les assistants. Rien " +
+        "n'est garanti, mais une structure utile est un choix solide.",
+      card1: {
+        title: "Sections FAQ",
+        when: "Quand une question a une réponse courte et factuelle.",
+        how: "Commencez par la réponse en une ou deux phrases, puis nuancez.",
+      },
+      card2: {
+        title: "Guides approfondis",
+        when: "Quand plusieurs questions partagent un même problème de fond.",
+        how: "Faites de chaque question un sous-titre pour que le lecteur aille à la sienne.",
+      },
+      card3: {
+        title: "Pages comparatives",
+        when: "Quand les questions contiennent « vs », « ou » ou « mieux ».",
+        how: "Précisez à qui convient chaque option. Les tableaux aident.",
+      },
+      card4: {
+        title: "Tutoriels pas à pas",
+        when: "Quand les questions commencent par « comment faire ».",
+        how: "Numérotez les étapes et dites à quoi ressemble le résultat final.",
+      },
+      card5: {
+        title: "Vidéo courte et réseaux sociaux",
+        when: "Quand la réponse est visuelle ou rapide à montrer.",
+        how: "Affichez la question à l'écran dès les premières secondes.",
+      },
+      card6: {
+        title: "Newsletter et notes commerciales",
+        when: "Quand les questions révèlent des objections ou des hésitations.",
+        how: "Répondez honnêtement au doute avant qu'il ne fasse perdre la vente.",
+      },
+    },
+
+    faq: {
+      eyebrow: "Réponses pratiques",
+      title: "Questions sur GetTopQuestions",
+      q1: "Que fait exactement GetTopQuestions ?",
+      a1:
+        "Vous saisissez un sujet et nous affichons sous forme d'arbre les " +
+        "questions que Google présente autour de lui. Pour les questions que " +
+        "vous vérifiez, nous lisons les résultats et montrons combien de pages " +
+        "ciblent vraiment chacune. Peu de pages signifie un manque : une " +
+        "question à laquelle vos concurrents n'ont pas répondu.",
+      q2: "Quelle différence avec une liste de questions ?",
+      a2:
+        "Une liste montre ce que les gens demandent. Nous vérifions aussi les " +
+        "résultats derrière chaque question : vous voyez lesquelles sont déjà " +
+        "bien traitées et lesquelles restent ouvertes.",
+      q3: "Un manque est-il toujours un vrai manque ?",
+      a3:
+        "Non. Le verdict est une estimation fondée sur les titres et adresses " +
+        "des pages dans les résultats, et il peut se tromper. Chaque verdict " +
+        "montre les pages sur lesquelles il repose, pour que vous puissiez " +
+        "juger vous-même. Une question non vérifiée est affichée comme non " +
+        "vérifiée, jamais comme un manque.",
+      q4: "Combien coûte une recherche ?",
+      a4:
+        "Chaque recherche coûte un crédit. Vérifier une question est une " +
+        "recherche à part entière : vous obtenez son verdict et son propre " +
+        "arbre de questions.",
+      q5: "Écrit-il ou publie-t-il du contenu à ma place ?",
+      a5:
+        "Non. GetTopQuestions vous aide à décider de quoi écrire. La rédaction, " +
+        "la relecture et la publication vous reviennent, et c'est là que votre " +
+        "expertise et votre voix comptent.",
+      q6: "Suit-il mes positions ?",
+      a6:
+        "Non. Il n'y a ni suivi de positions ni surveillance continue. Pour une " +
+        "question vérifiée, il montre quels sites l'AI Overview de Google " +
+        "citait au moment de la vérification.",
+      q7: "Répondre à ces questions me fera-t-il entrer dans les AI Overviews ?",
+      a7:
+        "Personne ne peut le promettre. Répondre clairement et précisément à de " +
+        "vraies questions est une base raisonnable, mais le placement est " +
+        "décidé par ces plateformes.",
+    },
+
     pricing: {
       title: "Des tarifs simples et transparents",
       sub:
@@ -688,41 +847,28 @@ export const fr: Messages = {
         "crédits sont attribués à la main tant que le produit est en preview.",
     },
     cta: {
-      title: "Prêt·e à devenir la réponse ?",
-      sub:
-        "Trouve les questions qui comptent, publie des réponses que l'IA " +
-        "comprend et bâtis ta visibilité là où ton public cherche.",
+      title: "Prêt à trouver ce que personne n'a traité ?",
+      sub: "Partez d'un sujet et repartez avec les questions que vos concurrents ont manquées.",
       primary: "Commencer gratuitement",
       secondary: "Voir les tarifs",
     },
+
     footer: {
-      tagline:
-        "Trouve les questions auxquelles la recherche IA a besoin de " +
-        "réponses — et aide ta marque à devenir la source de confiance " +
-        "qu'elle recommande.",
+      tagline: "Trouvez les questions auxquelles vos concurrents n'ont jamais répondu.",
       product: {
         heading: "Produit",
         features: "Fonctionnalités",
         pricing: "Tarifs",
-        api: "API",
-        changelog: "Changelog",
-      },
-      resources: {
-        heading: "Ressources",
-        blog: "Blog",
-        seoGuides: "Guides SEO",
-        helpCenter: "Centre d'aide",
-        community: "Communauté",
       },
       company: {
         heading: "Entreprise",
-        about: "À propos",
         contact: "Contact",
         privacy: "Politique de confidentialité",
         terms: "Conditions d'utilisation",
       },
-      copyright: "© {year} AnswerGap. Tous droits réservés.",
+      copyright: "© {year} GetTopQuestions. Tous droits réservés.",
     },
+
     saved: {
       heading: "Tes analyses récentes",
       demoHeading: "Voir sur des données réelles",

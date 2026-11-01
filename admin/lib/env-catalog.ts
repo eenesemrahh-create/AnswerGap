@@ -182,7 +182,7 @@ export const ENV_CATALOG: EnvVar[] = [
       tr: "Gönderen adres. Resend'de doğrulanmış alan adında olmalı (send.gettopquestions.com).",
     },
     missing: { en: "Mail is refused by Resend.", tr: "Resend e-postayı reddeder." },
-    example: "AnswerGap <noreply@send.gettopquestions.com>",
+    example: "GetTopQuestions <noreply@send.gettopquestions.com>",
   },
   {
     name: "MAIL_REPLY_TO", service: "api", need: "recommended", secret: false, group: "mail",

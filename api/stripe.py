@@ -146,7 +146,7 @@ def checkout_session(
         "line_items[0][quantity]": "1",
         "line_items[0][price_data][currency]": TEST_CURRENCY,
         "line_items[0][price_data][unit_amount]": str(amount_cents or TEST_AMOUNT_CENTS),
-        "line_items[0][price_data][product_data][name]": "AnswerGap payment test",
+        "line_items[0][price_data][product_data][name]": "GetTopQuestions payment test",
         # Marks the row this creates as a pipe test rather than a real sale, so
         # a later report can exclude it without guessing from the amount.
         "metadata[answergap_purpose]": "integration_test",

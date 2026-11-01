@@ -73,12 +73,12 @@ export function LegalDocument({
 
       <footer className="mkt-footer">
         <div className="mkt-footer-bottom">
-          <span>© {new Date().getUTCFullYear()} AnswerGap</span>
+          <span>© {new Date().getUTCFullYear()} GetTopQuestions</span>
           <span className="legal-footer-links">
             <Link href={legalPath(other, locale)}>
               {other === "terms" ? "Terms of Service" : "Privacy Policy"}
             </Link>
-            <Link href="/">AnswerGap</Link>
+            <Link href="/">GetTopQuestions</Link>
           </span>
         </div>
       </footer>

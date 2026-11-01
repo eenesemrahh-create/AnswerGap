@@ -11,7 +11,7 @@ import type { ContactContent } from "./index";
 export const es: ContactContent = {
   title: "Contacto",
   description:
-    "Habla con el equipo de AnswerGap sobre volumen para empresas, acceso a " +
+    "Habla con el equipo de GetTopQuestions sobre volumen para empresas, acceso a " +
     "la API o cualquier otra cosa sobre visibilidad en la búsqueda con IA.",
 
   hero: {

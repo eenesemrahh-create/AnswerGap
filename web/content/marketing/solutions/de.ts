@@ -11,7 +11,7 @@ import type { SolutionsContent } from "./index";
 export const de: SolutionsContent = {
   title: "Lösungen",
   description:
-    "Wie SEO-Teams, Agenturen, Publisher und Marken mit AnswerGap die Fragen " +
+    "Wie SEO-Teams, Agenturen, Publisher und Marken mit GetTopQuestions die Fragen " +
     "finden, die die KI-Suche noch nicht beantwortet hat.",
 
   hero: {
@@ -20,7 +20,7 @@ export const de: SolutionsContent = {
     headTinted: "KI-Suche",
     headTail: "zu gewinnen.",
     lead:
-      "AnswerGap hilft Teams zu verstehen, was Menschen fragen, wo die " +
+      "GetTopQuestions hilft Teams zu verstehen, was Menschen fragen, wo die " +
       "Antworten der KI zu kurz greifen und was zu erstellen ist, um die " +
       "Quelle zu werden, die die KI empfiehlt.",
   },
@@ -32,7 +32,7 @@ export const de: SolutionsContent = {
     heading: "Gebaut um Ihre Arbeitsweise herum.",
     lead:
       "Von der ersten Suche in einer Kategorie bis zum globalen " +
-      "Content-Programm gibt AnswerGap jedem Team einen konkreten nächsten " +
+      "Content-Programm gibt GetTopQuestions jedem Team einen konkreten nächsten " +
       "Schritt.",
     cards: [
       {
@@ -149,7 +149,7 @@ export const de: SolutionsContent = {
       {
         title: "Die Fragen abbilden",
         desc:
-          "AnswerGap zeigt verwandte Suchanfragen und die Lücken in den " +
+          "GetTopQuestions zeigt verwandte Suchanfragen und die Lücken in den " +
           "vorhandenen KI-Antworten.",
       },
       {

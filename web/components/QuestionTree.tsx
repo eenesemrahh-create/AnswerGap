@@ -329,7 +329,7 @@ export function QuestionTree({
         },
         counts,
         notes,
-        brand: "AnswerGap",
+        brand: "GetTopQuestions",
       }),
     })
       .then((blob) => {

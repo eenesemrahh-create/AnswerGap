@@ -26,12 +26,12 @@ export const metadata: Metadata = {
   // REPLACED outright by a child page's title. The template keeps the brand
   // on "/terms" without every page having to repeat it.
   title: {
-    default: "AnswerGap — Rank and Appear in AI Search",
-    template: "%s — AnswerGap",
+    default: "GetTopQuestions — Find the Questions Your Competitors Never Answered",
+    template: "%s — GetTopQuestions",
   },
   description:
-    "Discover what people ask, identify the answers AI engines need, and " +
-    "create content that gets found, cited, and recommended.",
+    "Enter a topic, map the questions people ask on Google, and see which " +
+    "ones no page really targets. Then write the answer your competitors missed.",
 };
 
 export default function RootLayout({

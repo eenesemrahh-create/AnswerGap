@@ -2,7 +2,7 @@ import type { Messages } from "./types";
 
 export const tr: Messages = {
   brand: {
-    name: "AnswerGap",
+    name: "GetTopQuestions",
     tagline: "Rakiplerinin hiç cevaplamadığı soruları bul.",
   },
 
@@ -14,7 +14,7 @@ export const tr: Messages = {
       "yalnızca sizin hesabınıza aittir.",
     headline: "Rakiplerinin hiç cevaplamadığı soruları bul.",
     intro:
-      "AnswerGap, Google'ın “Bunlar da sorulmuş” verisini bir soru ağacına " +
+      "GetTopQuestions, Google'ın “Bunlar da sorulmuş” verisini bir soru ağacına " +
       "açar, her sorunun arkasındaki arama sonuçlarına bakar ve hangi soruları " +
       "hiçbir sayfanın gerçekten hedeflemediğini gösterir.",
     searchPlaceholder: "Bir kelime girin — örn. diş beyazlatma",
@@ -269,7 +269,7 @@ export const tr: Messages = {
 
   auth: {
     // --- e-posta + parola ile giriş -------------------------------
-    signUpTitle: "AnswerGap hesabını oluştur",
+    signUpTitle: "GetTopQuestions hesabını oluştur",
     tabSignIn: "Giriş yap",
     tabSignUp: "Hesap oluştur",
     emailLabel: "E-posta",
@@ -321,7 +321,7 @@ export const tr: Messages = {
       "Doğrulama bağlantısı tek kullanımlıktır ve kısa süre geçerlidir. Adresini yaz, yenisini gönderelim.",
     verifyExpiredSubmit: "Yeni bağlantı gönder",
     close: "Kapat",
-    dialogTitle: "AnswerGap'e giriş yap",
+    dialogTitle: "GetTopQuestions'a giriş yap",
     benefitCredits: "Arama yapmak ve soru kontrol etmek için kredi",
     benefitPrivate: "Aramalarınız size ait kalır — kimse göremez",
     benefitScore: "Her soruyu, o soruda çıkan sayfalara karşı kontrol edin",
@@ -451,7 +451,7 @@ export const tr: Messages = {
     changePlan: "Planı değiştir",
     profileLead: "Kim olduğun ve nasıl giriş yaptığın.",
     subscriptionLead: "Planın, kredilerin ve geçebileceğin planlar.",
-    settingsLead: "AnswerGap'in görünümü ve dili.",
+    settingsLead: "GetTopQuestions'ın görünümü ve dili.",
     themeLead: "Açık, koyu ya da sistemine göre.",
     languageLead: "Arayüzün dili.",
   },
@@ -599,12 +599,13 @@ export const tr: Messages = {
     },
 
     hero: {
-      eyebrow: "AI arama görünürlüğü buradan başlar",
-      headlinePre: "AI destekli aramada",
-      headlineHighlight: "sıralan ve görün",
+      eyebrow: "İçerik ekipleri için soru boşluğu analizi",
+      headlinePre: "Rakiplerinin hiç cevaplamadığı",
+      headlineHighlight: "soruları bul",
       sub:
-        "İnsanların ne sorduğunu keşfet, AI motorlarının ihtiyaç duyduğu " +
-        "cevapları belirle ve bulunup, kaynak gösterilip, önerilen içerik üret.",
+        "Bir konu yaz. İnsanların Google'da sorduğu soruları çıkaralım, her " +
+        "birinin arkasındaki sayfaları kontrol edelim ve hangi soruyu gerçekten " +
+        "hedefleyen bir sayfa olmadığını gösterelim.",
       signedInTitle: "Neye bakalım?",
       searchPlaceholder: "Bir konu girin — örn. diş beyazlatma",
       searchCta: "Analiz et",
@@ -617,53 +618,206 @@ export const tr: Messages = {
 
     howItWorks: {
       eyebrow: "Nasıl çalışır",
-      title: "AI aramanın önerdiği cevap ol.",
+      title: "Arama sonuçlarının cevapsız bıraktığını gör.",
       sub:
-        "AnswerGap, AI destekli keşfin arkasındaki soruları ortaya çıkarır — " +
-        "böylece yararlı, iyi yapılandırılmış içeriği rakiplerinden önce " +
-        "oluşturursun.",
+        "Bir soru listesi insanların ne sorduğunu söyler. GetTopQuestions " +
+        "bunun yanında o soruyu cevaplayan biri olup olmadığını da söyler.",
       card1: {
-        label: "Talep Zekası",
-        title: "AI Arama Talebini Haritala",
+        label: "Soru Keşfi",
+        title: "Soru Ağacını Çıkar",
         body:
-          "Tek bir konuyu; keşif ve karar sürecinin her aşamasında insanların " +
-          "sorduğu soruların tamamıyla dolu bir haritaya çevir.",
+          "Tek bir konuyu, Google'ın Kullanıcılar Bunları da Soruyor alanında " +
+          "gösterdiği soruların ağacına çevir; her soru geldiği sorunun altında.",
       },
       card2: {
-        label: "AI Görünürlüğü",
-        title: "Alıntılanma Fırsatlarını Bul",
+        label: "Boşluk Analizi",
+        title: "Kim Neyi Cevaplıyor Kontrol Et",
         body:
-          "Zayıf, eksik ya da hiç cevaplanmamış soruları belirle — daha net " +
-          "bir içeriğin AI tarafından öne çıkarılma şansının en yüksek olduğu " +
-          "yerler tam olarak buralar.",
+          "Kontrol ettiğin her soru için arama sonuçlarını alır, soruyu gerçekten " +
+          "hedefleyen sayfaları sayarız. Az sayfa, boşluk demektir.",
       },
       card3: {
-        label: "Otorite",
-        title: "Konu Otoritesi İnşa Et",
+        label: "Yapay Zekâ Görünürlüğü",
+        title: "AI Overview Kimi Gösteriyor Gör",
         body:
-          "Birbirine bağlı soruları önceliklendir ve arama motorlarının ve " +
-          "AI asistanlarının anlayıp güvenebileceği kapsamlı cevaplar yayınla.",
+          "Google kontrol ettiğin soruyu AI Overview ile cevapladığında hangi " +
+          "sitelere kaynak verdiğini ve seninkinin aralarında olup olmadığını gör.",
+      },
+    },
+
+    workflow: {
+      eyebrow: "İş akışı",
+      title: "Konu girer. Boşluklar çıkar. İçerik senden.",
+      body:
+        "GetTopQuestions bir araştırma aracıdır. Senin yerine yazmaz, yayınlamaz " +
+        "ve sıralama takibi yapmaz. Cevapların nerede eksik olduğunu gösterir, " +
+        "böylece yazma zamanını işe yarayacak yere harcarsın.",
+      step1: {
+        label: "01 / Konu",
+        title: "Kitlenin kullandığı kelimelerle başla",
+        body:
+          "Bir ürün kategorisi, bir sorun ya da sade bir ifade yaz. Geniş olması " +
+          "sorun değil. Amaç kapıyı açmak, kusursuz anahtar kelimeyi tahmin " +
+          "etmek değil.",
+        sample: "ayakta çalışma masası",
+      },
+      step2: {
+        label: "02 / Sorular",
+        title: "Etrafındaki soruları gör",
+        body:
+          "Sorular ağaç olarak gelir; meraklı bir alıcı gibi bir sorunun " +
+          "diğerine nasıl bağlandığını takip edebilirsin.",
+        sample: "Ayakta çalışma masası bel ağrısına iyi gelir mi?",
+      },
+      step3: {
+        label: "03 / Boşluklar",
+        title: "Kimsenin cevaplamadığını bul",
+        body:
+          "Önemsediğin soruları kontrol et. Her biri, onu hedefleyen sayfalar, " +
+          "bir sonuç ve kendi alt sorularıyla geri döner.",
+        sample: "8 sayfadan 0'ı bu soruyu hedefliyor",
+      },
+      note: "Örnekler ekibimiz tarafından yazıldı, uygulamanın gerçek çıktısı değildir.",
+    },
+
+    examples: {
+      eyebrow: "Sorudan içeriğe",
+      title: "Boşluk neye benzer?",
+      sub:
+        "Bir konu seç. Bunlar sonucun nasıl okunacağını göstermek için " +
+        "ekibimizin yazdığı örneklerdir, uygulamanın gerçek çıktısı değildir.",
+      columnQuestion: "İnsanların sorduğu soru",
+      columnPages: "Onu hedefleyen sayfalar",
+      columnVerdict: "Sonuç",
+      columnIdea: "Ne yapmalı",
+      skipIdea: "Söyleyecek yeni bir şeyin yoksa geç",
+      tab1: {
+        term: "ekşi maya",
+        q1: "Ekşi mayam bir hafta sonra neden kabarmayı bıraktı?",
+        idea1: "Teşhis listesi: sıcaklık, un, besleme oranı, zamanlama",
+        q2: "Ekşi maya için çok amaçlı un kullanılır mı?",
+        idea2: "SSS bölümünde doğrudan cevap, ardından artıları ve eksileri",
+        q3: "Ekşi maya nasıl yapılır?",
+      },
+      tab2: {
+        term: "fatura programı",
+        q1: "Şirket kurmadan fatura kesebilir miyim?",
+        idea1: "Duruma göre ayrılmış, sade dilde bir rehber",
+        q2: "Fatura programı gider olarak yazılır mı?",
+        idea2: "Kısa cevap ve çözümlü örnekler",
+        q3: "En iyi fatura programı hangisi?",
+      },
+      tab3: {
+        term: "patika koşu ayakkabısı",
+        q1: "Patika koşu ayakkabısı ıslak kayada kullanılır mı?",
+        idea1: "Kendi fotoğraflarınla denenmiş bir karşılaştırma",
+        q2: "Patika koşu ayakkabısı ne kadar dayanır?",
+        idea2: "Yıpranma işaretleriyle bir kilometre rehberi",
+        q3: "En iyi patika koşu ayakkabısı hangisi?",
       },
     },
 
     builtFor: {
-      eyebrow: "AI Arama için tasarlandı",
-      title: "Gerçek sorulara cevap ver. AI seni bulsun.",
+      eyebrow: "Yapay zekâ araması için",
+      title: "Gerçek soruları cevapla. Yapay zekâda keşfedil.",
       body:
-        "Arama artık bir sohbete dönüşüyor. AnswerGap; kitlenin ne " +
-        "sorduğunu ve mevcut cevapların nerede yetersiz kaldığını gösterir. " +
-        "Böylece markan AI Overview'larda, asistanlarda ve klasik aramada " +
-        "görünürlük kazanır.",
-      point1: "AI sistemlerinin çıkarıp alıntılayabileceği net cevaplar üret",
-      point2: "İçeriği gerçek konuşma diline uygun sorular etrafında yapılandır",
-      point3: "Bağlantılı soruları kapsayarak konu otoritesini güçlendir",
-      demoUrl: "answergap.com/arama",
-      demo1Q: "Küçük işletme için en iyi CRM hangisi?",
-      demo1Meta: "Tam cevap · Yüksek görünürlük fırsatı",
+        "Arama bir sohbete dönüşüyor. GetTopQuestions kitlenin ne sorduğunu ve " +
+        "mevcut cevapların nerede yetersiz kaldığını gösterir; sen de AI " +
+        "Overview, asistanlar ve klasik arama için net cevaplar yazarsın. " +
+        "Görünürlük hiçbir zaman garanti değildir, ama kimsenin cevaplamadığı " +
+        "bir soru başlamak için doğru yerdir.",
+      point1: "Kontrol ettiğin her soruda Google'ın AI Overview'unun hangi sitelere kaynak verdiğini gör",
+      point2: "Siteni gir, kaynak gösterildiğin soruları gör",
+      point3: "İçeriği gerçek, sohbet biçimindeki aramalara göre kurgula",
+      demoLabel: "Örnek: crm",
+      demo1Q: "Küçük işletmeler için en iyi CRM hangisi?",
+      demo1Meta: "8 sayfadan 6'sı hedefliyor",
       demo2Q: "Google Workspace kullanıyorsam CRM'e ihtiyacım var mı?",
-      demo2Meta: "Tam cevap yok · Yüksek görünürlük fırsatı",
+      demo2Meta: "8 sayfadan 0'ı hedefliyor",
       demo3Q: "Excel'den CRM'e nasıl geçilir?",
-      demo3Meta: "Kısmi cevaplar · Orta görünürlük fırsatı",
+      demo3Meta: "8 sayfadan 2'si hedefliyor",
+      demoNote: "Örnek ekibimiz tarafından yazıldı. Gerçek ölçüm değildir.",
+    },
+
+    formats: {
+      eyebrow: "İçerik formatları",
+      title: "Formatı soru seçsin.",
+      body:
+        "Bir sorunun soruluş biçimi, nasıl cevaplanmak istediğini ele verir. " +
+        "Net ve düzenli cevaplar okura arama sonuçlarında, AI Overview'da ve " +
+        "asistanlarda aynı şekilde yarar. Hiçbirinde garanti yok, ama işe " +
+        "yarar bir yapı sağlam bir tercihtir.",
+      card1: {
+        title: "SSS bölümleri",
+        when: "Sorunun kısa ve net bir cevabı olduğunda.",
+        how: "Cevabı bir iki cümleyle ver, ayrıntıyı sonra ekle.",
+      },
+      card2: {
+        title: "Kapsamlı rehberler",
+        when: "Birkaç soru aynı temel soruna çıktığında.",
+        how: "Her soruyu alt başlık yap ki okur kendininkine atlayabilsin.",
+      },
+      card3: {
+        title: "Karşılaştırma sayfaları",
+        when: "Sorularda \"mı yoksa\", \"hangisi\" ya da \"daha iyi\" geçtiğinde.",
+        how: "Her seçeneğin kime uygun olduğunu açık yaz. Tablolar işe yarar.",
+      },
+      card4: {
+        title: "Adım adım anlatımlar",
+        when: "Sorular \"nasıl yapılır\" diye başladığında.",
+        how: "Adımları numaralandır, bittiğinde sonucun nasıl görüneceğini yaz.",
+      },
+      card5: {
+        title: "Kısa video ve sosyal medya",
+        when: "Cevap görsel ya da hızlıca gösterilebilir olduğunda.",
+        how: "Soruyu ilk saniyelerde ekrana koy.",
+      },
+      card6: {
+        title: "Bülten ve satış notları",
+        when: "Sorular itiraz ya da tereddüt ortaya koyduğunda.",
+        how: "Şüpheyi, kayıp bir cevaba dönüşmeden dürüstçe yanıtla.",
+      },
+    },
+
+    faq: {
+      eyebrow: "Pratik cevaplar",
+      title: "GetTopQuestions hakkında sorular",
+      q1: "GetTopQuestions tam olarak ne yapıyor?",
+      a1:
+        "Bir konu yazarsın, Google'ın o konu etrafında gösterdiği soruları ağaç " +
+        "olarak gösteririz. Kontrol ettiğin sorularda arama sonuçlarını okur, " +
+        "her soruyu gerçekten kaç sayfanın hedeflediğini gösteririz. Az sayfa " +
+        "boşluk demektir: rakiplerinin cevaplamadığı bir soru.",
+      q2: "Bir soru listesinden farkı ne?",
+      a2:
+        "Liste insanların ne sorduğunu gösterir. Biz ayrıca her sorunun " +
+        "arkasındaki arama sonuçlarını kontrol ederiz; böylece hangilerinin iyi " +
+        "cevaplandığını, hangilerinin hâlâ açık olduğunu görürsün.",
+      q3: "Boşluk her zaman gerçek bir boşluk mu?",
+      a3:
+        "Hayır. Sonuç, arama sonuçlarındaki sayfaların başlık ve adreslerine " +
+        "dayanan bir tahmindir ve yanlış olabilir. Her sonuç arkasındaki " +
+        "sayfaları gösterir, kararı sen de verebilirsin. Kontrol etmediğimiz " +
+        "bir soru hiçbir zaman boşluk olarak değil, kontrol edilmedi olarak " +
+        "gösterilir.",
+      q4: "Bir arama ne kadar?",
+      a4:
+        "Her arama bir kredidir. Bir soruyu kontrol etmek de ayrı bir aramadır: " +
+        "o sorunun sonucunu ve kendi soru ağacını verir.",
+      q5: "Benim yerime içerik yazıp yayınlıyor mu?",
+      a5:
+        "Hayır. GetTopQuestions ne yazacağına karar vermene yardım eder. Yazmak, " +
+        "düzenlemek ve yayınlamak sana aittir; uzmanlığın ve sesin de burada " +
+        "devreye girer.",
+      q6: "Sıralamalarımı takip ediyor mu?",
+      a6:
+        "Hayır. Sıralama takibi ya da sürekli izleme yoktur. Kontrol ettiğin bir " +
+        "soruda, Google'ın AI Overview'unun kontrol anında hangi sitelere kaynak " +
+        "verdiğini gösterir.",
+      q7: "Bu soruları cevaplarsam AI Overview'a girer miyim?",
+      a7:
+        "Bunu kimse vaat edemez. Gerçek soruları net ve doğru cevaplamak mantıklı " +
+        "bir temeldir, ama yerleşime o platformlar karar verir.",
     },
 
     pricing: {
@@ -678,40 +832,26 @@ export const tr: Messages = {
     },
 
     cta: {
-      title: "Cevap olmaya hazır mısın?",
-      sub:
-        "Önemli soruları bul, AI'ın anlayabileceği cevaplar yayınla ve " +
-        "kitlenin aradığı her yerde görünürlük kur.",
+      title: "Kimsenin cevaplamadığını bulmaya hazır mısın?",
+      sub: "Bir konuyla başla, rakiplerinin kaçırdığı sorularla çık.",
       primary: "Ücretsiz başla",
       secondary: "Fiyatları gör",
     },
 
     footer: {
-      tagline:
-        "AI aramanın cevap beklediği soruları bul — ve markanın onun önerdiği " +
-        "güvenilir kaynak olmasını sağla.",
+      tagline: "Rakiplerinin hiç cevaplamadığı soruları bul.",
       product: {
         heading: "Ürün",
         features: "Özellikler",
-        pricing: "Fiyatlandırma",
-        api: "API",
-        changelog: "Değişiklikler",
-      },
-      resources: {
-        heading: "Kaynaklar",
-        blog: "Blog",
-        seoGuides: "SEO Rehberleri",
-        helpCenter: "Yardım Merkezi",
-        community: "Topluluk",
+        pricing: "Fiyatlar",
       },
       company: {
         heading: "Şirket",
-        about: "Hakkımızda",
         contact: "İletişim",
         privacy: "Gizlilik Politikası",
         terms: "Kullanım Koşulları",
       },
-      copyright: "© {year} AnswerGap. Tüm hakları saklıdır.",
+      copyright: "© {year} GetTopQuestions. Tüm hakları saklıdır.",
     },
 
     saved: {

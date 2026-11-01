@@ -4,7 +4,7 @@ import type { PrivacyContent } from "./index";
 export const de: PrivacyContent = {
   title: "Datenschutzerklärung",
   description:
-    "Was AnswerGap erhebt, wer es sonst noch bekommt, was vor anderen Kundinnen und Kunden verborgen bleibt und was das Löschen des Kontos übrig lässt.",
+    "Was GetTopQuestions erhebt, wer es sonst noch bekommt, was vor anderen Kundinnen und Kunden verborgen bleibt und was das Löschen des Kontos übrig lässt.",
   lead: "Hier steht, was wir erheben und warum — so klar, wie wir es selbst von anderen erwarten würden. Abschnitt 5 erklärt, was andere sehen können und was nicht; Abschnitt 7, was das Löschen Ihres Kontos entfernt und was nicht.",
   effective: "2026-10-19",
 
@@ -13,7 +13,7 @@ export const de: PrivacyContent = {
       heading: "1. Wen das betrifft",
       body: [
         {
-          p: "Diese Erklärung gilt für AnswerGap unter {site}, betrieben von {company} in den Vereinigten Staaten. {company} entscheidet, wie und warum die hier beschriebenen Daten verarbeitet werden.",
+          p: "Diese Erklärung gilt für GetTopQuestions unter {site}, betrieben von {company} in den Vereinigten Staaten. {company} entscheidet, wie und warum die hier beschriebenen Daten verarbeitet werden.",
         },
         {
           p: "Diese Erklärung wird in mehreren Sprachen veröffentlicht. Maßgeblich ist die englische Fassung; weicht eine Übersetzung davon ab, gilt der englische Text.",
@@ -54,7 +54,7 @@ export const de: PrivacyContent = {
       heading: "3. Cookies und was Ihr Browser behält",
       body: [
         {
-          p: "Die AnswerGap-Website setzt keine eigenen Cookies. Es gibt keine Analyse-Software und keinen Tag-Manager. Das einzige Skript von Dritten ist Cloudflare Turnstile; es wird nur mit dem Suchfeld für nicht angemeldete Besucher geladen, um Menschen von automatisiertem Verkehr zu unterscheiden (siehe Abschnitt 4). Schriften werden von unserer eigenen Domain ausgeliefert, statt bei jemandem abgerufen zu werden.",
+          p: "Die GetTopQuestions-Website setzt keine eigenen Cookies. Es gibt keine Analyse-Software und keinen Tag-Manager. Das einzige Skript von Dritten ist Cloudflare Turnstile; es wird nur mit dem Suchfeld für nicht angemeldete Besucher geladen, um Menschen von automatisiertem Verkehr zu unterscheiden (siehe Abschnitt 4). Schriften werden von unserer eigenen Domain ausgeliefert, statt bei jemandem abgerufen zu werden.",
         },
         {
           p: "Ihr Browser behält einige Werte lokal auf Ihrem Gerät, die wir aus der Ferne nicht lesen können:",
@@ -171,7 +171,7 @@ export const de: PrivacyContent = {
       heading: "9. Kinder",
       body: [
         {
-          p: "AnswerGap richtet sich nicht an Personen unter 16 Jahren, und wir erheben deren Daten nicht wissentlich. Wenn Sie glauben, ein Kind habe ein Konto angelegt, schreiben Sie an {email}, und wir entfernen es.",
+          p: "GetTopQuestions richtet sich nicht an Personen unter 16 Jahren, und wir erheben deren Daten nicht wissentlich. Wenn Sie glauben, ein Kind habe ein Konto angelegt, schreiben Sie an {email}, und wir entfernen es.",
         },
       ],
     },

@@ -15,7 +15,7 @@ export const de = {
     headTail: "",
     lead:
       "Google beantwortet viele Fragen inzwischen mit einer AI Overview und " +
-      "nennt daneben einige Quellen. AnswerGap zeigt, was Menschen fragen, " +
+      "nennt daneben einige Quellen. GetTopQuestions zeigt, was Menschen fragen, " +
       "welche Fragen keine Seite wirklich beantwortet und welche Websites die " +
       "KI zitiert, auch Ihre.",
   },
@@ -58,7 +58,7 @@ export const de = {
   },
 
   product: {
-    eyebrow: "Was AnswerGap misst",
+    eyebrow: "Was GetTopQuestions misst",
     heading: "Von einem Keyword zu einer Liste von Chancen.",
     lead:
       "Drei Dinge, aus denselben Google-Ergebnissen gelesen und für jede " +
@@ -218,7 +218,7 @@ export const de = {
     heading: "Was wir nicht behaupten.",
     lead:
       "Die KI-Suche ist neu, und viele Tools dafür verkaufen eine Sicherheit, " +
-      "die niemand hat. Hier steht genau, was AnswerGap misst und was nicht.",
+      "die niemand hat. Hier steht genau, was GetTopQuestions misst und was nicht.",
     items: [
       {
         title: "Vorerst nur Google",
@@ -272,14 +272,14 @@ export const de = {
           "für ein Keyword rankt.",
       },
       {
-        title: "Welche KI-Engines verfolgt AnswerGap?",
+        title: "Welche KI-Engines verfolgt GetTopQuestions?",
         desc:
           "Googles AI Overview, gelesen aus denselben Suchergebnissen, mit " +
           "denen wir Lücken finden. Andere Assistenten werden derzeit nicht " +
           "verfolgt.",
       },
       {
-        title: "Wie entscheidet AnswerGap, dass eine Frage eine Lücke ist?",
+        title: "Wie entscheidet GetTopQuestions, dass eine Frage eine Lücke ist?",
         desc:
           "Zu jeder Frage holen wir die Suchergebnisse, vergleichen jede " +
           "Seite mit der Frage und zählen die Seiten, die sie wirklich " +

@@ -12,7 +12,7 @@ export const tr: ContactContent = {
   title: "İletişim",
   description:
     "Kurumsal hacim, API erişimi ya da yapay zeka arama görünürlüğüyle " +
-    "ilgili her konu için AnswerGap ekibiyle konuşun.",
+    "ilgili her konu için GetTopQuestions ekibiyle konuşun.",
 
   hero: {
     eyebrow: "Bize Ulaşın",

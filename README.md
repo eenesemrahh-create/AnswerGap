@@ -1,4 +1,4 @@
-# AnswerGap
+# GetTopQuestions
 
 Expands Google "People Also Ask" into a question tree and shows **which
 questions no site actually answers**.

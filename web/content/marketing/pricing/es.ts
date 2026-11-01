@@ -151,7 +151,7 @@ export const es: PricingContent = {
   cta: {
     heading: "¿Listo para descubrir las respuestas?",
     lead:
-      "Únete a los equipos de contenido que usan AnswerGap para alinear su " +
+      "Únete a los equipos de contenido que usan GetTopQuestions para alinear su " +
       "estrategia con la intención de la búsqueda con IA.",
     primary: "Empieza tu prueba gratuita de 7 días",
     secondary: "Habla con ventas",

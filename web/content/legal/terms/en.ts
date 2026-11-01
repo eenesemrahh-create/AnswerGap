@@ -16,8 +16,8 @@
 export const en = {
   title: "Terms of Service",
   description:
-    "The agreement between you and AnswerGap covering accounts, credits, refunds and the accuracy of gap scores.",
-  lead: "These terms govern your use of AnswerGap. Please read section 6, which explains what our gap scores are and are not.",
+    "The agreement between you and GetTopQuestions covering accounts, credits, refunds and the accuracy of gap scores.",
+  lead: "These terms govern your use of GetTopQuestions. Please read section 6, which explains what our gap scores are and are not.",
   effective: "2026-10-17",
 
   sections: {
@@ -25,7 +25,7 @@ export const en = {
       heading: "1. Who you are contracting with",
       body: [
         {
-          p: "AnswerGap is operated by {company}, a {state} {entity} in the United States. In these terms, “we”, “us” and “our” mean {company}; “you” means the person or organisation using the service.",
+          p: "GetTopQuestions is operated by {company}, a {state} {entity} in the United States. In these terms, “we”, “us” and “our” mean {company}; “you” means the person or organisation using the service.",
         },
         {
           p: "By creating an account or using the service you accept these terms. If you do not accept them, do not use the service.",
@@ -40,7 +40,7 @@ export const en = {
       heading: "2. What the service does",
       body: [
         {
-          p: "AnswerGap expands the questions Google shows under “People also ask” into a question tree, checks the search results behind individual questions, and estimates which of those questions no page answers well.",
+          p: "GetTopQuestions expands the questions Google shows under “People also ask” into a question tree, checks the search results behind individual questions, and estimates which of those questions no page answers well.",
         },
         {
           p: "The service is under active development. Features may change, and some are offered in preview before they are finished.",
@@ -71,7 +71,7 @@ export const en = {
       heading: "4. Credits, packs and subscriptions",
       body: [
         {
-          p: "Work on AnswerGap is paid for in credits. A credit is consumed when we make a paid request to a search data provider on your behalf.",
+          p: "Work on GetTopQuestions is paid for in credits. A credit is consumed when we make a paid request to a search data provider on your behalf.",
         },
         {
           ul: [

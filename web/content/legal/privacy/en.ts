@@ -17,7 +17,7 @@
 export const en = {
   title: "Privacy Policy",
   description:
-    "What AnswerGap collects, who else receives it, what stays private from other customers, and what survives deleting your account.",
+    "What GetTopQuestions collects, who else receives it, what stays private from other customers, and what survives deleting your account.",
   lead: "This explains what we collect and why, in the plain terms we would want from somebody else. Section 5 covers what other customers can and cannot see; section 7 covers what deleting your account does and does not remove.",
   effective: "2026-10-19",
 
@@ -26,7 +26,7 @@ export const en = {
       heading: "1. Who this covers",
       body: [
         {
-          p: "This policy covers AnswerGap at {site}, operated by {company} in the United States. {company} decides how and why the data described here is handled.",
+          p: "This policy covers GetTopQuestions at {site}, operated by {company} in the United States. {company} decides how and why the data described here is handled.",
         },
         {
           p: "This policy is published in several languages. The English version is the controlling one; if a translation disagrees with it, the English text applies.",
@@ -67,7 +67,7 @@ export const en = {
       heading: "3. Cookies and what your browser keeps",
       body: [
         {
-          p: "The AnswerGap website sets no cookies of its own. There is no analytics and no tag manager. The one third-party script is Cloudflare Turnstile, loaded only with the search box shown to a visitor who is not signed in, to tell people from automated traffic (see section 4). Fonts are served from our own domain rather than fetched from anyone else.",
+          p: "The GetTopQuestions website sets no cookies of its own. There is no analytics and no tag manager. The one third-party script is Cloudflare Turnstile, loaded only with the search box shown to a visitor who is not signed in, to tell people from automated traffic (see section 4). Fonts are served from our own domain rather than fetched from anyone else.",
         },
         {
           p: "Your browser keeps a few values locally, on your device, which we cannot read remotely:",
@@ -184,7 +184,7 @@ export const en = {
       heading: "9. Children",
       body: [
         {
-          p: "AnswerGap is not intended for anyone under 16, and we do not knowingly collect their data. If you believe a child has created an account, write to {email} and we will remove it.",
+          p: "GetTopQuestions is not intended for anyone under 16, and we do not knowingly collect their data. If you believe a child has created an account, write to {email} and we will remove it.",
         },
       ],
     },

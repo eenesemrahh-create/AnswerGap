@@ -10,8 +10,8 @@ import type { TermsContent } from "./index";
 export const es: TermsContent = {
   title: "Términos de Servicio",
   description:
-    "El acuerdo entre usted y AnswerGap sobre cuentas, créditos, reembolsos y la exactitud de las puntuaciones de hueco.",
-  lead: "Estos términos rigen su uso de AnswerGap. Lea el apartado 6, que explica qué son y qué no son nuestras puntuaciones de hueco.",
+    "El acuerdo entre usted y GetTopQuestions sobre cuentas, créditos, reembolsos y la exactitud de las puntuaciones de hueco.",
+  lead: "Estos términos rigen su uso de GetTopQuestions. Lea el apartado 6, que explica qué son y qué no son nuestras puntuaciones de hueco.",
   effective: "2026-10-17",
 
   sections: {
@@ -19,7 +19,7 @@ export const es: TermsContent = {
       heading: "1. Con quién contrata",
       body: [
         {
-          p: "AnswerGap está operado por {company}, una {entity} de {state}, Estados Unidos. En estos términos, «nosotros» y «nos» significan {company}; «usted» es la persona u organización que usa el servicio.",
+          p: "GetTopQuestions está operado por {company}, una {entity} de {state}, Estados Unidos. En estos términos, «nosotros» y «nos» significan {company}; «usted» es la persona u organización que usa el servicio.",
         },
         {
           p: "Al crear una cuenta o usar el servicio acepta estos términos. Si no los acepta, no use el servicio.",
@@ -34,7 +34,7 @@ export const es: TermsContent = {
       heading: "2. Qué hace el servicio",
       body: [
         {
-          p: "AnswerGap despliega las preguntas que Google muestra en «Otras preguntas de los usuarios» en un árbol de preguntas, revisa los resultados de búsqueda que hay detrás de cada una y estima cuáles de ellas no aborda bien ninguna página.",
+          p: "GetTopQuestions despliega las preguntas que Google muestra en «Otras preguntas de los usuarios» en un árbol de preguntas, revisa los resultados de búsqueda que hay detrás de cada una y estima cuáles de ellas no aborda bien ninguna página.",
         },
         {
           p: "El servicio está en desarrollo activo. Las funciones pueden cambiar, y algunas se ofrecen en vista previa antes de estar terminadas.",
@@ -65,7 +65,7 @@ export const es: TermsContent = {
       heading: "4. Créditos, packs y suscripciones",
       body: [
         {
-          p: "El trabajo en AnswerGap se paga con créditos. Se consume un crédito cuando hacemos, por cuenta suya, una petición de pago a un proveedor de datos de búsqueda.",
+          p: "El trabajo en GetTopQuestions se paga con créditos. Se consume un crédito cuando hacemos, por cuenta suya, una petición de pago a un proveedor de datos de búsqueda.",
         },
         {
           ul: [

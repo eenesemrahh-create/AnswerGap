@@ -87,9 +87,9 @@ export function AccountShell({
       <div className="mkt-nav-inner">
         <Link href="/" className="mkt-brand">
           <span className="mkt-brand-tile" aria-hidden>
-            A
+            G
           </span>
-          AnswerGap
+          GetTopQuestions
         </Link>
         <NavMenu
           items={[

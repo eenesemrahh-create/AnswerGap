@@ -35,7 +35,7 @@ const jakarta = Plus_Jakarta_Sans({
  * closely enough that a translation would drift, and it says so on itself.
  */
 export const metadata: Metadata = {
-  title: "AnswerGap admin",
+  title: "GetTopQuestions admin",
   description: "Users, credits and spend.",
 };
 

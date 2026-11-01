@@ -21,7 +21,7 @@ import type { SolutionsShape } from "../blocks";
 export const en = {
   title: "Solutions",
   description:
-    "How SEO teams, agencies, publishers and brands use AnswerGap to find " +
+    "How SEO teams, agencies, publishers and brands use GetTopQuestions to find " +
     "the questions AI search has not answered yet.",
 
   hero: {
@@ -30,7 +30,7 @@ export const en = {
     headTinted: "AI search.",
     headTail: "",
     lead:
-      "AnswerGap helps teams understand what people ask, where AI answers " +
+      "GetTopQuestions helps teams understand what people ask, where AI answers " +
       "fall short, and what to create to become the source AI recommends.",
   },
   heroPrimary: "Start free",
@@ -41,7 +41,7 @@ export const en = {
     heading: "Built around how you work.",
     lead:
       "From the first category search to a global content program, " +
-      "AnswerGap gives every team a practical next step.",
+      "GetTopQuestions gives every team a practical next step.",
     cards: [
       {
         title: "SaaS founders",
@@ -157,7 +157,7 @@ export const en = {
       {
         title: "Map the questions",
         desc:
-          "AnswerGap reveals related searches and the gaps inside existing " +
+          "GetTopQuestions reveals related searches and the gaps inside existing " +
           "AI answers.",
       },
       {

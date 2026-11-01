@@ -156,7 +156,7 @@ export const tr: PricingContent = {
   cta: {
     heading: "Yanıtları ortaya çıkarmaya hazır mısınız?",
     lead:
-      "Stratejisini yapay zeka arama niyetiyle hizalamak için AnswerGap " +
+      "Stratejisini yapay zeka arama niyetiyle hizalamak için GetTopQuestions " +
       "kullanan önde gelen içerik ekiplerine katılın.",
     primary: "7 günlük ücretsiz denemenizi başlatın",
     secondary: "Satışla İletişime Geçin",

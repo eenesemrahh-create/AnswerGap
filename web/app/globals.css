@@ -1,4 +1,4 @@
-/* AnswerGap — design system
+/* GetTopQuestions — design system
  *
  * The colour semantics carry the product's claim; they are not decoration:
  *   gap      -> amber, demands attention. This is the opportunity users came for.
@@ -2152,8 +2152,8 @@ table.table {
 
 /* Demo panel — the mock the split shows to the right of the copy. Uses
    status colours (covered/weak/gap) because it IS product content: the same
-   verdicts a real question row would carry. This is the ONE place brand and
-   status meet, and only because the demo is showing the product. */
+   verdicts a real question row would carry. This and `.mkt-table` are the
+   only places brand and status meet, and only because they show the product. */
 .mkt-demo {
   border-radius: var(--r-xl);
   background: var(--surface);
@@ -2223,6 +2223,244 @@ table.table {
 .mkt-demo-row.covered .mkt-demo-status { background: var(--covered); }
 .mkt-demo-row.weak .mkt-demo-status    { background: var(--weak); }
 .mkt-demo-row.gap  .mkt-demo-status    { background: var(--gap); }
+
+.mkt-split .mkt-demo-note {
+  margin: 14px 4px 0;
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+/* --- Landing sections from the 2026-11-01 design ---------------------- */
+
+/* A full-width surface behind a section, so the long page reads as chapters. */
+.mkt-band {
+  background: var(--surface);
+  border-block: 1px solid var(--border);
+}
+/* No `text-transform: uppercase`: Turkish would render i as a dotted capital
+   in the middle of an English word. */
+.mkt-eyebrow {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--brand);
+}
+.mkt-lead-title {
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -.03em;
+  margin: 10px 0 0;
+  color: var(--text);
+}
+.mkt-lead {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 48px;
+}
+.mkt-lead p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.mkt-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.mkt-step {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px;
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.mkt-step-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--brand);
+}
+.mkt-step h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.3;
+}
+.mkt-step p {
+  margin: 0 0 8px;
+  flex: 1;
+  color: var(--text-soft);
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+.mkt-step-sample {
+  padding: 8px 12px;
+  border-radius: var(--r);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.mkt-illustrative {
+  margin: 20px 0 0;
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+.mkt-examples-sub {
+  max-width: 640px;
+  margin: 14px 0 24px;
+  color: var(--text-soft);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.mkt-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.mkt-tab {
+  min-height: 40px;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mkt-tab:hover { color: var(--text); border-color: var(--border-strong); }
+.mkt-tab[aria-pressed="true"] {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--brand-contrast);
+}
+.mkt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+.mkt-table thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--border-strong);
+}
+.mkt-table tbody th,
+.mkt-table tbody td {
+  padding: 18px 16px;
+  text-align: left;
+  vertical-align: middle;
+  line-height: 1.45;
+  border-bottom: 1px solid var(--border);
+}
+.mkt-table tbody th { width: 34%; font-weight: 600; color: var(--text); }
+.mkt-table tbody td { color: var(--text-soft); }
+.mkt-table .badge { white-space: nowrap; }
+.mkt-dots { display: flex; gap: 4px; margin-bottom: 6px; }
+.mkt-dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: 1px solid var(--nodata-border);
+}
+.mkt-dots.gap i.on     { background: var(--gap); border-color: var(--gap); }
+.mkt-dots.weak i.on    { background: var(--weak); border-color: var(--weak); }
+.mkt-dots.covered i.on { background: var(--covered); border-color: var(--covered); }
+.mkt-dots-count { font-size: 12px; color: var(--text-faint); white-space: nowrap; }
+
+.mkt-formats {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 48px;
+  align-items: start;
+}
+.mkt-formats > div > p {
+  margin: 16px 0 0;
+  color: var(--text-soft);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.mkt-format-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.mkt-format {
+  padding: 22px;
+  border-radius: var(--r-lg, 16px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.mkt-format h3 { margin: 0 0 8px; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+.mkt-format p { margin: 0; color: var(--text-soft); font-size: 14px; line-height: 1.5; }
+.mkt-format .mkt-format-when { margin-bottom: 8px; color: var(--text-faint); font-size: 13px; }
+
+.mkt-faq { max-width: 800px; }
+.mkt-faq .mkt-section-head { margin-bottom: 32px; }
+.mkt-faq details { border-bottom: 1px solid var(--border); }
+.mkt-faq summary {
+  min-height: 44px;
+  padding: 18px 4px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+.mkt-faq details p {
+  margin: 0;
+  padding: 0 4px 20px;
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .mkt-lead, .mkt-formats { grid-template-columns: 1fr; gap: 16px; }
+  .mkt-formats { gap: 32px; }
+  .mkt-steps { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .mkt-section { padding: 64px 16px; }
+  .mkt-format-grid { grid-template-columns: 1fr; }
+  /* Four columns do not fit a phone: each row becomes a card, labelled by the
+     column heading it lost. */
+  .mkt-table thead { display: none; }
+  .mkt-table, .mkt-table tbody, .mkt-table tr, .mkt-table th, .mkt-table td { display: block; width: auto; }
+  .mkt-table tr {
+    margin-bottom: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+  }
+  .mkt-table tbody th, .mkt-table tbody td { width: auto; padding: 0; border: 0; }
+  .mkt-table tbody td { margin-top: 12px; }
+  .mkt-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-faint);
+  }
+}
 
 /* --- Pricing --------------------------------------------------------- */
 

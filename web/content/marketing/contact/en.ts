@@ -11,7 +11,7 @@ import type { ContactShape } from "../blocks";
 export const en = {
   title: "Contact",
   description:
-    "Talk to the AnswerGap team about enterprise volume, API access or " +
+    "Talk to the GetTopQuestions team about enterprise volume, API access or " +
     "anything else about AI search visibility.",
 
   hero: {

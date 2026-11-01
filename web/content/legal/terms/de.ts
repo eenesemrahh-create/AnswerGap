@@ -10,8 +10,8 @@ import type { TermsContent } from "./index";
 export const de: TermsContent = {
   title: "Nutzungsbedingungen",
   description:
-    "Die Vereinbarung zwischen Ihnen und AnswerGap zu Konten, Credits, Erstattungen und der Genauigkeit von Gap-Werten.",
-  lead: "Diese Bedingungen regeln Ihre Nutzung von AnswerGap. Bitte lesen Sie Abschnitt 6, der erklärt, was unsere Gap-Werte sind und was nicht.",
+    "Die Vereinbarung zwischen Ihnen und GetTopQuestions zu Konten, Credits, Erstattungen und der Genauigkeit von Gap-Werten.",
+  lead: "Diese Bedingungen regeln Ihre Nutzung von GetTopQuestions. Bitte lesen Sie Abschnitt 6, der erklärt, was unsere Gap-Werte sind und was nicht.",
   effective: "2026-10-17",
 
   sections: {
@@ -19,7 +19,7 @@ export const de: TermsContent = {
       heading: "1. Mit wem Sie den Vertrag schließen",
       body: [
         {
-          p: "AnswerGap wird betrieben von {company}, einer {entity} nach dem Recht von {state}, USA. In diesen Bedingungen bedeuten „wir“ und „uns“ {company}; „Sie“ ist die Person oder Organisation, die den Dienst nutzt.",
+          p: "GetTopQuestions wird betrieben von {company}, einer {entity} nach dem Recht von {state}, USA. In diesen Bedingungen bedeuten „wir“ und „uns“ {company}; „Sie“ ist die Person oder Organisation, die den Dienst nutzt.",
         },
         {
           p: "Mit der Erstellung eines Kontos oder der Nutzung des Dienstes akzeptieren Sie diese Bedingungen. Wenn Sie sie nicht akzeptieren, nutzen Sie den Dienst nicht.",
@@ -34,7 +34,7 @@ export const de: TermsContent = {
       heading: "2. Was der Dienst leistet",
       body: [
         {
-          p: "AnswerGap entfaltet die Fragen, die Google unter „Ähnliche Fragen“ anzeigt, zu einem Fragenbaum, prüft die Suchergebnisse hinter einzelnen Fragen und schätzt, welche dieser Fragen von keiner Seite gut beantwortet werden.",
+          p: "GetTopQuestions entfaltet die Fragen, die Google unter „Ähnliche Fragen“ anzeigt, zu einem Fragenbaum, prüft die Suchergebnisse hinter einzelnen Fragen und schätzt, welche dieser Fragen von keiner Seite gut beantwortet werden.",
         },
         {
           p: "Der Dienst wird aktiv weiterentwickelt. Funktionen können sich ändern, und einige werden als Vorschau angeboten, bevor sie fertig sind.",
@@ -65,7 +65,7 @@ export const de: TermsContent = {
       heading: "4. Credits, Pakete und Abonnements",
       body: [
         {
-          p: "Arbeit bei AnswerGap wird mit Credits bezahlt. Ein Credit wird verbraucht, wenn wir in Ihrem Auftrag eine kostenpflichtige Anfrage an einen Suchdatenanbieter stellen.",
+          p: "Arbeit bei GetTopQuestions wird mit Credits bezahlt. Ein Credit wird verbraucht, wenn wir in Ihrem Auftrag eine kostenpflichtige Anfrage an einen Suchdatenanbieter stellen.",
         },
         {
           ul: [

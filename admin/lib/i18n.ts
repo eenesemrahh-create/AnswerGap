@@ -540,7 +540,7 @@ const en = {
   },
 
   signin: {
-    title: "AnswerGap admin",
+    title: "GetTopQuestions admin",
     failed: "Sign-in did not finish. Try again.",
     expired: "That session has ended. Sign in again.",
     lead:
@@ -1434,7 +1434,7 @@ const tr: Messages = {
   },
 
   signin: {
-    title: "AnswerGap admin",
+    title: "GetTopQuestions admin",
     failed: "Giriş tamamlanmadı. Tekrar deneyin.",
     expired: "Bu oturum sona erdi. Yeniden giriş yapın.",
     lead:

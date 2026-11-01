@@ -2,7 +2,7 @@ import type { Messages } from "./types";
 
 export const de: Messages = {
   brand: {
-    name: "AnswerGap",
+    name: "GetTopQuestions",
     tagline: "Finde die Fragen, die deine Wettbewerber nie beantwortet haben.",
   },
 
@@ -14,7 +14,7 @@ export const de: Messages = {
       "Suchen bleiben privat und gehören zu Ihrem Konto.",
     headline: "Finde die Fragen, die deine Wettbewerber nie beantwortet haben.",
     intro:
-      "AnswerGap entfaltet Googles „Ähnliche Fragen“ zu einem Fragenbaum, prüft " +
+      "GetTopQuestions entfaltet Googles „Ähnliche Fragen“ zu einem Fragenbaum, prüft " +
       "die Suchergebnisse hinter jeder Frage und zeigt dir, welche davon keine " +
       "Seite wirklich adressiert.",
     searchPlaceholder: "Suchbegriff eingeben — z. B. Zahnaufhellung",
@@ -272,7 +272,7 @@ export const de: Messages = {
 
   auth: {
     // --- Anmeldung mit E-Mail und Passwort ---------------------------
-    signUpTitle: "AnswerGap-Konto erstellen",
+    signUpTitle: "GetTopQuestions-Konto erstellen",
     tabSignIn: "Anmelden",
     tabSignUp: "Konto erstellen",
     emailLabel: "E-Mail",
@@ -324,7 +324,7 @@ export const de: Messages = {
       "Ein Bestätigungslink gilt nur einmal und nur kurze Zeit. Gib deine Adresse ein, wir senden einen neuen.",
     verifyExpiredSubmit: "Neuen Link senden",
     close: "Schließen",
-    dialogTitle: "Bei AnswerGap anmelden",
+    dialogTitle: "Bei GetTopQuestions anmelden",
     benefitCredits: "Guthaben für Suchen und Fragenprüfungen",
     benefitPrivate: "Ihre Suchen bleiben Ihre — niemand sonst sieht sie",
     benefitScore: "Jede Frage gegen die Seiten prüfen, die dafür ranken",
@@ -456,7 +456,7 @@ export const de: Messages = {
     changePlan: "Tarif wechseln",
     profileLead: "Wer Sie sind und wie Sie sich anmelden.",
     subscriptionLead: "Ihr Tarif, Ihre Credits und die Tarife, zu denen Sie wechseln können.",
-    settingsLead: "Wie AnswerGap aussieht und mit Ihnen spricht.",
+    settingsLead: "Wie GetTopQuestions aussieht und mit Ihnen spricht.",
     themeLead: "Hell, dunkel oder wie Ihr System.",
     languageLead: "Die Sprache der Oberfläche.",
   },
@@ -605,13 +605,13 @@ export const de: Messages = {
       menu: "Menü",
     },
     hero: {
-      eyebrow: "Sichtbarkeit in KI-Suche beginnt hier",
-      headlinePre: "Ranken und erscheinen in",
-      headlineHighlight: "KI-gestützter Suche",
+      eyebrow: "Fragen-Lückenanalyse für Content-Teams",
+      headlinePre: "Finde die Fragen,",
+      headlineHighlight: "die deine Konkurrenz nie beantwortet hat",
       sub:
-        "Entdecke, was Menschen fragen, identifiziere die Antworten, die " +
-        "KI-Engines brauchen, und erstelle Inhalte, die gefunden, zitiert " +
-        "und empfohlen werden.",
+        "Gib ein Thema ein. Wir erfassen die Fragen, die Menschen bei Google " +
+        "stellen, prüfen die Seiten dahinter und zeigen dir, auf welche Fragen " +
+        "keine Seite wirklich abzielt.",
       signedInTitle: "Was sollen wir untersuchen?",
       searchPlaceholder: "Thema eingeben — z. B. Zahnaufhellung",
       searchCta: "Analysieren",
@@ -623,53 +623,210 @@ export const de: Messages = {
     },
     howItWorks: {
       eyebrow: "So funktioniert es",
-      title: "Werde die Antwort, die KI-Suche empfiehlt.",
+      title: "Sieh, was die Suchergebnisse unbeantwortet lassen.",
       sub:
-        "AnswerGap zeigt dir die Fragen hinter KI-gesteuerter Entdeckung, " +
-        "damit du nützliche, strukturierte Inhalte veröffentlichst, bevor " +
-        "Wettbewerber es tun.",
+        "Eine Fragenliste zeigt, was Menschen fragen. GetTopQuestions zeigt " +
+        "außerdem, ob jemand die Frage schon beantwortet hat.",
       card1: {
-        label: "Nachfrage-Intelligenz",
-        title: "KI-Suchnachfrage kartieren",
+        label: "Fragen entdecken",
+        title: "Den Fragenbaum aufbauen",
         body:
-          "Verwandle ein einzelnes Thema in eine vollständige Karte der " +
-          "Fragen, die Menschen in jeder Phase der Entscheidung stellen.",
+          "Mach aus einem Thema einen Baum der Fragen, die Google unter " +
+          "„Ähnliche Fragen“ zeigt, jede Frage unter der, aus der sie kam.",
       },
       card2: {
-        label: "KI-Sichtbarkeit",
-        title: "Zitierungsmöglichkeiten finden",
+        label: "Lückenanalyse",
+        title: "Prüfen, wer was beantwortet",
         body:
-          "Erkenne Fragen mit schwachen, unvollständigen oder fehlenden " +
-          "Antworten — genau dort, wo klarere Inhalte die besten Chancen " +
-          "haben, von KI hervorgehoben zu werden.",
+          "Für jede geprüfte Frage holen wir die Suchergebnisse und zählen die " +
+          "Seiten, die wirklich auf sie abzielen. Wenige Seiten bedeuten eine Lücke.",
       },
       card3: {
-        label: "Autorität",
-        title: "Thematische Autorität aufbauen",
+        label: "KI-Sichtbarkeit",
+        title: "Sehen, was AI Overviews zitieren",
         body:
-          "Priorisiere verbundene Fragen und veröffentliche umfassende " +
-          "Antworten, denen Suchmaschinen und KI-Assistenten vertrauen können.",
+          "Wenn Google eine geprüfte Frage mit einer AI Overview beantwortet, " +
+          "siehst du, welche Websites sie zitiert und ob deine dabei ist.",
       },
     },
-    builtFor: {
-      eyebrow: "Für KI-Suche gebaut",
-      title: "Beantworte echte Fragen. Werde von KI entdeckt.",
+
+    workflow: {
+      eyebrow: "Der Ablauf",
+      title: "Thema rein. Lücken raus. Inhalte von dir.",
       body:
-        "Suche wird zu einem Gespräch. AnswerGap zeigt, was dein Publikum " +
-        "fragt und wo aktuelle Antworten unzureichend sind — damit deine " +
-        "Marke Sichtbarkeit in AI Overviews, Assistenten und klassischer " +
-        "Suche gewinnt.",
-      point1: "Klare Antworten, die KI extrahieren und zitieren kann",
-      point2: "Inhalte um echte Konversationsfragen strukturieren",
-      point3: "Verbundene Fragen abdecken, um thematische Autorität zu stärken",
-      demoUrl: "answergap.com/suche",
-      demo1Q: "Welches CRM ist das beste für kleine Unternehmen?",
-      demo1Meta: "Vollständige Antwort · Hohe Sichtbarkeitschance",
-      demo2Q: "Brauche ich ein CRM, wenn ich Google Workspace nutze?",
-      demo2Meta: "Keine vollständige Antwort · Hohe Sichtbarkeitschance",
-      demo3Q: "Wie migriert man von Tabellen zu einem CRM?",
-      demo3Meta: "Teilantworten · Mittlere Sichtbarkeitschance",
+        "GetTopQuestions ist ein Recherche-Tool. Es schreibt und veröffentlicht " +
+        "nicht für dich und verfolgt keine Rankings. Es zeigt dir, wo Antworten " +
+        "fehlen, damit deine Schreibzeit dorthin geht, wo sie zählt.",
+      step1: {
+        label: "01 / Thema",
+        title: "Beginne mit den Worten deiner Zielgruppe",
+        body:
+          "Gib eine Produktkategorie, ein Problem oder einen einfachen Begriff " +
+          "ein. Breit ist in Ordnung. Es geht darum, die Tür zu öffnen, nicht " +
+          "um das perfekte Keyword.",
+        sample: "Stehschreibtisch",
+      },
+      step2: {
+        label: "02 / Fragen",
+        title: "Sieh die Fragen drumherum",
+        body:
+          "Die Fragen kommen als Baum, sodass du verfolgen kannst, wie eine " +
+          "Frage zur nächsten führt, so wie bei einer neugierigen Käuferin " +
+          "oder einem neugierigen Käufer.",
+        sample: "Lohnt sich ein Stehschreibtisch bei Rückenschmerzen?",
+      },
+      step3: {
+        label: "03 / Lücken",
+        title: "Finde, was niemand beantwortet hat",
+        body:
+          "Prüfe die Fragen, die dir wichtig sind. Jede kommt mit den Seiten " +
+          "zurück, die auf sie abzielen, einem Ergebnis und eigenen Folgefragen.",
+        sample: "0 von 8 Seiten zielen auf diese Frage ab",
+      },
+      note: "Von unserem Team verfasste Beispiele, keine echte Ausgabe der App.",
     },
+
+    examples: {
+      eyebrow: "Von der Frage zum Inhalt",
+      title: "So sieht eine Lücke aus.",
+      sub:
+        "Wähle ein Thema. Diese Beispiele hat unser Team verfasst, um zu zeigen, " +
+        "wie man ein Ergebnis liest. Sie sind keine echte Ausgabe der App.",
+      columnQuestion: "Frage der Menschen",
+      columnPages: "Seiten, die darauf abzielen",
+      columnVerdict: "Ergebnis",
+      columnIdea: "Was tun",
+      skipIdea: "Überspringen, außer du hast etwas Neues beizutragen",
+      tab1: {
+        term: "Sauerteig ansetzen",
+        q1: "Warum geht mein Sauerteig nach einer Woche nicht mehr auf?",
+        idea1: "Eine Diagnose-Checkliste: Temperatur, Mehl, Fütterung, Timing",
+        q2: "Kann ich für Sauerteig normales Weizenmehl nehmen?",
+        idea2: "Eine direkte Antwort, dann die Abwägungen, als FAQ-Block",
+        q3: "Wie setzt man Sauerteig an?",
+      },
+      tab2: {
+        term: "Rechnungssoftware",
+        q1: "Darf ich ohne Gewerbe Rechnungen schreiben?",
+        idea1: "Ein verständlicher Leitfaden, nach Situation gegliedert",
+        q2: "Ist Rechnungssoftware steuerlich absetzbar?",
+        idea2: "Eine kurze Antwort mit durchgerechneten Beispielen",
+        q3: "Was ist die beste Rechnungssoftware?",
+      },
+      tab3: {
+        term: "Trailrunning-Schuhe",
+        q1: "Kann man mit Trailrunning-Schuhen auf nassem Fels laufen?",
+        idea1: "Ein getesteter Vergleich mit eigenen Fotos",
+        q2: "Wie lange halten Trailrunning-Schuhe?",
+        idea2: "Ein Kilometer-Ratgeber mit den Anzeichen von Verschleiß",
+        q3: "Was sind die besten Trailrunning-Schuhe?",
+      },
+    },
+
+    builtFor: {
+      eyebrow: "Für die KI-Suche gemacht",
+      title: "Beantworte echte Fragen. Werde von KI gefunden.",
+      body:
+        "Suche wird zum Gespräch. GetTopQuestions zeigt dir, was deine " +
+        "Zielgruppe fragt und wo die vorhandenen Antworten zu kurz greifen, " +
+        "damit du klare Antworten für AI Overviews, Assistenten und die " +
+        "klassische Suche schreiben kannst. Sichtbarkeit ist nie garantiert, " +
+        "aber eine Frage, die niemand beantwortet hat, ist der richtige Anfang.",
+      point1: "Sieh bei jeder geprüften Frage, welche Websites Googles AI Overview zitiert",
+      point2: "Gib deine Website ein und sieh die Fragen, bei denen du zitiert wirst",
+      point3: "Strukturiere Inhalte entlang echter, dialogischer Suchanfragen",
+      demoLabel: "Beispiel: CRM",
+      demo1Q: "Was ist das beste CRM für kleine Unternehmen?",
+      demo1Meta: "6 von 8 Seiten zielen darauf ab",
+      demo2Q: "Brauche ich ein CRM, wenn ich Google Workspace nutze?",
+      demo2Meta: "0 von 8 Seiten zielen darauf ab",
+      demo3Q: "Wie wechselt man von der Tabelle zum CRM?",
+      demo3Meta: "2 von 8 Seiten zielen darauf ab",
+      demoNote: "Von unserem Team verfasstes Beispiel. Keine echten Messwerte.",
+    },
+
+    formats: {
+      eyebrow: "Content-Formate",
+      title: "Lass die Frage das Format wählen.",
+      body:
+        "Wie eine Frage formuliert ist, verrät, wie sie beantwortet werden will. " +
+        "Klare, gut gegliederte Antworten helfen Lesenden in den Suchergebnissen, " +
+        "in AI Overviews und in Assistenten gleichermaßen. Garantien gibt es " +
+        "nirgends, aber eine hilfreiche Struktur ist eine gute Wahl.",
+      card1: {
+        title: "FAQ-Bereiche",
+        when: "Wenn eine Frage eine kurze, sachliche Antwort hat.",
+        how: "Beginne mit der Antwort in ein bis zwei Sätzen, dann die Details.",
+      },
+      card2: {
+        title: "Ausführliche Leitfäden",
+        when: "Wenn mehrere Fragen dasselbe Grundproblem haben.",
+        how: "Mach jede Frage zur Zwischenüberschrift, damit man direkt hinspringen kann.",
+      },
+      card3: {
+        title: "Vergleichsseiten",
+        when: "Wenn Fragen „vs“, „oder“ oder „besser“ enthalten.",
+        how: "Sag genau, für wen welche Option passt. Tabellen helfen.",
+      },
+      card4: {
+        title: "Schritt-für-Schritt-Anleitungen",
+        when: "Wenn Fragen mit „wie mache ich“ beginnen.",
+        how: "Nummeriere die Schritte und sag, woran man erkennt, dass es fertig ist.",
+      },
+      card5: {
+        title: "Kurzvideo und Social Media",
+        when: "Wenn sich die Antwort schnell zeigen lässt.",
+        how: "Bring die Frage in den ersten Sekunden auf den Bildschirm.",
+      },
+      card6: {
+        title: "Newsletter und Vertriebsnotizen",
+        when: "Wenn Fragen Einwände oder Zögern verraten.",
+        how: "Beantworte den Zweifel ehrlich, bevor daraus eine verlorene Antwort wird.",
+      },
+    },
+
+    faq: {
+      eyebrow: "Praktische Antworten",
+      title: "Fragen zu GetTopQuestions",
+      q1: "Was macht GetTopQuestions genau?",
+      a1:
+        "Du gibst ein Thema ein und wir zeigen die Fragen, die Google dazu " +
+        "anzeigt, als Baum. Bei den Fragen, die du prüfst, lesen wir die " +
+        "Suchergebnisse und zeigen, wie viele Seiten wirklich auf jede Frage " +
+        "abzielen. Wenige Seiten bedeuten eine Lücke: eine Frage, die deine " +
+        "Konkurrenz nicht beantwortet hat.",
+      q2: "Was ist der Unterschied zu einer Fragenliste?",
+      a2:
+        "Eine Liste zeigt, was Menschen fragen. Wir prüfen zusätzlich die " +
+        "Suchergebnisse hinter jeder Frage, sodass du siehst, welche schon gut " +
+        "beantwortet sind und welche noch offen sind.",
+      q3: "Ist eine Lücke immer eine echte Lücke?",
+      a3:
+        "Nein. Das Ergebnis ist eine Schätzung auf Basis der Titel und Adressen " +
+        "der Seiten in den Suchergebnissen und kann falsch sein. Jedes Ergebnis " +
+        "zeigt die Seiten dahinter, sodass du selbst urteilen kannst. Eine " +
+        "ungeprüfte Frage wird als ungeprüft angezeigt, nie als Lücke.",
+      q4: "Was kostet eine Suche?",
+      a4:
+        "Jede Suche kostet einen Credit. Eine Frage zu prüfen ist eine eigene " +
+        "Suche: Du erhältst das Ergebnis dieser Frage und ihren eigenen Fragenbaum.",
+      q5: "Schreibt oder veröffentlicht es Inhalte für mich?",
+      a5:
+        "Nein. GetTopQuestions hilft dir zu entscheiden, worüber du schreibst. " +
+        "Schreiben, Bearbeiten und Veröffentlichen bleiben bei dir, und genau " +
+        "dort kommen deine Expertise und deine Stimme ins Spiel.",
+      q6: "Verfolgt es meine Rankings?",
+      a6:
+        "Nein. Es gibt kein Rank-Tracking und keine laufende Überwachung. Bei " +
+        "einer geprüften Frage zeigt es, welche Websites Googles AI Overview " +
+        "zum Zeitpunkt der Prüfung zitiert hat.",
+      q7: "Bringt mich die Beantwortung dieser Fragen in AI Overviews?",
+      a7:
+        "Das kann niemand versprechen. Echte Fragen klar und korrekt zu " +
+        "beantworten ist eine vernünftige Grundlage, aber über die Platzierung " +
+        "entscheiden diese Plattformen.",
+    },
+
     pricing: {
       title: "Einfache, transparente Preise",
       sub:
@@ -681,40 +838,28 @@ export const de: Messages = {
         "wird manuell vergeben, solange das Produkt in der Preview ist.",
     },
     cta: {
-      title: "Bereit, die Antwort zu werden?",
-      sub:
-        "Finde die relevanten Fragen, veröffentliche Antworten, die KI " +
-        "versteht, und baue Sichtbarkeit, wo auch immer dein Publikum sucht.",
+      title: "Bereit zu finden, was niemand beantwortet hat?",
+      sub: "Beginne mit einem Thema und geh mit den Fragen, die deine Konkurrenz übersehen hat.",
       primary: "Kostenlos starten",
       secondary: "Preise ansehen",
     },
+
     footer: {
-      tagline:
-        "Finde die Fragen, auf die KI-Suche Antworten braucht — und mach " +
-        "deine Marke zur vertrauenswürdigen Quelle, die sie empfiehlt.",
+      tagline: "Finde die Fragen, die deine Konkurrenz nie beantwortet hat.",
       product: {
         heading: "Produkt",
         features: "Funktionen",
         pricing: "Preise",
-        api: "API",
-        changelog: "Changelog",
-      },
-      resources: {
-        heading: "Ressourcen",
-        blog: "Blog",
-        seoGuides: "SEO-Guides",
-        helpCenter: "Hilfezentrum",
-        community: "Community",
       },
       company: {
         heading: "Unternehmen",
-        about: "Über uns",
         contact: "Kontakt",
         privacy: "Datenschutz",
         terms: "Nutzungsbedingungen",
       },
-      copyright: "© {year} AnswerGap. Alle Rechte vorbehalten.",
+      copyright: "© {year} GetTopQuestions. Alle Rechte vorbehalten.",
     },
+
     saved: {
       heading: "Deine letzten Analysen",
       demoHeading: "An echten Daten ansehen",
