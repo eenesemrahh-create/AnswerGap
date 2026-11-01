@@ -23,9 +23,7 @@ export const es: PricingContent = {
     headTinted: "búsqueda con IA.",
     headTail: "",
     lead:
-      "Deja de adivinar qué están respondiendo los motores de IA. Descubre " +
-      "las preguntas exactas que necesitas para dominar la visibilidad y " +
-      "ganarte las citas.",
+      "Deja de adivinar qué quiere saber tu audiencia. Descubre las preguntas que hace la gente y planifica contenido para la búsqueda, AI Overviews y la IA conversacional.",
   },
 
   billing: {
@@ -35,6 +33,7 @@ export const es: PricingContent = {
     billedMonthly: "Facturación mensual",
     billedAnnually: "Facturación anual",
     plusTax: "+ Impuestos",
+    signUpNow: "Regístrate ahora",
   },
 
   plans: [
@@ -116,43 +115,76 @@ export const es: PricingContent = {
     ],
   },
 
+  guide: {
+    eyebrow: "Elección de plan",
+    title: "¿Qué plan se adapta a tu forma de trabajar?",
+    lead: "Todos los planes incluyen usuarios ilimitados, todas las regiones y todos los idiomas. Las diferencias están en los créditos, el tiempo que se guarda el historial y cómo sacas las preguntas de GetTopQuestions.",
+    cards: [
+      {
+        name: "Starter",
+        choose: "Elige Starter si",
+        points: [
+          "investigas unos pocos términos cada semana, hasta 100 créditos al mes",
+          "actúas sobre los resultados el mismo día, ya que el historial se guarda 24 horas",
+          "compartes los hallazgos como imágenes PNG en lugar de hojas de cálculo"
+        ],
+        next: "Considera Lite cuando quieras volver a las búsquedas de la semana pasada o abrir los resultados en una hoja de cálculo."
+      },
+      {
+        name: "Lite",
+        choose: "Elige Lite si",
+        points: [
+          "planificas contenido con regularidad y necesitas hasta 300 créditos al mes",
+          "vuelves a tu investigación durante varias semanas con 1 mes de historial",
+          "quieres búsqueda profunda y exportación CSV para ordenar las preguntas en un plan"
+        ],
+        next: "Considera Pro cuando investigues muchos términos a la vez o quieras los resultados en tus propias herramientas."
+      },
+      {
+        name: "Pro",
+        choose: "Elige Pro si",
+        points: [
+          "investigas para varios clientes o sitios, hasta 1.000 créditos al mes",
+          "necesitas búsquedas masivas, acceso a la API o el servidor MCP",
+          "quieres un año de historial de búsqueda o créditos de pago por uso"
+        ],
+        next: "El acceso a la API, las búsquedas masivas y el servidor MCP solo están en Pro."
+      }
+    ],
+    estimateLabel: "Cómo estimar créditos:",
+    estimate: "los créditos se usan al hacer búsquedas. Una forma sencilla de elegir es listar los términos que esperas investigar en un mes típico, en todos tus sitios o clientes, y compararlo con los créditos mensuales de cada plan. Si no estás seguro, empezar con poco y ampliar después es un enfoque razonable."
+  },
+
   faq: {
     heading: "Preguntas frecuentes",
     items: [
       {
-        title: "¿Qué cuenta como una consulta?",
-        desc:
-          "Un crédito es una búsqueda. Desplegar una palabra clave en su " +
-          "árbol de preguntas cuesta un solo crédito, vengan las preguntas " +
-          "que vengan. Comprobar quién responde de verdad a una pregunta se " +
-          "cobra aparte, porque cada comprobación es una petición propia.",
+        title: "¿Para qué se usan los créditos?",
+        desc: "Los créditos se usan para hacer búsquedas. Cada plan incluye una asignación mensual: 100 en Starter, 300 en Lite y 1.000 en Pro. Para saber cómo usa los créditos una búsqueda concreta, contáctanos."
       },
       {
         title: "¿Puedo cambiar de plan más adelante?",
-        desc:
-          "Sí, cuando quieras. Compra el nuevo plan desde tu página de " +
-          "cuenta (empieza al momento y se cobra aparte) y márcalo como " +
-          "predeterminado. Tu plan anterior deja de renovarse al final del " +
-          "periodo que ya has pagado y puedes usar sus créditos hasta " +
-          "entonces. Los créditos siempre se gastan primero del plan que " +
-          "termina antes, y los créditos no usados de un plan caducan al " +
-          "terminar su periodo.",
+        desc: "Sí, puedes cambiar o cancelar tu suscripción. Si tienes dudas sobre cómo afecta un cambio a tu facturación, contáctanos antes de cambiar."
       },
       {
-        title: "¿Ofrecéis precios a medida para empresas?",
-        desc:
-          "Sí. Si necesitas más volumen, informes de marca blanca o varios " +
-          "espacios de trabajo, escríbenos y prepararemos un plan ajustado al " +
-          "volumen que realmente uses.",
+        title: "¿Qué plan incluye acceso a la API?",
+        desc: "El acceso a la API solo está disponible en el plan Pro, junto con las búsquedas masivas, los créditos de pago por uso y el servidor MCP. Te permite llevar la investigación de preguntas a tus propias herramientas y procesos."
       },
+      {
+        title: "¿Y si mis necesidades superan el plan Pro?",
+        desc: "Escríbenos desde la página de contacto y cuéntanos qué necesitas. Te diremos con sinceridad qué es posible."
+      },
+      {
+        title: "¿Algún plan hace seguimiento de posiciones o citas en IA?",
+        desc: "No. GetTopQuestions es una herramienta de investigación de preguntas. Te ayuda a descubrir las preguntas que hace la gente para que crees contenido útil. No hace seguimiento de posiciones, no monitoriza marcas ni informa de volúmenes de búsqueda."
+      }
     ],
   },
 
   cta: {
     heading: "¿Listo para descubrir las respuestas?",
     lead:
-      "Únete a los equipos de contenido que usan GetTopQuestions para alinear su " +
-      "estrategia con la intención de la búsqueda con IA.",
+      "Empieza con un término, encuentra las preguntas que hace la gente y decide qué escribir a continuación.",
     primary: "Empieza tu prueba gratuita de 7 días",
     secondary: "Habla con ventas",
   },

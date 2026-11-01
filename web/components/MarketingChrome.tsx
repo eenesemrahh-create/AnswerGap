@@ -140,7 +140,28 @@ export function MarketingFooter({
               </Link>
             </li>
             <li>
-              <Link href={marketingPath("ai-seo", locale)}>{chrome.nav.aiSeo}</Link>
+              <span>{chrome.footer.links.api}</span>
+            </li>
+            <li>
+              <span>{chrome.footer.links.changelog}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="mkt-footer-col">
+          <h4>{chrome.footer.resources}</h4>
+          <ul>
+            <li>
+              <span>{chrome.footer.links.blog}</span>
+            </li>
+            <li>
+              <span>{chrome.footer.links.seoGuides}</span>
+            </li>
+            <li>
+              <span>{chrome.footer.links.helpCenter}</span>
+            </li>
+            <li>
+              <span>{chrome.footer.links.community}</span>
             </li>
           </ul>
         </div>
@@ -148,6 +169,9 @@ export function MarketingFooter({
         <div className="mkt-footer-col">
           <h4>{chrome.footer.company}</h4>
           <ul>
+            <li>
+              <span>{chrome.footer.links.about}</span>
+            </li>
             <li>
               <Link href={marketingPath("contact", locale)}>
                 {chrome.footer.links.contact}
@@ -168,7 +192,23 @@ export function MarketingFooter({
       </div>
 
       <div className="mkt-footer-bottom">
-        <span>© {year} GetTopQuestions</span>
+        <span>
+          © {year} GetTopQuestions. {chrome.footer.rights}
+        </span>
+        {/* Marks only until the accounts exist: see the nav's rule on an item
+            with nowhere to go. */}
+        <span className="mkt-footer-social">
+          <span role="img" aria-label="Twitter">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.3 22H3.2l7.3-8.3L2.8 2h6.4l4.4 5.9zm-1.1 18h1.7L8.3 3.9H6.4z" />
+            </svg>
+          </span>
+          <span role="img" aria-label="GitHub">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7c-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.600 9.600 0 0 1 5 0c1.900-1.300 2.800-1 2.800-1 .5 1.400.2 2.400.1 2.700a3.900 3.900 0 0 1 1 2.700c0 3.900-2.300 4.800-4.600 5 .4.300.7.900.7 1.900V21c0 .3.200.6.700.5A10 10 0 0 0 12 2z" />
+            </svg>
+          </span>
+        </span>
       </div>
     </footer>
   );

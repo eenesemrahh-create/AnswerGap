@@ -59,12 +59,18 @@ export interface ChromeShape {
     readonly product: string;
     readonly resources: string;
     readonly company: string;
+    readonly rights: string;
     readonly links: {
       readonly features: string;
       readonly solutions: string;
       readonly pricing: string;
       readonly blog: string;
       readonly about: string;
+      readonly api: string;
+      readonly changelog: string;
+      readonly seoGuides: string;
+      readonly helpCenter: string;
+      readonly community: string;
       readonly contact: string;
       readonly privacy: string;
       readonly terms: string;
@@ -105,6 +111,7 @@ export interface PricingShape {
     /** …and when the annual one is. */
     readonly billedAnnually: string;
     readonly plusTax: string;
+    readonly signUpNow: string;
   };
   /** Exactly three cards. A fourth would not fit the comparison table below. */
   readonly plans: readonly [PlanCard, PlanCard, PlanCard];
@@ -113,6 +120,15 @@ export interface PricingShape {
     readonly featureColumn: string;
     readonly groupHeading: string;
     readonly rows: readonly CompareRow[];
+  };
+  /** "Which plan fits how you work?" - one card per plan. */
+  readonly guide: {
+    readonly eyebrow: string;
+    readonly title: string;
+    readonly lead: string;
+    readonly cards: readonly [PlanGuide, PlanGuide, PlanGuide];
+    readonly estimateLabel: string;
+    readonly estimate: string;
   };
   readonly faq: {
     readonly heading: string;
@@ -124,6 +140,13 @@ export interface PricingShape {
     readonly primary: string;
     readonly secondary: string;
   };
+}
+
+export interface PlanGuide {
+  readonly name: string;
+  readonly choose: string;
+  readonly points: readonly [string, string, string];
+  readonly next: string;
 }
 
 export interface PlanCard {

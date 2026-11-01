@@ -119,7 +119,9 @@ def test_every_seeded_plan_offers_the_same_features_but_credits() -> None:
 
 def test_the_removed_features_are_on_no_card() -> None:
     gone = ("Bulk", "API", "Pay-as-you-go", "MCP")
-    source = EN.read_text(encoding="utf-8")
+    # The cards only: the plan guide and FAQ name them (operator, 2026-11-01).
+    text = EN.read_text(encoding="utf-8")
+    source = text[text.index("  plans: ["):text.index("  compare: {")]
     for word in gone:
         assert not any(word in f for p in SEED_PLANS for f in p["features"])
         assert f'"{word}' not in source

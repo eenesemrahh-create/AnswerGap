@@ -26,6 +26,12 @@ import type { PricingShape } from "../blocks";
  *     rule in CLAUDE.md: "Do not restrict search history (AlsoAsked's
  *     24-hour lock is bad practice)."
  *
+ *   - 2026-11-01 (operator): the "Which plan fits" section and the FAQ were
+ *     taken word for word from the Replit design. They say history is 24
+ *     hours / 1 month / 1 year and that API access, bulk searches,
+ *     pay-as-you-go and an MCP server are on Pro. None of that is built, and
+ *     the cards on the same page say every plan has unlimited history.
+ *
  * So this page is BUILT but must not be advertised as live until either the
  * features exist or these lines change. A pricing page is a contract offer,
  * and the one thing this codebase has been careful about is not claiming more
@@ -44,8 +50,7 @@ export const en = {
     headTinted: "AI Search",
     headTail: "era.",
     lead:
-      "Stop guessing what the AI engines are answering. Uncover the exact " +
-      "questions you need to dominate visibility and earn citations.",
+      "Stop guessing what your audience wants to know. Discover the questions people ask and plan content for search, AI Overviews and conversational AI.",
   },
 
   billing: {
@@ -55,6 +60,7 @@ export const en = {
     billedMonthly: "Billed monthly",
     billedAnnually: "Billed annually",
     plusTax: "+ Tax",
+    signUpNow: "Sign up now",
   },
 
   plans: [
@@ -136,42 +142,76 @@ export const en = {
     ],
   },
 
+  guide: {
+    eyebrow: "Plan selection",
+    title: "Which plan fits how you work?",
+    lead: "Every plan includes unlimited users, all regions and all languages. The differences are credits, how long history is kept, and how you get questions out of GetTopQuestions.",
+    cards: [
+      {
+        name: "Starter",
+        choose: "Choose Starter if you",
+        points: [
+          "research a handful of terms each week, up to 100 credits a month",
+          "act on results the same day, since history is kept for 24 hours",
+          "share findings as PNG images rather than spreadsheets"
+        ],
+        next: "Consider Lite when you find yourself wishing you could revisit last week's searches or open results in a spreadsheet."
+      },
+      {
+        name: "Lite",
+        choose: "Choose Lite if you",
+        points: [
+          "plan content regularly and need up to 300 credits a month",
+          "come back to research over a few weeks with 1-month history",
+          "want deep search and CSV export to sort questions into a plan"
+        ],
+        next: "Consider Pro when you research many terms at once or want results inside your own tools."
+      },
+      {
+        name: "Pro",
+        choose: "Choose Pro if you",
+        points: [
+          "run research for several clients or sites, up to 1,000 credits a month",
+          "need bulk searches, API access or the MCP server",
+          "keep a year of search history or want pay-as-you-go credits"
+        ],
+        next: "API access, bulk searches and the MCP server are only on Pro."
+      }
+    ],
+    estimateLabel: "Estimating credits:",
+    estimate: "credits are used when you run searches. A simple way to choose is to list the terms you expect to research in a typical month, across every site or client, and compare that with each plan's monthly credits. If you are unsure, starting smaller and upgrading later is a reasonable approach."
+  },
+
   faq: {
     heading: "Frequently asked questions",
     items: [
       {
-        title: "What counts as a query?",
-        desc:
-          "One credit is one search. Expanding a keyword into its question " +
-          "tree costs a single credit however many questions come back. " +
-          "Checking who actually answers a question is priced separately, " +
-          "because each check is its own request.",
+        title: "What are credits used for?",
+        desc: "Credits are used for running searches. Each plan includes a monthly allowance: 100 on Starter, 300 on Lite and 1,000 on Pro. For specifics on how a particular search uses credits, contact us."
       },
       {
         title: "Can I change my plan later?",
-        desc:
-          "Yes, at any time. Buy the new plan from your account page - it " +
-          "starts right away and is billed separately - then make it your " +
-          "default. Your old plan stops renewing at the end of the period " +
-          "you have already paid for, and its credits stay usable until " +
-          "then. Credits are always spent from the plan that ends first, " +
-          "and a plan's unused credits expire when its period ends.",
+        desc: "Yes, you can change or cancel your subscription. If you have questions about how a change applies to your billing, contact us before switching."
       },
       {
-        title: "Do you offer custom enterprise pricing?",
-        desc:
-          "Yes. If you need higher volume, white-labelled reports or " +
-          "multiple workspaces, contact us and we will put together a plan " +
-          "around the volume you actually run.",
+        title: "Which plan includes API access?",
+        desc: "API access is available on the Pro plan only, along with bulk searches, pay-as-you-go credits and the MCP server. It lets you bring question research into your own tools and workflows."
       },
+      {
+        title: "What if my needs go beyond the Pro plan?",
+        desc: "Get in touch through the contact page and describe what you need. We will tell you honestly what is possible."
+      },
+      {
+        title: "Does any plan track rankings or AI citations?",
+        desc: "No. GetTopQuestions is a question research tool. It helps you discover the questions people ask so you can create helpful content. It does not track rankings, monitor brands or report search volumes."
+      }
     ],
   },
 
   cta: {
     heading: "Ready to uncover the answers?",
     lead:
-      "Join leading content teams who use GetTopQuestions to align their strategy " +
-      "with AI search intent.",
+      "Start with a term, find the questions people ask, and decide what to write next.",
     primary: "Start your 7-day free trial",
     secondary: "Contact Sales",
   },

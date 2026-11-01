@@ -21,16 +21,21 @@ export const tr: ChromeContent = {
   },
   footer: {
     tagline:
-      "Yapay zeka aramasının yanıt bekleyen sorularını bulun; markanızı " +
-      "onun önerdiği güvenilir kaynak haline getirin.",
+      "İnsanların konunuz hakkında sorduğu soruları keşfedin, sonra onları cevaplayan faydalı içerikler üretin.",
     product: "Ürün",
     resources: "Kaynaklar",
     company: "Şirket",
+    rights: "Tüm hakları saklıdır.",
     links: {
       features: "Özellikler",
       solutions: "Çözümler",
       pricing: "Fiyatlandırma",
+      api: "API",
+      changelog: "Değişiklik günlüğü",
       blog: "Blog",
+      seoGuides: "SEO Rehberleri",
+      helpCenter: "Yardım Merkezi",
+      community: "Topluluk",
       about: "Hakkımızda",
       contact: "İletişim",
       privacy: "Gizlilik Politikası",

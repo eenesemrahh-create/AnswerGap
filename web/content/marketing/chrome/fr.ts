@@ -20,16 +20,21 @@ export const fr: ChromeContent = {
   },
   footer: {
     tagline:
-      "Trouvez les questions auxquelles la recherche IA a besoin de réponses — " +
-      "et aidez votre marque à devenir la source de confiance qu'elle recommande.",
+      "Découvrez les questions posées sur votre sujet, puis créez un contenu utile qui y répond.",
     product: "Produit",
     resources: "Ressources",
     company: "Entreprise",
+    rights: "Tous droits réservés.",
     links: {
       features: "Fonctionnalités",
       solutions: "Solutions",
       pricing: "Tarifs",
+      api: "API",
+      changelog: "Journal des modifications",
       blog: "Blog",
+      seoGuides: "Guides SEO",
+      helpCenter: "Centre d'aide",
+      community: "Communauté",
       about: "À propos",
       contact: "Contact",
       privacy: "Politique de confidentialité",

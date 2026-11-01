@@ -24,9 +24,7 @@ export const tr: PricingContent = {
     headTinted: "Yapay zeka araması",
     headTail: "çağı için fiyatlandırma.",
     lead:
-      "Yapay zeka motorlarının neyi yanıtladığını tahmin etmeyi bırakın. " +
-      "Görünürlüğü ele geçirmek ve kaynak gösterilmek için gereken tam " +
-      "soruları ortaya çıkarın.",
+      "Kitlenizin ne bilmek istediğini tahmin etmeyi bırakın. İnsanların sorduğu soruları keşfedin; arama, AI Overview ve sohbet tabanlı yapay zekâ için içerik planlayın.",
   },
 
   billing: {
@@ -36,6 +34,7 @@ export const tr: PricingContent = {
     billedMonthly: "Aylık faturalandırılır",
     billedAnnually: "Yıllık faturalandırılır",
     plusTax: "+ Vergi",
+    signUpNow: "Hemen kaydolun",
   },
 
   plans: [
@@ -121,43 +120,76 @@ export const tr: PricingContent = {
     ],
   },
 
+  guide: {
+    eyebrow: "Plan seçimi",
+    title: "Hangi plan çalışma şeklinize uyuyor?",
+    lead: "Her plan sınırsız kullanıcı, tüm bölgeler ve tüm dilleri içerir. Farklar kredilerde, geçmişin ne kadar saklandığında ve soruları GetTopQuestions'tan nasıl dışarı aldığınızdadır.",
+    cards: [
+      {
+        name: "Starter",
+        choose: "Şu durumda Starter'ı seçin:",
+        points: [
+          "her hafta birkaç terim araştırıyorsanız, ayda en fazla 100 kredi",
+          "geçmiş 24 saat saklandığı için sonuçlara aynı gün uyguluyorsanız",
+          "bulguları tablo yerine PNG görsel olarak paylaşıyorsanız"
+        ],
+        next: "Geçen haftanın aramalarına dönmek veya sonuçları tabloda açmak istediğinizde Lite'ı düşünün."
+      },
+      {
+        name: "Lite",
+        choose: "Şu durumda Lite'ı seçin:",
+        points: [
+          "düzenli içerik planlıyor ve ayda 300 krediye kadar ihtiyaç duyuyorsanız",
+          "1 aylık geçmişle araştırmanıza birkaç hafta boyunca dönüyorsanız",
+          "soruları bir plana ayırmak için derin arama ve CSV dışa aktarma istiyorsanız"
+        ],
+        next: "Aynı anda çok sayıda terim araştırdığınızda veya sonuçları kendi araçlarınızda görmek istediğinizde Pro'yu düşünün."
+      },
+      {
+        name: "Pro",
+        choose: "Şu durumda Pro'yu seçin:",
+        points: [
+          "birkaç müşteri veya site için araştırma yapıyorsanız, ayda 1.000 krediye kadar",
+          "toplu arama, API erişimi veya MCP sunucusuna ihtiyaç duyuyorsanız",
+          "bir yıllık arama geçmişi veya kullandıkça öde kredileri istiyorsanız"
+        ],
+        next: "API erişimi, toplu aramalar ve MCP sunucusu yalnızca Pro'da vardır."
+      }
+    ],
+    estimateLabel: "Kredi tahmini:",
+    estimate: "krediler arama yaptığınızda kullanılır. Seçim yapmanın basit bir yolu, tipik bir ayda tüm site veya müşterileriniz için araştırmayı beklediğiniz terimleri listelemek ve bunu her planın aylık kredisiyle karşılaştırmaktır. Emin değilseniz küçük başlayıp sonra yükseltmek makul bir yaklaşımdır."
+  },
+
   faq: {
     heading: "Sık sorulan sorular",
     items: [
       {
-        title: "Bir sorgu neyi kapsıyor?",
-        desc:
-          "Bir kredi bir aramadır. Bir anahtar kelimeyi soru ağacına " +
-          "açmak, kaç soru dönerse dönsün tek kredi tutar. Bir soruyu " +
-          "gerçekte kimin yanıtladığını denetlemek ayrı fiyatlandırılır, " +
-          "çünkü her denetim kendi isteğidir.",
+        title: "Krediler ne için kullanılır?",
+        desc: "Krediler arama yapmak için kullanılır. Her plan aylık bir kota içerir: Starter'da 100, Lite'ta 300, Pro'da 1.000. Belirli bir aramanın kredileri nasıl kullandığıyla ilgili ayrıntılar için bize ulaşın."
       },
       {
         title: "Planımı sonradan değiştirebilir miyim?",
-        desc:
-          "Evet, istediğiniz zaman. Yeni planı hesap sayfanızdan satın " +
-          "alın; hemen başlar ve ayrıca ücretlendirilir. Ardından onu " +
-          "varsayılan planınız yapın. Eski planınız, bedelini ödediğiniz " +
-          "dönemin sonunda yenilenmez ve kredilerini o zamana kadar " +
-          "kullanabilirsiniz. Krediler her zaman önce dönemi en erken biten " +
-          "plandan düşer; bir planın kullanılmayan kredileri dönemi " +
-          "bittiğinde silinir.",
+        desc: "Evet, aboneliğinizi değiştirebilir veya iptal edebilirsiniz. Bir değişikliğin faturanıza nasıl yansıyacağıyla ilgili sorularınız varsa geçiş yapmadan önce bize ulaşın."
       },
       {
-        title: "Kurumsal özel fiyatlandırma sunuyor musunuz?",
-        desc:
-          "Evet. Daha yüksek hacim, beyaz etiketli raporlar ya da birden " +
-          "çok çalışma alanı gerekiyorsa bize yazın; gerçekte kullandığınız " +
-          "hacme göre bir plan hazırlayalım.",
+        title: "Hangi planda API erişimi var?",
+        desc: "API erişimi yalnızca Pro planında; toplu aramalar, kullandıkça öde kredileri ve MCP sunucusuyla birlikte sunulur. Soru araştırmasını kendi araçlarınıza ve iş akışlarınıza taşımanızı sağlar."
       },
+      {
+        title: "İhtiyaçlarım Pro planını aşarsa ne olur?",
+        desc: "İletişim sayfasından bize ulaşın ve neye ihtiyacınız olduğunu anlatın. Neyin mümkün olduğunu size dürüstçe söyleriz."
+      },
+      {
+        title: "Herhangi bir plan sıralamaları veya yapay zekâ atıflarını takip ediyor mu?",
+        desc: "Hayır. GetTopQuestions bir soru araştırma aracıdır. Faydalı içerikler üretebilmeniz için insanların sorduğu soruları keşfetmenize yardım eder. Sıralama takibi, marka izleme veya arama hacmi raporlaması yapmaz."
+      }
     ],
   },
 
   cta: {
     heading: "Yanıtları ortaya çıkarmaya hazır mısınız?",
     lead:
-      "Stratejisini yapay zeka arama niyetiyle hizalamak için GetTopQuestions " +
-      "kullanan önde gelen içerik ekiplerine katılın.",
+      "Bir terimle başlayın, insanların sorduğu soruları bulun ve sırada ne yazacağınıza karar verin.",
     primary: "7 günlük ücretsiz denemenizi başlatın",
     secondary: "Satışla İletişime Geçin",
   },

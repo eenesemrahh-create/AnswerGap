@@ -24,9 +24,7 @@ export const fr: PricingContent = {
     headTinted: "la recherche IA.",
     headTail: "",
     lead:
-      "Ne devinez plus ce que les moteurs IA répondent. Découvrez les " +
-      "questions exactes qu'il vous faut pour dominer la visibilité et " +
-      "obtenir des citations.",
+      "Cessez de deviner ce que votre audience veut savoir. Découvrez les questions que les gens posent et planifiez du contenu pour la recherche, les AI Overviews et l'IA conversationnelle.",
   },
 
   billing: {
@@ -36,6 +34,7 @@ export const fr: PricingContent = {
     billedMonthly: "Facturé mensuellement",
     billedAnnually: "Facturé annuellement",
     plusTax: "+ taxes",
+    signUpNow: "S'inscrire maintenant",
   },
 
   plans: [
@@ -123,46 +122,76 @@ export const fr: PricingContent = {
     ],
   },
 
+  guide: {
+    eyebrow: "Choix de la formule",
+    title: "Quelle formule correspond à votre façon de travailler ?",
+    lead: "Chaque formule inclut des utilisateurs illimités, toutes les régions et toutes les langues. Les différences portent sur les crédits, la durée de conservation de l'historique et la façon de sortir les questions de GetTopQuestions.",
+    cards: [
+      {
+        name: "Starter",
+        choose: "Choisissez Starter si vous",
+        points: [
+          "recherchez quelques termes par semaine, jusqu'à 100 crédits par mois",
+          "agissez sur les résultats le jour même, car l'historique est conservé 24 heures",
+          "partagez vos résultats en images PNG plutôt qu'en tableurs"
+        ],
+        next: "Pensez à Lite lorsque vous aimeriez revoir les recherches de la semaine passée ou ouvrir les résultats dans un tableur."
+      },
+      {
+        name: "Lite",
+        choose: "Choisissez Lite si vous",
+        points: [
+          "planifiez du contenu régulièrement et avez besoin de 300 crédits par mois maximum",
+          "revenez à vos recherches sur plusieurs semaines avec 1 mois d'historique",
+          "voulez la recherche approfondie et l'export CSV pour classer les questions dans un plan"
+        ],
+        next: "Pensez à Pro lorsque vous recherchez de nombreux termes à la fois ou voulez les résultats dans vos propres outils."
+      },
+      {
+        name: "Pro",
+        choose: "Choisissez Pro si vous",
+        points: [
+          "menez des recherches pour plusieurs clients ou sites, jusqu'à 1 000 crédits par mois",
+          "avez besoin de recherches en masse, de l'accès API ou du serveur MCP",
+          "conservez un an d'historique de recherche ou voulez des crédits à l'usage"
+        ],
+        next: "L'accès API, les recherches en masse et le serveur MCP sont réservés à Pro."
+      }
+    ],
+    estimateLabel: "Estimer vos crédits :",
+    estimate: "les crédits sont utilisés lorsque vous lancez des recherches. Pour choisir simplement, listez les termes que vous prévoyez de rechercher au cours d'un mois type, sur tous vos sites ou clients, et comparez avec les crédits mensuels de chaque formule. En cas de doute, commencer petit et évoluer ensuite est une approche raisonnable."
+  },
+
   faq: {
     heading: "Questions fréquentes",
     items: [
       {
-        title: "Qu'est-ce qui compte comme une requête ?",
-        desc:
-          "Un crédit correspond à une recherche. Déployer un mot-clé en arbre " +
-          "de questions coûte un seul crédit, quel que soit le nombre de " +
-          "questions renvoyées. Vérifier qui répond réellement à une question " +
-          "est facturé séparément, car chaque vérification est une requête à " +
-          "part entière.",
+        title: "À quoi servent les crédits ?",
+        desc: "Les crédits servent à lancer des recherches. Chaque formule inclut un quota mensuel : 100 pour Starter, 300 pour Lite et 1 000 pour Pro. Pour savoir comment une recherche donnée utilise les crédits, contactez-nous."
       },
       {
         title: "Puis-je changer de formule plus tard ?",
-        desc:
-          "Oui, à tout moment. Achetez la nouvelle formule depuis votre page " +
-          "de compte (elle démarre tout de suite et est facturée à part), " +
-          "puis définissez-la comme formule par défaut. Votre ancienne " +
-          "formule ne se renouvelle plus à la fin de la période déjà payée, " +
-          "et ses crédits restent utilisables jusque-là. Les crédits sont " +
-          "toujours consommés d'abord sur la formule qui se termine le plus " +
-          "tôt ; les crédits non utilisés d'une formule expirent à la fin de " +
-          "sa période.",
+        desc: "Oui, vous pouvez modifier ou résilier votre abonnement. Si vous avez des questions sur l'effet d'un changement sur votre facturation, contactez-nous avant de changer."
       },
       {
-        title: "Proposez-vous des tarifs sur mesure pour les grands comptes ?",
-        desc:
-          "Oui. Si vous avez besoin d'un volume plus élevé, de rapports en " +
-          "marque blanche ou de plusieurs espaces de travail, contactez-nous " +
-          "et nous construirons une formule adaptée au volume que vous " +
-          "utilisez réellement.",
+        title: "Quelle formule inclut l'accès API ?",
+        desc: "L'accès API est disponible uniquement avec la formule Pro, avec les recherches en masse, les crédits à l'usage et le serveur MCP. Il vous permet d'intégrer la recherche de questions à vos propres outils et processus."
       },
+      {
+        title: "Et si mes besoins dépassent la formule Pro ?",
+        desc: "Contactez-nous via la page de contact et décrivez ce dont vous avez besoin. Nous vous dirons honnêtement ce qui est possible."
+      },
+      {
+        title: "Une formule suit-elle les positions ou les citations IA ?",
+        desc: "Non. GetTopQuestions est un outil de recherche de questions. Il vous aide à découvrir les questions que les gens posent pour créer du contenu utile. Il ne suit pas les positions, ne surveille pas les marques et n'indique pas de volumes de recherche."
+      }
     ],
   },
 
   cta: {
     heading: "Prêt à découvrir les réponses ?",
     lead:
-      "Rejoignez les grandes équipes de contenu qui utilisent GetTopQuestions pour " +
-      "aligner leur stratégie sur l'intention de la recherche IA.",
+      "Partez d'un terme, trouvez les questions que les gens posent et décidez de ce que vous allez écrire ensuite.",
     primary: "Démarrez votre essai gratuit de 7 jours",
     secondary: "Contacter le service commercial",
   },

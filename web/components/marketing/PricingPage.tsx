@@ -22,7 +22,8 @@ import { LOCALE_TAGS, type Locale } from "@/i18n/types";
  * `<details>` carries the FAQ rather than a click handler. It opens without
  * JavaScript, it is announced correctly by screen readers with no ARIA to get
  * wrong, and the answers are in the HTML whether or not anyone expands them —
- * which is what a crawler reads.
+ * which is what a crawler reads. Sharing a `name` makes the browser keep one
+ * of them open at a time, still with no script.
  */
 export function PricingPage({
   content,
@@ -42,7 +43,7 @@ export function PricingPage({
    *  the wrong column is worse than no table. */
   showCompare?: boolean;
 }) {
-  const { hero, billing, compare, faq, cta } = content;
+  const { hero, billing, compare, guide, faq, cta } = content;
 
   return (
     <div className="mkt-page" lang={LOCALE_TAGS[locale]}>
@@ -66,7 +67,7 @@ export function PricingPage({
         {/* `plans-3` is what actually sets the three columns - the landing
             picks `plans-1|2|3` from however many cards an admin published,
             and this page always has three. */}
-        <section className="mkt-plans plans-3 mkt-plans-page">
+        <section className="mkt-plans mkt-plans-home plans-3 mkt-plans-page">
           {/* `theme-*` are the same classes the landing's admin-driven cards
               use, so both pricing surfaces look the same. The value comes from
               the admin panel when the cards do, and is derived from the badge
@@ -86,8 +87,6 @@ export function PricingPage({
               <p className="mkt-plan-cycle">
                 <span className="mkt-price-monthly">{billing.billedMonthly}</span>
                 <span className="mkt-price-annual">{billing.billedAnnually}</span>
-                {" · "}
-                {billing.plusTax}
               </p>
 
               <SessionSwap
@@ -110,8 +109,47 @@ export function PricingPage({
                   <li key={feature}>{feature}</li>
                 ))}
               </ul>
+
+              <div className="mkt-plan-foot">
+                <span>{billing.signUpNow}</span>
+                <SessionSwap
+                  signedIn={
+                    <Link href="/account/subscription" className="mkt-plan-pay">
+                      <PlanPrice plan={plan} />
+                    </Link>
+                  }
+                >
+                  <Link href="/?auth=signup" className="mkt-plan-pay">
+                    <PlanPrice plan={plan} />
+                  </Link>
+                </SessionSwap>
+                <small>{billing.plusTax}</small>
+              </div>
             </article>
           ))}
+        </section>
+
+        <section className="mkt-section">
+          <span className="mkt-eyebrow">{guide.eyebrow}</span>
+          <h2 className="mkt-lead-title">{guide.title}</h2>
+          <p className="mkt-guide-lead">{guide.lead}</p>
+          <div className="mkt-guide-grid">
+            {guide.cards.map((card) => (
+              <article key={card.name} className="mkt-guide-card">
+                <h3>{card.name}</h3>
+                <p className="mkt-guide-choose">{card.choose}</p>
+                <ul>
+                  {card.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+                <p className="mkt-guide-next">{card.next}</p>
+              </article>
+            ))}
+          </div>
+          <p className="mkt-guide-estimate">
+            <b>{guide.estimateLabel}</b> {guide.estimate}
+          </p>
         </section>
 
         {showCompare && (
@@ -169,10 +207,10 @@ export function PricingPage({
       </PricingCycle>
 
       <section className="mkt-section">
-        <h2 className="mkt-section-title">{faq.heading}</h2>
         <div className="mkt-faq">
+          <h2 className="mkt-faq-title mkt-faq-centered">{faq.heading}</h2>
           {faq.items.map((item) => (
-            <details key={item.title} className="mkt-faq-item">
+            <details key={item.title} name="pricing-faq" className="mkt-faq-item">
               <summary>{item.title}</summary>
               <p>{item.desc}</p>
             </details>
@@ -180,7 +218,7 @@ export function PricingPage({
         </div>
       </section>
 
-      <section className="mkt-cta">
+      <section className="mkt-cta mkt-cta-soft">
         <h2 className="mkt-cta-title">{cta.heading}</h2>
         <p className="mkt-cta-sub">{cta.lead}</p>
         <div className="mkt-cta-actions">
@@ -204,5 +242,16 @@ export function PricingPage({
 
       <MarketingFooter chrome={chrome} locale={locale} />
     </div>
+  );
+}
+
+/** Both ship and CSS shows the selected cycle's, as on the card's big price. */
+function PlanPrice({ plan }: { plan: PlanView }) {
+  return (
+    <>
+      <span className="mkt-price-monthly">{plan.priceMonthly}</span>
+      <span className="mkt-price-annual">{plan.priceAnnual}</span>
+      {plan.per}
+    </>
   );
 }

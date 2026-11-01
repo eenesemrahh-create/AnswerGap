@@ -50,6 +50,7 @@ export function PricingCycle({
           <span className={annual ? "is-on" : ""}>{annually}</span>
         </button>
         <span className="mkt-billing-save">{save}</span>
+        <span className="mkt-billing-currency">USD ($)</span>
       </div>
       {children}
     </div>

@@ -18,16 +18,21 @@ export const de: ChromeContent = {
   },
   footer: {
     tagline:
-      "Finden Sie die Fragen, auf die die KI-Suche eine Antwort braucht - und " +
-      "machen Sie Ihre Marke zu der Quelle, die sie empfiehlt.",
+      "Entdecken Sie die Fragen, die Menschen zu Ihrem Thema stellen, und erstellen Sie hilfreiche Inhalte, die sie beantworten.",
     product: "Produkt",
     resources: "Ressourcen",
     company: "Unternehmen",
+    rights: "Alle Rechte vorbehalten.",
     links: {
       features: "Funktionen",
       solutions: "Lösungen",
       pricing: "Preise",
+      api: "API",
+      changelog: "Änderungsprotokoll",
       blog: "Blog",
+      seoGuides: "SEO-Leitfäden",
+      helpCenter: "Hilfe-Center",
+      community: "Community",
       about: "Über uns",
       contact: "Kontakt",
       privacy: "Datenschutzerklärung",

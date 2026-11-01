@@ -20,8 +20,7 @@ export const de: PricingContent = {
     headTinted: "KI-Suche.",
     headTail: "",
     lead:
-      "Hören Sie auf zu raten, was die KI-Engines beantworten. Finden Sie " +
-      "genau die Fragen, mit denen Sie Sichtbarkeit gewinnen und zitiert werden.",
+      "Hören Sie auf zu raten, was Ihre Zielgruppe wissen will. Entdecken Sie die Fragen, die Menschen stellen, und planen Sie Inhalte für die Suche, AI Overviews und dialogische KI.",
   },
 
   billing: {
@@ -31,6 +30,7 @@ export const de: PricingContent = {
     billedMonthly: "Monatlich abgerechnet",
     billedAnnually: "Jährlich abgerechnet",
     plusTax: "+ Steuern",
+    signUpNow: "Jetzt registrieren",
   },
 
   plans: [
@@ -112,43 +112,76 @@ export const de: PricingContent = {
     ],
   },
 
+  guide: {
+    eyebrow: "Tarifwahl",
+    title: "Welcher Tarif passt zu Ihrer Arbeitsweise?",
+    lead: "Jeder Tarif umfasst unbegrenzt viele Nutzer, alle Regionen und alle Sprachen. Die Unterschiede liegen bei den Credits, der Aufbewahrung des Verlaufs und dabei, wie Sie Fragen aus GetTopQuestions herausholen.",
+    cards: [
+      {
+        name: "Starter",
+        choose: "Wählen Sie Starter, wenn Sie",
+        points: [
+          "jede Woche eine Handvoll Begriffe recherchieren, bis zu 100 Credits im Monat",
+          "noch am selben Tag handeln, denn der Verlauf bleibt 24 Stunden erhalten",
+          "Ergebnisse als PNG-Bilder statt als Tabellen teilen"
+        ],
+        next: "Ziehen Sie Lite in Betracht, wenn Sie die Suchen der letzten Woche wieder aufrufen oder Ergebnisse in einer Tabelle öffnen möchten."
+      },
+      {
+        name: "Lite",
+        choose: "Wählen Sie Lite, wenn Sie",
+        points: [
+          "regelmäßig Inhalte planen und bis zu 300 Credits im Monat brauchen",
+          "mit 1 Monat Verlauf über mehrere Wochen zu Ihrer Recherche zurückkehren",
+          "Deep Search und CSV-Export nutzen wollen, um Fragen in einen Plan zu sortieren"
+        ],
+        next: "Ziehen Sie Pro in Betracht, wenn Sie viele Begriffe gleichzeitig recherchieren oder Ergebnisse in Ihren eigenen Tools möchten."
+      },
+      {
+        name: "Pro",
+        choose: "Wählen Sie Pro, wenn Sie",
+        points: [
+          "für mehrere Kunden oder Websites recherchieren, bis zu 1.000 Credits im Monat",
+          "Massensuchen, API-Zugang oder den MCP-Server brauchen",
+          "ein Jahr Suchverlauf behalten oder Pay-as-you-go-Credits wollen"
+        ],
+        next: "API-Zugang, Massensuchen und der MCP-Server sind nur bei Pro enthalten."
+      }
+    ],
+    estimateLabel: "Credits schätzen:",
+    estimate: "Credits werden bei Suchen verbraucht. Am einfachsten listen Sie die Begriffe auf, die Sie in einem typischen Monat über alle Websites oder Kunden hinweg recherchieren wollen, und vergleichen das mit den monatlichen Credits jedes Tarifs. Im Zweifel ist es sinnvoll, klein anzufangen und später aufzustocken."
+  },
+
   faq: {
     heading: "Häufig gestellte Fragen",
     items: [
       {
-        title: "Was zählt als Abfrage?",
-        desc:
-          "Ein Credit ist eine Suche. Ein Keyword zu seinem Fragenbaum " +
-          "aufzuklappen kostet einen einzigen Credit, gleich wie viele Fragen " +
-          "zurückkommen. Zu prüfen, wer eine Frage tatsächlich beantwortet, " +
-          "wird gesondert berechnet, weil jede Prüfung eine eigene Anfrage ist.",
+        title: "Wofür werden Credits verwendet?",
+        desc: "Credits werden für Suchen verwendet. Jeder Tarif enthält ein monatliches Kontingent: 100 bei Starter, 300 bei Lite und 1.000 bei Pro. Details dazu, wie eine bestimmte Suche Credits verbraucht, erhalten Sie von uns."
       },
       {
-        title: "Kann ich meinen Tarif später wechseln?",
-        desc:
-          "Ja, jederzeit. Kaufen Sie den neuen Tarif auf Ihrer Kontoseite - " +
-          "er beginnt sofort und wird separat abgerechnet - und machen Sie " +
-          "ihn zu Ihrem Standardtarif. Ihr bisheriger Tarif verlängert sich " +
-          "zum Ende des bereits bezahlten Zeitraums nicht mehr, seine Credits " +
-          "bleiben bis dahin nutzbar. Credits werden immer zuerst aus dem " +
-          "Tarif verbraucht, der am frühesten endet; nicht genutzte Credits " +
-          "eines Tarifs verfallen am Ende seines Zeitraums.",
+        title: "Kann ich meinen Tarif später ändern?",
+        desc: "Ja, Sie können Ihr Abonnement ändern oder kündigen. Wenn Sie Fragen dazu haben, wie sich eine Änderung auf Ihre Abrechnung auswirkt, kontaktieren Sie uns vor dem Wechsel."
       },
       {
-        title: "Gibt es individuelle Enterprise-Preise?",
-        desc:
-          "Ja. Wenn Sie höheres Volumen, Berichte im White-Label oder mehrere " +
-          "Workspaces brauchen, sprechen Sie uns an, und wir stellen einen " +
-          "Tarif für das Volumen zusammen, das Sie tatsächlich fahren.",
+        title: "Welcher Tarif enthält API-Zugang?",
+        desc: "API-Zugang gibt es nur im Pro-Tarif, zusammen mit Massensuchen, Pay-as-you-go-Credits und dem MCP-Server. Damit holen Sie die Fragenrecherche in Ihre eigenen Tools und Abläufe."
       },
+      {
+        title: "Was, wenn mein Bedarf über den Pro-Tarif hinausgeht?",
+        desc: "Melden Sie sich über die Kontaktseite und beschreiben Sie, was Sie brauchen. Wir sagen Ihnen ehrlich, was möglich ist."
+      },
+      {
+        title: "Verfolgt ein Tarif Rankings oder KI-Zitate?",
+        desc: "Nein. GetTopQuestions ist ein Tool für die Fragenrecherche. Es hilft Ihnen, die Fragen der Menschen zu entdecken, damit Sie hilfreiche Inhalte erstellen können. Es verfolgt keine Rankings, überwacht keine Marken und meldet keine Suchvolumen."
+      }
     ],
   },
 
   cta: {
     heading: "Bereit, die Antworten zu finden?",
     lead:
-      "Schließen Sie sich führenden Content-Teams an, die mit GetTopQuestions ihre " +
-      "Strategie auf die Intention der KI-Suche ausrichten.",
+      "Beginnen Sie mit einem Begriff, finden Sie die Fragen der Menschen und entscheiden Sie, was Sie als Nächstes schreiben.",
     primary: "7 Tage kostenlos testen",
     secondary: "Vertrieb kontaktieren",
   },

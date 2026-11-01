@@ -22,6 +22,11 @@ CTA and footer. It lives in `market.*`; `HomeSections.tsx` and
 SEO Guides, Help Center, Community, About) are plain text until one exists.
 The words "most-asked" and "not a citation analyzer" are the operator's choice
 and conflict with "Accuracy rules" and the AI Overview surface below.
+`/pricing` took the same design that day. Its "Which plan fits" section and FAQ
+are the design's words at the operator's request and describe plans that do not
+exist: 24 h / 1 month / 1 year history and Pro-only API, bulk, pay-as-you-go and
+MCP, while the cards say every plan has unlimited history. Prices are dollars
+only, so the billing bar shows a plain "USD ($)".
 
 Crawls Google "People Also Ask" recursively into a question tree, checks the
 search results behind each question, and shows **which questions no site
