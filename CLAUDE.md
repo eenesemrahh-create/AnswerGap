@@ -31,7 +31,9 @@ only, so the billing bar shows a plain "USD ($)".
 and say so on the page (`teams.lead`). `/contact` too, and the design has no
 privacy line under the form, so that sentence is gone from the page.
 `/ai-seo` has no Replit page (its menu link only scrolls the landing); it keeps
-its own measured words and took the look of `/solutions`.
+its own measured words and took the look of `/solutions`. The signed-in screens
+(member home, tree, account) took the same look as CSS only, in the last block of
+`globals.css`; the gap palette and the tree's boxes did not change.
 
 Crawls Google "People Also Ask" recursively into a question tree, checks the
 search results behind each question, and shows **which questions no site
