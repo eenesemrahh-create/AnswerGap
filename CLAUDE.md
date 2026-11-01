@@ -27,6 +27,8 @@ are the design's words at the operator's request and describe plans that do not
 exist: 24 h / 1 month / 1 year history and Pro-only API, bulk, pay-as-you-go and
 MCP, while the cards say every plan has unlimited history. Prices are dollars
 only, so the billing bar shows a plain "USD ($)".
+`/solutions` is the design too, word for word; its team examples are hand-written
+and say so on the page (`teams.lead`).
 
 Crawls Google "People Also Ask" recursively into a question tree, checks the
 search results behind each question, and shows **which questions no site

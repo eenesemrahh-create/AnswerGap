@@ -177,6 +177,13 @@ export interface CompareRow {
   readonly values: readonly [string | boolean, string | boolean, string | boolean];
 }
 
+/** An illustrative example, never app output. */
+export interface TeamCard extends Card {
+  readonly term: string;
+  readonly question: string;
+  readonly idea: string;
+}
+
 export interface SolutionsShape {
   readonly title: string;
   readonly description: string;
@@ -187,8 +194,10 @@ export interface SolutionsShape {
     readonly eyebrow: string;
     readonly heading: string;
     readonly lead: string;
+    readonly questionLabel: string;
+    readonly ideaLabel: string;
     /** Nine, laid out three by three. */
-    readonly cards: readonly Card[];
+    readonly cards: readonly TeamCard[];
   };
   readonly advantage: {
     readonly eyebrow: string;
@@ -198,9 +207,7 @@ export interface SolutionsShape {
   };
   /** The dark band: how the product is used, in three numbered steps. */
   readonly workflow: {
-    readonly head: string;
-    readonly headTinted: string;
-    readonly headTail: string;
+    readonly heading: string;
     readonly lead: string;
     readonly steps: readonly [Card, Card, Card];
   };

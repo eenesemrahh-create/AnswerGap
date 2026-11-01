@@ -16,162 +16,143 @@ import type { SolutionsContent } from "./index";
  */
 export const tr: SolutionsContent = {
   title: "Çözümler",
-  description:
-    "SEO ekipleri, ajanslar, yayıncılar ve markalar yapay zeka aramasının " +
-    "henüz yanıtlamadığı soruları bulmak için GetTopQuestions'ı nasıl kullanıyor?",
-
+  description: "Kurucuların, ajansların, SEO ve içerik ekiplerinin GetTopQuestions ile insanların sorduğu soruları keşfedip faydalı içerik planlama yolları.",
   hero: {
-    eyebrow: "Yapay zeka keşfini şekillendiren her ekip için",
-    head: "Tek platform.",
-    headTinted: "Yapay zeka aramasında",
-    headTail: "kazanmak için daha çok yol.",
-    lead:
-      "GetTopQuestions, ekiplerin insanların ne sorduğunu, yapay zeka " +
-      "yanıtlarının nerede yetersiz kaldığını ve yapay zekanın önerdiği " +
-      "kaynak olmak için ne üretmeleri gerektiğini anlamasına yardım eder.",
+    eyebrow: "Sırada ne yazılacağına karar veren herkes için",
+    head: "Tek terim. Birçok ekip.",
+    headTinted: "Daha iyi sorular.",
+    headTail: "",
+    lead: "GetTopQuestions, ekiplerin bir terim etrafında insanların sorduğu soruları keşfetmesine ve bunları klasik arama, Google AI Overview ve sohbet tabanlı yapay zekâ araması için faydalı içeriklere dönüştürmesine yardımcı olur."
   },
   heroPrimary: "Ücretsiz başlayın",
-  heroSecondary: "Fiyatlandırmayı görün",
-
+  heroSecondary: "Fiyatları görün",
   teams: {
     eyebrow: "Ekibe göre çözümler",
-    heading: "Çalışma biçiminize göre kurulmuş.",
-    lead:
-      "İlk kategori aramasından küresel bir içerik programına kadar, " +
-      "GetTopQuestions her ekibe uygulanabilir bir sonraki adım verir.",
+    heading: "Çalışma şeklinize göre tasarlandı.",
+    lead: "Her kart örnek bir terimi, bu terimin ortaya çıkarabileceği bir soruyu ve bir ekibin bundan üretebileceği içerik türünü gösterir. Örnekleri biz yazdık, uygulama çıktısı değildir.",
+    questionLabel: "Örnek soru",
+    ideaLabel: "İçerik fikri",
     cards: [
       {
         title: "SaaS kurucuları",
-        desc:
-          "SaaS ürününüzün yapay zeka görünürlüğünü izleyin ve alıcıların " +
-          "dönüşmeden önce sorduğu soruları ortaya çıkarın.",
+        desc: "Alıcıların kaydolmadan önce sorduğu soruları öğrenin ve sitenizde onların kelimeleriyle cevaplayın.",
+        term: "çalışan oryantasyon yazılımı",
+        question: "Uzaktan çalışanlar için oryantasyon kontrol listesinde neler olmalı?",
+        idea: "Ürününüzden yalnızca gerçekten işe yaradığı yerde bahseden pratik bir kontrol listesi sayfası."
       },
       {
         title: "Girişimler",
-        desc:
-          "Yapay zeka tarafından erken keşfedilin ve kategoriniz " +
-          "kalabalıklaşmadan otorite kurun.",
+        desc: "Kategorinizde erken dönemde faydalı içerik oluşturun, yeni kitleler net cevapları sizden bulsun.",
+        term: "karbon muhasebesi",
+        question: "Küçük şirketlerin emisyon raporlaması gerekir mi?",
+        idea: "Duruma göre net bir \"değişir\" bölümü içeren, sade dilli bir açıklama yazısı."
       },
       {
         title: "Pazarlama ajansları",
-        desc:
-          "Her müşteri için yapay zeka görünürlüğünü raporlayın ve kaynak " +
-          "gösterilme boşluklarını yeni kampanya fırsatlarına çevirin.",
+        desc: "Soru araştırmasını müşteri başlangıç toplantılarına taşıyın, gerçek merakı temel alan içerik önerilerine dönüştürün.",
+        term: "ev tipi güneş paneli",
+        question: "Güneş panelleri kendini kaç yılda amorti eder?",
+        idea: "Müşteriye hazır bir brief: bir rehber, üç SSS cevabı, kısa bir video senaryosu."
       },
       {
         title: "SEO ekipleri",
-        desc:
-          "Geleneksel SEO raporlamasını yapay zeka yanıtlarına, kaynak " +
-          "gösterimlerine ve sohbet biçimli arama talebine genişletin.",
+        desc: "Anahtar kelime çalışmanıza soru araştırmasını ekleyin, bir konuyu arama ve yapay zekâ cevapları için baştan sona kapsayan sayfalar planlayın.",
+        term: "konut kredisi yapılandırma",
+        question: "Küçük bir faiz düşüşü için kredi yapılandırmaya değer mi?",
+        idea: "Mevcut bir sayfayı soru odaklı alt başlıklar ve doğrudan cevaplarla yeniden düzenleyin."
       },
       {
         title: "İçerik ekipleri",
-        desc:
-          "Hangi içeriğin yapay zeka görünürlüğü getirdiğini kanıtlayın ve " +
-          "yanıtlamaya en değer soruları önceliklendirin.",
+        desc: "Editoryal planınızı okurlarınızın gerçekten sorduğu sorularla doldurun, hangisinin ayrı bir içeriği hak ettiğine karar verin.",
+        term: "ev bitkisi bakımı",
+        question: "Monstera yapraklarım neden sararıyor?",
+        idea: "Bir sorun giderme rehberi ve sosyal medya için kısa cevap serisi."
       },
       {
         title: "E-ticaret",
-        desc:
-          "Yapay zekanın hangi markaları önerdiğini görün ve ürün keşfi " +
-          "yolculukları için işe yarar içerik üretin.",
+        desc: "Müşterilerin karar vermesine yardım etmek için satın alma öncesi soruları ürün, kategori ve rehber sayfalarında cevaplayın.",
+        term: "döküm tava",
+        question: "Döküm tavada sabun kullanılır mı?",
+        idea: "Ürün sayfasında bakım bölümü ve daha uzun bir alıştırma rehberi."
       },
       {
-        title: "Şirket içi pazarlama",
-        desc:
-          "Marka, içerik ve arama ekiplerini ölçülebilir tek bir yapay " +
-          "zeka görünürlüğü stratejisi etrafında birleştirin.",
+        title: "Kurum içi pazarlama",
+        desc: "Marka, içerik ve arama ekiplerinize üzerinde çalışacakları ortak bir müşteri soruları listesi verin.",
+        term: "iş seyahati sigortası",
+        question: "Seyahat sigortası iptal edilen konferansları karşılar mı?",
+        idea: "Blog, yardım merkezi ve satış ekibinin birlikte kullandığı ortak bir SSS kütüphanesi."
       },
       {
         title: "Kurumsal markalar",
-        desc:
-          "Konuları, bölgeleri ve dilleri ölçekte izlerken portföyünüz " +
-          "genelindeki boşlukları belirleyin.",
+        desc: "Soruların pazardan pazara nasıl değiştiğini görmek için konuları bölgeler ve diller arasında araştırın.",
+        term: "ısı pompası",
+        question: "Isı pompaları çok soğuk kışlarda çalışır mı?",
+        idea: "Bölgesel uzmanların gözden geçirdiği, pazara özel yerelleştirilmiş cevaplar."
       },
       {
         title: "Yayıncılar ve medya",
-        desc:
-          "Yeni beliren soru kümelerini bulun ve yapay zeka sistemlerinin " +
-          "kaynak gösterebileceği yetkin içerik üretin.",
-      },
-    ],
+        desc: "Okurların bir haber etrafında sormaya devam ettiği soruları bulun, faydalı ve açıklayıcı içerikler oluşturun.",
+        term: "dört günlük çalışma haftası",
+        question: "Dört günlük çalışma haftası maaşı düşürür mü?",
+        idea: "Bir haberin açıkta bıraktığı takip sorularını cevaplayan bir açıklama yazısı."
+      }
+    ]
   },
-
   advantage: {
-    eyebrow: "Ortak tek avantaj",
-    heading: "Sorulardan ölçülebilir eyleme geçin.",
+    eyebrow: "Ortak bir avantaj",
+    heading: "Sorulardan faydalı içeriğe geçin.",
     cards: [
       {
-        title: "Gerçek talebi keşfedin",
-        desc:
-          "Tek bir konuyu, insanların karar yolculuğu boyunca sorduğu " +
-          "birbirine bağlı sorulara dönüştürün.",
+        title: "Gerçek soruları keşfedin",
+        desc: "Tek bir terimi, insanların öğrenirken, karşılaştırırken ve karar verirken en çok sorduğu ilgili sorulara dönüştürün.",
         bullets: [
-          "Soruları amaca göre inceleyin",
-          "Gözden kaçan konu kümelerini bulun",
-          "Her pazarı ve dili araştırın",
-        ],
+          "Soruları niyete göre okuyun",
+          "Gözden kaçan alt konuları fark edin",
+          "Bölgeler ve diller arasında araştırın"
+        ]
       },
       {
-        title: "Görünürlük boşluklarını bulun",
-        desc:
-          "Mevcut yanıtların nerede zayıf, eksik ya da hiç olmadığını ve " +
-          "uzmanlığınızın nerede fark yaratabileceğini görün.",
+        title: "İçerik boşluklarını bulun",
+        desc: "Soruları daha önce yayınladıklarınızla karşılaştırın ve uzmanlığınızın nerede işe yarayacağını görün.",
         bullets: [
-          "Fırsatı yüksek soruları önceliklendirin",
-          "Yanıt kapsamını anlayın",
-          "Rakiplerin kör noktalarını yakalayın",
-        ],
+          "İyi cevaplayabileceğiniz soruları seçin",
+          "SSS'si eksik sayfaları fark edin",
+          "Neyin ayrı bir içeriği hak ettiğine karar verin"
+        ]
       },
       {
         title: "Güvenle üretin",
-        desc:
-          "İçerik ve SEO ekiplerine, ürettikleri her sayfa için net ve " +
-          "kanıta dayalı bir brief verin.",
+        desc: "Yazarlara ürettikleri her sayfa, video veya yazı için soru odaklı bir başlangıç noktası verin.",
         bullets: [
-          "Birbirine bağlı içerik planları kurun",
-          "Verileri kendi iş akışınıza aktarın",
-          "İlerlemeyi zaman içinde ölçün",
-        ],
-      },
-    ],
+          "Bağlantılı içerikleri elle planlayın",
+          "Desteklenen planlarda soruları dışa aktarın",
+          "Yazıyı kendi sesinizle yazın"
+        ]
+      }
+    ]
   },
-
   workflow: {
-    head: "Değişen arama dünyası için",
-    headTinted: "basit bir iş akışı",
-    headTail: ".",
-    lead:
-      "Kurucudan kurumsal arama ekibine kadar herkese, talep ve fırsat " +
-      "konusunda aynı net görüntüyü verin.",
+    heading: "Değişen arama dünyası için basit bir iş akışı.",
+    lead: "Tek başına çalışan üreticilerden büyük arama ekiplerine kadar herkese aynı basit başlangıç noktasını verin: insanlar ne soruyor?",
     steps: [
       {
         title: "Bir konu girin",
-        desc:
-          "Bir ürün, kategori, müşteri sorunu ya da stratejik anahtar " +
-          "kelimeyle başlayın.",
+        desc: "Bir ürün, kategori, müşteri sorunu veya stratejik bir anahtar kelimeyle başlayın."
       },
       {
-        title: "Soruların haritasını çıkarın",
-        desc:
-          "GetTopQuestions ilgili aramaları ve mevcut yapay zeka yanıtlarının " +
-          "içindeki boşlukları ortaya çıkarır.",
+        title: "Soruları haritalayın",
+        desc: "GetTopQuestions teriminizin etrafında en çok sorulan ilgili soruları ortaya çıkarır."
       },
       {
-        title: "Fırsatı harekete çevirin",
-        desc:
-          "Önceliklendirin, dışa aktarın ve güvenilir kaynak olmak üzere " +
-          "kurgulanmış içerik üretin.",
-      },
-    ],
+        title: "Fırsatı değerlendirin",
+        desc: "En iyi cevaplayabileceğiniz soruları seçin ve kendi sesinizle faydalı içerikler üretin."
+      }
+    ]
   },
-
   cta: {
-    head: "Hedef kitlenizin şimdiden aradığı boşlukları bulun.",
-    lead:
-      "Bir konuyla başlayın ve gerçek yapay zeka arama talebini odaklı bir " +
-      "görünürlük stratejisine çevirin.",
+    head: "Kitlenizin zaten sorduğu soruları bulun.",
+    lead: "Bir terimle başlayın, sırada ne yazacağınızı net olarak bilerek çıkın.",
     primary: "Ücretsiz başlayın",
-    secondary: "Bize ulaşın",
-  },
+    secondary: "Bize ulaşın"
+  }
 };

@@ -14,163 +14,143 @@ import type { SolutionsContent } from "./index";
  */
 export const es: SolutionsContent = {
   title: "Soluciones",
-  description:
-    "Cómo los equipos de SEO, las agencias, los medios y las marcas usan " +
-    "GetTopQuestions para encontrar las preguntas que la búsqueda con IA aún no ha " +
-    "respondido.",
-
+  description: "Cómo fundadores, agencias y equipos de SEO y contenido usan GetTopQuestions para descubrir las preguntas de la gente y planificar contenido útil.",
   hero: {
-    eyebrow: "Pensado para todos los equipos que dan forma al descubrimiento con IA",
-    head: "Una plataforma. Más formas de ganar en la",
-    headTinted: "búsqueda con IA.",
+    eyebrow: "Para todos los que deciden qué escribir a continuación",
+    head: "Un término. Muchos equipos.",
+    headTinted: "Mejores preguntas.",
     headTail: "",
-    lead:
-      "GetTopQuestions ayuda a los equipos a entender qué pregunta la gente, dónde " +
-      "se quedan cortas las respuestas de la IA y qué crear para convertirse " +
-      "en la fuente que la IA recomienda.",
+    lead: "GetTopQuestions ayuda a los equipos a descubrir las preguntas que la gente hace en torno a un término y a convertirlas en contenido útil para la búsqueda tradicional, Google AI Overviews y la búsqueda conversacional con IA."
   },
   heroPrimary: "Empieza gratis",
   heroSecondary: "Ver precios",
-
   teams: {
     eyebrow: "Soluciones por equipo",
-    heading: "Pensado en torno a tu forma de trabajar.",
-    lead:
-      "Desde la primera búsqueda de una categoría hasta un programa global de " +
-      "contenidos, GetTopQuestions da a cada equipo un siguiente paso práctico.",
+    heading: "Pensado para tu forma de trabajar.",
+    lead: "Cada tarjeta muestra un término ilustrativo, una pregunta que podría surgir y el tipo de contenido que un equipo podría crear con ella. Los ejemplos los hemos escrito nosotros, no son resultados de la aplicación.",
+    questionLabel: "Pregunta de ejemplo",
+    ideaLabel: "Idea de contenido",
     cards: [
       {
         title: "Fundadores de SaaS",
-        desc:
-          "Sigue la visibilidad en IA de tu SaaS y descubre las preguntas que " +
-          "hacen los compradores antes de convertir.",
+        desc: "Conoce las preguntas que hacen los compradores antes de registrarse y respóndelas en tu sitio con sus palabras.",
+        term: "software de onboarding",
+        question: "¿Qué debe incluir una lista de onboarding para empleados remotos?",
+        idea: "Una página de lista práctica que mencione tu producto solo donde realmente ayude."
       },
       {
         title: "Startups",
-        desc:
-          "Haz que la IA te descubra pronto y construye autoridad antes de " +
-          "que tu categoría se sature.",
+        desc: "Cubre tu categoría pronto y de forma útil, para que las nuevas audiencias encuentren respuestas claras en ti.",
+        term: "contabilidad de carbono",
+        question: "¿Las empresas pequeñas deben informar de sus emisiones?",
+        idea: "Una explicación en lenguaje sencillo con una sección clara de «depende» según cada situación."
       },
       {
         title: "Agencias de marketing",
-        desc:
-          "Informa de la visibilidad en IA de cada cliente y convierte los " +
-          "huecos de citas en nuevas oportunidades de campaña.",
+        desc: "Lleva la investigación de preguntas a las reuniones iniciales con clientes y conviértela en propuestas basadas en curiosidad real.",
+        term: "paneles solares para el hogar",
+        question: "¿Cuánto tardan los paneles solares en amortizarse?",
+        idea: "Un brief listo para el cliente: una guía, tres respuestas FAQ y un guion de vídeo corto."
       },
       {
         title: "Equipos de SEO",
-        desc:
-          "Amplía los informes de SEO tradicional a las respuestas de la IA, " +
-          "las citas y la demanda de búsqueda conversacional.",
+        desc: "Suma la investigación de preguntas al trabajo con palabras clave y planifica páginas que cubran un tema a fondo para la búsqueda y las respuestas de IA.",
+        term: "refinanciación de hipoteca",
+        question: "¿Merece la pena refinanciar por una pequeña bajada de tipos?",
+        idea: "Reestructura una página existente con subtítulos basados en preguntas y respuestas directas."
       },
       {
         title: "Equipos de contenido",
-        desc:
-          "Demuestra qué contenidos impulsan la visibilidad en IA y prioriza " +
-          "las preguntas que más merece la pena responder.",
+        desc: "Llena la planificación editorial con preguntas que tus lectores hacen de verdad y decide cuáles merecen una pieza.",
+        term: "cuidado de plantas de interior",
+        question: "¿Por qué se ponen amarillas las hojas de mi monstera?",
+        idea: "Una guía de solución de problemas y una serie de respuestas cortas para redes sociales."
       },
       {
         title: "Ecommerce",
-        desc:
-          "Descubre qué marcas recomienda la IA y crea contenido útil para " +
-          "los recorridos de descubrimiento de producto.",
+        desc: "Responde las preguntas previas a la compra en páginas de producto, categoría y guías para ayudar a decidir.",
+        term: "sartén de hierro fundido",
+        question: "¿Se puede usar jabón en una sartén de hierro fundido?",
+        idea: "Una sección de cuidados en la página de producto y una guía más larga de curado."
       },
       {
         title: "Marketing interno",
-        desc:
-          "Une a los equipos de marca, contenido y búsqueda en torno a una " +
-          "sola estrategia medible de visibilidad en IA.",
+        desc: "Da a tus compañeros de marca, contenido y búsqueda una lista compartida de preguntas de clientes.",
+        term: "seguro de viaje de negocios",
+        question: "¿El seguro de viaje cubre conferencias canceladas?",
+        idea: "Una biblioteca de FAQ compartida por el blog, el centro de ayuda y el equipo de ventas."
       },
       {
         title: "Grandes marcas",
-        desc:
-          "Vigila temas, regiones e idiomas a escala mientras identificas los " +
-          "huecos de toda tu cartera.",
+        desc: "Investiga temas en distintas regiones e idiomas para ver cómo cambian las preguntas de un mercado a otro.",
+        term: "bomba de calor",
+        question: "¿Funcionan las bombas de calor en inviernos muy fríos?",
+        idea: "Respuestas localizadas por mercado, revisadas por expertos regionales."
       },
       {
-        title: "Medios y editores",
-        desc:
-          "Encuentra grupos de preguntas emergentes y crea una cobertura " +
-          "autorizada que los sistemas de IA puedan citar.",
-      },
-    ],
+        title: "Editores y medios",
+        desc: "Encuentra las preguntas que los lectores siguen haciendo sobre una historia y crea una cobertura útil y explicativa.",
+        term: "semana laboral de cuatro días",
+        question: "¿La semana de cuatro días reduce el sueldo?",
+        idea: "Una pieza explicativa que responda las preguntas que una noticia deja abiertas."
+      }
+    ]
   },
-
   advantage: {
-    eyebrow: "Una ventaja común",
-    heading: "Pasa de las preguntas a acciones medibles.",
+    eyebrow: "Una ventaja compartida",
+    heading: "Pasa de las preguntas al contenido útil.",
     cards: [
       {
-        title: "Descubre demanda real",
-        desc:
-          "Convierte un solo tema en las preguntas conectadas que la gente " +
-          "hace a lo largo de su proceso de decisión.",
+        title: "Descubre preguntas reales",
+        desc: "Convierte un término en las preguntas relacionadas más frecuentes que la gente plantea mientras aprende, compara y decide.",
         bullets: [
-          "Explora las preguntas por intención",
-          "Encuentra grupos de temas que nadie cubre",
-          "Investiga cada mercado y cada idioma",
-        ],
+          "Lee las preguntas por intención",
+          "Detecta subtemas olvidados",
+          "Investiga en distintas regiones e idiomas"
+        ]
       },
       {
-        title: "Encuentra huecos de visibilidad",
-        desc:
-          "Mira dónde las respuestas actuales son débiles, incompletas o no " +
-          "existen, y dónde tu experiencia puede aportar algo.",
+        title: "Encuentra huecos de contenido",
+        desc: "Compara las preguntas con lo que ya has publicado y mira dónde puede ayudar tu experiencia.",
         bullets: [
-          "Prioriza las preguntas con más oportunidad",
-          "Entiende cuánta cobertura tiene cada respuesta",
-          "Detecta los puntos ciegos de la competencia",
-        ],
+          "Selecciona las preguntas que puedes responder bien",
+          "Detecta páginas sin FAQ",
+          "Elige qué merece su propia pieza"
+        ]
       },
       {
         title: "Crea con confianza",
-        desc:
-          "Da a los equipos de contenido y de SEO un brief claro y basado en " +
-          "datos para cada página que publiquen.",
+        desc: "Da a los redactores un punto de partida basado en preguntas para cada página, vídeo o publicación.",
         bullets: [
-          "Crea planes de contenido conectados",
-          "Exporta los datos a tu flujo de trabajo",
-          "Mide el avance con el tiempo",
-        ],
-      },
-    ],
+          "Planifica contenido conectado a mano",
+          "Exporta preguntas en los planes compatibles",
+          "Mantén la escritura en tu voz"
+        ]
+      }
+    ]
   },
-
   workflow: {
-    head: "Un flujo de trabajo sencillo para una",
-    headTinted: "búsqueda en constante cambio",
-    headTail: ".",
-    lead:
-      "Da a todo el mundo, desde fundadores hasta equipos de búsqueda de " +
-      "grandes empresas, la misma visión clara de la demanda y la oportunidad.",
+    heading: "Un proceso sencillo para un panorama de búsqueda cambiante.",
+    lead: "Da a todos, desde creadores individuales hasta grandes equipos de búsqueda, el mismo punto de partida sencillo: ¿qué pregunta la gente?",
     steps: [
       {
-        title: "Introduce un tema",
-        desc:
-          "Empieza por un producto, una categoría, un problema de tus " +
-          "clientes o una palabra clave estratégica.",
+        title: "Escribe un tema",
+        desc: "Empieza con un producto, una categoría, un problema del cliente o una palabra clave estratégica."
       },
       {
         title: "Mapea las preguntas",
-        desc:
-          "GetTopQuestions muestra las búsquedas relacionadas y los huecos que " +
-          "dejan las respuestas de la IA que ya existen.",
+        desc: "GetTopQuestions muestra las preguntas relacionadas más frecuentes en torno a tu término."
       },
       {
-        title: "Actúa sobre la oportunidad",
-        desc:
-          "Prioriza, exporta y crea contenido pensado para convertirse en una " +
-          "fuente de referencia.",
-      },
-    ],
+        title: "Aprovecha la oportunidad",
+        desc: "Elige las preguntas que mejor puedes responder y crea contenido útil con tu propia voz."
+      }
+    ]
   },
-
   cta: {
-    head: "Encuentra los huecos que tu público ya está buscando.",
-    lead:
-      "Empieza por un tema y convierte la demanda real de la búsqueda con IA " +
-      "en una estrategia de visibilidad concreta.",
+    head: "Encuentra las preguntas que tu audiencia ya está haciendo.",
+    lead: "Empieza con un término y termina con una idea clara de qué escribir a continuación.",
     primary: "Empieza gratis",
-    secondary: "Habla con nosotros",
-  },
+    secondary: "Habla con nosotros"
+  }
 };

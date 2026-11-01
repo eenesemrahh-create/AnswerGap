@@ -6233,3 +6233,189 @@ table.gt { font-size: 13.5px; }
   background: var(--surface-2);
   color: var(--text-faint);
 }
+
+/* --- Solutions page, Replit design of 2026-11-01 ------------------------ */
+
+.sol-actions .mkt-cta-primary,
+.sol-actions .mkt-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 28px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+.sol-actions.on-light .mkt-cta-secondary { border-width: 2px; background: transparent; }
+
+.sol-band {
+  border-block: 1px solid var(--border);
+  background: var(--surface);
+}
+.sol-head { max-width: 640px; margin-bottom: 48px; }
+.sol-head.is-center { max-width: 760px; margin-inline: auto; text-align: center; }
+.sol-title {
+  margin: 12px 0 0;
+  color: var(--text);
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+}
+.sol-head > p:last-child {
+  margin: 16px 0 0;
+  color: var(--text-soft);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Nine cards with hairlines between them: the gap shows the grid's own colour. */
+.sol-teams {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--border);
+}
+.sol-team {
+  padding: 32px;
+  background: var(--surface);
+  transition: background .15s;
+}
+.sol-team:hover { background: color-mix(in oklab, var(--brand-soft) 40%, var(--surface)); }
+.sol-team-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.sol-team-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg);
+  color: var(--brand);
+  box-shadow: 0 1px 2px rgba(30, 20, 60, .06);
+}
+.sol-team-term {
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  background: var(--brand-soft);
+  color: var(--text-soft);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: right;
+}
+.sol-team h3 { margin: 0; font-size: 20px; font-weight: 700; }
+.sol-team > p { margin: 8px 0 0; color: var(--text-soft); font-size: 14px; line-height: 1.7; }
+.sol-team dl {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px dashed var(--border);
+  font-size: 14px;
+}
+.sol-team dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.sol-team .is-question dt { color: var(--accent); }
+.sol-team .is-idea dt { color: var(--brand); }
+.sol-team dd { margin: 4px 0 0; color: var(--text-soft); line-height: 1.55; }
+.sol-team .is-question dd { color: var(--text); font-weight: 600; }
+
+.sol-advantages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.sol-advantage {
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(30, 20, 60, .06);
+}
+.sol-advantage-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+.sol-advantage h3 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
+.sol-advantage > p { margin: 12px 0 0; color: var(--text-soft); font-size: 16px; line-height: 1.75; }
+.sol-advantage ul { list-style: none; display: grid; gap: 12px; margin: 28px 0 0; padding: 0; }
+.sol-advantage li {
+  display: flex;
+  gap: 12px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+.sol-advantage li svg { flex: none; margin-top: 1px; color: var(--brand); }
+
+/* The dark band */
+.sol-flow.mkt-flow { background: #171420; }
+.sol-flow .mkt-flow-inner { grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center; }
+.sol-flow-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .1);
+  color: #f0abfc;
+}
+.sol-flow .mkt-flow-title { font-size: clamp(30px, 4vw, 48px); line-height: 1.1; }
+.sol-flow .mkt-flow-steps { display: grid; gap: 16px; }
+.sol-flow .mkt-flow-steps li {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .04);
+}
+.sol-flow .mkt-flow-num { color: #f0abfc; font-size: 14px; font-weight: 800; }
+.sol-flow .mkt-flow-steps h3 { margin: 0; font-size: 20px; font-weight: 700; }
+.sol-flow .mkt-flow-steps p { margin: 8px 0 0; color: rgba(255, 255, 255, .6); line-height: 1.75; }
+
+.mkt-cta.sol-cta {
+  max-width: 1024px;
+  margin-block: 96px;
+  padding: 80px 48px;
+  border-radius: 32px;
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  box-shadow: 0 24px 60px color-mix(in oklab, var(--brand) 22%, transparent);
+}
+.sol-cta .mkt-cta-title { font-size: clamp(30px, 4vw, 48px); }
+.sol-cta .mkt-cta-sub { color: rgba(255, 255, 255, .8); font-size: 18px; }
+.sol-cta .mkt-cta-secondary { border-color: rgba(255, 255, 255, .3); color: #ffffff; }
+.sol-cta .mkt-cta-secondary:hover { border-color: #ffffff; background: rgba(255, 255, 255, .1); }
+
+@media (max-width: 980px) {
+  .sol-teams { grid-template-columns: repeat(2, 1fr); }
+  .sol-advantages, .sol-flow .mkt-flow-inner { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .sol-teams { grid-template-columns: 1fr; }
+  .sol-team { padding: 28px; }
+  .sol-flow .mkt-flow-steps li { grid-template-columns: 1fr; gap: 8px; }
+  .mkt-cta.sol-cta { margin: 56px 16px; padding: 56px 24px; }
+}
+.sol-flow .mkt-flow-pitch p { color: rgba(255, 255, 255, .65); font-size: 18px; line-height: 1.75; }
+.sol-cta .mkt-cta-title { line-height: 1.1; }

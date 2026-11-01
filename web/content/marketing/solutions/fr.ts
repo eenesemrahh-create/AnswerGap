@@ -18,164 +18,143 @@ import type { SolutionsContent } from "./index";
  */
 export const fr: SolutionsContent = {
   title: "Solutions",
-  description:
-    "Comment les équipes SEO, les agences, les éditeurs et les marques " +
-    "utilisent GetTopQuestions pour trouver les questions auxquelles la recherche " +
-    "IA n'a pas encore répondu.",
-
+  description: "Comment fondateurs, agences et équipes SEO et contenu utilisent GetTopQuestions pour découvrir les questions posées et planifier un contenu utile.",
   hero: {
-    eyebrow: "Conçu pour toutes les équipes qui façonnent la découverte par l'IA",
-    head: "Une seule plateforme. Plus de façons de gagner dans",
-    headTinted: "la recherche IA.",
+    eyebrow: "Pour tous ceux qui décident de ce qu'il faut écrire ensuite",
+    head: "Un terme. Plusieurs équipes.",
+    headTinted: "De meilleures questions.",
     headTail: "",
-    lead:
-      "GetTopQuestions aide les équipes à comprendre ce que les gens demandent, où " +
-      "les réponses de l'IA sont insuffisantes, et ce qu'il faut créer pour " +
-      "devenir la source que l'IA recommande.",
+    lead: "GetTopQuestions aide les équipes à découvrir les questions posées autour d'un terme, puis à en faire un contenu utile pour la recherche classique, les Google AI Overviews et la recherche conversationnelle."
   },
   heroPrimary: "Commencer gratuitement",
   heroSecondary: "Voir les tarifs",
-
   teams: {
     eyebrow: "Solutions par équipe",
-    heading: "Conçu autour de votre façon de travailler.",
-    lead:
-      "De la première recherche de catégorie à un programme de contenu " +
-      "mondial, GetTopQuestions donne à chaque équipe une prochaine étape concrète.",
+    heading: "Conçu pour votre façon de travailler.",
+    lead: "Chaque carte montre un terme illustratif, une question qu'il pourrait faire ressortir et le type de contenu qu'une équipe pourrait en tirer. Ces exemples sont rédigés par nous, ce ne sont pas des résultats de l'application.",
+    questionLabel: "Exemple de question",
+    ideaLabel: "Idée de contenu",
     cards: [
       {
-        title: "Fondateurs de SaaS",
-        desc:
-          "Suivez la visibilité IA de votre SaaS et découvrez les questions " +
-          "que les acheteurs posent avant de se décider.",
+        title: "Fondateurs SaaS",
+        desc: "Découvrez les questions que se posent les acheteurs avant de s'inscrire et répondez-y sur votre site avec leurs mots.",
+        term: "logiciel d'intégration des employés",
+        question: "Que doit contenir une checklist d'intégration pour les recrues à distance ?",
+        idea: "Une page de checklist pratique qui ne mentionne votre produit que là où il aide vraiment."
       },
       {
         title: "Startups",
-        desc:
-          "Faites-vous repérer tôt par l'IA et bâtissez votre autorité avant " +
-          "que votre catégorie ne devienne saturée.",
+        desc: "Couvrez tôt votre catégorie de façon utile, pour que de nouveaux publics trouvent chez vous des réponses claires.",
+        term: "comptabilité carbone",
+        question: "Les petites entreprises doivent-elles déclarer leurs émissions ?",
+        idea: "Un article explicatif en langage simple, avec une section claire « ça dépend » selon la situation."
       },
       {
         title: "Agences marketing",
-        desc:
-          "Rendez compte de la visibilité IA pour chaque client et " +
-          "transformez les lacunes de citation en nouvelles opportunités de " +
-          "campagne.",
+        desc: "Intégrez la recherche de questions aux lancements clients et transformez-la en propositions de contenu ancrées dans une vraie curiosité.",
+        term: "panneaux solaires résidentiels",
+        question: "En combien de temps des panneaux solaires sont-ils rentabilisés ?",
+        idea: "Un brief prêt pour le client : un guide, trois réponses FAQ, un court script vidéo."
       },
       {
         title: "Équipes SEO",
-        desc:
-          "Étendez le reporting SEO classique aux réponses de l'IA, aux " +
-          "citations et à la demande de recherche conversationnelle.",
+        desc: "Ajoutez la recherche de questions au travail sur les mots-clés et planifiez des pages qui couvrent un sujet en profondeur pour la recherche et les réponses IA.",
+        term: "renégociation de prêt immobilier",
+        question: "Faut-il renégocier pour une petite baisse de taux ?",
+        idea: "Restructurez une page existante avec des sous-titres sous forme de questions et des réponses directes."
       },
       {
-        title: "Équipes de contenu",
-        desc:
-          "Démontrez quels contenus génèrent de la visibilité IA et " +
-          "priorisez les questions qui méritent le plus une réponse.",
+        title: "Équipes contenu",
+        desc: "Nourrissez votre planning éditorial avec les questions que vos lecteurs posent vraiment, et décidez lesquelles méritent un contenu.",
+        term: "entretien des plantes d'intérieur",
+        question: "Pourquoi les feuilles de ma monstera jaunissent-elles ?",
+        idea: "Un guide de dépannage, plus une série de réponses courtes pour les réseaux sociaux."
       },
       {
         title: "E-commerce",
-        desc:
-          "Voyez quelles marques l'IA recommande et créez du contenu utile " +
-          "pour les parcours de découverte produit.",
+        desc: "Répondez aux questions d'avant-achat sur les pages produit, catégorie et guide pour aider les clients à se décider.",
+        term: "poêle en fonte",
+        question: "Peut-on utiliser du savon sur une poêle en fonte ?",
+        idea: "Une section entretien sur la page produit et un guide de culottage plus long."
       },
       {
         title: "Marketing interne",
-        desc:
-          "Réunissez les équipes marque, contenu et recherche autour d'une " +
-          "seule stratégie de visibilité IA mesurable.",
+        desc: "Donnez à vos collègues marque, contenu et recherche une liste commune de questions clients.",
+        term: "assurance voyage d'affaires",
+        question: "L'assurance voyage couvre-t-elle les conférences annulées ?",
+        idea: "Une bibliothèque de FAQ partagée par le blog, le centre d'aide et l'équipe commerciale."
       },
       {
-        title: "Grands comptes",
-        desc:
-          "Surveillez les sujets, les régions et les langues à grande " +
-          "échelle tout en repérant les lacunes de votre portefeuille.",
+        title: "Grandes marques",
+        desc: "Explorez les sujets par région et par langue pour voir comment les questions changent d'un marché à l'autre.",
+        term: "pompe à chaleur",
+        question: "Les pompes à chaleur fonctionnent-elles par grand froid ?",
+        idea: "Des réponses localisées par marché, relues par des experts régionaux."
       },
       {
         title: "Éditeurs et médias",
-        desc:
-          "Repérez les groupes de questions émergents et produisez une " +
-          "couverture faisant autorité que les systèmes d'IA peuvent citer.",
-      },
-    ],
+        desc: "Trouvez les questions que les lecteurs continuent de se poser autour d'un sujet et construisez une couverture utile et explicative.",
+        term: "semaine de quatre jours",
+        question: "La semaine de quatre jours réduit-elle le salaire ?",
+        idea: "Un article explicatif qui répond aux questions qu'une actualité laisse ouvertes."
+      }
+    ]
   },
-
   advantage: {
     eyebrow: "Un avantage commun",
-    heading: "Passez des questions à une action mesurable.",
+    heading: "Passez des questions au contenu utile.",
     cards: [
       {
-        title: "Découvrez la demande réelle",
-        desc:
-          "Transformez un seul sujet en l'ensemble des questions liées que " +
-          "les gens posent tout au long de leur parcours de décision.",
+        title: "Découvrez de vraies questions",
+        desc: "Transformez un terme en questions associées les plus posées par les gens qui apprennent, comparent et décident.",
         bullets: [
-          "Explorez les questions par intention",
-          "Repérez les groupes de sujets négligés",
-          "Étudiez chaque marché et chaque langue",
-        ],
+          "Lisez les questions par intention",
+          "Repérez les sous-sujets négligés",
+          "Explorez plusieurs régions et langues"
+        ]
       },
       {
-        title: "Repérez les lacunes de visibilité",
-        desc:
-          "Voyez où les réponses actuelles sont faibles, incomplètes ou " +
-          "absentes — et où votre expertise peut aider.",
+        title: "Trouvez les manques de contenu",
+        desc: "Comparez les questions avec ce que vous avez déjà publié et voyez où votre expertise peut aider.",
         bullets: [
-          "Priorisez les questions à fort potentiel",
-          "Comprenez la couverture des réponses",
-          "Détectez les angles morts de vos concurrents",
-        ],
+          "Sélectionnez les questions auxquelles vous répondez bien",
+          "Repérez les pages sans FAQ",
+          "Choisissez ce qui mérite son propre contenu"
+        ]
       },
       {
-        title: "Créez en toute confiance",
-        desc:
-          "Donnez aux équipes contenu et SEO un brief clair et étayé par des " +
-          "données pour chaque page qu'elles produisent.",
+        title: "Créez en confiance",
+        desc: "Donnez aux rédacteurs un point de départ fondé sur des questions pour chaque page, vidéo ou publication.",
         bullets: [
-          "Construisez des plans de contenu reliés entre eux",
-          "Exportez les données vers votre flux de travail",
-          "Mesurez vos progrès dans le temps",
-        ],
-      },
-    ],
+          "Planifiez à la main un contenu connecté",
+          "Exportez les questions avec les formules compatibles",
+          "Gardez votre propre voix"
+        ]
+      }
+    ]
   },
-
   workflow: {
-    head: "Un flux de travail simple pour",
-    headTinted: "un paysage de recherche en mutation",
-    headTail: ".",
-    lead:
-      "Donnez à tous — des fondateurs aux équipes de recherche des grands " +
-      "comptes — la même vision claire de la demande et des opportunités.",
+    heading: "Un processus simple pour un paysage de recherche en mutation.",
+    lead: "Donnez à tous, des créateurs indépendants aux grandes équipes de recherche, le même point de départ simple : que demandent les gens ?",
     steps: [
       {
         title: "Saisissez un sujet",
-        desc:
-          "Partez d'un produit, d'une catégorie, d'un problème client ou " +
-          "d'un mot-clé stratégique.",
+        desc: "Partez d'un produit, d'une catégorie, d'un problème client ou d'un mot-clé stratégique."
       },
       {
         title: "Cartographiez les questions",
-        desc:
-          "GetTopQuestions révèle les recherches associées et les lacunes des " +
-          "réponses IA existantes.",
+        desc: "GetTopQuestions fait ressortir les questions associées les plus posées autour de votre terme."
       },
       {
-        title: "Agissez sur l'opportunité",
-        desc:
-          "Priorisez, exportez et créez des contenus conçus pour devenir une " +
-          "source de référence.",
-      },
-    ],
+        title: "Saisissez l'opportunité",
+        desc: "Choisissez les questions auxquelles vous répondez le mieux et créez un contenu utile avec votre propre voix."
+      }
+    ]
   },
-
   cta: {
-    head: "Trouvez les lacunes dans lesquelles votre audience cherche déjà.",
-    lead:
-      "Partez d'un sujet et transformez la demande réelle de la recherche IA " +
-      "en une stratégie de visibilité ciblée.",
+    head: "Trouvez les questions que votre audience pose déjà.",
+    lead: "Partez d'un terme et repartez avec une idée claire de ce qu'il faut écrire ensuite.",
     primary: "Commencer gratuitement",
-    secondary: "Contactez-nous",
-  },
+    secondary: "Parlez-nous"
+  }
 };

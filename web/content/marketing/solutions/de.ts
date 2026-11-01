@@ -10,163 +10,143 @@ import type { SolutionsContent } from "./index";
  */
 export const de: SolutionsContent = {
   title: "Lösungen",
-  description:
-    "Wie SEO-Teams, Agenturen, Publisher und Marken mit GetTopQuestions die Fragen " +
-    "finden, die die KI-Suche noch nicht beantwortet hat.",
-
+  description: "Wie Gründer, Agenturen, SEO- und Content-Teams mit GetTopQuestions die Fragen der Menschen entdecken und hilfreiche Inhalte planen.",
   hero: {
-    eyebrow: "Für jedes Team, das die Entdeckung durch KI prägt",
-    head: "Eine Plattform. Mehr Wege, in der",
-    headTinted: "KI-Suche",
-    headTail: "zu gewinnen.",
-    lead:
-      "GetTopQuestions hilft Teams zu verstehen, was Menschen fragen, wo die " +
-      "Antworten der KI zu kurz greifen und was zu erstellen ist, um die " +
-      "Quelle zu werden, die die KI empfiehlt.",
+    eyebrow: "Für alle, die entscheiden, was als Nächstes geschrieben wird",
+    head: "Ein Begriff. Viele Teams.",
+    headTinted: "Bessere Fragen.",
+    headTail: "",
+    lead: "GetTopQuestions hilft Teams, die Fragen rund um einen Begriff zu entdecken und daraus hilfreiche Inhalte für die klassische Suche, Google AI Overviews und die dialogische KI-Suche zu machen."
   },
   heroPrimary: "Kostenlos starten",
   heroSecondary: "Preise ansehen",
-
   teams: {
     eyebrow: "Lösungen nach Team",
-    heading: "Gebaut um Ihre Arbeitsweise herum.",
-    lead:
-      "Von der ersten Suche in einer Kategorie bis zum globalen " +
-      "Content-Programm gibt GetTopQuestions jedem Team einen konkreten nächsten " +
-      "Schritt.",
+    heading: "Gebaut für Ihre Arbeitsweise.",
+    lead: "Jede Karte zeigt einen Beispielbegriff, eine mögliche Frage dazu und die Art von Inhalt, die ein Team daraus erstellen könnte. Die Beispiele stammen von uns, nicht aus der App.",
+    questionLabel: "Beispielfrage",
+    ideaLabel: "Content-Idee",
     cards: [
       {
         title: "SaaS-Gründer",
-        desc:
-          "Verfolgen Sie die KI-Sichtbarkeit Ihres SaaS und finden Sie die " +
-          "Fragen, die Käufer vor dem Abschluss stellen.",
+        desc: "Erfahren Sie, was Käufer vor der Anmeldung fragen, und beantworten Sie es auf Ihrer Website in deren Worten.",
+        term: "Onboarding-Software",
+        question: "Was gehört in eine Onboarding-Checkliste für Remote-Mitarbeitende?",
+        idea: "Eine praktische Checkliste, die Ihr Produkt nur dort erwähnt, wo es wirklich hilft."
       },
       {
-        title: "Start-ups",
-        desc:
-          "Werden Sie früh von der KI gefunden und bauen Sie Autorität auf, " +
-          "bevor Ihre Kategorie überfüllt ist.",
+        title: "Startups",
+        desc: "Decken Sie Ihre Kategorie früh hilfreich ab, damit neue Zielgruppen klare Antworten bei Ihnen finden.",
+        term: "CO₂-Bilanzierung",
+        question: "Müssen kleine Unternehmen Emissionen berichten?",
+        idea: "Eine verständliche Erklärung mit einem klaren „Kommt darauf an“-Abschnitt je nach Situation."
       },
       {
         title: "Marketing-Agenturen",
-        desc:
-          "Berichten Sie die KI-Sichtbarkeit für jeden Kunden und machen Sie " +
-          "aus Zitationslücken neue Chancen für Kampagnen.",
+        desc: "Bringen Sie Fragenrecherche in Kunden-Kickoffs und machen Sie daraus Content-Vorschläge, die auf echter Neugier beruhen.",
+        term: "Solaranlage fürs Haus",
+        question: "Wann amortisieren sich Solarmodule?",
+        idea: "Ein kundenfertiges Briefing: ein Leitfaden, drei FAQ-Antworten, ein kurzes Videoskript."
       },
       {
         title: "SEO-Teams",
-        desc:
-          "Erweitern Sie klassisches SEO-Reporting um KI-Antworten, Zitate " +
-          "und die Nachfrage aus dialogorientierter Suche.",
+        desc: "Ergänzen Sie die Keyword-Arbeit um Fragenrecherche und planen Sie Seiten, die ein Thema für Suche und KI-Antworten gründlich abdecken.",
+        term: "Anschlussfinanzierung",
+        question: "Lohnt sich eine Umschuldung bei einer kleinen Zinssenkung?",
+        idea: "Eine bestehende Seite mit fragegeleiteten Zwischenüberschriften und direkten Antworten neu gliedern."
       },
       {
         title: "Content-Teams",
-        desc:
-          "Belegen Sie, welche Inhalte KI-Sichtbarkeit bringen, und " +
-          "priorisieren Sie die Fragen, die sich am meisten lohnen.",
+        desc: "Füllen Sie die Redaktionsplanung mit Fragen, die Ihre Leser wirklich stellen, und entscheiden Sie, welche einen eigenen Beitrag verdienen.",
+        term: "Zimmerpflanzen pflegen",
+        question: "Warum werden die Blätter meiner Monstera gelb?",
+        idea: "Ein Leitfaden zur Fehlerbehebung plus eine Reihe kurzer Antworten für Social Media."
       },
       {
         title: "E-Commerce",
-        desc:
-          "Sehen Sie, welche Marken die KI empfiehlt, und erstellen Sie " +
-          "nützliche Inhalte für die Wege zur Produktentdeckung.",
+        desc: "Beantworten Sie Fragen vor dem Kauf auf Produkt-, Kategorie- und Ratgeberseiten und helfen Sie bei der Entscheidung.",
+        term: "Gusseisenpfanne",
+        question: "Darf man eine Gusseisenpfanne mit Spülmittel reinigen?",
+        idea: "Ein Pflegeabschnitt auf der Produktseite und ein längerer Leitfaden zum Einbrennen."
       },
       {
         title: "Inhouse-Marketing",
-        desc:
-          "Verbinden Sie Marken-, Content- und Suchteams rund um eine " +
-          "messbare Strategie für KI-Sichtbarkeit.",
+        desc: "Geben Sie Marken-, Content- und Suchkollegen eine gemeinsame Liste von Kundenfragen als Arbeitsgrundlage.",
+        term: "Geschäftsreiseversicherung",
+        question: "Deckt eine Reiseversicherung abgesagte Konferenzen ab?",
+        idea: "Eine gemeinsame FAQ-Bibliothek für Blog, Hilfe-Center und Vertrieb."
       },
       {
         title: "Enterprise-Marken",
-        desc:
-          "Beobachten Sie Themen, Regionen und Sprachen im großen Maßstab " +
-          "und finden Sie dabei Lücken über Ihr ganzes Portfolio hinweg.",
+        desc: "Recherchieren Sie Themen über Regionen und Sprachen hinweg und sehen Sie, wie sich Fragen von Markt zu Markt verändern.",
+        term: "Wärmepumpe",
+        question: "Funktionieren Wärmepumpen in sehr kalten Wintern?",
+        idea: "Lokalisierte Antworten je Markt, geprüft von regionalen Fachleuten."
       },
       {
-        title: "Publisher & Medien",
-        desc:
-          "Finden Sie aufkommende Fragencluster und erstellen Sie " +
-          "maßgebliche Beiträge, die KI-Systeme zitieren können.",
-      },
-    ],
+        title: "Verlage & Medien",
+        desc: "Finden Sie die Fragen, die Leser rund um eine Geschichte immer wieder stellen, und bauen Sie hilfreiche, erklärende Berichterstattung auf.",
+        term: "Vier-Tage-Woche",
+        question: "Sinkt das Gehalt bei einer Vier-Tage-Woche?",
+        idea: "Ein Erklärstück, das die Folgefragen beantwortet, die eine Nachricht offenlässt."
+      }
+    ]
   },
-
   advantage: {
     eyebrow: "Ein gemeinsamer Vorteil",
-    heading: "Von Fragen zu messbarem Handeln.",
+    heading: "Von Fragen zu nützlichen Inhalten.",
     cards: [
       {
-        title: "Echte Nachfrage entdecken",
-        desc:
-          "Machen Sie aus einem Thema die zusammenhängenden Fragen, die " +
-          "Menschen auf ihrem ganzen Entscheidungsweg stellen.",
+        title: "Echte Fragen entdecken",
+        desc: "Machen Sie aus einem Begriff die meistgestellten verwandten Fragen, die Menschen beim Lernen, Vergleichen und Entscheiden stellen.",
         bullets: [
-          "Fragen nach Suchintention erkunden",
-          "Übersehene Themencluster finden",
-          "Jeden Markt und jede Sprache recherchieren",
-        ],
+          "Fragen nach Absicht lesen",
+          "Übersehene Unterthemen erkennen",
+          "Über Regionen und Sprachen hinweg recherchieren"
+        ]
       },
       {
-        title: "Sichtbarkeitslücken finden",
-        desc:
-          "Sehen Sie, wo die vorhandenen Antworten schwach, unvollständig " +
-          "oder gar nicht da sind - und wo Ihr Fachwissen weiterhilft.",
+        title: "Content-Lücken finden",
+        desc: "Vergleichen Sie die Fragen mit dem, was Sie bereits veröffentlicht haben, und sehen Sie, wo Ihre Expertise helfen kann.",
         bullets: [
-          "Fragen mit großem Potenzial priorisieren",
-          "Die Abdeckung durch Antworten verstehen",
-          "Blinde Flecken der Wettbewerber erkennen",
-        ],
+          "Fragen auswählen, die Sie gut beantworten können",
+          "Seiten ohne FAQ erkennen",
+          "Entscheiden, was einen eigenen Beitrag verdient"
+        ]
       },
       {
-        title: "Mit Sicherheit erstellen",
-        desc:
-          "Geben Sie Content- und SEO-Teams für jede Seite, die sie " +
-          "erstellen, ein klares, belegtes Briefing.",
+        title: "Mit Zuversicht erstellen",
+        desc: "Geben Sie Autoren für jede Seite, jedes Video und jeden Beitrag einen fragegeleiteten Startpunkt.",
         bullets: [
-          "Zusammenhängende Content-Pläne aufbauen",
-          "Daten für Ihren Workflow exportieren",
-          "Fortschritt über die Zeit messen",
-        ],
-      },
-    ],
+          "Zusammenhängende Inhalte von Hand planen",
+          "Fragen in unterstützten Tarifen exportieren",
+          "Das Schreiben bleibt in Ihrer Stimme"
+        ]
+      }
+    ]
   },
-
   workflow: {
-    head: "Ein einfacher Ablauf für eine",
-    headTinted: "Suchlandschaft im Wandel",
-    headTail: ".",
-    lead:
-      "Geben Sie allen - von Gründern bis zu Suchteams in Konzernen - " +
-      "denselben klaren Blick auf Nachfrage und Chancen.",
+    heading: "Ein einfacher Ablauf für eine sich wandelnde Suchlandschaft.",
+    lead: "Geben Sie allen, von Solo-Creatorn bis zu großen Suchteams, denselben einfachen Startpunkt: Was fragen die Menschen?",
     steps: [
       {
-        title: "Ein Thema eingeben",
-        desc:
-          "Beginnen Sie mit einem Produkt, einer Kategorie, einem " +
-          "Kundenproblem oder einem strategischen Keyword.",
+        title: "Thema eingeben",
+        desc: "Beginnen Sie mit einem Produkt, einer Kategorie, einem Kundenproblem oder einem strategischen Keyword."
       },
       {
-        title: "Die Fragen abbilden",
-        desc:
-          "GetTopQuestions zeigt verwandte Suchanfragen und die Lücken in den " +
-          "vorhandenen KI-Antworten.",
+        title: "Fragen erfassen",
+        desc: "GetTopQuestions zeigt die meistgestellten verwandten Fragen rund um Ihren Begriff."
       },
       {
         title: "Die Chance nutzen",
-        desc:
-          "Priorisieren Sie, exportieren Sie die Daten und erstellen Sie " +
-          "Inhalte, die zu einer vertrauenswürdigen Quelle werden.",
-      },
-    ],
+        desc: "Wählen Sie die Fragen, die Sie am besten beantworten können, und erstellen Sie hilfreiche Inhalte in Ihrer eigenen Stimme."
+      }
+    ]
   },
-
   cta: {
-    head: "Finden Sie die Lücken, in denen Ihre Zielgruppe längst sucht.",
-    lead:
-      "Beginnen Sie mit einem Thema und machen Sie aus echter Nachfrage in " +
-      "der KI-Suche eine fokussierte Sichtbarkeitsstrategie.",
+    head: "Finden Sie die Fragen, die Ihre Zielgruppe bereits stellt.",
+    lead: "Beginnen Sie mit einem Begriff und gehen Sie mit einer klaren Idee, was Sie als Nächstes schreiben.",
     primary: "Kostenlos starten",
-    secondary: "Sprechen Sie mit uns",
-  },
+    secondary: "Sprechen Sie mit uns"
+  }
 };

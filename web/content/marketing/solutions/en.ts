@@ -3,178 +3,153 @@ import type { SolutionsShape } from "../blocks";
 /**
  * English solutions copy. This file pins the shape for the four translations.
  *
- * The nine team cards describe who the product is for, not features it has,
- * so they are safe: every claim in them is about the question tree and the
- * gap check, and both exist.
+ * Word for word from the Replit design (operator, 2026-11-01), with only the
+ * product name changed.
  *
- * THE ADVANTAGE BULLETS ARE NOT ALL TRUE YET, and they are transcribed from
- * the approved design rather than invented here. "Explore questions by
- * intent" needs the intent classifier, "Export data for your workflow" needs
- * CSV export, and "Measure progress over time" needs history nobody records.
- * Same standing as the pricing page's feature list: the plan is to build
- * them after the screens, and CLAUDE.md item 16 is the reminder that this
- * page is making promises until then.
- *
- * The workflow steps and the closing CTA describe what the product already
- * does, and are safe.
+ * THE TEAM EXAMPLES ARE WRITTEN BY HAND AND SAY SO ON THE SCREEN (`teams.lead`),
+ * which is what keeps them inside CLAUDE.md's rule on static data. Two claims
+ * are not true yet: "Read questions by intent" needs an intent classifier, and
+ * "most-asked" conflicts with "PAA ordering is NOT popularity ordering".
  */
 export const en = {
   title: "Solutions",
-  description:
-    "How SEO teams, agencies, publishers and brands use GetTopQuestions to find " +
-    "the questions AI search has not answered yet.",
-
+  description: "How founders, agencies, SEO and content teams use GetTopQuestions to discover the questions people ask and plan helpful content.",
   hero: {
-    eyebrow: "Built for every team shaping AI discovery",
-    head: "One platform. More ways to win in",
-    headTinted: "AI search.",
+    eyebrow: "Built for everyone who decides what to write next",
+    head: "One term. Many teams.",
+    headTinted: "Better questions.",
     headTail: "",
-    lead:
-      "GetTopQuestions helps teams understand what people ask, where AI answers " +
-      "fall short, and what to create to become the source AI recommends.",
+    lead: "GetTopQuestions helps teams discover the questions people ask around a term, then turn them into helpful content for traditional search, Google AI Overviews and conversational AI search."
   },
   heroPrimary: "Start free",
   heroSecondary: "View pricing",
-
   teams: {
     eyebrow: "Solutions by team",
     heading: "Built around how you work.",
-    lead:
-      "From the first category search to a global content program, " +
-      "GetTopQuestions gives every team a practical next step.",
+    lead: "Each card shows an illustrative term, a question it might surface, and the kind of content a team could create from it. Examples are written by us, not app output.",
+    questionLabel: "Example question",
+    ideaLabel: "Content idea",
     cards: [
       {
         title: "SaaS founders",
-        desc:
-          "Track AI visibility for your SaaS and uncover the questions " +
-          "buyers ask before they convert.",
+        desc: "Learn the questions buyers ask before they sign up, and answer them on your site in their words.",
+        term: "employee onboarding software",
+        question: "What should an onboarding checklist include for remote hires?",
+        idea: "A practical checklist page that mentions your product only where it genuinely helps."
       },
       {
         title: "Startups",
-        desc:
-          "Get discovered by AI early and build authority before your " +
-          "category becomes crowded.",
+        desc: "Build helpful coverage of your category early, so new audiences find clear answers from you.",
+        term: "carbon accounting",
+        question: "Do small companies need to report emissions?",
+        idea: "A plain-language explainer with a clear \"it depends\" section by situation."
       },
       {
         title: "Marketing agencies",
-        desc:
-          "Report AI visibility across every client and turn citation gaps " +
-          "into new campaign opportunities.",
+        desc: "Bring question research into client kickoffs and turn it into content proposals grounded in real curiosity.",
+        term: "home solar panels",
+        question: "How long do solar panels take to pay for themselves?",
+        idea: "A client-ready brief: one guide, three FAQ answers, a short video script."
       },
       {
         title: "SEO teams",
-        desc:
-          "Extend traditional SEO reporting to AI answers, citations, and " +
-          "conversational search demand.",
+        desc: "Add question research to keyword work and plan pages that cover a topic thoroughly for search and AI answers.",
+        term: "mortgage refinancing",
+        question: "Is it worth refinancing for a small rate drop?",
+        idea: "Restructure an existing page with question-led subheadings and direct answers."
       },
       {
         title: "Content teams",
-        desc:
-          "Prove which content drives AI visibility and prioritize the " +
-          "questions most worth answering.",
+        desc: "Fill editorial planning with questions your readers actually ask, and decide which deserve a piece.",
+        term: "houseplant care",
+        question: "Why are my monstera leaves turning yellow?",
+        idea: "A troubleshooting guide, plus a series of short answers for social."
       },
       {
         title: "Ecommerce",
-        desc:
-          "See which brands AI recommends and create useful content for " +
-          "product discovery journeys.",
+        desc: "Answer pre-purchase questions on product, category and guide pages to help shoppers decide.",
+        term: "cast iron skillet",
+        question: "Can you use soap on a cast iron pan?",
+        idea: "A care section on the product page and a longer seasoning guide."
       },
       {
         title: "In-house marketing",
-        desc:
-          "Connect brand, content, and search teams around one measurable " +
-          "AI visibility strategy.",
+        desc: "Give brand, content and search colleagues one shared list of customer questions to work from.",
+        term: "business travel insurance",
+        question: "Does travel insurance cover cancelled conferences?",
+        idea: "A shared FAQ library used by the blog, help center and sales team."
       },
       {
         title: "Enterprise brands",
-        desc:
-          "Monitor topics, regions, and languages at scale while " +
-          "identifying gaps across your portfolio.",
+        desc: "Research topics across regions and languages to see how questions shift from market to market.",
+        term: "heat pump",
+        question: "Do heat pumps work in very cold winters?",
+        idea: "Localized answers per market, reviewed by regional experts."
       },
       {
         title: "Publishers & media",
-        desc:
-          "Find emerging question clusters and create authoritative " +
-          "coverage that AI systems can cite.",
-      },
-    ],
+        desc: "Find the questions readers keep asking around a story and build helpful, explanatory coverage.",
+        term: "four-day work week",
+        question: "Do four-day work weeks reduce pay?",
+        idea: "An explainer that answers the follow-up questions a news piece leaves open."
+      }
+    ]
   },
-
   advantage: {
     eyebrow: "One shared advantage",
-    heading: "Move from questions to measurable action.",
+    heading: "Move from questions to useful content.",
     cards: [
       {
-        title: "Discover real demand",
-        desc:
-          "Turn one topic into the connected questions people ask throughout " +
-          "their decision journey.",
+        title: "Discover real questions",
+        desc: "Turn one term into the most-asked related questions people raise as they learn, compare and decide.",
         bullets: [
-          "Explore questions by intent",
-          "Find overlooked topic clusters",
-          "Research every market and language",
-        ],
+          "Read questions by intent",
+          "Notice overlooked subtopics",
+          "Research across regions and languages"
+        ]
       },
       {
-        title: "Find visibility gaps",
-        desc:
-          "See where current answers are weak, incomplete, or missing—and " +
-          "where your expertise can help.",
+        title: "Find content gaps",
+        desc: "Compare the questions with what you have already published and see where your expertise could help.",
         bullets: [
-          "Prioritize high-opportunity questions",
-          "Understand answer coverage",
-          "Spot competitor blind spots",
-        ],
+          "Shortlist questions you can answer well",
+          "Spot pages missing an FAQ",
+          "Choose what deserves its own piece"
+        ]
       },
       {
         title: "Create with confidence",
-        desc:
-          "Give content and SEO teams a clear, evidence-based brief for " +
-          "every page they produce.",
+        desc: "Give writers a question-led starting point for every page, video or post they produce.",
         bullets: [
-          "Build connected content plans",
-          "Export data for your workflow",
-          "Measure progress over time",
-        ],
-      },
-    ],
+          "Plan connected content by hand",
+          "Export questions on supported plans",
+          "Keep the writing in your voice"
+        ]
+      }
+    ]
   },
-
   workflow: {
-    head: "A simple workflow for a",
-    headTinted: "changing search landscape",
-    headTail: ".",
-    lead:
-      "Give everyone—from founders to enterprise search teams—the same clear " +
-      "view of demand and opportunity.",
+    heading: "A simple workflow for a changing search landscape.",
+    lead: "Give everyone, from solo creators to large search teams, the same simple starting point: what are people asking?",
     steps: [
       {
         title: "Enter a topic",
-        desc:
-          "Start with a product, category, customer problem, or strategic " +
-          "keyword.",
+        desc: "Start with a product, category, customer problem, or strategic keyword."
       },
       {
         title: "Map the questions",
-        desc:
-          "GetTopQuestions reveals related searches and the gaps inside existing " +
-          "AI answers.",
+        desc: "GetTopQuestions surfaces the most-asked related questions around your term."
       },
       {
         title: "Act on the opportunity",
-        desc:
-          "Prioritize, export, and create content designed to become a " +
-          "trusted source.",
-      },
-    ],
+        desc: "Choose the questions you can answer best and create helpful content in your own voice."
+      }
+    ]
   },
-
   cta: {
-    head: "Find the gaps your audience is already searching through.",
-    lead:
-      "Start with a topic and turn real AI-search demand into a focused " +
-      "visibility strategy.",
+    head: "Find the questions your audience is already asking.",
+    lead: "Start with a term and leave with a clear idea of what to write next.",
     primary: "Start free",
-    secondary: "Talk to us",
-  },
+    secondary: "Talk to us"
+  }
 } as const satisfies SolutionsShape;
