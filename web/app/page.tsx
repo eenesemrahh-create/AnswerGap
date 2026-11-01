@@ -40,6 +40,7 @@ import { clearSearch, jobError, startSearch, useSearchJob } from "@/lib/search-j
 import { NavMenu } from "@/components/NavMenu";
 import { ErrorNote } from "@/components/ErrorNote";
 import { Examples, Faq, Formats, Workflow } from "@/components/marketing/HomeSections";
+import { MarketPicker } from "@/components/marketing/MarketPicker";
 
 const MARKET_KEY = "answergap.market";
 
@@ -302,7 +303,7 @@ export default function Landing() {
         });
         return;
       }
-      // The challenge has not answered yet; the button says so.
+      // The challenge has not answered yet; the button stays disabled.
       if (!captcha) return;
       const used = captcha;
       challenge.current?.reset(); // one use per token
@@ -504,37 +505,29 @@ export default function Landing() {
                 : undefined
             }
           >
-            {busy
-              ? t("market.hero.searching")
-              : anonSearching && (anon?.remaining ?? 0) > 0 && !captcha
-                ? t("anon.verifying")
-                : t("market.hero.searchCta")}
+            {busy ? t("market.hero.searching") : t("market.hero.searchCta")}
+            {!busy && <span aria-hidden>→</span>}
           </button>
         </form>
 
-        {/* Signed out (2026-10-19): ONE free search a day, said plainly, with
-            when it comes back and the way to more; and the challenge every
-            signed-out search must pass. One line since 2026-11-01: a card here
-            pushed the pitch's box out of its place the moment it arrived. */}
+        {/* Signed out (2026-10-19): one free search a day and the challenge every
+            signed-out search must pass. The allowance is only spoken of once it
+            is used up; until then the box simply works. */}
         {anonSearching && anon && meta?.turnstile_site_key && (
           <div className="home-anon">
-            <span>
-              {anon.daily_full
-                ? t("anon.dailyFull")
-                : anon.remaining > 0
-                  ? t("anon.freeTitle", { count: anon.remaining })
-                  : t("anon.usedTitle")}
-            </span>
             {(anon.remaining <= 0 || anon.daily_full) && (
-              <span>{resetsIn(anon.resets_at, now, locale, t)}</span>
+              <>
+                <span>{anon.daily_full ? t("anon.dailyFull") : t("anon.usedTitle")}</span>
+                <span>{resetsIn(anon.resets_at, now, locale, t)}</span>
+                <button
+                  type="button"
+                  className="auth-link"
+                  onClick={() => requestSignIn({ mode: "signup", reason: t("anon.usedUpReason") })}
+                >
+                  {t("anon.signUpFree")}
+                </button>
+              </>
             )}
-            <button
-              type="button"
-              className="auth-link"
-              onClick={() => requestSignIn({ mode: "signup", reason: t("anon.usedUpReason") })}
-            >
-              {t("anon.signUpFree")}
-            </button>
             {anon.remaining > 0 && (
               <Turnstile
                 ref={challenge}
@@ -578,54 +571,22 @@ export default function Landing() {
           </div>
         )}
 
-        {/* One row under the search card: where the search runs (as two
-            pill selectors), what it costs, and two examples to start from.
+        {/* One row under the search card: where the search runs, what it costs, and two examples to start from.
             The market used to sit on a line of its own below the examples,
             labelled like a form; as pills it reads as part of the search. */}
         <div className={`home-search-meta${member ? "" : " is-pitch"}`}>
           <div className="home-market">
-            <label className="home-pill-select" title={t("landing.country")}>
-              <svg viewBox="0 0 20 20" aria-hidden>
-                <circle cx="10" cy="10" r="7" />
-                <path d="M3 10h14M10 3c2 2.2 2.8 4.6 2.8 7s-.8 4.8-2.8 7c-2-2.2-2.8-4.6-2.8-7S8 5.2 10 3z" />
-              </svg>
-              <select
-                value={locationCode}
-                aria-label={t("landing.country")}
-                onChange={(e) => {
-                  const next = Number(e.target.value);
-                  setLocationCode(next);
-                  rememberMarket(next, languageCode);
-                }}
-              >
-                {countries.length === 0 && <option value={2840}>United States</option>}
-                {countries.map((country) => (
-                  <option key={country.code} value={country.code}>
-                    {country.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="home-pill-select" title={t("landing.language")}>
-              <svg viewBox="0 0 20 20" aria-hidden>
-                <path d="M3 5h8M7 3v2M5 5c.5 3 2.5 5.5 5 6.5M9.5 5c-.8 3.5-3 6-6 7.5M11 17l3.5-8 3.5 8M12.2 14.5h4.6" />
-              </svg>
-              <select
-                value={languageCode}
-                aria-label={t("landing.language")}
-                onChange={(e) => {
-                  setLanguageCode(e.target.value);
-                  rememberMarket(locationCode, e.target.value);
-                }}
-              >
-                {languages.length === 0 && <option value="en">English</option>}
-                {languages.map((language) => (
-                  <option key={language.code} value={language.code}>
-                    {language.name}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <MarketPicker
+              countries={countries}
+              languages={languages}
+              location={locationCode}
+              language={languageCode}
+              onChange={(location, language) => {
+                setLocationCode(location);
+                setLanguageCode(language);
+                rememberMarket(location, language);
+              }}
+            />
             {/* "One credit" means nothing to somebody with no account. */}
             {member && <span className="home-cost">{t("account.newSearchLead")}</span>}
           </div>
@@ -636,14 +597,14 @@ export default function Landing() {
               className="mkt-try-chip"
               onClick={() => tryChip(t("market.hero.try1"))}
             >
-              {t("market.hero.try1")}
+              &ldquo;{t("market.hero.try1")}&rdquo;
             </button>
             <button
               type="button"
               className="mkt-try-chip"
               onClick={() => tryChip(t("market.hero.try2"))}
             >
-              {t("market.hero.try2")}
+              &ldquo;{t("market.hero.try2")}&rdquo;
             </button>
           </div>
         </div>
@@ -891,19 +852,31 @@ export default function Landing() {
             </span>
             <p>{t("market.footer.tagline")}</p>
           </div>
-          {/* Only pages that exist, the same columns as `MarketingFooter`. */}
+          {/* The entries without a page yet are plain text, as `NavMenu` does
+              for Blog: a link that goes nowhere reads as a broken site. */}
           <div className="mkt-footer-col">
             <h4>{t("market.footer.product.heading")}</h4>
             <ul>
               <li><a href="#how-it-works">{t("market.footer.product.features")}</a></li>
               <li><Link href={marketingPath("solutions", locale)}>{t("market.nav.solutions")}</Link></li>
               <li><Link href={marketingPath("pricing", locale)}>{t("market.footer.product.pricing")}</Link></li>
-              <li><Link href={marketingPath("ai-seo", locale)}>{t("market.nav.aiSeo")}</Link></li>
+              <li><span>{t("market.footer.product.api")}</span></li>
+              <li><span>{t("market.footer.product.changelog")}</span></li>
+            </ul>
+          </div>
+          <div className="mkt-footer-col">
+            <h4>{t("market.footer.resources.heading")}</h4>
+            <ul>
+              <li><span>{t("market.footer.resources.blog")}</span></li>
+              <li><span>{t("market.footer.resources.seoGuides")}</span></li>
+              <li><span>{t("market.footer.resources.helpCenter")}</span></li>
+              <li><span>{t("market.footer.resources.community")}</span></li>
             </ul>
           </div>
           <div className="mkt-footer-col">
             <h4>{t("market.footer.company.heading")}</h4>
             <ul>
+              <li><span>{t("market.footer.company.about")}</span></li>
               <li><Link href={marketingPath("contact", locale)}>{t("market.footer.company.contact")}</Link></li>
               {/* These two are the URLs handed to Stripe onboarding and Google
                   OAuth verification, and a reviewer who lands on the landing
@@ -996,7 +969,7 @@ function PricingSection({
   // The grid class carries the count so CSS can pick the right layout without
   // an inline style. `plans-1` centers, `plans-2` matches the current design,
   // `plans-3` fits three across, `plans-4` wraps 2x2 on narrow screens.
-  const gridClass = `mkt-plans plans-${list.length}`;
+  const gridClass = `mkt-plans mkt-plans-home plans-${list.length}`;
 
   return (
     <section id="pricing" className="mkt-section">
@@ -1040,6 +1013,7 @@ function PlanCard({
   plan: Plan;
   onCta: (event: React.MouseEvent) => void;
 }) {
+  const { t } = useI18n();
   return (
     <div className={`mkt-plan theme-${plan.theme}`}>
       {plan.badge && <span className="mkt-plan-badge">{plan.badge}</span>}
@@ -1049,14 +1023,25 @@ function PlanCard({
         <b>{plan.price}</b>
         <span>{plan.per}</span>
       </div>
+      <p className="mkt-plan-billed">{t("market.pricing.billed")}</p>
+      <button type="button" className="mkt-plan-cta" onClick={onCta}>
+        {plan.cta}
+      </button>
+      {plan.features_heading && (
+        <p className="mkt-plan-featlabel">{plan.features_heading}</p>
+      )}
       <ul className="mkt-plan-features">
         {plan.features.map((feat, i) => (
           <li key={i}>{feat}</li>
         ))}
       </ul>
-      <button type="button" className="mkt-plan-cta" onClick={onCta}>
-        {plan.cta}
-      </button>
+      <div className="mkt-plan-foot">
+        <span>{t("market.pricing.signUpNow")}</span>
+        <button type="button" className="mkt-plan-pay" onClick={onCta}>
+          {plan.price}{plan.per}
+        </button>
+        <small>{t("market.pricing.tax")}</small>
+      </div>
     </div>
   );
 }

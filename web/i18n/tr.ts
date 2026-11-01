@@ -599,16 +599,16 @@ export const tr: Messages = {
     },
 
     hero: {
-      eyebrow: "İçerik ekipleri için soru boşluğu analizi",
-      headlinePre: "Rakiplerinin hiç cevaplamadığı",
+      eyebrow: "İçerik üreticileri, kurucular ve pazarlamacılar için soru araştırması",
+      headlinePre: "Cevaplamaya değer",
       headlineHighlight: "soruları bul",
       sub:
-        "Bir konu yaz. İnsanların Google'da sorduğu soruları çıkaralım, her " +
-        "birinin arkasındaki sayfaları kontrol edelim ve hangi soruyu gerçekten " +
-        "hedefleyen bir sayfa olmadığını gösterelim.",
+        "Bir terim yaz, en çok sorulan ilgili soruları keşfet ve bunları klasik " +
+        "arama, Google AI Overview ve sohbet tabanlı yapay zekâ araması için " +
+        "faydalı içerikler üretmekte kullan.",
       signedInTitle: "Neye bakalım?",
-      searchPlaceholder: "Bir konu girin — örn. diş beyazlatma",
-      searchCta: "Analiz et",
+      searchPlaceholder: "Bir terim yaz, örneğin ayakta çalışma masası",
+      searchCta: "Ara",
       searching: "Aranıyor…",
       elapsed: "{seconds} saniyedir sürüyor",
       tryLabel: "Örnek aramalar:",
@@ -616,68 +616,81 @@ export const tr: Messages = {
       try2: "AI SEO araçları",
     },
 
+    picker: {
+      open: "Arama pazarını seç",
+      country: "Ülke",
+      language: "Dil",
+      search: "Ülke ara",
+      none: "Ülke bulunamadı",
+    },
+
     howItWorks: {
       eyebrow: "Nasıl çalışır",
-      title: "Arama sonuçlarının cevapsız bıraktığını gör.",
+      title: "İnsanların gerçekten sorduğundan başla.",
       sub:
-        "Bir soru listesi insanların ne sorduğunu söyler. GetTopQuestions " +
-        "bunun yanında o soruyu cevaplayan biri olup olmadığını da söyler.",
+        "GetTopQuestions teriminin etrafındaki soruları ortaya çıkarır, böylece " +
+        "gerçek merakı temel alan, faydalı ve iyi kurgulanmış içerikler " +
+        "planlayabilirsin.",
       card1: {
-        label: "Soru Keşfi",
-        title: "Soru Ağacını Çıkar",
+        label: "Soru Araştırması",
+        title: "İlgili Soruları Keşfet",
         body:
-          "Tek bir konuyu, Google'ın Kullanıcılar Bunları da Soruyor alanında " +
-          "gösterdiği soruların ağacına çevir; her soru geldiği sorunun altında.",
+          "Tek bir terimi, ilk meraktan karşılaştırmaya ve karara kadar en çok " +
+          "sorulan ilgili sorulara dönüştür.",
       },
       card2: {
-        label: "Boşluk Analizi",
-        title: "Kim Neyi Cevaplıyor Kontrol Et",
+        label: "Editoryal Planlama",
+        title: "İçerik Fırsatlarını Yakala",
         body:
-          "Kontrol ettiğin her soru için arama sonuçlarını alır, soruyu gerçekten " +
-          "hedefleyen sayfaları sayarız. Az sayfa, boşluk demektir.",
+          "Soruları bir editör gözüyle oku; mevcut içeriğinin cevapsız bıraktığı " +
+          "ya da yalnızca geçerken değindiği soruları fark et.",
       },
       card3: {
-        label: "Yapay Zekâ Görünürlüğü",
-        title: "AI Overview Kimi Gösteriyor Gör",
+        label: "Otorite",
+        title: "Konu Otoritesi Oluştur",
         body:
-          "Google kontrol ettiğin soruyu AI Overview ile cevapladığında hangi " +
-          "sitelere kaynak verdiğini ve seninkinin aralarında olup olmadığını gör.",
+          "Bağlantılı soruları grupla ve bir konuyu baştan sona ele alan, " +
+          "okurlar, arama motorları ve yapay zekâ asistanları için net yazılmış " +
+          "içerikler planla.",
       },
     },
 
     workflow: {
       eyebrow: "İş akışı",
-      title: "Konu girer. Boşluklar çıkar. İçerik senden.",
+      titleLead: "Terim girer. Sorular çıkar.",
+      titleMuted: "İçerik senden.",
       body:
-        "GetTopQuestions bir araştırma aracıdır. Senin yerine yazmaz, yayınlamaz " +
-        "ve sıralama takibi yapmaz. Cevapların nerede eksik olduğunu gösterir, " +
-        "böylece yazma zamanını işe yarayacak yere harcarsın.",
+        "GetTopQuestions bir araştırma başlangıç noktasıdır. Senin yerine yazmaz " +
+        "veya yayınlamaz, sıralama takibi de yapmaz. İnsanların ne sorduğunu " +
+        "gösterir; böylece planladığın içerik varsayımlarına değil, onların " +
+        "sorularına dayanır.",
       step1: {
-        label: "01 / Konu",
+        label: "01 / Terim",
         title: "Kitlenin kullandığı kelimelerle başla",
         body:
-          "Bir ürün kategorisi, bir sorun ya da sade bir ifade yaz. Geniş olması " +
-          "sorun değil. Amaç kapıyı açmak, kusursuz anahtar kelimeyi tahmin " +
-          "etmek değil.",
+          "Bir ürün kategorisi, sorun, özellik ya da \"ayakta çalışma masası\" " +
+          "gibi sade bir ifade yaz. Geniş olması sorun değil. Amaç kapıyı " +
+          "açmak, kusursuz anahtar kelimeyi tahmin etmek değil.",
         sample: "ayakta çalışma masası",
       },
       step2: {
         label: "02 / Sorular",
-        title: "Etrafındaki soruları gör",
+        title: "Etrafında sorulan soruları gör",
         body:
-          "Sorular ağaç olarak gelir; meraklı bir alıcı gibi bir sorunun " +
-          "diğerine nasıl bağlandığını takip edebilirsin.",
+          "GetTopQuestions en çok sorulan ilgili soruları ortaya çıkarır; böylece " +
+          "konuyu meraklı bir alıcının, yeni başlayanın ya da şüphecinin " +
+          "soracağı şekilde okursun.",
         sample: "Ayakta çalışma masası bel ağrısına iyi gelir mi?",
       },
       step3: {
-        label: "03 / Boşluklar",
-        title: "Kimsenin cevaplamadığını bul",
+        label: "03 / İçerik",
+        title: "Sırada ne yazacağına karar ver",
         body:
-          "Önemsediğin soruları kontrol et. Her biri, onu hedefleyen sayfalar, " +
-          "bir sonuç ve kendi alt sorularıyla geri döner.",
-        sample: "8 sayfadan 0'ı bu soruyu hedefliyor",
+          "Soruları niyete göre grupla, gerçek uzmanlığınla cevaplayabileceklerini " +
+          "seç ve sayfalara, bölümlere, SSS'lere, videolara ya da yazılara " +
+          "dönüştür. Yazmak sana ait.",
+        sample: "Rehber: ayakta çalışmak kimin işine yarar, kimin yaramaz",
       },
-      note: "Örnekler ekibimiz tarafından yazıldı, uygulamanın gerçek çıktısı değildir.",
     },
 
     examples: {
@@ -744,9 +757,9 @@ export const tr: Messages = {
       title: "Formatı soru seçsin.",
       body:
         "Bir sorunun soruluş biçimi, nasıl cevaplanmak istediğini ele verir. " +
-        "Net ve düzenli cevaplar okura arama sonuçlarında, AI Overview'da ve " +
-        "asistanlarda aynı şekilde yarar. Hiçbirinde garanti yok, ama işe " +
-        "yarar bir yapı sağlam bir tercihtir.",
+        "Net ve düzenli cevaplar okura klasik arama sonuçlarında, Google AI " +
+        "Overview'da ve sohbet asistanlarında aynı şekilde yarar. Hiçbirinde " +
+        "garanti yok, ama işe yarar bir yapı sağlam bir tercihtir.",
       card1: {
         title: "SSS bölümleri",
         when: "Sorunun kısa ve net bir cevabı olduğunda.",
@@ -784,43 +797,41 @@ export const tr: Messages = {
       title: "GetTopQuestions hakkında sorular",
       q1: "GetTopQuestions tam olarak ne yapıyor?",
       a1:
-        "Bir konu yazarsın, Google'ın o konu etrafında gösterdiği soruları ağaç " +
-        "olarak gösteririz. Kontrol ettiğin sorularda arama sonuçlarını okur, " +
-        "her soruyu gerçekten kaç sayfanın hedeflediğini gösteririz. Az sayfa " +
-        "boşluk demektir: rakiplerinin cevaplamadığı bir soru.",
-      q2: "Bir soru listesinden farkı ne?",
+        "Bir terim yazarsın, GetTopQuestions onunla ilgili en çok sorulan " +
+        "soruları gösterir. Sonra bu soruları faydalı içerikler planlamak ve " +
+        "yazmak için kullanırsın. Bütün fikir bu: soru araştırması için pratik " +
+        "bir başlangıç noktası.",
+      q2: "Benim yerime içerik yazıp yayınlıyor mu?",
       a2:
-        "Liste insanların ne sorduğunu gösterir. Biz ayrıca her sorunun " +
-        "arkasındaki arama sonuçlarını kontrol ederiz; böylece hangilerinin iyi " +
-        "cevaplandığını, hangilerinin hâlâ açık olduğunu görürsün.",
-      q3: "Boşluk her zaman gerçek bir boşluk mu?",
-      a3:
-        "Hayır. Sonuç, arama sonuçlarındaki sayfaların başlık ve adreslerine " +
-        "dayanan bir tahmindir ve yanlış olabilir. Her sonuç arkasındaki " +
-        "sayfaları gösterir, kararı sen de verebilirsin. Kontrol etmediğimiz " +
-        "bir soru hiçbir zaman boşluk olarak değil, kontrol edilmedi olarak " +
-        "gösterilir.",
-      q4: "Bir arama ne kadar?",
-      a4:
-        "Her arama bir kredidir. Bir soruyu kontrol etmek de ayrı bir aramadır: " +
-        "o sorunun sonucunu ve kendi soru ağacını verir.",
-      q5: "Benim yerime içerik yazıp yayınlıyor mu?",
-      a5:
         "Hayır. GetTopQuestions ne yazacağına karar vermene yardım eder. Yazmak, " +
         "düzenlemek ve yayınlamak sana aittir; uzmanlığın ve sesin de burada " +
         "devreye girer.",
-      q6: "Sıralamalarımı takip ediyor mu?",
+      q3: "Sıralamalarımı veya yapay zekâdaki bahsedilmelerimi takip ediyor mu?",
+      a3:
+        "Hayır. GetTopQuestions bir sıralama takipçisi, marka izleme ya da kaynak " +
+        "analiz aracı değildir ve arama hacmi raporlamaz. Odağı soruları " +
+        "keşfetmektir.",
+      q4: "Bu soruları cevaplarsam AI Overview'a girer miyim?",
+      a4:
+        "Bunu kimse vaat edemez. Gerçek soruları net ve doğru cevaplamak klasik " +
+        "arama, Google AI Overview ve sohbet tabanlı yapay zekâ araması için " +
+        "mantıklı bir temeldir, ama yerleşime o platformlar karar verir.",
+      q5: "Nasıl bir terimle başlamalıyım?",
+      a5:
+        "Kitlenin gerçekten yazacağı ya da söyleyeceği bir şeyle: bir ürün " +
+        "kategorisi, sorun, görev ya da karşılaştırma. Sonuçlar fazla geniş " +
+        "gelirse, az önce bulduğun sorulardan daha dar bir ifade dene.",
+      q6: "Bir sayfa kaç soruyu cevaplamalı?",
       a6:
-        "Hayır. Sıralama takibi ya da sürekli izleme yoktur. Kontrol ettiğin bir " +
-        "soruda, Google'ın AI Overview'unun kontrol anında hangi sitelere kaynak " +
-        "verdiğini gösterir.",
-      q7: "Bu soruları cevaplarsam AI Overview'a girer miyim?",
-      a7:
-        "Bunu kimse vaat edemez. Gerçek soruları net ve doğru cevaplamak mantıklı " +
-        "bir temeldir, ama yerleşime o platformlar karar verir.",
+        "Genellikle bir ana soruyu ve okurun sıradaki aklına gelecek yakın " +
+        "takip sorularını. İki soru farklı insanlar için farklı cevaplar " +
+        "gerektiriyorsa, büyük ihtimalle ayrı içerikleri hak ediyordur.",
     },
 
     pricing: {
+      billed: "Aylık faturalandırılır",
+      signUpNow: "Hemen kaydol",
+      tax: "+ Vergi",
       title: "Basit, şeffaf fiyatlandırma",
       sub:
         "AI ve arama tarafında görünürlüğünü büyütecek soruları bul. " +
@@ -832,21 +843,35 @@ export const tr: Messages = {
     },
 
     cta: {
-      title: "Kimsenin cevaplamadığını bulmaya hazır mısın?",
-      sub: "Bir konuyla başla, rakiplerinin kaçırdığı sorularla çık.",
+      title: "Sıradaki sorunu bulmaya hazır mısın?",
+      sub:
+        "Bir terim yaz, insanların ne sorduğunu gör ve nerede ararlarsa arasınlar " +
+        "onlara gerçekten yardımcı olacak içerikler planla.",
       primary: "Ücretsiz başla",
       secondary: "Fiyatları gör",
     },
 
     footer: {
-      tagline: "Rakiplerinin hiç cevaplamadığı soruları bul.",
+      tagline:
+        "İnsanların konun hakkında sorduğu soruları keşfet, sonra onları " +
+        "cevaplayan faydalı içerikler üret.",
       product: {
         heading: "Ürün",
         features: "Özellikler",
         pricing: "Fiyatlar",
+        api: "API",
+        changelog: "Değişiklik günlüğü",
+      },
+      resources: {
+        heading: "Kaynaklar",
+        blog: "Blog",
+        seoGuides: "SEO Rehberleri",
+        helpCenter: "Yardım Merkezi",
+        community: "Topluluk",
       },
       company: {
         heading: "Şirket",
+        about: "Hakkımızda",
         contact: "İletişim",
         privacy: "Gizlilik Politikası",
         terms: "Kullanım Koşulları",

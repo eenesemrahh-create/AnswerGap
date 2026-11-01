@@ -509,6 +509,7 @@ export interface Plan {
   desc: string;
   price: string;
   per: string;
+  features_heading?: string;
   features: string[];
   cta: string;
   badge: string | null;

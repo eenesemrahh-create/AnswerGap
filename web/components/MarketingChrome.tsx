@@ -86,7 +86,7 @@ export function MarketingNav({
           <Link href="/?auth=signin" className="mkt-nav-link">
             {chrome.nav.signIn}
           </Link>
-          <Link href="/?auth=signup" className="btn btn-primary mkt-nav-cta">
+          <Link href="/?auth=signup" className="nav-signup mkt-nav-cta">
             {chrome.nav.signUp}
           </Link>
           </SessionTools>

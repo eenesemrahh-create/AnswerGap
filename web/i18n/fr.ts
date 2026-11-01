@@ -610,86 +610,98 @@ export const fr: Messages = {
       menu: "Menu",
     },
     hero: {
-      eyebrow: "Analyse des questions sans réponse pour les équipes de contenu",
+      eyebrow: "Recherche de questions pour créateurs, fondateurs et marketeurs",
       headlinePre: "Trouvez les questions",
-      headlineHighlight: "auxquelles vos concurrents n'ont jamais répondu",
+      headlineHighlight: "qui méritent une réponse",
       sub:
-        "Saisissez un sujet. Nous cartographions les questions posées sur " +
-        "Google, vérifions les pages derrière chacune et vous montrons celles " +
-        "qu'aucune page ne cible vraiment.",
+        "Saisissez un terme, découvrez les questions associées les plus posées " +
+        "et utilisez-les pour créer du contenu utile pour la recherche " +
+        "classique, les Google AI Overviews et la recherche conversationnelle.",
       signedInTitle: "Que faut-il explorer ?",
-      searchPlaceholder: "Entre un sujet — ex. blanchiment dentaire",
-      searchCta: "Analyser",
+      searchPlaceholder: "Saisissez un terme, comme bureau assis-debout",
+      searchCta: "Rechercher",
       searching: "Recherche…",
       elapsed: "{seconds} s écoulées",
       tryLabel: "Essaie :",
       try1: "meilleur CRM pour startups",
       try2: "outils SEO pour l'IA",
     },
+    picker: {
+      open: "Choisir le marché de recherche",
+      country: "Pays",
+      language: "Langue",
+      search: "Rechercher un pays",
+      none: "Aucun pays trouvé",
+    },
+
     howItWorks: {
       eyebrow: "Comment ça marche",
-      title: "Voyez ce que les résultats de recherche laissent sans réponse.",
+      title: "Partez de ce que les gens demandent vraiment.",
       sub:
-        "Une liste de questions vous dit ce que les gens demandent. " +
-        "GetTopQuestions vous dit aussi si quelqu'un y a déjà répondu.",
+        "GetTopQuestions fait ressortir les questions autour de votre terme pour " +
+        "planifier du contenu utile et bien structuré, ancré dans une vraie " +
+        "curiosité.",
       card1: {
-        label: "Découverte de questions",
-        title: "Cartographiez l'arbre de questions",
+        label: "Recherche de questions",
+        title: "Découvrez les questions associées",
         body:
-          "Transformez un sujet en arbre des questions que Google affiche dans " +
-          "« Autres questions posées », chacune sous celle dont elle découle.",
+          "Transformez un seul terme en questions associées les plus posées, de " +
+          "la première curiosité à la comparaison et à la décision.",
       },
       card2: {
-        label: "Analyse des manques",
-        title: "Vérifiez qui répond à quoi",
+        label: "Planification éditoriale",
+        title: "Repérez les opportunités de contenu",
         body:
-          "Pour chaque question vérifiée, nous récupérons les résultats et " +
-          "comptons les pages qui la ciblent vraiment. Peu de pages signifie " +
-          "un manque.",
+          "Lisez les questions avec l'œil d'un éditeur et repérez celles que " +
+          "votre contenu laisse sans réponse ou n'aborde qu'en passant.",
       },
       card3: {
-        label: "Visibilité IA",
-        title: "Voyez ce que citent les AI Overviews",
+        label: "Autorité",
+        title: "Construisez votre autorité thématique",
         body:
-          "Quand Google répond à une question vérifiée par une AI Overview, " +
-          "voyez quels sites elle cite et si le vôtre en fait partie.",
+          "Regroupez les questions liées et planifiez un contenu qui couvre un " +
+          "sujet en profondeur, écrit clairement pour les lecteurs, les moteurs " +
+          "de recherche et les assistants IA.",
       },
     },
 
     workflow: {
       eyebrow: "Le déroulé",
-      title: "Un sujet en entrée. Des manques en sortie. Le contenu, c'est vous.",
+      titleLead: "Un terme en entrée. Des questions en sortie.",
+      titleMuted: "Le contenu, c'est vous.",
       body:
-        "GetTopQuestions est un outil de recherche. Il n'écrit pas et ne publie " +
-        "pas à votre place, et il ne suit pas les positions. Il vous montre où " +
-        "les réponses manquent, pour consacrer votre temps d'écriture à ce qui " +
-        "compte.",
+        "GetTopQuestions est un point de départ pour la recherche. Il n'écrit " +
+        "pas et ne publie pas à votre place, et il ne suit pas les positions. " +
+        "Il vous montre ce que les gens demandent, pour que votre contenu repose " +
+        "sur leurs questions plutôt que sur vos suppositions.",
       step1: {
-        label: "01 / Sujet",
+        label: "01 / Terme",
         title: "Partez des mots de votre audience",
         body:
-          "Saisissez une catégorie de produit, un problème ou une expression " +
-          "simple. Large, c'est très bien. L'idée est d'ouvrir la porte, pas " +
-          "de deviner le mot-clé parfait.",
+          "Saisissez une catégorie de produit, un problème, une fonctionnalité " +
+          "ou une expression simple comme « bureau assis-debout ». Large, c'est " +
+          "très bien. L'idée est d'ouvrir la porte, pas de deviner le mot-clé " +
+          "parfait.",
         sample: "bureau assis-debout",
       },
       step2: {
         label: "02 / Questions",
-        title: "Voyez les questions autour",
+        title: "Voyez les questions posées autour",
         body:
-          "Les questions arrivent sous forme d'arbre : vous suivez comment " +
-          "l'une mène à l'autre, comme le ferait un acheteur curieux.",
+          "GetTopQuestions fait ressortir les questions associées les plus " +
+          "posées, pour lire le sujet comme le formulerait un acheteur curieux, " +
+          "un débutant ou un sceptique.",
         sample: "Un bureau assis-debout est-il utile contre le mal de dos ?",
       },
       step3: {
-        label: "03 / Manques",
-        title: "Trouvez ce que personne n'a traité",
+        label: "03 / Contenu",
+        title: "Décidez de ce que vous allez écrire",
         body:
-          "Vérifiez les questions qui vous importent. Chacune revient avec les " +
-          "pages qui la ciblent, un verdict et ses propres questions associées.",
-        sample: "0 page sur 8 cible cette question",
+          "Regroupez les questions par intention, choisissez celles auxquelles " +
+          "vous pouvez répondre avec une vraie expertise, et transformez-les en " +
+          "pages, sections, FAQ, vidéos ou articles. L'écriture reste la vôtre.",
+        sample: "Guide : à qui la station debout profite vraiment, et à qui non",
       },
-      note: "Exemples rédigés par notre équipe, pas des résultats réels de l'application.",
     },
 
     examples: {
@@ -758,8 +770,9 @@ export const fr: Messages = {
       body:
         "La façon dont une question est formulée indique comment y répondre. " +
         "Des réponses claires et bien organisées servent le lecteur aussi bien " +
-        "dans les résultats que dans les AI Overviews et les assistants. Rien " +
-        "n'est garanti, mais une structure utile est un choix solide.",
+        "sur les pages de résultats classiques que dans les Google AI Overviews " +
+        "et les assistants conversationnels. Rien n'est garanti, mais une " +
+        "structure utile est un choix solide.",
       card1: {
         title: "Sections FAQ",
         when: "Quand une question a une réponse courte et factuelle.",
@@ -797,46 +810,45 @@ export const fr: Messages = {
       title: "Questions sur GetTopQuestions",
       q1: "Que fait exactement GetTopQuestions ?",
       a1:
-        "Vous saisissez un sujet et nous affichons sous forme d'arbre les " +
-        "questions que Google présente autour de lui. Pour les questions que " +
-        "vous vérifiez, nous lisons les résultats et montrons combien de pages " +
-        "ciblent vraiment chacune. Peu de pages signifie un manque : une " +
-        "question à laquelle vos concurrents n'ont pas répondu.",
-      q2: "Quelle différence avec une liste de questions ?",
+        "Vous saisissez un terme et GetTopQuestions affiche les questions les " +
+        "plus posées qui s'y rapportent. Vous utilisez ensuite ces questions " +
+        "pour planifier et écrire du contenu utile. C'est toute l'idée : un " +
+        "point de départ pratique pour la recherche de questions.",
+      q2: "Écrit-il ou publie-t-il du contenu à ma place ?",
       a2:
-        "Une liste montre ce que les gens demandent. Nous vérifions aussi les " +
-        "résultats derrière chaque question : vous voyez lesquelles sont déjà " +
-        "bien traitées et lesquelles restent ouvertes.",
-      q3: "Un manque est-il toujours un vrai manque ?",
-      a3:
-        "Non. Le verdict est une estimation fondée sur les titres et adresses " +
-        "des pages dans les résultats, et il peut se tromper. Chaque verdict " +
-        "montre les pages sur lesquelles il repose, pour que vous puissiez " +
-        "juger vous-même. Une question non vérifiée est affichée comme non " +
-        "vérifiée, jamais comme un manque.",
-      q4: "Combien coûte une recherche ?",
-      a4:
-        "Chaque recherche coûte un crédit. Vérifier une question est une " +
-        "recherche à part entière : vous obtenez son verdict et son propre " +
-        "arbre de questions.",
-      q5: "Écrit-il ou publie-t-il du contenu à ma place ?",
-      a5:
         "Non. GetTopQuestions vous aide à décider de quoi écrire. La rédaction, " +
         "la relecture et la publication vous reviennent, et c'est là que votre " +
         "expertise et votre voix comptent.",
-      q6: "Suit-il mes positions ?",
-      a6:
-        "Non. Il n'y a ni suivi de positions ni surveillance continue. Pour une " +
-        "question vérifiée, il montre quels sites l'AI Overview de Google " +
-        "citait au moment de la vérification.",
-      q7: "Répondre à ces questions me fera-t-il entrer dans les AI Overviews ?",
-      a7:
+      q3: "Suit-il mes positions ou mes mentions dans l'IA ?",
+      a3:
+        "Non. GetTopQuestions n'est ni un outil de suivi de positions, ni un " +
+        "outil de veille de marque, ni un analyseur de citations, et il " +
+        "n'indique pas de volumes de recherche. Il se concentre sur la " +
+        "découverte de questions.",
+      q4: "Répondre à ces questions me fera-t-il entrer dans les AI Overviews ?",
+      a4:
         "Personne ne peut le promettre. Répondre clairement et précisément à de " +
-        "vraies questions est une base raisonnable, mais le placement est " +
-        "décidé par ces plateformes.",
+        "vraies questions est une base raisonnable pour la recherche classique, " +
+        "les Google AI Overviews et la recherche conversationnelle, mais le " +
+        "placement est décidé par ces plateformes.",
+      q5: "Par quel type de terme commencer ?",
+      a5:
+        "Par ce que votre audience taperait ou dirait vraiment : une catégorie " +
+        "de produit, un problème, une tâche ou une comparaison. Si les résultats " +
+        "semblent trop larges, essayez une expression plus précise tirée des " +
+        "questions que vous venez de trouver.",
+      q6: "À combien de questions une page doit-elle répondre ?",
+      a6:
+        "En général, une question principale et les questions proches que le " +
+        "lecteur se poserait ensuite. Si deux questions appellent des réponses " +
+        "différentes pour des personnes différentes, elles méritent sans doute " +
+        "des contenus séparés.",
     },
 
     pricing: {
+      billed: "Facturation mensuelle",
+      signUpNow: "S'inscrire maintenant",
+      tax: "+ Taxes",
       title: "Des tarifs simples et transparents",
       sub:
         "Trouve les questions qui peuvent développer ta visibilité dans " +
@@ -847,21 +859,35 @@ export const fr: Messages = {
         "crédits sont attribués à la main tant que le produit est en preview.",
     },
     cta: {
-      title: "Prêt à trouver ce que personne n'a traité ?",
-      sub: "Partez d'un sujet et repartez avec les questions que vos concurrents ont manquées.",
+      title: "Prêt à trouver votre prochaine question ?",
+      sub:
+        "Saisissez un terme, voyez ce que les gens demandent et planifiez un " +
+        "contenu qui les aide vraiment, où qu'ils cherchent.",
       primary: "Commencer gratuitement",
       secondary: "Voir les tarifs",
     },
 
     footer: {
-      tagline: "Trouvez les questions auxquelles vos concurrents n'ont jamais répondu.",
+      tagline:
+        "Découvrez les questions posées sur votre sujet, puis créez un contenu " +
+        "utile qui y répond.",
       product: {
         heading: "Produit",
         features: "Fonctionnalités",
         pricing: "Tarifs",
+        api: "API",
+        changelog: "Journal des modifications",
+      },
+      resources: {
+        heading: "Ressources",
+        blog: "Blog",
+        seoGuides: "Guides SEO",
+        helpCenter: "Centre d'aide",
+        community: "Communauté",
       },
       company: {
         heading: "Entreprise",
+        about: "À propos",
         contact: "Contact",
         privacy: "Politique de confidentialité",
         terms: "Conditions d'utilisation",

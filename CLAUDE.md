@@ -15,6 +15,14 @@ pitch-then-box swap read as the page flashing away. Pre-paint scripts in
 by name), `LOCALE_SCRIPT` (hides the page until the language is applied, capped
 at 3 s).
 
+**The landing's copy is the Replit design's since 2026-11-01 (operator):**
+"Find the questions worth answering", with its FAQ, workflow, content formats,
+CTA and footer. It lives in `market.*`; `HomeSections.tsx` and
+`MarketPicker.tsx` draw it. Footer entries with no page (API, Changelog, Blog,
+SEO Guides, Help Center, Community, About) are plain text until one exists.
+The words "most-asked" and "not a citation analyzer" are the operator's choice
+and conflict with "Accuracy rules" and the AI Overview surface below.
+
 Crawls Google "People Also Ask" recursively into a question tree, checks the
 search results behind each question, and shows **which questions no site
 actually answers**.

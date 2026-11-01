@@ -688,23 +688,23 @@ export const en = {
       blog: "Blog",
       contact: "Contact",
       signIn: "Sign In",
-      signUp: "Sign Up",
+      signUp: "Sign up",
       menu: "Menu",
     },
 
     hero: {
-      eyebrow: "Question gap analysis for content teams",
+      eyebrow: "Question research for creators, founders and marketers",
       headlinePre: "Find the questions",
-      headlineHighlight: "your competitors never answered",
+      headlineHighlight: "worth answering",
       sub:
-        "Enter a topic. We map the questions people ask on Google, check the " +
-        "pages behind each one, and show you which questions no page really " +
-        "targets.",
+        "Enter a term, discover the most-asked related questions, and use them " +
+        "to create helpful content for traditional search, Google AI Overviews " +
+        "and conversational AI search.",
       /* The heading over the search box, for a reader who is signed in. Short
          on purpose: they came back to work, not to read the pitch again. */
       signedInTitle: "What should we look into?",
-      searchPlaceholder: "Enter a topic — e.g. teeth whitening",
-      searchCta: "Analyze",
+      searchPlaceholder: "Enter a term, like standing desk or payroll software",
+      searchCta: "Search",
       searching: "Searching…",
       /* Under the waiting bar. A real measurement rather than a guess at
          progress — there is no progress to report, only time. */
@@ -714,68 +714,80 @@ export const en = {
       try2: "AI SEO tools",
     },
 
+    picker: {
+      open: "Choose search market",
+      country: "Country",
+      language: "Language",
+      search: "Search countries",
+      none: "No country found",
+    },
+
     howItWorks: {
       eyebrow: "How it works",
-      title: "See what search results leave unanswered.",
+      title: "Start from what people actually ask.",
       sub:
-        "A question list tells you what people ask. GetTopQuestions also " +
-        "tells you whether anyone has answered it.",
+        "GetTopQuestions surfaces the questions around your term so you can plan " +
+        "useful, well-structured content grounded in real curiosity.",
       card1: {
-        label: "Question Discovery",
-        title: "Map the Question Tree",
+        label: "Question Research",
+        title: "Discover Related Questions",
         body:
-          "Turn one topic into a tree of the questions Google shows in People " +
-          "Also Ask, with each question under the one it came from.",
+          "Turn a single term into the most-asked related questions, from " +
+          "first curiosity through comparison and decision.",
       },
       card2: {
-        label: "Gap Analysis",
-        title: "Check Who Answers What",
+        label: "Editorial Planning",
+        title: "Spot Content Opportunities",
         body:
-          "For each question you check, we fetch the search results and count " +
-          "the pages that actually target it. Few pages means a gap.",
+          "Read the questions with an editor's eye and notice the ones your " +
+          "current content leaves unanswered, or answers only in passing.",
       },
       card3: {
-        label: "AI Visibility",
-        title: "See What AI Overviews Cite",
+        label: "Authority",
+        title: "Build Topical Authority",
         body:
-          "When Google answers a checked question with an AI Overview, see " +
-          "which sites it cites and whether yours is one of them.",
+          "Group connected questions and plan content that covers a topic " +
+          "thoroughly, written clearly for readers, search engines and AI " +
+          "assistants.",
       },
     },
 
     workflow: {
       eyebrow: "The workflow",
-      title: "Topic in. Gaps out. Content from you.",
+      titleLead: "Term in. Questions out.",
+      titleMuted: "Content from you.",
       body:
-        "GetTopQuestions is a research tool. It does not write or publish for " +
-        "you, and it does not track rankings. It shows you where the answers " +
-        "are missing, so your writing time goes where it counts.",
+        "GetTopQuestions is a research starting point. It does not write or " +
+        "publish for you, and it does not track rankings. It shows you what " +
+        "people are asking so the content you plan is built on their questions " +
+        "instead of your assumptions.",
       step1: {
-        label: "01 / Topic",
+        label: "01 / Term",
         title: "Start with the words your audience uses",
         body:
-          "Enter a product category, a problem or a plain phrase. Broad is " +
-          "fine. The point is to open the door, not to guess the perfect " +
-          "keyword.",
+          "Enter a product category, a problem, a feature or a plain phrase " +
+          "like \"standing desk\". Broad is fine. The point is to open the " +
+          "door, not to guess the perfect keyword.",
         sample: "standing desk",
       },
       step2: {
         label: "02 / Questions",
-        title: "See the questions around it",
+        title: "See the questions people ask around it",
         body:
-          "The questions arrive as a tree, so you can follow how one question " +
-          "leads to the next, the way a curious buyer would.",
+          "GetTopQuestions surfaces the most-asked related questions, so you " +
+          "can read the topic the way a curious buyer, beginner or skeptic " +
+          "would phrase it.",
         sample: "Is a standing desk worth it for back pain?",
       },
       step3: {
-        label: "03 / Gaps",
-        title: "Find what nobody answered",
+        label: "03 / Content",
+        title: "Decide what you will write next",
         body:
-          "Check the questions you care about. Each one comes back with the " +
-          "pages that target it, a verdict and follow-up questions of its own.",
-        sample: "0 of 8 pages target this question",
+          "Group questions by intent, pick the ones you can answer with real " +
+          "expertise, and turn them into pages, sections, FAQs, videos or " +
+          "posts. The writing stays yours.",
+        sample: "Guide: who actually benefits from standing, and who does not",
       },
-      note: "Examples written by our team, not real output from the app.",
     },
 
     examples: {
@@ -842,9 +854,10 @@ export const en = {
       title: "Let the question choose the format.",
       body:
         "The way a question is phrased hints at how it wants to be answered. " +
-        "Clear, well-organized answers tend to serve readers on results pages, " +
-        "in AI Overviews and in assistants alike. There are no guarantees in " +
-        "any of them, but helpful structure is a sound bet.",
+        "Clear, well-organized answers tend to serve readers on classic results " +
+        "pages, in Google AI Overviews and in conversational assistants alike. " +
+        "There are no guarantees in any of them, but helpful structure is a " +
+        "sound bet.",
       card1: {
         title: "FAQ sections",
         when: "When a question has a short, factual answer.",
@@ -882,43 +895,42 @@ export const en = {
       title: "Questions about GetTopQuestions",
       q1: "What does GetTopQuestions actually do?",
       a1:
-        "You enter a topic and we show the questions Google surfaces around " +
-        "it as a tree. For the questions you check, we read the search results " +
-        "and show how many pages actually target each one. Few pages means a " +
-        "gap: a question your competitors have not answered.",
-      q2: "How is this different from a question list?",
+        "You enter a term and GetTopQuestions shows the most-asked questions " +
+        "related to it. You then use those questions to plan and write helpful " +
+        "content. That is the whole idea: a practical starting point for " +
+        "question research.",
+      q2: "Does it write or publish content for me?",
       a2:
-        "A list shows what people ask. We also check the search results behind " +
-        "each question, so you can see which ones are already well answered " +
-        "and which are still open.",
-      q3: "Is a gap always a real gap?",
+        "No. GetTopQuestions helps you decide what to write about. The writing, " +
+        "editing and publishing are yours, which is also where your expertise " +
+        "and voice come in.",
+      q3: "Does it track my rankings or AI mentions?",
       a3:
-        "No. The verdict is an estimate based on the titles and addresses of " +
-        "the pages in the search results, and it can be wrong. Every verdict " +
-        "shows the pages behind it, so you can judge for yourself. A question " +
-        "we have not checked is shown as not checked, never as a gap.",
-      q4: "What does a search cost?",
+        "No. GetTopQuestions is not a rank tracker, brand monitor or citation " +
+        "analyzer, and it does not report search volumes. It focuses on " +
+        "discovering questions.",
+      q4: "Will answering these questions get me into AI Overviews?",
       a4:
-        "Every search is one credit. Checking a question is a search of its " +
-        "own: it gives you that question's verdict and its own question tree.",
-      q5: "Does it write or publish content for me?",
-      a5:
-        "No. GetTopQuestions helps you decide what to write about. The " +
-        "writing, editing and publishing are yours, which is also where your " +
-        "expertise and voice come in.",
-      q6: "Does it track my rankings?",
-      a6:
-        "No. There is no rank tracking or ongoing monitoring. For a question " +
-        "you check, it shows which sites Google's AI Overview cited at the " +
-        "time of the check.",
-      q7: "Will answering these questions get me into AI Overviews?",
-      a7:
         "Nobody can promise that. Answering real questions clearly and " +
-        "accurately is a sensible foundation, but placement is decided by " +
+        "accurately is a sensible foundation for traditional search, Google AI " +
+        "Overviews and conversational AI search, but placement is decided by " +
         "those platforms.",
+      q5: "What kind of term should I start with?",
+      a5:
+        "Something your audience would actually type or say: a product " +
+        "category, a problem, a task or a comparison. If results feel too " +
+        "broad, try a narrower phrase from the questions you just found.",
+      q6: "How many questions should one page answer?",
+      a6:
+        "Usually one main question, plus the closely related follow-ups a " +
+        "reader would ask next. If two questions need different answers for " +
+        "different people, they probably deserve separate pieces.",
     },
 
     pricing: {
+      billed: "Billed monthly",
+      signUpNow: "Sign up now",
+      tax: "+ Tax",
       title: "Simple, transparent pricing",
       sub:
         "Find the questions that can grow your visibility across AI and " +
@@ -930,21 +942,35 @@ export const en = {
     },
 
     cta: {
-      title: "Ready to find what nobody answered?",
-      sub: "Start with a topic and leave with the questions your competitors missed.",
+      title: "Ready to find your next question?",
+      sub:
+        "Enter a term, see what people ask, and plan content that genuinely " +
+        "helps them, wherever they search.",
       primary: "Start for free",
       secondary: "View pricing",
     },
 
     footer: {
-      tagline: "Find the questions your competitors never answered.",
+      tagline:
+        "Discover the questions people ask about your topic, then create " +
+        "helpful content that answers them.",
       product: {
         heading: "Product",
         features: "Features",
         pricing: "Pricing",
+        api: "API",
+        changelog: "Changelog",
+      },
+      resources: {
+        heading: "Resources",
+        blog: "Blog",
+        seoGuides: "SEO Guides",
+        helpCenter: "Help Center",
+        community: "Community",
       },
       company: {
         heading: "Company",
+        about: "About",
         contact: "Contact",
         privacy: "Privacy Policy",
         terms: "Terms of Service",

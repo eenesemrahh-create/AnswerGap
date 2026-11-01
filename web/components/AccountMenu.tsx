@@ -234,17 +234,26 @@ export function AccountMenu({
             full page navigation - a heavy thing to trigger from a click whose
             consequences the reader has not been told. */}
         <button
-          className="btn btn-primary account-signin"
+          className="mkt-nav-link nav-signin"
           onClick={() => {
             setDialogMode("signin");
             setDialog(true);
           }}
         >
-          {t("auth.tabSignIn")}
+          {t("market.nav.signIn")}
+        </button>
+        <button
+          className="nav-signup mkt-nav-cta"
+          onClick={() => {
+            setDialogMode("signup");
+            setDialog(true);
+          }}
+        >
+          {t("market.nav.signUp")}
         </button>
         {/* No theme or language controls here, at the operator's request:
             they live only on `/account` under Settings. A signed-out visitor
-            gets the system theme and the browser's language instead - see
+            gets the light theme and the browser's language instead - see
             `readBrowser` in `i18n/index.ts`. */}
         {dialogEl}
       </div>
