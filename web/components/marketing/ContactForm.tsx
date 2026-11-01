@@ -104,7 +104,6 @@ export function ContactForm({ form }: { form: ContactContent["form"] }) {
       >
         {state === "sending" ? form.sending : form.submit}
       </button>
-      <p className="mkt-form-privacy">{form.privacy}</p>
     </form>
   );
 }

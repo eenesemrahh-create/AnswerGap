@@ -142,7 +142,7 @@ def test_a_provider_refusal_is_still_a_200(monkeypatch, _sent) -> None:
 
 
 def test_nothing_is_written_to_the_database(monkeypatch, _sent) -> None:
-    """The privacy line under the form promises this, so it is pinned.
+    """The Privacy Policy describes this behaviour, so it is pinned.
 
     There is no contact table and no row to leak. If a future change adds
     storage, the sentence on the page has to change in the same commit.

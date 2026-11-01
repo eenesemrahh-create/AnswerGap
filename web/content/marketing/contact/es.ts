@@ -1,50 +1,53 @@
 import type { ContactContent } from "./index";
 
 /**
- * Textos de la página de contacto - traducción de la versión inglesa.
- *
- * Debe corresponderse con `en.ts` clave por clave y línea por línea; el tipo
- * convierte lo contrario en un error de compilación. `form.privacy` es una
- * promesa, así que es una frase visible y no un texto de ayuda: si algún día
- * deja de ser cierta, esa línea es lo primero que hay que cambiar.
+ * Página de contacto - traducción de la versión inglesa. Debe coincidir con
+ * `en.ts` campo por campo; el tipo lo convierte en un error de compilación.
  */
 export const es: ContactContent = {
   title: "Contacto",
   description:
-    "Habla con el equipo de GetTopQuestions sobre volumen para empresas, acceso a " +
-    "la API o cualquier otra cosa sobre visibilidad en la búsqueda con IA.",
+    "¿Tienes preguntas sobre planes, configuración o cómo convertir la investigación de preguntas en contenido? Escribe al equipo de GetTopQuestions.",
 
   hero: {
     eyebrow: "Contacto",
-    head: "Construyamos juntos tu",
-    headTinted: "visibilidad en IA.",
-    headTail: "",
-    lead:
-      "Si estás valorando un uso a escala empresarial, buscas orientación " +
-      "técnica sobre nuestra API o simplemente tienes una duda estratégica " +
-      "sobre la búsqueda generativa, nuestro equipo está listo para ayudarte.",
+    head: "¿Preguntas sobre",
+    headTinted: "GetTopQuestions",
+    headTail: "? Pregúntanos.",
+    lead: "Tanto si estás eligiendo un plan como conectando la API de Pro o pensando cómo convertir la investigación de preguntas en contenido, escríbenos."
   },
 
   reasons: [
     {
-      title: "Soluciones para empresas",
-      desc:
-        "Volumen de datos a medida, soporte prioritario y estrategia " +
-        "personalizada para grandes marcas.",
+      title: "Equipos más grandes",
+      desc: "Cuéntanos cuántos términos, sitios o clientes investigas y hablaremos de lo que encaja."
     },
     {
       title: "Soporte técnico",
-      desc:
-        "Te ayudamos a integrar nuestros datos en los paneles y flujos de " +
-        "trabajo de SEO que ya usas.",
+      desc: "Ayuda con tu cuenta, las exportaciones y la configuración de la API o MCP en el plan Pro."
     },
     {
-      title: "Alianzas estratégicas",
-      desc:
-        "Únete a nosotros para trazar el futuro del descubrimiento de marcas " +
-        "en los motores generativos.",
-    },
+      title: "Colaboraciones y comentarios",
+      desc: "Ideas, propuestas de colaboración o comentarios sobre cómo encaja la investigación de preguntas en tu trabajo."
+    }
   ],
+
+  before: {
+    heading: "Antes de escribir",
+    intro: "Incluir algunos detalles nos ayuda a darte una respuesta útil a la primera:",
+    items: [
+      "Los términos o temas que investigas",
+      "El plan que usas o estás considerando",
+      "Para preguntas sobre API, búsquedas masivas o MCP: con qué quieres conectarlo",
+      "Para preguntas de facturación o cuenta: el correo con el que te registraste"
+    ],
+    pricingLead: "¿Comparando planes? La ",
+    pricingLink: "página de precios",
+    pricingTail: " enumera cada función por plan.",
+    solutionsLead: " ¿Quieres saber cómo usan otros equipos la investigación de preguntas? Mira ",
+    solutionsLink: "soluciones",
+    solutionsTail: "."
+  },
 
   form: {
     name: "Nombre completo",
@@ -63,8 +66,5 @@ export const es: ContactContent = {
     sentDetail: "Leemos todos los mensajes y solemos responder en dos días laborables.",
     failed: "No se ha podido enviar. Inténtalo de nuevo o escríbenos directamente.",
     tooMany: "Son muchos mensajes desde un mismo sitio. Inténtalo más tarde.",
-    privacy:
-      "Usamos lo que nos envías aquí para responderte, y para nada más. Se " +
-      "envía por correo a nuestro buzón de soporte y no se guarda en este sitio.",
   },
 };

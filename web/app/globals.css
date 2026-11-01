@@ -3472,12 +3472,6 @@ table.table {
 }
 .mkt-form-submit { width: 100%; justify-content: center; }
 .mkt-form-submit[disabled] { opacity: .6; cursor: progress; }
-.mkt-form-privacy {
-  margin: 0;
-  font-size: 12px;
-  color: var(--text-faint);
-  line-height: 1.55;
-}
 /* A refusal, not a gap verdict - the same palette rule that corrected
    .dialog-reason. Red is not in the token set, so the stronger border and the
    surface shift carry it instead. */
@@ -6419,3 +6413,104 @@ table.gt { font-size: 13.5px; }
 }
 .sol-flow .mkt-flow-pitch p { color: rgba(255, 255, 255, .65); font-size: 18px; line-height: 1.75; }
 .sol-cta .mkt-cta-title { line-height: 1.1; }
+
+/* --- Contact page, Replit design of 2026-11-01 -------------------------- */
+
+.mkt-section.mkt-contact {
+  max-width: 1152px;
+  gap: 96px;
+  padding-top: 72px;
+  padding-bottom: 80px;
+}
+.mkt-contact-pitch { display: grid; gap: 40px; }
+.mkt-pill.ctc-pill {
+  margin-bottom: 24px;
+  padding: 4px 12px;
+  border: 1px solid color-mix(in oklab, var(--brand) 20%, transparent);
+  background: color-mix(in oklab, var(--brand) 10%, transparent);
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 500;
+}
+.mkt-pill.ctc-pill::before { content: none; }
+.mkt-contact-title.ctc-title {
+  margin: 0 0 24px;
+  font-size: clamp(36px, 4.4vw, 48px);
+  line-height: 1.1;
+}
+.mkt-contact .mkt-section-sub { max-width: 576px; margin: 0; font-size: 18px; line-height: 1.65; }
+
+.ctc-reasons { list-style: none; display: grid; gap: 32px; margin: 0; padding: 0; }
+.ctc-reasons li { display: flex; gap: 16px; }
+.ctc-reason-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--brand) 10%, transparent);
+  color: var(--brand);
+}
+.ctc-reasons li:nth-child(2) .ctc-reason-icon {
+  background: color-mix(in oklab, var(--accent) 10%, transparent);
+  color: var(--accent);
+}
+.ctc-reasons h2 { margin: 0 0 8px; color: var(--text); font-size: 20px; font-weight: 700; }
+.ctc-reasons p { margin: 0; color: var(--text-soft); font-size: 16px; line-height: 1.55; }
+
+.ctc-before {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.ctc-before-head { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; color: var(--brand); }
+.ctc-before h2 { margin: 0; color: var(--text); font-size: 18px; font-weight: 700; }
+.ctc-before p { margin: 0 0 16px; }
+.ctc-before ul { display: grid; gap: 8px; margin: 0; padding-left: 20px; color: var(--text); }
+.ctc-before li::marker { color: var(--brand); }
+.ctc-before p.ctc-before-links { margin: 20px 0 0; }
+.ctc-before a { color: var(--brand); font-weight: 600; text-decoration: none; text-underline-offset: 4px; }
+.ctc-before a:hover { text-decoration: underline; }
+
+.mkt-contact-form .mkt-form {
+  gap: 24px;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 20px 25px -5px color-mix(in oklab, var(--brand) 6%, transparent);
+}
+.mkt-contact-form .mkt-form-row { gap: 24px; }
+.mkt-contact-form .mkt-form label { gap: 8px; color: var(--text-soft); font-size: 14px; font-weight: 500; }
+.mkt-contact-form .mkt-form input,
+.mkt-contact-form .mkt-form textarea {
+  padding: 10px 16px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  transition: border-color .15s;
+}
+.mkt-contact-form .mkt-form input { height: 44px; }
+.mkt-contact-form .mkt-form textarea { padding-block: 12px; }
+.mkt-contact-form .mkt-form input:focus-visible,
+.mkt-contact-form .mkt-form textarea:focus-visible { border-color: var(--brand); outline: 0; }
+.mkt-contact-form .mkt-form-submit {
+  display: inline-flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 32px;
+  background: var(--brand);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .mkt-section.mkt-contact { gap: 48px; padding-top: 40px; }
+}
+@media (max-width: 560px) {
+  .mkt-contact-form .mkt-form { padding: 24px; }
+}

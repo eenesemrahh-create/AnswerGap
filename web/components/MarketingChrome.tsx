@@ -83,7 +83,7 @@ export function MarketingNav({
               nothing at all until it knows, rather than guessing and
               correcting itself in front of the reader. */}
           <SessionTools>
-          <Link href="/?auth=signin" className="mkt-nav-link">
+          <Link href="/?auth=signin" className="mkt-nav-link nav-signin">
             {chrome.nav.signIn}
           </Link>
           <Link href="/?auth=signup" className="nav-signup mkt-nav-cta">

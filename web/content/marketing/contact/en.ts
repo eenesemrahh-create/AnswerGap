@@ -1,50 +1,53 @@
 import type { ContactShape } from "../blocks";
 
 /**
- * English contact copy. This file pins the shape for the four translations.
- *
- * `form.privacy` is a promise, so it is a visible sentence rather than a
- * tooltip: the form posts a name, an address and a message to the API, which
- * mails them to the support mailbox and stores nothing. If that ever stops
- * being true, this line is the first thing that has to change.
+ * English contact copy, word for word from the Replit design (operator,
+ * 2026-11-01). This file pins the shape for the four translations.
  */
 export const en = {
   title: "Contact",
   description:
-    "Talk to the GetTopQuestions team about enterprise volume, API access or " +
-    "anything else about AI search visibility.",
+    "Questions about plans, setup or turning question research into content? Send the GetTopQuestions team a note.",
 
   hero: {
     eyebrow: "Contact Us",
-    head: "Let's shape your",
-    headTinted: "AI visibility",
-    headTail: "together.",
-    lead:
-      "Whether you're exploring enterprise scale, looking for technical " +
-      "guidance on our API, or just have a strategic question about " +
-      "generative search, our team is ready to help.",
+    head: "Questions about",
+    headTinted: "GetTopQuestions",
+    headTail: "? Ask us.",
+    lead: "Whether you are choosing a plan, connecting the Pro API, or figuring out how to turn question research into content, send us a note."
   },
 
   reasons: [
     {
-      title: "Enterprise Solutions",
-      desc:
-        "Custom data volume, priority support, and bespoke strategy for " +
-        "large brands.",
+      title: "Larger Teams",
+      desc: "Tell us how many terms, sites or clients you research and we will talk through what fits."
     },
     {
       title: "Technical Support",
-      desc:
-        "Get help integrating our insights into your existing SEO " +
-        "dashboards and workflows.",
+      desc: "Help with your account, exports, and API or MCP setup on the Pro plan."
     },
     {
-      title: "Strategic Partnerships",
-      desc:
-        "Join us in mapping out the future of brand discovery in " +
-        "generative engines.",
-    },
+      title: "Partnerships and Feedback",
+      desc: "Ideas, partnership proposals or feedback on how question research fits your work."
+    }
   ],
+
+  before: {
+    heading: "Before you write",
+    intro: "Including a few details helps us give a useful answer the first time:",
+    items: [
+      "The terms or topics you are researching",
+      "Which plan you are on, or are considering",
+      "For API, bulk or MCP questions: what you want to connect it to",
+      "For billing or account questions: the email you signed up with"
+    ],
+    pricingLead: "Comparing plans? The ",
+    pricingLink: "pricing page",
+    pricingTail: " lists every feature by plan.",
+    solutionsLead: " Wondering how other teams use question research? See ",
+    solutionsLink: "solutions",
+    solutionsTail: "."
+  },
 
   form: {
     name: "Full Name",
@@ -63,8 +66,5 @@ export const en = {
     sentDetail: "We read every message and usually reply within two working days.",
     failed: "That did not send. Please try again, or email us directly.",
     tooMany: "That is a lot of messages from one place. Please try again later.",
-    privacy:
-      "We use what you send here to answer you, and nothing else. It is " +
-      "emailed to our support mailbox and not stored on this site.",
   },
 } as const satisfies ContactShape;

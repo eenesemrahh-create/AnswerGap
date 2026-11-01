@@ -230,6 +230,18 @@ export interface ContactShape {
   readonly description: string;
   readonly hero: Hero;
   readonly reasons: readonly [Card, Card, Card];
+  /** "Before you write": what to include, and the two links under it. */
+  readonly before: {
+    readonly heading: string;
+    readonly intro: string;
+    readonly items: readonly [string, string, string, string];
+    readonly pricingLead: string;
+    readonly pricingLink: string;
+    readonly pricingTail: string;
+    readonly solutionsLead: string;
+    readonly solutionsLink: string;
+    readonly solutionsTail: string;
+  };
   readonly form: {
     readonly name: string;
     readonly namePlaceholder: string;
@@ -247,8 +259,6 @@ export interface ContactShape {
     readonly sentDetail: string;
     readonly failed: string;
     readonly tooMany: string;
-    /** Said out loud under the button, because it is a promise. */
-    readonly privacy: string;
   };
 }
 

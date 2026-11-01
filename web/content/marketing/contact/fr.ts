@@ -1,52 +1,53 @@
 import type { ContactContent } from "./index";
 
 /**
- * Contact - traduction de la version anglaise `en.ts`.
- *
- * Ce fichier doit correspondre à l'anglais champ pour champ ; le type
- * transforme tout écart en erreur de compilation. `form.privacy` est une
- * promesse : si le formulaire cesse un jour de se contenter d'envoyer un
- * e-mail sans rien conserver, cette phrase est la première à changer.
+ * Page de contact - traduction de la version anglaise. Doit correspondre à
+ * `en.ts` champ par champ ; le type en fait une erreur de compilation.
  */
 export const fr: ContactContent = {
   title: "Contact",
   description:
-    "Échangez avec l'équipe GetTopQuestions à propos des volumes grands comptes, " +
-    "de l'accès à l'API ou de tout autre sujet lié à la visibilité dans la " +
-    "recherche IA.",
+    "Des questions sur les formules, la configuration ou la façon de transformer la recherche de questions en contenu ? Écrivez à l'équipe GetTopQuestions.",
 
   hero: {
-    eyebrow: "Contactez-nous",
-    head: "Façonnons votre",
-    headTinted: "visibilité IA",
-    headTail: "ensemble.",
-    lead:
-      "Que vous envisagiez un déploiement à l'échelle de l'entreprise, que " +
-      "vous cherchiez un accompagnement technique sur notre API ou que vous " +
-      "ayez simplement une question stratégique sur la recherche générative, " +
-      "notre équipe est prête à vous aider.",
+    eyebrow: "Contact",
+    head: "Des questions sur",
+    headTinted: "GetTopQuestions",
+    headTail: " ? Demandez-nous.",
+    lead: "Que vous choisissiez une formule, connectiez l'API Pro ou cherchiez comment transformer la recherche de questions en contenu, écrivez-nous."
   },
 
   reasons: [
     {
-      title: "Solutions grands comptes",
-      desc:
-        "Volume de données sur mesure, support prioritaire et stratégie " +
-        "personnalisée pour les grandes marques.",
+      title: "Grandes équipes",
+      desc: "Dites-nous combien de termes, de sites ou de clients vous recherchez et nous verrons ensemble ce qui convient."
     },
     {
       title: "Support technique",
-      desc:
-        "Faites-vous aider pour intégrer nos analyses à vos tableaux de bord " +
-        "SEO et à vos processus existants.",
+      desc: "De l'aide pour votre compte, les exports et la configuration de l'API ou de MCP avec la formule Pro."
     },
     {
-      title: "Partenariats stratégiques",
-      desc:
-        "Rejoignez-nous pour dessiner l'avenir de la découverte des marques " +
-        "dans les moteurs génératifs.",
-    },
+      title: "Partenariats et retours",
+      desc: "Des idées, des propositions de partenariat ou des retours sur la place de la recherche de questions dans votre travail."
+    }
   ],
+
+  before: {
+    heading: "Avant d'écrire",
+    intro: "Quelques détails nous aident à donner une réponse utile dès la première fois :",
+    items: [
+      "Les termes ou sujets que vous recherchez",
+      "La formule que vous utilisez ou envisagez",
+      "Pour les questions sur l'API, les recherches en masse ou MCP : ce que vous voulez y connecter",
+      "Pour les questions de facturation ou de compte : l'e-mail utilisé à l'inscription"
+    ],
+    pricingLead: "Vous comparez les formules ? La ",
+    pricingLink: "page des tarifs",
+    pricingTail: " liste chaque fonctionnalité par formule.",
+    solutionsLead: " Vous vous demandez comment d'autres équipes utilisent la recherche de questions ? Consultez ",
+    solutionsLink: "solutions",
+    solutionsTail: "."
+  },
 
   form: {
     name: "Nom complet",
@@ -67,9 +68,5 @@ export const fr: ContactContent = {
     failed: "L'envoi a échoué. Réessayez, ou écrivez-nous directement.",
     tooMany:
       "Cela fait beaucoup de messages depuis un même endroit. Réessayez plus tard.",
-    privacy:
-      "Nous utilisons ce que vous envoyez ici pour vous répondre, et rien " +
-      "d'autre. C'est transmis par e-mail à notre boîte d'assistance et n'est " +
-      "pas conservé sur ce site.",
   },
 };
