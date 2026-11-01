@@ -22,6 +22,19 @@
 const TOKEN_KEY = "answergap.token";
 const ANON_KEY = "answergap.anon";
 
+/**
+ * Runs BEFORE first paint, inlined into <head> beside the theme script. Marks
+ * <html> when this browser holds a session, or is arriving with one in the URL,
+ * so the prerendered landing can show the member's hero at once instead of the
+ * pitch and then swapping. The landing clears it if the api refuses the token.
+ */
+export const SESSION_SCRIPT = `
+try {
+  if (localStorage.getItem(${JSON.stringify(TOKEN_KEY)}) || /[#&]token=/.test(location.hash))
+    document.documentElement.dataset.session = "1";
+} catch (e) {}
+`.trim();
+
 /** Every read is wrapped: a private window or blocked site data throws here. */
 function read(key: string): string | null {
   if (typeof window === "undefined") return null;

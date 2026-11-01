@@ -8,6 +8,7 @@ import { fr } from "./fr";
 import { tr } from "./tr";
 import {
   LOCALES,
+  LOCALE_KEY,
   LOCALE_NAMES,
   LOCALE_TAGS,
   type Locale,
@@ -19,7 +20,7 @@ export type { Locale, Messages };
 
 const CATALOGUE: Record<Locale, Messages> = { en, de, es, fr, tr };
 
-const STORAGE_KEY = "answergap.locale";
+const STORAGE_KEY = LOCALE_KEY;
 export const DEFAULT_LOCALE: Locale = "en";
 
 /** Dotted paths into the message tree, e.g. "detail.updated". */
@@ -90,6 +91,7 @@ function readBrowser(): Locale | null {
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
+  const [resolved, setResolved] = useState(false);
 
   // Read after mount, never during render: the server has no localStorage, and
   // reading it during the first client render would produce a hydration
@@ -98,7 +100,13 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const chosen = readStored() ?? readBrowser();
     if (chosen) setLocaleState(chosen);
+    setResolved(true);
   }, []);
+
+  // LOCALE_SCRIPT holds the page back until the right language is on it.
+  useEffect(() => {
+    if (resolved) delete document.documentElement.dataset.localePending;
+  }, [resolved]);
 
   useEffect(() => {
     document.documentElement.lang = locale;

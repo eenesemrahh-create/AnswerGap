@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { I18nProvider } from "@/i18n";
+import { LOCALE_SCRIPT } from "@/i18n/types";
+import { SESSION_SCRIPT } from "@/lib/auth";
 import { THEME_SCRIPT } from "@/lib/theme";
 import { SITE_URL } from "@/lib/legal";
 import "./globals.css";
@@ -52,6 +54,8 @@ export default function RootLayout({
             has already missed the paint. `suppressHydrationWarning` above is
             because this script legitimately edits <html> before React sees it. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: SESSION_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: LOCALE_SCRIPT }} />
       </head>
       <body>
         <I18nProvider>{children}</I18nProvider>

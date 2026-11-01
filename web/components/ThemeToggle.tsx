@@ -18,7 +18,7 @@ import { useI18n } from "@/i18n";
  */
 export function ThemeToggle() {
   const { t } = useI18n();
-  const [theme, setTheme] = useState<Theme>("system");
+  const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

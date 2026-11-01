@@ -1,14 +1,13 @@
 /** Light, dark, or whatever the operating system says.
  *
- * Three states, not two. "System" is a real choice and it is the default:
- * somebody who runs their machine dark expects a dark app without asking, and
- * somebody who switches at sunset expects the app to follow. Collapsing that
- * into a boolean loses the ability to go back to following.
+ * Three states, not two. LIGHT IS THE DEFAULT (operator, 2026-11-01: the site
+ * is designed light and should open that way on a dark machine too). "System"
+ * stays a real choice for somebody who switches at sunset and wants the app to
+ * follow, so it is stored by name; an empty key now means "never chose".
  *
  * The chosen value is written to `data-theme` on <html>, which is what
- * globals.css keys off. "system" writes NOTHING, so the `prefers-color-scheme`
- * media query decides — that is why the CSS defines light on bare `:root` and
- * only overrides tokens inside the media query and the `[data-theme]` blocks.
+ * globals.css keys off. "system" writes NOTHING, so `color-scheme: light dark`
+ * on `:root` lets the operating system decide.
  */
 
 export type Theme = "light" | "dark" | "system";
@@ -31,17 +30,19 @@ export const THEME_KEY = "answergap.theme";
 export const THEME_SCRIPT = `
 try {
   var t = localStorage.getItem(${JSON.stringify(THEME_KEY)});
-  if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
-} catch (e) {}
+  if (t !== "system") document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+} catch (e) {
+  document.documentElement.dataset.theme = "light";
+}
 `.trim();
 
 export function readTheme(): Theme {
-  if (typeof window === "undefined") return "system";
+  if (typeof window === "undefined") return "light";
   try {
     const stored = window.localStorage.getItem(THEME_KEY);
-    return stored === "light" || stored === "dark" ? stored : "system";
+    return stored === "dark" || stored === "system" ? stored : "light";
   } catch {
-    return "system";
+    return "light";
   }
 }
 
@@ -53,8 +54,7 @@ export function applyTheme(theme: Theme): void {
     document.documentElement.dataset.theme = theme;
   }
   try {
-    if (theme === "system") window.localStorage.removeItem(THEME_KEY);
-    else window.localStorage.setItem(THEME_KEY, theme);
+    window.localStorage.setItem(THEME_KEY, theme);
   } catch {
     /* The theme still applies for this session. */
   }

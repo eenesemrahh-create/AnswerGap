@@ -239,10 +239,17 @@ export default function Landing() {
     return () => clearInterval(tick);
   }, [anonSearching]);
 
-  const showSearch =
-    meta !== null
-      ? !meta.accounts_enabled || meta.role !== "anonymous" || anonSearching
-      : hasToken === true;
+  /* Who this page is for. The search box is on screen for everybody; this
+   * decides only whether the pitch surrounds it. `meta` wins once it lands, and
+   * a token the api refused takes the pre-paint mark off with it. */
+  const member =
+    meta !== null ? meta.accounts_enabled && meta.role !== "anonymous" : hasToken === true;
+  useEffect(() => {
+    if (meta && !member) delete document.documentElement.dataset.session;
+  }, [meta, member]);
+  /* Prerender and first paint: nobody knows yet, so both versions are in the
+   * HTML and `data-session`, set before paint, picks one with CSS. */
+  const undecided = hasToken === null;
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -275,7 +282,7 @@ export default function Landing() {
      * had one pressed search and got a form demanding an email and a new
      * password - which reads as being sent to reset a password, and is
      * exactly what it was reported as. */
-    if (signedOut) {
+    if (signedOut || (!meta && !hasToken)) {
       // Their own free search again: open it, never spend another.
       const own = trees?.find(
         (tree) =>
@@ -410,7 +417,7 @@ export default function Landing() {
             )}
             {/* Theme and language are NOT here. They live only on
                 `/account` under Settings; a signed-out visitor gets the
-                system theme and the browser's language. */}
+                light theme and the browser's language. */}
           </div>
         </div>
       </nav>
@@ -419,23 +426,17 @@ export default function Landing() {
       <CreditStrip />
 
       {/* --- Hero ---------------------------------------------------- */}
-      {/* TWO HEROES, and which one shows is the whole shape of this page.
+      {/* ONE HERO, and the search box never moves.
        *
-       * Signed out it SELLS: the pill, the headline and two buttons. There is
-       * no search box, because searching requires an account and a box that
-       * answers every press with a dialog is a promise the page cannot keep.
-       *
-       * Signed in it WORKS: the box, the market selectors and the saved
-       * analyses below. Somebody with credits did not come back for the
-       * pitch.
-       *
-       * While `meta` is still loading, the selling half shows. It is correct
-       * for every signed-out visitor and for every crawler, and it is what
-       * has to render if the API never answers at all; the cost is that a
-       * signed-in reader sees it for the length of one fetch. */}
-      <section className="mkt-hero">
-        {!showSearch && (
-          <>
+       * This used to be two: the pitch with buttons, replaced by the box once
+       * the api answered, which reads as a page flashing and disappearing
+       * (operator, 2026-11-01). A signed-out visitor now gets the pitch AND
+       * the box from the very first paint; pressing search when no free search
+       * is available opens the sign-in dialog, which says why. A member gets
+       * the short heading, chosen before paint. */}
+      <section className={`mkt-hero${member ? " is-member" : ""}`}>
+        {!member && (
+          <div className={undecided ? "hero-pitch" : undefined}>
             <span className="mkt-pill">{t("market.hero.eyebrow")}</span>
             <h1 className="mkt-hero-title">
               {t("market.hero.headlinePre")}
@@ -443,40 +444,28 @@ export default function Landing() {
               <span>{t("market.hero.headlineHighlight")}</span>
             </h1>
             <p className="mkt-hero-sub">{t("market.hero.sub")}</p>
-            <div className="mkt-cta-actions on-light mkt-hero-actions">
-              {/* SIGN UP here, unlike the search box's prompt, which opens on
-                  sign in. Someone reading the pitch is likelier to be new;
-                  someone pressing a search button is likelier to have an
-                  account already. */}
-              <button
-                type="button"
-                className="mkt-cta-primary"
-                onClick={() =>
-                  requestSignIn({ mode: "signup", reason: t("auth.whySearch") })
-                }
-              >
-                {t("market.cta.primary")} <span aria-hidden>→</span>
-              </button>
-              <Link
-                href={marketingPath("pricing", locale)}
-                className="mkt-cta-secondary"
-              >
-                {t("market.cta.secondary")}
-              </Link>
-            </div>
-          </>
+          </div>
         )}
-
-        {showSearch && (
-          <>
-        {me && (
-          <span className="home-hello">
-            {t("account.hello", { name: me.name?.split(" ")[0] || me.email.split("@")[0] })}
-          </span>
+        {(member || undecided) && (
+          <div className={member ? undefined : "hero-member"}>
+            {/* Always takes its line, so the box below does not drop when the
+                name arrives. */}
+            <span className="home-hello" style={me ? undefined : { visibility: "hidden" }}>
+              {me
+                ? t("account.hello", { name: me.name?.split(" ")[0] || me.email.split("@")[0] })
+                : " "}
+            </span>
+            {member ? (
+              <h1 className="mkt-hero-title mkt-hero-title-compact">
+                {t("market.hero.signedInTitle")}
+              </h1>
+            ) : (
+              <p className="mkt-hero-title mkt-hero-title-compact">
+                {t("market.hero.signedInTitle")}
+              </p>
+            )}
+          </div>
         )}
-        <h1 className="mkt-hero-title mkt-hero-title-compact">
-          {t("market.hero.signedInTitle")}
-        </h1>
 
         <form className="mkt-search" onSubmit={submit}>
           <svg
@@ -525,27 +514,23 @@ export default function Landing() {
 
         {/* Signed out (2026-10-19): ONE free search a day, said plainly, with
             when it comes back and the way to more; and the challenge every
-            signed-out search must pass. */}
+            signed-out search must pass. One line since 2026-11-01: a card here
+            pushed the pitch's box out of its place the moment it arrived. */}
         {anonSearching && anon && meta?.turnstile_site_key && (
-          <div className={`home-anon${anon.remaining > 0 ? "" : " is-used"}`}>
-            <b className="home-anon-title">
+          <div className="home-anon">
+            <span>
               {anon.daily_full
                 ? t("anon.dailyFull")
                 : anon.remaining > 0
                   ? t("anon.freeTitle", { count: anon.remaining })
                   : t("anon.usedTitle")}
-            </b>
-            <span className="home-anon-note">
-              {anon.remaining > 0 && !anon.daily_full
-                ? t("anon.freeNote")
-                : resetsIn(anon.resets_at, now, locale, t)}
             </span>
-            {anon.remaining > 0 && !anon.daily_full && (
-              <span className="home-anon-note home-anon-hint">{t("anon.hint")}</span>
+            {(anon.remaining <= 0 || anon.daily_full) && (
+              <span>{resetsIn(anon.resets_at, now, locale, t)}</span>
             )}
             <button
               type="button"
-              className={anon.remaining > 0 ? "auth-link" : "btn btn-primary"}
+              className="auth-link"
               onClick={() => requestSignIn({ mode: "signup", reason: t("anon.usedUpReason") })}
             >
               {t("anon.signUpFree")}
@@ -597,7 +582,7 @@ export default function Landing() {
             pill selectors), what it costs, and two examples to start from.
             The market used to sit on a line of its own below the examples,
             labelled like a form; as pills it reads as part of the search. */}
-        <div className="home-search-meta">
+        <div className={`home-search-meta${member ? "" : " is-pitch"}`}>
           <div className="home-market">
             <label className="home-pill-select" title={t("landing.country")}>
               <svg viewBox="0 0 20 20" aria-hidden>
@@ -642,7 +627,7 @@ export default function Landing() {
               </select>
             </label>
             {/* "One credit" means nothing to somebody with no account. */}
-            {!signedOut && <span className="home-cost">{t("account.newSearchLead")}</span>}
+            {member && <span className="home-cost">{t("account.newSearchLead")}</span>}
           </div>
           <div className="mkt-try home-try">
             <span>{t("market.hero.tryLabel")}</span>
@@ -717,8 +702,6 @@ export default function Landing() {
             )}
           </div>
         )}
-          </>
-        )}
       </section>
 
       {/* --- The member's own work --------------------------------- */}
@@ -768,7 +751,7 @@ export default function Landing() {
           returned no rows - `trees` is `null` while loading. And only for
           somebody who can search: a signed-out visitor's list is always
           empty, and "you have no analyses yet" is not a pitch. */}
-      {trees && trees.length === 0 && showSearch && !signedOut && !busy && (
+      {trees && trees.length === 0 && member && !busy && (
         <section className="mkt-saved">
           <div className="empty-state" style={{ maxWidth: 640, margin: "0 auto" }}>
             <b>{t("landing.emptyTitle")}</b>
@@ -789,9 +772,10 @@ export default function Landing() {
           A member came back to search, not to be sold to. The footer stays
           for everybody. A signed-out visitor who can try a search
           (2026-10-19) still gets the pitch below the box. */}
-      {(!showSearch || signedOut) && (
-      <>
+      {!member && (
+      <div className={undecided ? "hero-pitch" : undefined}>
       {/* --- How it works ------------------------------------------- */}
+      <div className="mkt-band">
       <section id="how-it-works" className="mkt-section">
         <div className="mkt-section-head">
           <span className="mkt-pill accent">{t("market.howItWorks.eyebrow")}</span>
@@ -819,6 +803,7 @@ export default function Landing() {
           />
         </div>
       </section>
+      </div>
 
       {/* --- Built for AI Search ------------------------------------ */}
       <Workflow />
@@ -893,7 +878,7 @@ export default function Landing() {
         </div>
       </div>
 
-      </>
+      </div>
       )}
 
       {/* --- Footer -------------------------------------------------- */}

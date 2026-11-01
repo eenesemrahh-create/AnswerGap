@@ -7,6 +7,14 @@ history. Kept on purpose, because renaming them breaks live state: the
 localStorage keys (sessions), `answergap_*` Stripe metadata (read back from
 existing subscriptions), the GitHub repo path.
 
+**The landing has ONE hero since 2026-11-01 (operator).** The pitch and the
+search box are on screen together from first paint, whoever is looking; the old
+pitch-then-box swap read as the page flashing away. Pre-paint scripts in
+`app/layout.tsx` decide what would otherwise change after load: `SESSION_SCRIPT`
+(member hero), `THEME_SCRIPT` (**light is now the default**, "system" is stored
+by name), `LOCALE_SCRIPT` (hides the page until the language is applied, capped
+at 3 s).
+
 Crawls Google "People Also Ask" recursively into a question tree, checks the
 search results behind each question, and shows **which questions no site
 actually answers**.
