@@ -30,6 +30,8 @@ only, so the billing bar shows a plain "USD ($)".
 `/solutions` is the design too, word for word; its team examples are hand-written
 and say so on the page (`teams.lead`). `/contact` too, and the design has no
 privacy line under the form, so that sentence is gone from the page.
+`/ai-seo` has no Replit page (its menu link only scrolls the landing); it keeps
+its own measured words and took the look of `/solutions`.
 
 Crawls Google "People Also Ask" recursively into a question tree, checks the
 search results behind each question, and shows **which questions no site

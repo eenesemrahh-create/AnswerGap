@@ -19,6 +19,9 @@ import { LOCALE_TAGS, type Locale } from "@/i18n/types";
  * cited by AI makes claims about AI; this one states its limits where they
  * will be read rather than in a footnote.
  *
+ * Replit has no page for this, so it keeps its own words and takes the look of
+ * the pages that do: the classes are `/solutions`'s (operator, 2026-11-01).
+ *
  * The FAQ is also emitted as schema.org FAQPage JSON-LD. A page selling AI
  * search visibility should be readable by the engines it talks about.
  */
@@ -68,7 +71,7 @@ export function AiSeoPage({
           {hero.headTail && <> {hero.headTail}</>}
         </h1>
         <p className="mkt-hero-sub">{hero.lead}</p>
-        <div className="mkt-cta-actions on-light">
+        <div className="mkt-cta-actions on-light sol-actions">
           {startFree(heroPrimary)}
           <a href="#measures" className="mkt-cta-secondary">
             {heroSecondary}
@@ -78,10 +81,10 @@ export function AiSeoPage({
 
       {/* What changed: the measurement leads, in large type. */}
       <section className="mkt-section">
-        <div className="mkt-section-head">
-          <p className="mkt-card-label">{shift.eyebrow}</p>
-          <h2 className="mkt-section-title">{shift.heading}</h2>
-          <p className="mkt-section-sub">{shift.lead}</p>
+        <div className="sol-head is-center">
+          <span className="mkt-eyebrow">{shift.eyebrow}</span>
+          <h2 className="sol-title">{shift.heading}</h2>
+          <p>{shift.lead}</p>
         </div>
         <div className="aiseo-figures">
           {shift.cards.map((card) => (
@@ -95,11 +98,12 @@ export function AiSeoPage({
       </section>
 
       {/* What the product measures, beside an example of one result. */}
-      <section id="measures" className="mkt-section mkt-section-tinted">
+      <div className="sol-band">
+      <section id="measures" className="mkt-section">
         <div className="mkt-split aiseo-split">
           <div>
-            <p className="mkt-card-label">{product.eyebrow}</p>
-            <h2>{product.heading}</h2>
+            <span className="mkt-eyebrow">{product.eyebrow}</span>
+            <h2 className="sol-title">{product.heading}</h2>
             <p>{product.lead}</p>
             <ol className="aiseo-points">
               {product.points.map((point) => (
@@ -153,9 +157,10 @@ export function AiSeoPage({
           </figure>
         </div>
       </section>
+      </div>
 
       {/* The dark band, four numbered steps. */}
-      <section className="mkt-flow">
+      <section className="mkt-flow sol-flow">
         <div className="mkt-flow-inner">
           <div className="mkt-flow-pitch">
             <h2 className="mkt-flow-title">
@@ -187,14 +192,14 @@ export function AiSeoPage({
       </section>
 
       <section className="mkt-section">
-        <div className="mkt-section-head">
-          <p className="mkt-card-label">{citable.eyebrow}</p>
-          <h2 className="mkt-section-title">{citable.heading}</h2>
-          <p className="mkt-section-sub">{citable.lead}</p>
+        <div className="sol-head is-center">
+          <span className="mkt-eyebrow">{citable.eyebrow}</span>
+          <h2 className="sol-title">{citable.heading}</h2>
+          <p>{citable.lead}</p>
         </div>
-        <div className="mkt-grid-9 aiseo-grid-6">
+        <div className="sol-teams">
           {citable.cards.map((card, i) => (
-            <article key={card.title} className="mkt-cell">
+            <article key={card.title} className="sol-team">
               <span className="aiseo-cell-num" aria-hidden>
                 {String(i + 1).padStart(2, "0")}
               </span>
@@ -206,11 +211,12 @@ export function AiSeoPage({
       </section>
 
       {/* Limits, before the FAQ and at full width: where they are read. */}
-      <section className="mkt-section mkt-section-tinted">
-        <div className="mkt-section-head">
-          <p className="mkt-card-label">{limits.eyebrow}</p>
-          <h2 className="mkt-section-title">{limits.heading}</h2>
-          <p className="mkt-section-sub">{limits.lead}</p>
+      <div className="sol-band">
+      <section className="mkt-section">
+        <div className="sol-head is-center">
+          <span className="mkt-eyebrow">{limits.eyebrow}</span>
+          <h2 className="sol-title">{limits.heading}</h2>
+          <p>{limits.lead}</p>
         </div>
         <ul className="aiseo-limits">
           {limits.items.map((item) => (
@@ -221,9 +227,12 @@ export function AiSeoPage({
           ))}
         </ul>
       </section>
+      </div>
 
       <section className="mkt-section">
-        <h2 className="mkt-section-title aiseo-faq-title">{faq.heading}</h2>
+        <div className="sol-head is-center">
+          <h2 className="sol-title">{faq.heading}</h2>
+        </div>
         <div className="mkt-faq">
           {faq.items.map((item) => (
             <details key={item.title} className="mkt-faq-item">
@@ -234,10 +243,10 @@ export function AiSeoPage({
         </div>
       </section>
 
-      <section className="mkt-cta mkt-cta-grad">
+      <section className="mkt-cta mkt-cta-grad sol-cta">
         <h2 className="mkt-cta-title">{cta.head}</h2>
         <p className="mkt-cta-sub">{cta.lead}</p>
-        <div className="mkt-cta-actions">
+        <div className="mkt-cta-actions sol-actions">
           {startFree(cta.primary)}
           <Link href={marketingPath("pricing", locale)} className="mkt-cta-secondary">
             {cta.secondary}
