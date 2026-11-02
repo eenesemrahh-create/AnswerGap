@@ -27,6 +27,10 @@ are the design's words at the operator's request and describe plans that do not
 exist: 24 h / 1 month / 1 year history and Pro-only API, bulk, pay-as-you-go and
 MCP, while the cards say every plan has unlimited history. Prices are dollars
 only, so the billing bar shows a plain "USD ($)".
+**No trial is sold (operator, 2026-11-02).** The free start is the signup credits
+(10 by default); the 7-day wording left the pages and the stored cards (migration
+0022). Stripe's `trial_period_days` is not used, and the `trialing` status stays
+in the code only because it is Stripe's vocabulary.
 `/solutions` is the design too, word for word; its team examples are hand-written
 and say so on the page (`teams.lead`). `/contact` too, and the design has no
 privacy line under the form, so that sentence is gone from the page.
@@ -1572,7 +1576,7 @@ progress polling, developer panel, five locales.
 16. **THE PRICING PAGE SELLS FEATURES THAT DO NOT EXIST.** `/pricing`
     (2026-09-23) is built from the approved design and lists Deep search,
     CSV export, PNG export, bulk searches, API access, an MCP server,
-    pay-as-you-go credits, monthly subscriptions and a 7-day trial. **None
+    pay-as-you-go credits and monthly subscriptions. **None
     of them are built**, and nothing charges on a cycle. The page is
     reachable from the nav, so either the copy changes or the features do
     before anyone is driven to it. The full list is in the header comment of

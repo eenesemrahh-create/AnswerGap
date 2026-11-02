@@ -23,7 +23,7 @@ plans in four other languages and only the numbers have to agree.
 
 Everything a card says about what the product DOES was taken from the
 approved design; what is still not true of it (deep search is switched off,
-exports are gated by plan capabilities, the trial) is listed in the header
+exports are gated by plan capabilities) is listed in the header
 comment of `web/content/marketing/pricing/en.ts`, and CLAUDE.md item 16 is
 the standing reminder that this page promises them.
 """
@@ -72,7 +72,7 @@ SEED_PLANS: list[dict] = [
             "Deep search",
             "CSV data export",
         ],
-        "cta": "Start 7-Day Trial",
+        "cta": "Go Starter",
         "badge": None,
     },
     {

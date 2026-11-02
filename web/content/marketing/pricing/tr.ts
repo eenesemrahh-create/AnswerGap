@@ -46,7 +46,7 @@ export const tr: PricingContent = {
       priceMonthly: "$9.99",
       priceAnnual: "$7.99",
       per: "/ay",
-      cta: "7 Günlük Denemeyi Başlat",
+      cta: "Starter'a Geç",
       badge: null,
       featuresHeading: "En iyi başlangıç planı",
       features: [
@@ -190,7 +190,7 @@ export const tr: PricingContent = {
     heading: "Yanıtları ortaya çıkarmaya hazır mısınız?",
     lead:
       "Bir terimle başlayın, insanların sorduğu soruları bulun ve sırada ne yazacağınıza karar verin.",
-    primary: "7 günlük ücretsiz denemenizi başlatın",
+    primary: "Ücretsiz başlayın",
     secondary: "Satışla İletişime Geçin",
   },
 };

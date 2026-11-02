@@ -1111,6 +1111,38 @@ def test_0021_leaves_no_plans_and_bad_json_alone() -> None:
     assert db.settings_all()[gate.SETTING_PRICING_PLANS] == "not json"
 
 
+def _run_0022() -> None:
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute(dict(db.MIGRATIONS)["0022_no_trial_on_the_cards"])
+        conn.commit()
+
+
+def test_0022_changes_only_the_trial_button() -> None:
+    old = [
+        {"id": "starter", "cta": "Start 7-Day Trial", "price": "$9.99"},
+        {"id": "lite", "cta": "Go Lite"},
+        {"id": "pro", "cta": "Talk to us"},
+    ]
+    db.setting_put(key=gate.SETTING_PRICING_PLANS, value=json.dumps(old), actor="op")
+    _run_0022()
+    plans = _stored_plans()
+    assert plans[0] == {"id": "starter", "cta": "Go Starter", "price": "$9.99"}
+    assert plans[1:] == old[1:]
+    _run_0022()                                     # again: nothing new written
+    with db.connect() as conn, conn.cursor() as cur:
+        cur.execute("SELECT count(*) AS n FROM app_setting WHERE setting_key = %s",
+                    (gate.SETTING_PRICING_PLANS,))
+        assert cur.fetchone()["n"] == 2
+
+
+def test_0022_leaves_no_plans_and_bad_json_alone() -> None:
+    _run_0022()
+    assert _stored_plans() == []
+    db.setting_put(key=gate.SETTING_PRICING_PLANS, value="not json", actor="op")
+    _run_0022()                                     # does not raise
+    assert db.settings_all()[gate.SETTING_PRICING_PLANS] == "not json"
+
+
 def test_the_seed_fills_a_database_that_has_no_plans() -> None:
     _run_seed_0012()
     assert [p["id"] for p in _stored_plans()] == ["starter", "lite", "pro"]

@@ -21,7 +21,6 @@ import type { PricingShape } from "../blocks";
  *     Since then every plan offers the same features; only credits differ.
  *   - Monthly subscriptions. Nothing charges on a cycle; the Stripe webhook
  *     records a payment and grants no credits yet.
- *   - The 7-day trial. There is no trial state in the schema.
  *   - "24-hour search history" on Starter contradicts a standing product
  *     rule in CLAUDE.md: "Do not restrict search history (AlsoAsked's
  *     24-hour lock is bad practice)."
@@ -70,7 +69,7 @@ export const en = {
       priceMonthly: "$9.99",
       priceAnnual: "$7.99",
       per: "/month",
-      cta: "Start 7-Day Trial",
+      cta: "Go Starter",
       badge: null,
       featuresHeading: "Best starter plan",
       features: [
@@ -212,7 +211,7 @@ export const en = {
     heading: "Ready to uncover the answers?",
     lead:
       "Start with a term, find the questions people ask, and decide what to write next.",
-    primary: "Start your 7-day free trial",
+    primary: "Start for free",
     secondary: "Contact Sales",
   },
 } as const satisfies PricingShape;

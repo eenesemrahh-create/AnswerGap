@@ -46,7 +46,7 @@ export const fr: PricingContent = {
       priceMonthly: "$9.99",
       priceAnnual: "$7.99",
       per: "/mois",
-      cta: "Démarrer l'essai de 7 jours",
+      cta: "Passer à Starter",
       badge: null,
       featuresHeading: "Meilleure formule pour débuter",
       features: [
@@ -192,7 +192,7 @@ export const fr: PricingContent = {
     heading: "Prêt à découvrir les réponses ?",
     lead:
       "Partez d'un terme, trouvez les questions que les gens posent et décidez de ce que vous allez écrire ensuite.",
-    primary: "Démarrez votre essai gratuit de 7 jours",
+    primary: "Commencez gratuitement",
     secondary: "Contacter le service commercial",
   },
 };

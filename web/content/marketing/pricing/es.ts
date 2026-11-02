@@ -43,7 +43,7 @@ export const es: PricingContent = {
       priceMonthly: "$9.99",
       priceAnnual: "$7.99",
       per: "/mes",
-      cta: "Empieza la prueba de 7 días",
+      cta: "Elige Starter",
       badge: null,
       featuresHeading: "El mejor plan para empezar",
       features: [
@@ -185,7 +185,7 @@ export const es: PricingContent = {
     heading: "¿Listo para descubrir las respuestas?",
     lead:
       "Empieza con un término, encuentra las preguntas que hace la gente y decide qué escribir a continuación.",
-    primary: "Empieza tu prueba gratuita de 7 días",
+    primary: "Empieza gratis",
     secondary: "Habla con ventas",
   },
 };

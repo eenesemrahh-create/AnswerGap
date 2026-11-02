@@ -40,7 +40,7 @@ export const de: PricingContent = {
       priceMonthly: "$9.99",
       priceAnnual: "$7.99",
       per: "/Monat",
-      cta: "7 Tage kostenlos testen",
+      cta: "Starter wählen",
       badge: null,
       featuresHeading: "Bester Einstiegstarif",
       features: [
@@ -182,7 +182,7 @@ export const de: PricingContent = {
     heading: "Bereit, die Antworten zu finden?",
     lead:
       "Beginnen Sie mit einem Begriff, finden Sie die Fragen der Menschen und entscheiden Sie, was Sie als Nächstes schreiben.",
-    primary: "7 Tage kostenlos testen",
+    primary: "Kostenlos starten",
     secondary: "Vertrieb kontaktieren",
   },
 };

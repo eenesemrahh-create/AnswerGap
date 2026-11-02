@@ -1128,6 +1128,41 @@ MIGRATIONS: list[tuple[str, str]] = [
         $mig$;
         """,
     ),
+    (
+        "0022_no_trial_on_the_cards",
+        # OPERATOR, 2026-11-02: no trial is sold; the free start is the signup
+        # credits. Only the seeded wording changes - a button the operator
+        # wrote themselves stays. Appended as a new row, like 0021, and a value
+        # that does not parse is left alone rather than failing the deploy.
+        f"""
+        DO $mig$
+        DECLARE
+            cur text;
+            next_value jsonb;
+        BEGIN
+            SELECT setting_value INTO cur FROM app_setting
+             WHERE setting_key = '{SETTING_PRICING_PLANS_KEY}'
+             ORDER BY created_at DESC, id DESC LIMIT 1;
+            IF cur IS NULL OR btrim(cur) IN ('', '[]') THEN
+                RETURN;
+            END IF;
+            SELECT jsonb_agg(
+                     CASE WHEN card->>'cta' = 'Start 7-Day Trial'
+                          THEN jsonb_set(card, '{{cta}}', '"Go Starter"'::jsonb)
+                          ELSE card END
+                     ORDER BY i)
+              INTO next_value
+              FROM jsonb_array_elements(cur::jsonb) WITH ORDINALITY c(card, i);
+            IF next_value IS NOT NULL AND next_value <> cur::jsonb THEN
+                INSERT INTO app_setting (setting_key, setting_value, set_by)
+                VALUES ('{SETTING_PRICING_PLANS_KEY}', next_value::text, 'migration 0022');
+            END IF;
+        EXCEPTION WHEN others THEN
+            RAISE NOTICE 'migration 0022 left pricing_plans alone: %', SQLERRM;
+        END
+        $mig$;
+        """,
+    ),
 ]
 
 
