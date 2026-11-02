@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { STATUSES, STATUS_COLOR, type Status, type TreeSummary } from "@/lib/types";
 import type { SearchJob } from "@/lib/search-job";
+import { marketName } from "@/lib/market";
 import { useDateFormat, useI18n } from "@/i18n";
 import { RefreshSearch } from "./RefreshSearch";
 
@@ -121,7 +122,8 @@ function AnalysisCard({
   updated: string;
   readOnly: boolean;
 }) {
-  const { t } = useI18n();
+  const { t, tag } = useI18n();
+  const market = marketName(tree, tag);
   const total = questionsIn(tree);
   const gaps = tree.status_counts.gap ?? 0;
   /* Nothing checked yet means the unanswered count is UNKNOWN, not zero. A
@@ -140,7 +142,7 @@ function AnalysisCard({
         <span className="home-card-arrow" aria-hidden>→</span>
       </div>
       <span className="home-muted home-card-meta">
-        {t("landing.questionCount", { count: total })} · {tree.language_name} · {updated}
+        {t("landing.questionCount", { count: total })} · {market && `${market} · `}{tree.language_name} · {updated}
       </span>
       <StatusBar counts={tree.status_counts} total={total} />
       <div className="home-card-stats">

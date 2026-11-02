@@ -182,7 +182,17 @@ def _summary(tree: dict) -> dict:
     reports and everybody notices. See `_retally`.
     """
     counted = _retally(tree)
-    return {k: v for k, v in counted.items() if k != "nodes"}
+    return {**{k: v for k, v in counted.items() if k != "nodes"}, **_market(tree)}
+
+
+def _market(tree: dict) -> dict:
+    """Which country the search ran in, for the cards and the tree. A code
+    missing from the list adds nothing: the screen then shows no country."""
+    code = tree.get("location_code")
+    country = next((c for c in _COUNTRIES if c["code"] == code), None)
+    if not country:
+        return {}
+    return {"location_name": country["name"], "location_iso": country["iso"]}
 
 
 @app.get("/api/meta")
@@ -535,7 +545,7 @@ def tree(slug: str, http_request: Request) -> dict:
     # Which paid analysis round comes next is drawn from this, so it travels
     # with the tree rather than costing the screen a second request. A copy:
     # `found` may be the cached object in `_LIVE`, which is not ours to grow.
-    return {**found, "rounds_used": _rounds_used(found),
+    return {**found, **_market(found), "rounds_used": _rounds_used(found),
             # When the data is from. `updated_at` is when anybody last
             # searched it, and a cache hit moves that without new data.
             "fetched_at": found.get("fetched_at") or live.tree_fetched_at(found)}

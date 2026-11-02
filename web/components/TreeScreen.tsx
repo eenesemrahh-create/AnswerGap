@@ -16,6 +16,7 @@ import {
   type Verdict,
 } from "@/lib/types";
 import { normalizeSite } from "@/lib/domains";
+import { marketName } from "@/lib/market";
 import { writeFirst } from "@/lib/write-first";
 import { useDateFormat, useI18n } from "@/i18n";
 import { ErrorNote } from "./ErrorNote";
@@ -280,6 +281,7 @@ export function TreeScreen({ slug }: { slug: string }) {
   const noQuestions =
     tree.source === "live" && tree.nodes.every((n) => n.depth === 0);
   const gapCount = writeFirst(tree.nodes).length;
+  const market = marketName(tree, tag);
 
   return (
     <div className="shell">
@@ -331,6 +333,7 @@ export function TreeScreen({ slug }: { slug: string }) {
           </h1>
           <div className="tree-meta">
             <span>{t("landing.questionCount", { count: questionCount })}</span>
+            {market && <span>{market}</span>}
             <span>{tree.language_name}</span>
             {/* The date the DATA is from. `updated_at` moves whenever anybody
                 searches the seed, cache hit or not, so it is only the fallback. */}
@@ -543,9 +546,12 @@ export function TreeScreen({ slug }: { slug: string }) {
                 seed={tree.seed}
                 subtitle={[
                   t("landing.questionCount", { count: questionCount }),
+                  market,
                   tree.language_name,
                   t("detail.updated", { date: formatDate(tree.fetched_at ?? tree.updated_at) }),
-                ].join(" · ")}
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
                 exportRef={treeRef}
               />
             )}

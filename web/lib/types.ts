@@ -51,6 +51,9 @@ export interface TreeSummary {
   language_code: string;
   language_name: string;
   location_code: number | null;
+  /** The country of `location_code`; absent when it is not in the list. */
+  location_name?: string;
+  location_iso?: string;
   /** Nodes on the canvas, seed included. A node is the unit that costs a
    *  SERP request, which is why the seed counts here. */
   node_count: number;
