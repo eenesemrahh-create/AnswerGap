@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import { Badge } from "./Badge";
 import { AiSummary, citedDomains } from "./AiSummary";
+import { Term } from "./Term";
+import { WriteFirst } from "./WriteFirst";
 import { useI18n } from "@/i18n";
 import { aiKnown, isCited } from "@/lib/domains";
 import type { Node } from "@/lib/types";
@@ -101,6 +103,8 @@ export function GapTable({
 
   return (
     <div className="table-wrap gt-wrap">
+      <WriteFirst nodes={allNodes} onSelect={onSelect} />
+
       <AiSummary
         nodes={allNodes}
         siteInput={siteInput}
@@ -145,7 +149,7 @@ export function GapTable({
                   }
                 >
                   <button type="button" onClick={() => toggle(col.key)}>
-                    {t(col.label)}
+                    <Term text={t(col.label)} />
                     <span className="arrow" aria-hidden>
                       {column === col.key ? (ascending ? "▲" : "▼") : ""}
                     </span>

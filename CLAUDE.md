@@ -7,6 +7,13 @@ history. Kept on purpose, because renaming them breaks live state: the
 localStorage keys (sessions), `answergap_*` Stripe metadata (read back from
 existing subscriptions), the GitHub repo path.
 
+**Tree screen, 2026-11-02 (operator).** The table opens with "Write these first"
+(`lib/write-first.ts`): checked gaps only, fewest targeting pages, then branches,
+then depth, and the screen says it is not popularity. On a phone the toolbar is
+one row; filters, text filter and download open under "Filters". `Term` keeps
+"AI Overview" in `lang="en"` so Turkish capitals do not dot its i. The share image
+is `app/opengraph-image.tsx`; a page with its own `openGraph` must name it again.
+
 **The landing has ONE hero since 2026-11-01 (operator).** The pitch and the
 search box are on screen together from first paint, whoever is looking; the old
 pitch-then-box swap read as the page flashing away. Pre-paint scripts in
@@ -768,8 +775,7 @@ The "37 of 42" round that looked stuck was DataForSEO queue delay, not a bug.
    (bulk, API, MCP, pay-as-you-go, deep search) and still shows "24-hour
    history". See item 16 below.
 2. Design candidates still left: the Blog (no brief image exists; ask
-   whether it opens with real posts or structure first), an OG image, and
-   the phone toolbar on the tree screen (three rows, ~130px).
+   whether it opens with real posts or structure first).
    **Done 2026-10-08:** the table view in the panel's language (`GapTable`:
    one dot per page checked, tree pills, cards on a phone; the all-"no data"
    Volume column replaced by one note under the table); a title band that
@@ -778,7 +784,6 @@ The "37 of 42" round that looked stuck was DataForSEO queue delay, not a bug.
    (`content/marketing/ai-seo/`, FAQPage JSON-LD, every figure on it measured
    in this repo - see the header of `ai-seo/en.ts`). Its FAQ says "every
    search is one credit", which `/pricing` (item 16) still contradicts.
-   Known nit: `text-transform: uppercase` under Turkish renders "OVERVİEW".
 3. Parked by the operator: **deep search, cancelled 2026-10-08** ("ileride
    düşünebiliriz") - stays off behind `BATCH_AND_DEEP_ENABLED`; its old
    4-credit price came from the retired half-credit queue rule, so reviving it

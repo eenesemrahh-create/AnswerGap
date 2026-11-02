@@ -34,6 +34,10 @@ export const metadata: Metadata = {
   description:
     "Enter a topic, map the questions people ask on Google, and see which " +
     "ones no page really targets. Then write the answer your competitors missed.",
+  // The image itself is app/opengraph-image.tsx. No title here: a child page
+  // would inherit it in place of its own.
+  openGraph: { type: "website", siteName: "GetTopQuestions" },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({

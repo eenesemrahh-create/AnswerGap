@@ -1,5 +1,6 @@
 "use client";
 
+import { Term } from "./Term";
 import { useMemo } from "react";
 import { useI18n } from "@/i18n";
 import { aiKnown, citesSite, isCited } from "@/lib/domains";
@@ -62,7 +63,7 @@ export function AiSummary({
 
   return (
     <section className="ai-summary">
-      <h3>{t("ai.heading")}</h3>
+      <h3><Term text={t("ai.heading")} /></h3>
       {checked === 0 ? (
         <p className="note">
           {t("ai.noneChecked")}

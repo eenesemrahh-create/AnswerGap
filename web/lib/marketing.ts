@@ -59,6 +59,7 @@ export function buildMarketingMetadata(
     openGraph: {
       type: "website",
       siteName: "GetTopQuestions",
+      images: ["/opengraph-image"],
       title: content.title,
       description: content.description,
       url: `${SITE_URL}${marketingPath(page, locale)}`,

@@ -60,6 +60,7 @@ export function buildLegalMetadata(
     openGraph: {
       type: "article",
       siteName: "GetTopQuestions",
+      images: ["/opengraph-image"],
       title: content.title,
       description: content.description,
       url: legalPath(doc, locale),

@@ -10,8 +10,7 @@ export const es: Messages = {
     treeCount: "{count} guardadas",
     emptyTitle: "Aún no hay búsquedas.",
     emptyBody:
-      "Busca una palabra clave arriba y aparecerá aquí. Tus búsquedas son " +
-      "privadas y pertenecen a tu cuenta.",
+      "Empieza con el cuadro de búsqueda de arriba o prueba uno de los ejemplos. Una búsqueda cuesta un crédito. Tus búsquedas son privadas y pertenecen a tu cuenta.",
     headline: "Encuentra las preguntas que tus competidores nunca respondieron.",
     intro:
       "GetTopQuestions despliega «Otras preguntas de los usuarios» de Google en un " +
@@ -52,6 +51,7 @@ export const es: Messages = {
   },
 
   toolbar: {
+    filters: "Filtros",
     seedLabel: "Tu búsqueda",
     pngUncheckedNote: "Aún no se ha comprobado ninguna pregunta: cada caja sigue gris hasta que se comprueben sus resultados",
     pngRepeatNote: "×N = Google mostró esta pregunta en N ramas distintas",
@@ -95,6 +95,14 @@ export const es: Messages = {
     aiUnknownHint: "La respuesta de IA de Google se carga después de la página y sus fuentes no pudieron leerse. Desconocido, no sin citas.",
     sortBy: "Ordenar por",
     volumeNote: "Volumen de búsqueda: aún sin datos, porque Google Ads no está conectado. Hasta entonces, las ramas (bajo cuántas preguntas apareció una pregunta) son la señal de interés.",
+  },
+
+  writeFirst: {
+    title: "Escribe esto primero",
+    lead: "Preguntas sin respuesta de este árbol. La puntuación es una estimación, así que lee las páginas antes de escribir.",
+    none: "Ninguna pregunta comprobada ha salido sin respuesta todavía.",
+    pages: "{matching} de {checked} páginas la abordan",
+    order: "Orden: menos páginas que la abordan, luego más ramas, luego más cerca de tu tema. Esto no indica popularidad.",
   },
 
   ai: {
@@ -556,11 +564,10 @@ export const es: Messages = {
     subscriptionCancelFailed: "No pudimos cancelar tu suscripción, así que tu cuenta no se eliminó. Inténtalo de nuevo en unos minutos o escribe a soporte.",
     alreadyOnPlan: "Ya tienes este plan. Si va a terminar, hazlo predeterminado en «Tus planes» para conservarlo; o elige otro plan.",
     planPaymentFailed: "El pago de este plan no se completó, así que no puede ser tu plan predeterminado. Actualiza tu tarjeta en «Gestionar facturación» o elige un plan pagado.",
-    stripeFailed: "El proveedor de pagos no aceptó el cambio. No se cambió nada; inténtalo de nuevo en unos minutos.",
+    stripeFailed: "El proveedor de pagos rechazó esta solicitud y no se cobró nada. Inténtalo de nuevo en unos minutos. Si sigue ocurriendo, escribe a support@gettopquestions.com.",
     signedOut: "Has cerrado sesión. Inicia sesión para continuar.",
-    noCredits:
-      "No te quedan créditos. Una búsqueda cuesta un crédito; los resultados " +
-      "en caché son gratuitos.",
+    noCredits: "No te quedan créditos. Cada búsqueda cuesta un crédito. Elige un plan para continuar.",
+    seePlans: "Ver planes",
     suspended: "Esta cuenta está suspendida. Escríbenos y lo resolvemos.",
     serverError:
       "Algo ha fallado por nuestra parte. No se ha cobrado nada por una " +

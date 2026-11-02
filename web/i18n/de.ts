@@ -10,8 +10,7 @@ export const de: Messages = {
     treeCount: "{count} gespeichert",
     emptyTitle: "Noch keine Suchen.",
     emptyBody:
-      "Suchen Sie oben nach einem Keyword, dann erscheint es hier. Ihre " +
-      "Suchen bleiben privat und gehören zu Ihrem Konto.",
+      "Beginnen Sie mit dem Suchfeld oben oder probieren Sie ein Beispiel aus. Eine Suche kostet ein Credit. Ihre Suchen bleiben privat und gehören zu Ihrem Konto.",
     headline: "Finde die Fragen, die deine Wettbewerber nie beantwortet haben.",
     intro:
       "GetTopQuestions entfaltet Googles „Ähnliche Fragen“ zu einem Fragenbaum, prüft " +
@@ -52,6 +51,7 @@ export const de: Messages = {
   },
 
   toolbar: {
+    filters: "Filter",
     seedLabel: "Ihre Suche",
     pngUncheckedNote: "Noch keine Frage geprüft: Jedes Feld bleibt grau, bis seine Suchergebnisse geprüft sind",
     pngRepeatNote: "×N = Google zeigte diese Frage unter N verschiedenen Zweigen",
@@ -95,6 +95,14 @@ export const de: Messages = {
     aiUnknownHint: "Googles KI-Antwort wird nach der Seite geladen; ihre Quellen konnten nicht gelesen werden. Unbekannt, nicht unzitiert.",
     sortBy: "Sortieren nach",
     volumeNote: "Suchvolumen: noch keine Daten, weil Google Ads nicht verbunden ist. Bis dahin sind die Zweige (unter wie vielen Fragen eine Frage auftauchte) das Interessensignal.",
+  },
+
+  writeFirst: {
+    title: "Das zuerst schreiben",
+    lead: "Unbeantwortete Fragen aus diesem Baum. Der Lückenwert ist eine Schätzung, lesen Sie also die Seiten, bevor Sie schreiben.",
+    none: "Noch keine geprüfte Frage ist unbeantwortet.",
+    pages: "{matching} von {checked} Seiten zielen darauf",
+    order: "Reihenfolge: wenigste Seiten, die darauf zielen, dann meiste Zweige, dann am nächsten an Ihrem Thema. Das ist keine Beliebtheit.",
   },
 
   ai: {
@@ -555,11 +563,10 @@ export const de: Messages = {
     subscriptionCancelFailed: "Wir konnten dein Abonnement nicht kündigen, daher wurde dein Konto nicht gelöscht. Versuche es in ein paar Minuten erneut oder schreib dem Support.",
     alreadyOnPlan: "Diesen Plan hast du bereits. Endet er, lege ihn unter „Deine Pläne“ als Standard fest, um ihn zu behalten; oder wähle einen anderen Plan.",
     planPaymentFailed: "Die Zahlung für diesen Plan ist nicht durchgegangen, daher kann er nicht Ihr Standard werden. Aktualisieren Sie zuerst Ihre Karte unter „Abrechnung verwalten“ oder wählen Sie einen bezahlten Plan.",
-    stripeFailed: "Der Zahlungsanbieter hat die Änderung nicht angenommen. Es wurde nichts geändert; versuchen Sie es in ein paar Minuten erneut.",
+    stripeFailed: "Der Zahlungsanbieter hat diese Anfrage abgelehnt, es wurde nichts abgebucht. Versuchen Sie es in ein paar Minuten erneut. Wenn es weiter passiert, schreiben Sie an support@gettopquestions.com.",
     signedOut: "Sie sind abgemeldet. Melden Sie sich an, um fortzufahren.",
-    noCredits:
-      "Kein Guthaben mehr. Eine Suche kostet ein Credit; Ergebnisse aus dem " +
-      "Cache sind kostenlos.",
+    noCredits: "Kein Guthaben mehr. Jede Suche kostet ein Credit. Wählen Sie einen Plan, um weiterzumachen.",
+    seePlans: "Pläne ansehen",
     suspended: "Dieses Konto ist gesperrt. Melden Sie sich bei uns, wir klären das.",
     serverError:
       "Auf unserer Seite ist etwas schiefgelaufen. Für eine nicht beendete " +

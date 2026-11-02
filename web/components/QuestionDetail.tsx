@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Rich } from "./Badge";
+import { PlansLink } from "./PlansLink";
+import { Term } from "./Term";
 import { ApiError, checkQuestion, submitLabel } from "@/lib/api";
 import { useDateFormat, useI18n } from "@/i18n";
 import { aiKnown, citesSite } from "@/lib/domains";
@@ -201,6 +203,7 @@ export function QuestionDetail({
           {scoreError && (
             <div className="error" style={{ marginTop: 10 }}>
               <strong>{t(`error.${scoreError.kind}`, scoreError.values)}</strong>
+              <PlansLink kind={scoreError.kind} />
               {scoreError.detail && (
                 <div style={{ marginTop: 8 }}>
                   <code>{scoreError.detail}</code>
@@ -294,14 +297,14 @@ export function QuestionDetail({
       {/* --- AI Overview ---------------------------------------------- */}
       {node.results_checked > 0 && !aiKnown(node) && (
         <section className="qd-section">
-          <h3>{t("detail.aiHeading")}</h3>
+          <h3><Term text={t("detail.aiHeading")} /></h3>
           <p className="qd-note">{t("detail.aiUnreadable")}</p>
         </section>
       )}
       {node.ai_sources.length > 0 && (
         <section className="qd-section qd-ai">
           <h3>
-            {t("detail.aiHeading")}
+            <Term text={t("detail.aiHeading")} />
             <span className="qd-count">{node.ai_sources.length}</span>
           </h3>
           <div className="qd-ai-list">

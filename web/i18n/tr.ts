@@ -10,8 +10,7 @@ export const tr: Messages = {
     treeCount: "{count} kayıtlı",
     emptyTitle: "Henüz arama yok.",
     emptyBody:
-      "Yukarıdan bir anahtar kelime arayın, burada görünsün. Aramalarınız " +
-      "yalnızca sizin hesabınıza aittir.",
+      "Yukarıdaki arama kutusuyla başlayın ya da örneklerden birini deneyin. Bir arama bir kredi harcar. Aramalarınız yalnızca sizin hesabınıza aittir.",
     headline: "Rakiplerinin hiç cevaplamadığı soruları bul.",
     intro:
       "GetTopQuestions, Google'ın “Bunlar da sorulmuş” verisini bir soru ağacına " +
@@ -52,6 +51,7 @@ export const tr: Messages = {
   },
 
   toolbar: {
+    filters: "Filtreler",
     seedLabel: "Aramanız",
     pngUncheckedNote: "Henüz hiçbir soru kontrol edilmedi: arama sonuçları kontrol edilene kadar her kutu gri kalır",
     pngRepeatNote: "×N = Google bu soruyu N farklı dalda gösterdi",
@@ -95,6 +95,14 @@ export const tr: Messages = {
     aiUnknownHint: "Google'ın AI cevabı sayfadan sonra yükleniyor ve kaynakları okunamadı. Kaynaksız değil, bilinmiyor.",
     sortBy: "Sırala",
     volumeNote: "Arama hacmi: henüz veri yok, çünkü Google Ads bağlı değil. Bağlanana kadar ilgi sinyali dal sayısı (bir sorunun kaç farklı sorunun altında çıktığı).",
+  },
+
+  writeFirst: {
+    title: "Önce bunları yaz",
+    lead: "Bu ağaçtaki cevapsız sorular. Boşluk skoru bir tahmindir, yazmadan önce sayfalara bak.",
+    none: "Kontrol edilen sorular arasında henüz cevapsız çıkan yok.",
+    pages: "{checked} sayfanın {matching} tanesi hedefliyor",
+    order: "Sıralama: en az sayfanın hedeflediği, sonra en çok dalda çıkan, sonra konuna en yakın soru. Bu bir popülerlik sıralaması değildir.",
   },
 
   ai: {
@@ -548,11 +556,10 @@ export const tr: Messages = {
     subscriptionCancelFailed: "Aboneliğini iptal edemedik, bu yüzden hesabın silinmedi. Birkaç dakika sonra tekrar dene ya da destek ekibine yaz.",
     alreadyOnPlan: "Bu plana zaten sahipsin. Bitecekse, “Planların” bölümünden varsayılan yaparak devam ettirebilirsin; ya da başka bir plan seç.",
     planPaymentFailed: "Bu planın ödemesi alınamadı, bu yüzden varsayılan yapılamaz. Önce “Ödemeleri yönet” bölümünden kartını güncelle ya da ödemesi yapılmış bir plan seç.",
-    stripeFailed: "Ödeme sağlayıcısı bu değişikliği kabul etmedi. Hiçbir şey değişmedi; birkaç dakika sonra tekrar dene.",
+    stripeFailed: "Ödeme sağlayıcısı bu isteği reddetti ve hiçbir ödeme alınmadı. Birkaç dakika sonra tekrar dene. Sorun sürerse support@gettopquestions.com adresine yaz.",
     signedOut: "Çıkış yapılmış durumdasınız. Devam etmek için giriş yapın.",
-    noCredits:
-      "Krediniz kalmadı. Bir arama bir kredi harcar; önbellekten gelen " +
-      "sonuçlar ücretsizdir.",
+    noCredits: "Krediniz kalmadı. Her arama bir kredi harcar. Devam etmek için bir plan seçin.",
+    seePlans: "Planları gör",
     suspended: "Bu hesap askıya alınmış. Bizimle iletişime geçin, çözelim.",
     serverError:
       "Bizim tarafımızda bir şeyler ters gitti. Tamamlanmayan bir arama için " +

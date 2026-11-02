@@ -20,8 +20,7 @@ export const en = {
     treeCount: "{count} saved",
     emptyTitle: "No searches yet.",
     emptyBody:
-      "Search a keyword above and it appears here. Your searches are private " +
-      "to your account.",
+      "Start with the search box above, or try one of the examples. One search costs one credit. Your searches are private to your account.",
     headline: "Find the questions your competitors never answered.",
     intro:
       "GetTopQuestions expands Google's “People also ask” into a question tree, checks " +
@@ -76,6 +75,7 @@ export const en = {
   },
 
   toolbar: {
+    filters: "Filters",
     /* Drawn inside the root node on the canvas. Says what that box is: the
        keyword somebody typed, not a question Google suggested back. */
     seedLabel: "Your search",
@@ -121,6 +121,14 @@ export const en = {
     aiUnknownHint: "Google's AI answer was loaded after the page and its sources could not be read. Unknown, not uncited.",
     sortBy: "Sort by",
     volumeNote: "Search volume: no data yet, because Google Ads is not connected. Until it is, branches (how many parents a question appeared under) are the interest signal.",
+  },
+
+  writeFirst: {
+    title: "Write these first",
+    lead: "Unanswered questions from this tree. The gap score is an estimate, so read the pages before you write.",
+    none: "No checked question came out unanswered yet.",
+    pages: "{matching} of {checked} pages target it",
+    order: "Order: fewest pages targeting it, then most branches, then closest to your topic. This is not popularity.",
   },
 
   ai: {
@@ -627,13 +635,13 @@ export const en = {
     subscriptionCancelFailed: "We could not cancel your subscription, so your account was not deleted. Try again in a few minutes, or write to support.",
     alreadyOnPlan: "You already have this plan. If it is ending, make it your default under “Your plans” to keep it; or choose a different plan.",
     planPaymentFailed: "This plan’s payment did not go through, so it cannot be your default. Update your card under “Manage billing” first, or choose a paid plan.",
-    stripeFailed: "The payment provider did not accept the change. Nothing was changed; try again in a few minutes.",
+    stripeFailed: "The payment provider refused this request, and no payment was taken. Try again in a few minutes. If it keeps happening, write to support@gettopquestions.com.",
     // One key per ErrorKind, in all five locales. Errors render as
     // t(`error.${kind}`) and a missing key would print its own name to a
     // customer at the worst possible moment.
     signedOut: "You are signed out. Sign in to continue.",
-    noCredits:
-      "No credits left. A search costs one credit; cached results are free.",
+    noCredits: "No credits left. Every search costs one credit. Choose a plan to keep going.",
+    seePlans: "See plans",
     suspended: "This account is suspended. Get in touch and we will sort it out.",
     /* A 500 the browser can finally read. Deliberately says nothing about what
        broke — that is in the server log — but it does say whose fault it is,

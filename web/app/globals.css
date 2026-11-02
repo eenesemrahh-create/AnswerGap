@@ -6592,3 +6592,77 @@ table.gt { font-size: 13.5px; }
 .acct-card { border-radius: 24px; box-shadow: 0 1px 3px rgba(30, 20, 60, .06); }
 .acct-eyebrow { color: var(--brand); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .acct-card-plan.is-live .acct-eyebrow { color: rgba(255, 255, 255, .8); }
+
+/* Write these first, above the table, and the way to it from the tree. */
+.write-first {
+  margin: 0 0 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface);
+}
+.write-first h3 { margin: 0 0 4px; font-size: 16px; font-weight: 800; letter-spacing: -.01em; }
+.write-first-lead { margin: 0; color: var(--text-soft); font-size: 13px; line-height: 1.5; }
+.write-first ol { list-style: none; margin: 10px 0 0; padding: 0; counter-reset: wf; }
+.write-first li { counter-increment: wf; border-top: 1px solid var(--border); }
+.write-first li button {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 2px 8px;
+  width: 100%;
+  padding: 9px 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.write-first li button::before { content: counter(wf); grid-row: span 2; color: var(--gap); font-weight: 800; }
+.write-first li b { font-size: 14px; font-weight: 650; }
+.write-first li button:hover b { color: var(--brand); }
+.write-first li span { color: var(--text-soft); font-size: 12px; }
+.write-first-note { margin: 8px 0 0; color: var(--text-faint); font-size: 12px; line-height: 1.5; }
+.tree-write-first {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gap);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tree-write-first:hover { text-decoration: underline; }
+.tree-head.is-compact .tree-write-first { display: none; }
+.plans-link { display: inline-block; margin-top: 6px; color: var(--brand); font-weight: 700; }
+
+/* Phone toolbar: one row until the reader asks for the rest. */
+.tree-more { display: none; }
+.segment .count { margin-left: 6px; }
+@media (max-width: 720px) {
+  .tree-toolbar { flex-wrap: wrap; }
+  .tree-more {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    min-height: 40px;
+    margin-left: auto;
+    padding: 0 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .tree-more[aria-expanded="true"] { border-color: var(--brand); color: var(--brand); }
+  .tree-more i { position: absolute; top: 5px; right: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); }
+  .tree-toolbar .segment { min-width: 0; }
+  .tree-toolbar:not(.is-open) .filters,
+  .tree-toolbar:not(.is-open) .tree-toolbar-end { display: none; }
+}

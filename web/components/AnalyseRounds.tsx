@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ApiError, analyseRound, fetchJobs } from "@/lib/api";
 import type { JobsStatus, RoundPlan } from "@/lib/types";
 import { useI18n } from "@/i18n";
+import { PlansLink } from "./PlansLink";
 
 /**
  * Analyse the tree in at most two flat-priced rounds (2026-10-07).
@@ -104,7 +105,7 @@ export function AnalyseRounds({
 
   const failure = error && (
     <span className="batch-failed">
-      {t(`error.${error.kind}`, error.values)}
+      {t(`error.${error.kind}`, error.values)} <PlansLink kind={error.kind} />
     </span>
   );
 

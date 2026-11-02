@@ -10,8 +10,7 @@ export const fr: Messages = {
     treeCount: "{count} enregistrées",
     emptyTitle: "Aucune recherche pour l'instant.",
     emptyBody:
-      "Cherchez un mot-clé ci-dessus et il apparaîtra ici. Vos recherches " +
-      "sont privées et rattachées à votre compte.",
+      "Commencez avec le champ de recherche ci-dessus ou essayez un exemple. Une recherche coûte un crédit. Vos recherches sont privées et rattachées à votre compte.",
     headline:
       "Trouvez les questions auxquelles vos concurrents n'ont jamais répondu.",
     intro:
@@ -53,6 +52,7 @@ export const fr: Messages = {
   },
 
   toolbar: {
+    filters: "Filtres",
     seedLabel: "Votre recherche",
     pngUncheckedNote: "Aucune question vérifiée pour l'instant : chaque case reste grise jusqu'à la vérification de ses résultats",
     pngRepeatNote: "×N = Google a affiché cette question sous N branches différentes",
@@ -96,6 +96,14 @@ export const fr: Messages = {
     aiUnknownHint: "La réponse IA de Google se charge après la page et ses sources n'ont pas pu être lues. Inconnu, pas non cité.",
     sortBy: "Trier par",
     volumeNote: "Volume de recherche : pas encore de données, car Google Ads n'est pas connecté. En attendant, les branches (sous combien de questions une question est apparue) servent de signal d'intérêt.",
+  },
+
+  writeFirst: {
+    title: "À écrire en premier",
+    lead: "Questions sans réponse de cet arbre. Le score est une estimation : lisez les pages avant d'écrire.",
+    none: "Aucune question vérifiée n'est encore sans réponse.",
+    pages: "{matching} pages sur {checked} la ciblent",
+    order: "Ordre : le moins de pages qui la ciblent, puis le plus de branches, puis le plus proche de votre sujet. Ce n'est pas une mesure de popularité.",
   },
 
   ai: {
@@ -560,11 +568,10 @@ export const fr: Messages = {
     subscriptionCancelFailed: "Nous n'avons pas pu résilier votre abonnement, votre compte n'a donc pas été supprimé. Réessayez dans quelques minutes ou écrivez au support.",
     alreadyOnPlan: "Vous avez déjà ce forfait. S'il se termine, définissez-le par défaut dans « Vos forfaits » pour le garder ; ou choisissez-en un autre.",
     planPaymentFailed: "Le paiement de ce forfait n'a pas abouti, il ne peut donc pas être votre forfait par défaut. Mettez d'abord à jour votre carte dans « Gérer la facturation », ou choisissez un forfait payé.",
-    stripeFailed: "Le prestataire de paiement n'a pas accepté la modification. Rien n'a été changé ; réessayez dans quelques minutes.",
+    stripeFailed: "Le prestataire de paiement a refusé cette demande et aucun paiement n'a été prélevé. Réessayez dans quelques minutes. Si cela continue, écrivez à support@gettopquestions.com.",
     signedOut: "Vous êtes déconnecté. Connectez-vous pour continuer.",
-    noCredits:
-      "Plus de crédits. Une recherche coûte un crédit ; les résultats en " +
-      "cache sont gratuits.",
+    noCredits: "Plus de crédits. Chaque recherche coûte un crédit. Choisissez une offre pour continuer.",
+    seePlans: "Voir les offres",
     suspended: "Ce compte est suspendu. Contactez-nous, nous réglerons cela.",
     serverError:
       "Un problème est survenu de notre côté. Rien n'a été facturé pour une " +

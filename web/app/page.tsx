@@ -39,6 +39,7 @@ import { useMe } from "@/lib/me";
 import { clearSearch, jobError, startSearch, useSearchJob } from "@/lib/search-job";
 import { NavMenu } from "@/components/NavMenu";
 import { ErrorNote } from "@/components/ErrorNote";
+import { PlansLink } from "@/components/PlansLink";
 import { Examples, Faq, Formats, Workflow } from "@/components/marketing/HomeSections";
 import { MarketPicker } from "@/components/marketing/MarketPicker";
 
@@ -646,6 +647,7 @@ export default function Landing() {
             style={{ marginTop: 24, maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}
           >
             <strong>{t(`error.${searchError.kind}`, searchError.values)}</strong>
+            <PlansLink kind={searchError.kind} />
             {/* A lost connection does NOT mean a lost crawl.
                 `live.crawl` saves the tree before it answers, so a reply that
                 never arrived - the API restarting mid-request is the way this

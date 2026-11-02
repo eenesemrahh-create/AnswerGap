@@ -16,6 +16,7 @@ import {
   type Verdict,
 } from "@/lib/types";
 import { normalizeSite } from "@/lib/domains";
+import { writeFirst } from "@/lib/write-first";
 import { useDateFormat, useI18n } from "@/i18n";
 import { ErrorNote } from "./ErrorNote";
 import { QuestionTree } from "./QuestionTree";
@@ -55,6 +56,9 @@ export function TreeScreen({ slug }: { slug: string }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [hidden, setHidden] = useState<Set<Status>>(new Set());
+  /* A phone keeps one row: the views and this button. The status filters, the
+     text filter and the download open under it. */
+  const [toolsOpen, setToolsOpen] = useState(false);
 
   /* Verdicts live here rather than in the panel because they outlive the
      selection: clicking through questions must not reload them, and a verdict
@@ -275,6 +279,7 @@ export function TreeScreen({ slug }: { slug: string }) {
   // The seed is the only node: Google returned no PAA block at all.
   const noQuestions =
     tree.source === "live" && tree.nodes.every((n) => n.depth === 0);
+  const gapCount = writeFirst(tree.nodes).length;
 
   return (
     <div className="shell">
@@ -347,6 +352,11 @@ export function TreeScreen({ slug }: { slug: string }) {
               </span>
             )}
           </div>
+          {gapCount > 0 && view !== "table" && (
+            <button type="button" className="tree-write-first" onClick={() => setView("table")}>
+              {t("writeFirst.title")} ({gapCount}) →
+            </button>
+          )}
           <div className="tree-meta tree-meta-honest">
             {/* CLAUDE.md accuracy rule: never claim "live data". A live crawl
                 is still a snapshot, and the archive is labelled as such. */}
@@ -399,7 +409,7 @@ export function TreeScreen({ slug }: { slug: string }) {
         )}
       </section>
 
-      <div className="toolbar tree-toolbar">
+      <div className={`toolbar tree-toolbar${toolsOpen ? " is-open" : ""}`}>
         <div className="segment">
           <button aria-pressed={view === "tree"} onClick={() => setView("tree")}>
             {t("toolbar.tree")}
@@ -412,6 +422,16 @@ export function TreeScreen({ slug }: { slug: string }) {
             <b className="count">{tree.related_searches?.length ?? 0}</b>
           </button>
         </div>
+
+        <button
+          type="button"
+          className="tree-more"
+          aria-expanded={toolsOpen}
+          onClick={() => setToolsOpen((open) => !open)}
+        >
+          {t("toolbar.filters")}
+          {(query.trim() !== "" || hidden.size > 0) && <i aria-hidden />}
+        </button>
 
         <div className="filters">
           {STATUSES.map((status) => (
