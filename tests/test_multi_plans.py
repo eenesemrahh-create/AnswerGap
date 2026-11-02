@@ -101,6 +101,48 @@ def test_if_stripe_cannot_be_asked_no_checkout_opens(known_customer, monkeypatch
     assert e.value.status_code == 502 and known_customer["sessions"] == []
 
 
+def test_a_test_mode_customer_is_replaced_under_a_live_key(known_customer, monkeypatch) -> None:
+    monkeypatch.setattr(auth.stripe, "customer_exists", lambda cid: False)
+    assert auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))["url"]
+    assert known_customer["attached"] == [{"user_id": 7, "customer_id": "cus_new"}]
+    assert known_customer["sessions"][0]["customer_id"] == "cus_new"
+    assert known_customer["log"][0]["kind"] == "stripe_customer_replaced"
+
+
+def test_a_customer_stripe_cannot_answer_for_is_kept(known_customer, monkeypatch) -> None:
+    def down(cid):
+        raise auth.stripe.StripeError("stripeDown", 503, "")
+    monkeypatch.setattr(auth.stripe, "customer_exists", down)
+    assert auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))["url"]
+    assert known_customer["attached"] == []
+    assert known_customer["sessions"][0]["customer_id"] == "cus_1"
+
+
+@pytest.mark.parametrize("answer, expected", [
+    ({"id": "cus_1"}, True),
+    ({"id": "cus_1", "deleted": True}, False),
+])
+def test_stripe_says_whether_a_customer_exists(monkeypatch, answer, expected) -> None:
+    from api import stripe as stripe_mod
+    monkeypatch.setattr(stripe_mod, "_request", lambda *a, **k: answer)
+    assert stripe_mod.customer_exists("cus_1") is expected
+
+
+def test_only_a_404_means_a_customer_is_gone(monkeypatch) -> None:
+    from api import stripe as stripe_mod
+
+    def missing(*a, **k):
+        raise stripe_mod.StripeError("invalidRequest", 404, "No such customer")
+    monkeypatch.setattr(stripe_mod, "_request", missing)
+    assert stripe_mod.customer_exists("cus_1") is False
+
+    def down(*a, **k):
+        raise stripe_mod.StripeError("stripeDown", 503, "")
+    monkeypatch.setattr(stripe_mod, "_request", down)
+    with pytest.raises(stripe_mod.StripeError):
+        stripe_mod.customer_exists("cus_1")
+
+
 def test_stripe_reads_only_subscriptions_that_still_hold_a_plan(monkeypatch) -> None:
     from api import stripe as stripe_mod
 

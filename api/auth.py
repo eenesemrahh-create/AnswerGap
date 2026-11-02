@@ -710,6 +710,16 @@ def billing_checkout(request: Request, payload: CheckoutRequest) -> dict:
 
     base = (WEB_BASE_URL or "").rstrip("/")
     customer_id = row.get("stripe_customer_id")
+    # An account that tried checkout in test mode holds a test customer, which
+    # a live key cannot see. It gets a new one here rather than a failed
+    # checkout. If Stripe cannot be asked, the stored id stands and the
+    # fail-closed check below decides.
+    try:
+        if customer_id and not stripe.customer_exists(customer_id):
+            _log_account(who.user_id, "stripe_customer_replaced", {"old": customer_id})
+            customer_id = None
+    except stripe.StripeError as exc:
+        print(f"[billing] customer not checked: {exc}", flush=True)
     if not customer_id:
         # Created HERE rather than by Checkout, so a card declined on the
         # first attempt still raises events naming a customer we can map to

@@ -223,6 +223,23 @@ def create_customer(*, user_id: int, email: str | None) -> str:
     return str(data.get("id") or "")
 
 
+def customer_exists(customer_id: str) -> bool:
+    """Does the CURRENT key's mode know this customer?
+
+    Test and live are separate worlds: an id stored in test mode is a 404
+    under a live key, and every checkout that names it would fail. Only a
+    clean 404 or a deleted customer says no; anything else raises, because
+    "Stripe could not be asked" is not "this customer is gone".
+    """
+    try:
+        data = _request("GET", f"/v1/customers/{urllib.parse.quote(customer_id, safe='')}")
+    except StripeError as exc:
+        if exc.status == 404:
+            return False
+        raise
+    return not data.get("deleted")
+
+
 def cancel_subscription(subscription_id: str, *, at_period_end: bool) -> dict:
     """Cancel a subscription AT STRIPE - now, or when the paid period ends.
 
