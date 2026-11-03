@@ -19,7 +19,10 @@ block, `live._fallback` asks the MOBILE page (same click depth, same chain), the
 Google autocomplete for the language's `question_prefixes`. Nodes carry
 `discovered_by` "mobile" / "autocomplete" and the tree screen says so; the diff
 engine counts "mobile" as PAA, never autocomplete. Still one credit; worst case
-~$0.010 of requests. Measured in `docs/HISTORY.md` ("No empty search").
+~$0.011 of requests. Measured in `docs/HISTORY.md` ("No empty search").
+Searches that came back empty BEFORE this are re-run from admin Searches
+("Searches that found no questions", 5 per press, no credit, audited as
+`empty_searches_run`); each becomes a new crawl for the same owner.
 
 **The landing has ONE hero since 2026-11-01 (operator).** The pitch and the
 search box are on screen together from first paint, whoever is looking; the old

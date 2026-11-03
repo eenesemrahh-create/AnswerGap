@@ -1,6 +1,7 @@
 "use server";
 
-import { post } from "@/lib/api";
+import { get, post } from "@/lib/api";
+import type { EmptySearchList, EmptySearchRun } from "@/lib/types";
 
 /**
  * Leave an audit row before an admin downloads somebody's search.
@@ -15,4 +16,15 @@ export async function recordSearchExport(
   items: number
 ): Promise<void> {
   await post(`/api/admin/search/${encodeURIComponent(slug)}/export`, { kind, items });
+}
+
+/** Searches that ended with no question, and the ceiling for running them. */
+export async function loadEmptySearches(): Promise<EmptySearchList> {
+  return get<EmptySearchList>("/api/admin/empty-searches");
+}
+
+/** Search the next five again for their owners. Spends real money; the api
+ *  audits the run before buying anything. */
+export async function runEmptySearches(): Promise<EmptySearchRun> {
+  return post<EmptySearchRun>("/api/admin/empty-searches/run", { limit: 5 });
 }

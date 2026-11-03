@@ -191,6 +191,9 @@ PHRASE_ITEM_TYPES = ("related_searches", "people_also_search_for", "people_also_
 # once this many suggestions are in hand.
 FALLBACK_MAX_REQUESTS = 4
 AUTOCOMPLETE_ENOUGH = 6
+# The most one search can cost with the whole chain: desktop and mobile at
+# the measured $0.0026, three autocompletes at $0.002.
+SEARCH_MAX_COST = 0.0026 * 2 + 0.002 * 3
 
 
 class CredentialsMissing(RuntimeError):

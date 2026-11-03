@@ -1943,3 +1943,30 @@ def test_admin_anon_usage_counts_by_day_and_shows_codes_not_addresses() -> None:
     codes = {r["ip_code"] for r in got["recent"]}
     assert codes == {"ipabcd", "ipzzzz"}
     assert "ipabcdef123" not in json.dumps(got)
+
+
+# ------------------------------------------------- empty searches (2026-11-03)
+
+
+def _empty_search(user_id: int | None, anon: str | None = None) -> int:
+    """A search Google showed no question for: the seed and nothing under it."""
+    tree = _archive_tree()
+    tree["nodes"] = [n for n in tree["nodes"] if n["depth"] == 0]
+    return db.save_tree(tree, new_crawl=True, user_id=user_id, anon_id=anon)
+
+
+def test_empty_searches_are_each_owners_latest_crawl_with_no_question() -> None:
+    alice = _google(sub="empty-a", email="ea@example.com")
+    bob = _google(sub="empty-b", email="eb@example.com")
+    _empty_search(alice["id"])
+    # Bob's search came back empty once and was filled by a later crawl.
+    _empty_search(bob["id"])
+    _searched(bob["id"])
+    _empty_search(None, anon="browser-e")
+    # What an erasure leaves: nobody to hand a result to.
+    _empty_search(None)
+
+    found = db.empty_searches()
+    owners = sorted((r["user_id"] or 0, r["anon_id"] or "") for r in found)
+    assert owners == sorted([(alice["id"], ""), (0, "browser-e")])
+    assert {r["slug"] for r in found} == {"teeth-whitening"}

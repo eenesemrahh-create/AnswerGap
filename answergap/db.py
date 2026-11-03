@@ -5740,6 +5740,37 @@ def admin_log(*, actor: str, action: str, detail: dict) -> None:
         conn.commit()
 
 
+def empty_searches(limit: int = 200) -> list[dict]:
+    """Searches whose owner's LATEST crawl holds no question, newest first.
+
+    What the no-empty-search fallback (2026-11-03) can still fill. One row per
+    slug and owner, because a tree is the owner's latest crawl of it. Owner is
+    the account when there is one, else the browser id; a crawl an erasure left
+    with neither has nobody to give the result to and is skipped.
+    """
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT * FROM (
+                SELECT DISTINCT ON (c.slug, COALESCE('u' || c.user_id, 'a' || c.anon_id))
+                       c.id, c.slug, c.seed, c.language_code, c.location_code,
+                       c.user_id, c.anon_id, c.created_at
+                  FROM crawl c
+                 WHERE c.source = 'live'
+                   AND (c.user_id IS NOT NULL OR c.anon_id IS NOT NULL)
+                 ORDER BY c.slug, COALESCE('u' || c.user_id, 'a' || c.anon_id),
+                          c.created_at DESC, c.id DESC
+            ) latest
+             WHERE NOT EXISTS (SELECT 1 FROM paa_edge e
+                                WHERE e.crawl_id = latest.id AND e.depth > 0)
+             ORDER BY created_at DESC
+             LIMIT %s
+            """,
+            (limit,),
+        )
+        return list(cur.fetchall())
+
+
 def payment_event_put(record: dict, payload: dict) -> bool:
     """Record one Stripe event. Returns False when it was already there.
 

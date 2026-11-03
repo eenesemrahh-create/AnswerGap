@@ -897,3 +897,25 @@ export interface UserLog {
   entries: UserLogEntry[];
   sources: string[];
 }
+
+/** `GET /api/admin/empty-searches` (2026-11-03). */
+export interface EmptySearchList {
+  searches: {
+    slug: string;
+    seed: string;
+    language_code: string;
+    location_code: number;
+    user_id: number | null;
+    created_at: string;
+  }[];
+  max_cost_each: number;
+}
+
+export interface EmptySearchRun {
+  filled: number;
+  still_empty: number;
+  failed: number;
+  spend: number;
+  stopped: number | null;
+  left: number;
+}

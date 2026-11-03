@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { get, usd, when } from "@/lib/api";
-import { translator } from "@/lib/locale";
-import type { SearchList } from "@/lib/types";
+import { getLocale, translator } from "@/lib/locale";
+import type { EmptySearchList, SearchList } from "@/lib/types";
+import { EmptySearches } from "./empty";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +40,9 @@ export default async function SearchesPage({
   query.set("offset", String(offset));
 
   const data = await get<SearchList>(`/api/admin/searches?${query.toString()}`);
+  const empty = await get<EmptySearchList>("/api/admin/empty-searches");
   const t = await translator();
+  const locale = await getLocale();
 
   const pageLink = (nextOffset: number) => {
     const p = new URLSearchParams(params);
@@ -152,6 +155,8 @@ export default async function SearchesPage({
         </table>
         {data.searches.length === 0 && <p className="empty">{t("searches.none")}</p>}
       </div>
+
+      <EmptySearches initial={empty} locale={locale} />
 
       {data.total > PAGE && (
         <p className="pager">

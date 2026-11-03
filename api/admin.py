@@ -34,6 +34,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 
 from answergap import db, entitlements, gate, live
 from answergap import tree as tree_mod
+from answergap.dataforseo import AccountBlocked
 
 from . import billing, ci, stripe, turnstile
 from .auth import (
@@ -468,6 +469,67 @@ def search_export(request: Request, slug: str, payload: SearchExportRequest) -> 
         detail={"slug": slug, "kind": payload.kind, "items": payload.items},
     )
     return {"recorded": True}
+
+
+@router.get("/empty-searches")
+def empty_searches(request: Request) -> dict:
+    """Searches that ended with no question, which the fallback can now fill.
+
+    `max_cost` is the ceiling for running all of them, not a forecast: a
+    desktop response bought in the last 30 days is reused for free.
+    """
+    require_admin(request)
+    rows = db.empty_searches()
+    return {
+        "searches": [
+            {k: r[k] for k in ("slug", "seed", "language_code", "location_code",
+                               "user_id", "created_at")}
+            for r in rows
+        ],
+        "max_cost_each": live.SEARCH_MAX_COST,
+    }
+
+
+class EmptySearchRunRequest(BaseModel):
+    # Each search is up to five Live requests; five searches keep one call well
+    # inside the proxy's timeout, and the page is pressed again for the next.
+    limit: int = Field(default=5, ge=1, le=5)
+
+
+@router.post("/empty-searches/run")
+def empty_searches_run(request: Request, payload: EmptySearchRunRequest) -> dict:
+    """Search the newest empty ones again for their owners, at our cost.
+
+    Each becomes a new crawl owned by the same account or browser, so the
+    person opening it sees the questions. No credit is taken: the search was
+    paid for once and came back empty. The audit row goes first, like every
+    admin act that spends money outside this database.
+    """
+    who = require_admin(request)
+    rows = db.empty_searches(limit=payload.limit)
+    db.admin_log(actor=who.email or "", action="empty_searches_run",
+                 detail={"slugs": [r["slug"] for r in rows]})
+    filled = still_empty = failed = 0
+    spend = 0.0
+    stopped = None
+    for row in rows:
+        try:
+            tree = live.crawl(row["seed"], row["location_code"], row["language_code"],
+                              user_id=row["user_id"], anon_id=row["anon_id"])
+        except AccountBlocked as e:
+            stopped = e.code
+            break
+        except Exception:  # noqa: BLE001 - one search must not stop the rest
+            failed += 1
+            continue
+        spend += float(tree.get("estimated_spend") or 0)
+        if tree.get("question_count"):
+            filled += 1
+        else:
+            still_empty += 1
+    return {"filled": filled, "still_empty": still_empty, "failed": failed,
+            "spend": round(spend, 6), "stopped": stopped,
+            "left": len(db.empty_searches())}
 
 
 _SLUG_RE = re.compile(r"[a-z0-9][a-z0-9-]{0,199}")
