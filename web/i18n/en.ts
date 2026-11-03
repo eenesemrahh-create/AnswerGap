@@ -191,6 +191,8 @@ export const en = {
     harvestFound: "This request also revealed {count} new questions, at no extra cost.",
     harvestDropped: "{count} more were left out for drifting away from the seed.",
     harvestedNode: "Found inside another question's results",
+    mobileNode: "Shown on Google's mobile page",
+    autocompleteNode: "Google search suggestion",
     relevance: "Seed relevance {value}",
   },
 
@@ -317,6 +319,8 @@ export const en = {
     archiveDataDetail: "not live",
     liveData: "Live crawl",
     liveDataDetail: "a snapshot, not live",
+    fallbackMobile: "Google showed no questions for this search on desktop. These are the questions it shows on mobile.",
+    fallbackAutocomplete: "Google shows no questions for this search. These are its search suggestions instead, not questions from the results page.",
     liveDataNote: "Fetched once, at the time shown. Google’s results move; run the search again to refresh.",
     provisionalThreshold: "Provisional threshold",
     thresholdNote:

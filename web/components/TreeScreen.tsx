@@ -282,6 +282,13 @@ export function TreeScreen({ slug }: { slug: string }) {
     tree.source === "live" && tree.nodes.every((n) => n.depth === 0);
   const gapCount = writeFirst(tree.nodes).length;
   const market = marketName(tree, tag);
+  /* Google's desktop page had no questions for this seed, so they came from a
+     fallback (live.`_fallback`). Said on screen: they are not the usual block. */
+  const fallback = tree.nodes.some((n) => n.discovered_by === "autocomplete")
+    ? "autocomplete"
+    : tree.nodes.some((n) => n.discovered_by === "mobile")
+      ? "mobile"
+      : null;
 
   return (
     <div className="shell">
@@ -370,6 +377,11 @@ export function TreeScreen({ slug }: { slug: string }) {
             ) : (
               <span className="tree-honest">
                 {t("notice.archiveData")} — {t("notice.archiveDataDetail")}
+              </span>
+            )}
+            {fallback && (
+              <span className="tree-honest">
+                {t(fallback === "mobile" ? "notice.fallbackMobile" : "notice.fallbackAutocomplete")}
               </span>
             )}
             {!tree.threshold_validated && (

@@ -342,6 +342,7 @@ class Client:
         cache_key: str | None = None,
         depth: int = 10,
         extra_params: dict | None = None,
+        device: str = "desktop",
     ) -> dict | None:
         """Google organic SERP, advanced (includes People Also Ask). BILLABLE.
 
@@ -350,6 +351,10 @@ class Client:
           - depth=10 fixed; PAA sits at the top of page one, and asking deeper
             multiplies cost tenfold for nothing
           - location_code, never location_name (a spelling change breaks it)
+
+        `device="mobile"` is the fallback for a seed whose desktop page has no
+        PAA block: measured 2026-11-03, "wall art" had none on desktop and 15
+        questions on mobile.
         """
         key = cache_key or f"serp-{location_code}-{language_code}-{slugify(keyword)}"
         cached = self._cached(key)
@@ -371,21 +376,54 @@ class Client:
             "keyword": keyword,
             "location_code": location_code,
             "language_code": language_code,
-            "device": "desktop",
-            "os": "windows",
+            "device": device,
+            "os": "windows" if device == "desktop" else "android",
             "depth": depth,
         }
         # Paid extras (people_also_ask_click_depth, load_async_ai_overview).
         # DataForSEO refunds the surcharge when the element is absent.
         if extra_params:
             task.update(extra_params)
+        return self._live(key, "/v3/serp/google/organic/live/advanced", task)
 
+    def autocomplete(
+        self,
+        keyword: str,
+        location_code: int,
+        language_code: str,
+        *,
+        cache_key: str,
+    ) -> dict | None:
+        """Google's search suggestions for `keyword`. BILLABLE, $0.002 measured.
+
+        The last fallback when no PAA block exists on desktop or mobile: real
+        queries people type, which Google almost never leaves empty.
+        """
+        cached = self._cached(cache_key)
+        if cached is not None:
+            return cached
+        if self.dry_run:
+            self.planned.append(f'POST autocomplete/live  "{keyword}"')
+            return None
+        if self.billable_calls >= self.max_requests:
+            raise BudgetExceeded(
+                f"Reached --max-requests={self.max_requests}. "
+                f"Not continuing without an explicit raise."
+            )
+        task = {
+            "keyword": keyword,
+            "location_code": location_code,
+            "language_code": language_code,
+            "client": "gws-wiz-serp",
+        }
+        return self._live(cache_key, "/v3/serp/google/autocomplete/live/advanced", task)
+
+    def _live(self, key: str, path: str, task: dict) -> dict:
+        """POST one Live task with retries, count it, and cache it."""
         data = None
         for attempt in range(3):
             try:
-                data = self._http(
-                    "POST", "/v3/serp/google/organic/live/advanced", [task]
-                )
+                data = self._http("POST", path, [task])
                 break
             except TransientError as e:
                 if attempt == 2:

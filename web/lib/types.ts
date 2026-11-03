@@ -28,7 +28,9 @@ export interface Node {
   /** `relevance` decayed along the path from the root — what the crawler gates on. */
   reach: number | null;
   /** "harvest": found inside a response bought to gap-score another question. */
-  discovered_by: "paa" | "harvest";
+  /** "mobile" / "autocomplete": the fallbacks when Google's desktop page
+   *  showed no questions for the seed (2026-11-03). */
+  discovered_by: "paa" | "harvest" | "mobile" | "autocomplete";
   depth: number;
   parent_id: string | null;
   parents: string[];

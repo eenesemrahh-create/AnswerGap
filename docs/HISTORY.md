@@ -2322,3 +2322,24 @@ coffee / coffee filters. One seed, hand labels: a direction, not a threshold.
   a coffee filter?" is 0.93 under voyage-4-large - right at the paraphrase
   threshold, so grouping would merge them.
 Cost: a fraction of a cent for three models.
+
+## No empty search, 2026-11-03
+
+The operator compared "wall art" with AlsoAsked, which shows 4 questions; we
+showed the "Google shows no questions" screen. AlsoAsked's result was a cached
+search from 25 Nov 2025, so it proved nothing about today. Measured (US, en,
+click depth 4, Live), $0.0224 in all:
+
+| query | desktop PAA | mobile PAA | note |
+|---|---:|---:|---|
+| wall art | 0 ($0.002, surcharge refunded) | **15** ($0.0026) | mobile also has `people_also_search` |
+| iron | 15 | 15 | had questions on desktop by then |
+| wall art ideas | 0 | - | a rewritten query does not help |
+| what is iron | 15 | - | |
+
+Autocomplete (`gws-wiz-serp`, $0.002 each): "what wall art" 10 suggestions,
+"how to iron" 10, "how wall art" mostly not questions.
+
+So the chain is desktop -> mobile -> autocomplete prefixes, stopping as soon as
+questions appear. Rewritten queries and the free same-response phrases were
+dropped from the plan: they found nothing on the measured seeds.

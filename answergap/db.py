@@ -2388,6 +2388,9 @@ def _paa_questions(cur, crawl_id: int) -> dict[str, dict]:
     Counting them as "new this week" would report our own activity back to the
     user as a market signal - the most misleading kind of wrong, because it
     would be indistinguishable from the real thing.
+
+    `mobile` is the same PAA block from the mobile page, Google's answer to
+    the seed all the same. Autocomplete suggestions are not counted.
     """
     cur.execute(
         """
@@ -2396,7 +2399,7 @@ def _paa_questions(cur, crawl_id: int) -> dict[str, dict]:
           FROM paa_edge e
           JOIN question q ON q.id = e.child_id
          WHERE e.crawl_id = %s
-           AND e.discovered_by = 'paa'
+           AND e.discovered_by IN ('paa', 'mobile')
          ORDER BY q.normalized, e.depth
         """,
         (crawl_id,),

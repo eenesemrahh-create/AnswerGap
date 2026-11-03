@@ -870,6 +870,8 @@ const en = {
     notChecked: "not checked",
     aiCites: "AI Overview cites: {domains}",
     harvested: "found while checking another question",
+    mobile: "shown on Google's mobile page",
+    autocomplete: "Google search suggestion",
     costHeading: "What it cost",
     costLead:
       "Cost is what we paid DataForSEO; credits are what the person paid us. " +
@@ -1755,6 +1757,8 @@ const tr: Messages = {
     notChecked: "kontrol edilmedi",
     aiCites: "AI Overview'un kaynakları: {domains}",
     harvested: "başka bir soru kontrol edilirken bulundu",
+    mobile: "Google'ın mobil sayfasında gösterildi",
+    autocomplete: "Google arama önerisi",
     costHeading: "Maliyet",
     costLead:
       "Maliyet, DataForSEO'ya ödediğimiz tutardır; kredi, kişinin bize ödediğidir. " +

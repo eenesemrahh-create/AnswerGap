@@ -163,6 +163,8 @@ export const es: Messages = {
     harvestFound: "Esta petición también reveló {count} preguntas nuevas, sin coste adicional.",
     harvestDropped: "{count} más quedaron fuera por alejarse demasiado de la semilla.",
     harvestedNode: "Encontrada dentro de los resultados de otra pregunta",
+    mobileNode: "Mostrada en la página móvil de Google",
+    autocompleteNode: "Sugerencia de búsqueda de Google",
     relevance: "Cercanía a la semilla {value}",
   },
 
@@ -268,6 +270,8 @@ export const es: Messages = {
     archiveDataDetail: "no en vivo",
     liveData: "Rastreo en vivo",
     liveDataDetail: "una instantánea, no datos en vivo",
+    fallbackMobile: "Google no mostró preguntas para esta búsqueda en escritorio. Estas son las que muestra en móvil.",
+    fallbackAutocomplete: "Google no muestra preguntas para esta búsqueda. En su lugar, aquí están sus sugerencias de búsqueda, no preguntas de la página de resultados.",
     liveDataNote: "Descargado una vez, a la hora indicada. Los resultados de Google cambian; repite la búsqueda para actualizar.",
     provisionalThreshold: "Umbral provisional",
     thresholdNote:

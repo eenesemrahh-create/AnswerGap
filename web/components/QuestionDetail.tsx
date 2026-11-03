@@ -166,6 +166,8 @@ export function QuestionDetail({
         <span>{t("detail.depth", { depth: node.depth })}</span>
         {node.repeat_count > 1 && <span>{t("detail.branches", { count: node.repeat_count })}</span>}
         {node.discovered_by === "harvest" && <span>{t("detail.harvestedNode")}</span>}
+        {node.discovered_by === "mobile" && <span>{t("detail.mobileNode")}</span>}
+        {node.discovered_by === "autocomplete" && <span>{t("detail.autocompleteNode")}</span>}
         <span title={t("table.volumeHint")}>
           {t("detail.volume")}: {t("table.noVolume")}
         </span>

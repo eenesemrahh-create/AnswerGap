@@ -164,6 +164,8 @@ export const fr: Messages = {
     harvestFound: "Cette requête a également révélé {count} nouvelles questions, sans coût supplémentaire.",
     harvestDropped: "{count} autres ont été écartées car trop éloignées du mot-clé de départ.",
     harvestedNode: "Trouvée dans les résultats d'une autre question",
+    mobileNode: "Affichée sur la page mobile de Google",
+    autocompleteNode: "Suggestion de recherche Google",
     relevance: "Proximité au mot-clé {value}",
   },
 
@@ -269,6 +271,8 @@ export const fr: Messages = {
     archiveDataDetail: "pas en direct",
     liveData: "Exploration en direct",
     liveDataDetail: "un instantané, pas du direct",
+    fallbackMobile: "Google n'affiche aucune question pour cette recherche sur ordinateur. Voici celles qu'il affiche sur mobile.",
+    fallbackAutocomplete: "Google n'affiche aucune question pour cette recherche. Voici plutôt ses suggestions de recherche, pas des questions de la page de résultats.",
     liveDataNote: "Récupéré une fois, à l’heure indiquée. Les résultats de Google évoluent ; relancez la recherche pour actualiser.",
     provisionalThreshold: "Seuil provisoire",
     thresholdNote:

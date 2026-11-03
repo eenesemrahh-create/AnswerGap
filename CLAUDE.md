@@ -14,6 +14,13 @@ one row; filters, text filter and download open under "Filters". `Term` keeps
 "AI Overview" in `lang="en"` so Turkish capitals do not dot its i. The share image
 is `app/opengraph-image.tsx`; a page with its own `openGraph` must name it again.
 
+**No empty search, 2026-11-03 (operator).** When the desktop page has no PAA
+block, `live._fallback` asks the MOBILE page (same click depth, same chain), then
+Google autocomplete for the language's `question_prefixes`. Nodes carry
+`discovered_by` "mobile" / "autocomplete" and the tree screen says so; the diff
+engine counts "mobile" as PAA, never autocomplete. Still one credit; worst case
+~$0.010 of requests. Measured in `docs/HISTORY.md` ("No empty search").
+
 **The landing has ONE hero since 2026-11-01 (operator).** The pitch and the
 search box are on screen together from first paint, whoever is looking; the old
 pitch-then-box swap read as the page flashing away. Pre-paint scripts in

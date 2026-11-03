@@ -48,6 +48,8 @@ class Language:
     stem_length: int = 5
     """Tokens shorter than this are dropped from content comparison."""
     min_token_length: int = 3
+    """Autocomplete queries asked when Google shows no questions, `{seed}` filled in."""
+    question_prefixes: tuple[str, ...] = ()
 
 
 def _fold_base(text: str) -> str:
@@ -101,6 +103,7 @@ ENGLISH = Language(
     },
     # English words are short; 5 chars would split price/pricing.
     stem_length=4,
+    question_prefixes=("what {seed}", "how {seed}", "why {seed}"),
 )
 
 
@@ -137,6 +140,8 @@ TURKISH = Language(
     },
     # Agglutinative: suffixes pile up, so the stem needs more characters.
     stem_length=5,
+    # Turkish asks at the end of the phrase, so the question word follows.
+    question_prefixes=("{seed} nedir", "{seed} nasıl", "{seed} neden"),
 )
 
 
@@ -170,6 +175,7 @@ GERMAN = Language(
     },
     # Compounding makes German words long; a short stem would over-merge.
     stem_length=5,
+    question_prefixes=("was {seed}", "wie {seed}", "warum {seed}"),
 )
 
 
@@ -213,6 +219,7 @@ SPANISH = Language(
         "natural": "home", "naturales": "home",
     },
     stem_length=5,
+    question_prefixes=("qué {seed}", "cómo {seed}", "por qué {seed}"),
 )
 
 
@@ -246,6 +253,7 @@ FRENCH = Language(
         "soi": "home",
     },
     stem_length=5,
+    question_prefixes=("quel {seed}", "comment {seed}", "pourquoi {seed}"),
 )
 
 

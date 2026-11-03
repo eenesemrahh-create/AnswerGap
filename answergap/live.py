@@ -180,7 +180,17 @@ EXPANSION_FLOOR = 0.25
 # SERP surfaces that carry query phrases rather than questions. Not questions,
 # so they are NOT nodes - they are the next seeds, and AlsoAsked shows nothing
 # like them.
-PHRASE_ITEM_TYPES = ("related_searches", "people_also_search_for")
+# `people_also_search` is the mobile page's name for the same box.
+PHRASE_ITEM_TYPES = ("related_searches", "people_also_search_for", "people_also_search")
+
+# NO EMPTY SEARCH (2026-11-03, operator). When the desktop page has no PAA
+# block, `crawl` asks the mobile page, then Google's autocomplete. Measured on
+# "wall art" (US): desktop 0 questions, mobile 15, and "what wall art"
+# autocomplete 10 suggestions. Rewritten queries ("wall art ideas") had no PAA
+# either, so they are not a step. One autocomplete call per prefix, stopping
+# once this many suggestions are in hand.
+FALLBACK_MAX_REQUESTS = 4
+AUTOCOMPLETE_ENOUGH = 6
 
 
 class CredentialsMissing(RuntimeError):
@@ -235,6 +245,17 @@ def cache_key(question: str, location_code: int, language_code: str) -> str:
     """
     stem = slugify(normalize(question, language_code))
     return f"paa-{location_code}-{language_code}-{stem}"
+
+
+def mobile_cache_key(question: str, location_code: int, language_code: str) -> str:
+    """The same node on the mobile page - see FALLBACK_MAX_REQUESTS."""
+    stem = slugify(normalize(question, language_code))
+    return f"paa-m-{location_code}-{language_code}-{stem}"
+
+
+def autocomplete_cache_key(query: str, location_code: int, language_code: str) -> str:
+    stem = slugify(normalize(query, language_code))
+    return f"ac-{location_code}-{language_code}-{stem}"
 
 
 def tree_slug(seed: str, location_code: int, language_code: str) -> str:
@@ -523,7 +544,8 @@ def _blank_node(
         "relevance": None,
         "reach": None,
         # "paa" - Google's answer to the seed. "harvest" - pulled out of a
-        # response bought for gap scoring.
+        # response bought for gap scoring. "mobile" / "autocomplete" - the
+        # fallbacks for a seed with no desktop PAA (see `_fallback`).
         "discovered_by": "paa",
         "depth": depth,
         "parent_id": parent,
@@ -940,7 +962,7 @@ def crawl(
     if refresh or _stale(key):
         _invalidate(key)
 
-    client = _client(max_requests=1, dry_run=dry_run)
+    client = _client(max_requests=1 + FALLBACK_MAX_REQUESTS, dry_run=dry_run)
     params = {"people_also_ask_click_depth": CLICK_DEPTH}
     response = client.serp(
         seed, location_code, language_code, cache_key=key, extra_params=params
@@ -971,6 +993,10 @@ def crawl(
         }
 
     tree = build_from_response(response, seed, location_code, language_code)
+    spend = _spend(response, client)
+    if not tree["question_count"]:
+        tree, extra = _fallback(client, tree, refresh=refresh)
+        spend = round(spend + extra, 6)
 
     # A re-crawl must not discard what the user already bought. On the row
     # backend the old data is not at risk - the previous crawl keeps its own
@@ -992,7 +1018,7 @@ def crawl(
     tree = _carry_previous(tree, previous)
 
     tree["billable_calls"] = client.billable_calls
-    tree["estimated_spend"] = _spend(response, client)
+    tree["estimated_spend"] = spend
     # Not `cache_hits > 0`: a stale hit that was then re-bought is not a
     # result from the cache.
     tree["from_cache"] = client.billable_calls == 0
@@ -1015,6 +1041,90 @@ def crawl(
     if root is not None and root.get("results_checked"):
         _persist_score(tree, root, key, tree["strategy"])
     return tree
+
+
+def _fallback(client: Client, tree: dict, *, refresh: bool) -> tuple[dict, float]:
+    """A tree for a seed whose desktop page showed no questions, and its cost.
+
+    Mobile page first: same PAA, same click depth, so the same chain shape.
+    Then Google's autocomplete for the language's question prefixes, each
+    suggestion a node under the seed. Both are Google's own data and are
+    marked by `discovered_by`, so the screen can say where they came from.
+    Returns the tree unchanged when both are empty.
+    """
+    seed = tree["seed"]
+    location_code = tree["location_code"]
+    language_code = tree["language_code"]
+    spent = 0.0
+
+    def fetch(key: str, call) -> dict | None:
+        nonlocal spent
+        if refresh or _stale(key):
+            _invalidate(key)
+        before = client.billable_calls
+        data = call(key)
+        if data and client.billable_calls > before:
+            cost = data.get("cost")
+            spent += float(cost) if isinstance(cost, (int, float)) else LIVE_COST_PER_REQUEST
+        return data
+
+    mobile = fetch(
+        mobile_cache_key(seed, location_code, language_code),
+        lambda key: client.serp(
+            seed, location_code, language_code, cache_key=key,
+            extra_params={"people_also_ask_click_depth": CLICK_DEPTH}, device="mobile",
+        ),
+    )
+    if mobile and extract_paa(mobile):
+        fresh = build_from_response(mobile, seed, location_code, language_code)
+        for node in fresh["nodes"]:
+            if node["depth"]:
+                node["discovered_by"] = "mobile"
+        _merge_related(fresh, tree.get("related_searches") or [])
+        return fresh, spent
+
+    root = tree["nodes"][0]
+    seen = {root["id"]}
+    taken = {node["slug"] for node in tree["nodes"]}
+    found = 0
+    for template in languages.get(language_code).question_prefixes:
+        if found >= AUTOCOMPLETE_ENOUGH:
+            break
+        query = template.format(seed=seed)
+        data = fetch(
+            autocomplete_cache_key(query, location_code, language_code),
+            lambda key: client.autocomplete(query, location_code, language_code, cache_key=key),
+        )
+        for suggestion in _suggestions(data):
+            key = normalize(suggestion, language_code)
+            # The prefix itself comes back as a suggestion and says nothing.
+            if not key or key in seen or key == normalize(query, language_code):
+                continue
+            seen.add(key)
+            node = _blank_node(suggestion, 1, root["id"], language_code)
+            relevance = round(seed_relevance(seed, suggestion, language_code), 3)
+            node.update(
+                relevance=relevance,
+                reach=relevance,
+                discovered_by="autocomplete",
+                slug=_unique_slug(slugify(suggestion), taken),
+            )
+            tree["nodes"].append(node)
+            found += 1
+    # Stable: suggestions keep Google's order under the seed.
+    tree["nodes"].sort(key=lambda n: n["depth"])
+    return _recount(tree), spent
+
+
+def _suggestions(response: dict | None) -> list[str]:
+    """Autocomplete suggestions, in Google's order."""
+    if not response:
+        return []
+    return [
+        item["suggestion"].strip()
+        for item in walk(response.get("tasks"))
+        if item.get("type") == "autocomplete" and (item.get("suggestion") or "").strip()
+    ]
 
 
 def _has_click_depth(response: dict) -> bool:

@@ -163,6 +163,8 @@ export const de: Messages = {
     harvestFound: "Diese Anfrage brachte ohne Zusatzkosten {count} weitere neue Fragen zutage.",
     harvestDropped: "{count} weitere blieben außen vor, weil sie zu weit vom Startbegriff abweichen.",
     harvestedNode: "In den Ergebnissen einer anderen Frage gefunden",
+    mobileNode: "Auf Googles Mobilseite angezeigt",
+    autocompleteNode: "Google-Suchvorschlag",
     relevance: "Nähe zum Startbegriff {value}",
   },
 
@@ -268,6 +270,8 @@ export const de: Messages = {
     archiveDataDetail: "nicht live",
     liveData: "Live-Crawl",
     liveDataDetail: "eine Momentaufnahme, nicht live",
+    fallbackMobile: "Google zeigt für diese Suche auf dem Desktop keine Fragen. Dies sind die Fragen, die es mobil zeigt.",
+    fallbackAutocomplete: "Google zeigt für diese Suche keine Fragen. Stattdessen stehen hier seine Suchvorschläge, keine Fragen von der Ergebnisseite.",
     liveDataNote: "Einmal zum angezeigten Zeitpunkt abgerufen. Googles Ergebnisse ändern sich; für eine Aktualisierung die Suche erneut ausführen.",
     provisionalThreshold: "Vorläufige Schwelle",
     thresholdNote:

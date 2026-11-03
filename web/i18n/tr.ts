@@ -163,6 +163,8 @@ export const tr: Messages = {
     harvestFound: "Bu istek ek maliyet olmadan {count} yeni soru daha ortaya çıkardı.",
     harvestDropped: "{count} soru tohumdan uzaklaştığı için dışarıda bırakıldı.",
     harvestedNode: "Başka bir sorunun sonuçları içinde bulundu",
+    mobileNode: "Google'ın mobil sayfasında gösterildi",
+    autocompleteNode: "Google arama önerisi",
     relevance: "Tohum yakınlığı {value}",
   },
 
@@ -266,6 +268,8 @@ export const tr: Messages = {
     archiveDataDetail: "canlı değil",
     liveData: "Canlı tarama",
     liveDataDetail: "anlık görüntü, canlı değil",
+    fallbackMobile: "Google bu arama için masaüstünde soru göstermedi. Bunlar mobilde gösterdiği sorular.",
+    fallbackAutocomplete: "Google bu arama için soru göstermiyor. Bunun yerine arama önerileri burada; sonuç sayfasındaki sorular değil.",
     liveDataNote: "Gösterilen saatte bir kez çekildi. Google’ın sonuçları değişir; yenilemek için aramayı tekrarlayın.",
     provisionalThreshold: "Geçici eşik",
     thresholdNote:

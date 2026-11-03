@@ -175,6 +175,8 @@ function NodeDetail({ t, node, heading }: { t: T; node: SearchNode; heading?: bo
         {node.ai_sources.length > 0 &&
           ` · ${t("searches.aiCites", { domains: node.ai_sources.join(", ") })}`}
         {node.discovered_by === "harvest" && ` · ${t("searches.harvested")}`}
+        {node.discovered_by === "mobile" && ` · ${t("searches.mobile")}`}
+        {node.discovered_by === "autocomplete" && ` · ${t("searches.autocomplete")}`}
       </p>
       {node.results.length > 0 && (
         <ol>
