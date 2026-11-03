@@ -330,6 +330,10 @@ def _hydrate(tree: dict | None) -> dict | None:
     """
     if tree is None:
         return None
+    # Suggestions stored before `as_question` (2026-11-03) read as questions too.
+    for node in tree["nodes"]:
+        if node.get("discovered_by") == "autocomplete":
+            node["question"] = as_question(node["question"], tree["language_code"])
     _dedupe_slugs(tree["nodes"])
     lang = languages.get(tree["language_code"])
     tree["language_name"] = lang.name if lang else tree["language_code"]
@@ -1104,6 +1108,7 @@ def _fallback(client: Client, tree: dict, *, refresh: bool) -> tuple[dict, float
             if not key or key in seen or key == normalize(query, language_code):
                 continue
             seen.add(key)
+            suggestion = as_question(suggestion, language_code)
             node = _blank_node(suggestion, 1, root["id"], language_code)
             relevance = round(seed_relevance(seed, suggestion, language_code), 3)
             node.update(
@@ -1117,6 +1122,27 @@ def _fallback(client: Client, tree: dict, *, refresh: bool) -> tuple[dict, float
     # Stable: suggestions keep Google's order under the seed.
     tree["nodes"].sort(key=lambda n: n["depth"])
     return _recount(tree), spent
+
+
+def as_question(text: str, language_code: str) -> str:
+    """A search suggestion written as the question it is: capital first letter
+    and the language's question mark ("galatasaray renkleri nedir" ->
+    "Galatasaray renkleri nedir?"). Normalization ignores both, so the node's
+    id and cache key do not change."""
+    text = text.strip().lstrip("¿").rstrip("? ")
+    if not text:
+        return text
+    first = text[0]
+    if language_code == "tr" and first in "iı":
+        first = "İ" if first == "i" else "I"
+    else:
+        first = first.upper()
+    text = first + text[1:]
+    if language_code == "es":
+        return f"¿{text}?"
+    if language_code == "fr":
+        return f"{text} ?"
+    return f"{text}?"
 
 
 def _suggestions(response: dict | None) -> list[str]:

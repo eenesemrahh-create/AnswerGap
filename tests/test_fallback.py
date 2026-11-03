@@ -99,8 +99,9 @@ def test_autocomplete_is_the_last_step(run) -> None:
     client = FakeClient(_without_paa(), _without_paa(), ac)
     tree = run(client)
     questions = [n["question"] for n in tree["nodes"] if n["depth"]]
-    # The prefix itself comes back as a suggestion and is dropped.
-    assert questions == ["what wall art is trending 2026", "what wall art for bedroom"]
+    # The prefix itself comes back as a suggestion and is dropped; the rest
+    # are written as questions.
+    assert questions == ["What wall art is trending 2026?", "What wall art for bedroom?"]
     assert {n["discovered_by"] for n in tree["nodes"] if n["depth"]} == {"autocomplete"}
     assert all(n["depth"] == 1 and n["status"] == "no_data" for n in tree["nodes"] if n["depth"])
     # Too few from the first prefix, so every prefix was asked.
@@ -124,6 +125,35 @@ def test_what_every_bought_response_cost_is_added_up(run) -> None:
     assert client.billable_calls == 5
     assert tree["estimated_spend"] == pytest.approx(0.010)
     assert tree["question_count"] == 0
+
+
+@pytest.mark.parametrize(
+    ("text", "lang", "expected"),
+    [
+        ("galatasaray renkleri nedir", "tr", "Galatasaray renkleri nedir?"),
+        ("ıslak mendil nasıl", "tr", "Islak mendil nasıl?"),
+        ("istanbul nedir", "tr", "İstanbul nedir?"),
+        ("what wall art for bedroom?", "en", "What wall art for bedroom?"),
+        ("qué es arte", "es", "¿Qué es arte?"),
+        ("comment faire du pain", "fr", "Comment faire du pain ?"),
+    ],
+)
+def test_a_suggestion_is_written_as_a_question(text, lang, expected) -> None:
+    assert live.as_question(text, lang) == expected
+    # Same node either way: normalization ignores case and punctuation.
+    assert live.normalize(expected, lang) == live.normalize(text, lang)
+
+
+def test_suggestions_stored_before_are_shown_as_questions_too() -> None:
+    tree = {"language_code": "tr", "nodes": [
+        {"id": "galatasaray", "question": "galatasaray", "depth": 0, "slug": "galatasaray",
+         "discovered_by": "paa", "status": "no_data"},
+        {"id": "galatasaray renkleri nedir", "question": "galatasaray renkleri nedir",
+         "depth": 1, "slug": "galatasaray-renkleri-nedir", "discovered_by": "autocomplete",
+         "status": "no_data"},
+    ]}
+    hydrated = live._hydrate(tree)
+    assert [n["question"] for n in hydrated["nodes"]] == ["galatasaray", "Galatasaray renkleri nedir?"]
 
 
 def test_the_budget_covers_the_whole_chain() -> None:
