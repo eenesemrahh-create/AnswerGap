@@ -59,11 +59,7 @@ export function PricingPage({
         <p className="mkt-hero-sub">{hero.lead}</p>
       </header>
 
-      <PricingCycle
-        monthly={billing.monthly}
-        annually={billing.annually}
-        save={billing.save}
-      >
+      <PricingCycle>
         {/* `plans-3` is what actually sets the three columns - the landing
             picks `plans-1|2|3` from however many cards an admin published,
             and this page always has three. */}

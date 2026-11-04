@@ -86,6 +86,13 @@ def test_the_annual_price_counts_as_the_same_plan(known_customer) -> None:
         auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))
 
 
+def test_annual_checkout_is_off(known_customer) -> None:
+    with pytest.raises(HTTPException) as e:
+        auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite", cycle="annual"))
+    assert e.value.status_code == 409 and e.value.detail["code"] == "planNotPurchasable"
+    assert known_customer["sessions"] == []
+
+
 def test_another_tabs_open_checkout_for_the_plan_is_closed(known_customer) -> None:
     known_customer["open"] = [("cs_old", "price_lite"), ("cs_other", "price_pro")]
     assert auth.billing_checkout(_Req(), auth.CheckoutRequest(plan_id="lite"))["url"]

@@ -732,7 +732,10 @@ commit's message ("Only the default plan renews…"); the code in it is right.
 Not rewritten, because that needs a force push.
 
 Still open: refunds and disputes (`charge.refunded`) do not claw back or
-cancel; the annual price shows but checkout is monthly only; `/pay` and
+cancel; **annual is OFF (operator, 2026-11-04)**: the `/pricing` switch is
+gone and checkout refuses `cycle: "annual"` (`planNotPurchasable`), because
+an annual invoice would grant one period's credits for the year - build that
+grant and test it with Test Clocks before bringing the switch back; `/pay` and
 `PAY_PROBE_TOKEN` are to be deleted; Stripe's customer portal settings
 must be repeated in Live mode.
 

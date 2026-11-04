@@ -649,10 +649,8 @@ def my_credits(request: Request) -> dict:
 
 class CheckoutRequest(BaseModel):
     plan_id: str = Field(min_length=1, max_length=32, pattern=r"^[a-z0-9-]+$")
-    # Monthly unless asked otherwise. The pricing page's switch is the only
-    # thing that sets this, and an unknown value simply means monthly rather
-    # than an error - a billing endpoint should not refuse a sale over a
-    # query parameter.
+    # Monthly unless asked otherwise; an unknown value simply means monthly
+    # rather than an error. "annual" is refused while annual is off.
     cycle: str = Field(default="monthly", max_length=10)
 
 
@@ -697,11 +695,12 @@ def billing_checkout(request: Request, payload: CheckoutRequest) -> dict:
     if any(s.get("plan_id") == payload.plan_id and s.get("source") == "stripe"
            for s in running):
         raise HTTPException(409, {"code": "alreadyOnPlan"})
-    price_id = (
-        plan.get("stripe_price_id_annual")
-        if payload.cycle == "annual"
-        else plan.get("stripe_price_id")
-    )
+    if payload.cycle == "annual":
+        # Annual is off (operator, 2026-11-04): an annual invoice would grant
+        # ONE period's credits for the whole year, and no screen offers it.
+        # Refused here too so a hand-made request cannot buy it.
+        raise HTTPException(409, {"code": "planNotPurchasable"})
+    price_id = plan.get("stripe_price_id")
     if not price_id:
         # The plan exists on the pricing page but nobody has pasted its Stripe
         # price id, so it is advertised and not purchasable. Said plainly
