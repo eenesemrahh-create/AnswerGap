@@ -6078,6 +6078,23 @@ table.gt { font-size: 13.5px; }
 
 /* --- Pricing page, Replit design of 2026-11-01 -------------------------- */
 
+/* Monthly only since 2026-11-04: the switch's place holds the cycle in words. */
+.mkt-billing-cycle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.mkt-billing-cycle::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand);
+}
 /* Dollars only, so this is a label and not a menu. */
 .mkt-billing-currency {
   margin-left: 6px;

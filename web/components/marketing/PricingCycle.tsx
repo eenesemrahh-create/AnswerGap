@@ -8,10 +8,18 @@
  * to "monthly" so CSS keeps showing the monthly one. Bring the switch back
  * from git history together with the annual grant, never on its own.
  */
-export function PricingCycle({ children }: { children: React.ReactNode }) {
+export function PricingCycle({
+  billed,
+  children,
+}: {
+  /** "Billed monthly", in the page's language. */
+  billed: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="mkt-cycle" data-cycle="monthly">
       <div className="mkt-billing">
+        <span className="mkt-billing-cycle">{billed}</span>
         <span className="mkt-billing-currency">USD ($)</span>
       </div>
       {children}
