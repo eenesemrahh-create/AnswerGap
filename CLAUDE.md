@@ -639,7 +639,60 @@ defensible asset over time.
 
 # Current state — resume here
 
-## Session checkpoint, 2026-10-30 — START HERE
+## PARKED 2026-11-04 (operator) — START HERE
+
+**The operator has put the project on hold until investors respond.** Do not
+start new work unprompted when a session opens; ask what the operator wants
+first. Everything below is pushed to `main`, CI green on `733e010`, and the
+working tree is clean apart from the untracked reference images
+(`agac.png`, `alsoasked.png` among them - never commit or delete them).
+
+**Shipped 2026-11-02 to 2026-11-04, in commit order:**
+- `c31e1cd` The market (country) a search ran in shows on the saved-analysis
+  cards and the tree screen (`api/main._market`, `web/lib/market.ts`,
+  `Intl.DisplayNames`), and in the PNG subtitle.
+- `42b9032` **No empty search** - see the dated note at the top of this file
+  and `docs/HISTORY.md` ("No empty search").
+- `54752d8` Admin Searches can re-run searches that came back empty before
+  the fallback existed (5 per press, no credit, audited). **Not yet pressed
+  on production**: it needs a working DataForSEO account (below).
+- `973d6dc` Autocomplete suggestions are written as questions
+  (`live.as_question`: capital first letter, Turkish i/İ, `?`, Spanish `¿…?`,
+  French ` ?`), also for nodes stored before.
+- `3218e2d` + `733e010` **Monthly plans only.** The `/pricing` annual switch
+  is gone; the bar now says "Billed monthly · USD ($)" in the page's
+  language; checkout refuses `cycle: "annual"` with `planNotPurchasable`.
+  Annual prices stay in the admin editor and in the content files, hidden.
+
+**State of things outside the code at the time of parking:**
+- **DataForSEO, production.** Searches failed with 503 `searchUnavailable`:
+  first `40201` (account paused for "unusual activity", the third time), then
+  `40100` (authentication) after the operator changed credentials. The
+  operator said the credentials were fixed and would check after the deploy;
+  the outcome was not reported back. Check a real search (the api log must
+  show no `ACCOUNT REFUSED`) before anything else. Root-cause advice given:
+  the project has used at least two $1 trial accounts (production and the
+  local `.env` log in with DIFFERENT accounts) - use ONE funded, verified
+  account and write to support@dataforseo.com honestly about the old trials.
+  The admin `/env` page only shows whether a variable is SET, never whether
+  it is right, so a wrong password still shows "set".
+- **Domain move (2026-10-30 checkpoint below)** was not re-checked in these
+  sessions; treat its "still to do" list as unverified.
+
+**Waiting on the operator, do not start unprompted:**
+1. **Annual billing.** Two gaps: no screen offers it (deliberately, now) and
+   `invoice.paid` would grant ONE period's credits for a year. Choose 12x
+   credits upfront (recommended) or a monthly drip, build it, test renewal
+   with Stripe Test Clocks, then bring back `PricingCycle`'s switch from git
+   history (`3218e2d^`) and drop the checkout refusal.
+2. **Contact address**: the operator wanted to choose the address people
+   write to from the contact section; the question was interrupted and
+   nothing was changed.
+3. Press "Run the next 5" under admin Searches once DataForSEO works.
+4. Check `/pricing` at phone width on production: a local headless shot at
+   390 px came out cropped on the right, not confirmed either way.
+
+## Session checkpoint, 2026-10-30
 
 **Connecting `gettopquestions.com` to the ONE Railway environment, half
 done.** A staging + production split (second Railway environment,
